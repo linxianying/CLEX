@@ -9,9 +9,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Homepage</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Welcome to Clex!</h1>
+        <a href="login.jsp">Login now</a><br />
+        Not a user?<br /> 
+	<a href="register.jsp">Register now</a><br />
+	Forget your password?<br />
+	<a href="resetPassword.jsp">Reset Password</a>
     </body>
 </html>

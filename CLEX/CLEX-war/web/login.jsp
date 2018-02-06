@@ -13,5 +13,10 @@
     </head>
     <body>
         <h1>Hello please log in!</h1>
+        form action="loginServlet" method="post">
+		Enter username : <input type="text" name="userId" required=""> <br />
+		Enter password : <input type="password" name="password" required=""> <br />
+		<input type="submit" />
+	</form> <br />
     </body>
 </html>
