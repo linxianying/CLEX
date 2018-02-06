@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.*;  
 import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
@@ -33,12 +34,31 @@ public class SuperGroup implements Serializable {
     @OneToOne(cascade={CascadeType.PERSIST})
     private Module module;
     
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy="superGroup")
+    private Collection<ProjectGroup> projectGroups = new ArrayList<ProjectGroup>();
+    
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Collection<ProjectGroup> getProjectGroups() {
+        return projectGroups;
+    }
+
+    public void setProjectGroups(Collection<ProjectGroup> projectGroups) {
+        this.projectGroups = projectGroups;
+    }
+
+    public Module getModule() {
+        return module;
+    }
+
+    public void setModule(Module module) {
+        this.module = module;
     }
 
     public int getNumOfGroups() {

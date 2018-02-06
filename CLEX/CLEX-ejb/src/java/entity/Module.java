@@ -59,6 +59,14 @@ public class Module implements Serializable {
         this.id = id;
     }
 
+    public SuperGroup getSupergroup() {
+        return supergroup;
+    }
+
+    public void setSupergroup(SuperGroup supergroup) {
+        this.supergroup = supergroup;
+    }
+
     public String getModuleCode() {
         return moduleCode;
     }

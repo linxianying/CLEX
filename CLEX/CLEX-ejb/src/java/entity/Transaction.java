@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.*;  
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -26,6 +28,7 @@ public class Transaction implements Serializable {
     private double cost;
     private String date;
     private String activity;
+    
     
     public Long getId() {
         return id;

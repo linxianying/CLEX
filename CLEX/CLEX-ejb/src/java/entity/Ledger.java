@@ -6,10 +6,12 @@
 package entity;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -26,12 +28,27 @@ public class Ledger implements Serializable {
     private Long projGroupId;
     private Long transactionId;
 
+    @ManyToOne(cascade={CascadeType.ALL})
+    private Transaction transaction = new Transaction();
+    
+    @ManyToOne(cascade={CascadeType.ALL})
+    private Student student = new Student();
+ 
+    
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Transaction getTransaction() {
+        return transaction;
+    }
+
+    public void setTransaction(Transaction transaction) {
+        this.transaction = transaction;
     }
 
     public Long getStudentId() {

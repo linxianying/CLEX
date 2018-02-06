@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.*;  
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -26,12 +28,25 @@ public class ProjectGroup implements Serializable {
     private List<Long> listOfStudentId;
     private double cost;
     
+    @OneToMany(cascade={CascadeType.PERSIST})
+    private Collection<Transaction> transactions = new ArrayList<Transaction>();
+    
+    
+    
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Collection<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(Collection<Transaction> transactions) {
+        this.transactions = transactions;
     }
 
     public Long getSuperGroupId() {
