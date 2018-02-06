@@ -26,6 +26,7 @@ public class Lesson implements Serializable {
     private String moduleCode;
     private String type;
     private String venue;
+    private Module module = new Module();
 
 
     public Long getId() {
@@ -34,6 +35,14 @@ public class Lesson implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Module getModule() {
+        return module;
+    }
+
+    public void setModule(Module module) {
+        this.module = module;
     }
 
     public String getDay() {

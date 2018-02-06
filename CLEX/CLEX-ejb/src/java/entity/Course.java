@@ -6,10 +6,14 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -29,6 +33,10 @@ public class Course implements Serializable {
     private String discountinuedSem;
     private String offeredSem;
     private String school;
+    
+    
+    @OneToMany(cascade={CascadeType.ALL},mappedBy="course")
+    private Collection<Module> modules = new ArrayList<Module>();    
 
     public Long getId() {
         return id;
@@ -37,6 +45,15 @@ public class Course implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public Collection<Module> getModules() {
+        return modules;
+    }
+
+    public void setModules(Collection<Module> modules) {
+        this.modules = modules;
+    }
+
 
     public String getModuleCode() {
         return moduleCode;

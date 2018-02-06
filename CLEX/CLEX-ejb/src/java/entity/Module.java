@@ -6,6 +6,8 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -15,6 +17,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -34,10 +38,18 @@ public class Module implements Serializable {
     private int modularCredits;
     private int workload;
     private Long superGroupId;
+    private Course course = new Course();
 
     @ManyToMany(cascade={CascadeType.ALL}, mappedBy="modules")
     @JoinTable(name="Lecturer_Module")
     private Set<Lecturer> lecturers = new HashSet<Lecturer>();
+    
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy="module")
+    private Collection<Lesson> lessons = new ArrayList<Lesson>();
+    
+    @OneToOne(mappedBy="module")
+    private SuperGroup supergroup;
+    
     
     public Long getId() {
         return id;
@@ -49,6 +61,30 @@ public class Module implements Serializable {
 
     public String getModuleCode() {
         return moduleCode;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
+    public Set<Lecturer> getLecturers() {
+        return lecturers;
+    }
+
+    public void setLecturers(Set<Lecturer> lecturers) {
+        this.lecturers = lecturers;
+    }
+
+    public Collection<Lesson> getLessons() {
+        return lessons;
+    }
+
+    public void setLessons(Collection<Lesson> lessons) {
+        this.lessons = lessons;
     }
 
     public void setModuleCode(String moduleCode) {

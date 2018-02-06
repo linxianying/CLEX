@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.*;  
+import javax.persistence.CascadeType;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -27,6 +29,9 @@ public class SuperGroup implements Serializable {
     private int maxStudentNum;
     private String moduleCode;
     private List<String> istOfProjectGroup;
+    
+    @OneToOne(cascade={CascadeType.PERSIST})
+    private Module module;
     
     public Long getId() {
         return id;
