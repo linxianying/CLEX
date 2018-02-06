@@ -6,12 +6,15 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.CascadeType;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -31,10 +34,43 @@ public class User implements Serializable {
     private String email;
     private Long contactNum;
     private String name;
+    
 
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy="user")
+    private Collection<Thread> threads = new ArrayList<Thread>();
 
+    @OneToMany(cascade={CascadeType.PERSIST})
+    private Collection<Vote> votes = new ArrayList<Vote>();
+    
+    @OneToMany(cascade={CascadeType.PERSIST})
+    private Collection<Reply> replys = new ArrayList<Reply>();
+    
     public static long getSerialVersionUID() {
         return serialVersionUID;
+    }
+
+    public Collection<Thread> getThreads() {
+        return threads;
+    }
+
+    public void setThreads(Collection<Thread> threads) {
+        this.threads = threads;
+    }
+
+    public Collection<Vote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(Collection<Vote> votes) {
+        this.votes = votes;
+    }
+
+    public Collection<Reply> getReplys() {
+        return replys;
+    }
+
+    public void setReplys(Collection<Reply> replys) {
+        this.replys = replys;
     }
 
     public String getPassword() {
