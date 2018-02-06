@@ -4,3 +4,7 @@
 /CLEX-ejb/dist/
 /CLEX-war/dist/
 /CLEX-war/build/
+
+#properties
+*.properties
+project.xml

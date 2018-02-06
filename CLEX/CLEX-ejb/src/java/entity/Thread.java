@@ -27,6 +27,7 @@ public class Thread implements Serializable {
     private String title;
     private int upVote;
     private int downVote;
+    private User user;
 
     public Long getId() {
         return id;
@@ -34,6 +35,14 @@ public class Thread implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getUsername() {
