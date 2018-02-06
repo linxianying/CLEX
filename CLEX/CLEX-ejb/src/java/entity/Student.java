@@ -6,10 +6,18 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -28,6 +36,29 @@ public class Student implements Serializable {
     private String matricSem;
     private String currentYear;
     private double cap;
+    
+    @ManyToMany(cascade={CascadeType.ALL})
+    @JoinTable(name="Student_Module")
+    private Set<Module> modules = new HashSet<Module>();
+
+    @OneToMany(cascade={CascadeType.PERSIST})
+    private Collection<Grade> grades = new ArrayList<Grade>();
+    
+    public Set<Module> getModules() {
+        return modules;
+    }
+
+    public void setModules(Set<Module> modules) {
+        this.modules = modules;
+    }
+
+    public Collection<Grade> getGrades() {
+        return grades;
+    }
+
+    public void setGrades(Collection<Grade> grades) {
+        this.grades = grades;
+    }
 
     public String getUsername() {
         return username;

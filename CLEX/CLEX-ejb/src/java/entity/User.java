@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.ManyToMany;
 
 /**
  *
@@ -20,6 +22,7 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    
     private Long id;
     private String password;
     private String username;
@@ -28,6 +31,7 @@ public class User implements Serializable {
     private String email;
     private Long contactNum;
     private String name;
+
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

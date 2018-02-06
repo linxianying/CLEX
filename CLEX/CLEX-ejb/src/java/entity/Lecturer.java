@@ -6,10 +6,15 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 /**
  *
@@ -23,6 +28,11 @@ public class Lecturer implements Serializable {
     private Long id;
     private String username;
     private String faculty;
+    
+    @ManyToMany(cascade={CascadeType.PERSIST})
+    @JoinTable(name="Lecturer_Module")
+    private Set<Module> modules = new HashSet<Module>();
+
 
     public String getUsername() {
         return username;
