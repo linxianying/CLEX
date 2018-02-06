@@ -21,6 +21,11 @@ public class Grade implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String studentId;
+    private String moduleCode;
+    private String takenYear;
+    private String takenSem;
+    private String moduleGrade;
 
     public Long getId() {
         return id;
@@ -28,6 +33,46 @@ public class Grade implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+    }
+
+    public String getModuleCode() {
+        return moduleCode;
+    }
+
+    public void setModuleCode(String moduleCode) {
+        this.moduleCode = moduleCode;
+    }
+
+    public String getTakenYear() {
+        return takenYear;
+    }
+
+    public void setTakenYear(String takenYear) {
+        this.takenYear = takenYear;
+    }
+
+    public String getTakenSem() {
+        return takenSem;
+    }
+
+    public void setTakenSem(String takenSem) {
+        this.takenSem = takenSem;
+    }
+
+    public String getModuleGrade() {
+        return moduleGrade;
+    }
+
+    public void setModuleGrade(String moduleGrade) {
+        this.moduleGrade = moduleGrade;
     }
 
     @Override

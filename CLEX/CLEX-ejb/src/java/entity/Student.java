@@ -21,7 +21,70 @@ public class Student implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String username;
+    private String faculty;
+    private String major;
+    private String matricYear;
+    private String matricSem;
+    private String currentYear;
+    private double cap;
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getFaculty() {
+        return faculty;
+    }
+
+    public void setFaculty(String faculty) {
+        this.faculty = faculty;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
+    }
+
+    public String getMatricYear() {
+        return matricYear;
+    }
+
+    public void setMatricYear(String matricYear) {
+        this.matricYear = matricYear;
+    }
+
+    public String getMatricSem() {
+        return matricSem;
+    }
+
+    public void setMatricSem(String matricSem) {
+        this.matricSem = matricSem;
+    }
+
+    public String getCurrentYear() {
+        return currentYear;
+    }
+
+    public void setCurrentYear(String currentYear) {
+        this.currentYear = currentYear;
+    }
+
+    public double getCap() {
+        return cap;
+    }
+
+    public void setCap(double cap) {
+        this.cap = cap;
+    }
+    
     public Long getId() {
         return id;
     }

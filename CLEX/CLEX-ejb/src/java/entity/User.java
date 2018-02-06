@@ -21,7 +21,75 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String password;
+    private String username;
+    private String userType;
+    private String school;
+    private String email;
+    private Long contactNum;
+    private String name;
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public String getSchool() {
+        return school;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Long getContactNum() {
+        return contactNum;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setContactNum(Long contactNum) {
+        this.contactNum = contactNum;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+          
+    
     public Long getId() {
         return id;
     }

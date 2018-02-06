@@ -21,6 +21,14 @@ public class Course implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String moduleCode;
+    private String moduleName;
+    private String moduleInfo;
+    private boolean discontinuedBool;
+    private String discountinuedYear;
+    private String discountinuedSem;
+    private String offeredSem;
+    private String school;
 
     public Long getId() {
         return id;
@@ -28,6 +36,70 @@ public class Course implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getModuleCode() {
+        return moduleCode;
+    }
+
+    public void setModuleCode(String moduleCode) {
+        this.moduleCode = moduleCode;
+    }
+
+    public String getModuleName() {
+        return moduleName;
+    }
+
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
+    }
+
+    public String getModuleInfo() {
+        return moduleInfo;
+    }
+
+    public void setModuleInfo(String moduleInfo) {
+        this.moduleInfo = moduleInfo;
+    }
+
+    public boolean isDiscontinuedBool() {
+        return discontinuedBool;
+    }
+
+    public void setDiscontinuedBool(boolean discontinuedBool) {
+        this.discontinuedBool = discontinuedBool;
+    }
+
+    public String getDiscountinuedYear() {
+        return discountinuedYear;
+    }
+
+    public void setDiscountinuedYear(String discountinuedYear) {
+        this.discountinuedYear = discountinuedYear;
+    }
+
+    public String getDiscountinuedSem() {
+        return discountinuedSem;
+    }
+
+    public void setDiscountinuedSem(String discountinuedSem) {
+        this.discountinuedSem = discountinuedSem;
+    }
+
+    public String getOfferedSem() {
+        return offeredSem;
+    }
+
+    public void setOfferedSem(String offeredSem) {
+        this.offeredSem = offeredSem;
+    }
+
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
     }
 
     @Override

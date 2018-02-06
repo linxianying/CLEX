@@ -1,2 +1,6 @@
 /dist/
 /build/
+/CLEX-ejb/build/
+/CLEX-ejb/dist/
+/CLEX-war/dist/
+/CLEX-war/build/

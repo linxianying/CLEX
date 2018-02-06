@@ -21,13 +21,86 @@ public class Module implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String moduleCode;
+    private String takenYear;
+    private String takenSem;
+    private String prerequisite;
+    private String preclusions;
+    private int modularCredits;
+    private int workload;
+    private Long superGroupId;
 
+    
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getModuleCode() {
+        return moduleCode;
+    }
+
+    public void setModuleCode(String moduleCode) {
+        this.moduleCode = moduleCode;
+    }
+
+    public String getTakenYear() {
+        return takenYear;
+    }
+
+    public void setTakenYear(String takenYear) {
+        this.takenYear = takenYear;
+    }
+
+    public String getTakenSem() {
+        return takenSem;
+    }
+
+    public void setTakenSem(String takenSem) {
+        this.takenSem = takenSem;
+    }
+
+    public String getPrerequisite() {
+        return prerequisite;
+    }
+
+    public void setPrerequisite(String prerequisite) {
+        this.prerequisite = prerequisite;
+    }
+
+    public String getPreclusions() {
+        return preclusions;
+    }
+
+    public void setPreclusions(String preclusions) {
+        this.preclusions = preclusions;
+    }
+
+    public int getModularCredits() {
+        return modularCredits;
+    }
+
+    public void setModularCredits(int modularCredits) {
+        this.modularCredits = modularCredits;
+    }
+
+    public int getWorkload() {
+        return workload;
+    }
+
+    public void setWorkload(int workload) {
+        this.workload = workload;
+    }
+
+    public Long getSuperGroupId() {
+        return superGroupId;
+    }
+
+    public void setSuperGroupId(Long superGroupId) {
+        this.superGroupId = superGroupId;
     }
 
     @Override
