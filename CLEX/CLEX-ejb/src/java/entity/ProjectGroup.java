@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.*;  
 import javax.persistence.CascadeType;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -31,6 +32,8 @@ public class ProjectGroup implements Serializable {
     @OneToMany(cascade={CascadeType.PERSIST})
     private Collection<Transaction> transactions = new ArrayList<Transaction>();
     
+    @ManyToOne
+    private SuperGroup superGroup;
     
     
     public Long getId() {

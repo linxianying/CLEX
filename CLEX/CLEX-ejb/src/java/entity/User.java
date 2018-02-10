@@ -20,20 +20,21 @@ import javax.persistence.OneToMany;
  *
  * @author lin
  */
-@Entity
+@Entity(name="BasicUser")
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     
     private Long id;
-    private String password;
     private String username;
+    private String password;
+    private String name;    
+    private String email;
     private String userType;
     private String school;
-    private String email;
     private Long contactNum;
-    private String name;
+
     
 
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="user")
@@ -44,6 +45,10 @@ public class User implements Serializable {
     
     @OneToMany(cascade={CascadeType.PERSIST})
     private Collection<Reply> replys = new ArrayList<Reply>();
+    
+    public User(){
+        
+    }
     
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -162,5 +167,5 @@ public class User implements Serializable {
     public String toString() {
         return "entity.User[ id=" + id + " ]";
     }
-    
+
 }
