@@ -27,6 +27,7 @@ public class ProjectGroup implements Serializable {
     private Long superGroupId;
     private List<Long> listOfStudentId;
     private double cost;
+    private SuperGroup superGroup = new SuperGroup();
     
     @OneToMany(cascade={CascadeType.PERSIST})
     private Collection<Transaction> transactions = new ArrayList<Transaction>();
