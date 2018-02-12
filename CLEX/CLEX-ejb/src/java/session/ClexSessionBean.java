@@ -26,13 +26,7 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     @Override
     public void createUser(String username, String password, String name, String email, String userType, String school, Long contactNum){
         userEntity = new User();
-        userEntity.setUsername(username);
-        userEntity.setPassword(password);
-        userEntity.setName(name);
-        userEntity.setEmail(email);
-        userEntity.setUserType(userType);
-        userEntity.setSchool(school);
-        userEntity.setContactNum(contactNum);
+        userEntity.createUser(username, password, name, email, userType, school, contactNum);
         em.persist(userEntity);
         em.flush();
     }

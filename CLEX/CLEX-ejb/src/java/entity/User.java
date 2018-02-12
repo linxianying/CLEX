@@ -45,6 +45,17 @@ public class User implements Serializable {
     @OneToMany(cascade={CascadeType.PERSIST})
     private Collection<Reply> replys = new ArrayList<Reply>();
     
+    
+    public void createUser(String username, String password, String name, String email, String userType, String school, Long contactNum) {
+        this.username = username;
+        this.userType = userType;
+        this.school = school;
+        this.contactNum = contactNum;
+        this.name = name;
+        this.password = password;
+        this.email = email;
+    }
+    
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
