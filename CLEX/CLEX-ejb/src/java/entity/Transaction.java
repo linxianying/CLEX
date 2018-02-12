@@ -29,6 +29,12 @@ public class Transaction implements Serializable {
     private String date;
     private String activity;
     
+    public void createTransaction(Long projGroupId, double cost, String date, String activity){
+        this.projGroupId = projGroupId;
+        this.cost = cost;
+        this.date = date;
+        this.activity = activity;
+    }
     
     public Long getId() {
         return id;

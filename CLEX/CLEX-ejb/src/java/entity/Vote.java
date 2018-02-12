@@ -24,6 +24,11 @@ public class Vote implements Serializable {
     private String username;
     private String dateTime;
     
+    public void createTransaction(String username, String dateTime){
+        this.username = username;
+        this.dateTime = dateTime;
+    }
+    
     public Long getId() {
         return id;
     }
