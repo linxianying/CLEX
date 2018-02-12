@@ -27,11 +27,8 @@ public class Ledger implements Serializable {
     private double ascCost;
     private Long projGroupId;
     private Long transactionId;
-
-    @ManyToOne(cascade={CascadeType.ALL})
-    private Transaction transaction = new Transaction();
     
-    @ManyToOne(cascade={CascadeType.ALL})
+    @ManyToOne
     private Student student = new Student();
  
     public void createLedger(Long studentId, double ascCost, Long projGroupId, Long transactionId){
@@ -47,14 +44,6 @@ public class Ledger implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Transaction getTransaction() {
-        return transaction;
-    }
-
-    public void setTransaction(Transaction transaction) {
-        this.transaction = transaction;
     }
 
     public Long getStudentId() {

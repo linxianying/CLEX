@@ -37,12 +37,23 @@ public class Student implements Serializable {
     private String currentYear;
     private double cap;
     
-    @ManyToMany(cascade={CascadeType.ALL})
+    @ManyToMany(cascade={CascadeType.PERSIST})
     @JoinTable(name="Student_Module")
     private Set<Module> modules = new HashSet<Module>();
 
-    @OneToMany(cascade={CascadeType.PERSIST})
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy="student")
     private Collection<Grade> grades = new ArrayList<Grade>();
+    
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy="student")
+    private Collection<Ledger> ledgers = new ArrayList<Ledger>();
+
+    public Collection<Ledger> getLedgers() {
+        return ledgers;
+    }
+
+    public void setLedgers(Collection<Ledger> ledgers) {
+        this.ledgers = ledgers;
+    }
     
     public Set<Module> getModules() {
         return modules;
