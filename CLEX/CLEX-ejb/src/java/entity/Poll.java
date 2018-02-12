@@ -30,6 +30,18 @@ public class Poll implements Serializable {
     private String takenYear;
     private String takenSem;
 
+    public void createPoll(String datetime, String topic, int count, String type, 
+                String content,String moduleCode, String takenYear, String takenSem){
+        this.datetime = datetime;
+        this.topic = topic;
+        this.moduleCode = moduleCode;
+        this.takenSem = takenSem;
+        this.takenYear = takenYear;
+        this.type = type;
+        this.count = count;
+        this.content = content;
+    }
+    
     public Long getId() {
         return id;
     }
