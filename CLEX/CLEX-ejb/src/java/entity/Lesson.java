@@ -29,6 +29,15 @@ public class Lesson implements Serializable {
     private Module module = new Module();
 
 
+    public void createLesson(String day, String time, String moduleCode, String type, String venue, Module module){
+        this.day = day;
+        this.time = time;
+        this.moduleCode = moduleCode;
+        this.type = type;
+        this.venue = venue;
+        this.module = module;
+    }
+    
     public Long getId() {
         return id;
     }

@@ -34,6 +34,12 @@ public class Ledger implements Serializable {
     @ManyToOne(cascade={CascadeType.ALL})
     private Student student = new Student();
  
+    public void createLedger(Long studentId, double ascCost, Long projGroupId, Long transactionId){
+        this.studentId = studentId;
+        this.ascCost = ascCost;
+        this.projGroupId = projGroupId;
+        this.transactionId = transactionId;
+    }
     
     public Long getId() {
         return id;
