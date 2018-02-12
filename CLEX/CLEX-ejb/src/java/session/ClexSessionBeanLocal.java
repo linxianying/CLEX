@@ -12,8 +12,9 @@ import javax.ejb.Local;
  * @author lin
  */
 @Local
-public interface clexSessionBeanLocal {
+public interface ClexSessionBeanLocal {
 
-    void testMethod();
+    public void createUser(String username, String password, String name, String email, String userType, String school, Long contactNum);
+    public boolean checkNewUser(String username);
     
 }

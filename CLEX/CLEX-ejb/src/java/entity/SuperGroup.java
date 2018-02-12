@@ -29,7 +29,6 @@ public class SuperGroup implements Serializable {
     private int minStudentNum;
     private int maxStudentNum;
     private String moduleCode;
-    private List<String> istOfProjectGroup;
     
     @OneToOne(cascade={CascadeType.PERSIST})
     private Module module;
@@ -91,14 +90,6 @@ public class SuperGroup implements Serializable {
 
     public void setModuleCode(String moduleCode) {
         this.moduleCode = moduleCode;
-    }
-
-    public List<String> getIstOfProjectGroup() {
-        return istOfProjectGroup;
-    }
-
-    public void setIstOfProjectGroup(List<String> istOfProjectGroup) {
-        this.istOfProjectGroup = istOfProjectGroup;
     }
 
     @Override

@@ -20,7 +20,7 @@ import javax.persistence.OneToMany;
  *
  * @author lin
  */
-@Entity
+@Entity(name="BasicUser")
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
