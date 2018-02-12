@@ -28,6 +28,16 @@ public class Reply implements Serializable {
     private int upVote;
     private int downVote;
 
+    public void createReply(String username, Long threadId, String dateTime, 
+                String content,int upVote, int downVote){
+        this.username = username;
+        this.threadId = threadId;
+        this.dateTime = dateTime;
+        this.upVote = upVote;
+        this.downVote = downVote;
+        this.content = content;
+    }
+    
     public Long getId() {
         return id;
     }
