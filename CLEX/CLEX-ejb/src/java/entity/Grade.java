@@ -6,10 +6,12 @@
 package entity;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -26,6 +28,22 @@ public class Grade implements Serializable {
     private String takenYear;
     private String takenSem;
     private String moduleGrade;
+    
+    @ManyToOne(cascade={CascadeType.ALL})
+    private Module module = new Module();
+    
+    @ManyToOne
+    private Student student = new Student();
+
+    public Module getModule() {
+        return module;
+    }
+
+    public void setModule(Module module) {
+        this.module = module;
+    }
+    
+    
 
     public void createGrade(String studentId, String moduleCode, String takenYear, String takenSem, String moduleGrade) {
         this.studentId = studentId;
