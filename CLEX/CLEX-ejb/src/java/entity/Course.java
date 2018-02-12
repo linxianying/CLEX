@@ -46,6 +46,18 @@ public class Course implements Serializable {
         this.id = id;
     }
 
+    
+    public void createCourse(String moduleCode, String moduleName, String moduleInfo ,boolean discontinuedBool,
+        String discountinuedYear, String discountinuedSem, String school) {
+        this.moduleCode = moduleCode;
+        this.moduleName = moduleName;
+        this.moduleInfo = moduleInfo;
+        this.discontinuedBool = discontinuedBool;
+        this.discountinuedYear = discountinuedYear;
+        this.discountinuedSem = discountinuedSem;
+        this.school = school;
+    }
+    
     public Collection<Module> getModules() {
         return modules;
     }

@@ -34,6 +34,36 @@ public class Attendence implements Serializable {
         this.id = id;
     }
 
+    public void createAttendence(Long studentId, String moduleCode, String attendence) {
+        this.studentId = studentId;
+        this.moduleCode = moduleCode ;
+        this.attendStatus.add(attendence);
+    }
+    
+    public Long getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
+    }
+
+    public String getModuleCode() {
+        return moduleCode;
+    }
+
+    public void setModuleCode(String moduleCode) {
+        this.moduleCode = moduleCode;
+    }
+
+    public List<String> getAttendStatus() {
+        return attendStatus;
+    }
+
+    public void setAttendStatus(List<String> attendStatus) {
+        this.attendStatus = attendStatus;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
