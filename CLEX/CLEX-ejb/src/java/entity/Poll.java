@@ -21,6 +21,14 @@ public class Poll implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String datetime;
+    private String topic;
+    private String type;
+    private String content;
+    private int count;
+    private String moduleCode;
+    private String takenYear;
+    private String takenSem;
 
     public Long getId() {
         return id;
@@ -28,6 +36,70 @@ public class Poll implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(String datetime) {
+        this.datetime = datetime;
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public String getModuleCode() {
+        return moduleCode;
+    }
+
+    public void setModuleCode(String moduleCode) {
+        this.moduleCode = moduleCode;
+    }
+
+    public String getTakenYear() {
+        return takenYear;
+    }
+
+    public void setTakenYear(String takenYear) {
+        this.takenYear = takenYear;
+    }
+
+    public String getTakenSem() {
+        return takenSem;
+    }
+
+    public void setTakenSem(String takenSem) {
+        this.takenSem = takenSem;
     }
 
     @Override

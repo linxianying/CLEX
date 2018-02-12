@@ -50,6 +50,19 @@ public class Module implements Serializable {
     @OneToOne(mappedBy="module")
     private SuperGroup supergroup;
     
+    public void createModule(String moduleCode, int modularCredits, int workload, String takenYear, 
+                String takenSem,String prerequisite, String preclusions, Long superGroupId){
+        this.moduleCode = moduleCode;
+        this.modularCredits = modularCredits;
+        this.moduleCode = moduleCode;
+        this.takenSem = takenSem;
+        this.takenYear = takenYear;
+        this.workload = workload;
+        this.prerequisite = prerequisite;
+        this.preclusions = preclusions;
+        this.superGroupId = superGroupId;
+    }
+    
     
     public Long getId() {
         return id;
