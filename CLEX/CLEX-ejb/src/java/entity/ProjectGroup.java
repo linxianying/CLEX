@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.*;  
 import javax.persistence.CascadeType;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -27,12 +28,12 @@ public class ProjectGroup implements Serializable {
     private Long superGroupId;
     private List<Long> listOfStudentId;
     private double cost;
-    private SuperGroup superGroup = new SuperGroup(); 
     
     @OneToMany(cascade={CascadeType.PERSIST})
     private Collection<Transaction> transactions = new ArrayList<Transaction>();
     
-    
+    @ManyToOne
+    private SuperGroup superGroup;
     
     public Long getId() {
         return id;
@@ -72,6 +73,14 @@ public class ProjectGroup implements Serializable {
 
     public void setCost(double cost) {
         this.cost = cost;
+    }
+
+    public SuperGroup getSuperGroup() {
+        return superGroup;
+    }
+
+    public void setSuperGroup(SuperGroup superGroup) {
+        this.superGroup = superGroup;
     }
 
     @Override
