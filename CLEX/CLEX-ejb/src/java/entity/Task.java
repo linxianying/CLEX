@@ -29,7 +29,7 @@ public class Task implements Serializable {
     private String details;
     private String status;
 
-    public void createReply(String username, Long taskId,String date, String deadline, 
+    public void createTask(String username, Long taskId,String date, String deadline, 
                 String title,String details, String status){
         this.username = username;
         this.taskId = taskId;

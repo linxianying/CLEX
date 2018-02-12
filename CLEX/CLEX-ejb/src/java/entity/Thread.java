@@ -29,6 +29,17 @@ public class Thread implements Serializable {
     private int downVote;
     private User user;
 
+    public void createThread(String username, String content, String dateTime, String title, 
+                int upVote, int downVote, User user){
+        this.username = username;
+        this.content = content;
+        this.dateTime = dateTime;
+        this.upVote = upVote;
+        this.downVote = downVote;
+        this.title = title;
+        this.user = user;
+    }
+    
     public Long getId() {
         return id;
     }
