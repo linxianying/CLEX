@@ -36,14 +36,20 @@ public class User implements Serializable {
     private String name;
     
 
-    @OneToMany(cascade={CascadeType.ALL}, mappedBy="user")
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy="thread")
     private Collection<Thread> threads = new ArrayList<Thread>();
 
-    @OneToMany(cascade={CascadeType.PERSIST})
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy="vote")
     private Collection<Vote> votes = new ArrayList<Vote>();
     
-    @OneToMany(cascade={CascadeType.PERSIST})
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy="reply")
     private Collection<Reply> replys = new ArrayList<Reply>();
+    
+    @OneToMany(cascade={CascadeType.PERSIST})
+    private Collection<Timeslot> timeslots = new ArrayList<Timeslot>();
+    
+    @OneToMany(cascade={CascadeType.PERSIST})
+    private Collection<Task> tasks = new ArrayList<Task>();
     
     
     public void createUser(String username, String password, String name, String email, String userType, String school, Long contactNum) {
