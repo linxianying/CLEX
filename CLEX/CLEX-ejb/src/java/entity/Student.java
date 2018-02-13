@@ -36,7 +36,7 @@ public class Student extends User implements Serializable {
     private String currentYear;
     private double cap;
     
-    @ManyToMany(cascade={CascadeType.PERSIST})
+    @ManyToMany(cascade={CascadeType.PERSIST}, mappedBy="students")
     @JoinTable(name="Student_Module")
     private Collection<Module> modules = new ArrayList<Module>();
 

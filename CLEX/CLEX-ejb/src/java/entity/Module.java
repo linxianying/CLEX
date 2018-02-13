@@ -42,18 +42,15 @@ public class Module implements Serializable {
     @ManyToOne
     private Course course = new Course();
     
-    @ManyToMany(cascade={CascadeType.PERSIST}, mappedBy="module")
+    @ManyToMany(cascade={CascadeType.PERSIST})
     private Collection<Student> students = new ArrayList<Student>();
 
-    @ManyToMany(cascade={CascadeType.ALL}, mappedBy="module")
-    @JoinTable(name="Lecturer_Module")
+    @ManyToMany(cascade={CascadeType.PERSIST}, mappedBy="modules")
     private Collection<Lecturer> lecturers = new ArrayList<Lecturer>();
     
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="module")
     private Collection<Lesson> lessons = new ArrayList<Lesson>();
     
-    @OneToOne(cascade={CascadeType.PERSIST})
-    private SuperGroup supergroup;
     
     @OneToMany(cascade={CascadeType.ALL})  
     private Collection<Poll> polls = new ArrayList<Poll>();
@@ -93,13 +90,14 @@ public class Module implements Serializable {
         this.id = id;
     }
 
-    public SuperGroup getSupergroup() {
-        return supergroup;
+    public Collection<Poll> getPolls() {
+        return polls;
     }
 
-    public void setSupergroup(SuperGroup supergroup) {
-        this.supergroup = supergroup;
+    public void setPolls(Collection<Poll> polls) {
+        this.polls = polls;
     }
+
 
 
     public Course getCourse() {

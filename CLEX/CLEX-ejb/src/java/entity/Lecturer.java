@@ -41,6 +41,14 @@ public class Lecturer extends User implements Serializable {
         this.faculty = faculty;
     }
 
+    public Collection<Module> getModules() {
+        return modules;
+    }
+
+    public void setModules(Collection<Module> modules) {
+        this.modules = modules;
+    }
+
     
     public String getFaculty() {
         return faculty;

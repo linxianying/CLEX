@@ -20,7 +20,7 @@ import javax.persistence.OneToMany;
  * @author lin
  */
 @Entity
-public class Course extends Module implements Serializable {
+public class Course implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -27,6 +28,8 @@ public class Thread implements Serializable {
     private String title;
     private int upVote;
     private int downVote;
+    
+    @ManyToOne
     private User user;
 
     public void createThread(String username, String content, String dateTime, String title, 
@@ -47,7 +50,7 @@ public class Thread implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-
+    
     public User getUser() {
         return user;
     }

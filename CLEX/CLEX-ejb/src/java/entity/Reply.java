@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -21,21 +22,23 @@ public class Reply implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String username;
     private Long threadId;
     private String dateTime;
     private String content;
     private int upVote;
     private int downVote;
 
-    public void createReply(String username, Long threadId, String dateTime, 
-                String content,int upVote, int downVote){
-        this.username = username;
+    @ManyToOne
+    private User user;
+    
+    public void createReply(Long threadId, String dateTime, 
+                String content,int upVote, int downVote, User user){
         this.threadId = threadId;
         this.dateTime = dateTime;
         this.upVote = upVote;
         this.downVote = downVote;
         this.content = content;
+        this.user = user;
     }
     
     public Long getId() {
@@ -46,12 +49,12 @@ public class Reply implements Serializable {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Long getThreadId() {
