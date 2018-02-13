@@ -5,6 +5,8 @@
  */
 package session;
 
+import java.util.List;
+import java.util.Vector;
 import javax.ejb.Local;
 
 /**
@@ -21,5 +23,5 @@ public interface ClexSessionBeanLocal {
     public boolean checkNewAdmin(String username);
     public boolean checkNewLecturer(String username);
     public boolean checkNewStudent(String username);
-    
+    public String viewModule(String moduleCode);
 }

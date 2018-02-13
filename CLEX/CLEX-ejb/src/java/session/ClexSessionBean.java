@@ -10,6 +10,8 @@ import entity.Student;
 import entity.Module;
 import entity.Course;
 import entity.Lecturer;
+import java.util.Collection;
+import java.util.Set;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -155,6 +157,28 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
             c = null;
         }
         return c;
+    }
+
+    @Override
+    public String viewModule(String moduleCode) {
+        String result;
+        Module module = findModule(moduleCode);
+        if (module == null) {
+            return "Module not found!\n";
+        } else {
+            result = "Module Code: " + module.getCourse().getModuleCode() + "\n";
+            result = result + "Modular Credits: " + module.getModularCredits() + "\n";
+            result = result + "Workload: " + module.getWorkload() + "\n";
+            result = result + "Registered Students: \n";
+            Collection<Student> students = module.getStudents();
+            if (students.isEmpty()) {
+                result = result + "No registered students!";
+            }
+            for (Student student : students) {
+                result = result + student.getUsername() + " " + student.getName() + " " + student.getEmail() + "\n";
+            }
+            return result;
+        }
     }
 
 
