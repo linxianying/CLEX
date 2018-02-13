@@ -21,11 +21,9 @@ public class Vote implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String username;
     private String dateTime;
     
-    public void createTransaction(String username, String dateTime){
-        this.username = username;
+    public void createTransaction(String dateTime){
         this.dateTime = dateTime;
     }
     
@@ -37,13 +35,6 @@ public class Vote implements Serializable {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public String getDateTime() {
         return dateTime;

@@ -26,17 +26,12 @@ public class Poll implements Serializable {
     private String type;
     private String content;
     private int count;
-    private String moduleCode;
-    private String takenYear;
-    private String takenSem;
+
 
     public void createPoll(String datetime, String topic, int count, String type, 
-                String content,String moduleCode, String takenYear, String takenSem){
+                String content){
         this.datetime = datetime;
         this.topic = topic;
-        this.moduleCode = moduleCode;
-        this.takenSem = takenSem;
-        this.takenYear = takenYear;
         this.type = type;
         this.count = count;
         this.content = content;
@@ -90,29 +85,6 @@ public class Poll implements Serializable {
         this.count = count;
     }
 
-    public String getModuleCode() {
-        return moduleCode;
-    }
-
-    public void setModuleCode(String moduleCode) {
-        this.moduleCode = moduleCode;
-    }
-
-    public String getTakenYear() {
-        return takenYear;
-    }
-
-    public void setTakenYear(String takenYear) {
-        this.takenYear = takenYear;
-    }
-
-    public String getTakenSem() {
-        return takenSem;
-    }
-
-    public void setTakenSem(String takenSem) {
-        this.takenSem = takenSem;
-    }
 
     @Override
     public int hashCode() {

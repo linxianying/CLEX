@@ -35,6 +35,7 @@ public class Module implements Serializable {
     private String preclusions;
     private int modularCredits;
     private int workload;
+    
     @OneToOne(cascade={CascadeType.ALL})
     private SuperGroup superGroup;
 
@@ -44,7 +45,6 @@ public class Module implements Serializable {
     @ManyToMany(cascade={CascadeType.PERSIST}, mappedBy="module")
     private Collection<Student> students = new ArrayList<Student>();
 
-    
     @ManyToMany(cascade={CascadeType.ALL}, mappedBy="module")
     @JoinTable(name="Lecturer_Module")
     private Collection<Lecturer> lecturers = new ArrayList<Lecturer>();
@@ -54,6 +54,9 @@ public class Module implements Serializable {
     
     @OneToOne(cascade={CascadeType.PERSIST})
     private SuperGroup supergroup;
+    
+    @OneToMany(cascade={CascadeType.ALL})  
+    private Collection<Poll> polls = new ArrayList<Poll>();
     
     public void createModule(int modularCredits, int workload, String takenYear, 
                 String takenSem,String prerequisite, String preclusions, Course course){
