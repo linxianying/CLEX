@@ -5,7 +5,7 @@
  */
 package session;
 
-import entity.User;
+import entity.Student;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -21,13 +21,13 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
 
     @PersistenceContext
     EntityManager em;
-    private User userEntity;
+    private Student studentEntity;
     
     @Override
-    public void createUser(String username, String password, String name, String email, String userType, String school, Long contactNum){
-        userEntity = new User();
-        userEntity.createUser(username, password, name, email, userType, school, contactNum);
-        em.persist(userEntity);
+    public void createStudent(String username, String password, String name, String email, String userType, String school, Long contactNum){
+        studentEntity = new Student();
+        studentEntity.createStudent(username, password, name, email, userType, school, contactNum);
+        em.persist(studentEntity);
         em.flush();
     }
     
@@ -39,13 +39,13 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         return false;
     }
     
-    private User findUser(String username){
-        User u = new User();
+    private Student findUser(String username){
+        Student u = new Student();
         u = null;
         try{
             Query q = em.createQuery("SELECT u FROM BasicUser u WHERE u.username=:username");
             q.setParameter("username", username);
-            u = (User) q.getSingleResult();
+            u = (Student) q.getSingleResult();
             System.out.println("Username " + username + " found.");
         }
         catch(NoResultException e){

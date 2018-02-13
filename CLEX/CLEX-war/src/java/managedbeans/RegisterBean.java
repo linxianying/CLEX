@@ -27,7 +27,7 @@ public class RegisterBean implements Serializable{
     @EJB
     private ClexSessionBeanLocal csbl;
     
-    private User userEntity = new User();
+    private User userEntity;
     private String username;
     private String password;
     private String name;    
@@ -108,7 +108,7 @@ public class RegisterBean implements Serializable{
     for admin to approve/*/
     public void register(){
         if(csbl.checkNewUser(username) == true){
-            csbl.createUser(username, password, name, email, userType, school, contactNum);
+            csbl.createStudent(username, password, name, email, userType, school, contactNum);
         }
     }
     
@@ -116,7 +116,7 @@ public class RegisterBean implements Serializable{
     //For testing only
     public void testRegister(){
         if(csbl.checkNewUser("user") == true){
-            csbl.createUser("user", "123", "name", "email@email.com", "", "", 12345678L);
+            csbl.createStudent("user", "123", "name", "email@email.com", "", "", 12345678L);
         }
     }
 }

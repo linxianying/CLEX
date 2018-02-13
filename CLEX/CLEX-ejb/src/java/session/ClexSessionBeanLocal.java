@@ -14,7 +14,7 @@ import javax.ejb.Local;
 @Local
 public interface ClexSessionBeanLocal {
 
-    public void createUser(String username, String password, String name, String email, String userType, String school, Long contactNum);
+    public void createStudent(String username, String password, String name, String email, String userType, String school, Long contactNum);
     public boolean checkNewUser(String username);
     
 }
