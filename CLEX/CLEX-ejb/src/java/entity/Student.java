@@ -48,8 +48,10 @@ public class Student extends User implements Serializable {
     
     @OneToOne(cascade={CascadeType.ALL}, mappedBy="student")
     private StudyPlan studyPlan = new StudyPlan();
-
     
+    @ManyToMany(cascade={CascadeType.PERSIST})
+    @JoinTable(name="Student_ProjectGroup")
+    private Collection<ProjectGroup> projectGroups = new ArrayList<ProjectGroup>();
     
     public void createStudent(String username, String password, String name, 
                 String email, String school, Long contactNum, 
@@ -63,6 +65,15 @@ public class Student extends User implements Serializable {
         this.currentYear = currentYear;
         this.cap = cap;
     }
+    
+    public Collection<ProjectGroup> getProjectGroups() {
+        return projectGroups;
+    }
+
+    public void setProjectGroups(Collection<ProjectGroup> projectGroups) {
+        this.projectGroups = projectGroups;
+    }
+    
     
     public StudyPlan getStudyPlan() {
         return studyPlan;

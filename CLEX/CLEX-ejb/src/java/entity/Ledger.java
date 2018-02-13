@@ -6,7 +6,6 @@
 package entity;
 
 import java.io.Serializable;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,18 +24,35 @@ public class Ledger implements Serializable {
     private Long id;
     private Long studentId;
     private double ascCost;
-    private Long projGroupId;
-    private Long transactionId;
     
     @ManyToOne
     private Student student = new Student();
+    
+    @ManyToOne
+    private Transaction transaction = new Transaction();
  
-    public void createLedger(Long studentId, double ascCost, Long projGroupId, Long transactionId){
+    public void createLedger(Long studentId, double ascCost, Transaction transaction){
         this.studentId = studentId;
         this.ascCost = ascCost;
-        this.projGroupId = projGroupId;
-        this.transactionId = transactionId;
+        this.transaction = transaction;
     }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public Transaction getTransaction() {
+        return transaction;
+    }
+
+    public void setTransaction(Transaction transaction) {
+        this.transaction = transaction;
+    }
+    
     
     public Long getId() {
         return id;
@@ -60,22 +76,6 @@ public class Ledger implements Serializable {
 
     public void setAscCost(double ascCost) {
         this.ascCost = ascCost;
-    }
-
-    public Long getProjGroupId() {
-        return projGroupId;
-    }
-
-    public void setProjGroupId(Long projGroupId) {
-        this.projGroupId = projGroupId;
-    }
-
-    public Long getTransactionId() {
-        return transactionId;
-    }
-
-    public void setTransactionId(Long transactionId) {
-        this.transactionId = transactionId;
     }
 
     @Override

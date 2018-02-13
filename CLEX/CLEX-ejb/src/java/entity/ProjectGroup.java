@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.*;  
 import javax.persistence.CascadeType;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -25,15 +26,22 @@ public class ProjectGroup implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long superGroupId;
-    private List<Long> listOfStudentId;
     private double cost;
-    
-    @OneToMany(cascade={CascadeType.PERSIST})
-    private Collection<Transaction> transactions = new ArrayList<Transaction>();
     
     @ManyToOne
     private SuperGroup superGroup;
+    
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy="projectGroup")
+    private Collection<Transaction> transactions = new ArrayList<Transaction>();
+    
+    @ManyToMany(cascade={CascadeType.PERSIST}, mappedBy="projectGroup")
+    private Collection<Student> groupMembers = new ArrayList<Student>();
+   
+    
+    public void createProjectGroup(SuperGroup superGroup, double cost){
+        this.superGroup = superGroup;
+        this.cost = cost;
+    }
     
     public Long getId() {
         return id;
@@ -51,28 +59,20 @@ public class ProjectGroup implements Serializable {
         this.transactions = transactions;
     }
 
-    public Long getSuperGroupId() {
-        return superGroupId;
-    }
-
-    public void setSuperGroupId(Long superGroupId) {
-        this.superGroupId = superGroupId;
-    }
-
-    public List<Long> getListOfStudentId() {
-        return listOfStudentId;
-    }
-
-    public void setListOfStudentId(List<Long> listOfStudentId) {
-        this.listOfStudentId = listOfStudentId;
-    }
-
     public double getCost() {
         return cost;
     }
 
     public void setCost(double cost) {
         this.cost = cost;
+    }
+
+    public Collection<Student> getGroupMembers() {
+        return groupMembers;
+    }
+
+    public void setGroupMembers(Collection<Student> groupMembers) {
+        this.groupMembers = groupMembers;
     }
 
     public SuperGroup getSuperGroup() {

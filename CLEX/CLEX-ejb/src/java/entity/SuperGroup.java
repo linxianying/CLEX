@@ -28,13 +28,19 @@ public class SuperGroup implements Serializable {
     private int numOfGroups;
     private int minStudentNum;
     private int maxStudentNum;
-    private String moduleCode;
     
     @OneToOne(mappedBy="superGroup")
     private Module module;
     
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="superGroup")
     private Collection<ProjectGroup> projectGroups = new ArrayList<ProjectGroup>();
+    
+    public void createSuperGroup(int numOfGroups, int minStudentNum, int maxStudentNum, Module module){
+        this.numOfGroups = numOfGroups;
+        this.minStudentNum = minStudentNum;
+        this.maxStudentNum = maxStudentNum;
+        this.module = module;
+    }
     
     public Long getId() {
         return id;
@@ -82,14 +88,6 @@ public class SuperGroup implements Serializable {
 
     public void setMaxStudentNum(int maxStudentNum) {
         this.maxStudentNum = maxStudentNum;
-    }
-
-    public String getModuleCode() {
-        return moduleCode;
-    }
-
-    public void setModuleCode(String moduleCode) {
-        this.moduleCode = moduleCode;
     }
 
     @Override

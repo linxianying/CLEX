@@ -40,7 +40,11 @@ public class Module implements Serializable {
 
     @ManyToOne
     private Course course = new Course();
+    
+    @ManyToMany(cascade={CascadeType.PERSIST}, mappedBy="module")
+    private Collection<Student> students = new ArrayList<Student>();
 
+    
     @ManyToMany(cascade={CascadeType.ALL}, mappedBy="module")
     @JoinTable(name="Lecturer_Module")
     private Collection<Lecturer> lecturers = new ArrayList<Lecturer>();
@@ -70,6 +74,13 @@ public class Module implements Serializable {
         this.superGroup = superGroup;
     }
     
+    public Collection<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Collection<Student> students) {
+        this.students = students;
+    }
     
     public Long getId() {
         return id;

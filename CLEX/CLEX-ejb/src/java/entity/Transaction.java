@@ -6,34 +6,57 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.*;  
-import javax.persistence.CascadeType;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
  *
  * @author lin
  */
-@Entity
+@Entity(name="GroupTransaction")
 public class Transaction implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long projGroupId;
     private double cost;
     private String date;
     private String activity;
     
-    public void createTransaction(Long projGroupId, double cost, String date, String activity){
-        this.projGroupId = projGroupId;
+    @ManyToOne
+    private ProjectGroup projectGroup;
+    
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy="Transaction")
+    private Collection<Ledger> ledgers = new ArrayList<Ledger>();
+    
+    public void createTransaction(double cost, String date, String activity, ProjectGroup projectGroup){
         this.cost = cost;
         this.date = date;
         this.activity = activity;
+        this.projectGroup = projectGroup;
+    }
+
+    public Collection<Ledger> getLedgers() {
+        return ledgers;
+    }
+
+    public void setLedgers(Collection<Ledger> ledgers) {
+        this.ledgers = ledgers;
+    }
+
+    public ProjectGroup getProjectGroup() {
+        return projectGroup;
+    }
+
+    public void setProjectGroup(ProjectGroup projectGroup) {
+        this.projectGroup = projectGroup;
     }
     
     public Long getId() {
@@ -42,14 +65,6 @@ public class Transaction implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getProjGroupId() {
-        return projGroupId;
-    }
-
-    public void setProjGroupId(Long projGroupId) {
-        this.projGroupId = projGroupId;
     }
 
     public double getCost() {
