@@ -6,7 +6,8 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -21,27 +22,26 @@ import javax.persistence.ManyToMany;
  * @author lin
  */
 @Entity
-public class Lecturer implements Serializable {
+public class Lecturer extends User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String username;
     private String faculty;
     
     @ManyToMany(cascade={CascadeType.PERSIST})
     @JoinTable(name="Lecturer_Module")
-    private Set<Module> modules = new HashSet<Module>();
-
-
-    public String getUsername() {
-        return username;
+    private Collection<Module> modules = new ArrayList<Module>();
+    
+    public void createLecturer(String username, String password, String name, 
+                String email, String school, Long contactNum, 
+                String faculty, String major, String matricYear, String matricSem, 
+                String currentYear, double cap){
+        super.createUser(username, password, name, email, "Lecturer", school, contactNum);
+        this.faculty = faculty;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
+    
     public String getFaculty() {
         return faculty;
     }
@@ -50,10 +50,12 @@ public class Lecturer implements Serializable {
         this.faculty = faculty;
     }
 
+   
     public Long getId() {
         return id;
     }
-
+    
+ 
     public void setId(Long id) {
         this.id = id;
     }

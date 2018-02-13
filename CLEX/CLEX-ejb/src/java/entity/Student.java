@@ -8,8 +8,6 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,12 +23,12 @@ import javax.persistence.OneToOne;
  * @author lin
  */
 @Entity
-public class Student implements Serializable {
+public class Student extends User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String username;
+    
     private String faculty;
     private String major;
     private String matricYear;
@@ -40,7 +38,7 @@ public class Student implements Serializable {
     
     @ManyToMany(cascade={CascadeType.PERSIST})
     @JoinTable(name="Student_Module")
-    private Set<Module> modules = new HashSet<Module>();
+    private Collection<Module> modules = new ArrayList<Module>();
 
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="student")
     private Collection<Grade> grades = new ArrayList<Grade>();
@@ -50,10 +48,14 @@ public class Student implements Serializable {
     
     @OneToOne(cascade={CascadeType.ALL}, mappedBy="student")
     private StudyPlan studyPlan = new StudyPlan();
+
     
-    public void createStudent(String username, String faculty, String major, 
-                String matricYear, String matricSem, String currentYear, double cap){
-        this.username = username;
+    
+    public void createStudent(String username, String password, String name, 
+                String email, String school, Long contactNum, 
+                String faculty, String major, String matricYear, String matricSem, 
+                String currentYear, double cap){
+        super.createUser(username, password, name, email, "Student", school, contactNum);
         this.faculty = faculty;
         this.major = major;
         this.matricYear = matricYear;
@@ -62,6 +64,14 @@ public class Student implements Serializable {
         this.cap = cap;
     }
     
+    public StudyPlan getStudyPlan() {
+        return studyPlan;
+    }
+
+    public void setStudyPlan(StudyPlan studyPlan) {
+        this.studyPlan = studyPlan;
+    }
+   
     public Collection<Ledger> getLedgers() {
         return ledgers;
     }
@@ -70,11 +80,11 @@ public class Student implements Serializable {
         this.ledgers = ledgers;
     }
     
-    public Set<Module> getModules() {
+    public Collection<Module> getModules() {
         return modules;
     }
 
-    public void setModules(Set<Module> modules) {
+    public void setModules(Collection<Module> modules) {
         this.modules = modules;
     }
 
@@ -84,14 +94,6 @@ public class Student implements Serializable {
 
     public void setGrades(Collection<Grade> grades) {
         this.grades = grades;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getFaculty() {

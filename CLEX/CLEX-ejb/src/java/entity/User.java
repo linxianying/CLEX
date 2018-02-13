@@ -13,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.CascadeType;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
@@ -21,11 +23,12 @@ import javax.persistence.OneToMany;
  * @author lin
  */
 @Entity(name="BasicUser")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+
 public abstract class User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    
     private Long id;
     private String password;
     private String username;
@@ -50,6 +53,7 @@ public abstract class User implements Serializable {
     
     @OneToMany(cascade={CascadeType.PERSIST})
     private Collection<Task> tasks = new ArrayList<Task>();
+    private Object InheritanceType;
     
     
     public void createUser(String username, String password, String name, String email, String userType, String school, Long contactNum) {

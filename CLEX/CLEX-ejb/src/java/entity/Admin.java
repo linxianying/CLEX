@@ -16,19 +16,15 @@ import javax.persistence.Id;
  * @author lin
  */
 @Entity
-public class Admin implements Serializable {
+public class Admin extends User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String username;
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void createAdmin(String username, String password, String name, 
+                String email, String school, Long contactNum){
+        super.createUser(username, password, name, email, "Admin", school, contactNum);
     }
 
     public Long getId() {
