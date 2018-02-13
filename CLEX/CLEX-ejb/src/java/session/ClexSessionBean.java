@@ -10,6 +10,7 @@ import entity.Student;
 import entity.Module;
 import entity.Course;
 import entity.Lecturer;
+import entity.Task;
 import java.util.Collection;
 import java.util.Set;
 import javax.ejb.Stateless;
@@ -207,5 +208,54 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         studentEntity.setFaculty(faculty);
         em.merge(studentEntity);
         return true;
+    }
+
+    @Override
+    public boolean checkPassword(String username, String password) {
+        //need to change this to user entity
+        if(checkNewUser(username)==true){
+            System.out.println("Error: This is a new user! Please register first!");
+            return false;
+        }else{
+            Query q = em.createQuery("SELECT u FROM User u WHERE u.username = :username");
+            q.setParameter("username", username);
+            studentEntity = (Student) q.getSingleResult();
+            if(studentEntity.getPassword().equals(password)){
+                System.out.println("Password of " + username + " is correct.");
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    @Override
+    public String removeTask(Long taskId) {
+        Task task = findTask(taskId);
+        if (task==null) {
+            return "Task not found!\n";
+        }
+        else{
+            task = em.find(Task.class, taskId);
+            em.remove(task);
+            em.flush();
+            em.clear();
+        }
+        return "Tutorial is sucessfully deleted!\n";
+    }
+    
+    private Task findTask(Long taskId){
+        Task t = new Task();
+        t = null;
+        try{
+            Query q = em.createQuery("SELECT t FROM Task t WHERE t.taskId=:taskId");
+            q.setParameter("taskId", taskId);
+            t = (Task) q.getSingleResult();
+            System.out.println("Task " + taskId + " found.");
+        }
+        catch(NoResultException e){
+            System.out.println("Task " + taskId + " does not exist.");
+            t = null;
+        }
+        return t;
     }
 }
