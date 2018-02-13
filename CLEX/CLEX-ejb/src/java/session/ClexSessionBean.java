@@ -181,5 +181,31 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         }
     }
 
-
+    @Override
+    public boolean updateStudentEmail(String username, String email) {
+        Query q = em.createQuery("SELECT s FROM Student s WHERE s.username = :username");
+        q.setParameter("username", username);
+        studentEntity = (Student) q.getResultList().get(0);
+        if (email.isEmpty()) {
+            System.out.println("Error: Email is empty!");
+            return false;
+        }
+        studentEntity.setEmail(email);
+        em.merge(studentEntity);
+        return true;
+    }
+    
+    @Override
+    public boolean updateStudentFaculty(String username, String faculty) {
+        Query q = em.createQuery("SELECT s FROM Student s WHERE s.faculty = :faculty");
+        q.setParameter("faculty", faculty);
+        studentEntity = (Student) q.getResultList().get(0);
+        if (faculty.isEmpty()) {
+            System.out.println("Error: faculty is empty!");
+            return false;
+        }
+        studentEntity.setFaculty(faculty);
+        em.merge(studentEntity);
+        return true;
+    }
 }

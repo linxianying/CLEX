@@ -24,4 +24,6 @@ public interface ClexSessionBeanLocal {
     public boolean checkNewLecturer(String username);
     public boolean checkNewStudent(String username);
     public String viewModule(String moduleCode);
+    public boolean updateStudentEmail(String username, String newEmail);
+    public boolean updateStudentFaculty(String username, String faculty);
 }
