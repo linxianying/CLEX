@@ -8,3 +8,5 @@
 #properties
 *.properties
 project.xml
+/CLEX/CLEX-ejb/build/
+/CLEX/CLEX-ejb/dist/

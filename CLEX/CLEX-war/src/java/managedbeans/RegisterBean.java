@@ -35,6 +35,12 @@ public class RegisterBean implements Serializable{
     private String userType;
     private String school;
     private Long contactNum;
+    private String faculty;
+    private String major;
+    private String matricYear;
+    private String matricSem;
+    private String currentYear;
+    private double cap;
     
     public RegisterBean(){
         
@@ -108,7 +114,8 @@ public class RegisterBean implements Serializable{
     for admin to approve/*/
     public void register(){
         if(csbl.checkNewUser(username) == true){
-            csbl.createStudent(username, password, name, email, userType, school, contactNum);
+            csbl.createStudent(username, password, name, email, school, contactNum, 
+                 faculty, major, matricYear, matricSem, currentYear, cap);
         }
     }
     
@@ -116,7 +123,7 @@ public class RegisterBean implements Serializable{
     //For testing only
     public void testRegister(){
         if(csbl.checkNewUser("user") == true){
-            csbl.createStudent("user", "123", "name", "email@email.com", "", "", 12345678L);
+            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L,"soc", "IS","2015", "1","2017", 0.0);
         }
     }
 }
