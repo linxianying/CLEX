@@ -8,8 +8,6 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -24,43 +23,51 @@ import javax.persistence.OneToOne;
  *
  * @author lin
  */
-@Entity
+@Entity(name="SchoolModule")
 public class Module implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String moduleCode;
     private String takenYear;
     private String takenSem;
     private String prerequisite;
     private String preclusions;
     private int modularCredits;
     private int workload;
-    private Long superGroupId;
+    @OneToOne(cascade={CascadeType.ALL})
+    private SuperGroup superGroup;
+
+    @ManyToOne
     private Course course = new Course();
 
-    @ManyToMany(cascade={CascadeType.ALL}, mappedBy="modules")
+    @ManyToMany(cascade={CascadeType.ALL}, mappedBy="module")
     @JoinTable(name="Lecturer_Module")
-    private Set<Lecturer> lecturers = new HashSet<Lecturer>();
+    private Collection<Lecturer> lecturers = new ArrayList<Lecturer>();
     
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="module")
     private Collection<Lesson> lessons = new ArrayList<Lesson>();
     
-    @OneToOne(mappedBy="module")
+    @OneToOne(cascade={CascadeType.PERSIST})
     private SuperGroup supergroup;
     
-    public void createModule(String moduleCode, int modularCredits, int workload, String takenYear, 
-                String takenSem,String prerequisite, String preclusions, Long superGroupId){
-        this.moduleCode = moduleCode;
+    public void createModule(int modularCredits, int workload, String takenYear, 
+                String takenSem,String prerequisite, String preclusions, Course course){
         this.modularCredits = modularCredits;
-        this.moduleCode = moduleCode;
         this.takenSem = takenSem;
         this.takenYear = takenYear;
         this.workload = workload;
         this.prerequisite = prerequisite;
         this.preclusions = preclusions;
-        this.superGroupId = superGroupId;
+        this.course = course;
+    }
+    
+    public SuperGroup getSuperGroup() {
+        return superGroup;
+    }
+
+    public void setSuperGroup(SuperGroup superGroup) {
+        this.superGroup = superGroup;
     }
     
     
@@ -80,9 +87,6 @@ public class Module implements Serializable {
         this.supergroup = supergroup;
     }
 
-    public String getModuleCode() {
-        return moduleCode;
-    }
 
     public Course getCourse() {
         return course;
@@ -92,11 +96,11 @@ public class Module implements Serializable {
         this.course = course;
     }
 
-    public Set<Lecturer> getLecturers() {
+    public Collection<Lecturer> getLecturers() {
         return lecturers;
     }
 
-    public void setLecturers(Set<Lecturer> lecturers) {
+    public void setLecturers(Collection<Lecturer> lecturers) {
         this.lecturers = lecturers;
     }
 
@@ -108,9 +112,6 @@ public class Module implements Serializable {
         this.lessons = lessons;
     }
 
-    public void setModuleCode(String moduleCode) {
-        this.moduleCode = moduleCode;
-    }
 
     public String getTakenYear() {
         return takenYear;
@@ -158,14 +159,6 @@ public class Module implements Serializable {
 
     public void setWorkload(int workload) {
         this.workload = workload;
-    }
-
-    public Long getSuperGroupId() {
-        return superGroupId;
-    }
-
-    public void setSuperGroupId(Long superGroupId) {
-        this.superGroupId = superGroupId;
     }
 
     @Override

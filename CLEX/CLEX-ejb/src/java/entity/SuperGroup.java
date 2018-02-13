@@ -30,7 +30,7 @@ public class SuperGroup implements Serializable {
     private int maxStudentNum;
     private String moduleCode;
     
-    @OneToOne(cascade={CascadeType.PERSIST})
+    @OneToOne(mappedBy="superGroup")
     private Module module;
     
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="superGroup")

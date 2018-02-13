@@ -39,13 +39,13 @@ public abstract class User implements Serializable {
     private String name;
     
 
-    @OneToMany(cascade={CascadeType.ALL}, mappedBy="thread")
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy="user")
     private Collection<Thread> threads = new ArrayList<Thread>();
 
-    @OneToMany(cascade={CascadeType.ALL}, mappedBy="vote")
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy="user")
     private Collection<Vote> votes = new ArrayList<Vote>();
     
-    @OneToMany(cascade={CascadeType.ALL}, mappedBy="reply")
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy="user")
     private Collection<Reply> replys = new ArrayList<Reply>();
     
     @OneToMany(cascade={CascadeType.PERSIST})

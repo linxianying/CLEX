@@ -6,10 +6,12 @@
 package entity;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -21,18 +23,19 @@ public class Lesson implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(name = "LESSON_DAY")
     private String day;
+    @Column(name = "LESSON_TIME")
     private String time;
-    private String moduleCode;
     private String type;
     private String venue;
+    @ManyToOne
     private Module module = new Module();
 
 
-    public void createLesson(String day, String time, String moduleCode, String type, String venue, Module module){
+    public void createLesson(String day, String time, String type, String venue, Module module){
         this.day = day;
         this.time = time;
-        this.moduleCode = moduleCode;
         this.type = type;
         this.venue = venue;
         this.module = module;
@@ -70,13 +73,6 @@ public class Lesson implements Serializable {
         this.time = time;
     }
 
-    public String getModuleCode() {
-        return moduleCode;
-    }
-
-    public void setModuleCode(String moduleCode) {
-        this.moduleCode = moduleCode;
-    }
 
     public String getType() {
         return type;
