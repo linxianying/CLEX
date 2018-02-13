@@ -51,6 +51,16 @@ public class Student implements Serializable {
     @OneToOne(cascade={CascadeType.ALL}, mappedBy="student")
     private StudyPlan studyPlan = new StudyPlan();
     
+    public void createStudent(String username, String faculty, String major, 
+                String matricYear, String matricSem, String currentYear, double cap){
+        this.username = username;
+        this.faculty = faculty;
+        this.major = major;
+        this.matricYear = matricYear;
+        this.matricSem = matricSem;
+        this.currentYear = currentYear;
+        this.cap = cap;
+    }
     
     public Collection<Ledger> getLedgers() {
         return ledgers;
