@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 
 /**
@@ -17,7 +19,8 @@ import javax.persistence.ManyToOne;
  * @author lin
  */
 @Entity
-public class Vote implements Serializable {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Vote implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,7 +30,10 @@ public class Vote implements Serializable {
     @ManyToOne
     private User user;
     
-    public void createTransaction(String dateTime, User user){
+    public Vote(){ 
+    }
+    
+    public void createVote(String dateTime, User user){
         this.dateTime = dateTime;
         this.user = user;
     }
