@@ -16,12 +16,11 @@ import javax.persistence.Id;
  * @author lin
  */
 @Entity
-public class VoteThread implements Serializable {
+public class VoteThread extends Vote implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long threadId;
 
     public Long getId() {
         return id;
@@ -29,14 +28,6 @@ public class VoteThread implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getThreadId() {
-        return threadId;
-    }
-
-    public void setThreadId(Long threadId) {
-        this.threadId = threadId;
     }
 
     @Override
