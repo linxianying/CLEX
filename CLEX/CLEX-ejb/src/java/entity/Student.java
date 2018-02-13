@@ -46,12 +46,16 @@ public class Student extends User implements Serializable {
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="student")
     private Collection<Ledger> ledgers = new ArrayList<Ledger>();
     
-    @OneToOne(cascade={CascadeType.ALL}, mappedBy="student")
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy="student")
     private StudyPlan studyPlan = new StudyPlan();
     
     @ManyToMany(cascade={CascadeType.PERSIST})
     @JoinTable(name="Student_ProjectGroup")
     private Collection<ProjectGroup> projectGroups = new ArrayList<ProjectGroup>();
+    
+    @ManyToMany(cascade={CascadeType.PERSIST})
+    @JoinTable(name="Student_GroupTimeSlot")
+    private Collection<GroupTimeslot> groupTimeslots = new ArrayList<GroupTimeslot>();
     
     public void createStudent(String username, String password, String name, 
                 String email, String school, Long contactNum, 

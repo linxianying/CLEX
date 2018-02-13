@@ -21,25 +21,23 @@ public class Timeslot implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String username;
     private String date;
     private String timeFrom;
     private String timeEnd;
     private String title;
     private String details;
     private String venue;
-    private String type;
+    
+    
 
-    public void createTimeslot(String username, String date, String timeFrom, String timeEnd, 
-                String title, String details, String venue, String type){
-        this.username = username;
+    public void createTimeslot(String date, String timeFrom, String timeEnd, 
+                String title, String details, String venue) {
         this.date = date;
         this.timeFrom = timeFrom;
         this.timeEnd = timeEnd;
         this.details = details;
         this.title = title;
         this.venue = venue;
-        this.type = type;
     }
 
     public Long getId() {
@@ -48,14 +46,6 @@ public class Timeslot implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getDate() {
@@ -106,13 +96,6 @@ public class Timeslot implements Serializable {
         this.venue = venue;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 
     @Override
     public int hashCode() {

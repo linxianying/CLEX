@@ -10,39 +10,49 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
- * @author lin
+ * @author caoyu
  */
 @Entity
-public class Task implements Serializable {
+public class GroupTimeslot implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String date;
-    private String deadline;
+    private String timeFrom;
+    private String timeEnd;
     private String title;
     private String details;
-    private String status;
+    private String venue;
+    
+    @ManyToOne
+    private ProjectGroup pojectGroup = new ProjectGroup();
 
-    public void createTask(String date, String deadline, String title,String details, String status){
-        this.deadline = deadline;
-        this.status = status;
+    public void createGroupTimeslot(String date, String timeFrom, String timeEnd, 
+                String title, String details, String venue, ProjectGroup pojectGroup) {
+        this.date = date;
+        this.timeFrom = timeFrom;
+        this.timeEnd = timeEnd;
         this.details = details;
         this.title = title;
-        this.date = date;
+        this.venue = venue;
+        this.pojectGroup = pojectGroup;
     }
     
-    public Long getId() {
-        return id;
+    public ProjectGroup getPojectGroup() {
+        return pojectGroup;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPojectGroup(ProjectGroup pojectGroup) {
+        this.pojectGroup = pojectGroup;
     }
-
+    
+    
+    
     public String getDate() {
         return date;
     }
@@ -51,12 +61,20 @@ public class Task implements Serializable {
         this.date = date;
     }
 
-    public String getDeadline() {
-        return deadline;
+    public String getTimeFrom() {
+        return timeFrom;
     }
 
-    public void setDeadline(String deadline) {
-        this.deadline = deadline;
+    public void setTimeFrom(String timeFrom) {
+        this.timeFrom = timeFrom;
+    }
+
+    public String getTimeEnd() {
+        return timeEnd;
+    }
+
+    public void setTimeEnd(String timeEnd) {
+        this.timeEnd = timeEnd;
     }
 
     public String getTitle() {
@@ -75,12 +93,21 @@ public class Task implements Serializable {
         this.details = details;
     }
 
-    public String getStatus() {
-        return status;
+    public String getVenue() {
+        return venue;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setVenue(String venue) {
+        this.venue = venue;
+    }
+    
+    
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override
@@ -93,10 +120,10 @@ public class Task implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Task)) {
+        if (!(object instanceof GroupTimeslot)) {
             return false;
         }
-        Task other = (Task) object;
+        GroupTimeslot other = (GroupTimeslot) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -105,7 +132,7 @@ public class Task implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Task[ id=" + id + " ]";
+        return "entity.GroupTimeslot[ id=" + id + " ]";
     }
     
 }

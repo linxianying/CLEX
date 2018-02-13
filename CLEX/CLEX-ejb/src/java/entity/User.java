@@ -47,10 +47,10 @@ public abstract class User implements Serializable{
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="user")
     private Collection<Reply> replys = new ArrayList<Reply>();
     
-    @OneToMany(cascade={CascadeType.PERSIST})
+    @OneToMany(cascade={CascadeType.ALL})
     private Collection<Timeslot> timeslots = new ArrayList<Timeslot>();
     
-    @OneToMany(cascade={CascadeType.PERSIST})
+    @OneToMany(cascade={CascadeType.ALL})
     private Collection<Task> tasks = new ArrayList<Task>();
     //private Object InheritanceType;
     

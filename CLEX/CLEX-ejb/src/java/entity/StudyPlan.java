@@ -23,9 +23,47 @@ public class StudyPlan implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    private String pickYear;
+    private String pickSem;
+    
     @ManyToOne(cascade={CascadeType.PERSIST})
     private Course course = new Course();
+    
+    @ManyToOne
+    private Student student = new Student();
 
+    public void createStudyPlan(String pickYear, String pickSem, Course course, Student student){
+        this.pickYear = pickYear;
+        this.pickSem = pickSem;
+        this.course = course;
+        this.student = student;
+    }
+
+    public String getPickYear() {
+        return pickYear;
+    }
+
+    public void setPickYear(String pickYear) {
+        this.pickYear = pickYear;
+    }
+
+    public String getPickSem() {
+        return pickSem;
+    }
+
+    public void setPickSem(String pickSem) {
+        this.pickSem = pickSem;
+    }
+    
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+    
     public Course getCourse() {
         return course;
     }

@@ -23,10 +23,7 @@ public class Grade implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String studentId;
-    private String moduleCode;
-    private String takenYear;
-    private String takenSem;
+
     private String moduleGrade;
     
     @ManyToOne(cascade={CascadeType.ALL})
@@ -34,6 +31,20 @@ public class Grade implements Serializable {
     
     @ManyToOne
     private Student student = new Student();
+
+    public void createGrade (String moduleGrade, Module module, Student student){
+        this.moduleGrade = moduleGrade;
+        this.module = module;
+        this.student = student;
+    }
+    
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
 
     public Module getModule() {
         return module;
@@ -43,15 +54,7 @@ public class Grade implements Serializable {
         this.module = module;
     }
     
-    
-
-    public void createGrade(String studentId, String moduleCode, String takenYear, String takenSem, String moduleGrade) {
-        this.studentId = studentId;
-        this.moduleCode = moduleCode;
-        this.takenYear = takenYear;
-        this.takenSem = takenSem;
-        this.moduleGrade = moduleGrade;
-    }
+   
     
     public Long getId() {
         return id;
@@ -61,37 +64,7 @@ public class Grade implements Serializable {
         this.id = id;
     }
 
-    public String getStudentId() {
-        return studentId;
-    }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
-    }
-
-    public String getModuleCode() {
-        return moduleCode;
-    }
-
-    public void setModuleCode(String moduleCode) {
-        this.moduleCode = moduleCode;
-    }
-
-    public String getTakenYear() {
-        return takenYear;
-    }
-
-    public void setTakenYear(String takenYear) {
-        this.takenYear = takenYear;
-    }
-
-    public String getTakenSem() {
-        return takenSem;
-    }
-
-    public void setTakenSem(String takenSem) {
-        this.takenSem = takenSem;
-    }
 
     public String getModuleGrade() {
         return moduleGrade;

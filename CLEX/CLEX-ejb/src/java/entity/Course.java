@@ -37,6 +37,8 @@ public class Course extends Module implements Serializable {
     
     @OneToMany(cascade={CascadeType.ALL},mappedBy="course")
     private Collection<Module> modules = new ArrayList<Module>();    
+    
+    
 
     public Long getId() {
         return id;

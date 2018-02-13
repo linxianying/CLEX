@@ -10,13 +10,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
- * @author lin
+ * @author caoyu
  */
 @Entity
-public class Task implements Serializable {
+public class GroupTask implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,13 +27,19 @@ public class Task implements Serializable {
     private String title;
     private String details;
     private String status;
-
-    public void createTask(String date, String deadline, String title,String details, String status){
+    
+    @ManyToOne
+    private ProjectGroup pojectGroup = new ProjectGroup();
+    
+    
+    public void createGroupTask(String date, String deadline, String title,
+            String details, String status, ProjectGroup pojectGroup){
         this.deadline = deadline;
         this.status = status;
         this.details = details;
         this.title = title;
         this.date = date;
+        this.pojectGroup = pojectGroup;
     }
     
     public Long getId() {
@@ -83,6 +90,14 @@ public class Task implements Serializable {
         this.status = status;
     }
 
+    public ProjectGroup getPojectGroup() {
+        return pojectGroup;
+    }
+
+    public void setPojectGroup(ProjectGroup pojectGroup) {
+        this.pojectGroup = pojectGroup;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -93,10 +108,10 @@ public class Task implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Task)) {
+        if (!(object instanceof GroupTask)) {
             return false;
         }
-        Task other = (Task) object;
+        GroupTask other = (GroupTask) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -105,7 +120,7 @@ public class Task implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Task[ id=" + id + " ]";
+        return "entity.GroupTask[ id=" + id + " ]";
     }
     
 }
