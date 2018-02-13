@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.CascadeType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
@@ -52,7 +53,6 @@ public abstract class User implements Serializable{
     
     @OneToMany(cascade={CascadeType.ALL})
     private Collection<Task> tasks = new ArrayList<Task>();
-    //private Object InheritanceType;
     
     
     public void createUser(String username, String password, String name, String email, String userType, String school, Long contactNum) {
