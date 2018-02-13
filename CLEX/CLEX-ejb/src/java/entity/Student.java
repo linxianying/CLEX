@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -46,6 +47,9 @@ public class Student implements Serializable {
     
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="student")
     private Collection<Ledger> ledgers = new ArrayList<Ledger>();
+    
+    @OneToOne(cascade={CascadeType.ALL}, mappedBy="student")
+    private StudyPlan studyPlan = new StudyPlan();
 
     public Collection<Ledger> getLedgers() {
         return ledgers;
