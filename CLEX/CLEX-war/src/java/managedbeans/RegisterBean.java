@@ -122,7 +122,7 @@ public class RegisterBean implements Serializable{
 //----------------------------------------------------------------
     //For testing only
     public void testRegister(){
-        if(csbl.checkNewUser("user") == true){
+        if(csbl.checkNewUser("namename") == true){
             csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L,"soc", "IS","2015", "1","2017", 0.0);
         }
     }
