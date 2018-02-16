@@ -28,10 +28,32 @@ public class LoginBean {
     private String username;
     private String password;
 
-    public void login() throws IOException{
-       
-        if(userEntity == null){
-            
-        }
+    public User getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(User userEntity) {
+        this.userEntity = userEntity;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    
+    public boolean login() throws IOException{
+        return csbl.checkPassword(username, password);
     }
 }
