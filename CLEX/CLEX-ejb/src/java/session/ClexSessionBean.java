@@ -211,13 +211,27 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     }
 
     @Override
+    public boolean updateStudentContact(String username, Long contactNum) {
+        Query q = em.createQuery("SELECT s FROM Student s WHERE s.contactNum = :contactNum");
+        q.setParameter("contactNum", contactNum);
+        studentEntity = (Student) q.getResultList().get(0);
+        if (contactNum==0) {
+            System.out.println("Error: no contact number is found!");
+            return false;
+        }
+        studentEntity.setContactNum(contactNum);
+        em.merge(studentEntity);
+        return true;
+    }
+    
+    @Override
     public boolean checkPassword(String username, String password) {
         //need to change this to user entity
         if(checkNewUser(username)==true){
             System.out.println("Error: This is a new user! Please register first!");
             return false;
         }else{
-            Query q = em.createQuery("SELECT u FROM User u WHERE u.username = :username");
+            Query q = em.createQuery("SELECT u FROM BasicUser u WHERE u.username = :username");
             q.setParameter("username", username);
             studentEntity = (Student) q.getSingleResult();
             if(studentEntity.getPassword().equals(password)){

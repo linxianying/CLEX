@@ -28,4 +28,5 @@ public interface ClexSessionBeanLocal {
     public boolean updateStudentFaculty(String username, String faculty);
     public boolean checkPassword(String username, String password);
     public String removeTask(Long taskId);
+    public boolean updateStudentContact(String username, Long contactNum);
 }
