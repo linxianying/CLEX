@@ -7,6 +7,7 @@ package session;
 
 import entity.Admin;
 import entity.Course;
+import entity.Guest;
 import entity.Lecturer;
 import entity.Module;
 import entity.Student;
@@ -24,6 +25,7 @@ public interface ClexSessionBeanLocal {
 
     public void createStudent(String username, String password, String name, String email, String school, Long contactNum, String salt,
                 String faculty, String major, String matricYear, String matricSem, String currentYear, double cap);
+    
     public boolean checkNewUser(String username);
     public boolean checkNewCourse(String moduleCode);
     public boolean checkNewAdmin(String username);
@@ -32,12 +34,15 @@ public interface ClexSessionBeanLocal {
     /*public String viewModule(String moduleCode); */
     public boolean updateStudentEmail(String username, String newEmail);
     public boolean updateStudentFaculty(String username, String faculty);
+    public boolean updateStudentContact(String username, Long contactNum);
+    
     public boolean checkPassword(String username, String password);
     public String removeTask(Long taskId);
-    public boolean updateStudentContact(String username, Long contactNum);
+    
     public Student findStudent(String username);
     public Lecturer findLecturer(String username);
     public Admin findAdmin(String username);
+    public Guest findGuest(String username);
     public Module findModule(String moduleCode, String takenYear, String takenSem);
     public Course findCourse(String moduleCode);
     public Task findTask(Long taskId);
