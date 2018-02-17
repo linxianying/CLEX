@@ -9,8 +9,10 @@ import entity.Admin;
 import entity.Student;
 import entity.Module;
 import entity.Course;
+import entity.Guest;
 import entity.Lecturer;
 import entity.Task;
+import entity.User;
 import java.security.MessageDigest;
 import java.util.Collection;
 import java.util.Set;
@@ -29,6 +31,7 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
 
     @PersistenceContext
     EntityManager em;
+    private User userEntity;
     private Student studentEntity;
     
     @Override
@@ -130,6 +133,23 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
             a = null;
         }
         return a;
+    }
+    
+    @Override
+    public Guest findGuest(String username){
+        Guest g = new Guest();
+        g = null;
+        try{
+            Query q = em.createQuery("SELECT g FROM Guest g WHERE g.username=:username");
+            q.setParameter("username", username);
+            g = (Guest) q.getSingleResult();
+            System.out.println("Guest " + username + " found.");
+        }
+        catch(NoResultException e){
+            System.out.println("Guest " + username + " does not exist.");
+            g = null;
+        }
+        return g;
     }
     
     @Override
@@ -250,10 +270,13 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         }else{
             Query q = em.createQuery("SELECT u FROM BasicUser u WHERE u.username = :username");
             q.setParameter("username", username);
-            studentEntity = (Student) q.getSingleResult();
-            if(studentEntity.getPassword().equals(hashPassword(password, studentEntity.getSalt()))){
+            userEntity = (User) q.getSingleResult();
+            if(userEntity.getPassword().equals(hashPassword(password, userEntity.getSalt()))){
                 System.out.println("Password of " + username + " is correct.");
                 return true;
+            }
+            else{
+                 System.out.println("Password of " + username + " is wrong.");
             }
         }
         return false;

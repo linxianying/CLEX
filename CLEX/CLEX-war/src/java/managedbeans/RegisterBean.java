@@ -3,10 +3,9 @@ package managedbeans;
 
 import entity.User;
 import java.io.Serializable;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.Random;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
@@ -123,6 +122,8 @@ public class RegisterBean implements Serializable{
     /*/My plan is to use register for user class and then use the other entities (Lecturer, student etc.)
     for admin to approve/*/
     public void register(){
+        FacesMessage fmsg = new FacesMessage();
+
         if(csbl.checkNewUser(username) == true){
             if(password.length()>=6&&!username.equals("")&&!email.equals("")){
                 csbl.createStudent(username, password, name, email, school, contactNum, genSalt(), 
