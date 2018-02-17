@@ -5,6 +5,12 @@
  */
 package session;
 
+import entity.Admin;
+import entity.Course;
+import entity.Lecturer;
+import entity.Module;
+import entity.Student;
+import entity.Task;
 import java.util.List;
 import java.util.Vector;
 import javax.ejb.Local;
@@ -29,4 +35,10 @@ public interface ClexSessionBeanLocal {
     public boolean checkPassword(String username, String password);
     public String removeTask(Long taskId);
     public boolean updateStudentContact(String username, Long contactNum);
+    public Student findStudent(String username);
+    public Lecturer findLecturer(String username);
+    public Admin findAdmin(String username);
+    public Module findModule(String moduleCode);
+    public Course findCourse(String moduleCode);
+    public Task findTask(Long taskId);
 }

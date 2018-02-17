@@ -80,7 +80,8 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         return false;
     }
     
-    private Student findStudent(String username){
+    @Override
+    public Student findStudent(String username){
         Student u = new Student();
         u = null;
         try{
@@ -96,7 +97,8 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         return u;
     }
     
-    private Lecturer findLecturer(String username){
+    @Override
+    public Lecturer findLecturer(String username){
         Lecturer l = new Lecturer();
         l = null;
         try{
@@ -112,7 +114,8 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         return l;
     }
     
-    private Admin findAdmin(String username){
+    @Override
+    public Admin findAdmin(String username){
         Admin a = new Admin();
         a = null;
         try{
@@ -128,7 +131,8 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         return a;
     }
     
-    private Module findModule(String moduleCode){
+    @Override
+    public Module findModule(String moduleCode){
         Module m = new Module();
         m = null;
         try{
@@ -144,7 +148,8 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         return m;
     }
     
-    private Course findCourse(String moduleCode){
+    @Override
+    public Course findCourse(String moduleCode){
         Course c = new Course();
         c = null;
         try{
@@ -257,7 +262,8 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         return "Tutorial is sucessfully deleted!\n";
     }
     
-    private Task findTask(Long taskId){
+    @Override
+    public Task findTask(Long taskId){
         Task t = new Task();
         t = null;
         try{
