@@ -3,36 +3,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    xmlns:p="http://primefaces.org/ui">
     
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>Login</title>
     </h:head>
     
-    <h:body>
-        <h:messages id="messages" infoStyle="color: green;" warnStyle="color: orange;" errorStyle="color: red;" fatalStyle="color: red;" />
-
-        <h:form>
-            <h:outputLabel for="name">Username: </h:outputLabel>
-            <h:inputText id="username" value="#{loginBean.username}" /><br/>
-            <h:outputLabel for="password">Password: </h:outputLabel>
-            <h:inputText id="password" value="#{loginBean.password}" /><br/>
-            <h:selectOneMenu id="userType" value="#{loginBean.userType}"> 
-                <f:selectItem itemValue = "1" itemLabel = "STUDENT" /> 
-                <f:selectItem itemValue = "2" itemLabel = "LECTURER" /> 
-                <f:selectItem itemValue = "3" itemLabel = "ADMIN" />
-                <f:selectItem itemValue = "4" itemLabel = "GUEST" />
-            </h:selectOneMenu><br/>
-            <h:commandButton value="Submit" actionListener="#{loginBean.doLogin}" />
-            
-        </h:form>
-            
-        <br>--------------------------------------</br>
-        <br>For testing: do testRegister in register page first, </br>
-        <br>successful login requires User: namename, Password: 123456, Student</br>
-        <br>Other inputs will fail</br>
-    </h:body>
-
+            <h:form>
+                <h:outputLabel for="name">Name: </h:outputLabel>
+                <h:inputText id="name" value="#{LoginBean.name}" /><br/>
+                <h:commandButton value="Submit" actionListener="#{LoginBean.login}"/>
+            </h:form>
+        
+    
 </html>

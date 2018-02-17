@@ -30,7 +30,7 @@
             <h:selectOneMenu id="userType" value="#{registerBean.userType}"> 
                 <f:selectItem itemValue = "1" itemLabel = "STUDENT" /> 
                 <f:selectItem itemValue = "2" itemLabel = "LECTURER" /> 
-            </h:selectOneMenu><br/>
+            </h:selectOneMenu> 
             <h:commandButton value="Submit" actionListener="#{registerBean.register}" action="index?faces-redirect=true"/>
             
         </h:form>
