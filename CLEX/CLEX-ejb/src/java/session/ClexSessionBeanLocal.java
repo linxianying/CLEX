@@ -41,4 +41,7 @@ public interface ClexSessionBeanLocal {
     public Module findModule(String moduleCode, String takenYear, String takenSem);
     public Course findCourse(String moduleCode);
     public Task findTask(Long taskId);
+
+    void createCourse(String moduleCode, String moduleName, String moduleInfo ,boolean discontinuedBool,
+        String discountinuedYear, String discountinuedSem, String school);
 }

@@ -72,25 +72,6 @@ public class StudyPlan implements Serializable {
         this.course = course;
     }
 
-    public String getPickUpYear() {
-        return pickUpYear;
-    }
-
-    public void setPickUpYear(String pickUpYear) {
-        this.pickUpYear = pickUpYear;
-    }
-
-    public String getPickUpSem() {
-        return pickUpSem;
-    }
-
-    public void setPickUpSem(String pickUpSem) {
-        this.pickUpSem = pickUpSem;
-    }
-    
-    private String pickUpYear;
-    private String pickUpSem;
-    
     
     public Long getId() {
         return id;
