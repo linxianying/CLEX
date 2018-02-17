@@ -13,29 +13,34 @@
     </h:head>
 
     <h:body>
+        <h:messages id="messages" infoStyle="color: green;" warnStyle="color: orange;" errorStyle="color: red;" fatalStyle="color: red;" />
 
-            <h:form>
-                <h:outputLabel for="name">Username: </h:outputLabel>
-                <h:inputText id="username" value="#{registerBean.username}" /><br/>
-                <h:outputLabel for="password">Password: </h:outputLabel>
-                <h:inputText id="password" value="#{registerBean.password}" /><br/>
-                <h:outputLabel for="name">Name: </h:outputLabel>
-                <h:inputText id="name" value="#{registerBean.name}" /><br/>
-                <h:outputLabel for="email">Email: </h:outputLabel>
-                <h:inputText id="email" value="#{registerBean.email}" /><br/>
-                <h:outputLabel for="contactNum">Contact No.: </h:outputLabel>
-                <h:inputText id="contactNum" value="#{registerBean.contactNum}" /><br/>
-                <h:outputLabel for="userType">User Type: </h:outputLabel>
-                <h:inputText id="userType" value="#{registerBean.userType}" /><br/>
-                <h:commandButton value="Submit" actionListener="#{registerBean.register}" action="index?faces-redirect=true"/>
-            </h:form>
+        <h:form>
+            <h:outputLabel for="name">Username: </h:outputLabel>
+            <h:inputText id="username" value="#{registerBean.username}" /><br/>
+            <h:outputLabel for="password">Password: </h:outputLabel>
+            <h:inputText id="password" value="#{registerBean.password}" /><br/>
+            <h:outputLabel for="name">Name: </h:outputLabel>
+            <h:inputText id="name" value="#{registerBean.name}" /><br/>
+            <h:outputLabel for="email">Email: </h:outputLabel>
+            <h:inputText id="email" value="#{registerBean.email}" /><br/>
+            <h:outputLabel for="contactNum">Contact No.: </h:outputLabel>
+            <h:inputText id="contactNum" value="#{registerBean.contactNum}" /><br/>
+            <h:outputLabel for="userType">User Type: </h:outputLabel>
+            <h:selectOneMenu id="userType" value="#{registerBean.userType}"> 
+                <f:selectItem itemValue = "1" itemLabel = "STUDENT" /> 
+                <f:selectItem itemValue = "2" itemLabel = "LECTURER" /> 
+            </h:selectOneMenu> 
+            <h:commandButton value="Submit" actionListener="#{registerBean.register}" action="index?faces-redirect=true"/>
+            
+        </h:form>
             
         <br>--------------------------------------</br>
         
-            <!--For lazy people, please delete when not needed anymore-->
-            <h:form>
-                <h:commandButton value="TestRegister" actionListener="#{registerBean.testRegister}" action="index?faces-redirect=true"/>
-            </h:form>
+        <!--For lazy people, please delete when not needed anymore-->
+        <h:form>
+            <h:commandButton value="TestRegister" actionListener="#{registerBean.testRegister}" action="index?faces-redirect=true"/>
+        </h:form>
           
     </h:body>
 

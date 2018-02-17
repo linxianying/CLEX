@@ -10,6 +10,9 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import session.ClexSessionBeanLocal;
 
 /*
@@ -31,9 +34,13 @@ public class RegisterBean implements Serializable{
     private ClexSessionBeanLocal csbl;
     
     private User userEntity;
+    @NotNull 
     private String username;
+    @Size(min = 6, max = 12)
     private String password;
     private String name;    
+    @Size(min = 4, max = 12)
+    @Pattern(regexp = "^[a-zA-Z \\\\@]*$")
     private String email;
     private String userType;
     private String school;
@@ -117,8 +124,12 @@ public class RegisterBean implements Serializable{
     for admin to approve/*/
     public void register(){
         if(csbl.checkNewUser(username) == true){
-            csbl.createStudent(username, password, name, email, school, contactNum, genSalt(), 
+            if(password.length()>=6&&!username.equals("")&&!email.equals("")){
+                csbl.createStudent(username, password, name, email, school, contactNum, genSalt(), 
                  faculty, major, matricYear, matricSem, currentYear, cap);
+            }else{
+                //return error message
+            }
         }
         else{
             //return error message
@@ -131,6 +142,13 @@ public class RegisterBean implements Serializable{
         String salt = gen.toString();
         
         return salt;
+    }
+    
+    public void submit(ActionEvent event){
+        System.err.println("RegisterBean.submit(): username: " + username);
+        System.err.println("RegisterBean.submit(): name: " + name);
+        System.err.println("RegisterBean.submit(): email: " + email);
+        System.err.println("RegisterBean.submit(): userType: " + userType);
     }
     
 //----------------------------------------------------------------
