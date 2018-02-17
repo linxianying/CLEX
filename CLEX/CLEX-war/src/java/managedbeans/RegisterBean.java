@@ -3,6 +3,9 @@ package managedbeans;
 
 import entity.User;
 import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.Random;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -114,16 +117,27 @@ public class RegisterBean implements Serializable{
     for admin to approve/*/
     public void register(){
         if(csbl.checkNewUser(username) == true){
-            csbl.createStudent(username, password, name, email, school, contactNum, 
+            csbl.createStudent(username, password, name, email, school, contactNum, genSalt(), 
                  faculty, major, matricYear, matricSem, currentYear, cap);
         }
+        else{
+            //return error message
+        }
+    }
+    
+    private String genSalt(){
+        Random rng = new Random();
+        Integer gen = rng.nextInt(13371337);
+        String salt = gen.toString();
+        
+        return salt;
     }
     
 //----------------------------------------------------------------
     //For testing only
     public void testRegister(){
         if(csbl.checkNewUser("namename") == true){
-            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L,"soc", "IS","2015", "1","2017", 0.0);
+            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1","2017", 0.0);
         }
     }
 }

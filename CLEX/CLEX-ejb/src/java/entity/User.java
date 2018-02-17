@@ -37,7 +37,7 @@ public abstract class User implements Serializable{
     private String email;
     private Long contactNum;
     private String name;
-    
+    private String salt;
 
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="user")
     private Collection<Thread> threads = new ArrayList<Thread>();
@@ -55,7 +55,7 @@ public abstract class User implements Serializable{
     private Collection<Task> tasks = new ArrayList<Task>();
     
     
-    public void createUser(String username, String password, String name, String email, String userType, String school, Long contactNum) {
+    public void createUser(String username, String password, String name, String email, String userType, String school, Long contactNum, String salt) {
         this.username = username;
         this.userType = userType;
         this.school = school;
@@ -63,6 +63,7 @@ public abstract class User implements Serializable{
         this.name = name;
         this.password = password;
         this.email = email;
+        this.salt = salt;
     }
     
     public static long getSerialVersionUID() {
@@ -149,13 +150,20 @@ public abstract class User implements Serializable{
         this.name = name;
     }
           
-    
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     @Override

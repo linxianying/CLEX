@@ -23,8 +23,8 @@ public class Admin extends User implements Serializable {
     private Long id;
 
     public void createAdmin(String username, String password, String name, 
-                String email, String school, Long contactNum){
-        super.createUser(username, password, name, email, "Admin", school, contactNum);
+                String email, String school, Long contactNum, String salt){
+        super.createUser(username, password, name, email, "Admin", school, contactNum, salt);
     }
 
     public Long getId() {
