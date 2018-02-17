@@ -11,6 +11,7 @@ import entity.Module;
 import entity.Course;
 import entity.Lecturer;
 import entity.Task;
+import java.security.MessageDigest;
 import java.util.Collection;
 import java.util.Set;
 import javax.ejb.Stateless;
@@ -31,10 +32,10 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     private Student studentEntity;
     
     @Override
-    public void createStudent(String username, String password, String name, String email, String school, Long contactNum, 
+    public void createStudent(String username, String password, String name, String email, String school, Long contactNum, String salt, 
                 String faculty, String major, String matricYear, String matricSem, String currentYear, double cap){
         studentEntity = new Student();
-        studentEntity.createStudent(username, password, name, email, school, contactNum, 
+        studentEntity.createStudent(username, hashPassword(password, salt), name, email, school, contactNum, salt,
                  faculty, major, matricYear, matricSem, currentYear, cap);
         em.persist(studentEntity);
         em.flush();
@@ -234,12 +235,34 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
             Query q = em.createQuery("SELECT u FROM BasicUser u WHERE u.username = :username");
             q.setParameter("username", username);
             studentEntity = (Student) q.getSingleResult();
-            if(studentEntity.getPassword().equals(password)){
+            if(studentEntity.getPassword().equals(hashPassword(password, studentEntity.getSalt()))){
                 System.out.println("Password of " + username + " is correct.");
                 return true;
             }
         }
         return false;
+    }
+    
+    private String hashPassword(String password, String salt){
+        String genPass = null;
+ 
+        try{
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] pass = (password+salt).getBytes();
+            md.update(pass);
+            byte[] temp = md.digest(pass);
+            
+            StringBuilder sb = new StringBuilder();
+            for(int i=0; i < temp.length; i++){
+                sb.append(Integer.toString((temp[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            genPass = sb.toString();
+            
+        }
+        catch(Exception e){
+            System.out.println("Failed to hash password.");
+        }
+        return genPass;
     }
     
     @Override

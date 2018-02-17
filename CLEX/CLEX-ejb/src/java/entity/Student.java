@@ -58,10 +58,10 @@ public class Student extends User implements Serializable {
     private Collection<GroupTimeslot> groupTimeslots = new ArrayList<GroupTimeslot>();
     
     public void createStudent(String username, String password, String name, 
-                String email, String school, Long contactNum, 
+                String email, String school, Long contactNum, String salt,
                 String faculty, String major, String matricYear, String matricSem, 
                 String currentYear, double cap){
-        super.createUser(username, password, name, email, "Student", school, contactNum);
+        super.createUser(username, password, name, email, "Student", school, contactNum, salt);
         this.faculty = faculty;
         this.major = major;
         this.matricYear = matricYear;
