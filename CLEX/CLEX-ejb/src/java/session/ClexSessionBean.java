@@ -33,6 +33,7 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     EntityManager em;
     private User userEntity;
     private Student studentEntity;
+    private Course courseEntity;
     
     @Override
     public void createStudent(String username, String password, String name, String email, String school, Long contactNum, String salt, 
@@ -41,6 +42,15 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         studentEntity.createStudent(username, hashPassword(password, salt), name, email, school, contactNum, salt,
                  faculty, major, matricYear, matricSem, currentYear, cap);
         em.persist(studentEntity);
+        em.flush();
+    }
+    
+    @Override
+    public void createCourse(String moduleCode, String moduleName, String moduleInfo ,boolean discontinuedBool,
+        String discountinuedYear, String discountinuedSem, String school) {
+        courseEntity = new Course();
+        courseEntity.createCourse(moduleCode, moduleName, moduleInfo, discontinuedBool, discountinuedYear, discountinuedSem, school);
+        em.persist(courseEntity);
         em.flush();
     }
     
@@ -335,4 +345,6 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         }
         return t;
     }
+
+    
 }
