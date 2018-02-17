@@ -74,8 +74,8 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     }
     
     @Override
-    public boolean checkNewModule(String moduleCode) {
-        if(findModule(moduleCode) == null){
+    public boolean checkNewCourse(String moduleCode) {
+        if(findCourse(moduleCode) == null){
             return true;
         }
         return false;
@@ -133,17 +133,27 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     }
     
     @Override
-    public Module findModule(String moduleCode){
+    public Module findModule(String moduleCode, String takenYear, String takenSem){
         Module m = new Module();
         m = null;
+        Course c = new Course();
+        c = null;
+        Long courseId;
         try{
-            Query q = em.createQuery("SELECT m FROM Module m WHERE m.moduleCode=:moduleCode");
-            q.setParameter("moduleCode", moduleCode);
+            c = this.findCourse(moduleCode);
+            courseId = c.getId();
+            Query q = em.createQuery("SELECT m FROM SCHOOLMODULE m "
+                    + "WHERE m.COURSE_ID=:courseId AND m.TAKENYEAR=:takenYear "
+                    + "AND m.TAKENSEM=:takenSem");
+            q.setParameter("courseId", courseId);
+            q.setParameter("takenYear", takenYear);
+            q.setParameter("takenSem", takenSem);
             m = (Module) q.getSingleResult();
-            System.out.println("Module " + moduleCode + " found.");
+            System.out.println("Module: " + moduleCode + "with takenYear=" + 
+                    takenYear + ", takenSem= " + takenSem + " found.");
         }
         catch(NoResultException e){
-            System.out.println("Module " + moduleCode + " does not exist.");
+            System.out.println("Course " + moduleCode + " does not exist.");
             m = null;
         }
         return m;
@@ -166,7 +176,7 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         return c;
     }
 
-    @Override
+    /*@Override
     public String viewModule(String moduleCode) {
         String result;
         Module module = findModule(moduleCode);
@@ -187,7 +197,8 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
             return result;
         }
     }
-
+    */
+    
     @Override
     public boolean updateStudentEmail(String username, String email) {
         Query q = em.createQuery("SELECT s FROM Student s WHERE s.username = :username");
