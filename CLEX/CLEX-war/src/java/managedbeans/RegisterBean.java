@@ -55,6 +55,47 @@ public class RegisterBean implements Serializable{
         
     }
     
+    /*/My plan is to use register for user class and then use the other entities (Lecturer, student etc.)
+    for admin to approve/*/
+    public void register(){
+        FacesMessage fmsg = new FacesMessage();
+
+        if(csbl.checkNewUser(username) == true){
+            if(password.length()>=6&&!username.equals("")&&!email.equals("")){
+                csbl.createStudent(username, password, name, email, school, contactNum, genSalt(), 
+                 faculty, major, matricYear, matricSem, currentYear, cap);
+            }else{
+                //return error message
+            }
+        }
+        else{
+            //return error message
+        }
+    }
+    
+    private String genSalt(){
+        Random rng = new Random();
+        Integer gen = rng.nextInt(13371337);
+        String salt = gen.toString();
+        
+        return salt;
+    }
+    
+    public void submit(ActionEvent event){
+        System.err.println("RegisterBean.submit(): username: " + username);
+        System.err.println("RegisterBean.submit(): name: " + name);
+        System.err.println("RegisterBean.submit(): email: " + email);
+        System.err.println("RegisterBean.submit(): userType: " + userType);
+    }
+    
+//----------------------------------------------------------------
+    //For testing only
+    public void testRegister(){
+        if(csbl.checkNewUser("namename") == true){
+            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1","2017", 0.0);
+        }
+    }
+    
     public User getUserEntity() {
         return userEntity;
     }
@@ -119,44 +160,53 @@ public class RegisterBean implements Serializable{
         this.contactNum = contactNum;
     }
 
-    /*/My plan is to use register for user class and then use the other entities (Lecturer, student etc.)
-    for admin to approve/*/
-    public void register(){
-        FacesMessage fmsg = new FacesMessage();
+    public String getFaculty() {
+        return faculty;
+    }
 
-        if(csbl.checkNewUser(username) == true){
-            if(password.length()>=6&&!username.equals("")&&!email.equals("")){
-                csbl.createStudent(username, password, name, email, school, contactNum, genSalt(), 
-                 faculty, major, matricYear, matricSem, currentYear, cap);
-            }else{
-                //return error message
-            }
-        }
-        else{
-            //return error message
-        }
+    public void setFaculty(String faculty) {
+        this.faculty = faculty;
     }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
+    }
+
+    public String getMatricYear() {
+        return matricYear;
+    }
+
+    public void setMatricYear(String matricYear) {
+        this.matricYear = matricYear;
+    }
+
+    public String getMatricSem() {
+        return matricSem;
+    }
+
+    public void setMatricSem(String matricSem) {
+        this.matricSem = matricSem;
+    }
+
+    public String getCurrentYear() {
+        return currentYear;
+    }
+
+    public void setCurrentYear(String currentYear) {
+        this.currentYear = currentYear;
+    }
+
+    public double getCap() {
+        return cap;
+    }
+
+    public void setCap(double cap) {
+        this.cap = cap;
+    }
+
     
-    private String genSalt(){
-        Random rng = new Random();
-        Integer gen = rng.nextInt(13371337);
-        String salt = gen.toString();
-        
-        return salt;
-    }
-    
-    public void submit(ActionEvent event){
-        System.err.println("RegisterBean.submit(): username: " + username);
-        System.err.println("RegisterBean.submit(): name: " + name);
-        System.err.println("RegisterBean.submit(): email: " + email);
-        System.err.println("RegisterBean.submit(): userType: " + userType);
-    }
-    
-//----------------------------------------------------------------
-    //For testing only
-    public void testRegister(){
-        if(csbl.checkNewUser("namename") == true){
-            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1","2017", 0.0);
-        }
-    }
 }

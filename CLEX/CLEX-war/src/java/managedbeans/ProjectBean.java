@@ -31,5 +31,37 @@ public class ProjectBean {
     
     public ProjectBean() {
     }
+
+    public ClexSessionBeanLocal getCsbl() {
+        return csbl;
+    }
+
+    public void setCsbl(ClexSessionBeanLocal csbl) {
+        this.csbl = csbl;
+    }
+
+    public User getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(User userEntity) {
+        this.userEntity = userEntity;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
     
 }

@@ -61,5 +61,53 @@ public class StudyPlanBean {
         csbl.createCourse("IS4103", "capstone", "...", false, "2020", "2", "NUS");
         cpsbl.addStudyPlan("namename", "IS4103", "2018", "2");
     }
+
+    public StudyPlanSessionBeanLocal getCpsbl() {
+        return cpsbl;
+    }
+
+    public void setCpsbl(StudyPlanSessionBeanLocal cpsbl) {
+        this.cpsbl = cpsbl;
+    }
+
+    public ClexSessionBeanLocal getCsbl() {
+        return csbl;
+    }
+
+    public void setCsbl(ClexSessionBeanLocal csbl) {
+        this.csbl = csbl;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getModuleCode() {
+        return moduleCode;
+    }
+
+    public void setModuleCode(String moduleCode) {
+        this.moduleCode = moduleCode;
+    }
+
+    public String getPickYear() {
+        return pickYear;
+    }
+
+    public void setPickYear(String pickYear) {
+        this.pickYear = pickYear;
+    }
+
+    public String getPickSem() {
+        return pickSem;
+    }
+
+    public void setPickSem(String pickSem) {
+        this.pickSem = pickSem;
+    }
     
 }
