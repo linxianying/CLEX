@@ -13,11 +13,9 @@ import entity.Module;
 import entity.Student;
 import entity.Task;
 import entity.User;
-import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 import javax.ejb.Local;
-import org.json.JSONException;
 
 /**
  *
@@ -55,6 +53,8 @@ public interface ClexSessionBeanLocal {
     public Course findCourse(String moduleCode);
     public Task findTask(Long taskId);
 
-    void createCourse(String moduleCode, String moduleName, String moduleInfo ,boolean discontinuedBool,
+    public void createCourse(String moduleCode, String moduleName, String moduleInfo ,boolean discontinuedBool,
         String discountinuedYear, String discountinuedSem, String school);
+    public void apiTest(String url);
+    
 }
