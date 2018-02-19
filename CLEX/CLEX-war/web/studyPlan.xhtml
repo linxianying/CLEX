@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
     
     <h:head>
         <meta http-equiv="Content-Type" content="text/html;
@@ -13,7 +14,7 @@
     </h:head>
     <h:body>
         <div id="top" class="top">
-            <ui:insert name="top">Community Page</ui:insert>
+            <ui:insert name="top">Study Plan Page</ui:insert>
         </div>
         <div>
             <div id="left">
@@ -23,6 +24,7 @@
                 <a href="schedule.xhtml">Schedule</a><br />
                 <a href="studyPlan.xhtml">Study Plan</a><br />
                 <a href="project.xhtml">Project</a><br />
+                <a href="studentModule.xhtml">Module</a><br />
                 <a href="community.xhtml">Community</a><br />
             </div>
             <div id="content" class="left_content">
@@ -31,6 +33,35 @@
                 <h:form>
                     <h:commandButton value="TestStudyPlan" actionListener="#{studyPlanBean.testAddStudyPlan}" action="index?faces-redirect=true"/>
                 </h:form>
+                <div style="height:500px">
+                <h:form>
+                    <p:growl id="msgs" showDetail="true" />
+
+                    <p:dashboard id="board" model="#{studyPlanBean.model}">
+                        <p:ajax event="reorder" listener="#{studyPlanBean.handleReorder}" update="msgs" />
+
+                        <p:panel id="testMod1" header="IS3106">
+                            <h:outputText value="Enterprise Systems Interface Design and Development" />
+                        </p:panel>
+
+                        <p:panel id="testMod2" header="IS4103">
+                            <h:outputText value="FInformation Systems Capstone Project" />
+                        </p:panel>
+
+                        <p:panel id="testMod3" header="IS2101">
+                            <h:outputText value="Business and Technical Communication"  />
+                        </p:panel>
+
+                        <p:panel id="testMod4" header="IS4243">
+                            <h:outputText value="Information Systems Consulting" />
+                        </p:panel>
+                        <p:panel id="testMod5" header="IS4100">
+                            <h:outputText value="IT Project Management" />
+                        </p:panel>
+                    </p:dashboard>
+                    <div style="clear:both" />
+                </h:form>
+</div>
             </div>
         </div>
                 
