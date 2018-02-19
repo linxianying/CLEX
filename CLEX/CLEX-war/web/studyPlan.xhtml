@@ -31,7 +31,15 @@
                 <ui:insert name="content">Fill in here</ui:insert>
                 <br />
                 <h:form>
-                    <h:commandButton value="TestStudyPlan" actionListener="#{studyPlanBean.testAddStudyPlan}" action="index?faces-redirect=true"/>
+                    <h:commandButton value="TestAddStudyPlan" actionListener="#{studyPlanBean.testAddStudyPlan}" action="index?faces-redirect=true"/>
+                </h:form>
+                <br />
+                <h:form>
+                    <h:commandButton value="TestUpdateStudyPlan" actionListener="#{studyPlanBean.testUpdateStudyPlan}" action="index?faces-redirect=true"/>
+                </h:form>
+                <br />
+                <h:form>
+                    <h:commandButton value="TestRemoveStudyPlan" actionListener="#{studyPlanBean.testRemoveStudyPlan}" action="index?faces-redirect=true"/>
                 </h:form>
                 <div style="height:500px">
                     <h:form>

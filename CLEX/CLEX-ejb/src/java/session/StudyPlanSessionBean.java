@@ -104,20 +104,18 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         StudyPlan s = new StudyPlan();
         s = null;
         try {
-            Query q = em.createQuery("SELECT s FROM STUDYPLAN S WHERE "
-                    + "S.STUDENT_ID=:studentId AND S.COURSE_ID=:courseId");
+            Query q = em.createQuery("SELECT s FROM StudyPlan s WHERE s.student.id =:studentId AND s.course.id =:courseId");
             q.setParameter("studentId", studentId);
             q.setParameter("courseId", courseId);
             s = (StudyPlan)q.getSingleResult();
-            System.out.println("StudyPlan " + "with user:" + username + 
-                    ", course:" + moduleCode + " found.");
+            System.out.println("StudyPlan " + "with user:" + username + ", course:" + moduleCode + " found.");
         }
         catch (NoResultException e) {
             System.out.println("StudyPlanSessionBean: findStudyPlan method: No result");
             return false;
         }
         catch(Exception e){ 
-            System.out.println("StudyPlanSessionBean: findStudyPlan method:");
+            System.out.println("StudyPlanSessionBean: findStudyPlan method: exception");
             e.printStackTrace();
         }
         
@@ -135,6 +133,9 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     
     
     
+    
+    
+    //check whether it's in DB or not, if not create.
     @Override
     public void addStudyPlan(String username, String moduleCode, String pickYear, String pickSem) {
         //if the studyplan is not found

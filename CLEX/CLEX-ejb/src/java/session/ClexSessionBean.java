@@ -68,9 +68,11 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     
     @Override
     public void createCourse(String moduleCode, String moduleName, String moduleInfo ,boolean discontinuedBool,
-        String discountinuedYear, String discountinuedSem, String school) {
+        String discountinuedYear, String discountinuedSem, String offeredSem, String school) {
         courseEntity = new Course();
-        courseEntity.createCourse(moduleCode, moduleName, moduleInfo, discontinuedBool, discountinuedYear, discountinuedSem, school);
+        courseEntity.createCourse(moduleCode, moduleName, moduleInfo, 
+                discontinuedBool, discountinuedYear, discountinuedSem, 
+                offeredSem, school);
         em.persist(courseEntity);
         em.flush();
     }

@@ -119,15 +119,7 @@ public class StudyPlanBean {
         return salt;
     }
     
-    //-------------------------------------------------------------------------
-    //for test addStudyPlan, dont forget to create student and module before test
-    public void testAddStudyPlan(){
-        if(csbl.checkNewUser("namename") == true){
-            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1","2017", 0.0);
-        }
-        csbl.createCourse("IS4103", "capstone", "...", false, "2020", "2", "NUS");
-        cpsbl.addStudyPlan("namename", "IS4103", "2018", "2");
-    }
+   
 
     public StudyPlanSessionBeanLocal getCpsbl() {
         return cpsbl;
@@ -175,6 +167,24 @@ public class StudyPlanBean {
 
     public void setPickSem(String pickSem) {
         this.pickSem = pickSem;
+    }
+    
+    //-------------------------------------------------------------------------
+    //for test addStudyPlan, dont forget to create student and module before test
+    public void testAddStudyPlan(){
+        if(csbl.checkNewUser("namename") == true){
+            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1","2017", 0.0);
+        }
+        csbl.createCourse("IS4103", "capstone", "...", false, "2020", "2", "2", "NUS");
+        cpsbl.addStudyPlan("namename", "IS4103", "2018", "2");
+    }
+    
+    public void testUpdateStudyPlan() {
+        cpsbl.updateStudyPlan("namename", "IS4103", "2020", "1");
+    }
+    
+    public void testRemoveStudyPlan(){
+        cpsbl.removeStudyPlan("namename", "IS4103");
     }
     
 }
