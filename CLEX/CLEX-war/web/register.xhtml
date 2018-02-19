@@ -30,9 +30,8 @@
             <h:selectOneMenu id="userType" value="#{registerBean.userType}"> 
                 <f:selectItem itemValue = "1" itemLabel = "STUDENT" /> 
                 <f:selectItem itemValue = "2" itemLabel = "LECTURER" /> 
-                <f:selectItem itemValue = "3" itemLabel = "GUEST" />
             </h:selectOneMenu><br/>
-            <h:commandButton value="Submit" actionListener="#{registerBean.register}"/>
+            <h:commandButton value="Submit" actionListener="#{registerBean.register}" action="index?faces-redirect=true"/>
             
         </h:form>
             
@@ -40,13 +39,7 @@
         
         <!--For lazy people, please delete when not needed anymore-->
         <h:form>
-            <h:commandButton value="TestRegisterStudent" actionListener="#{registerBean.testRegisterStudent}"/>
-        </h:form>
-        <h:form>
-            <h:commandButton value="TestRegisterLecturer" actionListener="#{registerBean.testRegisterLecturer}"/>
-        </h:form>
-        <h:form>
-            <h:commandButton value="TestRegisterGuest" actionListener="#{registerBean.testRegisterGuest}"/>
+            <h:commandButton value="TestRegister" actionListener="#{registerBean.testRegister}" action="index?faces-redirect=true"/>
         </h:form>
           
     </h:body>
