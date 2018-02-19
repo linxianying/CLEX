@@ -23,5 +23,14 @@ public interface StudyPlanSessionBeanLocal {
     void findCourse(String moduleCode);
 
     void addStudyPlan(String username, String moduleCode, String pickYear, String pickSem);
+
+    boolean findStudyPlan(String username, String moduleCode);
+
+    void updateStudyPlan(String username, String moduleCode, String pickYear, String pickSem);
+
+    void changeStudyPlan();
+
+    void removeStudyPlan(String username, String moduleCode);
+
     
 }

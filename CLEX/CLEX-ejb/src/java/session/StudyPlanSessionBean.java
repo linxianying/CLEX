@@ -71,6 +71,7 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
             System.out.println("Student " + username + " does not exist.");
             u = null;
         }
+        this.username = username;
         this.student = u;
     }
 
@@ -88,17 +89,101 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
             System.out.println("Course " + moduleCode + " does not exist.");
             c = null;
         }
+        this.moduleCode = moduleCode;
         this.course = c;
+    }
+    
+    //find whether this studyplan exits, if not, set this.studyPlan to it
+    @Override
+    public boolean findStudyPlan(String username, String moduleCode) {
+        this.findStudent(username);
+        this.findCourse(moduleCode);
+        Long studentId = this.student.getId();
+        Long courseId = this.course.getId();
+        
+        StudyPlan s = new StudyPlan();
+        s = null;
+        try {
+            Query q = em.createQuery("SELECT s FROM STUDYPLAN S WHERE "
+                    + "S.STUDENT_ID=:studentId AND S.COURSE_ID=:courseId");
+            q.setParameter("studentId", studentId);
+            q.setParameter("courseId", courseId);
+            s = (StudyPlan)q.getSingleResult();
+            System.out.println("StudyPlan " + "with user:" + username + 
+                    ", course:" + moduleCode + " found.");
+        }
+        catch (NoResultException e) {
+            System.out.println("StudyPlanSessionBean: findStudyPlan method: No result");
+            return false;
+        }
+        catch(Exception e){ 
+            System.out.println("StudyPlanSessionBean: findStudyPlan method:");
+            e.printStackTrace();
+        }
+        
+        this.studyPlan = s;
+        return true;
+    }
+    
+    @Override
+    public void changeStudyPlan() {
+        this.studyPlan.setPickSem(this.pickSem);
+        this.studyPlan.setPickYear(this.pickYear);
+        em.persist(this.studyPlan);
+        em.flush();
+    }
+    
+    
+    
+    @Override
+    public void addStudyPlan(String username, String moduleCode, String pickYear, String pickSem) {
+        //if the studyplan is not found
+        if (!findStudyPlan(username, moduleCode)) {
+            this.pickSem = pickSem;
+            this.pickYear = pickYear;
+            this.createStudyPlan();
+        }
+        //if the studyPlan is in DB already
+        else {
+            System.out.println("StudyPlanSessionBean: addStudyPlan method: "
+                    + "studyplan with user:" + username + ", moduleCode:" 
+                    + moduleCode + "alrady exists");
+        }
+    }
+  
+    
+    @Override
+    public void updateStudyPlan(String username, String moduleCode, String pickYear, String pickSem) {
+        //if the studyplan is found
+        if (findStudyPlan(username, moduleCode)) {
+            this.pickSem = pickSem;
+            this.pickYear = pickYear;
+            this.changeStudyPlan();
+        }
+        //if the studyPlan is not in DB, create one
+        else {
+            addStudyPlan(username, moduleCode, pickYear, pickSem);
+        }
     }
 
     @Override
-    public void addStudyPlan(String username, String moduleCode, String pickYear, String pickSem) {
-        this.findStudent(username);
-        this.findCourse(moduleCode);
-        this.pickSem = pickSem;
-        this.pickYear = pickYear;
-        this.createStudyPlan();
+    public void removeStudyPlan(String username, String moduleCode) {
+        findStudyPlan(username, moduleCode);
+        em.remove(this.studyPlan);
+        em.flush();
     }
+
+    
+    
+    
+    
+    
+
+    
+
+    
+    
+    
     
     
     
