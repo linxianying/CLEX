@@ -57,18 +57,22 @@ public class StudyPlanBean {
         DashboardColumn column1 = new DefaultDashboardColumn();
         DashboardColumn column2 = new DefaultDashboardColumn();
         DashboardColumn column3 = new DefaultDashboardColumn();
+        DashboardColumn column4 = new DefaultDashboardColumn();
+        DashboardColumn column5 = new DefaultDashboardColumn();
+        DashboardColumn column6 = new DefaultDashboardColumn();
          
-        column1.addWidget("sports");
-        column1.addWidget("finance");
-         
-        column2.addWidget("lifestyle");
-        column2.addWidget("weather");
-         
-        column3.addWidget("politics");
+        column1.addWidget("testMod1");
+        column1.addWidget("testMod2");  
+        column2.addWidget("testMod3");
+        column2.addWidget("testMod4");
+        column3.addWidget("testMod5");
  
         model.addColumn(column1);
         model.addColumn(column2);
         model.addColumn(column3);
+        model.addColumn(column4);
+        model.addColumn(column5);
+        model.addColumn(column6);
     }
      
     public void handleReorder(DashboardReorderEvent event) {
