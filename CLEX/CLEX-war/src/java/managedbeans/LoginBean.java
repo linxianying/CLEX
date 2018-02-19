@@ -14,7 +14,7 @@ import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import session.ClexSessionBeanLocal;
 
@@ -22,7 +22,7 @@ import session.ClexSessionBeanLocal;
  *
  * @author eeren
  */
-@RequestScoped
+@SessionScoped
 @ManagedBean
 public class LoginBean implements Serializable{
     
@@ -72,48 +72,78 @@ public class LoginBean implements Serializable{
 
     public void doLogin() throws IOException{
         FacesMessage fmsg = new FacesMessage();
+        FacesContext context = FacesContext.getCurrentInstance();
         //Login based on usertype first, then check username, then password
         if(userType.equals("1")){ //Student
             userEntity = csbl.findStudent(username);
             if(userEntity == null){
                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + username + "' does not exists.", "");
-               FacesContext.getCurrentInstance().addMessage(null, fmsg);
+               context.getCurrentInstance().addMessage(null, fmsg);
             }
             else{
                 if(csbl.checkPassword(username, password)){
-                    FacesContext.getCurrentInstance().getExternalContext().redirect("studentMain.xhtml");
+                    context.getExternalContext().getSessionMap().put("user", userEntity);
+                    context.getExternalContext().getSessionMap().put("usertype", 1);
+                    context.getCurrentInstance().getExternalContext().redirect("studentMain.xhtml");
                 }
                 else{
                     fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect password.", "");
-                    FacesContext.getCurrentInstance().addMessage(null, fmsg);
+                    context.getCurrentInstance().addMessage(null, fmsg);
                 }
             }
         }
         else if(userType.equals("2")){ //Lecturer
             userEntity = csbl.findLecturer(username);
             if(userEntity == null){
-               
+               fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + username + "' does not exists.", "");
+               context.getCurrentInstance().addMessage(null, fmsg);
             }
             else{
-                
+                if(csbl.checkPassword(username, password)){
+                    context.getExternalContext().getSessionMap().put("user", userEntity);
+                    context.getExternalContext().getSessionMap().put("usertype", 2);
+                    context.getCurrentInstance().getExternalContext().redirect("lecturerMain.xhtml");
+                }
+                else{
+                    fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect password.", "");
+                    context.getCurrentInstance().addMessage(null, fmsg);
+                }
             }
         }
         else if(userType.equals("3")){ //Admin
             userEntity = csbl.findAdmin(username);
             if(userEntity == null){
-               
+               fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + username + "' does not exists.", "");
+               context.getCurrentInstance().addMessage(null, fmsg);
             }
             else{
-                
+                if(csbl.checkPassword(username, password)){
+                    context.getExternalContext().getSessionMap().put("user", userEntity);
+                    context.getExternalContext().getSessionMap().put("usertype", 2);
+                    context.getCurrentInstance().getExternalContext().redirect("adminMain.xhtml");
+                }
+                else{
+                    fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect password.", "");
+                    context.getCurrentInstance().addMessage(null, fmsg);
+                }
             }
         }
         else{ //Guest
             userEntity = csbl.findGuest(username);
             if(userEntity == null){
-               
+               fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + username + "' does not exists.", "");
+               context.getCurrentInstance().addMessage(null, fmsg);
             }
             else{
-                
+                if(csbl.checkPassword(username, password)){
+                    context.getExternalContext().getSessionMap().put("user", userEntity);
+                    context.getExternalContext().getSessionMap().put("usertype", 3);
+                    context.getCurrentInstance().getExternalContext().redirect("guestMain.xhtml");
+                }
+                else{
+                    fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect password.", "");
+                    context.getCurrentInstance().addMessage(null, fmsg);
+                }
             }
         }
     }

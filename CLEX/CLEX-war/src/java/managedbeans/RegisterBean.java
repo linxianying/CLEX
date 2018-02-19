@@ -2,10 +2,12 @@
 package managedbeans;
 
 import entity.User;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Random;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
@@ -53,6 +55,80 @@ public class RegisterBean implements Serializable{
     
     public RegisterBean(){
         
+    }
+    
+    /*/My plan is to use register for user class and then use the other entities (Lecturer, student etc.)
+    for admin to approve/*/
+    public void register(){
+        FacesMessage fmsg = new FacesMessage();
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        if(csbl.checkNewUser(username) == true){
+            if(password.length()>=6&&!username.equals("")&&!email.equals("")){
+                if(userType.equals("1")){ //Student
+                    csbl.createStudent(username, password, name, email, school, contactNum, genSalt(), 
+                    faculty, major, matricYear, matricSem, currentYear, cap);
+                }
+                else if(userType.equals("2")){ //Lecturer
+                    csbl.createLecturer(username, password, name, email, school, contactNum, genSalt(), 
+                    faculty);                    
+                }
+                else{ //Guest
+                    csbl.createGuest(username, password, name, email, school, contactNum, genSalt());                    
+                }
+            }
+        }
+        else{
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + username + "' already exists.", "");
+            context.getCurrentInstance().addMessage(null, fmsg);
+        }
+    }
+    
+    private String genSalt(){
+        Random rng = new Random();
+        Integer gen = rng.nextInt(13371337);
+        String salt = gen.toString();
+        
+        return salt;
+    }
+    
+    public void submit(ActionEvent event){
+        System.err.println("RegisterBean.submit(): username: " + username);
+        System.err.println("RegisterBean.submit(): name: " + name);
+        System.err.println("RegisterBean.submit(): email: " + email);
+        System.err.println("RegisterBean.submit(): userType: " + userType);
+    }
+    
+//----------------------------------------------------------------
+    //For testing only
+    public void testRegisterStudent() throws IOException{
+        if(csbl.checkNewUser("namename") == true){
+            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1","2017", 0.0);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+        }
+        else{
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "User 'namename' already exists.", ""));
+        }
+    }
+    
+    public void testRegisterLecturer() throws IOException{
+        if(csbl.checkNewUser("hsianghui") == true){
+            csbl.createLecturer("hsianghui", "123456", "LekHsiangHui", "email@email.com", "NUS", 12345678L, genSalt(), "soc");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+        }
+        else{
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "User 'hsianghui' already exists.", ""));
+        }
+    }
+    
+    public void testRegisterGuest() throws IOException{
+        if(csbl.checkNewUser("aguest") == true){
+            csbl.createGuest("aguest", "123456", "someguest", "email@email.com", "NUS", 12345678L, genSalt());
+            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+        }
+        else{
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "User 'aguest' already exists.", ""));
+        }
     }
     
     public User getUserEntity() {
@@ -119,44 +195,51 @@ public class RegisterBean implements Serializable{
         this.contactNum = contactNum;
     }
 
-    /*/My plan is to use register for user class and then use the other entities (Lecturer, student etc.)
-    for admin to approve/*/
-    public void register(){
-        FacesMessage fmsg = new FacesMessage();
+    public String getFaculty() {
+        return faculty;
+    }
 
-        if(csbl.checkNewUser(username) == true){
-            if(password.length()>=6&&!username.equals("")&&!email.equals("")){
-                csbl.createStudent(username, password, name, email, school, contactNum, genSalt(), 
-                 faculty, major, matricYear, matricSem, currentYear, cap);
-            }else{
-                //return error message
-            }
-        }
-        else{
-            //return error message
-        }
+    public void setFaculty(String faculty) {
+        this.faculty = faculty;
     }
-    
-    private String genSalt(){
-        Random rng = new Random();
-        Integer gen = rng.nextInt(13371337);
-        String salt = gen.toString();
-        
-        return salt;
+
+    public String getMajor() {
+        return major;
     }
-    
-    public void submit(ActionEvent event){
-        System.err.println("RegisterBean.submit(): username: " + username);
-        System.err.println("RegisterBean.submit(): name: " + name);
-        System.err.println("RegisterBean.submit(): email: " + email);
-        System.err.println("RegisterBean.submit(): userType: " + userType);
+
+    public void setMajor(String major) {
+        this.major = major;
     }
-    
-//----------------------------------------------------------------
-    //For testing only
-    public void testRegister(){
-        if(csbl.checkNewUser("namename") == true){
-            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1","2017", 0.0);
-        }
+
+    public String getMatricYear() {
+        return matricYear;
+    }
+
+    public void setMatricYear(String matricYear) {
+        this.matricYear = matricYear;
+    }
+
+    public String getMatricSem() {
+        return matricSem;
+    }
+
+    public void setMatricSem(String matricSem) {
+        this.matricSem = matricSem;
+    }
+
+    public String getCurrentYear() {
+        return currentYear;
+    }
+
+    public void setCurrentYear(String currentYear) {
+        this.currentYear = currentYear;
+    }
+
+    public double getCap() {
+        return cap;
+    }
+
+    public void setCap(double cap) {
+        this.cap = cap;
     }
 }
