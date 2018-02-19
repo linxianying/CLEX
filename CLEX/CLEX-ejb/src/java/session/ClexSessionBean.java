@@ -15,6 +15,7 @@ import entity.Task;
 import entity.User;
 import java.security.MessageDigest;
 import java.util.Collection;
+import java.util.Random;
 import java.util.Set;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -33,6 +34,8 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     EntityManager em;
     private User userEntity;
     private Student studentEntity;
+    private Lecturer lecturerEntity;
+    private Guest guestEntity;
     private Course courseEntity;
     
     @Override
@@ -42,6 +45,24 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         studentEntity.createStudent(username, hashPassword(password, salt), name, email, school, contactNum, salt,
                  faculty, major, matricYear, matricSem, currentYear, cap);
         em.persist(studentEntity);
+        em.flush();
+    }
+    
+    @Override
+    public void createLecturer(String username, String password, String name, String email, String school, Long contactNum, String salt, 
+                String faculty){
+        lecturerEntity = new Lecturer();
+        lecturerEntity.createLecturer(username, hashPassword(password, salt), name, email, school, contactNum, salt,
+                 faculty);
+        em.persist(lecturerEntity);
+        em.flush();
+    }
+    
+    @Override
+    public void createGuest(String username, String password, String name, String email, String school, Long contactNum, String salt){
+        guestEntity = new Guest();
+        guestEntity.createGuest(username, hashPassword(password, salt), name, email, school, contactNum, salt);
+        em.persist(guestEntity);
         em.flush();
     }
     
@@ -56,7 +77,7 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     
     @Override
     public boolean checkNewUser(String username) {
-        if(findStudent(username) == null&&findAdmin(username) == null&&findLecturer(username) == null){
+        if(findStudent(username) == null&&findAdmin(username) == null&&findLecturer(username) == null&&findGuest(username) == null){
             return true;
         }
         return false;
@@ -92,6 +113,21 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
             return true;
         }
         return false;
+    }
+    
+    @Override
+    public User findUser(String username){
+        try{
+            Query q = em.createQuery("SELECT u FROM BasicUser u WHERE u.username = :username");
+            q.setParameter("username", username);
+            userEntity = (User) q.getSingleResult();
+            System.out.println("User " + username + " found.");
+        }
+        catch(NoResultException e){
+            System.out.println("User " + username + " does not exist.");
+            userEntity = null;
+        }
+        return userEntity;
     }
     
     @Override
@@ -289,6 +325,32 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
             }
         }
         return false;
+    }
+    
+    @Override
+    public String resetPassword(String username){
+        String newPass = genPass();
+        if(checkNewUser(username)==true){
+            System.out.println("Error: This is a new user! Please register first!");
+        }else{
+            Query q = em.createQuery("SELECT u FROM BasicUser u WHERE u.username = :username");
+            q.setParameter("username", username);
+            userEntity = (User) q.getSingleResult();
+            userEntity.setPassword(hashPassword(newPass, userEntity.getSalt()));
+            System.out.println("Password of " + username + " is reset.");
+            em.merge(userEntity);
+            em.flush();
+            return newPass;
+        }
+        return null;
+    }
+    
+    private String genPass(){
+        Random rng = new Random();
+        Integer gen = rng.nextInt(31958201);
+        String newPass = gen.toString();
+        
+        return newPass;
     }
     
     private String hashPassword(String password, String salt){

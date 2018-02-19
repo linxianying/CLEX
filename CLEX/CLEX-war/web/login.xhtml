@@ -16,7 +16,7 @@
 
         <h:form>
             <h:outputLabel for="name">Username: </h:outputLabel>
-            <h:inputText id="username" value="#{loginBean.username}" /><br/>
+            <h:inputText id="username" value="#{loginBean.username}" required="true" requiredMessage="Please enter your username." /><br/>
             <h:outputLabel for="password">Password: </h:outputLabel>
             <h:inputText id="password" value="#{loginBean.password}" /><br/>
             <h:selectOneMenu id="userType" value="#{loginBean.userType}"> 
@@ -30,10 +30,24 @@
         </h:form>
             
         <br>--------------------------------------</br>
-
+        
+        <h:form>
+            <br>Forget your password? Enter your username to reset your password.</br>
+            <h:outputLabel for="name">Username: </h:outputLabel>
+            <h:inputText id="username" value="#{acctMgmtBean.username}" required="true" requiredMessage="Please enter your username." /><br/>
+            <h:commandButton value="Reset Password" actionListener="#{acctMgmtBean.resetPassword}"/>
+        </h:form>
+        
+        <br>--------------------------------------</br>
+        
         <br>For testing: do testRegister in register page first, </br>
         <br>or to register first using student identity</br>
-        <br>successful login requires User: namename, Password: 123456, Student</br>
+        <br>successful login requires</br>
+        <br>for Student: namename, Password: 123456, Student</br>
+        <br>for Lecturer: hsianghui, Password: 123456, Lecturer</br>
+        <br>for Guest: aguest, Password: 123456, Guest</br>
+        <br>Other inputs will fail</br>
+        <br>Note: if you want to test reset password, make sure the email you register is a real email</br>
     </h:body>
 
 </html>

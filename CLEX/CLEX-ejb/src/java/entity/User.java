@@ -38,6 +38,7 @@ public abstract class User implements Serializable{
     private Long contactNum;
     private String name;
     private String salt;
+    private boolean approval; //false - not approved, true - approved
 
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="user")
     private Collection<Thread> threads = new ArrayList<Thread>();
@@ -64,6 +65,7 @@ public abstract class User implements Serializable{
         this.password = password;
         this.email = email;
         this.salt = salt;
+        this.approval = false;
     }
     
     public static long getSerialVersionUID() {
@@ -164,6 +166,14 @@ public abstract class User implements Serializable{
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public boolean isApproval() {
+        return approval;
+    }
+
+    public void setApproval(boolean approval) {
+        this.approval = approval;
     }
 
     @Override
