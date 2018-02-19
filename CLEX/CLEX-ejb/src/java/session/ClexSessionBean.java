@@ -465,7 +465,7 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
             }
         }
         student.setCap((cap/num));
-        return (cap/num);
+        return (cap/num); 
     }
     
 }
