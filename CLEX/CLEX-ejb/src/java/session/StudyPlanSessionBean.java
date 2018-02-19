@@ -6,8 +6,10 @@
 package session;
 
 import entity.Course;
+import entity.Grade;
 import entity.Student;
 import entity.StudyPlan;
+import java.util.Collection;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -175,19 +177,57 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     }
 
     
+    private double capCulculator(Student student){
+        double cap = 0.0;
+        int num = 0;
+        Collection<Grade> grades = student.getGrades();
+        for (Grade grade : grades) {
+            String tempGrade = grade.getModuleGrade();
+            if(tempGrade.equals("A")||tempGrade.equals("A+")){
+                cap = cap + 5;
+                num++;
+            }else if(tempGrade.equals("A-")){
+                cap = cap + 4.5;
+                num++;
+            }else if(tempGrade.equals("B+")){
+                cap = cap + 4;
+                num++;
+            }else if(tempGrade.equals("B")){
+                cap = cap + 3.5;
+                num++;
+            }else if(tempGrade.equals("B-")){
+                cap = cap + 3;
+                num++;
+            }else if(tempGrade.equals("C+")){
+                cap = cap + 2.5;
+                num++;
+            }else if(tempGrade.equals("C")){
+                cap = cap + 2;
+                num++;
+            }else if(tempGrade.equals("C-")){
+                cap = cap + 1.5;
+                num++;
+            }else if(tempGrade.equals("D+")){
+                cap = cap + 1.0;
+                num++;
+            }else if(tempGrade.equals("D")){
+                cap = cap + 0.5;
+                num++;
+            }else{
+                num++;
+            }
+        }
+        student.setCap((cap/num));
+        return (cap/num); 
+    }
     
     
-    
-    
+    @Override
+    public void capCalculator(String username) {
+        findStudent(username);
+        double cap = capCulculator(this.student);
+        em.persist(this.student);
+        em.flush();
+    }
 
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
 }

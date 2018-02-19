@@ -16,21 +16,23 @@ import javax.ejb.Local;
 @Local
 public interface StudyPlanSessionBeanLocal {
 
-    void createStudyPlan();
+    public void createStudyPlan();
 
-    void findStudent(String username);
+    public void findStudent(String username);
 
-    void findCourse(String moduleCode);
+    public void findCourse(String moduleCode);
 
-    void addStudyPlan(String username, String moduleCode, String pickYear, String pickSem);
+    public void addStudyPlan(String username, String moduleCode, String pickYear, String pickSem);
 
-    boolean findStudyPlan(String username, String moduleCode);
+    public boolean findStudyPlan(String username, String moduleCode);
 
-    void updateStudyPlan(String username, String moduleCode, String pickYear, String pickSem);
+    public void updateStudyPlan(String username, String moduleCode, String pickYear, String pickSem);
 
-    void changeStudyPlan();
+    public void changeStudyPlan();
 
-    void removeStudyPlan(String username, String moduleCode);
+    public void removeStudyPlan(String username, String moduleCode);
+    
+    public void capCalculator(String username);
 
     
 }
