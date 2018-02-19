@@ -13,9 +13,11 @@ import entity.Module;
 import entity.Student;
 import entity.Task;
 import entity.User;
+import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 import javax.ejb.Local;
+import org.json.JSONException;
 
 /**
  *

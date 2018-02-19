@@ -13,6 +13,13 @@ import entity.Guest;
 import entity.Lecturer;
 import entity.Task;
 import entity.User;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.util.Collection;
 import java.util.Random;
@@ -22,6 +29,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -37,7 +46,7 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     private Lecturer lecturerEntity;
     private Guest guestEntity;
     private Course courseEntity;
-    
+
     @Override
     public void createStudent(String username, String password, String name, String email, String school, Long contactNum, String salt, 
                 String faculty, String major, String matricYear, String matricSem, String currentYear, double cap){
