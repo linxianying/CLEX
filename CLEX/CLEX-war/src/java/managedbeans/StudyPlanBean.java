@@ -127,6 +127,7 @@ public class StudyPlanBean {
         }
         csbl.createCourse("IS4103", "capstone", "...", false, "2020", "2", "NUS");
         cpsbl.addStudyPlan("namename", "IS4103", "2018", "2");
+        //csbl.apiTest("1");
     }
 
     public StudyPlanSessionBeanLocal getCpsbl() {

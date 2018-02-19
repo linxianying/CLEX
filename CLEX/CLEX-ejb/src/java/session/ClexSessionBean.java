@@ -13,24 +13,18 @@ import entity.Guest;
 import entity.Lecturer;
 import entity.Task;
 import entity.User;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.URL;
-import java.nio.charset.Charset;
 import java.security.MessageDigest;
-import java.util.Collection;
 import java.util.Random;
-import java.util.Set;
+import javaClass.JsonReader;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.json.JSONException;
-import org.json.JSONObject;
+
 
 /**
  *
@@ -55,6 +49,17 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
                  faculty, major, matricYear, matricSem, currentYear, cap);
         em.persist(studentEntity);
         em.flush();
+    }
+    
+    @Override
+    public void apiTest(String url){
+        
+        try{
+            JsonReader.test("http://api.nusmods.com/2015-2016/1/moduleList.json");
+        }
+        catch(Exception e){
+            System.out.println("there is exception");
+        }
     }
     
     @Override
