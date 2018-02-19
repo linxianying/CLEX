@@ -119,7 +119,6 @@ public class StudyPlanBean {
         return salt;
     }
     
-   
 
     public StudyPlanSessionBeanLocal getCpsbl() {
         return cpsbl;

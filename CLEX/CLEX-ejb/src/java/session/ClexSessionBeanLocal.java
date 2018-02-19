@@ -53,7 +53,11 @@ public interface ClexSessionBeanLocal {
     public Course findCourse(String moduleCode);
     public Task findTask(Long taskId);
 
-    void createCourse(String moduleCode, String moduleName, String moduleInfo ,
+
+    public void createCourse(String moduleCode, String moduleName, String moduleInfo ,
             boolean discontinuedBool, String discountinuedYear, 
             String discountinuedSem, String offeredSem, String school);
+
+    public void apiTest(String url);
+    
 }

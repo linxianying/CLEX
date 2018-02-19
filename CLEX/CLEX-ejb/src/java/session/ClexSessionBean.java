@@ -9,19 +9,23 @@ import entity.Admin;
 import entity.Student;
 import entity.Module;
 import entity.Course;
+import entity.Grade;
 import entity.Guest;
 import entity.Lecturer;
 import entity.Task;
 import entity.User;
 import java.security.MessageDigest;
+import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.Random;
-import java.util.Set;
+import javaClass.JsonReader;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
 
 /**
  *
@@ -38,6 +42,8 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     private Guest guestEntity;
     private Course courseEntity;
     
+    private DecimalFormat df = new DecimalFormat("#.##");
+
     @Override
     public void createStudent(String username, String password, String name, String email, String school, Long contactNum, String salt, 
                 String faculty, String major, String matricYear, String matricSem, String currentYear, double cap){
@@ -46,6 +52,17 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
                  faculty, major, matricYear, matricSem, currentYear, cap);
         em.persist(studentEntity);
         em.flush();
+    }
+    
+    @Override
+    public void apiTest(String url){
+        
+        try{
+            JsonReader.test("http://api.nusmods.com/2015-2016/1/moduleList.json");
+        }
+        catch(Exception e){
+            System.out.println("there is exception");
+        }
     }
     
     @Override
@@ -409,5 +426,48 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         return t;
     }
 
+    private double capCulculator(Student student){
+        double cap = 0.0;
+        int num = 0;
+        Collection<Grade> grades = student.getGrades();
+        for (Grade grade : grades) {
+            String tempGrade = grade.getModuleGrade();
+            if(tempGrade.equals("A")||tempGrade.equals("A+")){
+                cap = cap + 5;
+                num++;
+            }else if(tempGrade.equals("A-")){
+                cap = cap + 4.5;
+                num++;
+            }else if(tempGrade.equals("B+")){
+                cap = cap + 4;
+                num++;
+            }else if(tempGrade.equals("B")){
+                cap = cap + 3.5;
+                num++;
+            }else if(tempGrade.equals("B-")){
+                cap = cap + 3;
+                num++;
+            }else if(tempGrade.equals("C+")){
+                cap = cap + 2.5;
+                num++;
+            }else if(tempGrade.equals("C")){
+                cap = cap + 2;
+                num++;
+            }else if(tempGrade.equals("C-")){
+                cap = cap + 1.5;
+                num++;
+            }else if(tempGrade.equals("D+")){
+                cap = cap + 1.0;
+                num++;
+            }else if(tempGrade.equals("D")){
+                cap = cap + 0.5;
+                num++;
+            }else{
+                num++;
+            }
+        }
+        student.setCap((cap/num));
+        return (cap/num); 
+    }
     
 }
