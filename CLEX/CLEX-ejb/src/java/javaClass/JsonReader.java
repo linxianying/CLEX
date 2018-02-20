@@ -16,10 +16,8 @@ import java.util.Iterator;
 import org.json.JSONException;
 import org.json.JSONObject;
 import entity.Course;
-import javax.ejb.EJB;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import session.ClexSessionBeanLocal;
+
+import org.json.JSONArray;
 
 /**
  *
@@ -101,18 +99,32 @@ public class JsonReader {
     
     public static String getTimetable(String moduleCode){
         String timetable = "";
+        String[] arr;
         int index = 0;
         try {
             JSONObject json = readJsonFromUrl("http://api.nusmods.com/2017-2018/1/modules/" + moduleCode +".json");
-            if(json.has("Timetable"))
-                timetable = json.getString("Timetable");
+            JSONObject time = null;
+            if(json.has("Timetable")){
+                //json = json.getJSONObject("Timetable");
+                //JSONArray dataList = (JSONArray) json.get("Timetable");
+                //Object obj = dataList.get(index);
+                //json = (JSONObject) obj;
+                 JSONArray dataList = json.getJSONArray("Timetable");
+                //getJSONObject("Weektext")
+                while(true)
+                    if(dataList.getJSONObject(index)!=null){
+                        System.out.println("dataList"+index+":" + dataList.getJSONObject(index).toString());
+                        index++;
+                    }
+            } 
         } catch (Exception e) {
             System.out.println("Test method in JsonReader: Exception caught!");
             e.printStackTrace();
         }
-        System.out.println(timetable);
+        
         return timetable;
     }
+    
     public void main(String[] args){
     }
 
