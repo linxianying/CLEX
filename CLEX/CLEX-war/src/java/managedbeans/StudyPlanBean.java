@@ -175,8 +175,11 @@ public class StudyPlanBean {
     }
     
     public void testAddModuleFromNUSMods(){
-        csbl.apiTest(username);
-        
+        csbl.dragAllNusMods(username);
+    }
+    
+    public void getTimetable(){
+        csbl.getTimetable("IS4103");
     }
     
     public void testUpdateStudyPlan() {

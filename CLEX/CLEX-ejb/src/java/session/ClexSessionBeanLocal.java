@@ -58,7 +58,7 @@ public interface ClexSessionBeanLocal {
         String discountinuedYear, String discountinuedSem, String offeredSem, String school, String moduleCredit, String workload);
         
 
-    public void apiTest(String url);
-    public void persistCourse(Course course);
+    public void dragAllNusMods(String url);
+    public void getTimetable(String moduleCode);
     
 }

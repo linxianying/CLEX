@@ -54,10 +54,10 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     }
     
     @Override
-    public void apiTest(String url){
+    public void dragAllNusMods(String url){
         
         try{
-            String[][] arr = JsonReader.test("");
+            String[][] arr = JsonReader.dragAllNusMods("");
             int length = arr.length;
             //System.out.println("The length of the arr is"+length);
             int index = 0;
@@ -77,10 +77,12 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     }
     
     @Override
-    public void persistCourse(Course course){
-        em.persist(course);
-        em.flush();
+    public void getTimetable(String moduleCode){
+        //String timetable = JsonReader.getTimetable(moduleCode);
+        String timetable = JsonReader.getTimetable("IS4103");
+        System.out.println(timetable);
     }
+    
     @Override
     public void createLecturer(String username, String password, String name, String email, String school, Long contactNum, String salt, 
                 String faculty){

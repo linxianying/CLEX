@@ -48,7 +48,7 @@ public class JsonReader {
         }
     }
 
-    public static String[][] test(String url){
+    public static String[][] dragAllNusMods(String url){
         String[][] arr = new String[4000][5];
         int index = 0;
         try {
@@ -97,6 +97,21 @@ public class JsonReader {
         }
         //System.out.println(index);
         return arr;
+    }
+    
+    public static String getTimetable(String moduleCode){
+        String timetable = "";
+        int index = 0;
+        try {
+            JSONObject json = readJsonFromUrl("http://api.nusmods.com/2017-2018/1/modules/" + moduleCode +".json");
+            if(json.has("Timetable"))
+                timetable = json.getString("Timetable");
+        } catch (Exception e) {
+            System.out.println("Test method in JsonReader: Exception caught!");
+            e.printStackTrace();
+        }
+        System.out.println(timetable);
+        return timetable;
     }
     public void main(String[] args){
     }
