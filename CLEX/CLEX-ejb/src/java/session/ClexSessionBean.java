@@ -57,13 +57,26 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     public void apiTest(String url){
         
         try{
-            JsonReader.test(url);
+            String[][] arr = JsonReader.test("");
+            int length = arr.length;
+            //System.out.println("The length of the arr is"+length);
+            int index = 0;
+            while(index<3230){
+                createCourse(arr[index][0],arr[index][1],arr[index][2],false,"","","","NUS",arr[index][3],arr[index][4]);
+                index++;
+            }
+            //(moduleCode, moduleTitle, moduleInfo ,false,"","", "", "NUS",Integer.parseInt(moduleCredit),workload);
         }
         catch(Exception e){
             System.out.println("there is exception");
         }
     }
     
+    @Override
+    public void persistCourse(Course course){
+        em.persist(course);
+        em.flush();
+    }
     @Override
     public void createLecturer(String username, String password, String name, String email, String school, Long contactNum, String salt, 
                 String faculty){
@@ -84,13 +97,14 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     
     @Override
     public void createCourse(String moduleCode, String moduleName, String moduleInfo ,boolean discontinuedBool,
-        String discountinuedYear, String discountinuedSem, String offeredSem, String school) {
-        courseEntity = new Course();
-        courseEntity.createCourse(moduleCode, moduleName, moduleInfo, 
+        String discountinuedYear, String discountinuedSem, String offeredSem, String school, String moduleCredit, String workload) {
+        Course course = new Course();
+        course.createCourse(moduleCode, moduleName, moduleInfo, 
                 discontinuedBool, discountinuedYear, discountinuedSem, 
-                offeredSem, school);
-        em.persist(courseEntity);
+                offeredSem, school,moduleCredit, workload);
+        em.persist(course);
         em.flush();
+
     }
     
     @Override

@@ -54,10 +54,11 @@ public interface ClexSessionBeanLocal {
     public Task findTask(Long taskId);
 
 
-    public void createCourse(String moduleCode, String moduleName, String moduleInfo ,
-            boolean discontinuedBool, String discountinuedYear, 
-            String discountinuedSem, String offeredSem, String school);
+    public void createCourse(String moduleCode, String moduleName, String moduleInfo ,boolean discontinuedBool,
+        String discountinuedYear, String discountinuedSem, String offeredSem, String school, String moduleCredit, String workload);
+        
 
     public void apiTest(String url);
+    public void persistCourse(Course course);
     
 }

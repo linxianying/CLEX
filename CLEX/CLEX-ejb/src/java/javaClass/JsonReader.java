@@ -12,14 +12,21 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.Iterator;
 import org.json.JSONException;
 import org.json.JSONObject;
+import entity.Course;
+import javax.ejb.EJB;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import session.ClexSessionBeanLocal;
 
 /**
  *
  * @author lin
  */
 public class JsonReader {
+    
     private static String readAll(Reader rd) throws IOException {
         StringBuilder sb = new StringBuilder();
         int cp;
@@ -34,7 +41,6 @@ public class JsonReader {
         try {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
             String jsonText = readAll(rd);
-            //System.out.println(jsonText);
             JSONObject json = new JSONObject(jsonText);
             return json;
         } finally {
@@ -42,17 +48,57 @@ public class JsonReader {
         }
     }
 
-    public static void test(String url){
+    public static String[][] test(String url){
+        String[][] arr = new String[4000][5];
+        int index = 0;
         try {
-            JSONObject json = readJsonFromUrl("http://api.nusmods.com/2015-2016/1/moduleList.json");
-            System.out.println(json.toString());
-            //System.out.println(json.get("id"));
+            
+            JSONObject json = readJsonFromUrl("http://api.nusmods.com/2017-2018/1/moduleList.json");
+            //System.out.println(json.toString());
+            String moduleCode="";
+            String moduleTitle="";
+            String moduleInfo = "";
+            String workload="";
+            String tempUrl;
+            String moduleCredit="";
+            String prerequisite = "";
+            Iterator keys = json.keys();
+            while (keys.hasNext()) {
+                Object key = keys.next();
+                moduleCode = (String) key;
+                moduleTitle = json.getString(moduleCode);
+                tempUrl = "http://api.nusmods.com/2017-2018/1/modules/" + moduleCode +".json";
+                JSONObject newJson = readJsonFromUrl(tempUrl);
+                if(newJson.has("ModuleCredit"))
+                    moduleCredit = newJson.getString("ModuleCredit");
+                if(newJson.has("Prerequisite"))
+                    prerequisite = newJson.getString("Prerequisite");
+                if(newJson.has("ModuleDescription"))
+                    moduleInfo = newJson.getString("ModuleDescription");
+                if(newJson.has("ModuleDescription"))
+                    moduleInfo = newJson.getString("ModuleDescription");
+                //Course course = new Course();
+                //System.out.println("course created: " + course.getId());
+                //(moduleCode, moduleTitle, moduleInfo ,false,"","", "", "NUS",Integer.parseInt(moduleCredit),workload);
+                //System.out.println("course created: " + course.getId() + " and " +course.getSchool());
+                //em.flush();
+                //em.persist(course);
+                arr[index][0]=moduleCode;
+                arr[index][1]=moduleTitle;
+                arr[index][2]=moduleInfo;
+                arr[index][3]=moduleCredit;
+                arr[index][4]=workload;
+                index++;
+            }
+            
         } catch (Exception e) {
             System.out.println("Test method in JsonReader: Exception caught!");
             e.printStackTrace();
         }
+        //System.out.println(index);
+        return arr;
     }
-    public static void main(String[] args){
+    public void main(String[] args){
+    }
 
-    }
 }
