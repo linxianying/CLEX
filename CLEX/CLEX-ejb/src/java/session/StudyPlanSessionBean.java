@@ -7,8 +7,10 @@ package session;
 
 import entity.Course;
 import entity.Grade;
+import entity.Module;
 import entity.Student;
 import entity.StudyPlan;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -35,8 +37,9 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     private Student student;
     private Course course;
 
-    
-    
+    private ArrayList<Course> takenCourses;
+    private Collection<StudyPlan> studyPlans;
+    private double calculatedCap; 
     
     @Override
     public void createStudyPlan() {
@@ -134,8 +137,22 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     }
     
     
+    // find all courses taken by the user
+    @Override
+    public void getTakenModules() {
+        findStudent(this.username);
+        Collection<Module> modules = this.student.getModules();
+        for (Module m: modules) {
+            this.takenCourses.add(m.getCourse());
+        }
+    }
     
-    
+    // find all studyPlan the user has
+    @Override
+    public void getStudyPlan() {
+        findStudent(this.username);
+        this.studyPlans = this.student.getStudyPlan();
+    }
     
     //check whether it's in DB or not, if not create.
     @Override
@@ -229,5 +246,18 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         em.persist(this.student);
         em.flush();
     }
+
+    @Override
+    public void viewStudyPlan(String username) {
+        this.username = username;
+        this.getTakenModules();
+        this.getStudyPlan();
+    }
+
+    
+
+    
+    
+    
 
 }

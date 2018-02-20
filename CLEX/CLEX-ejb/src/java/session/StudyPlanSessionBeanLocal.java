@@ -34,5 +34,11 @@ public interface StudyPlanSessionBeanLocal {
     
     public void capCalculator(String username);
 
+    public void viewStudyPlan(String usrname);
+
+    void getTakenModules();
+
+    void getStudyPlan();
+
     
 }
