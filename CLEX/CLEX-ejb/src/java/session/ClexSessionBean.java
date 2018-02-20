@@ -19,7 +19,6 @@ import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.Random;
 import javaClass.JsonReader;
-
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -58,7 +57,7 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     public void apiTest(String url){
         
         try{
-            JsonReader.test("http://api.nusmods.com/2015-2016/1/moduleList.json");
+            JsonReader.test(url);
         }
         catch(Exception e){
             System.out.println("there is exception");

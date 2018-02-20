@@ -9,17 +9,13 @@ import entity.Course;
 import entity.Student;
 import java.util.Random;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import session.ClexSessionBeanLocal;
 import session.StudyPlanSessionBeanLocal;
-
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
- 
 import org.primefaces.event.CloseEvent;
 import org.primefaces.event.DashboardReorderEvent;
 import org.primefaces.event.ToggleEvent;
@@ -171,6 +167,7 @@ public class StudyPlanBean {
     //-------------------------------------------------------------------------
     //for test addStudyPlan, dont forget to create student and module before test
     public void testAddStudyPlan(){
+        //csbl.apiTest(username);
         if(csbl.checkNewUser("namename") == true){
             csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1","2017", 0.0);
         }

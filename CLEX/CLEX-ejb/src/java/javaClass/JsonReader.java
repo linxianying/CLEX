@@ -21,32 +21,37 @@ import org.json.JSONObject;
  */
 public class JsonReader {
     private static String readAll(Reader rd) throws IOException {
-    StringBuilder sb = new StringBuilder();
-    int cp;
-    while ((cp = rd.read()) != -1) {
-      sb.append((char) cp);
+        StringBuilder sb = new StringBuilder();
+        int cp;
+        while ((cp = rd.read()) != -1) {
+          sb.append((char) cp);
+        }
+        return sb.toString();
     }
-    return sb.toString();
-  }
 
-  public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
-    InputStream is = new URL(url).openStream();
-    try {
-      BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
-      String jsonText = readAll(rd);
-      JSONObject json = new JSONObject(jsonText);
-      return json;
-    } finally {
-      is.close();
+    public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
+        InputStream is = new URL(url).openStream();
+        try {
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+            String jsonText = readAll(rd);
+            JSONObject json = new JSONObject(jsonText);
+            return json;
+        } finally {
+            is.close();
+        }
     }
-  }
 
-  public static void test(String url) throws IOException, JSONException{
-    JSONObject json = readJsonFromUrl("http://api.nusmods.com/2015-2016/1/moduleList.json");
-    System.out.println(json.toString());
-    //System.out.println(json.get("id"));
-  }
-  public static void main(String[] args) throws IOException, JSONException {
-    
-  }
+    public static void test(String url){
+        try {
+            JSONObject json = readJsonFromUrl("http://api.nusmods.com/2015-2016/1/moduleList.json");
+            System.out.println(json.toString());
+            //System.out.println(json.get("id"));
+        } catch (Exception e) {
+            System.out.println("Test method in JsonReader: Exception caught!");
+            e.printStackTrace();
+        }
+    }
+    public static void main(String[] args){
+
+    }
 }
