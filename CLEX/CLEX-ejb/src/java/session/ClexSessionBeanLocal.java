@@ -57,7 +57,8 @@ public interface ClexSessionBeanLocal {
     public void createCourse(String moduleCode, String moduleName, String moduleInfo ,boolean discontinuedBool,
         String discountinuedYear, String discountinuedSem, String offeredSem, String school, String moduleCredit, String workload);
         
-
+    public void createTimeslot(String date, String timeFrom, String timeEnd, String title, String details, String venue);
+    public void createTask(String date, String deadline, String title,String details, String status);
     public void dragAllNusMods(String url);
     public void getTimetable(String moduleCode);
     

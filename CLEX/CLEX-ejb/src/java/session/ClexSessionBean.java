@@ -13,6 +13,7 @@ import entity.Grade;
 import entity.Guest;
 import entity.Lecturer;
 import entity.Task;
+import entity.Timeslot;
 import entity.User;
 import java.security.MessageDigest;
 import java.text.DecimalFormat;
@@ -40,6 +41,8 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     private Lecturer lecturerEntity;
     private Guest guestEntity;
     private Course courseEntity;
+    private Timeslot timeslotEntity;
+    private Task taskEntity;
     
     private DecimalFormat df = new DecimalFormat("#.##");
 
@@ -51,6 +54,24 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
                  faculty, major, matricYear, matricSem, currentYear, cap);
         em.persist(studentEntity);
         em.flush();
+    }
+    
+    @Override
+    public void createTimeslot(String date, String timeFrom, String timeEnd, 
+                String title, String details, String venue){
+        timeslotEntity = new Timeslot();
+        timeslotEntity.createTimeslot(date, timeFrom, timeEnd,title, details, venue);
+        em.persist(timeslotEntity);
+        em.flush();
+    }
+    
+    @Override
+    public void createTask(String date, String deadline, String title,String details, String status){
+        taskEntity = new Task();
+        taskEntity.createTask(date, deadline, title, details, status);
+        em.persist(taskEntity);
+        em.flush();
+    
     }
     
     @Override
