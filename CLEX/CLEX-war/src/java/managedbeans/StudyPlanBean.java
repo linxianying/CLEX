@@ -166,13 +166,17 @@ public class StudyPlanBean {
     
     //-------------------------------------------------------------------------
     //for test addStudyPlan, dont forget to create student and module before test
+   
     public void testAddStudyPlan(){
+        if(csbl.checkNewUser("namename") == true){
+            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1","2017", 0.0);
+        }
+        cpsbl.addStudyPlan("namename", "IS4103", "2018", "2");
+    }
+    
+    public void testAddModuleFromNUSMods(){
         csbl.apiTest(username);
-        //if(csbl.checkNewUser("namename") == true){
-        //    csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1","2017", 0.0);
-        //}
-        //csbl.createCourse("IS4103", "capstone", "...", false, "2020", "2", "2", "NUS");
-        //cpsbl.addStudyPlan("namename", "IS4103", "2018", "2");
+        
     }
     
     public void testUpdateStudyPlan() {
