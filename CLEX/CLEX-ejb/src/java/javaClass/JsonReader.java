@@ -75,8 +75,8 @@ public class JsonReader {
                     prerequisite = newJson.getString("Prerequisite");
                 if(newJson.has("ModuleDescription"))
                     moduleInfo = newJson.getString("ModuleDescription");
-                if(newJson.has("ModuleDescription"))
-                    moduleInfo = newJson.getString("ModuleDescription");
+                if(newJson.has("Workload"))
+                    workload = newJson.getString("Workload");
                 //Course course = new Course();
                 //System.out.println("course created: " + course.getId());
                 //(moduleCode, moduleTitle, moduleInfo ,false,"","", "", "NUS",Integer.parseInt(moduleCredit),workload);
