@@ -22,10 +22,12 @@ import javax.persistence.OneToMany;
 @Entity
 public class Course implements Serializable {
     private static final long serialVersionUID = 1L;
-   
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    
     @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
+    
+    
     private String moduleCode;
     private String moduleName;
     private String moduleInfo;
