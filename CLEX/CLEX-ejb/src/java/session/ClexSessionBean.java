@@ -62,8 +62,11 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
             //System.out.println("The length of the arr is"+length);
             int index = 0;
             while(index<3432){
-                System.out.println(arr[index][0]+"  "+arr[index][1]+"  "+arr[index][2]+"  "+arr[index][3] +"  "+arr[index][4]);
-                createCourse(arr[index][0],arr[index][1],arr[index][1],false,"","","","NUS",arr[index][3],arr[index][4]);
+                //System.out.println(arr[index][0]+"  "+arr[index][1]+"  "+arr[index][2]+"  "+arr[index][3] +"  "+arr[index][4]);
+                if(arr[index][2].length()>1000){
+                    arr[index][2] = arr[index][1];
+                }
+                createCourse(arr[index][0],arr[index][1],arr[index][2],false,"","","","NUS",arr[index][3],arr[index][4]);
                 index++;
             }
             //(moduleCode, moduleTitle, moduleInfo ,false,"","", "", "NUS",Integer.parseInt(moduleCredit),workload);

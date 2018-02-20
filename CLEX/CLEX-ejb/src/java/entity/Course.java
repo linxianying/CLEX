@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,6 +31,8 @@ public class Course implements Serializable {
     
     private String moduleCode;
     private String moduleName;
+    
+    @Column(length=2048)
     private String moduleInfo;
     private boolean discontinuedBool;
     private String discountinuedYear;
