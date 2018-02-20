@@ -12,9 +12,9 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
-
 import org.json.JSONException;
 import org.json.JSONObject;
+
 /**
  *
  * @author lin
@@ -34,6 +34,7 @@ public class JsonReader {
         try {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
             String jsonText = readAll(rd);
+            //System.out.println(jsonText);
             JSONObject json = new JSONObject(jsonText);
             return json;
         } finally {
