@@ -10,8 +10,11 @@ import entity.Student;
 import entity.Module;
 import entity.Course;
 import entity.Grade;
+import entity.GroupTask;
 import entity.Guest;
 import entity.Lecturer;
+import entity.ProjectGroup;
+import entity.SuperGroup;
 import entity.Task;
 import entity.Timeslot;
 import entity.User;
@@ -43,6 +46,9 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     private Course courseEntity;
     private Timeslot timeslotEntity;
     private Task taskEntity;
+    private GroupTask groupTaskEntity;
+    private ProjectGroup projectGroupEntity;
+    private SuperGroup superGroupEntity;
     
     private DecimalFormat df = new DecimalFormat("#.##");
 
@@ -72,6 +78,31 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         em.persist(taskEntity);
         em.flush();
     
+    }
+    
+    @Override
+    public void createGroupTask(String date, String deadline, String title,
+            String details, String status, ProjectGroup pojectGroup){
+        groupTaskEntity = new GroupTask();
+        groupTaskEntity.createGroupTask(date, deadline, title,details, status, pojectGroup);
+        em.persist(groupTaskEntity);
+        em.flush();
+    }
+    
+    @Override
+    public void createSuperGroup(int numOfGroups, int minStudentNum, int maxStudentNum, Module module){
+        superGroupEntity = new SuperGroup();
+        superGroupEntity.createSuperGroup(numOfGroups, minStudentNum, maxStudentNum, module);
+        em.persist(superGroupEntity);
+        em.flush();
+    }
+    
+    @Override
+    public void createProjectGroup(SuperGroup superGroup, double cost){
+        projectGroupEntity = new ProjectGroup();
+        projectGroupEntity.createProjectGroup(superGroup, cost);
+        em.persist(projectGroupEntity);
+        em.flush();
     }
     
     @Override

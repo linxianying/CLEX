@@ -10,7 +10,9 @@ import entity.Course;
 import entity.Guest;
 import entity.Lecturer;
 import entity.Module;
+import entity.ProjectGroup;
 import entity.Student;
+import entity.SuperGroup;
 import entity.Task;
 import entity.User;
 import java.util.List;
@@ -61,5 +63,9 @@ public interface ClexSessionBeanLocal {
     public void createTask(String date, String deadline, String title,String details, String status);
     public void dragAllNusMods(String url);
     public void getTimetable(String moduleCode);
+    public void createGroupTask(String date, String deadline, String title,
+            String details, String status, ProjectGroup pojectGroup);
+    public void createSuperGroup(int numOfGroups, int minStudentNum, int maxStudentNum, Module module);
+    public void createProjectGroup(SuperGroup superGroup, double cost);
     
 }
