@@ -32,7 +32,7 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     private String pickSem;
     private String username;
     private String moduleCode;
-    
+    private Module module;
     private StudyPlan studyPlan;
     private Student student;
     private Course course;
@@ -102,6 +102,29 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         return course;
     }
     
+    @Override
+    public Module findModule(String takenYear, String takenSem, String moduleCode) {
+        Module m = new Module();
+        m = null;
+        try{
+            Query q = em.createQuery("SELECT m FROM SchoolModule m WHERE "
+                    + "m.takenYear:=takenYear AND m.takenSem:=takenSem AND "
+                    + "m.course.moduleCode:=moduleCode");
+            q.setParameter("takenYear", takenYear);
+            q.setParameter("takenSem", takenSem);
+            q.setParameter("moduleCode", moduleCode);
+            m = (Module) q.getSingleResult();
+            System.out.println("Module " + moduleCode + ", takenYear="+takenYear+
+                    ", takenSem=" + takenSem +" found.");
+        }
+        catch(NoResultException e){
+            System.out.println("Course " + moduleCode + " does not exist.");
+            m = null;
+        }
+        return m;
+    }
+    
+    
     //find whether this studyplan exits, if not, set this.studyPlan to it
     @Override
     public boolean findStudyPlan(String username, String moduleCode) {
@@ -143,7 +166,7 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     
     // find all courses taken by the user
     @Override
-    public ArrayList<Course> getTakenModules() {
+    public ArrayList<Course> getTakenModules(String username) {
         findStudent(this.username);
         Collection<Module> modules = this.student.getModules();
         for (Module m: modules) {
@@ -256,10 +279,22 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     @Override
     public void viewStudyPlan(String username) {
         this.username = username;
-        this.getTakenModules();
+        this.getTakenModules(username);
         this.getAllStudyPlans();
     }
 
+    @Override
+    public void setStudentTakenModules(String username, String moduleCode, String takenYear, String takenSem) {
+        student = this.findStudent(username);
+        module = this.findModule(takenYear, takenSem, moduleCode);
+        student.getModules().add(module);
+        em.persist(student);
+    }
+    
+    
+    //-------------------------------------------------------------------------
+    //for test urpose only
+    
     
     //just to randomly create a list of courses, should call gettakenCourses instead
     @Override
@@ -274,6 +309,15 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         return courses;
     }
     
+    
+
+    @Override
+    public void testAddTakenModules() {
+        
+    }
+
+   
+
     
 
     

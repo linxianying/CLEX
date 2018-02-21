@@ -33,7 +33,6 @@ public class Module implements Serializable {
     private String takenSem;
     private String prerequisite;
     private String preclusions;
-    
 
     
     @OneToOne(cascade={CascadeType.ALL})
@@ -55,7 +54,7 @@ public class Module implements Serializable {
     @OneToMany(cascade={CascadeType.ALL})  
     private Collection<Poll> polls = new ArrayList<Poll>();
     
-    public void createModule(int workload, String takenYear, 
+    public void createModule(String takenYear, 
                 String takenSem,String prerequisite, String preclusions, Course course){
         this.takenSem = takenSem;
         this.takenYear = takenYear;

@@ -39,11 +39,17 @@ public interface StudyPlanSessionBeanLocal {
 
     public void viewStudyPlan(String usrname);
 
-    public ArrayList<Course> getTakenModules();
+    public ArrayList<Course> getTakenModules(String username);
 
     public Collection<StudyPlan> getAllStudyPlans();
 
     ArrayList<Course> testViewTakenModules();
+
+    void testAddTakenModules();
+
+    public Module findModule(String takenYear, String takenSem, String moduleCode);
+
+    void setStudentTakenModules(String username, String moduleCode, String takenYear, String takenSem);
 
     
 }
