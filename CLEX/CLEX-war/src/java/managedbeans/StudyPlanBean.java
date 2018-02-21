@@ -7,6 +7,9 @@ package managedbeans;
 
 import entity.Course;
 import entity.Student;
+import entity.StudyPlan;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Random;
 import javax.ejb.EJB;
 import javax.faces.bean.RequestScoped;
@@ -28,7 +31,7 @@ import org.primefaces.model.DefaultDashboardModel;
  *
  * @author caoyu
  */
-@ManagedBean
+@ManagedBean(name="studyPlanBean")
 @RequestScoped
 public class StudyPlanBean {
     
@@ -41,11 +44,19 @@ public class StudyPlanBean {
     private String moduleCode;
     private String pickYear;
     private String pickSem;
+    private ArrayList<Course> takenCourses;
+    private Collection<StudyPlan> studyPlans;
+    private double calculatedCap; 
     
-    //private Student student;
+    private Student student;
     //private Course course;
     
     private DashboardModel model;
+    
+    public StudyPlanBean() {
+        //for test purpose only
+        this.username="namename";
+    }
      
     @PostConstruct
     public void init() {
@@ -99,9 +110,7 @@ public class StudyPlanBean {
         return model;
     }
     
-    public StudyPlanBean() {
-    }
-    
+
     public void addStudyPlan() {
         cpsbl.addStudyPlan(username, moduleCode, pickYear, pickSem);
         
