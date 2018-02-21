@@ -16,9 +16,9 @@
 
         <h:form>
             <h:outputLabel for="name">Username: </h:outputLabel>
-            <h:inputText id="username" value="#{loginBean.username}" required="true" requiredMessage="Please enter your username." /><br/>
+            <p:inputText id="username" value="#{loginBean.username}" required="true" requiredMessage="Please enter your username." /><br/>
             <h:outputLabel for="password">Password: </h:outputLabel>
-            <h:inputText id="password" value="#{loginBean.password}" /><br/>
+            <p:password id="password" value="#{loginBean.password}" /><br/>
             <h:selectOneMenu id="userType" value="#{loginBean.userType}"> 
                 <f:selectItem itemValue = "1" itemLabel = "STUDENT" /> 
                 <f:selectItem itemValue = "2" itemLabel = "LECTURER" /> 
