@@ -40,6 +40,8 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     private ArrayList<Course> takenCourses;
     private Collection<StudyPlan> studyPlans;
     private double calculatedCap; 
+
+
     
     @Override
     public void createStudyPlan() {
@@ -63,7 +65,7 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     
     
     @Override
-    public void findStudent(String username) {
+    public Student findStudent(String username) {
         Student u = new Student();
         u = null;
         try{
@@ -78,10 +80,11 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         }
         this.username = username;
         this.student = u;
+        return student;
     }
 
     @Override
-    public void findCourse(String moduleCode) {
+    public Course findCourse(String moduleCode) {
         Course c = new Course();
         c = null;
         try{
@@ -96,6 +99,7 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         }
         this.moduleCode = moduleCode;
         this.course = c;
+        return course;
     }
     
     //find whether this studyplan exits, if not, set this.studyPlan to it
@@ -139,19 +143,21 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     
     // find all courses taken by the user
     @Override
-    public void getTakenModules() {
+    public ArrayList<Course> getTakenModules() {
         findStudent(this.username);
         Collection<Module> modules = this.student.getModules();
         for (Module m: modules) {
             this.takenCourses.add(m.getCourse());
         }
+        return takenCourses;
     }
     
     // find all studyPlan the user has
     @Override
-    public void getStudyPlan() {
+    public Collection<StudyPlan> getAllStudyPlans() {
         findStudent(this.username);
         this.studyPlans = this.student.getStudyPlan();
+        return studyPlans;
     }
     
     //check whether it's in DB or not, if not create.
@@ -251,8 +257,24 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     public void viewStudyPlan(String username) {
         this.username = username;
         this.getTakenModules();
-        this.getStudyPlan();
+        this.getAllStudyPlans();
     }
+
+    
+    //just to randomly create a list of courses, should call gettakenCourses instead
+    @Override
+    public ArrayList<Course> testViewTakenModules() {
+        ArrayList<Course> courses = new ArrayList<Course>();
+        courses.add(this.findCourse("IS3106"));
+        courses.add(this.findCourse("IS2103"));
+        courses.add(this.findCourse("IS4100"));
+        courses.add(this.findCourse("IS2102"));
+        System.out.println(courses);
+        System.out.println("sp session bean: testViewTakenModules finish ");
+        return courses;
+    }
+    
+    
 
     
 

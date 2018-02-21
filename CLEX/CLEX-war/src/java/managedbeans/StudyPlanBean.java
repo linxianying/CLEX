@@ -18,6 +18,7 @@ import session.StudyPlanSessionBeanLocal;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.event.CloseEvent;
 import org.primefaces.event.DashboardReorderEvent;
@@ -32,7 +33,7 @@ import org.primefaces.model.DefaultDashboardModel;
  * @author caoyu
  */
 @ManagedBean(name="studyPlanBean")
-@RequestScoped
+@SessionScoped
 public class StudyPlanBean {
     
     @EJB
@@ -165,9 +166,10 @@ public class StudyPlanBean {
         return studyPlans;
     }
 
-    public void setStudyPlans(Collection<StudyPlan> studyPlans) {
+    public void setStudyPlans(ArrayList<StudyPlan> studyPlans) {
         this.studyPlans = studyPlans;
     }
+
 
     public double getCalculatedCap() {
         return calculatedCap;
@@ -251,4 +253,11 @@ public class StudyPlanBean {
         cpsbl.removeStudyPlan("namename", "IS4103");
     }
     
+    public String testViewTakenCourses() {
+        this.takenCourses = cpsbl.testViewTakenModules();
+        System.out.println(takenCourses);
+        System.out.println("sp bean: testViewTakenCourses finish ");
+        //this.studyPlans = cpsbl.getAllStudyPlans();
+        return "studyPlan";
+    }
 }

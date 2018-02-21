@@ -7,6 +7,9 @@ package session;
 
 import entity.Course;
 import entity.Student;
+import entity.StudyPlan;
+import java.util.ArrayList;
+import java.util.Collection;
 import javax.ejb.Local;
 
 /**
@@ -18,9 +21,9 @@ public interface StudyPlanSessionBeanLocal {
 
     public void createStudyPlan();
 
-    public void findStudent(String username);
+    public Student findStudent(String username);
 
-    public void findCourse(String moduleCode);
+    public Course findCourse(String moduleCode);
 
     public void addStudyPlan(String username, String moduleCode, String pickYear, String pickSem);
 
@@ -36,9 +39,11 @@ public interface StudyPlanSessionBeanLocal {
 
     public void viewStudyPlan(String usrname);
 
-    void getTakenModules();
+    public ArrayList<Course> getTakenModules();
 
-    void getStudyPlan();
+    public Collection<StudyPlan> getAllStudyPlans();
+
+    ArrayList<Course> testViewTakenModules();
 
     
 }
