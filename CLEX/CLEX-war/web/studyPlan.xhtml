@@ -1,18 +1,14 @@
-<?xml version='1.0' encoding='UTF-8' ?> 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                template="./layout/studentLayout.xhtml"
-                xmlns:p="http://primefaces.org/ui"
-                xmlns:f="http://xmlns.jcp.org/jsf/core">
+<?xml version='1.0' encoding='UTF-8' ?>
 
-    <ui:define name="content">        
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html" template="./layout/studentLayout.xhtml" xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
         <h:head>
             <meta http-equiv="Content-Type" content="text/html;
             charset=UTF-8" />
-            <h:outputStylesheet name="./css/default.css"/>
-            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <h:outputStylesheet name="./css/default.css" />
+            <h:outputStylesheet name="./css/cssLayout.css" />
             <title>Study Plan Page</title>
         </h:head>
         <h:body>
@@ -20,18 +16,9 @@
                 <ui:insert name="top">Study Plan Page</ui:insert>
             </div>
             <div>
-                <div id="left">
-                    <ui:insert name="left">Insert this</ui:insert>
-                    <br />
-                    <a href="studentMain.xhtml">Dashboard</a><br />
-                    <a href="schedule.xhtml">Schedule</a><br />
-                    <a href="studyPlan.xhtml">Study Plan</a><br />
-                    <a href="project.xhtml">Project</a><br />
-                    <a href="studentModule.xhtml">Module</a><br />
-                    <a href="community.xhtml">Community</a><br />
-                </div>
+
                 <div id="content" class="left_content">
-                    <h:form>     
+                    <h:form>
                         <p:growl id="messages" showDetail="true" />
                         <p:toolbar>
                             <f:facet name="left">
@@ -61,61 +48,61 @@
                     </h:form>
                     <br />
                     <h:form>
-                        <h:commandButton value="TestAddModuleFromNUSMods" actionListener="#{studyPlanBean.testAddModuleFromNUSMods}" action="studyPlan?faces-redirect=true"/>
+                        <h:commandButton value="TestAddModuleFromNUSMods" actionListener="#{studyPlanBean.testAddModuleFromNUSMods}" action="studyPlan?faces-redirect=true" />
                     </h:form>
                     <br />
                     <h:form>
-                        <h:commandButton value="TestGetTimetable" actionListener="#{studyPlanBean.getTimetable}" action="studyPlan?faces-redirect=true"/>
+                        <h:commandButton value="TestGetTimetable" actionListener="#{studyPlanBean.getTimetable}" action="studyPlan?faces-redirect=true" />
                     </h:form>
                     <br />
                     <h:form>
-                        <h:commandButton value="TestAddStudyPlan" actionListener="#{studyPlanBean.testAddStudyPlan}" action="studyPlan?faces-redirect=true"/>
+                        <h:commandButton value="TestAddStudyPlan" actionListener="#{studyPlanBean.testAddStudyPlan}" action="studyPlan?faces-redirect=true" />
                     </h:form>
                     <br />
                     <h:form>
-                        <h:commandButton value="TestUpdateStudyPlan" actionListener="#{studyPlanBean.testUpdateStudyPlan}" action="studyPlan?faces-redirect=true"/>
+                        <h:commandButton value="TestUpdateStudyPlan" actionListener="#{studyPlanBean.testUpdateStudyPlan}" action="studyPlan?faces-redirect=true" />
                     </h:form>
                     <br />
                     <h:form>
-                        <h:commandButton value="TestRemoveStudyPlan" actionListener="#{studyPlanBean.testRemoveStudyPlan}" action="studyPlan?faces-redirect=true"/>
+                        <h:commandButton value="TestRemoveStudyPlan" actionListener="#{studyPlanBean.testRemoveStudyPlan}" action="studyPlan?faces-redirect=true" />
                     </h:form>
                     <br />
                     <h:form>
-                        <h:commandButton value="testViewTakenCourses" actionListener="#{studyPlanBean.testViewTakenCourses}" action="studyPlan?faces-redirect=true"/>
+                        <h:commandButton value="testViewTakenCourses" actionListener="#{studyPlanBean.testViewTakenCourses}" action="studyPlan?faces-redirect=true" />
                     </h:form>
                     <br />
-                    <p:dataTable var= "course" value="#{studyPlanBean.takenCourses}">
+                    <p:dataTable var="course" value="#{studyPlanBean.takenCourses}">
                         <p:column headerText="try">
                             <p:column>
-                                <h:outputText value = "#{course.moduleCode}"/>
-                                <h:outputText value = "  "/>
-                                <h:outputText value = "#{course.moduleName}"/>
+                                <h:outputText value="#{course.moduleCode}" />
+                                <h:outputText value="  " />
+                                <h:outputText value="#{course.moduleName}" />
                             </p:column>
                             <br />
                             <p:column>
-                                <h:outputText value= "credits:"/>
-                                <h:outputText value = "#{course.modularCredits}"/>
+                                <h:outputText value="credits:" />
+                                <h:outputText value="#{course.modularCredits}" />
                             </p:column>
-                        </p:column>  
+                        </p:column>
                     </p:dataTable>
                     <div style="height:500px">
                         <h:form>
                             <p:growl id="msgs" showDetail="true" />
                             <p:dashboard id="board" model="#{studyPlanBean.model}">
                                 <p:ajax event="reorder" listener="#{studyPlanBean.handleReorder}" update="msgs" />
-    <!-->>>>>>> master-->
+                                <!-->>>>>>> master-->
 
-                            <p:panel id="testMod1" header="IS3106">
-                                <h:outputText value="Enterprise Systems Interface Design and Development" />
-                            </p:panel>
+                                <p:panel id="testMod1" header="IS3106">
+                                    <h:outputText value="Enterprise Systems Interface Design and Development" />
+                                </p:panel>
 
-                            <p:panel id="testMod2" header="IS4103">
-                                <h:outputText value="FInformation Systems Capstone Project" />
-                            </p:panel>
+                                <p:panel id="testMod2" header="IS4103">
+                                    <h:outputText value="FInformation Systems Capstone Project" />
+                                </p:panel>
 
-                            <p:panel id="testMod3" header="IS2101">
-                                <h:outputText value="Business and Technical Communication"  />
-                            </p:panel>
+                                <p:panel id="testMod3" header="IS2101">
+                                    <h:outputText value="Business and Technical Communication" />
+                                </p:panel>
                                 <p:panel id="testMod4" header="IS4243">
                                     <h:outputText value="Information Systems Consulting" />
                                 </p:panel>
