@@ -11,7 +11,7 @@
                 <h:messages id="messages" infoStyle="color: green;" warnStyle="color: orange;" errorStyle="color: red;" fatalStyle="color: red;" />
 =======
 -->
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
@@ -61,6 +61,8 @@
         <h:form>
             <h:commandButton value="TestRegisterGuest" actionListener="#{registerBean.testRegisterGuest}"/>
         </h:form>
-    </ui:define>
-    
+
+    </h:body>
 </ui:composition>
+
+
