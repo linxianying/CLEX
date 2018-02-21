@@ -6,6 +6,7 @@
 package session;
 
 import entity.Course;
+import entity.Module;
 import entity.Student;
 import entity.StudyPlan;
 import java.util.ArrayList;

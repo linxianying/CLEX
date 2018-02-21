@@ -6,6 +6,7 @@
 package managedbeans;
 
 import entity.Course;
+import entity.Module;
 import entity.Student;
 import entity.StudyPlan;
 import java.util.ArrayList;
@@ -237,6 +238,7 @@ public class StudyPlanBean {
         cpsbl.addStudyPlan("namename", "IS4103", "2018", "2");
     }
     
+    
     public void testAddModuleFromNUSMods(){
         csbl.dragAllNusMods(username);
     }
@@ -253,11 +255,29 @@ public class StudyPlanBean {
         cpsbl.removeStudyPlan("namename", "IS4103");
     }
     
-    public String testViewTakenCourses() {
-        this.takenCourses = cpsbl.testViewTakenModules();
+
+    public void testViewTakenCourses() {
+        if(csbl.checkNewUser("namename") == true){
+            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1","2017", 0.0);
+        }
+        this.student = cpsbl.findStudent("namename");
+        //to add some taken modules for student
+        //first,create some modules
+        csbl.createModule("2018", "1", "none", "none", csbl.findCourse("IS4103"));
+        csbl.createModule("2018", "1", "none", "none", csbl.findCourse("IS3106"));
+        csbl.createModule("2018", "1", "none", "none", csbl.findCourse("CS1020"));
+        csbl.createModule("2018", "1", "none", "none", csbl.findCourse("CS2100"));
+        csbl.createModule("2018", "1", "none", "none", csbl.findCourse("GER1000"));
+        //add these modules to the student's Module list
+        cpsbl.setStudentTakenModules("namename", "IS4103", "2018", "1");
+        cpsbl.setStudentTakenModules("namename", "IS3106", "2018", "1");
+        cpsbl.setStudentTakenModules("namename", "CS1020", "2018", "1");
+        cpsbl.setStudentTakenModules("namename", "CS2100", "2018", "1");
+        cpsbl.setStudentTakenModules("namename", "GER1000", "2018", "1");
+        
+        this.takenCourses = cpsbl.getTakenModules("namename");
         System.out.println(takenCourses);
         System.out.println("sp bean: testViewTakenCourses finish ");
         //this.studyPlans = cpsbl.getAllStudyPlans();
-        return "studyPlan";
     }
 }
