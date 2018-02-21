@@ -165,6 +165,17 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
 
     }
     
+    
+    @Override
+    public void createModule(int workload, String takenYear, String takenSem, 
+            String prerequisite, String preclusions, Course course) {
+        Module module = new Module();
+        module.createModule(workload, takenYear, takenSem, prerequisite, preclusions, course);
+        em.persist(module);
+        em.flush();
+    }
+
+    
     @Override
     public boolean checkNewUser(String username) {
         if(findStudent(username) == null&&findAdmin(username) == null&&findLecturer(username) == null&&findGuest(username) == null){
@@ -497,6 +508,7 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         return t;
     }
 
+    
 
     
 }

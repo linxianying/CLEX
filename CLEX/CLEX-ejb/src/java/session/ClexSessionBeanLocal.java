@@ -67,5 +67,7 @@ public interface ClexSessionBeanLocal {
             String details, String status, ProjectGroup pojectGroup);
     public void createSuperGroup(int numOfGroups, int minStudentNum, int maxStudentNum, Module module);
     public void createProjectGroup(SuperGroup superGroup, double cost);
+
+    void createModule(int workload, String takenYear, String takenSem, String prerequisite, String preclusions, Course course);
     
 }
