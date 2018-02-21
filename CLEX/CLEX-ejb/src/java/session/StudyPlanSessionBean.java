@@ -6,8 +6,12 @@
 package session;
 
 import entity.Course;
+import entity.Grade;
+import entity.Module;
 import entity.Student;
 import entity.StudyPlan;
+import java.util.ArrayList;
+import java.util.Collection;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -33,8 +37,11 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     private Student student;
     private Course course;
 
-    
-    
+    private ArrayList<Course> takenCourses;
+    private Collection<StudyPlan> studyPlans;
+    private double calculatedCap; 
+
+
     
     @Override
     public void createStudyPlan() {
@@ -58,7 +65,7 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     
     
     @Override
-    public void findStudent(String username) {
+    public Student findStudent(String username) {
         Student u = new Student();
         u = null;
         try{
@@ -73,10 +80,11 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         }
         this.username = username;
         this.student = u;
+        return student;
     }
 
     @Override
-    public void findCourse(String moduleCode) {
+    public Course findCourse(String moduleCode) {
         Course c = new Course();
         c = null;
         try{
@@ -91,6 +99,7 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         }
         this.moduleCode = moduleCode;
         this.course = c;
+        return course;
     }
     
     //find whether this studyplan exits, if not, set this.studyPlan to it
@@ -104,20 +113,18 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         StudyPlan s = new StudyPlan();
         s = null;
         try {
-            Query q = em.createQuery("SELECT s FROM STUDYPLAN S WHERE "
-                    + "S.STUDENT_ID=:studentId AND S.COURSE_ID=:courseId");
+            Query q = em.createQuery("SELECT s FROM StudyPlan s WHERE s.student.id =:studentId AND s.course.id =:courseId");
             q.setParameter("studentId", studentId);
             q.setParameter("courseId", courseId);
             s = (StudyPlan)q.getSingleResult();
-            System.out.println("StudyPlan " + "with user:" + username + 
-                    ", course:" + moduleCode + " found.");
+            System.out.println("StudyPlan " + "with user:" + username + ", course:" + moduleCode + " found.");
         }
         catch (NoResultException e) {
             System.out.println("StudyPlanSessionBean: findStudyPlan method: No result");
             return false;
         }
         catch(Exception e){ 
-            System.out.println("StudyPlanSessionBean: findStudyPlan method:");
+            System.out.println("StudyPlanSessionBean: findStudyPlan method: exception");
             e.printStackTrace();
         }
         
@@ -134,7 +141,26 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     }
     
     
+    // find all courses taken by the user
+    @Override
+    public ArrayList<Course> getTakenModules() {
+        findStudent(this.username);
+        Collection<Module> modules = this.student.getModules();
+        for (Module m: modules) {
+            this.takenCourses.add(m.getCourse());
+        }
+        return takenCourses;
+    }
     
+    // find all studyPlan the user has
+    @Override
+    public Collection<StudyPlan> getAllStudyPlans() {
+        findStudent(this.username);
+        this.studyPlans = this.student.getStudyPlan();
+        return studyPlans;
+    }
+    
+    //check whether it's in DB or not, if not create.
     @Override
     public void addStudyPlan(String username, String moduleCode, String pickYear, String pickSem) {
         //if the studyplan is not found
@@ -174,8 +200,79 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     }
 
     
+    private double capCulculator(Student student){
+        double cap = 0.0;
+        int num = 0;
+        Collection<Grade> grades = student.getGrades();
+        for (Grade grade : grades) {
+            String tempGrade = grade.getModuleGrade();
+            if(tempGrade.equals("A")||tempGrade.equals("A+")){
+                cap = cap + 5;
+                num++;
+            }else if(tempGrade.equals("A-")){
+                cap = cap + 4.5;
+                num++;
+            }else if(tempGrade.equals("B+")){
+                cap = cap + 4;
+                num++;
+            }else if(tempGrade.equals("B")){
+                cap = cap + 3.5;
+                num++;
+            }else if(tempGrade.equals("B-")){
+                cap = cap + 3;
+                num++;
+            }else if(tempGrade.equals("C+")){
+                cap = cap + 2.5;
+                num++;
+            }else if(tempGrade.equals("C")){
+                cap = cap + 2;
+                num++;
+            }else if(tempGrade.equals("C-")){
+                cap = cap + 1.5;
+                num++;
+            }else if(tempGrade.equals("D+")){
+                cap = cap + 1.0;
+                num++;
+            }else if(tempGrade.equals("D")){
+                cap = cap + 0.5;
+                num++;
+            }else{
+                num++;
+            }
+        }
+        student.setCap((cap/num));
+        return (cap/num); 
+    }
     
     
+    @Override
+    public void capCalculator(String username) {
+        findStudent(username);
+        double cap = capCulculator(this.student);
+        em.persist(this.student);
+        em.flush();
+    }
+
+    @Override
+    public void viewStudyPlan(String username) {
+        this.username = username;
+        this.getTakenModules();
+        this.getAllStudyPlans();
+    }
+
+    
+    //just to randomly create a list of courses, should call gettakenCourses instead
+    @Override
+    public ArrayList<Course> testViewTakenModules() {
+        ArrayList<Course> courses = new ArrayList<Course>();
+        courses.add(this.findCourse("IS3106"));
+        courses.add(this.findCourse("IS2103"));
+        courses.add(this.findCourse("IS4100"));
+        courses.add(this.findCourse("IS2102"));
+        System.out.println(courses);
+        System.out.println("sp session bean: testViewTakenModules finish ");
+        return courses;
+    }
     
     
 
@@ -184,9 +281,5 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     
     
     
-    
-    
-    
-    
-    
+
 }

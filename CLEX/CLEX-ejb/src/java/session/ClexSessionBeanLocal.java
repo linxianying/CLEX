@@ -10,14 +10,14 @@ import entity.Course;
 import entity.Guest;
 import entity.Lecturer;
 import entity.Module;
+import entity.ProjectGroup;
 import entity.Student;
+import entity.SuperGroup;
 import entity.Task;
 import entity.User;
-import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 import javax.ejb.Local;
-import org.json.JSONException;
 
 /**
  *
@@ -55,6 +55,19 @@ public interface ClexSessionBeanLocal {
     public Course findCourse(String moduleCode);
     public Task findTask(Long taskId);
 
-    void createCourse(String moduleCode, String moduleName, String moduleInfo ,boolean discontinuedBool,
-        String discountinuedYear, String discountinuedSem, String school);
+
+    public void createCourse(String moduleCode, String moduleName, String moduleInfo ,boolean discontinuedBool,
+        String discountinuedYear, String discountinuedSem, String offeredSem, String school, String moduleCredit, String workload);
+        
+    public void createTimeslot(String date, String timeFrom, String timeEnd, String title, String details, String venue);
+    public void createTask(String date, String deadline, String title,String details, String status);
+    public void dragAllNusMods(String url);
+    public void getTimetable(String moduleCode);
+    public void createGroupTask(String date, String deadline, String title,
+            String details, String status, ProjectGroup pojectGroup);
+    public void createSuperGroup(int numOfGroups, int minStudentNum, int maxStudentNum, Module module);
+    public void createProjectGroup(SuperGroup superGroup, double cost);
+
+    void createModule(String takenYear, String takenSem, String prerequisite, String preclusions, Course course);
+    
 }

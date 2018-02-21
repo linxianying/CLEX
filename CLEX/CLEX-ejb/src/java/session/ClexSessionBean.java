@@ -9,28 +9,26 @@ import entity.Admin;
 import entity.Student;
 import entity.Module;
 import entity.Course;
+import entity.Grade;
+import entity.GroupTask;
 import entity.Guest;
 import entity.Lecturer;
+import entity.ProjectGroup;
+import entity.SuperGroup;
 import entity.Task;
+import entity.Timeslot;
 import entity.User;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.URL;
-import java.nio.charset.Charset;
 import java.security.MessageDigest;
+import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.Random;
-import java.util.Set;
+import javaClass.JsonReader;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import org.json.JSONException;
-import org.json.JSONObject;
+
 
 /**
  *
@@ -46,6 +44,13 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     private Lecturer lecturerEntity;
     private Guest guestEntity;
     private Course courseEntity;
+    private Timeslot timeslotEntity;
+    private Task taskEntity;
+    private GroupTask groupTaskEntity;
+    private ProjectGroup projectGroupEntity;
+    private SuperGroup superGroupEntity;
+    
+    private DecimalFormat df = new DecimalFormat("#.##");
 
     @Override
     public void createStudent(String username, String password, String name, String email, String school, Long contactNum, String salt, 
@@ -55,6 +60,79 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
                  faculty, major, matricYear, matricSem, currentYear, cap);
         em.persist(studentEntity);
         em.flush();
+    }
+    
+    @Override
+    public void createTimeslot(String date, String timeFrom, String timeEnd, 
+                String title, String details, String venue){
+        timeslotEntity = new Timeslot();
+        timeslotEntity.createTimeslot(date, timeFrom, timeEnd,title, details, venue);
+        em.persist(timeslotEntity);
+        em.flush();
+    }
+    
+    @Override
+    public void createTask(String date, String deadline, String title,String details, String status){
+        taskEntity = new Task();
+        taskEntity.createTask(date, deadline, title, details, status);
+        em.persist(taskEntity);
+        em.flush();
+    
+    }
+    
+    @Override
+    public void createGroupTask(String date, String deadline, String title,
+            String details, String status, ProjectGroup pojectGroup){
+        groupTaskEntity = new GroupTask();
+        groupTaskEntity.createGroupTask(date, deadline, title,details, status, pojectGroup);
+        em.persist(groupTaskEntity);
+        em.flush();
+    }
+    
+    @Override
+    public void createSuperGroup(int numOfGroups, int minStudentNum, int maxStudentNum, Module module){
+        superGroupEntity = new SuperGroup();
+        superGroupEntity.createSuperGroup(numOfGroups, minStudentNum, maxStudentNum, module);
+        em.persist(superGroupEntity);
+        em.flush();
+    }
+    
+    @Override
+    public void createProjectGroup(SuperGroup superGroup, double cost){
+        projectGroupEntity = new ProjectGroup();
+        projectGroupEntity.createProjectGroup(superGroup, cost);
+        em.persist(projectGroupEntity);
+        em.flush();
+    }
+    
+    @Override
+    public void dragAllNusMods(String url){
+        
+        try{
+            String[][] arr = JsonReader.dragAllNusMods("");
+            int length = arr.length;
+            //System.out.println("The length of the arr is"+length);
+            int index = 0;
+            while(index<3432){
+                //System.out.println(arr[index][0]+"  "+arr[index][1]+"  "+arr[index][2]+"  "+arr[index][3] +"  "+arr[index][4]);
+                if(arr[index][2].length()>1000){
+                    arr[index][2] = arr[index][1];
+                }
+                createCourse(arr[index][0],arr[index][1],arr[index][2],false,"","","","NUS",arr[index][3],arr[index][4]);
+                index++;
+            }
+            //(moduleCode, moduleTitle, moduleInfo ,false,"","", "", "NUS",Integer.parseInt(moduleCredit),workload);
+        }
+        catch(Exception e){
+            System.out.println("there is exception");
+        }
+    }
+    
+    @Override
+    public void getTimetable(String moduleCode){
+        //String timetable = JsonReader.getTimetable(moduleCode);
+        String timetable = JsonReader.getTimetable("IS4103");
+        System.out.println(timetable);
     }
     
     @Override
@@ -77,12 +155,26 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     
     @Override
     public void createCourse(String moduleCode, String moduleName, String moduleInfo ,boolean discontinuedBool,
-        String discountinuedYear, String discountinuedSem, String school) {
-        courseEntity = new Course();
-        courseEntity.createCourse(moduleCode, moduleName, moduleInfo, discontinuedBool, discountinuedYear, discountinuedSem, school);
-        em.persist(courseEntity);
+        String discountinuedYear, String discountinuedSem, String offeredSem, String school, String moduleCredit, String workload) {
+        Course course = new Course();
+        course.createCourse(moduleCode, moduleName, moduleInfo, 
+                discontinuedBool, discountinuedYear, discountinuedSem, 
+                offeredSem, school,moduleCredit, workload);
+        em.persist(course);
+        em.flush();
+
+    }
+    
+    
+    @Override
+    public void createModule(String takenYear, String takenSem, 
+            String prerequisite, String preclusions, Course course) {
+        Module module = new Module();
+        module.createModule(takenYear, takenSem, prerequisite, preclusions, course);
+        em.persist(module);
         em.flush();
     }
+
     
     @Override
     public boolean checkNewUser(String username) {
@@ -415,6 +507,8 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         }
         return t;
     }
+
+    
 
     
 }

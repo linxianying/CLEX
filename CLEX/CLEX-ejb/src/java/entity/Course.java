@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,17 +23,24 @@ import javax.persistence.OneToMany;
 @Entity
 public class Course implements Serializable {
     private static final long serialVersionUID = 1L;
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
+    
+    
     private String moduleCode;
     private String moduleName;
+    
+    @Column(length=2048)
     private String moduleInfo;
     private boolean discontinuedBool;
     private String discountinuedYear;
     private String discountinuedSem;
     private String offeredSem;
     private String school;
+    private String workload;
+    private String modularCredits;
     
     
     @OneToMany(cascade={CascadeType.ALL},mappedBy="course")
@@ -50,14 +58,18 @@ public class Course implements Serializable {
 
     
     public void createCourse(String moduleCode, String moduleName, String moduleInfo ,boolean discontinuedBool,
-        String discountinuedYear, String discountinuedSem, String school) {
+            String discountinuedYear, String discountinuedSem, String offeredSem, String school, String modularCredits
+            ,String workload) {
         this.moduleCode = moduleCode;
         this.moduleName = moduleName;
         this.moduleInfo = moduleInfo;
+        this.workload = workload;
         this.discontinuedBool = discontinuedBool;
         this.discountinuedYear = discountinuedYear;
         this.discountinuedSem = discountinuedSem;
+        this.offeredSem = offeredSem;
         this.school = school;
+        this.modularCredits=modularCredits;
     }
     
     public Collection<Module> getModules() {
@@ -66,6 +78,14 @@ public class Course implements Serializable {
 
     public void setModules(Collection<Module> modules) {
         this.modules = modules;
+    }
+
+    public String getModularCredits() {
+        return modularCredits;
+    }
+
+    public void setModularCredits(String modularCredits) {
+        this.modularCredits = modularCredits;
     }
 
 
@@ -131,6 +151,14 @@ public class Course implements Serializable {
 
     public void setSchool(String school) {
         this.school = school;
+    }
+    
+    public String getWorkload() {
+        return workload;
+    }
+
+    public void setWorkload(String workload) {
+        this.workload = workload;
     }
 
     @Override

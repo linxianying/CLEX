@@ -7,19 +7,19 @@ package managedbeans;
 
 import entity.Course;
 import entity.Student;
+import entity.StudyPlan;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Random;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import session.ClexSessionBeanLocal;
 import session.StudyPlanSessionBeanLocal;
-
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
- 
 import org.primefaces.event.CloseEvent;
 import org.primefaces.event.DashboardReorderEvent;
 import org.primefaces.event.ToggleEvent;
@@ -32,8 +32,8 @@ import org.primefaces.model.DefaultDashboardModel;
  *
  * @author caoyu
  */
-@ManagedBean
-@RequestScoped
+@ManagedBean(name="studyPlanBean")
+@SessionScoped
 public class StudyPlanBean {
     
     @EJB
@@ -45,11 +45,19 @@ public class StudyPlanBean {
     private String moduleCode;
     private String pickYear;
     private String pickSem;
+    private ArrayList<Course> takenCourses;
+    private Collection<StudyPlan> studyPlans;
+    private double calculatedCap; 
     
-    //private Student student;
+    private Student student;
     //private Course course;
     
     private DashboardModel model;
+    
+    public StudyPlanBean() {
+        //for test purpose only
+        this.username="namename";
+    }
      
     @PostConstruct
     public void init() {
@@ -103,9 +111,7 @@ public class StudyPlanBean {
         return model;
     }
     
-    public StudyPlanBean() {
-    }
-    
+
     public void addStudyPlan() {
         cpsbl.addStudyPlan(username, moduleCode, pickYear, pickSem);
         
@@ -119,22 +125,66 @@ public class StudyPlanBean {
         return salt;
     }
     
-    //-------------------------------------------------------------------------
-    //for test addStudyPlan, dont forget to create student and module before test
-    public void testAddStudyPlan(){
-        if(csbl.checkNewUser("namename") == true){
-            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1","2017", 0.0);
-        }
-        csbl.createCourse("IS4103", "capstone", "...", false, "2020", "2", "NUS");
-        cpsbl.addStudyPlan("namename", "IS4103", "2018", "2");
+    public void save() {
+        addMessage("Success", "Data saved");
     }
-
+     
+    public void update() {
+        addMessage("Success", "Data updated");
+    }
+     
+    public void delete() {
+        addMessage("Success", "Data deleted");
+    }
+     
+    public void addMessage(String summary, String detail) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+    
+    public void takenCourse(){
+    
+    }
+    
     public StudyPlanSessionBeanLocal getCpsbl() {
         return cpsbl;
     }
 
     public void setCpsbl(StudyPlanSessionBeanLocal cpsbl) {
         this.cpsbl = cpsbl;
+    }
+
+    public ArrayList<Course> getTakenCourses() {
+        return takenCourses;
+    }
+
+    public void setTakenCourses(ArrayList<Course> takenCourses) {
+        this.takenCourses = takenCourses;
+    }
+
+    public Collection<StudyPlan> getStudyPlans() {
+        return studyPlans;
+    }
+
+    public void setStudyPlans(ArrayList<StudyPlan> studyPlans) {
+        this.studyPlans = studyPlans;
+    }
+
+
+    public double getCalculatedCap() {
+        return calculatedCap;
+    }
+
+    public void setCalculatedCap(double calculatedCap) {
+        this.calculatedCap = calculatedCap;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     public ClexSessionBeanLocal getCsbl() {
@@ -177,4 +227,37 @@ public class StudyPlanBean {
         this.pickSem = pickSem;
     }
     
+    //-------------------------------------------------------------------------
+    //for test addStudyPlan, dont forget to create student and module before test
+   
+    public void testAddStudyPlan(){
+        if(csbl.checkNewUser("namename") == true){
+            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1","2017", 0.0);
+        }
+        cpsbl.addStudyPlan("namename", "IS4103", "2018", "2");
+    }
+    
+    public void testAddModuleFromNUSMods(){
+        csbl.dragAllNusMods(username);
+    }
+    
+    public void getTimetable(){
+        csbl.getTimetable("IS4103");
+    }
+    
+    public void testUpdateStudyPlan() {
+        cpsbl.updateStudyPlan("namename", "IS4103", "2020", "1");
+    }
+    
+    public void testRemoveStudyPlan(){
+        cpsbl.removeStudyPlan("namename", "IS4103");
+    }
+    
+    public String testViewTakenCourses() {
+        this.takenCourses = cpsbl.testViewTakenModules();
+        System.out.println(takenCourses);
+        System.out.println("sp bean: testViewTakenCourses finish ");
+        //this.studyPlans = cpsbl.getAllStudyPlans();
+        return "studyPlan";
+    }
 }

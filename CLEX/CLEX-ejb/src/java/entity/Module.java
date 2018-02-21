@@ -33,8 +33,8 @@ public class Module implements Serializable {
     private String takenSem;
     private String prerequisite;
     private String preclusions;
-    private int modularCredits;
-    private int workload;
+    
+
     
     @OneToOne(cascade={CascadeType.ALL})
     private SuperGroup superGroup;
@@ -55,12 +55,11 @@ public class Module implements Serializable {
     @OneToMany(cascade={CascadeType.ALL})  
     private Collection<Poll> polls = new ArrayList<Poll>();
     
-    public void createModule(int modularCredits, int workload, String takenYear, 
+    public void createModule(int workload, String takenYear, 
                 String takenSem,String prerequisite, String preclusions, Course course){
-        this.modularCredits = modularCredits;
         this.takenSem = takenSem;
         this.takenYear = takenYear;
-        this.workload = workload;
+
         this.prerequisite = prerequisite;
         this.preclusions = preclusions;
         this.course = course;
@@ -157,21 +156,8 @@ public class Module implements Serializable {
         this.preclusions = preclusions;
     }
 
-    public int getModularCredits() {
-        return modularCredits;
-    }
 
-    public void setModularCredits(int modularCredits) {
-        this.modularCredits = modularCredits;
-    }
 
-    public int getWorkload() {
-        return workload;
-    }
-
-    public void setWorkload(int workload) {
-        this.workload = workload;
-    }
 
     @Override
     public int hashCode() {

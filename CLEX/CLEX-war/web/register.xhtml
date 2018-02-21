@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+<!--<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
        xmlns:h="http://xmlns.jcp.org/jsf/html"
        template="./layout/default.xhtml"
@@ -9,18 +9,36 @@
     
     <ui:define name="content">
                 <h:messages id="messages" infoStyle="color: green;" warnStyle="color: orange;" errorStyle="color: red;" fatalStyle="color: red;" />
+=======
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>Register</title>
+    </h:head>
+
+    <h:body>
+        <h:messages id="messages" infoStyle="color: green;" warnStyle="color: orange;" errorStyle="color: red;" fatalStyle="color: red;" />
+<!-->>>>>>> master-->
 
         <h:form>
             <h:outputLabel for="name">Username: </h:outputLabel>
-            <h:inputText id="username" value="#{registerBean.username}" /><br/>
+            <p:inputText id="username" value="#{registerBean.username}" /><br/>
             <h:outputLabel for="password">Password: </h:outputLabel>
-            <h:inputText id="password" value="#{registerBean.password}" /><br/>
+            <p:password id="password" value="#{registerBean.password}" /><br/>
             <h:outputLabel for="name">Name: </h:outputLabel>
-            <h:inputText id="name" value="#{registerBean.name}" /><br/>
+            <p:inputText id="name" value="#{registerBean.name}" /><br/>
             <h:outputLabel for="email">Email: </h:outputLabel>
-            <h:inputText id="email" value="#{registerBean.email}" /><br/>
+            <p:inputText id="email" value="#{registerBean.email}" /><br/>
             <h:outputLabel for="contactNum">Contact No.: </h:outputLabel>
-            <h:inputText id="contactNum" value="#{registerBean.contactNum}" /><br/>
+            <p:inputText id="contactNum" value="#{registerBean.contactNum}" /><br/>
             <h:outputLabel for="userType">User Type: </h:outputLabel>
             <h:selectOneMenu id="userType" value="#{registerBean.userType}"> 
                 <f:selectItem itemValue = "1" itemLabel = "STUDENT" /> 
