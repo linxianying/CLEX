@@ -1,41 +1,36 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
-       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-       xmlns:h="http://xmlns.jcp.org/jsf/html"
-       xmlns:f="http://xmlns.jcp.org/jsf/core"
-       template="./layout/default.xhtml"
-       xmlns:p="http://primefaces.org/ui">
-    
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" template="./layout/default.xhtml" xmlns:p="http://primefaces.org/ui">
+
     <ui:define name="content">
-                <h:messages id="messages" infoStyle="color: green;" warnStyle="color: orange;" errorStyle="color: red;" fatalStyle="color: red;" />
+        <h:messages id="messages" infoStyle="color: green;" warnStyle="color: orange;" errorStyle="color: red;" fatalStyle="color: red;" />
 
         <h:form>
             <h:outputLabel for="name">Username: </h:outputLabel>
             <p:inputText id="username" value="#{loginBean.username}" required="true" requiredMessage="Please enter your username." /><br/>
             <h:outputLabel for="password">Password: </h:outputLabel>
             <p:password id="password" value="#{loginBean.password}" /><br/>
-            <h:selectOneMenu id="userType" value="#{loginBean.userType}"> 
-                <f:selectItem itemValue = "1" itemLabel = "STUDENT" /> 
-                <f:selectItem itemValue = "2" itemLabel = "LECTURER" /> 
-                <f:selectItem itemValue = "3" itemLabel = "ADMIN" />
-                <f:selectItem itemValue = "4" itemLabel = "GUEST" />
+            <h:selectOneMenu id="userType" value="#{loginBean.userType}">
+                <f:selectItem itemValue="1" itemLabel="STUDENT" />
+                <f:selectItem itemValue="2" itemLabel="LECTURER" />
+                <f:selectItem itemValue="3" itemLabel="ADMIN" />
+                <f:selectItem itemValue="4" itemLabel="GUEST" />
             </h:selectOneMenu><br/>
             <h:commandButton value="Submit" actionListener="#{loginBean.doLogin}" />
-            
+
         </h:form>
-            
+
         <br>--------------------------------------</br>
-        
+
         <h:form>
             <br>Forget your password? Enter your username to reset your password.</br>
             <h:outputLabel for="name">Username: </h:outputLabel>
             <h:inputText id="username" value="#{acctMgmtBean.username}" required="true" requiredMessage="Please enter your username." /><br/>
-            <h:commandButton value="Reset Password" actionListener="#{acctMgmtBean.resetPassword}"/>
+            <h:commandButton value="Reset Password" actionListener="#{acctMgmtBean.resetPassword}" />
         </h:form>
-        
+
         <br>--------------------------------------</br>
-        
+
         <br>For testing: do testRegister in register page first, </br>
         <br>or to register first using student identity</br>
         <br>successful login requires</br>
@@ -45,5 +40,5 @@
         <br>Other inputs will fail</br>
         <br>Note: if you want to test reset password, make sure the email you register is a real email</br>
     </ui:define>
-    
+
 </ui:composition>
