@@ -1,5 +1,25 @@
-<?xml version='1.0' encoding='UTF-8' ?>
+<?xml version='1.0' encoding='UTF-8' ?> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--<<<<<< wenjieLayout
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                template="./layout/studentLayout.xhtml"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <div>
+            <h:form>
+                <h:commandButton value="TestStudyPlan" actionListener="#{studyPlanBean.testAddStudyPlan}" action="index?faces-redirect=true"/>
+            </h:form>
+            <div style="height:500px">
+                <h:form>
+                    <p:growl id="msgs" showDetail="true" />
+
+                    <p:dashboard id="board" model="#{studyPlanBean.model}">
+                        <p:ajax event="reorder" listener="#{studyPlanBean.handleReorder}" update="msgs" />
+=======-->
+
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -102,19 +122,19 @@
                         <p:growl id="msgs" showDetail="true" />
                         <p:dashboard id="board" model="#{studyPlanBean.model}">
                             <p:ajax event="reorder" listener="#{studyPlanBean.handleReorder}" update="msgs" />
+<!-->>>>>>> master-->
 
-                            <p:panel id="testMod1" header="IS3106">
-                                <h:outputText value="Enterprise Systems Interface Design and Development" />
-                            </p:panel>
+                        <p:panel id="testMod1" header="IS3106">
+                            <h:outputText value="Enterprise Systems Interface Design and Development" />
+                        </p:panel>
 
-                            <p:panel id="testMod2" header="IS4103">
-                                <h:outputText value="FInformation Systems Capstone Project" />
-                            </p:panel>
+                        <p:panel id="testMod2" header="IS4103">
+                            <h:outputText value="FInformation Systems Capstone Project" />
+                        </p:panel>
 
-                            <p:panel id="testMod3" header="IS2101">
-                                <h:outputText value="Business and Technical Communication"  />
-                            </p:panel>
-
+                        <p:panel id="testMod3" header="IS2101">
+                            <h:outputText value="Business and Technical Communication"  />
+                        </p:panel>
                             <p:panel id="testMod4" header="IS4243">
                                 <h:outputText value="Information Systems Consulting" />
                             </p:panel>
@@ -125,10 +145,8 @@
                         <div style="clear:both" />
                     </h:form>
                 </div>
-                
             </div>
         </div>
-                
-    </h:body>
-</html>
+    </ui:define>
 
+</ui:composition>

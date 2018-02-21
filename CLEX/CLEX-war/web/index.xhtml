@@ -1,23 +1,21 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-    xmlns:h="http://xmlns.jcp.org/jsf/html">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+       xmlns:h="http://xmlns.jcp.org/jsf/html"
+       template="./layout/default.xhtml">
     
-    <h:head>
-        <meta http-equiv="Content-Type" content="text/html;
-        charset=UTF-8" />
-        <h:outputStylesheet name="./css/default.css"/>
-        <h:outputStylesheet name="./css/cssLayout.css"/>
-        <title>Home Page</title>
-    </h:head>
-    <h:body>
-        <div id="left">
-        <a href="login.xhtml">Log In</a><br />
-        <a href="register.xhtml">Register</a><br />
-        </div>
-        <div id="content" class="left_content">
-        <ui:insert name="content">Content</ui:insert>
-    </div>
-    </h:body>
-</html>
+    <ui:define name="content"> 
+        any new JSF page (xhtml pages) needs to include "template..." line in order to inherit the layout (refer to index.xhtml line 6). <br/>
+        the layouts xhtml files can be found in the layout folder under CLEX-war > Web pages > layout<br/>
+        all colors and design is found in web pages > resources > css > cssLayout.css<br/>
+        the top black bar will be used for announcement, DM, logout navigations etc<br/>
+        ignore the navigation icon, i am changing it as you see this<br/>
+        This home page design is temporary and will be changed<br/>
+        
+        for any page, make sure you copy the format from the ___main.xhtml(depending on which user) <br/>
+        and then code the contents inside the ui:define> --- refer to index.xhtml for example
+        
+    </ui:define>
+    
+</ui:composition>
