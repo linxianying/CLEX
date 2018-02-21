@@ -141,13 +141,48 @@ public class StudyPlanBean {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
     
-
+    public void takenCourse(){
+    
+    }
+    
     public StudyPlanSessionBeanLocal getCpsbl() {
         return cpsbl;
     }
 
     public void setCpsbl(StudyPlanSessionBeanLocal cpsbl) {
         this.cpsbl = cpsbl;
+    }
+
+    public ArrayList<Course> getTakenCourses() {
+        return takenCourses;
+    }
+
+    public void setTakenCourses(ArrayList<Course> takenCourses) {
+        this.takenCourses = takenCourses;
+    }
+
+    public Collection<StudyPlan> getStudyPlans() {
+        return studyPlans;
+    }
+
+    public void setStudyPlans(Collection<StudyPlan> studyPlans) {
+        this.studyPlans = studyPlans;
+    }
+
+    public double getCalculatedCap() {
+        return calculatedCap;
+    }
+
+    public void setCalculatedCap(double calculatedCap) {
+        this.calculatedCap = calculatedCap;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     public ClexSessionBeanLocal getCsbl() {
