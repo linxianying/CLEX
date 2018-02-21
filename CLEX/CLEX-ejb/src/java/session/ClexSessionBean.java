@@ -167,10 +167,10 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     
     
     @Override
-    public void createModule(int workload, String takenYear, String takenSem, 
+    public void createModule(String takenYear, String takenSem, 
             String prerequisite, String preclusions, Course course) {
         Module module = new Module();
-        module.createModule(workload, takenYear, takenSem, prerequisite, preclusions, course);
+        module.createModule(takenYear, takenSem, prerequisite, preclusions, course);
         em.persist(module);
         em.flush();
     }
