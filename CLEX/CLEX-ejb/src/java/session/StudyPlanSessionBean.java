@@ -158,9 +158,9 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         return true;
     }
     
-    //the actual create studyPlan enity adn set relationship
+    //the actual step that creates studyPlan enity and sets relationship
     @Override
-    public void createStudyPlan() {
+    public void createStudyPlan(String pickYear, String pickSem, Course course, Student student) {
         try {
         //create new studyPlan entity
         studyPlan = new StudyPlan();
@@ -180,12 +180,12 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
 
     //check whether it's in DB or not, if not, create one by calling method createStudyPlan.
     @Override
-    public void addStudyPlan(String username, String moduleCode, String pickYear, String pickSem) {
+    public void addStudyPlan(String pickYear, String pickSem, String moduleCode, String username) {
         //if the studyplan is not found
         if (!findStudyPlan(username, moduleCode)) {
             this.pickSem = pickSem;
             this.pickYear = pickYear;
-            this.createStudyPlan();
+            this.createStudyPlan(pickYear, pickSem, this.findCourse(moduleCode), this.findStudent(username));
         }
         //if the studyPlan is in DB already
         else {

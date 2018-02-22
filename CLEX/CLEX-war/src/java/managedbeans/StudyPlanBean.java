@@ -281,11 +281,11 @@ public class StudyPlanBean {
     }
     
     public void testViewStudyPlan() {
-        csbl.createStudyPlan("2018", "1", csbl.findCourse("ACC1002X"), student);
-        csbl.createStudyPlan("2018", "1", csbl.findCourse("MA1101R"), student);
-        csbl.createStudyPlan("2018", "1", csbl.findCourse("IS1103"), student);
-        csbl.createStudyPlan("2018", "1", csbl.findCourse("IS1105"), student);
-        csbl.createStudyPlan("2018", "1", csbl.findCourse("CS2120"), student);
+        cpsbl.addStudyPlan("2018", "1", "ACC1002X", "namename");
+        cpsbl.addStudyPlan("2018", "1", "MA1101R", "namename");
+        cpsbl.addStudyPlan("2018", "1", "IS1103", "namename");
+        cpsbl.addStudyPlan("2018", "1", "IS1105", "namename");
+        cpsbl.addStudyPlan("2018", "1", "CS2102", "namename");
         this.studyPlans = cpsbl.getAllStudyPlans("namename");
     }
 }
