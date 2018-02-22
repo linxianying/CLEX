@@ -72,14 +72,6 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         em.flush();
     }
     
-    @Override
-    public void createTask(String date, String deadline, String title,String details, String status){
-        taskEntity = new Task();
-        taskEntity.createTask(date, deadline, title, details, status);
-        em.persist(taskEntity);
-        em.flush();
-    
-    }
     
     @Override
     public void createGroupTask(String date, String deadline, String title,
@@ -495,45 +487,10 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         return genPass;
     }
     
-    @Override
-    public String removeTask(Long taskId) {
-        Task task = findTask(taskId);
-        if (task==null) {
-            return "Task not found!\n";
-        }
-        else{
-            task = em.find(Task.class, taskId);
-            em.remove(task);
-            em.flush();
-            em.clear();
-        }
-        return "Tutorial is sucessfully deleted!\n";
-    }
     
-    @Override
-    public Task findTask(Long taskId){
-        Task t = new Task();
-        t = null;
-        try{
-            Query q = em.createQuery("SELECT t FROM Task t WHERE t.taskId=:taskId");
-            q.setParameter("taskId", taskId);
-            t = (Task) q.getSingleResult();
-            System.out.println("Task " + taskId + " found.");
-        }
-        catch(NoResultException e){
-            System.out.println("Task " + taskId + " does not exist.");
-            t = null;
-        }
-        return t;
-    }
+    
+    
 
-    @Override
-    public void setTaskUrgency(Long TaskId, String urgency){
-        taskEntity = null;
-        taskEntity = findTask(TaskId);
-        taskEntity.setUrgency(urgency);
-        em.merge(taskEntity);
-        em.flush();
-    }
+    
     
 }
