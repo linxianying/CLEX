@@ -14,6 +14,7 @@ import entity.GroupTask;
 import entity.Guest;
 import entity.Lecturer;
 import entity.ProjectGroup;
+import entity.StudyPlan;
 import entity.SuperGroup;
 import entity.Task;
 import entity.Timeslot;
@@ -102,6 +103,16 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         projectGroupEntity = new ProjectGroup();
         projectGroupEntity.createProjectGroup(superGroup, cost);
         em.persist(projectGroupEntity);
+        em.flush();
+    }
+    
+    @Override
+    public void createStudyPlan(String pickYear, String pickSem, Course course, Student student){
+        StudyPlan studyPlan = new StudyPlan();
+        studyPlan.createStudyPlan(pickYear, pickSem, course, student);
+        em.persist(studyPlan);
+        student.getStudyPlan().add(studyPlan);
+        em.persist(student);
         em.flush();
     }
     

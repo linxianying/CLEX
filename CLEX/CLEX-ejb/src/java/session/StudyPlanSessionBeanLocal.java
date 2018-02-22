@@ -42,7 +42,7 @@ public interface StudyPlanSessionBeanLocal {
 
     public ArrayList<Course> getTakenModules(String username);
 
-    public Collection<StudyPlan> getAllStudyPlans();
+    public Collection<StudyPlan> getAllStudyPlans(String username);
 
     ArrayList<Course> testViewTakenModules();
 

@@ -42,29 +42,7 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     private double calculatedCap; 
 
 
-    
-    @Override
-    public void createStudyPlan() {
-        try {
-        //create new studyPlan entity
-        studyPlan = new StudyPlan();
-        studyPlan.createStudyPlan(pickYear, pickSem, course, student);
-        //set relationship between StudyPlan and Student
-        this.student.getStudyPlan().add(studyPlan);
-        //set relationship between StudyPlan and course
-        studyPlan.setCourse(course);
-        
-        em.persist(studyPlan);
-        }
-        catch(Exception e){
-            System.out.println("StudyPlanSessionBean: createStudyPlan method:");
-            e.printStackTrace();
-        }
-    }
-
-    
-    
-    @Override
+     @Override
     public Student findStudent(String username) {
         Student u = new Student();
         u = null;
@@ -124,7 +102,25 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         return m;
     }
     
+    // find all courses taken by the user
+    @Override
+    public ArrayList<Course> getTakenModules(String username) {
+        findStudent(username);
+        Collection<Module> modules = this.student.getModules();
+        for (Module m: modules) {
+            this.takenCourses.add(m.getCourse());
+        }
+        return takenCourses;
+    }
     
+    // find all studyPlan the user has
+    @Override
+    public Collection<StudyPlan> getAllStudyPlans(String username) {
+        student = findStudent(username);
+        this.studyPlans = student.getStudyPlan();
+        return studyPlans;
+    }
+
     //find whether this studyplan exits, if not, set this.studyPlan to it
     @Override
     public boolean findStudyPlan(String username, String moduleCode) {
@@ -155,35 +151,27 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         return true;
     }
     
+    //the actual create studyPlan enity adn set relationship
     @Override
-    public void changeStudyPlan() {
-        this.studyPlan.setPickSem(this.pickSem);
-        this.studyPlan.setPickYear(this.pickYear);
-        em.persist(this.studyPlan);
-        em.flush();
-    }
-    
-    
-    // find all courses taken by the user
-    @Override
-    public ArrayList<Course> getTakenModules(String username) {
-        findStudent(this.username);
-        Collection<Module> modules = this.student.getModules();
-        for (Module m: modules) {
-            this.takenCourses.add(m.getCourse());
+    public void createStudyPlan() {
+        try {
+        //create new studyPlan entity
+        studyPlan = new StudyPlan();
+        studyPlan.createStudyPlan(pickYear, pickSem, course, student);
+        //set relationship between StudyPlan and Student
+        this.student.getStudyPlan().add(studyPlan);
+        //set relationship between StudyPlan and course
+        studyPlan.setCourse(course);
+        
+        em.persist(studyPlan);
         }
-        return takenCourses;
+        catch(Exception e){
+            System.out.println("StudyPlanSessionBean: createStudyPlan method:");
+            e.printStackTrace();
+        }
     }
-    
-    // find all studyPlan the user has
-    @Override
-    public Collection<StudyPlan> getAllStudyPlans() {
-        findStudent(this.username);
-        this.studyPlans = this.student.getStudyPlan();
-        return studyPlans;
-    }
-    
-    //check whether it's in DB or not, if not create.
+
+    //check whether it's in DB or not, if not, create one by calling method createStudyPlan.
     @Override
     public void addStudyPlan(String username, String moduleCode, String pickYear, String pickSem) {
         //if the studyplan is not found
@@ -200,6 +188,13 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         }
     }
   
+    @Override
+    public void changeStudyPlan() {
+        this.studyPlan.setPickSem(this.pickSem);
+        this.studyPlan.setPickYear(this.pickYear);
+        em.persist(this.studyPlan);
+        em.flush();
+    }
     
     @Override
     public void updateStudyPlan(String username, String moduleCode, String pickYear, String pickSem) {
@@ -278,9 +273,8 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
 
     @Override
     public void viewStudyPlan(String username) {
-        this.username = username;
         this.getTakenModules(username);
-        this.getAllStudyPlans();
+        this.getAllStudyPlans(username);
     }
 
     @Override
