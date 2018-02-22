@@ -67,9 +67,12 @@
                     <h:form>
                         <h:commandButton value="testViewTakenCourses" actionListener="#{studyPlanBean.testViewTakenCourses}" action="studyPlan?faces-redirect=true" />
                     </h:form>
+                    <h:form>
+                        <h:commandButton value="testViewStudyPlan" actionListener="#{studyPlanBean.testViewStudyPlan}" action="studyPlan?faces-redirect=true" />
+                    </h:form>
                     <br />
                     <p:dataTable var="course" value="#{studyPlanBean.takenCourses}">
-                        <p:column headerText="try">
+                        <p:column headerText="taken Courses">
                             <p:column>
                                 <h:outputText value="#{course.moduleCode}" />
                                 <h:outputText value="  " />
@@ -79,6 +82,21 @@
                             <p:column>
                                 <h:outputText value="credits:" />
                                 <h:outputText value="#{course.modularCredits}" />
+                            </p:column>
+                        </p:column>
+                    </p:dataTable>
+                    <br />
+                    <p:dataTable var="studyPlan" value="#{studyPlanBean.studyPlans}">
+                        <p:column headerText="Study Plans">
+                            <p:column>
+                                <h:outputText value="#{studyPlan.course.moduleCode}" />
+                                <h:outputText value="  " />
+                                <h:outputText value="#{studyPlan.course.moduleName}" />
+                            </p:column>
+                            <br />
+                            <p:column>
+                                <h:outputText value="credits:" />
+                                <h:outputText value="#{studyPlan.course.modularCredits}" />
                             </p:column>
                         </p:column>
                     </p:dataTable>

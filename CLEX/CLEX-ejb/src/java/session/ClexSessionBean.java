@@ -311,9 +311,9 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         try{
             c = this.findCourse(moduleCode);
             courseId = c.getId();
-            Query q = em.createQuery("SELECT m FROM SCHOOLMODULE m "
-                    + "WHERE m.COURSE_ID=:courseId AND m.TAKENYEAR=:takenYear "
-                    + "AND m.TAKENSEM=:takenSem");
+            Query q = em.createQuery("SELECT m FROM SchoolModule m "
+                    + "WHERE m.course.id=:courseId AND m.takenYear=:takenYear "
+                    + "AND m.takenSem=:takenSem");
             q.setParameter("courseId", courseId);
             q.setParameter("takenYear", takenYear);
             q.setParameter("takenSem", takenSem);

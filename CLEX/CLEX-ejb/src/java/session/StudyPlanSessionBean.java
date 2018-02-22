@@ -37,7 +37,7 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     private Student student;
     private Course course;
 
-    private ArrayList<Course> takenCourses;
+    private ArrayList<Course> takenCourses; 
     private Collection<StudyPlan> studyPlans;
     private double calculatedCap; 
 
@@ -85,9 +85,11 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         Module m = new Module();
         m = null;
         try{
+            System.out.println("Try to find Module " + moduleCode + ", takenYear="+takenYear+
+                    ", takenSem=" + takenSem);
             Query q = em.createQuery("SELECT m FROM SchoolModule m WHERE "
-                    + "m.takenYear:=takenYear AND m.takenSem:=takenSem AND "
-                    + "m.course.moduleCode:=moduleCode");
+                    + "m.takenYear=:takenYear AND m.takenSem=:takenSem AND "
+                    + "m.course.moduleCode=:moduleCode");
             q.setParameter("takenYear", takenYear);
             q.setParameter("takenSem", takenSem);
             q.setParameter("moduleCode", moduleCode);
@@ -105,9 +107,14 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     // find all courses taken by the user
     @Override
     public ArrayList<Course> getTakenModules(String username) {
+        this.takenCourses = new ArrayList<Course>();
         findStudent(username);
-        Collection<Module> modules = this.student.getModules();
+        Collection<Module> modules = new ArrayList<Module>();
+        modules = this.student.getModules();
+        System.out.println("StudyPlanSessionbean: getTakenModules: student:" 
+                + username + "'s takenModules:" + modules.size());
         for (Module m: modules) {
+            System.out.println("Module's course is" + m.getCourse().getModuleCode());
             this.takenCourses.add(m.getCourse());
         }
         return takenCourses;
@@ -151,9 +158,9 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         return true;
     }
     
-    //the actual create studyPlan enity adn set relationship
+    //the actual step that creates studyPlan enity and sets relationship
     @Override
-    public void createStudyPlan() {
+    public void createStudyPlan(String pickYear, String pickSem, Course course, Student student) {
         try {
         //create new studyPlan entity
         studyPlan = new StudyPlan();
@@ -173,12 +180,12 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
 
     //check whether it's in DB or not, if not, create one by calling method createStudyPlan.
     @Override
-    public void addStudyPlan(String username, String moduleCode, String pickYear, String pickSem) {
+    public void addStudyPlan(String pickYear, String pickSem, String moduleCode, String username) {
         //if the studyplan is not found
         if (!findStudyPlan(username, moduleCode)) {
             this.pickSem = pickSem;
             this.pickYear = pickYear;
-            this.createStudyPlan();
+            this.createStudyPlan(pickYear, pickSem, this.findCourse(moduleCode), this.findStudent(username));
         }
         //if the studyPlan is in DB already
         else {
@@ -282,7 +289,15 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         student = this.findStudent(username);
         module = this.findModule(takenYear, takenSem, moduleCode);
         student.getModules().add(module);
+        module.getStudents().add(student);
+        em.persist(module);
         em.persist(student);
+        
+        em.flush();
+        System.out.println("StudyPlanSessionBean: setStudentTakenModules: set "
+                + "student:" + username + " with module " + moduleCode);
+        System.out.println("StudyPlanSessionBean: setStudentTakenModules: "
+                + "student:" + username + " with modules " + student.getModules().size());
     }
     
     

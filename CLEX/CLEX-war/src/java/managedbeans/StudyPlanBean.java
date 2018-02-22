@@ -263,13 +263,13 @@ public class StudyPlanBean {
         this.student = cpsbl.findStudent("namename");
         //to add some taken modules for student
         //first,create some modules
-        csbl.createModule("2018", "1", "none", "none", csbl.findCourse("IS4103"));
+        csbl.createModule("2018", "1", "none", "none", csbl.findCourse("CP3109"));
         csbl.createModule("2018", "1", "none", "none", csbl.findCourse("IS3106"));
         csbl.createModule("2018", "1", "none", "none", csbl.findCourse("CS1020"));
         csbl.createModule("2018", "1", "none", "none", csbl.findCourse("CS2100"));
         csbl.createModule("2018", "1", "none", "none", csbl.findCourse("GER1000"));
         //add these modules to the student's Module list
-        cpsbl.setStudentTakenModules("namename", "IS4103", "2018", "1");
+        cpsbl.setStudentTakenModules("namename", "CP3109", "2018", "1");
         cpsbl.setStudentTakenModules("namename", "IS3106", "2018", "1");
         cpsbl.setStudentTakenModules("namename", "CS1020", "2018", "1");
         cpsbl.setStudentTakenModules("namename", "CS2100", "2018", "1");
@@ -278,6 +278,14 @@ public class StudyPlanBean {
         this.takenCourses = cpsbl.getTakenModules("namename");
         System.out.println(takenCourses);
         System.out.println("sp bean: testViewTakenCourses finish ");
-        //this.studyPlans = cpsbl.getAllStudyPlans();
+    }
+    
+    public void testViewStudyPlan() {
+        cpsbl.addStudyPlan("2018", "1", "ACC1002X", "namename");
+        cpsbl.addStudyPlan("2018", "1", "MA1101R", "namename");
+        cpsbl.addStudyPlan("2018", "1", "IS1103", "namename");
+        cpsbl.addStudyPlan("2018", "1", "IS1105", "namename");
+        cpsbl.addStudyPlan("2018", "1", "CS2102", "namename");
+        this.studyPlans = cpsbl.getAllStudyPlans("namename");
     }
 }
