@@ -49,15 +49,16 @@ public class StudyPlanBean {
     private ArrayList<Course> takenCourses;
     private Collection<StudyPlan> studyPlans;
     private double calculatedCap; 
-    
     private Student student;
     //private Course course;
-    
+    private int currentYear;
+    private int currentMonth;
     private DashboardModel model;
     
     public StudyPlanBean() {
         //for test purpose only
         this.username="namename";
+        
     }
      
     @PostConstruct
@@ -288,4 +289,6 @@ public class StudyPlanBean {
         cpsbl.addStudyPlan("2018", "1", "CS2102", "namename");
         this.studyPlans = cpsbl.getAllStudyPlans("namename");
     }
+    
+    
 }

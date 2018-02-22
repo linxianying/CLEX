@@ -44,13 +44,12 @@ public interface StudyPlanSessionBeanLocal {
 
     public Collection<StudyPlan> getAllStudyPlans(String username);
 
-    ArrayList<Course> testViewTakenModules();
-
-    void testAddTakenModules();
+    public ArrayList<Course> testViewTakenModules();
 
     public Module findModule(String takenYear, String takenSem, String moduleCode);
 
-    void setStudentTakenModules(String username, String moduleCode, String takenYear, String takenSem);
+    public void setStudentTakenModules(String username, String moduleCode, String takenYear, String takenSem);
 
+    public void checkNumOfSemTaken(String username);
     
 }

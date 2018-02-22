@@ -72,7 +72,110 @@
                     </h:form>
                     <br />
                     <p:dataTable var="course" value="#{studyPlanBean.takenCourses}">
-                        <p:column headerText="taken Courses">
+                        <f:facet name="header">
+                            Taken Modules
+                        </f:facet>
+                            <h:outputText value="matric sem" /> 
+                        <p:column headerText="Year 1 Sem 1">
+                            <p:column>
+                                <h:outputText value="#{course.moduleCode}" />
+                                <h:outputText value="  " />
+                                <h:outputText value="#{course.moduleName}" />
+                            </p:column>
+                            <br />
+                            <p:column>
+                                <h:outputText value="credits:" />
+                                <h:outputText value="#{course.modularCredits}" />
+                            </p:column>
+                        </p:column>
+                    </p:dataTable>
+                    <br />
+                    <p:dataTable var="course" value="#{studyPlanBean.takenCourses}">
+                        <p:column headerText="Year 1 Sem 2">
+                            <p:column>
+                                <h:outputText value="#{course.moduleCode}" />
+                                <h:outputText value="  " />
+                                <h:outputText value="#{course.moduleName}" />
+                            </p:column>
+                            <br />
+                            <p:column>
+                                <h:outputText value="credits:" />
+                                <h:outputText value="#{course.modularCredits}" />
+                            </p:column>
+                        </p:column>
+                    </p:dataTable>
+                    <p:dataTable var="course" value="#{studyPlanBean.takenCourses}">
+                        <p:column headerText="Year 2 Sem 1">
+                            <p:column>
+                                <h:outputText value="#{course.moduleCode}" />
+                                <h:outputText value="  " />
+                                <h:outputText value="#{course.moduleName}" />
+                            </p:column>
+                            <br />
+                            <p:column>
+                                <h:outputText value="credits:" />
+                                <h:outputText value="#{course.modularCredits}" />
+                            </p:column>
+                        </p:column>
+                    </p:dataTable>
+                    <p:dataTable var="course" value="#{studyPlanBean.takenCourses}">
+                        <p:column headerText="Year 2 Sem 2">
+                            <p:column>
+                                <h:outputText value="#{course.moduleCode}" />
+                                <h:outputText value="  " />
+                                <h:outputText value="#{course.moduleName}" />
+                            </p:column>
+                            <br />
+                            <p:column>
+                                <h:outputText value="credits:" />
+                                <h:outputText value="#{course.modularCredits}" />
+                            </p:column>
+                        </p:column>
+                    </p:dataTable>
+                    <p:dataTable var="course" value="#{studyPlanBean.takenCourses}">
+                        <p:column headerText="Year 3 Sem 1">
+                            <p:column>
+                                <h:outputText value="#{course.moduleCode}" />
+                                <h:outputText value="  " />
+                                <h:outputText value="#{course.moduleName}" />
+                            </p:column>
+                            <br />
+                            <p:column>
+                                <h:outputText value="credits:" />
+                                <h:outputText value="#{course.modularCredits}" />
+                            </p:column>
+                        </p:column>
+                    </p:dataTable>
+                    <p:dataTable var="course" value="#{studyPlanBean.takenCourses}">
+                        <p:column headerText="Year 3 Sem 2">
+                            <p:column>
+                                <h:outputText value="#{course.moduleCode}" />
+                                <h:outputText value="  " />
+                                <h:outputText value="#{course.moduleName}" />
+                            </p:column>
+                            <br />
+                            <p:column>
+                                <h:outputText value="credits:" />
+                                <h:outputText value="#{course.modularCredits}" />
+                            </p:column>
+                        </p:column>
+                    </p:dataTable>
+                    <p:dataTable var="course" value="#{studyPlanBean.takenCourses}">
+                        <p:column headerText="Year 4 Sem 1">
+                            <p:column>
+                                <h:outputText value="#{course.moduleCode}" />
+                                <h:outputText value="  " />
+                                <h:outputText value="#{course.moduleName}" />
+                            </p:column>
+                            <br />
+                            <p:column>
+                                <h:outputText value="credits:" />
+                                <h:outputText value="#{course.modularCredits}" />
+                            </p:column>
+                        </p:column>
+                    </p:dataTable>
+                    <p:dataTable var="course" value="#{studyPlanBean.takenCourses}">
+                        <p:column headerText="Year 4 Sem 2">
                             <p:column>
                                 <h:outputText value="#{course.moduleCode}" />
                                 <h:outputText value="  " />
