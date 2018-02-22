@@ -1,152 +1,125 @@
-<?xml version='1.0' encoding='UTF-8' ?> 
+<?xml version='1.0' encoding='UTF-8' ?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<!--<<<<<< wenjieLayout
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                template="./layout/studentLayout.xhtml"
-                xmlns:p="http://primefaces.org/ui">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+                xmlns:h="http://xmlns.jcp.org/jsf/html" 
+                template="./layout/studentLayout.xhtml" 
+                xmlns:p="http://primefaces.org/ui" 
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="content">
-        <div>
-            <h:form>
-                <h:commandButton value="TestStudyPlan" actionListener="#{studyPlanBean.testAddStudyPlan}" action="index?faces-redirect=true"/>
-            </h:form>
-            <div style="height:500px">
-                <h:form>
-                    <p:growl id="msgs" showDetail="true" />
-
-                    <p:dashboard id="board" model="#{studyPlanBean.model}">
-                        <p:ajax event="reorder" listener="#{studyPlanBean.handleReorder}" update="msgs" />
-=======-->
-
-<html xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-    xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    xmlns:f="http://xmlns.jcp.org/jsf/core">
-
-    <h:head>
-        <meta http-equiv="Content-Type" content="text/html;
-        charset=UTF-8" />
-        <h:outputStylesheet name="./css/default.css"/>
-        <h:outputStylesheet name="./css/cssLayout.css"/>
-        <title>Study Plan Page</title>
-
-    </h:head>
-    <h:body>
-        <div id="top" class="top">
-            <ui:insert name="top">Study Plan Page</ui:insert>
-        </div>
-        <div>
-            <div id="left">
-                <ui:insert name="left">Insert this</ui:insert>
-                <br />
-                <a href="studentMain.xhtml">Dashboard</a><br />
-                <a href="schedule.xhtml">Schedule</a><br />
-                <a href="studyPlan.xhtml">Study Plan</a><br />
-                <a href="project.xhtml">Project</a><br />
-                <a href="studentModule.xhtml">Module</a><br />
-                <a href="community.xhtml">Community</a><br />
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html;
+            charset=UTF-8" />
+            <h:outputStylesheet name="./css/default.css" />
+            <h:outputStylesheet name="./css/cssLayout.css" />
+            <title>Study Plan Page</title>
+        </h:head>
+        <h:body>
+            <div id="top" class="top">
+                <ui:insert name="top">Study Plan Page</ui:insert>
             </div>
-            <div id="content" class="left_content">
-                <h:form>     
-                    <p:growl id="messages" showDetail="true" />
-                    <p:toolbar>
-                        <f:facet name="left">
-                            <p:commandButton type="button" actionListener="#{studyPlanBean.newStudyPlan}" value="New" icon="ui-icon-document" />
+            <div>
 
-                            <p:commandButton type="button" value="Refresh" icon="ui-icon-folder-open" />
-
-                            <span class="ui-separator">
-                                <span class="ui-icon ui-icon-grip-dotted-vertical" />
-                            </span>
-
-                            <p:commandButton type="button" title="Save" icon="ui-icon-disk" />
-                            <p:commandButton type="button" title="Delete" icon="ui-icon-trash" />
-                            <p:commandButton type="button" title="Print" icon="ui-icon-print" />
-                        </f:facet>
-
-                        <f:facet name="right">
-                            <p:menuButton value="Options">
-                                <p:menuitem value="Save" actionListener="#{studyPlanBean.save}" update="messages" icon="ui-icon-disk" />
-                                <p:menuitem value="Update" actionListener="#{studyPlanBean.update}" update="messages" icon="ui-icon-arrowrefresh-1-w" />
-                                <p:menuitem value="Delete" actionListener="#{studyPlanBean.delete}" ajax="false" icon="ui-icon-close" />
-                                <p:menuitem value="Homepage" url="http://www.primefaces.org" icon="ui-icon-extlink" />
-                            </p:menuButton>
-                        </f:facet>
-
-                    </p:toolbar>
-                </h:form>
-                <br />
-                <h:form>
-                    <h:commandButton value="TestAddModuleFromNUSMods" actionListener="#{studyPlanBean.testAddModuleFromNUSMods}" action="studyPlan?faces-redirect=true"/>
-                </h:form>
-                <br />
-                <h:form>
-                    <h:commandButton value="TestGetTimetable" actionListener="#{studyPlanBean.getTimetable}" action="studyPlan?faces-redirect=true"/>
-                </h:form>
-                <br />
-                <h:form>
-                    <h:commandButton value="TestAddStudyPlan" actionListener="#{studyPlanBean.testAddStudyPlan}" action="studyPlan?faces-redirect=true"/>
-                </h:form>
-                <br />
-                <h:form>
-                    <h:commandButton value="TestUpdateStudyPlan" actionListener="#{studyPlanBean.testUpdateStudyPlan}" action="studyPlan?faces-redirect=true"/>
-                </h:form>
-                <br />
-                <h:form>
-                    <h:commandButton value="TestRemoveStudyPlan" actionListener="#{studyPlanBean.testRemoveStudyPlan}" action="studyPlan?faces-redirect=true"/>
-                </h:form>
-                <br />
-                <h:form>
-                    <h:commandButton value="testViewTakenCourses" actionListener="#{studyPlanBean.testViewTakenCourses}" action="studyPlan?faces-redirect=true"/>
-                </h:form>
-                <br />
-                <p:dataTable var= "course" value="#{studyPlanBean.takenCourses}">
-                    <p:column headerText="try">
-                        <p:column>
-                            <h:outputText value = "#{course.moduleCode}"/>
-                            <h:outputText value = "  "/>
-                            <h:outputText value = "#{course.moduleName}"/>
-                        </p:column>
-                        <br />
-                        <p:column>
-                            <h:outputText value= "credits:"/>
-                            <h:outputText value = "#{course.modularCredits}"/>
-                        </p:column>
-                    </p:column>  
-                </p:dataTable>
-                <div style="height:500px">
+                <div id="content" class="left_content">
                     <h:form>
-                        <p:growl id="msgs" showDetail="true" />
-                        <p:dashboard id="board" model="#{studyPlanBean.model}">
-                            <p:ajax event="reorder" listener="#{studyPlanBean.handleReorder}" update="msgs" />
-<!-->>>>>>> master-->
+                        <p:growl id="messages" showDetail="true" />
+                        <p:toolbar>
+                            <f:facet name="left">
+                                <p:commandButton type="button" actionListener="#{studyPlanBean.newStudyPlan}" value="New" icon="ui-icon-document" />
 
-                        <p:panel id="testMod1" header="IS3106">
-                            <h:outputText value="Enterprise Systems Interface Design and Development" />
-                        </p:panel>
+                                <p:commandButton type="button" value="Refresh" icon="ui-icon-folder-open" />
 
-                        <p:panel id="testMod2" header="IS4103">
-                            <h:outputText value="FInformation Systems Capstone Project" />
-                        </p:panel>
+                                <span class="ui-separator">
+                                    <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                                </span>
 
-                        <p:panel id="testMod3" header="IS2101">
-                            <h:outputText value="Business and Technical Communication"  />
-                        </p:panel>
-                            <p:panel id="testMod4" header="IS4243">
-                                <h:outputText value="Information Systems Consulting" />
-                            </p:panel>
-                            <p:panel id="testMod5" header="IS4100">
-                                <h:outputText value="IT Project Management" />
-                            </p:panel>
-                        </p:dashboard>
-                        <div style="clear:both" />
+                                <p:commandButton type="button" title="Save" icon="ui-icon-disk" />
+                                <p:commandButton type="button" title="Delete" icon="ui-icon-trash" />
+                                <p:commandButton type="button" title="Print" icon="ui-icon-print" />
+                            </f:facet>
+
+                            <f:facet name="right">
+                                <p:menuButton value="Options">
+                                    <p:menuitem value="Save" actionListener="#{studyPlanBean.save}" update="messages" icon="ui-icon-disk" />
+                                    <p:menuitem value="Update" actionListener="#{studyPlanBean.update}" update="messages" icon="ui-icon-arrowrefresh-1-w" />
+                                    <p:menuitem value="Delete" actionListener="#{studyPlanBean.delete}" ajax="false" icon="ui-icon-close" />
+                                    <p:menuitem value="Homepage" url="http://www.primefaces.org" icon="ui-icon-extlink" />
+                                </p:menuButton>
+                            </f:facet>
+
+                        </p:toolbar>
                     </h:form>
+                    <br />
+                    <h:form>
+                        <h:commandButton value="TestAddModuleFromNUSMods" actionListener="#{studyPlanBean.testAddModuleFromNUSMods}" action="studyPlan?faces-redirect=true" />
+                    </h:form>
+                    <br />
+                    <h:form>
+                        <h:commandButton value="TestGetTimetable" actionListener="#{studyPlanBean.getTimetable}" action="studyPlan?faces-redirect=true" />
+                    </h:form>
+                    <br />
+                    <h:form>
+                        <h:commandButton value="TestAddStudyPlan" actionListener="#{studyPlanBean.testAddStudyPlan}" action="studyPlan?faces-redirect=true" />
+                    </h:form>
+                    <br />
+                    <h:form>
+                        <h:commandButton value="TestUpdateStudyPlan" actionListener="#{studyPlanBean.testUpdateStudyPlan}" action="studyPlan?faces-redirect=true" />
+                    </h:form>
+                    <br />
+                    <h:form>
+                        <h:commandButton value="TestRemoveStudyPlan" actionListener="#{studyPlanBean.testRemoveStudyPlan}" action="studyPlan?faces-redirect=true" />
+                    </h:form>
+                    <br />
+                    <h:form>
+                        <h:commandButton value="testViewTakenCourses" actionListener="#{studyPlanBean.testViewTakenCourses}" action="studyPlan?faces-redirect=true" />
+                    </h:form>
+                    <br />
+                    <p:dataTable var="course" value="#{studyPlanBean.takenCourses}">
+                        <p:column headerText="try">
+                            <p:column>
+                                <h:outputText value="#{course.moduleCode}" />
+                                <h:outputText value="  " />
+                                <h:outputText value="#{course.moduleName}" />
+                            </p:column>
+                            <br />
+                            <p:column>
+                                <h:outputText value="credits:" />
+                                <h:outputText value="#{course.modularCredits}" />
+                            </p:column>
+                        </p:column>
+                    </p:dataTable>
+                    <div style="height:500px">
+                        <h:form>
+                            <p:growl id="msgs" showDetail="true" />
+                            <p:dashboard id="board" model="#{studyPlanBean.model}">
+                                <p:ajax event="reorder" listener="#{studyPlanBean.handleReorder}" update="msgs" />
+                                <!-->>>>>>> master-->
+
+                                <p:panel id="testMod1" header="IS3106">
+                                    <h:outputText value="Enterprise Systems Interface Design and Development" />
+                                </p:panel>
+
+                                <p:panel id="testMod2" header="IS4103">
+                                    <h:outputText value="FInformation Systems Capstone Project" />
+                                </p:panel>
+
+                                <p:panel id="testMod3" header="IS2101">
+                                    <h:outputText value="Business and Technical Communication" />
+                                </p:panel>
+                                <p:panel id="testMod4" header="IS4243">
+                                    <h:outputText value="Information Systems Consulting" />
+                                </p:panel>
+                                <p:panel id="testMod5" header="IS4100">
+                                    <h:outputText value="IT Project Management" />
+                                </p:panel>
+                            </p:dashboard>
+                            <div style="clear:both" />
+                        </h:form>
+                    </div>
                 </div>
             </div>
-        </div>
+        </h:body>
     </ui:define>
-
 </ui:composition>

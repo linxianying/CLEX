@@ -31,6 +31,7 @@ public interface ClexSessionBeanLocal {
     public void createLecturer(String username, String password, String name, String email, String school, Long contactNum, String salt,
                 String faculty);
     public void createGuest(String username, String password, String name, String email, String school, Long contactNum, String salt);
+    public void createAdmin(String username, String password, String name, String email, String school, Long contactNum, String salt);
     
     public boolean checkNewUser(String username);
     public boolean checkNewCourse(String moduleCode);

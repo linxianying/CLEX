@@ -119,7 +119,7 @@ public class LoginBean implements Serializable{
             else{
                 if(csbl.checkPassword(username, password)){
                     context.getExternalContext().getSessionMap().put("user", userEntity);
-                    context.getExternalContext().getSessionMap().put("usertype", 2);
+                    context.getExternalContext().getSessionMap().put("usertype", 3);
                     context.getCurrentInstance().getExternalContext().redirect("adminMain.xhtml");
                 }
                 else{
@@ -137,7 +137,7 @@ public class LoginBean implements Serializable{
             else{
                 if(csbl.checkPassword(username, password)){
                     context.getExternalContext().getSessionMap().put("user", userEntity);
-                    context.getExternalContext().getSessionMap().put("usertype", 3);
+                    context.getExternalContext().getSessionMap().put("usertype", 4);
                     context.getCurrentInstance().getExternalContext().redirect("guestMain.xhtml");
                 }
                 else{

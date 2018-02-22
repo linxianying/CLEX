@@ -130,6 +130,37 @@ public class RegisterBean implements Serializable{
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "User 'aguest' already exists.", ""));
         }
     }
+
+    public void registerAdmin() throws IOException{
+        if(csbl.checkNewUser("admin") == true){
+            csbl.createAdmin("admin", "123", "admin", "admin", "NUS", 12345678L, genSalt());
+            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+        }
+        else{
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "User 'admin' already exists.", ""));
+        }       
+    }
+
+    public void testusercase() throws IOException{
+        csbl.createStudent("aaaaaa", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1","2016", 0.0);
+        csbl.createStudent("bbbbbb", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "2","2016", 0.0);
+        csbl.createStudent("cccccc", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1","2017", 0.0);
+        csbl.createStudent("dddddd", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "2","2017", 0.0);
+        csbl.createStudent("eeeeee", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1","2018", 0.0);
+        csbl.createStudent("ffffff", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2016", "1","2016", 0.0);
+        csbl.createStudent("gggggg", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2016", "2","2016", 0.0);
+        csbl.createStudent("hhhhhh", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2016", "1","2017", 0.0);
+        csbl.createStudent("iiiiii", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2016", "2","2017", 0.0);
+        csbl.createStudent("jjjjjj", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2016", "1","2018", 0.0);
+        csbl.createLecturer("hsianghui#2", "123456", "LekHsiangHui#2", "email@email.com", "NUS", 12345678L, genSalt(), "soc");
+        csbl.createLecturer("hsianghui#3", "123456", "LekHsiangHui#3", "email@email.com", "NUS", 12345678L, genSalt(), "soc");
+        csbl.createLecturer("hsianghui#4", "123456", "LekHsiangHui#4", "email@email.com", "NUS", 12345678L, genSalt(), "soc");
+        csbl.createGuest("guest_a", "123456", "someguest", "email@email.com", "NUS", 12345678L, genSalt());
+        csbl.createGuest("guest_b", "123456", "someguest", "email@email.com", "NUS", 12345678L, genSalt());
+        csbl.createGuest("guest_c", "123456", "someguest", "email@email.com", "NUS", 12345678L, genSalt());
+        csbl.createGuest("guest_d", "123456", "someguest", "email@email.com", "NUS", 12345678L, genSalt());
+        csbl.createGuest("guest_e", "123456", "someguest", "email@email.com", "NUS", 12345678L, genSalt());
+    }
     
     public User getUserEntity() {
         return userEntity;
