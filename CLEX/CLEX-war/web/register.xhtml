@@ -1,62 +1,59 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+                xmlns:h="http://xmlns.jcp.org/jsf/html" 
+                xmlns:f="http://xmlns.jcp.org/jsf/core" 
+                template="./layout/default.xhtml" 
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="content">
+        <h:head>
+            <title>PRISM Register Page</title>
+        </h:head>
 
-    <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <h:outputStylesheet name="./css/default.css"/>
-        <h:outputStylesheet name="./css/cssLayout.css"/>
-        <title>Register</title>
-    </h:head>
+        <h:body>
+            <h:messages id="messages" infoStyle="color: green;" warnStyle="color: orange;" errorStyle="color: red;" fatalStyle="color: red;" />
+            <h:form>
+                <h:outputLabel for="name">Username: </h:outputLabel>
+                <p:inputText id="username" value="#{registerBean.username}" /><br/>
+                <h:outputLabel for="password">Password: </h:outputLabel>
+                <p:password id="password" value="#{registerBean.password}" /><br/>
+                <h:outputLabel for="name">Name: </h:outputLabel>
+                <p:inputText id="name" value="#{registerBean.name}" /><br/>
+                <h:outputLabel for="email">Email: </h:outputLabel>
+                <p:inputText id="email" value="#{registerBean.email}" /><br/>
+                <h:outputLabel for="contactNum">Contact No.: </h:outputLabel>
+                <p:inputText id="contactNum" value="#{registerBean.contactNum}" /><br/>
+                <h:outputLabel for="userType">User Type: </h:outputLabel>
+                <h:selectOneMenu id="userType" value="#{registerBean.userType}"> 
+                    <f:selectItem itemValue = "1" itemLabel = "STUDENT" /> 
+                    <f:selectItem itemValue = "2" itemLabel = "LECTURER" /> 
+                    <f:selectItem itemValue = "3" itemLabel = "GUEST" />
+                </h:selectOneMenu><br/>
+                <h:commandButton value="Submit" actionListener="#{registerBean.register}"/>
 
-    <h:body>
-        <h:messages id="messages" infoStyle="color: green;" warnStyle="color: orange;" errorStyle="color: red;" fatalStyle="color: red;" />
-        <h:form>
-            <h:outputLabel for="name">Username: </h:outputLabel>
-            <p:inputText id="username" value="#{registerBean.username}" /><br/>
-            <h:outputLabel for="password">Password: </h:outputLabel>
-            <p:password id="password" value="#{registerBean.password}" /><br/>
-            <h:outputLabel for="name">Name: </h:outputLabel>
-            <p:inputText id="name" value="#{registerBean.name}" /><br/>
-            <h:outputLabel for="email">Email: </h:outputLabel>
-            <p:inputText id="email" value="#{registerBean.email}" /><br/>
-            <h:outputLabel for="contactNum">Contact No.: </h:outputLabel>
-            <p:inputText id="contactNum" value="#{registerBean.contactNum}" /><br/>
-            <h:outputLabel for="userType">User Type: </h:outputLabel>
-            <h:selectOneMenu id="userType" value="#{registerBean.userType}"> 
-                <f:selectItem itemValue = "1" itemLabel = "STUDENT" /> 
-                <f:selectItem itemValue = "2" itemLabel = "LECTURER" /> 
-                <f:selectItem itemValue = "3" itemLabel = "GUEST" />
-            </h:selectOneMenu><br/>
-            <h:commandButton value="Submit" actionListener="#{registerBean.register}"/>
-            
-        </h:form>
-            
-        <br>--------------------------------------</br>
-        
-        <!--For lazy people, please delete when not needed anymore-->
-        <h:form>
-            <h:commandButton value="TestRegisterStudent" actionListener="#{registerBean.testRegisterStudent}"/>
-        </h:form>
-        <h:form>
-            <h:commandButton value="TestRegisterLecturer" actionListener="#{registerBean.testRegisterLecturer}"/>
-        </h:form>
-        <h:form>
-            <h:commandButton value="TestRegisterGuest" actionListener="#{registerBean.testRegisterGuest}"/>
-        </h:form>
-        <h:form>
-            <h:commandButton value="CreateManyUsers" actionListener="#{registerBean.testusercase}"/>
-        </h:form>
-        <h:form>
-            <h:commandButton value="CreateAdmin" actionListener="#{registerBean.registerAdmin}"/>
-        </h:form>
+            </h:form>
 
+            <br>--------------------------------------</br>
 
-    </h:body>
+            <!--For lazy people, please delete when not needed anymore-->
+            <h:form>
+                <h:commandButton value="TestRegisterStudent" actionListener="#{registerBean.testRegisterStudent}"/>
+            </h:form>
+            <h:form>
+                <h:commandButton value="TestRegisterLecturer" actionListener="#{registerBean.testRegisterLecturer}"/>
+            </h:form>
+            <h:form>
+                <h:commandButton value="TestRegisterGuest" actionListener="#{registerBean.testRegisterGuest}"/>
+            </h:form>
+            <h:form>
+                <h:commandButton value="CreateManyUsers" actionListener="#{registerBean.testusercase}"/>
+            </h:form>
+            <h:form>
+                <h:commandButton value="CreateAdmin" actionListener="#{registerBean.registerAdmin}"/>
+            </h:form>
+        </h:body>
+    </ui:define>
 </ui:composition>
 
 
