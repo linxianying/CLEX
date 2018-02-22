@@ -37,7 +37,7 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     private Student student;
     private Course course;
 
-    private ArrayList<Course> takenCourses;
+    private ArrayList<Course> takenCourses; 
     private Collection<StudyPlan> studyPlans;
     private double calculatedCap; 
 
@@ -85,9 +85,11 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         Module m = new Module();
         m = null;
         try{
+            System.out.println("Try to find Module " + moduleCode + ", takenYear="+takenYear+
+                    ", takenSem=" + takenSem);
             Query q = em.createQuery("SELECT m FROM SchoolModule m WHERE "
-                    + "m.takenYear:=takenYear AND m.takenSem:=takenSem AND "
-                    + "m.course.moduleCode:=moduleCode");
+                    + "m.takenYear=:takenYear AND m.takenSem=:takenSem AND "
+                    + "m.course.moduleCode=:moduleCode");
             q.setParameter("takenYear", takenYear);
             q.setParameter("takenSem", takenSem);
             q.setParameter("moduleCode", moduleCode);
@@ -105,9 +107,14 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     // find all courses taken by the user
     @Override
     public ArrayList<Course> getTakenModules(String username) {
+        this.takenCourses = new ArrayList<Course>();
         findStudent(username);
-        Collection<Module> modules = this.student.getModules();
+        Collection<Module> modules = new ArrayList<Module>();
+        modules = this.student.getModules();
+        System.out.println("StudyPlanSessionbean: getTakenModules: student:" 
+                + username + "'s takenModules:" + modules.size());
         for (Module m: modules) {
+            System.out.println("Module's course is" + m.getCourse().getModuleCode());
             this.takenCourses.add(m.getCourse());
         }
         return takenCourses;
@@ -282,7 +289,15 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         student = this.findStudent(username);
         module = this.findModule(takenYear, takenSem, moduleCode);
         student.getModules().add(module);
+        module.getStudents().add(student);
+        em.persist(module);
         em.persist(student);
+        
+        em.flush();
+        System.out.println("StudyPlanSessionBean: setStudentTakenModules: set "
+                + "student:" + username + " with module " + moduleCode);
+        System.out.println("StudyPlanSessionBean: setStudentTakenModules: "
+                + "student:" + username + " with modules " + student.getModules().size());
     }
     
     
