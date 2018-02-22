@@ -61,8 +61,6 @@ public interface ClexSessionBeanLocal {
     public void createTimeslot(String date, String timeFrom, String timeEnd, String title, String details, String venue);
     public void dragAllNusMods(String url);
     public void getTimetable(String moduleCode);
-    public void createGroupTask(String date, String deadline, String title,
-            String details, String status, ProjectGroup pojectGroup);
     public void createSuperGroup(int numOfGroups, int minStudentNum, int maxStudentNum, Module module);
     public void createProjectGroup(SuperGroup superGroup, double cost);
 

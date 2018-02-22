@@ -74,15 +74,6 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     
     
     @Override
-    public void createGroupTask(String date, String deadline, String title,
-            String details, String status, ProjectGroup pojectGroup){
-        groupTaskEntity = new GroupTask();
-        groupTaskEntity.createGroupTask(date, deadline, title,details, status, pojectGroup);
-        em.persist(groupTaskEntity);
-        em.flush();
-    }
-    
-    @Override
     public void createSuperGroup(int numOfGroups, int minStudentNum, int maxStudentNum, Module module){
         superGroupEntity = new SuperGroup();
         superGroupEntity.createSuperGroup(numOfGroups, minStudentNum, maxStudentNum, module);

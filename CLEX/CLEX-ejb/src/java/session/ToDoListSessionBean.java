@@ -105,4 +105,48 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
         em.persist(taskEntity);
         em.flush();
     }
+    
+    @Override
+    public void finishTask(Long taskId){
+        taskEntity = findTask(taskId);
+        taskEntity.setStatus("finished");
+        em.persist(taskEntity);
+        em.flush();
+    }
+    
+    @Override
+    public void finishGroupTask(Long taskId){
+        groupTaskEntity = findGroupTask(taskId);
+        groupTaskEntity.setStatus("finished");
+        em.persist(groupTaskEntity);
+        em.flush();
+    }
+    
+    @Override
+    public GroupTask findGroupTask(Long id){
+        groupTaskEntity = new GroupTask();
+        groupTaskEntity = null;
+        try{
+            Query q = em.createQuery("SELECT t FROM GroupTask t WHERE t.id=:id");
+            q.setParameter("id", id);
+            groupTaskEntity = (GroupTask) q.getSingleResult();
+            System.out.println("GroupTask " + id + " found.");
+        }
+        catch(NoResultException e){
+            System.out.println("GroupTask " + id + " does not exist.");
+            groupTaskEntity = null;
+        }
+        return groupTaskEntity;
+        
+    }
+    
+    @Override
+    public void createGroupTask(String date, String deadline, String title,
+            String details, String status, ProjectGroup pojectGroup){
+        groupTaskEntity = new GroupTask();
+        groupTaskEntity.createGroupTask(date, deadline, title,details, status, pojectGroup);
+        em.persist(groupTaskEntity);
+        em.flush();
+    }
+
 }
