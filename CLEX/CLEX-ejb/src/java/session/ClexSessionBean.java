@@ -527,7 +527,13 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         return t;
     }
 
-    
-
+    @Override
+    public void setTaskUrgency(Long TaskId, String urgency){
+        taskEntity = null;
+        taskEntity = findTask(TaskId);
+        taskEntity.setUrgency(urgency);
+        em.merge(taskEntity);
+        em.flush();
+    }
     
 }
