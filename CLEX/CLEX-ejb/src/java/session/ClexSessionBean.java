@@ -154,6 +154,14 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     }
     
     @Override
+    public void createAdmin(String username, String password, String name, String email, String school, Long contactNum, String salt){
+        Admin adminEntity = new Admin();
+        adminEntity.createAdmin(username, hashPassword(password, salt), name, email, school, contactNum, salt);
+        em.persist(adminEntity);
+        em.flush();
+}
+
+    @Override
     public void createCourse(String moduleCode, String moduleName, String moduleInfo ,boolean discontinuedBool,
         String discountinuedYear, String discountinuedSem, String offeredSem, String school, String moduleCredit, String workload) {
         Course course = new Course();
