@@ -17,6 +17,8 @@ import javax.mail.*;
 import javax.mail.internet.*;  
 import javax.activation.*;
 import javax.faces.bean.SessionScoped;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import session.ClexSessionBeanLocal;
 
 /**
@@ -33,7 +35,8 @@ public class AcctMgmtBean implements Serializable{
     private User userEntity;
     private String username;
     private String password;
-
+    private String userType;
+    
     public AcctMgmtBean(){
         
     }
@@ -58,10 +61,6 @@ public class AcctMgmtBean implements Serializable{
     public void logout() throws IOException{
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
-    }
-    
-    public void updateProfile(){
-        
     }
     
     //Only for those who cannot log in, don't use this for editing profile

@@ -78,17 +78,17 @@ public class LoginBean implements Serializable{
             userEntity = csbl.findStudent(username);
             if(userEntity == null){
                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + username + "' does not exists.", "");
-               context.getCurrentInstance().addMessage(null, fmsg);
+               context.addMessage(null, fmsg);
             }
             else{
                 if(csbl.checkPassword(username, password)){
                     context.getExternalContext().getSessionMap().put("user", userEntity);
                     context.getExternalContext().getSessionMap().put("usertype", 1);
-                    context.getCurrentInstance().getExternalContext().redirect("studentMain.xhtml");
+                    context.getExternalContext().redirect("studentMain.xhtml");
                 }
                 else{
                     fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect password.", "");
-                    context.getCurrentInstance().addMessage(null, fmsg);
+                    context.addMessage(null, fmsg);
                 }
             }
         }
@@ -96,17 +96,17 @@ public class LoginBean implements Serializable{
             userEntity = csbl.findLecturer(username);
             if(userEntity == null){
                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + username + "' does not exists.", "");
-               context.getCurrentInstance().addMessage(null, fmsg);
+               context.addMessage(null, fmsg);
             }
             else{
                 if(csbl.checkPassword(username, password)){
                     context.getExternalContext().getSessionMap().put("user", userEntity);
                     context.getExternalContext().getSessionMap().put("usertype", 2);
-                    context.getCurrentInstance().getExternalContext().redirect("lecturerMain.xhtml");
+                    context.getExternalContext().redirect("lecturerMain.xhtml");
                 }
                 else{
                     fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect password.", "");
-                    context.getCurrentInstance().addMessage(null, fmsg);
+                    context.addMessage(null, fmsg);
                 }
             }
         }
@@ -114,17 +114,17 @@ public class LoginBean implements Serializable{
             userEntity = csbl.findAdmin(username);
             if(userEntity == null){
                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + username + "' does not exists.", "");
-               context.getCurrentInstance().addMessage(null, fmsg);
+               context.addMessage(null, fmsg);
             }
             else{
                 if(csbl.checkPassword(username, password)){
                     context.getExternalContext().getSessionMap().put("user", userEntity);
                     context.getExternalContext().getSessionMap().put("usertype", 3);
-                    context.getCurrentInstance().getExternalContext().redirect("adminMain.xhtml");
+                    context.getExternalContext().redirect("adminMain.xhtml");
                 }
                 else{
                     fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect password.", "");
-                    context.getCurrentInstance().addMessage(null, fmsg);
+                    context.addMessage(null, fmsg);
                 }
             }
         }
@@ -132,17 +132,17 @@ public class LoginBean implements Serializable{
             userEntity = csbl.findGuest(username);
             if(userEntity == null){
                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + username + "' does not exists.", "");
-               context.getCurrentInstance().addMessage(null, fmsg);
+               context.addMessage(null, fmsg);
             }
             else{
                 if(csbl.checkPassword(username, password)){
                     context.getExternalContext().getSessionMap().put("user", userEntity);
                     context.getExternalContext().getSessionMap().put("usertype", 4);
-                    context.getCurrentInstance().getExternalContext().redirect("guestMain.xhtml");
+                    context.getExternalContext().redirect("guestMain.xhtml");
                 }
                 else{
                     fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect password.", "");
-                    context.getCurrentInstance().addMessage(null, fmsg);
+                    context.addMessage(null, fmsg);
                 }
             }
         }

@@ -62,20 +62,6 @@ public class UserAccessControlBean implements UserAccessControlBeanLocal {
         System.out.println("Failed to approve " + username + ".");
         return false;
     }
-    
-    //May need to edit again in the future when more features are out
-    @Override
-    public boolean deleteUser(String username){
-        userEntity = findUser(username);
-        if(userEntity != null){
-            //IMPLEMENT THIS
-            
-            System.out.println("User " + username + " deleted.");
-            return true;
-        }
-        System.out.println("Failed to delete " + username + ".");
-        return false;
-    }
 
     public User findUser(String username){
         try{

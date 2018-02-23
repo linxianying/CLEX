@@ -152,14 +152,14 @@ public class RegisterBean implements Serializable{
         csbl.createStudent("hhhhhh", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2016", "1","2017", 0.0);
         csbl.createStudent("iiiiii", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2016", "2","2017", 0.0);
         csbl.createStudent("jjjjjj", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2016", "1","2018", 0.0);
-        csbl.createLecturer("hsianghui#2", "123456", "LekHsiangHui#2", "email@email.com", "NUS", 12345678L, genSalt(), "soc");
-        csbl.createLecturer("hsianghui#3", "123456", "LekHsiangHui#3", "email@email.com", "NUS", 12345678L, genSalt(), "soc");
-        csbl.createLecturer("hsianghui#4", "123456", "LekHsiangHui#4", "email@email.com", "NUS", 12345678L, genSalt(), "soc");
-        csbl.createGuest("guest_a", "123456", "someguest", "email@email.com", "NUS", 12345678L, genSalt());
-        csbl.createGuest("guest_b", "123456", "someguest", "email@email.com", "NUS", 12345678L, genSalt());
-        csbl.createGuest("guest_c", "123456", "someguest", "email@email.com", "NUS", 12345678L, genSalt());
-        csbl.createGuest("guest_d", "123456", "someguest", "email@email.com", "NUS", 12345678L, genSalt());
-        csbl.createGuest("guest_e", "123456", "someguest", "email@email.com", "NUS", 12345678L, genSalt());
+        csbl.createLecturer("hsianghui2", "123456", "LekHsiangHui2", "email@email.com", "NUS", 12345678L, genSalt(), "soc");
+        csbl.createLecturer("hsianghui3", "123456", "LekHsiangHui3", "email@email.com", "NUS", 12345678L, genSalt(), "soc");
+        csbl.createLecturer("hsianghui4", "123456", "LekHsiangHui4", "email@email.com", "NUS", 12345678L, genSalt(), "soc");
+        csbl.createGuest("guesta", "123456", "someguest", "email@email.com", "NUS", 12345678L, genSalt());
+        csbl.createGuest("guestb", "123456", "someguest", "email@email.com", "NUS", 12345678L, genSalt());
+        csbl.createGuest("guestc", "123456", "someguest", "email@email.com", "NUS", 12345678L, genSalt());
+        csbl.createGuest("guestd", "123456", "someguest", "email@email.com", "NUS", 12345678L, genSalt());
+        csbl.createGuest("gueste", "123456", "someguest", "email@email.com", "NUS", 12345678L, genSalt());
     }
     
     public User getUserEntity() {
