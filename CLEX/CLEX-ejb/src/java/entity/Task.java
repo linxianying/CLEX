@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -27,6 +28,9 @@ public class Task implements Serializable {
     private String details;
     private String status;
     private String urgency;
+    
+    @ManyToOne
+    private Student student = new Student();
 
     public void createTask(String date, String deadline, String title,String details, String status){
         this.deadline = deadline;
@@ -90,6 +94,14 @@ public class Task implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     @Override

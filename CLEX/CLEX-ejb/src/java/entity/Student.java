@@ -49,6 +49,9 @@ public class Student extends User implements Serializable {
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="student")
     private Collection<StudyPlan> studyPlan = new ArrayList<StudyPlan>();
     
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy="student")
+    private Collection<Task> tasks = new ArrayList<Task>();
+    
     @ManyToMany(cascade={CascadeType.PERSIST})
     @JoinTable(name="Student_ProjectGroup")
     private Collection<ProjectGroup> projectGroups = new ArrayList<ProjectGroup>();
@@ -96,6 +99,14 @@ public class Student extends User implements Serializable {
     
     public Collection<Ledger> getLedgers() {
         return ledgers;
+    }
+
+    public Collection<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(Collection<Task> tasks) {
+        this.tasks = tasks;
     }
 
     public void setLedgers(Collection<Ledger> ledgers) {

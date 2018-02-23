@@ -235,19 +235,18 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     
     @Override
     public Student findStudent(String username){
-        Student u = new Student();
-        u = null;
+        studentEntity = null;
         try{
             Query q = em.createQuery("SELECT u FROM Student u WHERE u.username=:username");
             q.setParameter("username", username);
-            u = (Student) q.getSingleResult();
+            studentEntity = (Student) q.getSingleResult();
             System.out.println("Student " + username + " found.");
         }
         catch(NoResultException e){
             System.out.println("Student " + username + " does not exist.");
-            u = null;
+            studentEntity = null;
         }
-        return u;
+        return studentEntity;
     }
     
     @Override

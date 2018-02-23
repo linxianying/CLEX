@@ -95,15 +95,51 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
     }
     
     @Override
-    public void updateTask(String date, String deadline, String title,String details, String status, String urgency){
-        taskEntity.setDate(date);
-        taskEntity.setDeadline(deadline);
-        taskEntity.setDetails(details);
-        taskEntity.setStatus(status);
-        taskEntity.setTitle(title);
-        taskEntity.setUrgency(urgency);
-        em.persist(taskEntity);
-        em.flush();
+    public void updateGroupTask(Long taskId, String date, String deadline, String title,String details, String status, String urgency){
+        groupTaskEntity = findGroupTask(taskId);
+        if(groupTaskEntity!=null){
+            if(!date.equals(""))
+                groupTaskEntity.setDate(date);
+            if(!deadline.equals(""))
+                groupTaskEntity.setDeadline(deadline);
+            if(!details.equals(""))
+                groupTaskEntity.setDetails(details);
+            if(!status.equals(""))
+                groupTaskEntity.setStatus(status);
+            if(!title.equals(""))
+                groupTaskEntity.setTitle(title);
+            if(!urgency.equals(""))
+                groupTaskEntity.setUrgency(urgency);
+            em.persist(groupTaskEntity);
+            em.flush();
+            System.out.println("ToDoList Session Bean updateTask: Group Task found! Updation performed");
+        }else{
+            System.out.println("ToDoList Session Bean updateTask: Group Task not found! ");
+        }
+    }
+    
+    @Override
+    public void updateTask(Long taskId, String date, String deadline, String title,String details, String status, String urgency){
+        taskEntity = findTask(taskId);
+        if(taskEntity!=null){
+            if(!date.equals(""))
+                taskEntity.setDate(date);
+            if(!deadline.equals(""))
+                taskEntity.setDeadline(deadline);
+            if(!details.equals(""))
+                taskEntity.setDetails(details);
+            if(!status.equals(""))
+                taskEntity.setStatus(status);
+            if(!title.equals(""))
+                taskEntity.setTitle(title);
+            if(!urgency.equals(""))
+                 taskEntity.setUrgency(urgency);
+            em.persist(taskEntity);
+            em.flush();
+            System.out.println("ToDoList Session Bean updateTask: Task found! Updation performed");
+        }else{
+            System.out.println("ToDoList Session Bean updateTask: Task not found! ");
+        }
     }
     
     @Override
@@ -147,6 +183,49 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
         groupTaskEntity.createGroupTask(date, deadline, title,details, status, pojectGroup);
         em.persist(groupTaskEntity);
         em.flush();
+    }
+
+    @Override
+    public void setGroupTaskUrgency(Long TaskId, String urgency) {
+         //To change body of generated methods, choose Tools | Templates.
+        groupTaskEntity = findGroupTask(TaskId);
+        groupTaskEntity.setUrgency(urgency);
+        em.persist(groupTaskEntity);
+        em.flush();
+    }
+
+    @Override
+    public void linkTaskStudent(Long taskId, String username) {
+    //To change body of generated methods, choose Tools | Templates.
+        taskEntity = findTask(taskId);
+        studentEntity = findStudent(username);
+        if(studentEntity==null){
+            System.out.println("Student " + username + " does not exist.");
+        }else if(taskEntity==null){
+            System.out.println("Task " + taskId + " does not exist.");
+        }else{
+            taskEntity.setStudent(studentEntity);
+            studentEntity.getTasks().add(taskEntity);
+            em.persist(taskEntity);
+            em.persist(studentEntity);
+            em.flush();
+        }
+    }
+    
+    @Override
+    public Student findStudent(String username) {
+        studentEntity = null;
+        try{
+            Query q = em.createQuery("SELECT u FROM Student u WHERE u.username=:username");
+            q.setParameter("username", username);
+            studentEntity = (Student) q.getSingleResult();
+            System.out.println("Student " + username + " found.");
+        }
+        catch(NoResultException e){
+            System.out.println("Student " + username + " does not exist.");
+            studentEntity = null;
+        }
+        return studentEntity;
     }
 
 }

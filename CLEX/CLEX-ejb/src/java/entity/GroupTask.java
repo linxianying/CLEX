@@ -27,6 +27,7 @@ public class GroupTask implements Serializable {
     private String title;
     private String details;
     private String status;
+    private String urgency;
     
     @ManyToOne
     private ProjectGroup pojectGroup = new ProjectGroup();
@@ -48,6 +49,14 @@ public class GroupTask implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUrgency() {
+        return urgency;
+    }
+
+    public void setUrgency(String urgency) {
+        this.urgency = urgency;
     }
 
     public String getDate() {
