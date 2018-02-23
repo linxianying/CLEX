@@ -86,7 +86,7 @@
 .settings {
     height:60px; 
     //float:left;
-    background:url(https://lh6.googleusercontent.com/ICwLO4FJNUJm1AcyiFoXsbfmyskIVAQTMRZd7tnjoPzhFkRxd4FcI-tO9Hk_FvHMf1XwXy2KOm2VaSkleE7F=w1366-h603);
+    background:url(https://lh4.googleusercontent.com/z2MWpLf53CGnKieA5dOvzztHlhXZ95RHh9MLDeMrzsLW7Q3CmPRAytoAXlNPZ4OdtiU59NgWBF1By_mT8_4J=w1366-h603);
     background-repeat:no-repeat !important;
     width:250px;
     margin-left:0px;
@@ -203,7 +203,7 @@
 
 /* Logo Hover Property */
 .settings:hover, settings:focus {   
-    background:url(https://lh6.googleusercontent.com/ICwLO4FJNUJm1AcyiFoXsbfmyskIVAQTMRZd7tnjoPzhFkRxd4FcI-tO9Hk_FvHMf1XwXy2KOm2VaSkleE7F=w1366-h603);
+    background:url(https://lh4.googleusercontent.com/z2MWpLf53CGnKieA5dOvzztHlhXZ95RHh9MLDeMrzsLW7Q3CmPRAytoAXlNPZ4OdtiU59NgWBF1By_mT8_4J=w1366-h603);
     -webkit-transition: all 0.2s ease-in-out, width 0, height 0, top 0, left 0;
     -moz-transition: all 0.2s ease-in-out, width 0, height 0, top 0, left 0;
     -o-transition: all 0.2s ease-in-out, width 0, height 0, top 0, left 0;
@@ -211,7 +211,7 @@
 }
 
 .settings:active, settings:focus {   
-    background:url(https://lh6.googleusercontent.com/ICwLO4FJNUJm1AcyiFoXsbfmyskIVAQTMRZd7tnjoPzhFkRxd4FcI-tO9Hk_FvHMf1XwXy2KOm2VaSkleE7F=w1366-h603);
+    background:url(https://lh4.googleusercontent.com/z2MWpLf53CGnKieA5dOvzztHlhXZ95RHh9MLDeMrzsLW7Q3CmPRAytoAXlNPZ4OdtiU59NgWBF1By_mT8_4J=w1366-h603);
     -webkit-transition: all 0.1s ease-in-out, width 0, height 0, top 0, left 0;
     -moz-transition: all 0.1s ease-in-out, width 0, height 0, top 0, left 0;
     -o-transition: all 0.1s ease-in-out, width 0, height 0, top 0, left 0;
