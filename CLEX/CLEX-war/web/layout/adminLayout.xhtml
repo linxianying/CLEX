@@ -11,9 +11,11 @@
         <h:outputStylesheet name="./css/default.css"/>
         <h:outputStylesheet name="./css/cssLayout.css"/>
         <div id="top">
-            <p:commandLink title="Private Message" style="text-decoration: none;" styleClass="msgBtn"></p:commandLink>
-            <p:commandLink title="Settings" style="text-decoration: none;" styleClass="settingsBtn"></p:commandLink>
-            <p:commandLink title="Logout" style="text-decoration: none;" styleClass="logoutBtn" ></p:commandLink>
+            <h:form>
+                <p:commandLink title="Private Message" style="text-decoration: none;" styleClass="msgBtn"></p:commandLink>
+                <p:commandLink title="Settings" style="text-decoration: none;" styleClass="settingsBtn"></p:commandLink>
+                <p:commandLink title="Logout" style="text-decoration: none;" styleClass="logoutBtn" action="#{acctMgmtBean.logout}" ></p:commandLink>
+            </h:form>
         </div>
     </h:head>
 

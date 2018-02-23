@@ -9,6 +9,7 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 import javax.validation.constraints.NotNull;
@@ -27,7 +28,7 @@ import session.ClexSessionBeanLocal;
  * @author eeren
  */
 
-@SessionScoped
+@RequestScoped
 @ManagedBean
 public class RegisterBean implements Serializable{
     
@@ -80,7 +81,7 @@ public class RegisterBean implements Serializable{
         }
         else{
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + username + "' already exists.", "");
-            context.getCurrentInstance().addMessage(null, fmsg);
+            context.addMessage(null, fmsg);
         }
     }
     
@@ -104,7 +105,7 @@ public class RegisterBean implements Serializable{
     public void testRegisterStudent() throws IOException{
         if(csbl.checkNewUser("namename") == true){
             csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1","2017", 0.0);
-            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
         }
         else{
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "User 'namename' already exists.", ""));
@@ -114,7 +115,7 @@ public class RegisterBean implements Serializable{
     public void testRegisterLecturer() throws IOException{
         if(csbl.checkNewUser("hsianghui") == true){
             csbl.createLecturer("hsianghui", "123456", "LekHsiangHui", "email@email.com", "NUS", 12345678L, genSalt(), "soc");
-            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
         }
         else{
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "User 'hsianghui' already exists.", ""));
@@ -124,7 +125,7 @@ public class RegisterBean implements Serializable{
     public void testRegisterGuest() throws IOException{
         if(csbl.checkNewUser("aguest") == true){
             csbl.createGuest("aguest", "123456", "someguest", "email@email.com", "NUS", 12345678L, genSalt());
-            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
         }
         else{
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "User 'aguest' already exists.", ""));
@@ -132,9 +133,9 @@ public class RegisterBean implements Serializable{
     }
 
     public void registerAdmin() throws IOException{
-        if(csbl.checkNewUser("admin") == true){
-            csbl.createAdmin("admin", "123", "admin", "admin", "NUS", 12345678L, genSalt());
-            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+        if(csbl.checkNewUser("theadmin") == true){
+            csbl.createAdmin("theadmin", "123", "admin", "admin", "NUS", 12345678L, genSalt());
+            FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
         }
         else{
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "User 'admin' already exists.", ""));
