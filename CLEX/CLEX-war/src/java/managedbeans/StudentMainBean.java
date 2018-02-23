@@ -10,6 +10,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import session.ClexSessionBeanLocal;
+import session.ToDoListSessionBeanLocal;
 
 /**
  *
@@ -24,6 +25,7 @@ public class StudentMainBean {
      */
     @EJB
     private ClexSessionBeanLocal csbl;
+    
     
     private User userEntity;
     private String username;

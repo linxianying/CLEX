@@ -26,6 +26,7 @@ import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
+import session.ToDoListSessionBeanLocal;
 
 /**
  *
@@ -40,6 +41,8 @@ public class ScheduleBean implements Serializable {
      */
     @EJB
     private ClexSessionBeanLocal csbl;
+    @EJB
+    private ToDoListSessionBeanLocal tdsbl; 
     
     private User userEntity;
     private String username;
