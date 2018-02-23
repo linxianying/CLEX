@@ -18,7 +18,7 @@ import javax.ejb.Local;
 @Local
 public interface ToDoListSessionBeanLocal {
     
-    public void createTask(String date, String deadline, String title,String details, String status);
+    public void createTask(String username, String date, String deadline, String title,String details, String status);
     public void createGroupTask(String date, String deadline, String title, String details, String status, ProjectGroup pojectGroup);
     public void linkTaskStudent(Long taskId, String name);
     

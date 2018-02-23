@@ -85,9 +85,11 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
         return "Tutorial is sucessfully deleted!\n";
     }
     @Override
-    public void createTask(String date, String deadline, String title,String details, String status){
+    public void createTask(String username, String date, String deadline, String title,String details, String status){
         taskEntity = new Task();
         taskEntity.createTask(date, deadline, title, details, status);
+        Long id = taskEntity.getId();
+        linkTaskStudent(id, username);
         em.persist(taskEntity);
         em.flush();
     
