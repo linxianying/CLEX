@@ -8,6 +8,7 @@ package session;
 import entity.Course;
 import entity.GroupTask;
 import entity.Guest;
+import entity.IndividualGroupTask;
 import entity.Lecturer;
 import entity.ProjectGroup;
 import entity.Student;
@@ -43,6 +44,7 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
     private GroupTask groupTaskEntity;
     private ProjectGroup projectGroupEntity;
     private SuperGroup superGroupEntity;
+    private IndividualGroupTask indGroupTaskEntity;
     
     
     @Override
@@ -91,6 +93,32 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
         Long id = taskEntity.getId();
         linkTaskStudent(id, username);
         em.persist(taskEntity);
+        em.flush();
+    
+    }
+    
+    public void linkIndividualTaskStudent(IndividualGroupTask indGroupTaskEntity, String username) {
+    //To change body of generated methods, choose Tools | Templates.
+        studentEntity = findStudent(username);
+        if(studentEntity==null){
+            System.out.println("Student " + username + " does not exist.");
+        }else if(taskEntity==null){
+            System.out.println("Task does not exist.");
+        }else{
+            indGroupTaskEntity.setStudent(studentEntity);
+            studentEntity.getIndividualGroupTasks().add(indGroupTaskEntity);
+            em.persist(indGroupTaskEntity);
+            em.persist(studentEntity);
+            em.flush();
+        }
+    }
+    
+    @Override
+    public void createIndividualGroupTask(String username, String date, String deadline, String title,String details, String status){
+        indGroupTaskEntity = new IndividualGroupTask();
+        indGroupTaskEntity.createIndividualGroupTask(date, deadline, title, details, status);
+        linkIndividualTaskStudent(indGroupTaskEntity, username);
+        em.persist(indGroupTaskEntity);
         em.flush();
     
     }
@@ -179,9 +207,12 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
     
     @Override
     public void createGroupTask(String date, String deadline, String title,
-        String details, String status, ProjectGroup pojectGroup){
+        String details, String status, ProjectGroup projectGroup, String[] users){
         groupTaskEntity = new GroupTask();
-        groupTaskEntity.createGroupTask(date, deadline, title,details, status, pojectGroup);
+        groupTaskEntity.createGroupTask(date, deadline, title,details, status, projectGroup);
+        for(int i=0;i<users.length;i++){
+            createIndividualGroupTask(users[i], date, deadline, title, details+"("+projectGroup.getId()+")", status);
+        }
         em.persist(groupTaskEntity);
         em.flush();
     }

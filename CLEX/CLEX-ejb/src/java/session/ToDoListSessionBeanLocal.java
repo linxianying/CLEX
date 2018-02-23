@@ -18,12 +18,20 @@ import javax.ejb.Local;
 @Local
 public interface ToDoListSessionBeanLocal {
     
-    public void createTask(String username, String date, String deadline, String title,String details, String status);
-    public void createGroupTask(String date, String deadline, String title, String details, String status, ProjectGroup pojectGroup);
+    public void createTask(String username, String date, String deadline, 
+            String title,String details, String status);
+    public void createGroupTask(String date, String deadline, String title, 
+            String details, String status, ProjectGroup projectGroup, 
+            String[] users);
+    public void createIndividualGroupTask(String username, String date, 
+            String deadline, String title,String details, String status);
+    
     public void linkTaskStudent(Long taskId, String name);
     
-    public void updateTask(Long taskId, String date, String deadline, String title,String details, String status, String urgency);
-    public void updateGroupTask(Long taskId, String date, String deadline, String title,String details, String status, String urgency);
+    public void updateTask(Long taskId, String date, String deadline, 
+            String title,String details, String status, String urgency);
+    public void updateGroupTask(Long taskId, String date, String deadline, 
+            String title,String details, String status, String urgency);
     public void setTaskUrgency(Long TaskId, String urgency);
     public void setGroupTaskUrgency(Long TaskId, String urgency);
     
