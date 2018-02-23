@@ -8,31 +8,55 @@
                 xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="content">
-        <h:messages id="messages" infoStyle="color: green;" warnStyle="color: orange;" errorStyle="color: red;" fatalStyle="color: red;" />
+                <h:outputStylesheet name="./css/style.css"/>
+        <div class="wrapper">
+            <div class="container">
+                <h1>Login to your account</h1>
 
-        <h:form>
-            <h:outputLabel for="name">Username: </h:outputLabel>
-            <p:inputText id="username" value="#{loginBean.username}" required="true" requiredMessage="Please enter your username." /><br/>
-            <h:outputLabel for="password">Password: </h:outputLabel>
-            <p:password id="password" value="#{loginBean.password}" /><br/>
-            <h:selectOneMenu id="userType" value="#{loginBean.userType}">
-                <f:selectItem itemValue="1" itemLabel="STUDENT" />
-                <f:selectItem itemValue="2" itemLabel="LECTURER" />
-                <f:selectItem itemValue="3" itemLabel="ADMIN" />
-                <f:selectItem itemValue="4" itemLabel="GUEST" />
-            </h:selectOneMenu><br/>
-            <h:commandButton value="Submit" actionListener="#{loginBean.doLogin}" />
+                <h:form class="form">
+                    <p:inputText styleClass="textInput" id="username" value="#{loginBean.username}" 
+                                 required="true" requiredMessage="Please enter your username." 
+                                 placeholder="Username"
+                                 validatorMessage="Invalid format. Username must be between 6-12 letters/numbers. Special characters are not allowed.">
+                        <f:validateRegex pattern="^[a-zA-Z0-9]{6,12}$" />
+                    </p:inputText>
+                    <br></br>
+                    <p:password styleClass="textInput" id="password" value="#{loginBean.password}" 
+                                required="true" requiredMessage="Please enter your password." 
+                                placeholder="Password"/>
+                    
+                    <a href="resetPassword.xhtml" style="color: blue">Reset Password</a>
+                    <br></br>
+                    <br></br>
+                    <p:selectOneButton required="true" requiredMessage="Please select a user type" styleClass="menuSelect" id="userType" value="#{loginBean.userType}"> 
+                        <f:selectItem itemValue = "1" itemLabel = "Student" /> 
+                        <f:selectItem itemValue = "2" itemLabel = "Lecturer" /> 
+                        <f:selectItem itemValue = "3" itemLabel = "Admin" />
+                        <f:selectItem itemValue = "4" itemLabel = "Guest" />
+                    </p:selectOneButton><br/><br></br>
+                    <h:messages id="messages" infoStyle="color: green;" warnStyle="color: orange;" errorStyle="color: red;" fatalStyle="color: red;" /><br></br>
+                    <h:commandButton value="Login" actionListener="#{loginBean.doLogin}" id="login-button"/>
+                    <h:button value="Sign Up" outcome="register"/>
 
-        </h:form>
+                </h:form>
 
-        <br>--------------------------------------</br>
+            </div>
 
-        <h:form>
-            <br>Forget your password? Enter your username to reset your password.</br>
-            <h:outputLabel for="name">Username: </h:outputLabel>
-            <h:inputText id="username" value="#{acctMgmtBean.username}" required="true" requiredMessage="Please enter your username." /><br/>
-            <h:commandButton value="Reset Password" actionListener="#{acctMgmtBean.resetPassword}" />
-        </h:form>
+            <ul class="bg-bubbles">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+        <h:outputScript name = "./js/index.js"/> 
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 
         <br>--------------------------------------</br>
 

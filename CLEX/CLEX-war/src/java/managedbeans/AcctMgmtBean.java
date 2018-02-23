@@ -60,7 +60,7 @@ public class AcctMgmtBean implements Serializable{
     //eeren: Im not sure how but I need to research on how to store variables when you visit other pages
     public void logout() throws IOException{
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+        FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
     }
     
     //Only for those who cannot log in, don't use this for editing profile
