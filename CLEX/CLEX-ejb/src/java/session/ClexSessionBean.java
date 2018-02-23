@@ -41,6 +41,7 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     @PersistenceContext
     EntityManager em;
     private User userEntity;
+    private Admin adminEntity;
     private Student studentEntity;
     private Module moduleEntity;
     private Lecturer lecturerEntity;
@@ -51,6 +52,7 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     private GroupTask groupTaskEntity;
     private ProjectGroup projectGroupEntity;
     private SuperGroup superGroupEntity;
+    
     
     private DecimalFormat df = new DecimalFormat("#.##");
 
@@ -252,53 +254,52 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     
     @Override
     public Lecturer findLecturer(String username){
-        Lecturer l = new Lecturer();
-        l = null;
+        
+        lecturerEntity = null;
         try{
             Query q = em.createQuery("SELECT l FROM Lecturer l WHERE l.username=:username");
             q.setParameter("username", username);
-            l = (Lecturer) q.getSingleResult();
+            lecturerEntity = (Lecturer) q.getSingleResult();
             System.out.println("Lecturer " + username + " found.");
         }
         catch(NoResultException e){
             System.out.println("Lecturer " + username + " does not exist.");
-            l = null;
+            lecturerEntity = null;
         }
-        return l;
+        return lecturerEntity;
     }
     
     @Override
     public Admin findAdmin(String username){
-        Admin a = new Admin();
-        a = null;
+        adminEntity = null;
         try{
             Query q = em.createQuery("SELECT a FROM Admin a WHERE a.username=:username");
             q.setParameter("username", username);
-            a = (Admin) q.getSingleResult();
+            adminEntity = (Admin) q.getSingleResult();
             System.out.println("Admin " + username + " found.");
         }
         catch(NoResultException e){
             System.out.println("Admin " + username + " does not exist.");
-            a = null;
+            adminEntity = null;
         }
-        return a;
+        return adminEntity;
     }
     
     @Override
     public Guest findGuest(String username){
-        Guest g = new Guest();
-        g = null;
+
+        guestEntity = null;
         try{
             Query q = em.createQuery("SELECT g FROM Guest g WHERE g.username=:username");
             q.setParameter("username", username);
-            g = (Guest) q.getSingleResult();
+            guestEntity = (Guest) q.getSingleResult();
             System.out.println("Guest " + username + " found.");
         }
         catch(NoResultException e){
             System.out.println("Guest " + username + " does not exist.");
-            g = null;
+            guestEntity = null;
         }
-        return g;
+        return guestEntity;
     }
     
     @Override
