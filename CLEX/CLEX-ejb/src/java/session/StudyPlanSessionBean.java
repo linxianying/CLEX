@@ -11,6 +11,7 @@ import entity.Module;
 import entity.Student;
 import entity.StudyPlan;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -36,8 +37,14 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     private StudyPlan studyPlan;
     private Student student;
     private Course course;
-
+    
+    private int currentYear;
+    private int currentSem;
+    //number of semesters the student has taken
+    private int numOfSemTaken;
+    
     private ArrayList<Course> takenCourses; 
+    private ArrayList<ArrayList<Course>> takenCoursesInOrder;
     private Collection<StudyPlan> studyPlans;
     private double calculatedCap; 
 
@@ -120,6 +127,18 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         return takenCourses;
     }
     
+    //set all course taken by the user in order of year and sem
+    public ArrayList<ArrayList<Course>> getTakenModulesInOrder(String username) {
+        takenCoursesInOrder = new ArrayList<ArrayList<Course>>();
+        takenCourses = this.getTakenModules(username);
+        
+        for (int i=0; i<numOfSemTaken; i++){
+            
+        }
+        
+        return takenCoursesInOrder;
+    }
+    
     // find all studyPlan the user has
     @Override
     public Collection<StudyPlan> getAllStudyPlans(String username) {
@@ -133,8 +152,8 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     public boolean findStudyPlan(String username, String moduleCode) {
         this.findStudent(username);
         this.findCourse(moduleCode);
-        Long studentId = this.student.getId();
-        Long courseId = this.course.getId();
+        Long studentId = this.findStudent(username).getId();
+        Long courseId = this.findCourse(moduleCode).getId();
         
         StudyPlan s = new StudyPlan();
         s = null;
@@ -300,6 +319,34 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
                 + "student:" + username + " with modules " + student.getModules().size());
     }
     
+    //check current year nad sem to decide how many semesters the student has taken
+    //!!Assume all Students start at sem1
+    @Override
+    public int checkNumOfSemTaken(String username) {
+        numOfSemTaken = 0;
+        Calendar now = Calendar.getInstance();
+        int currentYear = now.get(Calendar.YEAR);
+        System.out.println("Current Year is : " + currentYear);
+        // month starts from 0 to 11
+        int currentMonth = now.get(Calendar.MONTH);
+        System.out.println("Current Month is : " + now.get(Calendar.MONTH));
+        if (currentMonth < 6) {
+            currentSem = 1;
+        }
+        else {
+            currentSem = 2;
+            numOfSemTaken++;
+        }
+        
+        int matricYear = Integer.parseInt(this.findStudent(username).getMatricYear());
+        numOfSemTaken += (currentYear-matricYear);
+        return numOfSemTaken;
+    }
+    
+    //used for method getTakenModulesInOrder
+    
+    
+    
     
     //-------------------------------------------------------------------------
     //for test urpose only
@@ -317,13 +364,11 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         System.out.println("sp session bean: testViewTakenModules finish ");
         return courses;
     }
+
+    
     
     
 
-    @Override
-    public void testAddTakenModules() {
-        
-    }
 
    
 
