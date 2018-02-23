@@ -42,6 +42,7 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     EntityManager em;
     private User userEntity;
     private Student studentEntity;
+    private Module moduleEntity;
     private Lecturer lecturerEntity;
     private Guest guestEntity;
     private Course courseEntity;
@@ -302,46 +303,43 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     
     @Override
     public Module findModule(String moduleCode, String takenYear, String takenSem){
-        Module m = new Module();
-        m = null;
-        Course c = new Course();
-        c = null;
+        moduleEntity = null;
+        courseEntity = null;
         Long courseId;
         try{
-            c = this.findCourse(moduleCode);
-            courseId = c.getId();
+            courseEntity = this.findCourse(moduleCode);
+            courseId = courseEntity.getId();
             Query q = em.createQuery("SELECT m FROM SchoolModule m "
                     + "WHERE m.course.id=:courseId AND m.takenYear=:takenYear "
                     + "AND m.takenSem=:takenSem");
             q.setParameter("courseId", courseId);
             q.setParameter("takenYear", takenYear);
             q.setParameter("takenSem", takenSem);
-            m = (Module) q.getSingleResult();
+            moduleEntity = (Module) q.getSingleResult();
             System.out.println("Module: " + moduleCode + "with takenYear=" + 
                     takenYear + ", takenSem= " + takenSem + " found.");
         }
         catch(NoResultException e){
             System.out.println("Course " + moduleCode + " does not exist.");
-            m = null;
+            moduleEntity = null;
         }
-        return m;
+        return moduleEntity;
     }
     
     @Override
     public Course findCourse(String moduleCode){
-        Course c = new Course();
-        c = null;
+        courseEntity = null;
         try{
             Query q = em.createQuery("SELECT c FROM Course c WHERE c.moduleCode=:moduleCode");
             q.setParameter("moduleCode", moduleCode);
-            c = (Course) q.getSingleResult();
+            courseEntity = (Course) q.getSingleResult();
             System.out.println("Course " + moduleCode + " found.");
         }
         catch(NoResultException e){
             System.out.println("Course " + moduleCode + " does not exist.");
-            c = null;
+            courseEntity = null;
         }
-        return c;
+        return courseEntity;
     }
 
     /*@Override

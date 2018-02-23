@@ -56,19 +56,18 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
     
     @Override
     public Task findTask(Long taskId){
-        Task t = new Task();
-        t = null;
+        taskEntity = null;
         try{
             Query q = em.createQuery("SELECT t FROM Task t WHERE t.taskId=:taskId");
             q.setParameter("taskId", taskId);
-            t = (Task) q.getSingleResult();
+            taskEntity = (Task) q.getSingleResult();
             System.out.println("Task " + taskId + " found.");
         }
         catch(NoResultException e){
             System.out.println("Task " + taskId + " does not exist.");
-            t = null;
+            taskEntity = null;
         }
-        return t;
+        return taskEntity;
     }
     
     @Override
@@ -178,7 +177,7 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
     
     @Override
     public void createGroupTask(String date, String deadline, String title,
-            String details, String status, ProjectGroup pojectGroup){
+        String details, String status, ProjectGroup pojectGroup){
         groupTaskEntity = new GroupTask();
         groupTaskEntity.createGroupTask(date, deadline, title,details, status, pojectGroup);
         em.persist(groupTaskEntity);
