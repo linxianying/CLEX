@@ -40,7 +40,7 @@ public interface StudyPlanSessionBeanLocal {
 
     public void viewStudyPlan(String usrname);
 
-    public ArrayList<Course> getTakenModules(String username);
+    public Collection<Module> getTakenModules(String username);
 
     public Collection<StudyPlan> getAllStudyPlans(String username);
 
@@ -51,6 +51,10 @@ public interface StudyPlanSessionBeanLocal {
     public void setStudentTakenModules(String username, String moduleCode, String takenYear, String takenSem);
 
     public int checkNumOfSemTaken(String username);
+
+    public ArrayList<Course> getTakenCourses(String username);
+
+    public ArrayList<ArrayList<Course>> getTakenModulesInOrder(String username);
     
     
 }

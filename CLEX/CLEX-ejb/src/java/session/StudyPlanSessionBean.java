@@ -13,6 +13,7 @@ import entity.StudyPlan;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.LinkedList;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -44,6 +45,7 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     private int numOfSemTaken;
     
     private ArrayList<Course> takenCourses; 
+    private ArrayList<Module> takenModules; 
     private ArrayList<ArrayList<Course>> takenCoursesInOrder;
     private Collection<StudyPlan> studyPlans;
     private double calculatedCap; 
@@ -113,12 +115,12 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     
     // find all courses taken by the user
     @Override
-    public ArrayList<Course> getTakenModules(String username) {
+    public ArrayList<Course> getTakenCourses(String username) {
         this.takenCourses = new ArrayList<Course>();
         findStudent(username);
         Collection<Module> modules = new ArrayList<Module>();
         modules = this.student.getModules();
-        System.out.println("StudyPlanSessionbean: getTakenModules: student:" 
+        System.out.println("StudyPlanSessionbean: getTakenCourses: student:" 
                 + username + "'s takenModules:" + modules.size());
         for (Module m: modules) {
             System.out.println("Module's course is" + m.getCourse().getModuleCode());
@@ -127,15 +129,68 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         return takenCourses;
     }
     
+    // find all modules taken by the user
+    @Override
+    public ArrayList<Module> getTakenModules(String username) {
+        Collection<Module> all = new ArrayList<Module>();
+        takenModules = new ArrayList<Module>();
+        findStudent(username);
+        all = this.student.getModules();
+        for (Module m : all) {
+            takenModules.add(m);
+        }
+        System.out.println("StudyPlanSessionbean: getTakenModules: student:" 
+                + username + "'s takenModules:" + takenModules.size());
+        return takenModules;
+    }
+    
     //set all course taken by the user in order of year and sem
+    @Override
     public ArrayList<ArrayList<Course>> getTakenModulesInOrder(String username) {
         takenCoursesInOrder = new ArrayList<ArrayList<Course>>();
-        takenCourses = this.getTakenModules(username);
-        
+        takenModules = this.getTakenModules(username);
+        //the iterator of for loop to change to next semster
+        int year = Integer.parseInt(this.findStudent(username).getMatricYear());
+        int sem = 1;
+        int numOfSemTaken = checkNumOfSemTaken(username);
+        //from matric year sem 1, check what are the courses taken for the sem
+        //then increase the year/sem to next semster
         for (int i=0; i<numOfSemTaken; i++){
-            
+            System.out.println("check for year " + year + ", sem " + sem);
+            ArrayList<Course> currentCourses= new ArrayList<Course>();
+            //go through all the modules the student takes
+            System.out.println("takenModules.size=" + takenModules.size());
+            for (int index=0; index<takenModules.size(); index++) {
+                //if the module is taken in "year" "sem", add it to the currentCourses 
+                System.out.println("sp session bean: getTakenModulesInOrder:");
+                System.out.print("Integer.parseInt(takenModules.get(index).getTakenYear() = ");
+                System.out.println(Integer.parseInt(takenModules.get(index).getTakenYear()));
+                if (Integer.parseInt(takenModules.get(index).getTakenYear()) == year) {
+                    if (Integer.parseInt(takenModules.get(index).getTakenSem()) == sem) {
+                        currentCourses.add(takenModules.get(index).getCourse());
+                        System.out.println("StudyPlanSessionbean: getTakenModulesInOrder: "
+                                + "add course " + takenModules.get(index).getCourse().getModuleCode() 
+                                + " at year " + year + ", sem " + sem);
+                    }
+                }
+            }
+            takenCoursesInOrder.add(currentCourses);
+            System.out.println(currentCourses.size());
+            System.out.println(currentCourses);
+            System.out.println("check for"
+                    + " year " + year + ", sem " + sem + " finishes.");
+            currentCourses = null;
+            //increase sem year to next semester
+            if (sem == 1)
+                sem = 2;
+            else {
+                year++;
+                sem = 1;
+            }
         }
-        
+        System.out.print("StudyPlanSessionbean: getTakenModulesInOrder:");
+        System.out.println(takenCoursesInOrder.size());
+        System.out.println(takenCoursesInOrder);
         return takenCoursesInOrder;
     }
     
@@ -323,7 +378,7 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     //!!Assume all Students start at sem1
     @Override
     public int checkNumOfSemTaken(String username) {
-        numOfSemTaken = 0;
+        numOfSemTaken = 1;
         Calendar now = Calendar.getInstance();
         int currentYear = now.get(Calendar.YEAR);
         System.out.println("Current Year is : " + currentYear);
@@ -339,7 +394,8 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         }
         
         int matricYear = Integer.parseInt(this.findStudent(username).getMatricYear());
-        numOfSemTaken += (currentYear-matricYear);
+        numOfSemTaken += 2*(currentYear-matricYear);
+        System.out.println("number of semesters for this student " + username +" is " + numOfSemTaken);
         return numOfSemTaken;
     }
     

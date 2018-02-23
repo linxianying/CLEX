@@ -6,7 +6,8 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html" 
                 template="./layout/studentLayout.xhtml" 
                 xmlns:p="http://primefaces.org/ui" 
-                xmlns:f="http://xmlns.jcp.org/jsf/core">
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="content">
         <h:head>
@@ -70,6 +71,17 @@
                     <h:form>
                         <h:commandButton value="testViewStudyPlan" actionListener="#{studyPlanBean.testViewStudyPlan}" action="studyPlan?faces-redirect=true" />
                     </h:form>
+                    <h:form>
+                        <h:commandButton value="testViewTakenCoursesInOrder" actionListener="#{studyPlanBean.testViewTakenCoursesInOrder}" action="studyPlan?faces-redirect=true" />
+                    </h:form>
+                    <br />
+                    <h:panelGrid columns="1">
+                        <c:forEach var="courses" items="#{tudyPlanBean.takenCoursesInOrder}">
+                            <c:forEach var="course" items="#{courses}">
+                                #{course.moduleCode}
+                            </c:forEach>
+                        </c:forEach>
+                    </h:panelGrid>
                     <br />
                     <p:dataTable var="course" value="#{studyPlanBean.takenCourses}">
                         <f:facet name="header">

@@ -47,12 +47,13 @@ public class StudyPlanBean {
     private String pickYear;
     private String pickSem;
     private ArrayList<Course> takenCourses;
+    private ArrayList<ArrayList<Course>> takenCoursesInOrder;
     private Collection<StudyPlan> studyPlans;
     private double calculatedCap; 
     private Student student;
     //private Course course;
-    private int currentYear;
-    private int currentMonth;
+    //private int currentYear;
+    //private int currentMonth;
     private DashboardModel model;
     
     public StudyPlanBean() {
@@ -228,6 +229,14 @@ public class StudyPlanBean {
     public void setPickSem(String pickSem) {
         this.pickSem = pickSem;
     }
+
+    public ArrayList<ArrayList<Course>> getTakenCoursesInOrder() {
+        return takenCoursesInOrder;
+    }
+
+    public void setTakenCoursesInOrder(ArrayList<ArrayList<Course>> takenCoursesInOrder) {
+        this.takenCoursesInOrder = takenCoursesInOrder;
+    }
     
     //-------------------------------------------------------------------------
     //for test addStudyPlan, dont forget to create student and module before test
@@ -276,7 +285,7 @@ public class StudyPlanBean {
         cpsbl.setStudentTakenModules("namename", "CS2100", "2018", "1");
         cpsbl.setStudentTakenModules("namename", "GER1000", "2018", "1");
         
-        this.takenCourses = cpsbl.getTakenModules("namename");
+        this.takenCourses = cpsbl.getTakenCourses("namename");
         System.out.println(takenCourses);
         System.out.println("sp bean: testViewTakenCourses finish ");
     }
@@ -288,6 +297,33 @@ public class StudyPlanBean {
         cpsbl.addStudyPlan("2018", "1", "IS1105", "namename");
         cpsbl.addStudyPlan("2018", "1", "CS2102", "namename");
         this.studyPlans = cpsbl.getAllStudyPlans("namename");
+    }
+    
+    public void testViewTakenCoursesInOrder(){
+        if(csbl.checkNewUser("namename") == true){
+            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1","2017", 0.0);
+        }
+        this.student = cpsbl.findStudent("namename");
+        //to add some taken modules for student
+        //first,create some modules
+        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("CP3109"));
+        csbl.createModule("2015", "2", "none", "none", csbl.findCourse("IS3106"));
+        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("CS1020"));
+        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("CS2100"));
+        csbl.createModule("2017", "1", "none", "none", csbl.findCourse("GER1000"));
+        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("PS2240"));
+        csbl.createModule("2018", "1", "none", "none", csbl.findCourse("ST2334"));
+        //add these modules to the student's Module list
+        cpsbl.setStudentTakenModules("namename", "CP3109", "2015", "1");
+        cpsbl.setStudentTakenModules("namename", "IS3106", "2015", "2");
+        cpsbl.setStudentTakenModules("namename", "CS1020", "2016", "1");
+        cpsbl.setStudentTakenModules("namename", "CS2100", "2016", "2");
+        cpsbl.setStudentTakenModules("namename", "GER1000", "2017", "1");
+        cpsbl.setStudentTakenModules("namename", "PS2240", "2017", "2");
+        cpsbl.setStudentTakenModules("namename", "ST2334", "2018", "1");
+        
+        takenCoursesInOrder = cpsbl.getTakenModulesInOrder("namename");
+        System.out.println("sp bean: testViewTakenCoursesInOrder finish ");
     }
     
     
