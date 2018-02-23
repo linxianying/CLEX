@@ -52,6 +52,9 @@ public class Student extends User implements Serializable {
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="student")
     private Collection<Task> tasks = new ArrayList<Task>();
     
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy="student")
+    private Collection<IndividualGroupTask> IndividualGroupTasks = new ArrayList<IndividualGroupTask>();
+    
     @ManyToMany(cascade={CascadeType.PERSIST})
     @JoinTable(name="Student_ProjectGroup")
     private Collection<ProjectGroup> projectGroups = new ArrayList<ProjectGroup>();
@@ -175,6 +178,14 @@ public class Student extends User implements Serializable {
 
     public void setCap(double cap) {
         this.cap = cap;
+    }
+
+    public Collection<IndividualGroupTask> getIndividualGroupTasks() {
+        return IndividualGroupTasks;
+    }
+
+    public void setIndividualGroupTasks(Collection<IndividualGroupTask> IndividualGroupTasks) {
+        this.IndividualGroupTasks = IndividualGroupTasks;
     }
     
     public Long getId() {
