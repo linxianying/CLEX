@@ -52,4 +52,5 @@ public interface StudyPlanSessionBeanLocal {
 
     public void checkNumOfSemTaken(String username);
     
+    
 }
