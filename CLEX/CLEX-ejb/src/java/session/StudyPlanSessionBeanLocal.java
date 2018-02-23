@@ -50,6 +50,6 @@ public interface StudyPlanSessionBeanLocal {
 
     public void setStudentTakenModules(String username, String moduleCode, String takenYear, String takenSem);
 
-    public void checkNumOfSemTaken(String username);
+    public int checkNumOfSemTaken(String username);
     
 }
