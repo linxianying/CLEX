@@ -97,8 +97,8 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     public void createStudyPlan(String pickYear, String pickSem, Course course, Student student){
         StudyPlan studyPlan = new StudyPlan();
         studyPlan.createStudyPlan(pickYear, pickSem, course, student);
-        em.persist(studyPlan);
         student.getStudyPlan().add(studyPlan);
+        em.persist(studyPlan);
         em.persist(student);
         em.flush();
     }
@@ -402,6 +402,8 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         return lessonEntity;
     }
     
+
+    
     /*@Override
     public String viewModule(String moduleCode) {
         String result;
@@ -550,6 +552,10 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         lesson.getStudents().add(student);
         em.persist(student);
         em.persist(lesson);
+    }
+    
+    public void setStudentStudyPlan(Student student, StudyPlan studyPlan) {
+        
     }
     
     

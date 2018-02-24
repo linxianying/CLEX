@@ -308,16 +308,24 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         int currentYear = now.get(Calendar.YEAR);
         // month starts from 0 to 11
         int currentMonth = now.get(Calendar.MONTH);
-        if (currentMonth >= 6)
+        if (currentMonth < 6) {
             currentSem = 2;
+            currentYear--;
+        }
+        student = this.findStudent(username);
         //skip if the student doesn't have any studyPlan
         if (all != null) {
             for (StudyPlan studyPlan: all) {
                 if (Integer.parseInt(studyPlan.getPickYear())<currentYear) {
+                    student.getStudyPlan().remove(studyPlan);
                     em.remove(studyPlan);
+                    em.persist(student);
                 }
-                else if (Integer.parseInt(studyPlan.getPickSem())<currentSem) {
-                    
+                else if ((Integer.parseInt(studyPlan.getPickYear())==currentYear)
+                        &&(Integer.parseInt(studyPlan.getPickSem())<=currentSem)) {
+                    student.getStudyPlan().remove(studyPlan);
+                    em.remove(studyPlan);
+                    em.persist(student);
                 }
             }
         }
@@ -401,6 +409,8 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     
     //check current year nad sem to decide how many semesters the student has taken
     //!!Assume all Students start at sem1
+    //eg. For AY2017-2018 sem 2, the current year would be 2018, 
+    //but it will be remembered as 2017 sem 2
     @Override
     public int checkNumOfSemTaken(String username) {
         numOfSemTaken = 1;
@@ -411,11 +421,12 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         int currentMonth = now.get(Calendar.MONTH);
         System.out.println("Current Month is : " + now.get(Calendar.MONTH));
         if (currentMonth < 6) {
-            currentSem = 1;
+            currentSem = 2;
+            currentYear--;
+            numOfSemTaken++;
         }
         else {
-            currentSem = 2;
-            numOfSemTaken++;
+            currentSem = 1;
         }
         
         int matricYear = Integer.parseInt(this.findStudent(username).getMatricYear());
