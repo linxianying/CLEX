@@ -6,11 +6,15 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 /**
@@ -33,8 +37,10 @@ public class Lesson implements Serializable {
     private String venue;
     @ManyToOne
     private Module module = new Module();
+    @ManyToMany(cascade={CascadeType.PERSIST})
+    private Collection<Student> students = new ArrayList<Student>();
 
-
+    //type can be lecture/tutorial/lab/self-defined?
     public void createLesson(String day, String timeFrom, String timeEnd, String type, String venue, Module module){
         this.day = day;
         this.timeFrom = timeFrom;
@@ -50,6 +56,14 @@ public class Lesson implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Collection<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Collection<Student> students) {
+        this.students = students;
     }
 
     public Module getModule() {

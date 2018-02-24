@@ -39,6 +39,10 @@ public class Student extends User implements Serializable {
     @ManyToMany(cascade={CascadeType.PERSIST}, mappedBy="students")
     @JoinTable(name="Student_Module")
     private Collection<Module> modules = new ArrayList<Module>();
+    
+    @ManyToMany(cascade={CascadeType.PERSIST}, mappedBy="students")
+    @JoinTable(name="Student_Lesson")
+    private Collection<Lesson> lessons = new ArrayList<Lesson>();
 
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="student")
     private Collection<Grade> grades = new ArrayList<Grade>();
@@ -81,6 +85,14 @@ public class Student extends User implements Serializable {
 
     public void setProjectGroups(Collection<ProjectGroup> projectGroups) {
         this.projectGroups = projectGroups;
+    }
+
+    public Collection<Lesson> getLessons() {
+        return lessons;
+    }
+
+    public void setLessons(Collection<Lesson> lessons) {
+        this.lessons = lessons;
     }
 
     public Collection<StudyPlan> getStudyPlan() {
