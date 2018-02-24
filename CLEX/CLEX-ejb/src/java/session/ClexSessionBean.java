@@ -13,6 +13,7 @@ import entity.Grade;
 import entity.GroupTask;
 import entity.Guest;
 import entity.Lecturer;
+import entity.Lesson;
 import entity.ProjectGroup;
 import entity.StudyPlan;
 import entity.SuperGroup;
@@ -176,6 +177,17 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
             String prerequisite, String preclusions, Course course) {
         Module module = new Module();
         module.createModule(takenYear, takenSem, prerequisite, preclusions, course);
+        course.getModules().add(module);
+        em.persist(course);
+        em.persist(module);
+        em.flush();
+    }
+    
+    public void createLeson(String day, String timeFrom, String timeEnd, String type, String venue, Module module) {
+        Lesson lesson = new Lesson();
+        lesson.createLesson(day, timeFrom, timeEnd, type, venue, module);
+        module.getLessons().add(lesson);
+        em.persist(lesson);
         em.persist(module);
         em.flush();
     }
@@ -477,6 +489,12 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     }
     
     
+    public void setStudentTakenModules(Student student, Module module){
+        student.getModules().add(module);
+        module.getStudents().add(student);
+        em.persist(student);
+        em.persist(module);
+    }
     
     
 

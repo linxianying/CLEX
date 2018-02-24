@@ -25,17 +25,20 @@ public class Lesson implements Serializable {
     private Long id;
     @Column(name = "LESSON_DAY")
     private String day;
-    @Column(name = "LESSON_TIME")
-    private String time;
+    @Column(name = "LESSON_FROMTIME")
+    private String timeFrom;
+    @Column(name = "LESSON_ENDTIME")
+    private String timeEnd;
     private String type;
     private String venue;
     @ManyToOne
     private Module module = new Module();
 
 
-    public void createLesson(String day, String time, String type, String venue, Module module){
+    public void createLesson(String day, String timeFrom, String timeEnd, String type, String venue, Module module){
         this.day = day;
-        this.time = time;
+        this.timeFrom = timeFrom;
+        this.timeEnd = timeEnd;
         this.type = type;
         this.venue = venue;
         this.module = module;
@@ -65,12 +68,20 @@ public class Lesson implements Serializable {
         this.day = day;
     }
 
-    public String getTime() {
-        return time;
+    public String getTimeFrom() {
+        return timeFrom;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setTimeFrom(String timeFrom) {
+        this.timeFrom = timeFrom;
+    }
+
+    public String getTimeEnd() {
+        return timeEnd;
+    }
+
+    public void setTimeEnd(String timeEnd) {
+        this.timeEnd = timeEnd;
     }
 
 

@@ -67,5 +67,7 @@ public interface ClexSessionBeanLocal {
     void createModule(String takenYear, String takenSem, String prerequisite, String preclusions, Course course);
 
     public void createStudyPlan(String pickYear, String pickSem, Course course, Student student);
+
+    public void createLeson(String day, String timeFrom, String timeEnd, String type, String venue, Module module);
     
 }
