@@ -53,7 +53,7 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     private GroupTask groupTaskEntity;
     private ProjectGroup projectGroupEntity;
     private SuperGroup superGroupEntity;
-    
+    private Lesson lessonEntity;
     
     private DecimalFormat df = new DecimalFormat("#.##");
 
@@ -183,7 +183,7 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         em.flush();
     }
     
-    public void createLeson(String day, String timeFrom, String timeEnd, String type, String venue, Module module) {
+    public void createLesson(String day, String timeFrom, String timeEnd, String type, String venue, Module module) {
         Lesson lesson = new Lesson();
         lesson.createLesson(day, timeFrom, timeEnd, type, venue, module);
         module.getLessons().add(lesson);
@@ -245,6 +245,9 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
             System.out.println("User " + username + " does not exist.");
             userEntity = null;
         }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
         return userEntity;
     }
     
@@ -260,6 +263,9 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         catch(NoResultException e){
             System.out.println("Student " + username + " does not exist.");
             studentEntity = null;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
         }
         return studentEntity;
     }
@@ -278,6 +284,9 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
             System.out.println("Lecturer " + username + " does not exist.");
             lecturerEntity = null;
         }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
         return lecturerEntity;
     }
     
@@ -293,6 +302,9 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         catch(NoResultException e){
             System.out.println("Admin " + username + " does not exist.");
             adminEntity = null;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
         }
         return adminEntity;
     }
@@ -310,6 +322,9 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         catch(NoResultException e){
             System.out.println("Guest " + username + " does not exist.");
             guestEntity = null;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
         }
         return guestEntity;
     }
@@ -336,6 +351,9 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
             System.out.println("Course " + moduleCode + " does not exist.");
             moduleEntity = null;
         }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
         return moduleEntity;
     }
     
@@ -352,9 +370,37 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
             System.out.println("Course " + moduleCode + " does not exist.");
             courseEntity = null;
         }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
         return courseEntity;
     }
 
+    public Lesson findLesson(String day, String timeFrom, String type, Module module){
+        lessonEntity = null;
+        try{
+            Query q = em.createQuery("SELECT l FROM Lesson l WHERE l.day=:day AND l.timeFrom=:timeFrom AND l.type=:type AND l.module.id=:id");
+            q.setParameter("day", day);
+            q.setParameter("timeFrom", timeFrom);
+            q.setParameter("type", type);
+            q.setParameter("id", module.getId());
+            lessonEntity = (Lesson) q.getSingleResult();
+            System.out.println("Lesson " + module.getCourse().getModuleCode() + 
+                    " for day " + day + ", timeFrom " + timeFrom + ", type " + 
+                    type + " found.");
+        }
+        catch(NoResultException e){
+            System.out.println("Lesson " + module.getCourse().getModuleCode() + 
+                    " for day " + day + ", timeFrom " + timeFrom + ", type " + 
+                    type + " does not exist.");
+            lessonEntity = null;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return lessonEntity;
+    }
+    
     /*@Override
     public String viewModule(String moduleCode) {
         String result;
@@ -489,11 +535,20 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     }
     
     
+    @Override
     public void setStudentTakenModules(Student student, Module module){
         student.getModules().add(module);
         module.getStudents().add(student);
         em.persist(student);
         em.persist(module);
+    }
+    
+    @Override
+    public void setStudentLesson(Student student, Lesson lesson) {
+        student.getLessons().add(lesson);
+        lesson.getStudents().add(student);
+        em.persist(student);
+        em.persist(lesson);
     }
     
     
