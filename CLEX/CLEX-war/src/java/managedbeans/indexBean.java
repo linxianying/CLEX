@@ -59,7 +59,8 @@ public class indexBean {
         csbl.createGuest("guestd", "123456", "someguest", "email@email.com", "NUS", 12345678L, genSalt());
         csbl.createGuest("gueste", "123456", "someguest", "email@email.com", "NUS", 12345678L, genSalt());
         
-        //create course ?
+        //create course, read from nusmods
+        csbl.dragAllNusMods("try");
         
         //create Module basde on course
         //modules for 2015, sem 1
@@ -127,7 +128,7 @@ public class indexBean {
         
         csbl.createLesson("Friday", "14:30", "17:30", "LEC [1]", "i3-0337",csbl.findModule("TIE2010", "2017", "2"));
         
-        //set student "namename" with  taken modules 
+        //set student "namename" with taken modules 
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("CP3109", "2015", "1"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("YIR3312", "2015", "1"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("LAG2201", "2015", "1"));
@@ -180,7 +181,7 @@ public class indexBean {
         csbl.setStudentLesson(csbl.findStudent("namename"), 
                 csbl.findLesson("Friday", "12:00", "TUT [1]", csbl.findModule("PC2193", "2017", "2")));
         csbl.setStudentLesson(csbl.findStudent("namename"), 
-                csbl.findLesson("Tuesday", "Tuesday", "LEC [1]", csbl.findModule("SC3101", "2017", "2")));
+                csbl.findLesson("Tuesday", "12:30", "LEC [1]", csbl.findModule("SC3101", "2017", "2")));
         csbl.setStudentLesson(csbl.findStudent("namename"), 
                 csbl.findLesson("Thursday", "09:00", "TUT [2]", csbl.findModule("SC3101", "2017", "2")));
         csbl.setStudentLesson(csbl.findStudent("namename"), 
@@ -194,7 +195,7 @@ public class indexBean {
         csbl.createStudyPlan("2018", "1", csbl.findCourse("CS2107"), csbl.findStudent("namename"));
         csbl.createStudyPlan("2018", "1", csbl.findCourse("CS3103"), csbl.findStudent("namename"));
         csbl.createStudyPlan("2018", "1", csbl.findCourse("CS3241"), csbl.findStudent("namename"));
-        csbl.createStudyPlan("2018", "2", csbl.findCourse("EE3407"), csbl.findStudent("namename"));
+        csbl.createStudyPlan("2018", "2", csbl.findCourse("EM1001"), csbl.findStudent("namename"));
         csbl.createStudyPlan("2018", "2", csbl.findCourse("LAF1201"), csbl.findStudent("namename"));
         
     }

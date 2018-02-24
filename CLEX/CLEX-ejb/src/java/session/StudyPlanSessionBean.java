@@ -47,7 +47,8 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     private ArrayList<Course> takenCourses; 
     private ArrayList<Module> takenModules; 
     private ArrayList<ArrayList<Course>> takenCoursesInOrder;
-    private Collection<StudyPlan> studyPlans;
+    private ArrayList<StudyPlan> studyPlans;
+    private ArrayList<ArrayList<StudyPlan>> studyPlansInOrder;
     private double calculatedCap; 
 
 
@@ -162,9 +163,6 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
             System.out.println("takenModules.size=" + takenModules.size());
             for (int index=0; index<takenModules.size(); index++) {
                 //if the module is taken in "year" "sem", add it to the currentCourses 
-                System.out.println("sp session bean: getTakenModulesInOrder:");
-                System.out.print("Integer.parseInt(takenModules.get(index).getTakenYear() = ");
-                System.out.println(Integer.parseInt(takenModules.get(index).getTakenYear()));
                 if (Integer.parseInt(takenModules.get(index).getTakenYear()) == year) {
                     if (Integer.parseInt(takenModules.get(index).getTakenSem()) == sem) {
                         currentCourses.add(takenModules.get(index).getCourse());
@@ -175,8 +173,8 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
                 }
             }
             takenCoursesInOrder.add(currentCourses);
-            System.out.println(currentCourses.size());
-            System.out.println(currentCourses);
+            //System.out.println(currentCourses.size());
+            //System.out.println(currentCourses);
             System.out.println("check for"
                     + " year " + year + ", sem " + sem + " finishes.");
             currentCourses = null;
@@ -196,12 +194,86 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     
     // find all studyPlan the user has
     @Override
-    public Collection<StudyPlan> getAllStudyPlans(String username) {
+    public ArrayList<StudyPlan> getAllStudyPlans(String username) {
         student = findStudent(username);
-        this.studyPlans = student.getStudyPlan();
+        Collection<StudyPlan> all = new ArrayList<StudyPlan>();
+        studyPlans = new ArrayList<StudyPlan>();
+        all = student.getStudyPlan();
+        for (StudyPlan s: all) {
+            studyPlans.add(s);
+        }
+        System.out.println("StudyPlanSessionbean: getAllStudyPlans: student:" 
+                + username + "'s studyPlans:" + studyPlans.size());
+        for (StudyPlan s: studyPlans) {
+            System.out.println(s.getCourse().getModuleCode() 
+                        + " at year " + s.getPickYear() + ", sem " + s.getPickSem());
+        }
         return studyPlans;
     }
-
+    
+    //set all course taken by the user in order of year and sem
+    //update all study plans first (remove study plans for previous semesters)
+    @Override
+    public ArrayList<ArrayList<StudyPlan>> getStudyPlanInOrder(String username) {
+        this.updateAllStudyPlans(username);
+        studyPlansInOrder = new ArrayList<ArrayList<StudyPlan>>();
+        studyPlans = this.getAllStudyPlans(username);
+        Calendar now = Calendar.getInstance();
+        int startYear = now.get(Calendar.YEAR);
+        int startSem = 1;
+        // month starts from 0 to 11
+        int currentMonth = now.get(Calendar.MONTH);
+        if (currentMonth < 6) {
+            startSem = 1;
+        }
+        else
+            startSem = 2;
+        //System.out.println("startYear=" +startYear+", startSem="+startSem);
+        do {
+            ArrayList<StudyPlan> current = new ArrayList<StudyPlan>();
+            for (StudyPlan s: studyPlans) {
+                System.out.println("StudyPlanSessionbean: getStudyPlanInOrder: "
+                        + s.getCourse().getModuleCode() 
+                        + " at year " + s.getPickYear() + ", sem " + s.getPickSem());
+                if (Integer.parseInt(s.getPickYear()) == startYear) {
+                    if (Integer.parseInt(s.getPickSem()) == startSem) {
+                        current.add(s);
+                        System.out.println("StudyPlanSessionbean: getStudyPlanInOrder: add"
+                                + s.getCourse().getModuleCode() 
+                        + " at year " + startYear + ", sem " + startSem);
+                    }
+                }
+            }
+            System.out.println("current: " + current.size());
+            System.out.println(current);
+            studyPlansInOrder.add(current);
+            current = null;
+            //increase sem year to next semester
+            if (startSem == 1) {
+                startSem = 2;
+            }
+            else {
+                startYear++;
+                startSem = 1;
+            }
+        } while(!checkAllStudyPlansAdded(studyPlansInOrder, studyPlans));
+        return studyPlansInOrder;
+    }
+    
+    //check whether all studyPlans have been 
+    public boolean checkAllStudyPlansAdded(ArrayList<ArrayList<StudyPlan>> studyPlansInOrder, ArrayList<StudyPlan> all){
+        boolean check = false;
+        int size = 0;
+        for (ArrayList<StudyPlan> s: studyPlansInOrder)
+            size += s.size();
+        if (size == all.size())
+            check = true;
+        System.out.println("checkAllStudyPlansAdded: studyPlansInOrder's size = " 
+                + size + ", all'size = " + all.size());
+        System.out.println("check = " + check);
+        return check;
+    }
+    
     //find whether this studyplan exits, if not, set this.studyPlan to it
     @Override
     public boolean findStudyPlan(String username, String moduleCode) {

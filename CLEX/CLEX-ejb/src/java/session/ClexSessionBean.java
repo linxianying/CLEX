@@ -99,7 +99,7 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         studyPlan.createStudyPlan(pickYear, pickSem, course, student);
         student.getStudyPlan().add(studyPlan);
         em.persist(studyPlan);
-        em.persist(student);
+        em.merge(student);
         em.flush();
     }
     
@@ -178,8 +178,8 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         Module module = new Module();
         module.createModule(takenYear, takenSem, prerequisite, preclusions, course);
         course.getModules().add(module);
-        //em.merge(course);
         em.persist(module);
+        em.merge(course);
         em.flush();
         System.out.println("Try: get course's modules" + course.getModules().size());
         System.out.println("Try: get course's modules" + course.getModules());
@@ -190,7 +190,7 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         lesson.createLesson(day, timeFrom, timeEnd, type, venue, module);
         module.getLessons().add(lesson);
         em.persist(lesson);
-        em.persist(module);
+        em.merge(module);
         em.flush();
     }
 
@@ -544,22 +544,19 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     public void setStudentTakenModules(Student student, Module module){
         student.getModules().add(module);
         module.getStudents().add(student);
-        em.persist(student);
-        em.persist(module);
+        em.merge(student);
+        em.merge(module);
     }
     
     @Override
     public void setStudentLesson(Student student, Lesson lesson) {
         student.getLessons().add(lesson);
         lesson.getStudents().add(student);
-        em.persist(student);
-        em.persist(lesson);
+        em.merge(student);
+        em.merge(lesson);
     }
     
-    public void setStudentStudyPlan(Student student, StudyPlan studyPlan) {
-        
-    }
-    
+   
     
 
     

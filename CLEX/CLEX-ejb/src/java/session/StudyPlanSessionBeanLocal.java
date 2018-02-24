@@ -42,7 +42,7 @@ public interface StudyPlanSessionBeanLocal {
 
     public Collection<Module> getTakenModules(String username);
 
-    public Collection<StudyPlan> getAllStudyPlans(String username);
+    public ArrayList<StudyPlan> getAllStudyPlans(String username);
 
     public ArrayList<Course> testViewTakenModules();
 
@@ -57,6 +57,8 @@ public interface StudyPlanSessionBeanLocal {
     public ArrayList<ArrayList<Course>> getTakenModulesInOrder(String username);
 
     public void updateAllStudyPlans(String username);
+
+    public ArrayList<ArrayList<StudyPlan>> getStudyPlanInOrder(String username);
     
     
 }

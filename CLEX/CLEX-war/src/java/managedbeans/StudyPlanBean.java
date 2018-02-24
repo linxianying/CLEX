@@ -49,6 +49,7 @@ public class StudyPlanBean {
     private ArrayList<Course> takenCourses;
     private ArrayList<ArrayList<Course>> takenCoursesInOrder;
     private Collection<StudyPlan> studyPlans;
+    private ArrayList<ArrayList<StudyPlan>> studyPlansInOrer;
     private double calculatedCap; 
     private Student student;
     //private Course course;
@@ -57,13 +58,15 @@ public class StudyPlanBean {
     private DashboardModel model;
     
     public StudyPlanBean() {
-        //for test purpose only
-        this.username="namename";
-        
     }
      
     @PostConstruct
     public void init() {
+        //for test purpose only
+        this.username="namename";
+        takenCoursesInOrder = cpsbl.getTakenModulesInOrder(username);
+        studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
+        
         model = new DefaultDashboardModel();
         DashboardColumn column1 = new DefaultDashboardColumn();
         DashboardColumn column2 = new DefaultDashboardColumn();
@@ -94,6 +97,7 @@ public class StudyPlanBean {
          
         addMessage(message);
     }
+    
     public void handleClose(CloseEvent event) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Panel Closed", "Closed panel id:'" + event.getComponent().getId() + "'");
          
@@ -113,13 +117,15 @@ public class StudyPlanBean {
     public DashboardModel getModel() {
         return model;
     }
-    
 
-    public void addStudyPlan() {
-        cpsbl.addStudyPlan(username, moduleCode, pickYear, pickSem);
-        
+    public int getYear() {
+        return year;
     }
-    
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
     private String genSalt(){
         Random rng = new Random();
         Integer gen = rng.nextInt(13371337);
@@ -143,10 +149,6 @@ public class StudyPlanBean {
     public void addMessage(String summary, String detail) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
         FacesContext.getCurrentInstance().addMessage(null, message);
-    }
-    
-    public void takenCourse(){
-    
     }
     
     public StudyPlanSessionBeanLocal getCpsbl() {
@@ -173,9 +175,16 @@ public class StudyPlanBean {
         this.studyPlans = studyPlans;
     }
 
-
     public double getCalculatedCap() {
         return calculatedCap;
+    }
+
+    public ArrayList<ArrayList<StudyPlan>> getStudyPlansInOrer() {
+        return studyPlansInOrer;
+    }
+
+    public void setStudyPlansInOrer(ArrayList<ArrayList<StudyPlan>> studyPlansInOrer) {
+        this.studyPlansInOrer = studyPlansInOrer;
     }
 
     public void setCalculatedCap(double calculatedCap) {
@@ -238,6 +247,10 @@ public class StudyPlanBean {
         this.takenCoursesInOrder = takenCoursesInOrder;
     }
     
+    public void addStudyPlan() {
+        cpsbl.addStudyPlan(username, moduleCode, pickYear, pickSem);
+    }
+    
     //-------------------------------------------------------------------------
     //for test addStudyPlan, dont forget to create student and module before test
    
@@ -247,7 +260,6 @@ public class StudyPlanBean {
         }
         cpsbl.addStudyPlan("namename", "IS4103", "2018", "2");
     }
-    
     
     public void testAddModuleFromNUSMods(){
         csbl.dragAllNusMods(username);
@@ -265,7 +277,6 @@ public class StudyPlanBean {
         cpsbl.removeStudyPlan("namename", "IS4103");
     }
     
-
     public void testViewTakenCourses() {
         if(csbl.checkNewUser("namename") == true){
             csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);

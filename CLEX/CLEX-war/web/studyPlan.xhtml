@@ -81,23 +81,37 @@
                                 <h:outputText value="Taken modules"/>  
                             </f:facet>
                             <p:dataList var="course" value="#{courses}">
-                                <p:column headerText="Year 1 Sem 1">
-                                    <p:column>
-                                        <h:outputText value="#{course.moduleCode}" />
-                                        <h:outputText value="  " />
-                                        <h:outputText value="#{course.moduleName}" />
-                                    </p:column>
-                                    <br />
-                                    <p:column>
-                                        <h:outputText value="credits:" />
-                                        <h:outputText value="#{course.modularCredits}" />
-                                    </p:column>
+                                <p:column>
+                                    <h:outputText value="#{course.moduleCode}" />
+                                    <h:outputText value="  " />
+                                    <h:outputText value="#{course.moduleName}" />
+                                </p:column>
+                                <br />
+                                <p:column>
+                                    <h:outputText value="credits:" />
+                                    <h:outputText value="#{course.modularCredits}" />
                                 </p:column>
                             </p:dataList>
                         </p:dataList>
                     </h:panelGrid>
                     <br />
-                    
+                    <p:dataList var="studyPlans" value="#{studyPlanBean.studyPlansInOrer}">
+                        <f:facet name="header">  
+                            <h:outputText value="Study Plans"/>  
+                        </f:facet>
+                        <p:dataList var="sp" value="#{studyPlans}">
+                            <p:column>
+                                <h:outputText value="#{sp.course.moduleCode}"/>
+                                <h:outputText value="  " />
+                                <h:outputText value="#{sp.course.moduleName}" />
+                            </p:column>
+                            <br />
+                            <p:column>
+                                <h:outputText value="credits:" />
+                                <h:outputText value="#{sp.course.modularCredits}" />
+                            </p:column>
+                        </p:dataList>
+                    </p:dataList>
                     <div style="height:500px">
                         <h:form>
                             <p:growl id="msgs" showDetail="true" />

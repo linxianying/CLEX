@@ -11,6 +11,9 @@
                 <h:outputStylesheet name="./css/style.css"/>
         <div class="wrapper">
             <div class="container">
+                <h:form>
+                        <h:commandButton value="setEntites" actionListener="#{indexBean.createEntities}" action="login?faces-redirect=true" />
+                </h:form>
                 <h1>Login to your account</h1>
 
                 <h:form class="form">
