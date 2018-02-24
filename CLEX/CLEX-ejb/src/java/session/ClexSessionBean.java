@@ -58,10 +58,10 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
 
     @Override
     public void createStudent(String username, String password, String name, String email, String school, Long contactNum, String salt, 
-                String faculty, String major, String matricYear, String matricSem, String currentYear, double cap){
+                String faculty, String major, String matricYear, String matricSem, double cap){
         studentEntity = new Student();
         studentEntity.createStudent(username, hashPassword(password, salt), name, email, school, contactNum, salt,
-                 faculty, major, matricYear, matricSem, currentYear, cap);
+                 faculty, major, matricYear, matricSem, cap);
         em.persist(studentEntity);
         em.flush();
     }

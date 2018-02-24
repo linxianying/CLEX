@@ -243,7 +243,7 @@ public class StudyPlanBean {
    
     public void testAddStudyPlan(){
         if(csbl.checkNewUser("namename") == true){
-            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1","2017", 0.0);
+            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
         }
         cpsbl.addStudyPlan("namename", "IS4103", "2018", "2");
     }
@@ -268,7 +268,7 @@ public class StudyPlanBean {
 
     public void testViewTakenCourses() {
         if(csbl.checkNewUser("namename") == true){
-            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1","2017", 0.0);
+            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
         }
         this.student = cpsbl.findStudent("namename");
         //to add some taken modules for student
@@ -301,7 +301,7 @@ public class StudyPlanBean {
     
     public void testViewTakenCoursesInOrder(){
         if(csbl.checkNewUser("namename") == true){
-            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1","2017", 0.0);
+            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
         }
         this.student = cpsbl.findStudent("namename");
         //to add some taken modules for student
@@ -323,6 +323,9 @@ public class StudyPlanBean {
         cpsbl.setStudentTakenModules("namename", "ST2334", "2018", "1");
         
         takenCoursesInOrder = cpsbl.getTakenModulesInOrder("namename");
+        System.out.print("sp bean: takenCoursesInOrder:");
+        System.out.println(takenCoursesInOrder.size());
+        System.out.println(takenCoursesInOrder);
         System.out.println("sp bean: testViewTakenCoursesInOrder finish ");
     }
     

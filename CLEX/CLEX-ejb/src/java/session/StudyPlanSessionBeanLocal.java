@@ -55,6 +55,8 @@ public interface StudyPlanSessionBeanLocal {
     public ArrayList<Course> getTakenCourses(String username);
 
     public ArrayList<ArrayList<Course>> getTakenModulesInOrder(String username);
+
+    public void updateAllStudyPlans(String username);
     
     
 }

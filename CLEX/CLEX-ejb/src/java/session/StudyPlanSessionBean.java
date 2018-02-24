@@ -298,6 +298,31 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         em.flush();
     }
 
+    //check whether there is any syudyPlan planned for semesters passed already
+    //if yes, delete these studyPlan
+    @Override
+    public void updateAllStudyPlans(String username) {
+        Collection<StudyPlan> all = this.getAllStudyPlans(username);
+        Calendar now = Calendar.getInstance();
+        int currentSem = 1;
+        int currentYear = now.get(Calendar.YEAR);
+        // month starts from 0 to 11
+        int currentMonth = now.get(Calendar.MONTH);
+        if (currentMonth >= 6)
+            currentSem = 2;
+        //skip if the student doesn't have any studyPlan
+        if (all != null) {
+            for (StudyPlan studyPlan: all) {
+                if (Integer.parseInt(studyPlan.getPickYear())<currentYear) {
+                    em.remove(studyPlan);
+                }
+                else if (Integer.parseInt(studyPlan.getPickSem())<currentSem) {
+                    
+                }
+            }
+        }
+    }
+    
     
     private double capCulculator(Student student){
         double cap = 0.0;
