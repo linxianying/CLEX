@@ -76,151 +76,33 @@
                     </h:form>
                     <br />
                     <h:panelGrid columns="1">
-                        <c:forEach var="courses" items="#{tudyPlanBean.takenCoursesInOrder}">
-                            <c:forEach var="course" items="#{courses}">
-                                #{course.moduleCode}
-                            </c:forEach>
-                        </c:forEach>
+                        <p:dataList var="courses" value="#{studyPlanBean.takenCoursesInOrder}">
+                            <f:facet name="header">  
+                                <h:outputText value="Taken modules"/>  
+                            </f:facet>
+                            <p:dataList var="course" value="#{courses}">
+                                <p:column headerText="Year 1 Sem 1">
+                                    <p:column>
+                                        <h:outputText value="#{course.moduleCode}" />
+                                        <h:outputText value="  " />
+                                        <h:outputText value="#{course.moduleName}" />
+                                    </p:column>
+                                    <br />
+                                    <p:column>
+                                        <h:outputText value="credits:" />
+                                        <h:outputText value="#{course.modularCredits}" />
+                                    </p:column>
+                                </p:column>
+                            </p:dataList>
+                        </p:dataList>
                     </h:panelGrid>
                     <br />
-                    <p:dataTable var="course" value="#{studyPlanBean.takenCourses}">
-                        <f:facet name="header">
-                            Taken Modules
-                        </f:facet>
-                            <h:outputText value="matric sem" /> 
-                        <p:column headerText="Year 1 Sem 1">
-                            <p:column>
-                                <h:outputText value="#{course.moduleCode}" />
-                                <h:outputText value="  " />
-                                <h:outputText value="#{course.moduleName}" />
-                            </p:column>
-                            <br />
-                            <p:column>
-                                <h:outputText value="credits:" />
-                                <h:outputText value="#{course.modularCredits}" />
-                            </p:column>
-                        </p:column>
-                    </p:dataTable>
-                    <br />
-                    <p:dataTable var="course" value="#{studyPlanBean.takenCourses}">
-                        <p:column headerText="Year 1 Sem 2">
-                            <p:column>
-                                <h:outputText value="#{course.moduleCode}" />
-                                <h:outputText value="  " />
-                                <h:outputText value="#{course.moduleName}" />
-                            </p:column>
-                            <br />
-                            <p:column>
-                                <h:outputText value="credits:" />
-                                <h:outputText value="#{course.modularCredits}" />
-                            </p:column>
-                        </p:column>
-                    </p:dataTable>
-                    <p:dataTable var="course" value="#{studyPlanBean.takenCourses}">
-                        <p:column headerText="Year 2 Sem 1">
-                            <p:column>
-                                <h:outputText value="#{course.moduleCode}" />
-                                <h:outputText value="  " />
-                                <h:outputText value="#{course.moduleName}" />
-                            </p:column>
-                            <br />
-                            <p:column>
-                                <h:outputText value="credits:" />
-                                <h:outputText value="#{course.modularCredits}" />
-                            </p:column>
-                        </p:column>
-                    </p:dataTable>
-                    <p:dataTable var="course" value="#{studyPlanBean.takenCourses}">
-                        <p:column headerText="Year 2 Sem 2">
-                            <p:column>
-                                <h:outputText value="#{course.moduleCode}" />
-                                <h:outputText value="  " />
-                                <h:outputText value="#{course.moduleName}" />
-                            </p:column>
-                            <br />
-                            <p:column>
-                                <h:outputText value="credits:" />
-                                <h:outputText value="#{course.modularCredits}" />
-                            </p:column>
-                        </p:column>
-                    </p:dataTable>
-                    <p:dataTable var="course" value="#{studyPlanBean.takenCourses}">
-                        <p:column headerText="Year 3 Sem 1">
-                            <p:column>
-                                <h:outputText value="#{course.moduleCode}" />
-                                <h:outputText value="  " />
-                                <h:outputText value="#{course.moduleName}" />
-                            </p:column>
-                            <br />
-                            <p:column>
-                                <h:outputText value="credits:" />
-                                <h:outputText value="#{course.modularCredits}" />
-                            </p:column>
-                        </p:column>
-                    </p:dataTable>
-                    <p:dataTable var="course" value="#{studyPlanBean.takenCourses}">
-                        <p:column headerText="Year 3 Sem 2">
-                            <p:column>
-                                <h:outputText value="#{course.moduleCode}" />
-                                <h:outputText value="  " />
-                                <h:outputText value="#{course.moduleName}" />
-                            </p:column>
-                            <br />
-                            <p:column>
-                                <h:outputText value="credits:" />
-                                <h:outputText value="#{course.modularCredits}" />
-                            </p:column>
-                        </p:column>
-                    </p:dataTable>
-                    <p:dataTable var="course" value="#{studyPlanBean.takenCourses}">
-                        <p:column headerText="Year 4 Sem 1">
-                            <p:column>
-                                <h:outputText value="#{course.moduleCode}" />
-                                <h:outputText value="  " />
-                                <h:outputText value="#{course.moduleName}" />
-                            </p:column>
-                            <br />
-                            <p:column>
-                                <h:outputText value="credits:" />
-                                <h:outputText value="#{course.modularCredits}" />
-                            </p:column>
-                        </p:column>
-                    </p:dataTable>
-                    <p:dataTable var="course" value="#{studyPlanBean.takenCourses}">
-                        <p:column headerText="Year 4 Sem 2">
-                            <p:column>
-                                <h:outputText value="#{course.moduleCode}" />
-                                <h:outputText value="  " />
-                                <h:outputText value="#{course.moduleName}" />
-                            </p:column>
-                            <br />
-                            <p:column>
-                                <h:outputText value="credits:" />
-                                <h:outputText value="#{course.modularCredits}" />
-                            </p:column>
-                        </p:column>
-                    </p:dataTable>
-                    <br />
-                    <p:dataTable var="studyPlan" value="#{studyPlanBean.studyPlans}">
-                        <p:column headerText="Study Plans">
-                            <p:column>
-                                <h:outputText value="#{studyPlan.course.moduleCode}" />
-                                <h:outputText value="  " />
-                                <h:outputText value="#{studyPlan.course.moduleName}" />
-                            </p:column>
-                            <br />
-                            <p:column>
-                                <h:outputText value="credits:" />
-                                <h:outputText value="#{studyPlan.course.modularCredits}" />
-                            </p:column>
-                        </p:column>
-                    </p:dataTable>
+                    
                     <div style="height:500px">
                         <h:form>
                             <p:growl id="msgs" showDetail="true" />
                             <p:dashboard id="board" model="#{studyPlanBean.model}">
                                 <p:ajax event="reorder" listener="#{studyPlanBean.handleReorder}" update="msgs" />
-                                <!-->>>>>>> master-->
 
                                 <p:panel id="testMod1" header="IS3106">
                                     <h:outputText value="Enterprise Systems Interface Design and Development" />

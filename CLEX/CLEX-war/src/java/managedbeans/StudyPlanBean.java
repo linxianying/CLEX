@@ -52,7 +52,7 @@ public class StudyPlanBean {
     private double calculatedCap; 
     private Student student;
     //private Course course;
-    //private int currentYear;
+    private int year;
     //private int currentMonth;
     private DashboardModel model;
     
@@ -312,7 +312,7 @@ public class StudyPlanBean {
         csbl.createModule("2016", "2", "none", "none", csbl.findCourse("CS2100"));
         csbl.createModule("2017", "1", "none", "none", csbl.findCourse("GER1000"));
         csbl.createModule("2017", "2", "none", "none", csbl.findCourse("PS2240"));
-        csbl.createModule("2018", "1", "none", "none", csbl.findCourse("ST2334"));
+        //csbl.createModule("2018", "1", "none", "none", csbl.findCourse("ST2334"));
         //add these modules to the student's Module list
         cpsbl.setStudentTakenModules("namename", "CP3109", "2015", "1");
         cpsbl.setStudentTakenModules("namename", "IS3106", "2015", "2");
@@ -320,13 +320,15 @@ public class StudyPlanBean {
         cpsbl.setStudentTakenModules("namename", "CS2100", "2016", "2");
         cpsbl.setStudentTakenModules("namename", "GER1000", "2017", "1");
         cpsbl.setStudentTakenModules("namename", "PS2240", "2017", "2");
-        cpsbl.setStudentTakenModules("namename", "ST2334", "2018", "1");
+        //cpsbl.setStudentTakenModules("namename", "ST2334", "2018", "1");
         
         takenCoursesInOrder = cpsbl.getTakenModulesInOrder("namename");
         System.out.print("sp bean: takenCoursesInOrder:");
         System.out.println(takenCoursesInOrder.size());
         System.out.println(takenCoursesInOrder);
         System.out.println("sp bean: testViewTakenCoursesInOrder finish ");
+        
+        year = Integer.parseInt(student.getMatricYear());
     }
     
     
