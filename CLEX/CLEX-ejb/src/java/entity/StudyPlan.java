@@ -27,7 +27,7 @@ public class StudyPlan implements Serializable {
     private String pickYear;
     private String pickSem;
     
-    @ManyToOne(cascade={CascadeType.PERSIST})
+    @ManyToOne
     private Course course = new Course();
     
     @ManyToOne
