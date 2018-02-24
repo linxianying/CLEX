@@ -33,7 +33,7 @@ public class Student extends User implements Serializable {
     private String major;
     private String matricYear;
     private String matricSem;
-    private String currentYear;
+    //private String currentYear;
     private double cap;
     
     @ManyToMany(cascade={CascadeType.PERSIST}, mappedBy="students")
@@ -173,14 +173,6 @@ public class Student extends User implements Serializable {
 
     public void setMatricSem(String matricSem) {
         this.matricSem = matricSem;
-    }
-
-    public String getCurrentYear() {
-        return currentYear;
-    }
-
-    public void setCurrentYear(String currentYear) {
-        this.currentYear = currentYear;
     }
 
     public double getCap() {
