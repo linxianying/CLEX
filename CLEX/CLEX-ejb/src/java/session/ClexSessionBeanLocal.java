@@ -9,6 +9,7 @@ import entity.Admin;
 import entity.Course;
 import entity.Guest;
 import entity.Lecturer;
+import entity.Lesson;
 import entity.Module;
 import entity.ProjectGroup;
 import entity.Student;
@@ -68,6 +69,12 @@ public interface ClexSessionBeanLocal {
 
     public void createStudyPlan(String pickYear, String pickSem, Course course, Student student);
 
-    public void createLeson(String day, String timeFrom, String timeEnd, String type, String venue, Module module);
+    public void createLesson(String day, String timeFrom, String timeEnd, String type, String venue, Module module);
+
+    public void setStudentTakenModules(Student student, Module module);
+
+    public void setStudentLesson(Student student, Lesson lesson);
+
+    public Lesson findLesson(String day, String timeFrom, String type, Module module);
     
 }

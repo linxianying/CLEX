@@ -376,6 +376,7 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         return courseEntity;
     }
 
+    @Override
     public Lesson findLesson(String day, String timeFrom, String type, Module module){
         lessonEntity = null;
         try{
