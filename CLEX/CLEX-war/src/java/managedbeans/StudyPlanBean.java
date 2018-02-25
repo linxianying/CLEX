@@ -34,7 +34,7 @@ import org.primefaces.model.DefaultDashboardModel;
  * @author caoyu
  */
 @ManagedBean(name="studyPlanBean")
-@SessionScoped
+@RequestScoped
 public class StudyPlanBean {
     
     @EJB
@@ -58,7 +58,12 @@ public class StudyPlanBean {
     private DashboardModel model;
     private int matricYear = 0;
     private int matricSem = 1;
+    //for add study plan
+    private String addModuleCode;
+    private String addPickYear;
+    private String addPickSem;
     
+    private String addErrorMsg;
     
     public StudyPlanBean() {
     }
@@ -70,7 +75,7 @@ public class StudyPlanBean {
         matricYear = Integer.parseInt(cpsbl.findStudent(username).getMatricYear());
         takenCoursesInOrder = cpsbl.getTakenModulesInOrder(username);
         studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
-        
+        System.out.println("finish to update studyPlansInOrer");
         model = new DefaultDashboardModel();
         DashboardColumn column1 = new DefaultDashboardColumn();
         DashboardColumn column2 = new DefaultDashboardColumn();
@@ -112,6 +117,30 @@ public class StudyPlanBean {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, event.getComponent().getId() + " toggled", "Status:" + event.getVisibility().name());
          
         addMessage(message);
+    }
+
+    public String getAddModuleCode() {
+        return addModuleCode;
+    }
+
+    public void setAddModuleCode(String addModuleCode) {
+        this.addModuleCode = addModuleCode;
+    }
+
+    public String getAddPickYear() {
+        return addPickYear;
+    }
+
+    public void setAddPickYear(String addPickYear) {
+        this.addPickYear = addPickYear;
+    }
+
+    public String getAddPickSem() {
+        return addPickSem;
+    }
+
+    public void setAddPickSem(String addPickSem) {
+        this.addPickSem = addPickSem;
     }
      
     private void addMessage(FacesMessage message) {
@@ -265,12 +294,42 @@ public class StudyPlanBean {
         return takenCoursesInOrder;
     }
 
+    public String getAddErrorMsg() {
+        return addErrorMsg;
+    }
+
+    public void setAddErrorMsg(String addErrorMsg) {
+        this.addErrorMsg = addErrorMsg;
+    }
+
     public void setTakenCoursesInOrder(ArrayList<ArrayList<Course>> takenCoursesInOrder) {
         this.takenCoursesInOrder = takenCoursesInOrder;
     }
     
+    public void checkStudyPlan() {
+        //this course does not exist
+        if (cpsbl.findCourse(addModuleCode) == null)
+            addErrorMsg = "Course " + addModuleCode + " does not exist";
+        //this course already in studyPlan
+        else if (cpsbl.findStudyPlan(username, addModuleCode))
+            addErrorMsg = "Course " + addModuleCode + " already exists in your study plan";
+        //this course already in takenCourses list
+        else if (cpsbl.checkStudentModule(username, addModuleCode))
+            addErrorMsg = "You have already taken course " + addModuleCode;
+        else
+            addErrorMsg = null;
+    }
     public void addStudyPlan() {
-        cpsbl.addStudyPlan(username, moduleCode, pickYear, pickSem);
+        if (!cpsbl.checkCourseExistance(moduleCode))
+            addErrorMsg = "Course " + addModuleCode + " does not exist";
+        //this course already in studyPlan
+        if (cpsbl.findStudyPlan(username, addModuleCode))
+            addErrorMsg = "Course " + addModuleCode + " already exists in your study plan";
+        //this course already in takenCourses list
+        else if (cpsbl.checkStudentModule(username, addModuleCode))
+            addErrorMsg = "You have already taken course " + addModuleCode;
+        else
+            cpsbl.addStudyPlan(addPickYear, addPickSem, addModuleCode, username);
     }
     
     //-------------------------------------------------------------------------

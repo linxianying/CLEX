@@ -59,6 +59,10 @@ public interface StudyPlanSessionBeanLocal {
     public void updateAllStudyPlans(String username);
 
     public ArrayList<ArrayList<StudyPlan>> getStudyPlanInOrder(String username);
+
+    public boolean checkStudentModule(String username, String moduleCode);
+
+    public boolean checkCourseExistance(String moduleCode);
     
     
 }
