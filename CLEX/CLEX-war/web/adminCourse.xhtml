@@ -97,7 +97,7 @@
             </h:panelGrid>
         </h:form>
         <br></br>
-        <h:form>
+        <h:form><!-- eeren: not sure why it dosent work-->
             <p:dataTable var="modules" value="#{adminCourseListBean.modules}" widgetVar="modulesTable"
             emptyMessage="No modules found with given criteria." filteredValue="#{adminCourseListBean.filteredModules}">
                 <f:facet name="header">
@@ -106,7 +106,7 @@
                         <p:inputText id="globalFilter" onkeyup="PF('modulesTable').filter()" style="width:150px" placeholder="Enter keyword"/>
                     </p:outputPanel>
                 </f:facet>
-
+                
                 <p:column filterBy="#{schoolModule.takenYear}" headerText="Taken Year" filterMatchMode="contains">
                     <h:outputText value="#{schoolModule.takenYear}" />
                 </p:column>
@@ -121,7 +121,90 @@
                 </p:column>
 
             </p:dataTable>
-        </h:form>                    
+        </h:form>  
+        <br></br>
+        <br></br>        
+        <h:form>
+            <h1 style="margin-top:0">Add a lesson:</h1>
+            <h:panelGrid columns="4" cellpadding="5">
+            <h:outputLabel for= "moduleCode" value="Module Code:"/>
+            <p:inputText id="moduleCode" value="#{courseBean.moduleCode}" required="true" />
+            <h:outputLabel for= "takenYear" value="Module Year:"/>
+            <p:inputText id="takenYear" value="#{courseBean.takenYear}" required="true" />
+            <h:outputLabel for= "takenSem" value="Module Sem:"/>
+            <p:inputText id="takenSem" value="#{courseBean.takenSem}" required="true" />
+            <h:outputLabel for= "day" value="Day:"/>
+            <p:inputText id="day" value="#{courseBean.day}" required="true" />
+            <h:outputLabel for= "timeFrom" value="Time From:"/>
+            <p:inputText id="timeFrom" value="#{courseBean.timeFrom}" required="true" />
+            <h:outputLabel for= "timeEnd" value="Time End:"/>
+            <p:inputText id="timeEnd" value="#{courseBean.timeEnd}" required="true" />    
+            <h:outputLabel for= "type" value="Lesson Type:"/>
+            <p:inputText id="type" value="#{courseBean.type}" required="true" />
+            <h:outputLabel for= "venue" value="Venue:"/>
+            <p:inputText id="venue" value="#{courseBean.venue}" required="true" />            
+            <p:commandButton value="Submit" actionListener="#{courseBean.enterLesson}" />
+            </h:panelGrid>
+        </h:form>
+        <br></br>
+        <h:form><!-- eeren: same as module-->
+            <p:dataTable var="modules" value="#{adminCourseListBean.lessons}" widgetVar="lessonsTable"
+            emptyMessage="No lessons found with given criteria." filteredValue="#{adminCourseListBean.filteredLessons}">
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <h:outputText value="Search all fields:" />
+                        <p:inputText id="globalFilter" onkeyup="PF('lessonsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                    </p:outputPanel>
+                </f:facet>
+
+                <p:column filterBy="#{lesson.day}" headerText="Day" filterMatchMode="contains">
+                    <h:outputText value="#{lesson.day}" />
+                </p:column>
+                <p:column filterBy="#{lesson.timeFrom}" headerText="Time Start" filterMatchMode="contains">
+                    <h:outputText value="#{lesson.timeFrom}" />
+                </p:column>
+                <p:column filterBy="#{lesson.timeEnd}" headerText="Time End" filterMatchMode="contains">
+                    <h:outputText value="#{lesson.timeEnd}" />
+                </p:column>
+                <p:column filterBy="#{lesson.type}" headerText="Type" filterMatchMode="contains">
+                    <h:outputText value="#{lesson.type}" />
+                </p:column>
+                <p:column filterBy="#{lesson.venue}" headerText="Venue" filterMatchMode="contains">
+                    <h:outputText value="#{lesson.venue}" />
+                </p:column>
+
+            </p:dataTable>
+        </h:form>  
+        <br></br>
+        <br></br>        
+        <h:form>
+            <h1 style="margin-top:0">Delete a course:</h1>
+            <h:panelGrid columns="4" cellpadding="5">
+            <h:outputLabel for= "moduleCode" value="Module Code:"/>
+            <p:inputText id="moduleCode" value="#{courseBean.moduleCode}" required="true" />
+            <p:commandButton value="Submit" actionListener="#{courseBean.removeCourse}" />
+            </h:panelGrid>
+        </h:form>
+        <br></br>
+        <h:form>
+            <h1 style="margin-top:0">Delete a lesson:</h1>
+            <h:panelGrid columns="4" cellpadding="5">
+            <h:outputLabel for= "moduleCode" value="Module Code:"/>
+            <p:inputText id="moduleCode" value="#{courseBean.moduleCode}" required="true" />
+            <h:outputLabel for= "takenYear" value="Module Year:"/>
+            <p:inputText id="takenYear" value="#{courseBean.takenYear}" required="true" />
+            <h:outputLabel for= "takenSem" value="Module Sem:"/>
+            <p:inputText id="takenSem" value="#{courseBean.takenSem}" required="true" />
+            <h:outputLabel for= "day" value="Day:"/>
+            <p:inputText id="day" value="#{courseBean.day}" required="true" />
+            <h:outputLabel for= "timeFrom" value="Time From:"/>
+            <p:inputText id="timeFrom" value="#{courseBean.timeFrom}" required="true" />
+            <h:outputLabel for= "timeEnd" value="Time End:"/>
+            <p:inputText id="timeEnd" value="#{courseBean.timeEnd}" required="true" />   
+            <p:commandButton value="Submit" actionListener="#{courseBean.removeLesson}" />
+            </h:panelGrid>
+        </h:form>
+        <br></br>        
     </ui:define>
 
 </ui:composition>

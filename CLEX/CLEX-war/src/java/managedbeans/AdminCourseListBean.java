@@ -18,7 +18,7 @@ import session.CourseMgmtBeanLocal;
 
 /**
  *
- * @author Gwee
+ * @author eeren
  */
 @ManagedBean
 @ViewScoped
@@ -43,7 +43,7 @@ public class AdminCourseListBean implements Serializable{
     public void init() {
         courses = cmbl.getAllCourses();    
         modules = cmbl.getAllModules(); //eeren: got some problem with the front-end listing out, not sure how to solve, pretty sure it is able to retrieve the modules
-        //lessons = cmbl.getAllLessons();
+        lessons = cmbl.getAllLessons(); //same for modules
     }
 
     public List<Course> getCourses() {

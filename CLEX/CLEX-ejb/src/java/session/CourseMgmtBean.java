@@ -10,6 +10,7 @@ import entity.Lecturer;
 import entity.Lesson;
 import entity.Module;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -32,6 +33,9 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
     Lesson lessonEntity;
     Lecturer lecturerEntity;
     
+    Collection<Module> modules;
+    Collection<Lesson> lessons;
+    
     @Override
     public void createCourse(String moduleCode, String moduleName, String moduleInfo , boolean discontinuedBool,
         String discountinuedYear, String discountinuedSem, String offeredSem, String school, String moduleCredit, String workload) {
@@ -48,20 +52,96 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
         courseEntity = findCourse(moduleCode);
         module.createModule(takenYear, takenSem, prerequisite, preclusions, courseEntity);
         courseEntity.getModules().add(module);
-        em.persist(courseEntity);
+        em.merge(courseEntity);
         em.persist(module);
         em.flush();
     }
     
-   /* @Override
-    public void createLesson(String day, String timeFrom, String timeEnd, String type, String venue, String moduleCode) {
+    @Override
+    public void createLesson(String day, String timeFrom, String timeEnd, String type, String venue, String moduleCode, String takenYear, String takenSem) {
         Lesson lesson = new Lesson();
-        lesson.createLesson(day, timeFrom, timeEnd, type, venue, module);
-        module.getLessons().add(lesson);
+        courseEntity = findCourse(moduleCode);
+        moduleEntity = findModule(courseEntity, takenYear, takenSem);
+        lesson.createLesson(day, timeFrom, timeEnd, type, venue, moduleEntity);
+        moduleEntity.getLessons().add(lesson);
+        em.merge(moduleEntity);
         em.persist(lesson);
-        em.persist(module);
         em.flush();
+    }
+    
+    @Override
+    public void editCourse(String moduleCode, String moduleName, String moduleInfo, boolean discontinuedBool,
+        String discountinuedYear, String discountinuedSem, String offeredSem, String school, String moduleCredit, String workload){
+        courseEntity = findCourse(moduleCode);
+        
+        courseEntity.setModuleName(moduleName);
+        courseEntity.setDiscontinuedBool(discontinuedBool);
+        courseEntity.setDiscountinuedYear(discountinuedYear);
+        courseEntity.setDiscountinuedSem(discountinuedSem);
+        courseEntity.setOfferedSem(offeredSem);
+        courseEntity.setSchool(school);
+        courseEntity.setModularCredits(moduleCredit);
+        courseEntity.setWorkload(workload);
+        
+        em.merge(courseEntity);
+        em.flush();
+    }
+    
+    @Override
+    public void editModule(String takenYear, String takenSem, String prerequisite, String preclusions, String moduleCode){
+        courseEntity = findCourse(moduleCode);
+        moduleEntity = findModule(courseEntity, takenYear, takenSem);
+        
+        moduleEntity.setPrerequisite(prerequisite);
+        moduleEntity.setPreclusions(preclusions);
+
+        em.merge(moduleEntity);
+        em.flush();
+    }
+    
+    @Override
+    public void editLesson(String day, String timeFrom, String timeEnd, String type, String venue, String moduleCode, String takenYear, String takenSem){
+        courseEntity = findCourse(moduleCode);
+        moduleEntity = findModule(courseEntity, takenYear, takenSem);
+        lessonEntity = findLesson(moduleEntity, day, timeFrom, timeEnd);
+        
+        lessonEntity.setType(type);
+        lessonEntity.setVenue(venue);
+        
+        em.merge(lessonEntity);
+        em.flush();
+    }
+    
+    @Override
+    public boolean deleteCourse(String moduleCode){
+        courseEntity = findCourse(moduleCode);
+        if(!courseEntity.getModules().isEmpty()){
+            return false;
+        }
+        em.remove(courseEntity);
+        em.flush();
+        return true;
+    }
+    
+    /*public boolean deleteModule(){
     }*/
+    
+    @Override
+    public boolean deleteLesson(String day, String timeFrom, String timeEnd, String moduleCode, String takenYear, String takenSem){
+        courseEntity = findCourse(moduleCode);
+        moduleEntity = findModule(courseEntity, takenYear, takenSem);
+        lessonEntity = findLesson(moduleEntity, day, timeFrom, timeEnd);
+        lessons = moduleEntity.getLessons();
+    
+        if(lessons.remove(lessonEntity) == true){
+            em.merge(moduleEntity);
+            em.remove(lessonEntity);
+            em.flush();
+            return true;
+        }
+
+        return false;
+    }
     
     @Override
     public List getAllCourses(){
@@ -84,7 +164,7 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
         }
         return modules;
     }
-  /*   
+     
     @Override
     public List getAllLessons(){
         List<Lesson> lessons = new ArrayList<Lesson>();
@@ -94,11 +174,19 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
            lessons.add(lessonEntity);
         }
         return lessons;
-    }*/
+    }
     
     @Override
     public boolean checkNewCourse(String moduleCode) {
         if(findCourse(moduleCode) == null){
+            return true;
+        }
+        return false;
+    }
+    
+    @Override
+    public boolean checkExistingCourse(String moduleCode) {
+        if(findCourse(moduleCode) != null){
             return true;
         }
         return false;
@@ -132,7 +220,48 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
         return false;
     }
     
-   public boolean linkLecturerToModule(String moduleCode, String takenYear, String takenSem, String username){
+    @Override
+    public boolean checkNewLesson(String moduleCode, String takenYear, String takenSem, String day, String timeFrom, String timeEnd){
+        courseEntity = findCourse(moduleCode);
+        if(courseEntity != null){
+            moduleEntity = findModule(courseEntity, takenYear, takenSem);
+            if(moduleEntity != null){
+                if(findLesson(moduleEntity, day, timeFrom, timeEnd) == null){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+            else{
+                return false;
+            }
+        }
+        return false;
+    }
+    
+    @Override
+    public boolean checkExistingLesson(String moduleCode, String takenYear, String takenSem, String day, String timeFrom, String timeEnd){
+        courseEntity = findCourse(moduleCode);
+        if(courseEntity != null){
+            moduleEntity = findModule(courseEntity, takenYear, takenSem);
+            if(moduleEntity != null){
+                if(findLesson(moduleEntity, day, timeFrom, timeEnd) != null){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+            else{
+                return false;
+            }
+        }
+        return false;
+    }    
+    
+    @Override
+    public boolean linkLecturerToModule(String moduleCode, String takenYear, String takenSem, String username){
         courseEntity = findCourse(moduleCode);
         moduleEntity = findModule(courseEntity, takenYear, takenSem);
         lecturerEntity = findLecturer(username);
@@ -143,10 +272,23 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
         
         moduleEntity.getLecturers().add(lecturerEntity);
         lecturerEntity.getModules().add(moduleEntity);
-        em.persist(moduleEntity);
-        em.persist(lecturerEntity);       
+        em.merge(moduleEntity);
+        em.merge(lecturerEntity);       
         em.flush();
         return true;
+    }
+    
+    public Collection<Module> getModulesFromCourse(String moduleCode){
+        courseEntity = findCourse(moduleCode);
+        modules = courseEntity.getModules();
+        return modules;
+    }
+    
+    public Collection<Lesson> getLessonsFromModule(String moduleCode, String takenYear, String takenSem){
+        courseEntity = findCourse(moduleCode);
+        moduleEntity = findModule(courseEntity, takenYear, takenSem);
+        lessons = moduleEntity.getLessons();
+        return lessons;
     }
    
     public Course findCourse(String moduleCode){
@@ -179,6 +321,24 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
             moduleEntity = null;
         }
         return moduleEntity;
+    }
+    
+    public Lesson findLesson(Module module, String day, String timeFrom, String timeEnd){
+        lessonEntity = null;
+        try{
+            Query q = em.createQuery("SELECT l FROM Lesson l WHERE l.day=:day AND l.timeFrom=:timeFrom AND l.timeEnd=:timeEnd AND l.module.id=:moduleid");
+            q.setParameter("day", day);
+            q.setParameter("timeFrom", timeFrom);
+            q.setParameter("timeEnd", timeEnd);
+            q.setParameter("moduleid", module.getId());
+            lessonEntity = (Lesson) q.getSingleResult();
+            System.out.println("Lesson found.");
+        }
+        catch(NoResultException e){
+            System.out.println("Lesson does not exist.");
+            lessonEntity = null;
+        }
+        return lessonEntity;
     }
     
     public Lecturer findLecturer(String username){

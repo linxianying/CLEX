@@ -19,7 +19,7 @@ import session.CourseMgmtBeanLocal;
 
 /**
  *
- * @author Gwee
+ * @author eeren
  */
 @ManagedBean
 @ViewScoped
@@ -87,15 +87,65 @@ public class CourseBean implements Serializable{
             context.getExternalContext().redirect("adminCourse.xhtml");
         }
         else{
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Existing module already exist.", "");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error creating module.", "");
             context.addMessage(null, fmsg);
         }
     }
     
-    //WIP
-    public void enterLesson(){
+    public void enterLesson() throws IOException{
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
+        if(cmbl.checkNewLesson(moduleCode, takenYear, takenSem, day, timeFrom, timeEnd) == true){
+            cmbl.createLesson(day, timeFrom, timeEnd, type, venue, moduleCode, takenYear, takenSem);
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Lesson has been created.", "");
+            context.addMessage(null, fmsg);
+            context.getExternalContext().redirect("adminCourse.xhtml");
+        }
+        else{
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error creating lesson.", "");
+            context.addMessage(null, fmsg);
+        }
+    }
+    
+    public void removeCourse() throws IOException{
+        FacesMessage fmsg = new FacesMessage();
+        FacesContext context = FacesContext.getCurrentInstance();
+        if(cmbl.checkExistingCourse(moduleCode) == true){
+            if(cmbl.deleteCourse(moduleCode) == true){
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, moduleCode + " has been deleted.", "");
+                System.out.println("yes");
+                context.addMessage(null, fmsg);
+                context.getExternalContext().redirect("adminCourse.xhtml");
+            }
+            else{
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to delete course.", "");
+                System.out.println("no");
+                context.addMessage(null, fmsg);
+            }
+        }
+        else{
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Course not found.", "");
+            context.addMessage(null, fmsg);
+        }
+    }
+    public void removeLesson() throws IOException{
+        FacesMessage fmsg = new FacesMessage();
+        FacesContext context = FacesContext.getCurrentInstance();
+        if(cmbl.checkExistingLesson(moduleCode, takenYear, takenSem, day, timeFrom, timeEnd) == true){
+            if(cmbl.deleteLesson(day, timeFrom, timeEnd, moduleCode, takenYear, takenSem) == true){
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Lesson has been deleted.", "");
+                context.addMessage(null, fmsg);
+                context.getExternalContext().redirect("adminCourse.xhtml");
+            }
+            else {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to delete lesson.", "");
+                context.addMessage(null, fmsg);
+            }
+        }
+        else{
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Lesson not found.", "");
+            context.addMessage(null, fmsg);
+        }
     }
     
     public void assignLecturer() throws IOException{
