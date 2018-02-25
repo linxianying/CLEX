@@ -25,13 +25,13 @@ import org.json.JSONArray;
  */
 public class JsonReader {
     
-    private static String readAll(Reader rd) throws IOException {
-        StringBuilder sb = new StringBuilder();
+    private static String readAll(Reader reader) throws IOException {
+        StringBuilder stringBuilder = new StringBuilder();
         int cp;
-        while ((cp = rd.read()) != -1) {
-          sb.append((char) cp);
+        while ((cp = reader.read()) != -1) {
+          stringBuilder.append((char) cp);
         }
-        return sb.toString();
+        return stringBuilder.toString();
     }
 
     public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
@@ -52,7 +52,6 @@ public class JsonReader {
         try {
             
             JSONObject json = readJsonFromUrl("http://api.nusmods.com/2017-2018/1/moduleList.json");
-            //System.out.println(json.toString());
             String moduleCode="";
             String moduleTitle="";
             String moduleInfo = "";
@@ -75,20 +74,13 @@ public class JsonReader {
                     moduleInfo = newJson.getString("ModuleDescription");
                 if(newJson.has("Workload"))
                     workload = newJson.getString("Workload");
-                //Course course = new Course();
-                //System.out.println("course created: " + course.getId());
-                //(moduleCode, moduleTitle, moduleInfo ,false,"","", "", "NUS",Integer.parseInt(moduleCredit),workload);
-                //System.out.println("course created: " + course.getId() + " and " +course.getSchool());
-                //em.flush();
-                //em.persist(course);
                 arr[index][0]=moduleCode;
                 arr[index][1]=moduleTitle;
                 arr[index][2]=moduleInfo;
                 arr[index][3]=moduleCredit;
                 arr[index][4]=workload;
                 index++;
-            }
-            
+            }  
         } catch (Exception e) {
             System.out.println("Test method in JsonReader: Exception caught!");
             e.printStackTrace();
@@ -105,14 +97,9 @@ public class JsonReader {
             JSONObject json = readJsonFromUrl("http://api.nusmods.com/2017-2018/1/modules/" + moduleCode +".json");
             JSONObject time = null;
             if(json.has("Timetable")){
-                //json = json.getJSONObject("Timetable");
-                //JSONArray dataList = (JSONArray) json.get("Timetable");
-                //Object obj = dataList.get(index);
-                //json = (JSONObject) obj;
-                 JSONArray dataList = json.getJSONArray("Timetable");
-                //getJSONObject("Weektext")
+                JSONArray dataList = json.getJSONArray("Timetable");
                 while(true)
-                    if(dataList.getJSONObject(index)!=null){
+                    if(!dataList.isNull(index)){
                         System.out.println("dataList"+index+":" + dataList.getJSONObject(index).toString());
                         index++;
                     }
