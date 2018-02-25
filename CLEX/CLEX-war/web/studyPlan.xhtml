@@ -75,11 +75,23 @@
                         <h:commandButton value="testViewTakenCoursesInOrder" actionListener="#{studyPlanBean.testViewTakenCoursesInOrder}" action="studyPlan?faces-redirect=true" />
                     </h:form>
                     <br />
+                    <ui:param name="year" value="#{studyPlanBean.matricYear}" />
+                    <ui:param name="sem" value="#{studyPlanBean.matricSem}" />
                     <h:panelGrid columns="1">
                         <p:dataList var="courses" value="#{studyPlanBean.takenCoursesInOrder}">
                             <f:facet name="header">  
                                 <h:outputText value="Taken modules"/>  
                             </f:facet>
+                            <p:column>
+                                <h:outputText value="AY " />
+                                <h:outputText value="#{year}" />
+                                <h:outputText value="-" />
+                                <h:outputText value="#{year+1}" />
+                                <h:outputText value=" Sem" />
+                                <h:outputText value="#{sem}" />
+                            </p:column>
+                            
+                            <p:column>
                             <p:dataList var="course" value="#{courses}">
                                 <p:column>
                                     <h:outputText value="#{course.moduleCode}" />
@@ -92,6 +104,19 @@
                                     <h:outputText value="#{course.modularCredits}" />
                                 </p:column>
                             </p:dataList>
+                            </p:column>
+                            <ui:param name="year" value="#{year=year-1+sem}" />
+                            <ui:param name="sem" value="#{sem=3-sem}" />
+                            <p:column>
+                                <h:outputText value="AY " />
+                                <h:outputText value="#{year}" />
+                                <h:outputText value="-" />
+                                <h:outputText value="#{year+1}" />
+                                <h:outputText value=" Sem" />
+                                <h:outputText value="#{sem}" />
+                                <h:outputText value=" Sem" />
+                                <h:outputText value="#{sem}" />
+                            </p:column>
                         </p:dataList>
                     </h:panelGrid>
                     <br />

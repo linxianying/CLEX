@@ -56,6 +56,9 @@ public class StudyPlanBean {
     private int year;
     //private int currentMonth;
     private DashboardModel model;
+    private int matricYear = 0;
+    private int matricSem = 1;
+    
     
     public StudyPlanBean() {
     }
@@ -64,6 +67,7 @@ public class StudyPlanBean {
     public void init() {
         //for test purpose only
         this.username="namename";
+        matricYear = Integer.parseInt(cpsbl.findStudent(username).getMatricYear());
         takenCoursesInOrder = cpsbl.getTakenModulesInOrder(username);
         studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
         
@@ -126,6 +130,14 @@ public class StudyPlanBean {
         this.year = year;
     }
 
+    public int getMatricSem() {
+        return 1;
+    }
+
+    public void setMatricSem(int matricSem) {
+        this.matricSem = matricSem;
+    }
+
     private String genSalt(){
         Random rng = new Random();
         Integer gen = rng.nextInt(13371337);
@@ -149,6 +161,16 @@ public class StudyPlanBean {
     public void addMessage(String summary, String detail) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
         FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+
+    public int getMatricYear() {
+        //System.out.println("matric year = " + matricYear);
+        int year = Integer.parseInt(cpsbl.findStudent(this.username).getMatricYear());
+        return year;
+    }
+
+    public void setMatricYear(int matricYear) {
+        this.matricYear = matricYear;
     }
     
     public StudyPlanSessionBeanLocal getCpsbl() {
