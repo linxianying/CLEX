@@ -33,4 +33,8 @@
         <param-name>facelets.SKIP_COMMENTS</param-name>
         <param-value>true</param-value>
     </context-param>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error.xhtml</location> 
+    </error-page>
 </web-app>
