@@ -75,12 +75,6 @@ public class JsonReader {
                     moduleInfo = newJson.getString("ModuleDescription");
                 if(newJson.has("Workload"))
                     workload = newJson.getString("Workload");
-                //Course course = new Course();
-                //System.out.println("course created: " + course.getId());
-                //(moduleCode, moduleTitle, moduleInfo ,false,"","", "", "NUS",Integer.parseInt(moduleCredit),workload);
-                //System.out.println("course created: " + course.getId() + " and " +course.getSchool());
-                //em.flush();
-                //em.persist(course);
                 arr[index][0]=moduleCode;
                 arr[index][1]=moduleTitle;
                 arr[index][2]=moduleInfo;
@@ -105,14 +99,9 @@ public class JsonReader {
             JSONObject json = readJsonFromUrl("http://api.nusmods.com/2017-2018/1/modules/" + moduleCode +".json");
             JSONObject time = null;
             if(json.has("Timetable")){
-                //json = json.getJSONObject("Timetable");
-                //JSONArray dataList = (JSONArray) json.get("Timetable");
-                //Object obj = dataList.get(index);
-                //json = (JSONObject) obj;
-                 JSONArray dataList = json.getJSONArray("Timetable");
-                //getJSONObject("Weektext")
+                JSONArray dataList = json.getJSONArray("Timetable");
                 while(true)
-                    if(dataList.getJSONObject(index)!=null){
+                    if(!dataList.isNull(index)){
                         System.out.println("dataList"+index+":" + dataList.getJSONObject(index).toString());
                         index++;
                     }
