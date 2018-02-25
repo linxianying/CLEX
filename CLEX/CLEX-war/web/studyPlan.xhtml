@@ -94,14 +94,12 @@
                             <p:column>
                             <p:dataList var="course" value="#{courses}">
                                 <p:column>
-                                    <h:outputText value="#{course.moduleCode}" />
-                                    <h:outputText value="  " />
-                                    <h:outputText value="#{course.moduleName}" />
-                                </p:column>
-                                <br />
-                                <p:column>
-                                    <h:outputText value="credits:" />
+                                    <p:panel header="#{course.moduleCode}">
+                                        <h:outputText value="#{course.moduleName}" />
+                                        <br />
+                                        <h:outputText value="credits:" />
                                     <h:outputText value="#{course.modularCredits}" />
+                                    </p:panel>
                                 </p:column>
                             </p:dataList>
                             </p:column>
@@ -120,23 +118,47 @@
                         </p:dataList>
                     </h:panelGrid>
                     <br />
+                    
+                    <h:form>
                     <p:dataList var="studyPlans" value="#{studyPlanBean.studyPlansInOrer}">
                         <f:facet name="header">  
                             <h:outputText value="Study Plans"/>  
                         </f:facet>
                         <p:dataList var="sp" value="#{studyPlans}">
                             <p:column>
-                                <h:outputText value="#{sp.course.moduleCode}"/>
-                                <h:outputText value="  " />
-                                <h:outputText value="#{sp.course.moduleName}" />
-                            </p:column>
-                            <br />
-                            <p:column>
-                                <h:outputText value="credits:" />
-                                <h:outputText value="#{sp.course.modularCredits}" />
+                                
+                                <p:panel header="#{sp.course.moduleCode}">
+                                    <h:outputText value="#{sp.course.moduleName}" />
+                                    <br />
+                                    <h:outputText value="credits:" />
+                                    <h:outputText value="#{sp.course.modularCredits}" />
+                                </p:panel>
                             </p:column>
                         </p:dataList>
                     </p:dataList>
+                    </h:form>
+                    <br />
+                    <br />
+                    Add new study plan entry:
+                    <h:form>
+                        Enter Module Code:<p:inputText value="#{studyPlanBean.addModuleCode}" required="true">
+                            <p:ajax event="change" update="addErrorMsg" listener="#{studyPlanBean.checkStudyPlan}" />
+                        </p:inputText>
+                        <h:outputText id="addErrorMsg" value="#{studyPlanBean.addErrorMsg}" />
+                        <br />
+                        Enter pick up year<p:inputText value="#{studyPlanBean.addPickYear}" required="true"/>
+                        <br />
+                        <p:outputLabel for="addPickSem" value="Pick up sem" />
+                        <p:selectOneMenu id="addPickSem" value="#{studyPlanBean.addPickSem}" style="width:125px">
+                            <f:selectItem itemLabel="1" itemValue="1" />
+                            <f:selectItem itemLabel="2" itemValue="2" />
+                        </p:selectOneMenu>
+                        <br />
+                        <p:commandButton value="submit" actionListener="#{studyPlanBean.addStudyPlan()}" id="addStudyPlan-button" />
+                    </h:form>
+                    <br />
+                      
+                        
                     <div style="height:500px">
                         <h:form>
                             <p:growl id="msgs" showDetail="true" />

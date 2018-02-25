@@ -65,6 +65,8 @@ public class StudyPlanBean {
     
     private String addErrorMsg;
     
+    private String deleteSp;
+    
     public StudyPlanBean() {
     }
      
@@ -296,6 +298,14 @@ public class StudyPlanBean {
 
     public String getAddErrorMsg() {
         return addErrorMsg;
+    }
+
+    public String getDeleteSp() {
+        return deleteSp;
+    }
+
+    public void setDeleteSp(String deleteSp) {
+        this.deleteSp = deleteSp;
     }
 
     public void setAddErrorMsg(String addErrorMsg) {
