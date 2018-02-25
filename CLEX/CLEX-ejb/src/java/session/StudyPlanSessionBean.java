@@ -72,6 +72,25 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     }
 
     @Override
+    public boolean checkCourseExistance(String moduleCode) {
+        try{
+            Query q = em.createQuery("SELECT c FROM Course c WHERE c.moduleCode=:moduleCode");
+            q.setParameter("moduleCode", moduleCode);
+            q.getSingleResult();
+            System.out.println("Course " + moduleCode + " exists.");
+        }
+        catch(NoResultException e){
+            System.out.println("Course " + moduleCode + " does not exist.");
+            return false;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+    
+    @Override
     public Course findCourse(String moduleCode) {
         Course c = new Course();
         c = null;
@@ -84,6 +103,7 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         catch(NoResultException e){
             System.out.println("Course " + moduleCode + " does not exist.");
             c = null;
+            return null;
         }
         this.moduleCode = moduleCode;
         this.course = c;
@@ -108,8 +128,9 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
                     ", takenSem=" + takenSem +" found.");
         }
         catch(NoResultException e){
-            System.out.println("Course " + moduleCode + " does not exist.");
+            System.out.println("Module " + moduleCode + " does not exist.");
             m = null;
+            return null;
         }
         return m;
     }
@@ -190,6 +211,19 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         System.out.println(takenCoursesInOrder.size());
         System.out.println(takenCoursesInOrder);
         return takenCoursesInOrder;
+    }
+    
+    //check whether a student has taken certain course already
+    @Override
+    public boolean checkStudentModule(String username, String moduleCode) {
+        boolean check = false;
+        takenCourses = new ArrayList<Course>();
+        takenCourses = this.getTakenCourses(username);
+        for (Course c: takenCourses) {
+            if (c.getModuleCode().equals(moduleCode)) 
+                check = true;
+        }
+        return check;
     }
     
     // find all studyPlan the user has
@@ -315,8 +349,9 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         this.student.getStudyPlan().add(studyPlan);
         //set relationship between StudyPlan and course
         studyPlan.setCourse(course);
-        
+        em.merge(student);
         em.persist(studyPlan);
+        em.flush();
         }
         catch(Exception e){
             System.out.println("StudyPlanSessionBean: createStudyPlan method:");
