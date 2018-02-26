@@ -5,9 +5,10 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html" 
                 xmlns:f="http://xmlns.jcp.org/jsf/core" 
                 template="./layout/default.xhtml" 
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
     <ui:define name="content">
-                <h:outputStylesheet name="./css/style.css"/> 
+        <h:outputStylesheet name="./css/style.css"/> 
 
         <div class="wrapper">
             <div class="container">
@@ -34,11 +35,11 @@
                     <p:inputText styleClass="textInput" id="email" value="#{registerBean.email}" required="true" 
                                  requiredMessage="Email required." 
                                  placeholder="Email" 
-                                 validatorMessage="Invalid format.">
+                                 validatorMessage="Email format is invalid.">
                     </p:inputText>
                     <br></br>
                     <p:inputText styleClass="textInput" id="contact" value="#{registerBean.contactNum}" 
-                                 required="true" requiredMessage="Contact required." 
+                                 required="true" requiredMessage="Contact number required." 
                                  placeholder="Contact Number" 
                                  validatorMessage="Invalid format. Contact number must be at least 8 digits"/>
                     <br></br>
@@ -50,8 +51,8 @@
                     </p:selectOneButton>
                     <br></br>
                     <br></br>
-                    <h:messages id="messages" infoStyle="color: green;" warnStyle="color: orange;" errorStyle="color: red;" fatalStyle="color: red;" />
-                    <h:commandButton value="Submit" actionListener="#{registerBean.register}" action="login?faces-redirect=true"/>                  
+                    <h:messages id="messages" infoStyle="color: green;" warnStyle="color: orange;" errorStyle="color: red;" fatalStyle="color: red;"/>
+                    <h:commandButton value="Submit" actionListener="#{registerBean.register}" />
                     <h:button value="Return to login" outcome="login"/>
                 </h:form>
 
@@ -91,24 +92,24 @@
         <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
         <script src="./js/index.js"></script>
 
-            <br>--------------------------------------</br>
+        <br>--------------------------------------</br>
 
-            <!--For lazy people, please delete when not needed anymore-->
-            <h:form>
-                <h:commandButton value="TestRegisterStudent" actionListener="#{registerBean.testRegisterStudent}"/>
-            </h:form>
-            <h:form>
-                <h:commandButton value="TestRegisterLecturer" actionListener="#{registerBean.testRegisterLecturer}"/>
-            </h:form>
-            <h:form>
-                <h:commandButton value="TestRegisterGuest" actionListener="#{registerBean.testRegisterGuest}"/>
-            </h:form>
-            <h:form>
-                <h:commandButton value="CreateManyUsers" actionListener="#{registerBean.testusercase}"/>
-            </h:form>
-            <h:form>
-                <h:commandButton value="CreateAdmin" actionListener="#{registerBean.registerAdmin}"/>
-            </h:form>
+        <!--For lazy people, please delete when not needed anymore-->
+        <h:form>
+            <h:commandButton value="TestRegisterStudent" actionListener="#{registerBean.testRegisterStudent}"/>
+        </h:form>
+        <h:form>
+            <h:commandButton value="TestRegisterLecturer" actionListener="#{registerBean.testRegisterLecturer}"/>
+        </h:form>
+        <h:form>
+            <h:commandButton value="TestRegisterGuest" actionListener="#{registerBean.testRegisterGuest}"/>
+        </h:form>
+        <h:form>
+            <h:commandButton value="CreateManyUsers" actionListener="#{registerBean.testusercase}"/>
+        </h:form>
+        <h:form>
+            <h:commandButton value="CreateAdmin" actionListener="#{registerBean.registerAdmin}"/>
+        </h:form>
     </ui:define>
 </ui:composition>
 

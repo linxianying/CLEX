@@ -60,7 +60,7 @@ public class RegisterBean implements Serializable{
     
     /*/My plan is to use register for user class and then use the other entities (Lecturer, student etc.)
     for admin to approve/*/
-    public void register(){
+    public void register() throws IOException{
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
 
@@ -69,13 +69,16 @@ public class RegisterBean implements Serializable{
                 if(userType.equals("1")){ //Student
                     csbl.createStudent(username, password, name, email, school, contactNum, genSalt(), 
                     faculty, major, matricYear, matricSem, cap);
+                    context.getExternalContext().redirect("login.xhtml");
                 }
                 else if(userType.equals("2")){ //Lecturer
                     csbl.createLecturer(username, password, name, email, school, contactNum, genSalt(), 
                     faculty);                    
+                    context.getExternalContext().redirect("login.xhtml");
                 }
                 else{ //Guest
-                    csbl.createGuest(username, password, name, email, school, contactNum, genSalt());                    
+                    csbl.createGuest(username, password, name, email, school, contactNum, genSalt());         
+                    context.getExternalContext().redirect("login.xhtml");
                 }
             }
         }
