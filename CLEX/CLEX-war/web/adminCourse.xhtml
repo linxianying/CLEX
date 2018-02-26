@@ -97,7 +97,7 @@
             </h:panelGrid>
         </h:form>
         <br></br>
-        <h:form><!-- eeren: not sure why it dosent work-->
+        <h:form><!-- eeren: not sure why it dosent work, tested backend where the list of modules actually have the individual module object in them, might be frontend problem-->
             <p:dataTable var="modules" value="#{adminCourseListBean.modules}" widgetVar="modulesTable"
             emptyMessage="No modules found with given criteria." filteredValue="#{adminCourseListBean.filteredModules}">
                 <f:facet name="header">
@@ -107,11 +107,11 @@
                     </p:outputPanel>
                 </f:facet>
                 
-                <p:column filterBy="#{schoolModule.takenYear}" headerText="Taken Year" filterMatchMode="contains">
-                    <h:outputText value="#{schoolModule.takenYear}" />
+                <p:column filterBy="#{module.takenYear}" headerText="Taken Year" filterMatchMode="contains">
+                    <h:outputText value="#{module.takenYear}" />
                 </p:column>
-                <p:column filterBy="#{schoolmodule.takenSem}" headerText="Taken Sem" filterMatchMode="contains">
-                    <h:outputText value="#{schoolmodule.takenSem}" />
+                <p:column filterBy="#{module.takenSem}" headerText="Taken Sem" filterMatchMode="contains">
+                    <h:outputText value="#{module.takenSem}" />
                 </p:column>
                 <p:column filterBy="#{module.prerequisite}" headerText="Prerequisite" filterMatchMode="contains">
                     <h:outputText value="#{module.prerequisite}" />
@@ -148,7 +148,7 @@
         </h:form>
         <br></br>
         <h:form><!-- eeren: same as module-->
-            <p:dataTable var="modules" value="#{adminCourseListBean.lessons}" widgetVar="lessonsTable"
+            <p:dataTable var="lessons" value="#{adminCourseListBean.lessons}" widgetVar="lessonsTable"
             emptyMessage="No lessons found with given criteria." filteredValue="#{adminCourseListBean.filteredLessons}">
                 <f:facet name="header">
                     <p:outputPanel>
@@ -187,6 +187,19 @@
         </h:form>
         <br></br>
         <h:form>
+            <h1 style="margin-top:0">Delete a module:</h1>
+            <h:panelGrid columns="4" cellpadding="5">
+            <h:outputLabel for= "moduleCode" value="Module Code:"/>
+            <p:inputText id="moduleCode" value="#{courseBean.moduleCode}" required="true" />
+            <h:outputLabel for= "takenYear" value="Module Year:"/>
+            <p:inputText id="takenYear" value="#{courseBean.takenYear}" required="true" />
+            <h:outputLabel for= "takenSem" value="Module Sem:"/>
+            <p:inputText id="takenSem" value="#{courseBean.takenSem}" required="true" />            
+            <p:commandButton value="Submit" actionListener="#{courseBean.removeModule}" />
+            </h:panelGrid>
+        </h:form>
+        <br></br>
+        <h:form>
             <h1 style="margin-top:0">Delete a lesson:</h1>
             <h:panelGrid columns="4" cellpadding="5">
             <h:outputLabel for= "moduleCode" value="Module Code:"/>
@@ -205,6 +218,72 @@
             </h:panelGrid>
         </h:form>
         <br></br>
+        <h:form><!-- eeren: i want another way to present the editing of module, this is just for testing, remember to put this in lecturerModule-->
+            <h1 style="margin-top:0">Edit a course:</h1>
+            <h:panelGrid columns="4" cellpadding="5">
+            <h:outputLabel for= "moduleCode" value="Module Code:"/>
+            <p:inputText id="moduleCode" value="#{courseBean.moduleCode}" required="true" />
+            <h:outputLabel for= "moduleName" value="Module Name:"/>
+            <p:inputText id="moduleName" value="#{courseBean.moduleName}" />
+            <h:outputLabel for= "moduleInfo" value="Module Info:"/>
+            <p:inputText id="moduleInfo" value="#{courseBean.moduleInfo}" />
+            <h:outputLabel for= "discontinuedBool" value="Discontinued? True/False"/> <!-- Please change this-->
+            <p:inputText id="discontinuedBool" value="#{courseBean.discontinuedBool}" />
+            <h:outputLabel for= "discontinuedYear" value="Discontinued Year:"/>
+            <p:inputText id="discontinuedBoolYear" value="#{courseBean.discountinuedYear}" />
+            <h:outputLabel for= "discontinuedSem" value="Discontinued Sem:"/>
+            <p:inputText id="discontinuedSem" value="#{courseBean.discountinuedSem}" />
+            <h:outputLabel for= "offeredSem" value="Offered Semester:"/>
+            <p:inputText id="offeredSem" value="#{courseBean.offeredSem}" />
+            <h:outputLabel for= "school" value="School:"/>
+            <p:inputText id="school" value="#{courseBean.school}" />
+            <h:outputLabel for= "workload" value="Workload:"/>
+            <p:inputText id="workload" value="#{courseBean.workload}" />
+            <h:outputLabel for= "modularCredits" value="Module Credits:"/>
+            <p:inputText id="modularCredits" value="#{courseBean.modularCredits}" />
+            <p:commandButton value="Submit" actionListener="#{courseBean.editCourse}" />
+            </h:panelGrid>
+        </h:form>
+        <br></br>
+        <h:form>
+            <h1 style="margin-top:0">Edit a module:</h1>
+            <h:panelGrid columns="4" cellpadding="5">
+            <h:outputLabel for= "moduleCode" value="Module Code:"/>
+            <p:inputText id="moduleCode" value="#{courseBean.moduleCode}" required="true" />
+            <h:outputLabel for= "takenYear" value="Module Year:"/>
+            <p:inputText id="takenYear" value="#{courseBean.takenYear}" required="true" />
+            <h:outputLabel for= "takenSem" value="Module Sem:"/>
+            <p:inputText id="takenSem" value="#{courseBean.takenSem}" required="true" />  
+            <h:outputLabel for= "prerequisite" value="Prerequisite:"/>
+            <p:inputText id="prerequisite" value="#{courseBean.prerequisite}" />
+            <h:outputLabel for= "preclusions" value="Preclusions:"/>
+            <p:inputText id="preclusions" value="#{courseBean.preclusions}"/>            
+            <p:commandButton value="Submit" actionListener="#{courseBean.editModule}" />
+            </h:panelGrid>
+        </h:form>
+        <br></br>
+        <h:form>
+            <h1 style="margin-top:0">Edit a lesson:</h1>
+            <h:panelGrid columns="4" cellpadding="5">
+            <h:outputLabel for= "moduleCode" value="Module Code:"/>
+            <p:inputText id="moduleCode" value="#{courseBean.moduleCode}" required="true" />
+            <h:outputLabel for= "takenYear" value="Module Year:"/>
+            <p:inputText id="takenYear" value="#{courseBean.takenYear}" required="true" />
+            <h:outputLabel for= "takenSem" value="Module Sem:"/>
+            <p:inputText id="takenSem" value="#{courseBean.takenSem}" required="true" />
+            <h:outputLabel for= "day" value="Day:"/>
+            <p:inputText id="day" value="#{courseBean.day}" required="true" />
+            <h:outputLabel for= "timeFrom" value="Time From:"/>
+            <p:inputText id="timeFrom" value="#{courseBean.timeFrom}" required="true" />
+            <h:outputLabel for= "timeEnd" value="Time End:"/>
+            <p:inputText id="timeEnd" value="#{courseBean.timeEnd}" required="true" />  
+            <h:outputLabel for= "type" value="Lesson Type:"/>
+            <p:inputText id="type" value="#{courseBean.type}" required="true" />
+            <h:outputLabel for= "venue" value="Venue:"/>
+            <p:inputText id="venue" value="#{courseBean.venue}" required="true" /> 
+            <p:commandButton value="Submit" actionListener="#{courseBean.editLesson}" />
+            </h:panelGrid>
+        </h:form>
     </ui:define>
 
 </ui:composition>

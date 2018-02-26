@@ -32,7 +32,7 @@ public interface CourseMgmtBeanLocal {
     public void editLesson(String day, String timeFrom, String timeEnd, String type, String venue, String moduleCode, String takenYear, String takenSem);
     
     public boolean deleteCourse(String moduleCode);
-    //public boolean deleteModule();
+    public boolean deleteModule(String moduleCode, String takenYear, String takenSem);
     public boolean deleteLesson(String day, String timeFrom, String timeEnd, String moduleCode, String takenYear, String takenSem);
     
     public boolean checkNewCourse(String moduleCode);

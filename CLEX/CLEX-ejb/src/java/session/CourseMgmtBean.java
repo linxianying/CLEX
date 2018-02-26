@@ -75,6 +75,7 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
         courseEntity = findCourse(moduleCode);
         
         courseEntity.setModuleName(moduleName);
+        courseEntity.setModuleInfo(moduleInfo);
         courseEntity.setDiscontinuedBool(discontinuedBool);
         courseEntity.setDiscountinuedYear(discountinuedYear);
         courseEntity.setDiscountinuedSem(discountinuedSem);
@@ -123,8 +124,24 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
         return true;
     }
     
-    /*public boolean deleteModule(){
-    }*/
+    public boolean deleteModule(String moduleCode, String takenYear, String takenSem){
+        courseEntity = findCourse(moduleCode);
+        moduleEntity = findModule(courseEntity, takenYear, takenSem);
+        modules = courseEntity.getModules();
+    
+        if(!moduleEntity.getLessons().isEmpty()){
+            return false;
+        }
+        
+        if(modules.remove(moduleEntity) == true){
+            em.merge(courseEntity);
+            em.remove(moduleEntity);
+            em.flush();
+            return true;
+        }
+
+        return false;
+    }
     
     @Override
     public boolean deleteLesson(String day, String timeFrom, String timeEnd, String moduleCode, String takenYear, String takenSem){
@@ -164,14 +181,14 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
         }
         return modules;
     }
-     
+    
     @Override
     public List getAllLessons(){
         List<Lesson> lessons = new ArrayList<Lesson>();
         Query q = em.createQuery("Select l FROM Lesson l");
         for(Object o: q.getResultList()){
             lessonEntity = (Lesson) o;
-           lessons.add(lessonEntity);
+            lessons.add(lessonEntity);
         }
         return lessons;
     }

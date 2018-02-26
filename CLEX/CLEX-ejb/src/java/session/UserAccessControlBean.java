@@ -45,8 +45,6 @@ public class UserAccessControlBean implements UserAccessControlBeanLocal {
         allUserTypes[0] = "Student";
         allUserTypes[1] = "Lecturer";
         allUserTypes[2] = "Guest";
-        allUserTypes[3] = "Admin";
-        
         return Arrays.asList(allUserTypes);
     }
     

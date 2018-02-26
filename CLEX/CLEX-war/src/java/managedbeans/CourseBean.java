@@ -38,8 +38,9 @@ public class CourseBean implements Serializable{
     private String discountinuedSem;
     private String offeredSem;
     private String school;
+    private String modularCredits;    
     private String workload;
-    private String modularCredits;
+
     
     //Module
     Module moduleEntity;
@@ -107,6 +108,52 @@ public class CourseBean implements Serializable{
         }
     }
     
+    //All edits cannot change primary key (Course: moduleCode, Module: takenYear, takenSem, Lesson: day, timeFrom, timeEnd)
+    public void editCourse() throws IOException{
+        FacesMessage fmsg = new FacesMessage();
+        FacesContext context = FacesContext.getCurrentInstance();
+        if(cmbl.checkExistingCourse(moduleCode) == true){
+            cmbl.editCourse(moduleCode, moduleName, moduleInfo, discontinuedBool, discountinuedYear,  discountinuedSem, 
+                    offeredSem, school, modularCredits, workload);
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, moduleCode + " has been edited.", "");
+            context.addMessage(null, fmsg);
+            context.getExternalContext().redirect("adminCourse.xhtml");
+        }
+        else{
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Course '" + moduleCode + "' does not exists.", "");
+            context.addMessage(null, fmsg);
+        }
+    }
+    
+    public void editModule() throws IOException{
+        FacesMessage fmsg = new FacesMessage();
+        FacesContext context = FacesContext.getCurrentInstance(); 
+        if(cmbl.checkExistingModule(moduleCode, takenYear, takenSem) == true){
+            cmbl.editModule(takenYear, takenSem, prerequisite, preclusions, moduleCode);
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Module has been edited.", "");
+            context.addMessage(null, fmsg);
+            context.getExternalContext().redirect("adminCourse.xhtml");
+        }
+        else{
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error editing module.", "");
+            context.addMessage(null, fmsg);
+        }
+    }
+    public void editLesson() throws IOException{
+        FacesMessage fmsg = new FacesMessage();
+        FacesContext context = FacesContext.getCurrentInstance();
+        if(cmbl.checkExistingLesson(moduleCode, takenYear, takenSem, day, timeFrom, timeEnd) == true){
+            cmbl.editLesson(day, timeFrom, timeEnd, type, venue, moduleCode, takenYear, takenSem);
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Lesson has been edited.", "");
+            context.addMessage(null, fmsg);
+            context.getExternalContext().redirect("adminCourse.xhtml");
+        }
+        else{
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error editing lesson.", "");
+            context.addMessage(null, fmsg);
+        }
+    }
+    
     public void removeCourse() throws IOException{
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
@@ -119,7 +166,6 @@ public class CourseBean implements Serializable{
             }
             else{
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to delete course.", "");
-                System.out.println("no");
                 context.addMessage(null, fmsg);
             }
         }
@@ -128,6 +174,26 @@ public class CourseBean implements Serializable{
             context.addMessage(null, fmsg);
         }
     }
+    public void removeModule() throws IOException{
+        FacesMessage fmsg = new FacesMessage();
+        FacesContext context = FacesContext.getCurrentInstance();
+        if(cmbl.checkExistingModule(moduleCode, takenYear, takenSem) == true){
+            if(cmbl.deleteModule(moduleCode, takenYear, takenSem) == true){
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Module has been deleted.", "");
+                context.addMessage(null, fmsg);
+                context.getExternalContext().redirect("adminCourse.xhtml");
+            }
+            else{
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to delete module.", "");
+                context.addMessage(null, fmsg);
+            }
+        }
+        else{
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Module not found.", "");
+            context.addMessage(null, fmsg);
+        }
+    }
+    
     public void removeLesson() throws IOException{
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
