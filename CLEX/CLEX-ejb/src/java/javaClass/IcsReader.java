@@ -6,14 +6,19 @@
 package javaClass;
 
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import jdk.nashorn.internal.runtime.ParserException;
 import net.fortuna.ical4j.data.CalendarBuilder;
+import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Component;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
@@ -54,5 +59,15 @@ public class IcsReader {
         } 
     }
     
+    public void test(){
+        FileInputStream fin;
+        try {
+            fin = new FileInputStream("/java/javaClass/test.ics");
+            CalendarBuilder builder = new CalendarBuilder();
+            Calendar calendar = builder.build(fin);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } 
+    }
 
 }

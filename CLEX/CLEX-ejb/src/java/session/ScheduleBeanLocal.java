@@ -15,5 +15,6 @@ import javax.ejb.Local;
 public interface ScheduleBeanLocal {
 
     boolean loadIcsFile();
-    
+    public void createTimeslot(String date, String timeFrom, String timeEnd, 
+                String title, String details, String venue);
 }

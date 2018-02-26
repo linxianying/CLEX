@@ -5,6 +5,19 @@
  */
 package session;
 
+import entity.Admin;
+import entity.Course;
+import entity.GroupTask;
+import entity.Guest;
+import entity.Lecturer;
+import entity.Lesson;
+import entity.Module;
+import entity.ProjectGroup;
+import entity.Student;
+import entity.SuperGroup;
+import entity.Task;
+import entity.Timeslot;
+import entity.User;
 import java.awt.Component;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -13,6 +26,8 @@ import java.util.Iterator;
 import javaClass.IcsReader;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import jdk.nashorn.internal.runtime.ParserException;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
@@ -27,12 +42,36 @@ public class ScheduleBean implements ScheduleBeanLocal {
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     
+    @PersistenceContext
+    EntityManager em;
+    private User userEntity;
+    private Admin adminEntity;
+    private Student studentEntity;
+    private Module moduleEntity;
+    private Lecturer lecturerEntity;
+    private Guest guestEntity;
+    private Course courseEntity;
+    private Timeslot timeslotEntity;
+    private Task taskEntity;
+    private GroupTask groupTaskEntity;
+    private ProjectGroup projectGroupEntity;
+    private SuperGroup superGroupEntity;
+    private Lesson lessonEntity;
     
 
     @Override
     public boolean loadIcsFile() {
         IcsReader ics = new IcsReader();
-        ics.loadIcs();
+        ics.test();
         return false;
+    }
+    
+    @Override
+    public void createTimeslot(String date, String timeFrom, String timeEnd, 
+                String title, String details, String venue){
+        timeslotEntity = new Timeslot();
+        timeslotEntity.createTimeslot(date, timeFrom, timeEnd,title, details, venue);
+        em.persist(timeslotEntity);
+        em.flush();
     }
 }
