@@ -26,7 +26,7 @@ public class Grade implements Serializable {
 
     private String moduleGrade;
     
-    @ManyToOne(cascade={CascadeType.ALL})
+    @ManyToOne
     private Module module = new Module();
     
     @ManyToOne

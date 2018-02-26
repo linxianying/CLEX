@@ -104,6 +104,16 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     }
     
     @Override
+    public void createGrade(String moduleGrade, Module module, Student student){
+        Grade grade = new Grade();
+        grade.createGrade(moduleGrade, module, student);
+        student.getGrades().add(grade);
+        em.persist(grade);
+        em.merge(student);
+        em.flush();
+    }
+    
+    @Override
     public void dragAllNusMods(String url){
         
         try{

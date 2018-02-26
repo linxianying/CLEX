@@ -6,6 +6,7 @@
 package session;
 
 import entity.Course;
+import entity.Grade;
 import entity.Module;
 import entity.Student;
 import entity.StudyPlan;
@@ -63,6 +64,10 @@ public interface StudyPlanSessionBeanLocal {
     public boolean checkStudentModule(String username, String moduleCode);
 
     public boolean checkCourseExistance(String moduleCode);
+
+    public ArrayList<Grade> getAllGrades(String username);
+
+    public ArrayList<ArrayList<Grade>> getAllGradesInOrder(String username);
     
     
 }

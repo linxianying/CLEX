@@ -6,6 +6,7 @@
 package managedbeans;
 
 import entity.Course;
+import entity.Grade;
 import entity.Module;
 import entity.Student;
 import entity.StudyPlan;
@@ -48,6 +49,8 @@ public class StudyPlanBean {
     private String pickSem;
     private ArrayList<Course> takenCourses;
     private ArrayList<ArrayList<Course>> takenCoursesInOrder;
+    private ArrayList<Grade> grades;
+    private ArrayList<ArrayList<Grade>> gradesInOrder;
     private Collection<StudyPlan> studyPlans;
     private ArrayList<ArrayList<StudyPlan>> studyPlansInOrer;
     private double calculatedCap; 
@@ -75,6 +78,7 @@ public class StudyPlanBean {
         //for test purpose only
         this.username="namename";
         matricYear = Integer.parseInt(cpsbl.findStudent(username).getMatricYear());
+        gradesInOrder = cpsbl.getAllGradesInOrder(username);
         takenCoursesInOrder = cpsbl.getTakenModulesInOrder(username);
         studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
         System.out.println("finish to update studyPlansInOrer");
@@ -131,6 +135,22 @@ public class StudyPlanBean {
 
     public String getAddPickYear() {
         return addPickYear;
+    }
+
+    public ArrayList<Grade> getGrades() {
+        return grades;
+    }
+
+    public void setGrades(ArrayList<Grade> grades) {
+        this.grades = grades;
+    }
+
+    public ArrayList<ArrayList<Grade>> getGradesInOrder() {
+        return gradesInOrder;
+    }
+
+    public void setGradesInOrder(ArrayList<ArrayList<Grade>> gradesInOrder) {
+        this.gradesInOrder = gradesInOrder;
     }
 
     public void setAddPickYear(String addPickYear) {

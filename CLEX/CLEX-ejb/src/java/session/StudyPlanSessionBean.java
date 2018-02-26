@@ -49,6 +49,8 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     private ArrayList<ArrayList<Course>> takenCoursesInOrder;
     private ArrayList<StudyPlan> studyPlans;
     private ArrayList<ArrayList<StudyPlan>> studyPlansInOrder;
+    private ArrayList<Grade> grades; 
+    private ArrayList<ArrayList<Grade>> gradesInOrder;
     private double calculatedCap; 
 
 
@@ -166,7 +168,64 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         return takenModules;
     }
     
+    @Override
+    public ArrayList<Grade> getAllGrades(String username) {
+        Collection<Grade> all = new ArrayList<Grade>();
+        grades = new ArrayList<Grade>();
+        findStudent(username);
+        all = this.student.getGrades();
+        for (Grade g: all) {
+            grades.add(g);
+        }
+        System.out.println("StudyPlanSessionbean: getAllGrades: student:" 
+                + username + "'s gardes:" + grades.size());
+        return grades;
+    }
+    
+    @Override
+    public ArrayList<ArrayList<Grade>> getAllGradesInOrder(String username) {
+        gradesInOrder = new ArrayList<ArrayList<Grade>>();
+        grades = this.getAllGrades(username);
+        //the iterator of for loop to change to next semster
+        int year = Integer.parseInt(this.findStudent(username).getMatricYear());
+        int sem = 1;
+        int numOfSemTaken = checkNumOfSemTaken(username)-1;
+        //from matric year sem 1, check what are the courses taken for the sem
+        //then increase the year/sem to next semster
+        for (int i=0; i<numOfSemTaken; i++){
+            System.out.println("check for year " + year + ", sem " + sem);
+            ArrayList<Grade> current= new ArrayList<Grade>();
+            //go through all the modules the student takes
+            for (int index=0; index<grades.size(); index++) {
+                //if the module is taken in "year" "sem", add it to the current 
+                if (Integer.parseInt(grades.get(index).getModule().getTakenYear()) == year) {
+                    if (Integer.parseInt(grades.get(index).getModule().getTakenSem()) == sem) {
+                        current.add(grades.get(index));
+                        System.out.println("StudyPlanSessionbean: getAllGradesInOrder: "
+                                + "add course " + grades.get(index).getModule().getCourse().getModuleCode() 
+                                + " at year " + year + ", sem " + sem);
+                    }
+                }
+            }
+            gradesInOrder.add(current);
+            System.out.println("check for"
+                    + " year " + year + ", sem " + sem + " finishes.");
+            current = null;
+            //increase sem year to next semester
+            if (sem == 1)
+                sem = 2;
+            else {
+                year++;
+                sem = 1;
+            }
+        }
+        System.out.print("StudyPlanSessionbean: getAllGradesInOrder:");
+        System.out.println(gradesInOrder.size());
+        return gradesInOrder;
+    }
+    
     //set all course taken by the user in order of year and sem
+    //Update:instead of all courses, leave out the courses taking this semester
     @Override
     public ArrayList<ArrayList<Course>> getTakenModulesInOrder(String username) {
         takenCoursesInOrder = new ArrayList<ArrayList<Course>>();
@@ -174,7 +233,7 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         //the iterator of for loop to change to next semster
         int year = Integer.parseInt(this.findStudent(username).getMatricYear());
         int sem = 1;
-        int numOfSemTaken = checkNumOfSemTaken(username);
+        int numOfSemTaken = checkNumOfSemTaken(username)-1;
         //from matric year sem 1, check what are the courses taken for the sem
         //then increase the year/sem to next semster
         for (int i=0; i<numOfSemTaken; i++){

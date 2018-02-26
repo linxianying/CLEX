@@ -76,5 +76,7 @@ public interface ClexSessionBeanLocal {
     public void setStudentLesson(Student student, Lesson lesson);
 
     public Lesson findLesson(String day, String timeFrom, String type, Module module);
+
+    public void createGrade(String moduleGrade, Module module, Student student);
     
 }
