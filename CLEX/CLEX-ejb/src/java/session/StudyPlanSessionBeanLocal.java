@@ -29,7 +29,7 @@ public interface StudyPlanSessionBeanLocal {
 
     public void addStudyPlan(String pickYear, String pickSem, String moduleCode, String username);
 
-    public boolean findStudyPlan(String username, String moduleCode);
+    public boolean checkStudyPlan(String username, String moduleCode);
 
     public void updateStudyPlan(String username, String moduleCode, String pickYear, String pickSem);
 
@@ -68,6 +68,10 @@ public interface StudyPlanSessionBeanLocal {
     public ArrayList<Grade> getAllGrades(String username);
 
     public ArrayList<ArrayList<Grade>> getAllGradesInOrder(String username);
+
+    public ArrayList<Module> getCurrentModules(String username);
+
+    public StudyPlan findStudyPlan(String username, String moduleCode);
     
     
 }

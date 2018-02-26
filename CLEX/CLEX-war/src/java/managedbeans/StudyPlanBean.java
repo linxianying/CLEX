@@ -51,24 +51,21 @@ public class StudyPlanBean {
     private ArrayList<ArrayList<Course>> takenCoursesInOrder;
     private ArrayList<Grade> grades;
     private ArrayList<ArrayList<Grade>> gradesInOrder;
+    private ArrayList<Module> takingModules;
     private Collection<StudyPlan> studyPlans;
     private ArrayList<ArrayList<StudyPlan>> studyPlansInOrer;
+    private double cap;
     private double calculatedCap; 
     private Student student;
-    //private Course course;
-    private int year;
-    //private int currentMonth;
+    
+    //private int year;
     private DashboardModel model;
-    private int matricYear = 0;
-    private int matricSem = 1;
     //for add study plan
     private String addModuleCode;
     private String addPickYear;
     private String addPickSem;
-    
     private String addErrorMsg;
     
-    private String deleteSp;
     
     public StudyPlanBean() {
     }
@@ -77,9 +74,10 @@ public class StudyPlanBean {
     public void init() {
         //for test purpose only
         this.username="namename";
-        matricYear = Integer.parseInt(cpsbl.findStudent(username).getMatricYear());
+        cap = cpsbl.findStudent(username).getCap();
         gradesInOrder = cpsbl.getAllGradesInOrder(username);
-        takenCoursesInOrder = cpsbl.getTakenModulesInOrder(username);
+        takingModules = cpsbl.getCurrentModules(username);
+        //takenCoursesInOrder = cpsbl.getTakenModulesInOrder(username);
         studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
         System.out.println("finish to update studyPlansInOrer");
         model = new DefaultDashboardModel();
@@ -173,22 +171,6 @@ public class StudyPlanBean {
         return model;
     }
 
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    public int getMatricSem() {
-        return 1;
-    }
-
-    public void setMatricSem(int matricSem) {
-        this.matricSem = matricSem;
-    }
-
     private String genSalt(){
         Random rng = new Random();
         Integer gen = rng.nextInt(13371337);
@@ -214,15 +196,6 @@ public class StudyPlanBean {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-    public int getMatricYear() {
-        //System.out.println("matric year = " + matricYear);
-        int year = Integer.parseInt(cpsbl.findStudent(this.username).getMatricYear());
-        return year;
-    }
-
-    public void setMatricYear(int matricYear) {
-        this.matricYear = matricYear;
-    }
     
     public StudyPlanSessionBeanLocal getCpsbl() {
         return cpsbl;
@@ -276,6 +249,14 @@ public class StudyPlanBean {
         return csbl;
     }
 
+    public ArrayList<Module> getTakingModules() {
+        return takingModules;
+    }
+
+    public void setTakingModules(ArrayList<Module> takingModules) {
+        this.takingModules = takingModules;
+    }
+
     public void setCsbl(ClexSessionBeanLocal csbl) {
         this.csbl = csbl;
     }
@@ -320,13 +301,6 @@ public class StudyPlanBean {
         return addErrorMsg;
     }
 
-    public String getDeleteSp() {
-        return deleteSp;
-    }
-
-    public void setDeleteSp(String deleteSp) {
-        this.deleteSp = deleteSp;
-    }
 
     public void setAddErrorMsg(String addErrorMsg) {
         this.addErrorMsg = addErrorMsg;
@@ -341,7 +315,7 @@ public class StudyPlanBean {
         if (cpsbl.findCourse(addModuleCode) == null)
             addErrorMsg = "Course " + addModuleCode + " does not exist";
         //this course already in studyPlan
-        else if (cpsbl.findStudyPlan(username, addModuleCode))
+        else if (cpsbl.checkStudyPlan(username, addModuleCode))
             addErrorMsg = "Course " + addModuleCode + " already exists in your study plan";
         //this course already in takenCourses list
         else if (cpsbl.checkStudentModule(username, addModuleCode))
@@ -349,17 +323,13 @@ public class StudyPlanBean {
         else
             addErrorMsg = null;
     }
+    
     public void addStudyPlan() {
-        if (!cpsbl.checkCourseExistance(moduleCode))
-            addErrorMsg = "Course " + addModuleCode + " does not exist";
-        //this course already in studyPlan
-        if (cpsbl.findStudyPlan(username, addModuleCode))
-            addErrorMsg = "Course " + addModuleCode + " already exists in your study plan";
-        //this course already in takenCourses list
-        else if (cpsbl.checkStudentModule(username, addModuleCode))
-            addErrorMsg = "You have already taken course " + addModuleCode;
-        else
-            cpsbl.addStudyPlan(addPickYear, addPickSem, addModuleCode, username);
+        cpsbl.addStudyPlan(addPickYear, addPickSem, addModuleCode, username);
+    }
+    
+    public void deleteStudyPlan(String moduleCode) {
+        cpsbl.removeStudyPlan(username, moduleCode);
     }
     
     //-------------------------------------------------------------------------
@@ -450,7 +420,7 @@ public class StudyPlanBean {
         System.out.println(takenCoursesInOrder);
         System.out.println("sp bean: testViewTakenCoursesInOrder finish ");
         
-        year = Integer.parseInt(student.getMatricYear());
+        //year = Integer.parseInt(student.getMatricYear());
     }
     
     

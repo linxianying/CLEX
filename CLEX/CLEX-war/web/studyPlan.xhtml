@@ -83,7 +83,6 @@
                             <p:column>
                                 <h:outputText value="AY " />
                                 <h:outputText value="#{grades.get(0).module.takenYear}" />
-                                
                                 <h:outputText value=" Sem" />
                                 <h:outputText value="#{grades.get(0).module.takenSem}"/>
                             </p:column>
@@ -107,45 +106,19 @@
                     </h:panelGrid>
                     <br />
                     
-                    <ui:param name="year" value="#{studyPlanBean.matricYear}" />
-                    <ui:param name="sem" value="#{studyPlanBean.matricSem}" />
                     <h:panelGrid columns="1">
-                        <p:dataList var="courses" value="#{studyPlanBean.takenCoursesInOrder}">
+                        <p:dataList var="module" value="#{studyPlanBean.takingModules}">
                             <f:facet name="header">  
-                                <h:outputText value="Taken modules"/>  
+                                <h:outputText value="Modules taking current semester"/>  
                             </f:facet>
-                            <p:column>
-                                <h:outputText value="AY " />
-                                <h:outputText value="#{year}" />
-                                <h:outputText value="-" />
-                                <h:outputText value="#{year+1}" />
-                                <h:outputText value=" Sem" />
-                                <h:outputText value="#{sem}" />
-                            </p:column>
-                            <p:column>
-                            <p:dataList var="course" value="#{courses}">
                                 <p:column>
-                                    <p:panel header="#{course.moduleCode}">
-                                        <h:outputText value="#{course.moduleName}" />
+                                    <p:panel header="#{module.course.moduleCode}">
+                                        <h:outputText value="#{module.course.moduleName}" />
                                         <br />
                                         <h:outputText value="credits:" />
-                                    <h:outputText value="#{course.modularCredits}" />
+                                    <h:outputText value="#{module.course.modularCredits}" />
                                     </p:panel>
                                 </p:column>
-                            </p:dataList>
-                            </p:column>
-                            <ui:param name="year" value="#{year=year-1+sem}" />
-                            <ui:param name="sem" value="#{sem=3-sem}" />
-                            <p:column>
-                                <h:outputText value="AY " />
-                                <h:outputText value="#{year}" />
-                                <h:outputText value="-" />
-                                <h:outputText value="#{year+1}" />
-                                <h:outputText value=" Sem" />
-                                <h:outputText value="#{sem}" />
-                                <h:outputText value=" Sem" />
-                                <h:outputText value="#{sem}" />
-                            </p:column>
                         </p:dataList>
                     </h:panelGrid>
                     <br />
@@ -155,15 +128,21 @@
                         <f:facet name="header">  
                             <h:outputText value="Study Plans"/>  
                         </f:facet>
+                        <p:column>
+                                <h:outputText value="AY " />
+                                <h:outputText value="#{studyPlans.get(0).pickYear}" />
+                                <h:outputText value=" Sem" />
+                                <h:outputText value="#{studyPlans.get(0).pickSem}"/>
+                        </p:column>
                         <p:dataList var="sp" value="#{studyPlans}">
                             <p:column>
-                                
                                 <p:panel header="#{sp.course.moduleCode}">
                                     <h:outputText value="#{sp.course.moduleName}" />
                                     <br />
                                     <h:outputText value="credits:" />
                                     <h:outputText value="#{sp.course.modularCredits}" />
                                 </p:panel>
+                                <p:commandButton  value="delete" actionListener="#{studyPlanBean.deleteStudyPlan(sp.course.moduleCode)}" action="studyPlan?faces-redirect=true" id="deleteStudyPlan-button" />
                             </p:column>
                         </p:dataList>
                     </p:dataList>
@@ -185,7 +164,7 @@
                             <f:selectItem itemLabel="2" itemValue="2" />
                         </p:selectOneMenu>
                         <br />
-                        <p:commandButton value="submit" actionListener="#{studyPlanBean.addStudyPlan()}" id="addStudyPlan-button" />
+                        <p:commandButton value="add" actionListener="#{studyPlanBean.addStudyPlan()}" action="studyPlan?faces-redirect=true" id="addStudyPlan-button" />
                     </h:form>
                     <br />
                       

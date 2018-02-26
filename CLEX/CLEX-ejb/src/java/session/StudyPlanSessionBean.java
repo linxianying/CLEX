@@ -45,7 +45,8 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     private int numOfSemTaken;
     
     private ArrayList<Course> takenCourses; 
-    private ArrayList<Module> takenModules; 
+    private ArrayList<Module> takenModules;
+    private ArrayList<Module> takingModules;
     private ArrayList<ArrayList<Course>> takenCoursesInOrder;
     private ArrayList<StudyPlan> studyPlans;
     private ArrayList<ArrayList<StudyPlan>> studyPlansInOrder;
@@ -167,6 +168,42 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
                 + username + "'s takenModules:" + takenModules.size());
         return takenModules;
     }
+    
+    //get modules taking this semester
+    @Override
+    public ArrayList<Module> getCurrentModules(String username) {
+        Collection<Module> all = new ArrayList<Module>();
+        takingModules = new ArrayList<Module>();
+        findStudent(username);
+        all = this.student.getModules();
+        //get current year and sem
+        Calendar now = Calendar.getInstance();
+        int currentYear = now.get(Calendar.YEAR);
+        System.out.println("Current Year is : " + currentYear);
+        // month starts from 0 to 11
+        int currentMonth = now.get(Calendar.MONTH);
+        System.out.println("Current Month is : " + now.get(Calendar.MONTH));
+        if (currentMonth < 6) {
+            currentSem = 2;
+            currentYear--;
+            numOfSemTaken++;
+        }
+        else {
+            currentSem = 1;
+        }
+        //add modules for this semster to takingModules
+        for (Module m : all) {
+            if (Integer.parseInt(m.getTakenYear()) == currentYear) {
+                if (Integer.parseInt(m.getTakenSem()) == currentSem){
+                    takingModules.add(m);
+                }
+            }
+        }
+        System.out.println("StudyPlanSessionbean: getTakenModules: student:" 
+                + username + "'s takingModules:" + takingModules.size());
+        return takingModules;
+    }
+    
     
     @Override
     public ArrayList<Grade> getAllGrades(String username) {
@@ -339,8 +376,11 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
             }
             System.out.println("current: " + current.size());
             System.out.println(current);
-            studyPlansInOrder.add(current);
-            current = null;
+            //if for this semester, no modules are added to studyPlan, jump to next semester
+            if (current.size() != 0) {
+                studyPlansInOrder.add(current);
+                current = null;
+            }
             //increase sem year to next semester
             if (startSem == 1) {
                 startSem = 2;
@@ -369,7 +409,7 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     
     //find whether this studyplan exits, if not, set this.studyPlan to it
     @Override
-    public boolean findStudyPlan(String username, String moduleCode) {
+    public boolean checkStudyPlan(String username, String moduleCode) {
         this.findStudent(username);
         this.findCourse(moduleCode);
         Long studentId = this.findStudent(username).getId();
@@ -397,6 +437,34 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         return true;
     }
     
+    @Override
+    public StudyPlan findStudyPlan(String username, String moduleCode){
+        this.findStudent(username);
+        this.findCourse(moduleCode);
+        Long studentId = this.findStudent(username).getId();
+        Long courseId = this.findCourse(moduleCode).getId();
+        
+        StudyPlan s = new StudyPlan();
+        s = null;
+        try {
+            Query q = em.createQuery("SELECT s FROM StudyPlan s WHERE s.student.id =:studentId AND s.course.id =:courseId");
+            q.setParameter("studentId", studentId);
+            q.setParameter("courseId", courseId);
+            s = (StudyPlan)q.getSingleResult();
+            System.out.println("StudyPlan " + "with user:" + username + ", course:" + moduleCode + " found.");
+        }
+        catch (NoResultException e) {
+            System.out.println("StudyPlanSessionBean: findStudyPlan method: No result");
+        }
+        catch(Exception e){ 
+            System.out.println("StudyPlanSessionBean: findStudyPlan method: exception");
+            e.printStackTrace();
+        }
+        
+        this.studyPlan = s;
+        return s;
+    }
+    
     //the actual step that creates studyPlan enity and sets relationship
     @Override
     public void createStudyPlan(String pickYear, String pickSem, Course course, Student student) {
@@ -411,28 +479,31 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         em.merge(student);
         em.persist(studyPlan);
         em.flush();
+        System.out.println("StudyPlanSessionBean: createStudyPlan:");
+        System.out.println("studyPlan " + course.getModuleCode() + " at year " 
+                + pickYear +", at sem " + pickSem + " added");
         }
         catch(Exception e){
             System.out.println("StudyPlanSessionBean: createStudyPlan method:");
             e.printStackTrace();
         }
     }
-
+    
     //check whether it's in DB or not, if not, create one by calling method createStudyPlan.
     @Override
     public void addStudyPlan(String pickYear, String pickSem, String moduleCode, String username) {
         //if the studyplan is not found
-        if (!findStudyPlan(username, moduleCode)) {
+        /*if (!checkStudyPlan(username, moduleCode)) { */
             this.pickSem = pickSem;
             this.pickYear = pickYear;
             this.createStudyPlan(pickYear, pickSem, this.findCourse(moduleCode), this.findStudent(username));
-        }
+        /*} */
         //if the studyPlan is in DB already
-        else {
+        /*else {
             System.out.println("StudyPlanSessionBean: addStudyPlan method: "
                     + "studyplan with user:" + username + ", moduleCode:" 
                     + moduleCode + "alrady exists");
-        }
+        } */
     }
   
     @Override
@@ -446,7 +517,7 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     @Override
     public void updateStudyPlan(String username, String moduleCode, String pickYear, String pickSem) {
         //if the studyplan is found
-        if (findStudyPlan(username, moduleCode)) {
+        if (checkStudyPlan(username, moduleCode)) {
             this.pickSem = pickSem;
             this.pickYear = pickYear;
             this.changeStudyPlan();
@@ -459,7 +530,10 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
 
     @Override
     public void removeStudyPlan(String username, String moduleCode) {
-        findStudyPlan(username, moduleCode);
+        this.studyPlan = this.findStudyPlan(username, moduleCode);
+        this.student = this.findStudent(username);
+        this.student.getStudyPlan().remove(this.studyPlan);
+        em.merge(this.student);
         em.remove(this.studyPlan);
         em.flush();
     }
