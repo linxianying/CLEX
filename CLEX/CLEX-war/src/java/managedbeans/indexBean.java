@@ -10,6 +10,7 @@ import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import session.ClexSessionBeanLocal;
+import session.ScheduleBeanLocal;
 import session.StudyPlanSessionBeanLocal;
 
 /**
@@ -23,10 +24,13 @@ public class indexBean {
     private StudyPlanSessionBeanLocal cpsbl;
     @EJB
     private ClexSessionBeanLocal csbl;
+    @EJB
+    private ScheduleBeanLocal sbl;
     /**
      * Creates a new instance of indexBean
      */
     public indexBean() {
+        
     }
     
     private String genSalt(){
@@ -35,6 +39,11 @@ public class indexBean {
         String salt = gen.toString();
         
         return salt;
+    }
+    
+    public void testIcs(){
+        sbl.loadIcsFile();
+    
     }
     
     public void createEntities() {
