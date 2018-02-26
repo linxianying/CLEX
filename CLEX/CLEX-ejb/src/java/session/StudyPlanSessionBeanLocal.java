@@ -72,6 +72,10 @@ public interface StudyPlanSessionBeanLocal {
     public ArrayList<Module> getCurrentModules(String username);
 
     public StudyPlan findStudyPlan(String username, String moduleCode);
+
+    public int getNumOfCredits(String username);
+
+    public double updateExpectedCap(int allCredits, double cap, int newModuleCredit, String newModuleGrade);
     
     
 }

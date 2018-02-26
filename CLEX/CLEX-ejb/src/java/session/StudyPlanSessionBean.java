@@ -52,7 +52,8 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     private ArrayList<ArrayList<StudyPlan>> studyPlansInOrder;
     private ArrayList<Grade> grades; 
     private ArrayList<ArrayList<Grade>> gradesInOrder;
-    private double calculatedCap; 
+    private double currentCap;
+    private double expectedCap; 
 
 
      @Override
@@ -571,7 +572,6 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         }
     }
     
-    
     private double capCulculator(Student student){
         double cap = 0.0;
         int num = 0;
@@ -616,7 +616,6 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         return (cap/num); 
     }
     
-    
     @Override
     public void capCalculator(String username) {
         findStudent(username);
@@ -625,12 +624,63 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         em.flush();
     }
 
+    //get all the credits the student have taken
+    //modules getting SU is not counted
     @Override
-    public void viewStudyPlan(String username) {
-        this.getTakenModules(username);
-        this.getAllStudyPlans(username);
+    public int getNumOfCredits(String username) {
+        int credits = 0;
+        student = this.findStudent(username);
+        Collection<Grade> grades = student.getGrades();
+        for (Grade grade : grades) {
+            if ((!grade.getModuleGrade().equals("S")) && (!grade.getModuleGrade().equals("U")))
+                credits += Integer.parseInt(grade.getModule().getCourse().getModularCredits());
+        }
+        System.out.println("student " + username + "'s total credits taken is " + credits);
+        return credits;
     }
-
+    
+    //convert grade (A+ to F) to point
+    public double convertGradeToPoint(String moduleGrade) {
+        double point = 0.0;
+        if(moduleGrade.equals("A")||moduleGrade.equals("A+")){
+                point = 5.0;
+            }else if(moduleGrade.equals("A-")){
+                point = 4.5;
+            }else if(moduleGrade.equals("B+")){
+                point = 4.0;
+            }else if(moduleGrade.equals("B")){
+                point = 3.5;
+            }else if(moduleGrade.equals("B-")){
+                point = 3.0;
+            }else if(moduleGrade.equals("C+")){
+                point = 2.5;
+            }else if(moduleGrade.equals("C")){
+                point = 2.0;
+            }else if(moduleGrade.equals("D+")){
+                point = 1.5;
+            }else if(moduleGrade.equals("D")){
+                point = 1.0;
+            }else if(moduleGrade.equals("F")){
+                point = 0.0;
+            }
+        System.out.println("sp session bean: convertGradeToPoint: " + point);
+        return point;
+    }
+    
+    //update the student's expected cap based on new module's credit and garde,
+    //and all credits the student have taken and plans to take
+    @Override
+    public double updateExpectedCap(int allCredits, double cap, int newModuleCredit, String newModuleGrade){
+        //if the grade is S or U, do nothing
+        if (newModuleGrade.equals("S") || newModuleGrade.equals("U"))
+            expectedCap = cap;
+        else {
+        expectedCap = cap*allCredits+this.convertGradeToPoint(newModuleGrade)*newModuleCredit;
+        expectedCap /= (allCredits+newModuleCredit);
+        }
+        return expectedCap;
+    }
+    
     @Override
     public void setStudentTakenModules(String username, String moduleCode, String takenYear, String takenSem) {
         student = this.findStudent(username);
@@ -697,7 +747,11 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         return courses;
     }
 
-    
+    @Override
+    public void viewStudyPlan(String username) {
+        this.getTakenModules(username);
+        this.getAllStudyPlans(username);
+    }
     
     
 

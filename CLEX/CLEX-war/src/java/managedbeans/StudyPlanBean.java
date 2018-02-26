@@ -35,7 +35,7 @@ import org.primefaces.model.DefaultDashboardModel;
  * @author caoyu
  */
 @ManagedBean(name="studyPlanBean")
-@RequestScoped
+@SessionScoped
 public class StudyPlanBean {
     
     @EJB
@@ -55,7 +55,10 @@ public class StudyPlanBean {
     private Collection<StudyPlan> studyPlans;
     private ArrayList<ArrayList<StudyPlan>> studyPlansInOrer;
     private double cap;
-    private double calculatedCap; 
+    private double expectedCap; 
+    private String newModuleGrade;
+    private String newCurrentModuleGrade;
+    private int allCredits;
     private Student student;
     
     //private int year;
@@ -77,8 +80,12 @@ public class StudyPlanBean {
         cap = cpsbl.findStudent(username).getCap();
         gradesInOrder = cpsbl.getAllGradesInOrder(username);
         takingModules = cpsbl.getCurrentModules(username);
-        //takenCoursesInOrder = cpsbl.getTakenModulesInOrder(username);
         studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
+        expectedCap = cap;
+        System.out.println("Expected Cap reset to " + expectedCap);
+        newModuleGrade = "A+";
+        newCurrentModuleGrade = "A+";
+        allCredits = cpsbl.getNumOfCredits(username);
         System.out.println("finish to update studyPlansInOrer");
         model = new DefaultDashboardModel();
         DashboardColumn column1 = new DefaultDashboardColumn();
@@ -143,6 +150,22 @@ public class StudyPlanBean {
         this.grades = grades;
     }
 
+    public double getCap() {
+        return cap;
+    }
+
+    public void setCap(double cap) {
+        this.cap = cap;
+    }
+
+    public String getNewCurrentModuleGrade() {
+        return newCurrentModuleGrade;
+    }
+
+    public void setNewCurrentModuleGrade(String newCurrentModuleGrade) {
+        this.newCurrentModuleGrade = newCurrentModuleGrade;
+    }
+
     public ArrayList<ArrayList<Grade>> getGradesInOrder() {
         return gradesInOrder;
     }
@@ -155,12 +178,28 @@ public class StudyPlanBean {
         this.addPickYear = addPickYear;
     }
 
+    public String getNewModuleGrade() {
+        return newModuleGrade;
+    }
+
+    public void setNewModuleGrade(String newModuleGrade) {
+        this.newModuleGrade = newModuleGrade;
+    }
+
     public String getAddPickSem() {
         return addPickSem;
     }
 
     public void setAddPickSem(String addPickSem) {
         this.addPickSem = addPickSem;
+    }
+
+    public int getAllCredits() {
+        return allCredits;
+    }
+
+    public void setAllCredits(int allCredits) {
+        this.allCredits = allCredits;
     }
      
     private void addMessage(FacesMessage message) {
@@ -221,20 +260,12 @@ public class StudyPlanBean {
         this.studyPlans = studyPlans;
     }
 
-    public double getCalculatedCap() {
-        return calculatedCap;
-    }
-
     public ArrayList<ArrayList<StudyPlan>> getStudyPlansInOrer() {
         return studyPlansInOrer;
     }
 
     public void setStudyPlansInOrer(ArrayList<ArrayList<StudyPlan>> studyPlansInOrer) {
         this.studyPlansInOrer = studyPlansInOrer;
-    }
-
-    public void setCalculatedCap(double calculatedCap) {
-        this.calculatedCap = calculatedCap;
     }
 
     public Student getStudent() {
@@ -293,6 +324,14 @@ public class StudyPlanBean {
         this.pickSem = pickSem;
     }
 
+    public double getExpectedCap() {
+        return expectedCap;
+    }
+
+    public void setExpectedCap(double expectedCap) {
+        this.expectedCap = expectedCap;
+    }
+
     public ArrayList<ArrayList<Course>> getTakenCoursesInOrder() {
         return takenCoursesInOrder;
     }
@@ -326,10 +365,25 @@ public class StudyPlanBean {
     
     public void addStudyPlan() {
         cpsbl.addStudyPlan(addPickYear, addPickSem, addModuleCode, username);
+        studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
     }
     
     public void deleteStudyPlan(String moduleCode) {
         cpsbl.removeStudyPlan(username, moduleCode);
+    }
+    
+    public void updateExpectedCap(int newModuleCredit) {
+        System.out.println("newModuleGrade" + newModuleGrade);
+        this.expectedCap = cpsbl.updateExpectedCap(this.allCredits, this.expectedCap, newModuleCredit, newModuleGrade);
+        System.out.println("Expected cap change to " + expectedCap);
+        this.allCredits += newModuleCredit;
+    }
+    
+    public void updateCurrentExpectedCap(int newModuleCredit) {
+        System.out.println("newCurrentModuleGrade" + newCurrentModuleGrade);
+        this.expectedCap = cpsbl.updateExpectedCap(this.allCredits, this.expectedCap, newModuleCredit, newCurrentModuleGrade);
+        System.out.println("Expected cap change to " + expectedCap);
+        this.allCredits += newModuleCredit;
     }
     
     //-------------------------------------------------------------------------

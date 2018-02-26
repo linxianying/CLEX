@@ -101,12 +101,14 @@
                                 </p:column>
                             </p:dataList>
                             </p:column>
-                            
                         </p:dataList>
                     </h:panelGrid>
+                    Current Cap:
+                    <h:outputText value="#{studyPlanBean.cap}" />
                     <br />
+                    <h:outputText value="Modules taking current semester"/>  
+                    <h:outputText value=""/>  
                     
-                    <h:panelGrid columns="1">
                         <p:dataList var="module" value="#{studyPlanBean.takingModules}">
                             <f:facet name="header">  
                                 <h:outputText value="Modules taking current semester"/>  
@@ -118,9 +120,25 @@
                                         <h:outputText value="credits:" />
                                     <h:outputText value="#{module.course.modularCredits}" />
                                     </p:panel>
+                                    Expected Grade: 
+                                    <p:selectOneMenu id="newCurrentGrade" value="#{studyPlanBean.newCurrentModuleGrade}" style="width:150px">
+                                        <f:selectItem itemLabel="A+" itemValue="A+" />
+                                        <f:selectItem itemLabel="A" itemValue="A" />
+                                        <f:selectItem itemLabel="A-" itemValue="A-" />
+                                        <f:selectItem itemLabel="B+" itemValue="B+" />
+                                        <f:selectItem itemLabel="B" itemValue="B" />
+                                        <f:selectItem itemLabel="B-" itemValue="B-" />
+                                        <f:selectItem itemLabel="C+" itemValue="C+" />
+                                        <f:selectItem itemLabel="C" itemValue="C" />
+                                        <f:selectItem itemLabel="D+" itemValue="D+" />
+                                        <f:selectItem itemLabel="D" itemValue="D" />
+                                        <f:selectItem itemLabel="F" itemValue="F" />
+                                        <f:selectItem itemLabel="S" itemValue="S" />
+                                        <f:selectItem itemLabel="U" itemValue="U" />
+                                        <p:ajax process="@this" partialSubmit="true" event="change" update="expectedCap" listener="#{studyPlanBean.updateCurrentExpectedCap(module.course.modularCredits)}" />
+                                    </p:selectOneMenu>
                                 </p:column>
                         </p:dataList>
-                    </h:panelGrid>
                     <br />
                     
                     <h:form>
@@ -143,13 +161,40 @@
                                     <h:outputText value="#{sp.course.modularCredits}" />
                                 </p:panel>
                                 <p:commandButton  value="delete" actionListener="#{studyPlanBean.deleteStudyPlan(sp.course.moduleCode)}" action="studyPlan?faces-redirect=true" id="deleteStudyPlan-button" />
+                                Expected Grade: 
+                                <p:selectOneMenu id="newGrade" value="#{studyPlanBean.newModuleGrade}" style="width:150px">
+                                    <f:selectItem itemLabel="Select a Server..." />
+                                    <f:selectItem itemLabel="Select One" itemValue="select" />  
+                                    <f:selectItem itemLabel="A+" itemValue="A+" />
+                                    <f:selectItem itemLabel="A" itemValue="A" />
+                                    <f:selectItem itemLabel="A-" itemValue="A-" />
+                                    <f:selectItem itemLabel="B+" itemValue="B+" />
+                                    <f:selectItem itemLabel="B" itemValue="B" />
+                                    <f:selectItem itemLabel="B-" itemValue="B-" />
+                                    <f:selectItem itemLabel="C+" itemValue="C+" />
+                                    <f:selectItem itemLabel="C" itemValue="C" />
+                                    <f:selectItem itemLabel="D+" itemValue="D+" />
+                                    <f:selectItem itemLabel="D" itemValue="D" />
+                                    <f:selectItem itemLabel="F" itemValue="F" />
+                                    <f:selectItem itemLabel="S" itemValue="S" />
+                                    <f:selectItem itemLabel="U" itemValue="U" />
+                                    <p:ajax event="change" update="expectedCap" listener="#{studyPlanBean.updateExpectedCap(sp.course.modularCredits)}" />
+                                </p:selectOneMenu>
                             </p:column>
                         </p:dataList>
                     </p:dataList>
                     </h:form>
                     <br />
                     <br />
+                    Expected Cap: 
+                    <h:outputText id ="expectedCap" value="#{studyPlanBean.expectedCap}">
+                        <f:convertNumber pattern="#0.00" />
+                    </h:outputText>
+                    <p:commandButton value="Reset" action="studyPlan?faces-redirect=true" />
+                    <br />
+                    <br />
                     Add new study plan entry:
+                    <br />
                     <h:form>
                         Enter Module Code:<p:inputText value="#{studyPlanBean.addModuleCode}" required="true">
                             <p:ajax event="change" update="addErrorMsg" listener="#{studyPlanBean.checkStudyPlan}" />
@@ -167,8 +212,6 @@
                         <p:commandButton value="add" actionListener="#{studyPlanBean.addStudyPlan()}" action="studyPlan?faces-redirect=true" id="addStudyPlan-button" />
                     </h:form>
                     <br />
-                      
-                        
                     <div style="height:500px">
                         <h:form>
                             <p:growl id="msgs" showDetail="true" />
@@ -195,6 +238,10 @@
                             </p:dashboard>
                             <div style="clear:both" />
                         </h:form>
+                        
+                        <h:form id="initializePageDataForm">
+                        <p:remoteCommand name="initializePageDataCommand" autoRun="true" action="#{studyPlanBean.init()}" update = "expectedCap" />
+                    </h:form>
                     </div>
                 </div>
             </div>
