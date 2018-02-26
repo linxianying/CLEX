@@ -32,7 +32,9 @@ public class UserAccessControlBean implements UserAccessControlBeanLocal {
         Query q = em.createQuery("Select u FROM BasicUser u");
         for(Object o: q.getResultList()){
             userEntity = (User) o;
-            users.add(userEntity);
+            if(!userEntity.getUserType().equals("Admin")){
+                users.add(userEntity);
+            }
         }
         return users;
     }

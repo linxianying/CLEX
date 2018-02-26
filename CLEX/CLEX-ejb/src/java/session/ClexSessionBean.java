@@ -165,6 +165,7 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     public void createAdmin(String username, String password, String name, String email, String school, Long contactNum, String salt){
         Admin adminEntity = new Admin();
         adminEntity.createAdmin(username, hashPassword(password, salt), name, email, school, contactNum, salt);
+        adminEntity.setApproval(true);
         em.persist(adminEntity);
         em.flush();
 }
