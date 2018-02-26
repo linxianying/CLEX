@@ -16,6 +16,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 import session.ClexSessionBeanLocal;
 
 /**
@@ -73,6 +74,7 @@ public class LoginBean implements Serializable{
     public void doLogin() throws IOException{
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
+        HttpSession session =  (HttpSession) context.getExternalContext().getSession(true);
         //Login based on usertype first, then check username, then password
         if(userType.equals("1")){ //Student
             userEntity = csbl.findStudent(username);
@@ -82,8 +84,9 @@ public class LoginBean implements Serializable{
             }
             else{
                 if(csbl.checkPassword(username, password)){
-                    context.getExternalContext().getSessionMap().put("user", userEntity);
-                    context.getExternalContext().getSessionMap().put("usertype", 1);
+                    session.setAttribute("user", userEntity);
+                    session.setAttribute("username", username);
+                    session.setAttribute("userType", 1);
                     context.getExternalContext().redirect("studentMain.xhtml");
                 }
                 else{
@@ -100,8 +103,9 @@ public class LoginBean implements Serializable{
             }
             else{
                 if(csbl.checkPassword(username, password)){
-                    context.getExternalContext().getSessionMap().put("user", userEntity);
-                    context.getExternalContext().getSessionMap().put("usertype", 2);
+                    session.setAttribute("user", userEntity);
+                    session.setAttribute("username", username);
+                    session.setAttribute("userType", 2);
                     context.getExternalContext().redirect("lecturerMain.xhtml");
                 }
                 else{
@@ -118,8 +122,9 @@ public class LoginBean implements Serializable{
             }
             else{
                 if(csbl.checkPassword(username, password)){
-                    context.getExternalContext().getSessionMap().put("user", userEntity);
-                    context.getExternalContext().getSessionMap().put("usertype", 3);
+                    session.setAttribute("user", userEntity);
+                    session.setAttribute("username", username);
+                    session.setAttribute("userType", 3);
                     context.getExternalContext().redirect("adminMain.xhtml");
                 }
                 else{
@@ -136,8 +141,9 @@ public class LoginBean implements Serializable{
             }
             else{
                 if(csbl.checkPassword(username, password)){
-                    context.getExternalContext().getSessionMap().put("user", userEntity);
-                    context.getExternalContext().getSessionMap().put("usertype", 4);
+                    session.setAttribute("user", userEntity);
+                    session.setAttribute("username", username);
+                    session.setAttribute("userType", 4);
                     context.getExternalContext().redirect("guestMain.xhtml");
                 }
                 else{

@@ -284,6 +284,13 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
         return modules;
     }
     
+    @Override
+    public Collection<Module> getModulesFromLecturer(String username){
+        lecturerEntity = findLecturer(username);
+        modules = lecturerEntity.getModules();
+        return modules;
+    }
+    
     public Collection<Lesson> getLessonsFromModule(String moduleCode, String takenYear, String takenSem){
         courseEntity = findCourse(moduleCode);
         moduleEntity = findModule(courseEntity, takenYear, takenSem);

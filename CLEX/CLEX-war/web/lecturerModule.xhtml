@@ -3,7 +3,7 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" 
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
                 xmlns:h="http://xmlns.jcp.org/jsf/html" 
-                template="./layout/studentLayout.xhtml" 
+                template="./layout/lecturerLayout.xhtml" 
                 xmlns:p="http://primefaces.org/ui" 
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
@@ -14,16 +14,35 @@
             <h:outputStylesheet name="./css/cssLayout.css" />
             <title>PRISM Lecturer Module Page</title>
         </h:head>
-        <h:body>
-            <div id="top" class="top">
-                <ui:insert name="top">Lecturer Module</ui:insert>
-            </div>
-            <div>
-                <div id="content" class="left_content">
-                    <ui:insert name="content">Fill in here</ui:insert>
-                </div>
-            </div>
-        </h:body>
+         <div>
+            <h:outputText value="Welcome to PRISM, #{lecturerModuleListBean.username}" /><br></br>
+        </div>
+        <br></br>
+        <h:form>
+            <p:dataTable var="modules" value="#{lecturerModuleListBean.modules}" widgetVar="modulesTable"
+            emptyMessage="No modules found with given criteria." filteredValue="#{lecturerModuleListBean.filteredModules}">
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <h:outputText value="Search all fields:" />
+                        <p:inputText id="globalFilter" onkeyup="PF('modulesTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                    </p:outputPanel>
+                </f:facet>
+                
+                <p:column filterBy="#{module.takenYear}" headerText="Taken Year" filterMatchMode="contains">
+                    <h:outputText value="#{schoolModule.takenYear}" />
+                </p:column>
+                <p:column filterBy="#{module.takenSem}" headerText="Taken Sem" filterMatchMode="contains">
+                    <h:outputText value="#{schoolmodule.takenSem}" />
+                </p:column>
+                <p:column filterBy="#{module.prerequisite}" headerText="Prerequisite" filterMatchMode="contains">
+                    <h:outputText value="#{module.prerequisite}" />
+                </p:column>
+                <p:column filterBy="#{module.preclusions}" headerText="Preclusions" filterMatchMode="contains">
+                    <h:outputText value="#{module.preclusions}" />
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
 
     </ui:define>
 </ui:composition>

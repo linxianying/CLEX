@@ -7,6 +7,7 @@ package session;
 
 import entity.Course;
 import entity.Module;
+import java.util.Collection;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -42,4 +43,6 @@ public interface CourseMgmtBeanLocal {
     public boolean checkExistingLesson(String moduleCode, String takenYear, String takenSem, String day, String timeFrom, String timeEnd);
     
     public boolean linkLecturerToModule(String moduleCode, String takenYear, String takenSem, String username);
+    
+    public Collection<Module> getModulesFromLecturer(String username);
 }
