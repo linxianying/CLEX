@@ -18,6 +18,8 @@ public interface ScheduleBeanLocal {
     boolean loadIcsFile();
     void createTimeslot(String date, String timeFrom, String timeEnd, 
                 String title, String details, String venue);
+    void updateTimeslot(Long id, String date, String timeFrom, String timeEnd, 
+                String title, String details, String venue);
 
     public Timeslot findTimeslot(Long id);
     public void deleteTimeslot(Long id);

@@ -80,11 +80,31 @@ public class ScheduleBean implements ScheduleBeanLocal {
     @Override
     public void deleteTimeslot(Long id) {
         timeslotEntity = findTimeslot(id);
-        em.remove(timeslotEntity);
-        em.flush();
+        if(timeslotEntity != null){
+            em.remove(timeslotEntity);
+            em.flush();
+        }else{
+            System.out.println("Timeslot "+ id +" not found");
+        }
     }
     
-    
+    @Override
+    public void updateTimeslot(Long id, String date, String timeFrom, String timeEnd, 
+                String title, String details, String venue) {
+        timeslotEntity = findTimeslot(id);
+        if(timeslotEntity != null){
+            timeslotEntity.setDate(date);
+            timeslotEntity.setDetails(details);
+            timeslotEntity.setTimeFrom(timeFrom);
+            timeslotEntity.setTimeEnd(timeEnd);
+            timeslotEntity.setTitle(title);
+            timeslotEntity.setVenue(venue);
+            em.merge(timeslotEntity);
+            em.flush();
+        }else{
+            System.out.println("Timeslot "+ id +" not found");
+        }
+    }
     
     @Override
     public Timeslot findTimeslot(Long id){

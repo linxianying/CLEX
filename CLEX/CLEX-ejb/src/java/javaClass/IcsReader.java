@@ -6,6 +6,7 @@
 package javaClass;
 
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -62,7 +63,7 @@ public class IcsReader {
     public void test(){
         FileInputStream fin;
         try {
-            fin = new FileInputStream("/java/javaClass/test.ics");
+            fin = new FileInputStream("/Applications/NetBeans/glassfish-4.1/glassfish/domains/domain1/config/test.ics");
             CalendarBuilder builder = new CalendarBuilder();
             Calendar calendar = builder.build(fin);
         } catch (Exception ex) {
