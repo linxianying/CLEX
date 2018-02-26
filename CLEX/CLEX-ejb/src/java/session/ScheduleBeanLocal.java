@@ -5,6 +5,7 @@
  */
 package session;
 
+import entity.Timeslot;
 import javax.ejb.Local;
 
 /**
@@ -15,6 +16,9 @@ import javax.ejb.Local;
 public interface ScheduleBeanLocal {
 
     boolean loadIcsFile();
-    public void createTimeslot(String date, String timeFrom, String timeEnd, 
+    void createTimeslot(String date, String timeFrom, String timeEnd, 
                 String title, String details, String venue);
+
+    public Timeslot findTimeslot(Long id);
+    public void deleteTimeslot(Long id);
 }

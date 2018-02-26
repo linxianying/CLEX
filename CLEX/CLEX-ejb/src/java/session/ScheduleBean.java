@@ -27,7 +27,9 @@ import javaClass.IcsReader;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import jdk.nashorn.internal.runtime.ParserException;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
@@ -73,5 +75,33 @@ public class ScheduleBean implements ScheduleBeanLocal {
         timeslotEntity.createTimeslot(date, timeFrom, timeEnd,title, details, venue);
         em.persist(timeslotEntity);
         em.flush();
+    }
+
+    @Override
+    public void deleteTimeslot(Long id) {
+        timeslotEntity = findTimeslot(id);
+        em.remove(timeslotEntity);
+        em.flush();
+    }
+    
+    
+    
+    @Override
+    public Timeslot findTimeslot(Long id){
+        adminEntity = null;
+        try{
+            Query q = em.createQuery("SELECT s FROM Timeslot s WHERE s.id = :id");
+            q.setParameter("id", id);
+            timeslotEntity = (Timeslot) q.getSingleResult();
+            System.out.println("Timeslot " + id + " found.");
+        }
+        catch(NoResultException e){
+            System.out.println("Timeslot " + id + " does not exist.");
+            timeslotEntity = null;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return timeslotEntity;
     }
 }
