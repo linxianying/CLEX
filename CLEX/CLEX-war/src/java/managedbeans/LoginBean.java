@@ -78,16 +78,24 @@ public class LoginBean implements Serializable{
         //Login based on usertype first, then check username, then password
         if(userType.equals("1")){ //Student
             userEntity = csbl.findStudent(username);
+            int approved = (userEntity.isApproval()) ? 1 : 0;
+            
             if(userEntity == null){
                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + username + "' does not exists.", "");
                context.addMessage(null, fmsg);
             }
             else{
-                if(csbl.checkPassword(username, password)){
+                if(csbl.checkPassword(username, password) && approved == 1){
                     session.setAttribute("user", userEntity);
                     session.setAttribute("username", username);
                     session.setAttribute("userType", 1);
                     context.getExternalContext().redirect("studentMain.xhtml");
+                }
+                else if (csbl.checkPassword(username, password) && approved == 0){
+                    session.setAttribute("user", userEntity);
+                    session.setAttribute("username", username);
+                    session.setAttribute("userType", 1);
+                    context.getExternalContext().redirect("unapprovedUser.xhtml");
                 }
                 else{
                     fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect password.", "");
@@ -97,16 +105,23 @@ public class LoginBean implements Serializable{
         }
         else if(userType.equals("2")){ //Lecturer
             userEntity = csbl.findLecturer(username);
+            int approved = (userEntity.isApproval()) ? 1 : 0;
             if(userEntity == null){
                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + username + "' does not exists.", "");
                context.addMessage(null, fmsg);
             }
             else{
-                if(csbl.checkPassword(username, password)){
+                if(csbl.checkPassword(username, password) && approved == 1){
                     session.setAttribute("user", userEntity);
                     session.setAttribute("username", username);
                     session.setAttribute("userType", 2);
                     context.getExternalContext().redirect("lecturerMain.xhtml");
+                }
+                else if (csbl.checkPassword(username, password) && approved == 0){
+                    session.setAttribute("user", userEntity);
+                    session.setAttribute("username", username);
+                    session.setAttribute("userType", 2);
+                    context.getExternalContext().redirect("unapprovedUser.xhtml");
                 }
                 else{
                     fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect password.", "");
@@ -135,16 +150,23 @@ public class LoginBean implements Serializable{
         }
         else{ //Guest
             userEntity = csbl.findGuest(username);
+            int approved = (userEntity.isApproval()) ? 1 : 0;
             if(userEntity == null){
                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + username + "' does not exists.", "");
                context.addMessage(null, fmsg);
             }
             else{
-                if(csbl.checkPassword(username, password)){
+                if(csbl.checkPassword(username, password) && approved == 1){
                     session.setAttribute("user", userEntity);
                     session.setAttribute("username", username);
                     session.setAttribute("userType", 4);
                     context.getExternalContext().redirect("guestMain.xhtml");
+                }
+                else if (csbl.checkPassword(username, password) && approved == 0){
+                    session.setAttribute("user", userEntity);
+                    session.setAttribute("username", username);
+                    session.setAttribute("userType", 4);
+                    context.getExternalContext().redirect("unapprovedUser.xhtml");
                 }
                 else{
                     fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect password.", "");
