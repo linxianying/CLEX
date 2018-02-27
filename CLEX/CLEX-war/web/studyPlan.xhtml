@@ -141,6 +141,7 @@
                         </p:dataList>
                     <br />
                     
+                    <h:form>
                     <p:dataList var="studyPlans" value="#{studyPlanBean.studyPlansInOrer}" id="studyPlansList">
                         <f:facet name="header">  
                             <h:outputText value="Study Plans"/>  
@@ -160,7 +161,7 @@
                                     <h:outputText value="#{sp.course.modularCredits}" />
                                 </p:panel>
                                 <p:column>
-                                    <p:commandButton  value="delete"  process="@this" update="studyPlansList" actionListener="#{studyPlanBean.deleteStudyPlan(sp.course.moduleCode)}" action="studyPlan?faces-redirect=true" id="deleteStudyPlan-button" />
+                                    <p:commandButton  value="delete" update="@form" actionListener="#{studyPlanBean.deleteStudyPlan(sp.course.moduleCode)}" action="studyPlan?faces-redirect=true" id="deleteStudyPlan-button" />
                                 </p:column>
                                 Expected Grade: 
                                 <p:selectOneMenu id="newGrade" value="#{studyPlanBean.newModuleGrade}" style="width:150px">
@@ -183,6 +184,7 @@
                             </p:column>
                         </p:dataList>
                     </p:dataList>
+                    </h:form>
                     <br />
                     <br />
                     Expected Cap: 
