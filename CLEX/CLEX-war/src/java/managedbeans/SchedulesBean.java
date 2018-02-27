@@ -5,13 +5,18 @@
  */
 package managedbeans;
 
+import entity.Timeslot;
 import entity.User;
 import javax.ejb.EJB;
 import session.ClexSessionBeanLocal;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -33,9 +38,9 @@ import session.ToDoListSessionBeanLocal;
  *
  * @author lin
  */
-@ManagedBean
+@ManagedBean(name="schedulesBean")
 @ViewScoped
-public class ScheduleBean implements Serializable {
+public class SchedulesBean implements Serializable {
 
     /**
      * Creates a new instance of ScheduleBean
@@ -51,12 +56,27 @@ public class ScheduleBean implements Serializable {
     private String username;
     private String userType;
     
-    private ScheduleModel eventModel;
+    private ScheduleModel eventModel = new DefaultScheduleModel();
     private ScheduleEvent event = new DefaultScheduleEvent();
     
-    public ScheduleBean() {
+    public SchedulesBean() {
     }
 
+    public void testAddEvents(){
+        System.out.println("ScheduleBean: testAddEvents");
+        Timeslot timeslot = sbl.createTimeslot("2018-02-21", "14:00", "16:00", "title1", "venue", "details");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        System.out.print("timeslot create: " + timeslot.getId());
+        try {
+            Date d1 = df.parse(timeslot.getDate()+ " " + timeslot.getTimeFrom());
+            Date d2 = df.parse(timeslot.getDate()+ " " + timeslot.getTimeEnd());
+            eventModel.addEvent(new DefaultScheduleEvent(timeslot.getTitle(),d1,d2));
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+   
+    }
+    
     @PostConstruct
     public void init() {
         eventModel = new DefaultScheduleModel();    

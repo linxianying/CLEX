@@ -71,12 +71,14 @@ public class ScheduleBean implements ScheduleBeanLocal {
     }
     
     @Override
-    public void createTimeslot(String date, String timeFrom, String timeEnd, 
+    public Timeslot createTimeslot(String date, String timeFrom, String timeEnd, 
                 String title, String details, String venue){
         timeslotEntity = new Timeslot();
         timeslotEntity.createTimeslot(date, timeFrom, timeEnd,title, details, venue);
         em.persist(timeslotEntity);
         em.flush();
+        System.out.print("timeslot create: " + timeslotEntity.getId());
+        return timeslotEntity;
     }
 
     @Override
