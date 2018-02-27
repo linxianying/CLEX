@@ -18,9 +18,9 @@ import javax.ejb.Local;
 public interface ClassroomSessionBeanLocal {
     public Module findModule(String moduleCode, String takenYear, String takenSem);
     public Poll createPoll(String moduleCode, String takenYear, String takenSem, 
-            String datetime, String topic, int count, String type, String content);
+            String datetime, String topic, double correctRate, String type, String content);
     public void updatePoll(Module module, Long id, String datetime, String topic, 
-            int count, String type, String content);
+            double correctRate, String type, String content);
     public Course findCourse(String moduleCode);
     public Poll findPoll(Long id);
     public boolean removePoll(String moduleCode, String takenYear, String takenSem, Long id);

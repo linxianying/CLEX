@@ -259,18 +259,18 @@ public class indexBean {
         sbl.createTimeslot("hsianghui3","2018-02-28", "16:00", "17:00", "Eat with Caoyu", "Bugis", "Eat hotpot");
         
         
-        crsbl.createPoll("CS2100", "2016", "2", "2016-08-27", "Computer Organization", 35, "type", "Do you like this course?");
-        crsbl.createPoll("CP3109", "2015", "1", "2015-04-27", "Project", 68, "type", "Do you think this course bring you something useful");
-        crsbl.createPoll("CS1020", "2016", "1", "2016-01-30", "Java OOP Concepts", 70, "type", "Do you feel familiar with four OOP concepts?");
-        crsbl.createPoll("GER1000", "2017", "1", "2017-02-27", "Final report", 38, "type", "How is your final report going?");
-        crsbl.createPoll("PC2193", "2017", "2", "2017-11-27", "Physics", 31, "type", "Do you like this course?");
-        crsbl.createPoll("LAL1201", "2017", "1", "2017-02-17", "Language Learning Curve", 18, "type", "Do you find it difficult to learn new languages?");
-        crsbl.createPoll("CS2100", "2016", "2", "2016-08-27", "Computer Organization", 38, "type", "Do you like this course?");
-        crsbl.createPoll("CP3109", "2015", "1", "2015-01-29", "Project", 11, "type", "Do you think this course bring you something interesting");
-        crsbl.createPoll("CS1020", "2016", "1", "2016-03-20", "Java OOP Concepts", 27, "type", "Do you feel familiar with four OOP concepts?");
-        crsbl.createPoll("GER1000", "2017", "1", "2017-01-27", "Final report", 53, "type", "How is the lecturer?");
-        crsbl.createPoll("PC2193", "2017", "2", "2017-10-27", "Physics", 39, "type", "Do you understand the concepts");
-        crsbl.createPoll("LAL1201", "2017", "1", "2017-04-17", "Language Learning Curve", 27, "type", "How is your learning experience?");
+        crsbl.createPoll("CS2100", "2016", "2", "2016-08-27", "Computer Organization", 0.35, "type", "Do you like this course?");
+        crsbl.createPoll("CP3109", "2015", "1", "2015-04-27", "Project", 0.68, "type", "Do you think this course bring you something useful");
+        crsbl.createPoll("CS1020", "2016", "1", "2016-01-30", "Java OOP Concepts", 0.70, "type", "Do you feel familiar with four OOP concepts?");
+        crsbl.createPoll("GER1000", "2017", "1", "2017-02-27", "Final report", 0.38, "type", "How is your final report going?");
+        crsbl.createPoll("PC2193", "2017", "2", "2017-11-27", "Physics", 0.31, "type", "Do you like this course?");
+        crsbl.createPoll("LAL1201", "2017", "1", "2017-02-17", "Language Learning Curve", 0.18, "type", "Do you find it difficult to learn new languages?");
+        crsbl.createPoll("CS2100", "2016", "2", "2016-08-27", "Computer Organization", 0.38, "type", "Do you like this course?");
+        crsbl.createPoll("CP3109", "2015", "1", "2015-01-29", "Project", 0.11, "type", "Do you think this course bring you something interesting");
+        crsbl.createPoll("CS1020", "2016", "1", "2016-03-20", "Java OOP Concepts", 0.27, "type", "Do you feel familiar with four OOP concepts?");
+        crsbl.createPoll("GER1000", "2017", "1", "2017-01-27", "Final report", 0.53, "type", "How is the lecturer?");
+        crsbl.createPoll("PC2193", "2017", "2", "2017-10-27", "Physics", 0.39, "type", "Do you understand the concepts");
+        crsbl.createPoll("LAL1201", "2017", "1", "2017-04-17", "Language Learning Curve", 0.27, "type", "How is your learning experience?");
         
     }
 }

@@ -566,10 +566,5 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         em.merge(student);
         em.merge(lesson);
     }
-    
-   
-    
 
-    
-    
 }

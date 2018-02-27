@@ -67,7 +67,7 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
     
     @Override
     public Poll createPoll(String moduleCode, String takenYear, String takenSem, 
-            String datetime, String topic, int count, String type, String content){
+            String datetime, String topic, double correctRate, String type, String content){
         moduleEntity = null;
         pollEntity = null;
         moduleEntity = findModule(moduleCode, takenYear, takenSem);
@@ -78,7 +78,7 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
             System.out.println("Module " + moduleCode + " is found. Poll is created");
             pollEntity = new Poll();
             pollEntity.setContent(content);
-            pollEntity.setCount(count);
+            pollEntity.setCorrectRate(correctRate);
             pollEntity.setDatetime(datetime);
             pollEntity.setTopic(topic);
             pollEntity.setType(type);
@@ -139,13 +139,13 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
     }
 
     @Override
-    public void updatePoll(Module module, Long id, String datetime, String topic, int count, String type, String content) {
+    public void updatePoll(Module module, Long id, String datetime, String topic, double correctRate, String type, String content) {
         pollEntity = findPoll(id);
         if(pollEntity==null){
             return;
         }
         pollEntity.setContent(content);
-        pollEntity.setCount(count);
+        pollEntity.setCorrectRate(correctRate);
         pollEntity.setDatetime(datetime);
         pollEntity.setTopic(topic);
         pollEntity.setType(type);

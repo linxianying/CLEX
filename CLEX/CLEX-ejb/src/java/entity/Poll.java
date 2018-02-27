@@ -25,15 +25,15 @@ public class Poll implements Serializable {
     private String topic;
     private String type;
     private String content;
-    private int count;
+    private double correctRate;
 
 
-    public void createPoll(String datetime, String topic, int count, String type, 
+    public void createPoll(String datetime, String topic, double correctRate, String type, 
                 String content){
         this.datetime = datetime;
         this.topic = topic;
         this.type = type;
-        this.count = count;
+        this.correctRate = correctRate;
         this.content = content;
     }
     
@@ -43,6 +43,14 @@ public class Poll implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public double getCorrectRate() {
+        return correctRate;
+    }
+
+    public void setCorrectRate(double correctRate) {
+        this.correctRate = correctRate;
     }
 
     public String getDatetime() {
@@ -76,15 +84,6 @@ public class Poll implements Serializable {
     public void setContent(String content) {
         this.content = content;
     }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
 
     @Override
     public int hashCode() {
