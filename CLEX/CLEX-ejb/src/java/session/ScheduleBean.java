@@ -110,7 +110,7 @@ public class ScheduleBean implements ScheduleBeanLocal {
     
     @Override
     public Timeslot findTimeslot(Long id){
-        adminEntity = null;
+        timeslotEntity = null;
         try{
             Query q = em.createQuery("SELECT s FROM Timeslot s WHERE s.id = :id");
             q.setParameter("id", id);
@@ -134,5 +134,43 @@ public class ScheduleBean implements ScheduleBeanLocal {
         groupTimeslotEntity.createGroupTimeslot(date, timeFrom, timeEnd,title, details, venue, projectGroup);
         em.persist(groupTimeslotEntity);
         em.flush();
+    }
+
+    @Override
+    public void updateGroupTimeslot(Long id, String date, String timeFrom, String timeEnd, String title, String details, String venue, ProjectGroup pojectGroup) {
+         //To change body of generated methods, choose Tools | Templates.
+        groupTimeslotEntity = findGroupTimeslot(id);
+        if(groupTimeslotEntity != null){
+            groupTimeslotEntity.setDate(date);
+            groupTimeslotEntity.setDetails(details);
+            groupTimeslotEntity.setTimeFrom(timeFrom);
+            groupTimeslotEntity.setTimeEnd(timeEnd);
+            groupTimeslotEntity.setTitle(title);
+            groupTimeslotEntity.setVenue(venue);
+            groupTimeslotEntity.setPojectGroup(pojectGroup);
+            em.merge(groupTimeslotEntity);
+            em.flush();
+        }else{
+            System.out.println("Group Timeslot "+ id +" not found");
+        }
+    }
+    
+    @Override
+    public GroupTimeslot findGroupTimeslot(Long id){
+        groupTimeslotEntity = null;
+        try{
+            Query q = em.createQuery("SELECT s FROM GroupTimeslot s WHERE s.id = :id");
+            q.setParameter("id", id);
+            groupTimeslotEntity = (GroupTimeslot) q.getSingleResult();
+            System.out.println("Group Timeslot " + id + " found.");
+        }
+        catch(NoResultException e){
+            System.out.println("Group Timeslot " + id + " does not exist.");
+            groupTimeslotEntity = null;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return groupTimeslotEntity;
     }
 }
