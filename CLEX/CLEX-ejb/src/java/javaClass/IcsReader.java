@@ -32,7 +32,7 @@ public class IcsReader {
     private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyyMMdd");
 
     public void main(String[] args){
-        loadIcs();
+        //loadIcs();
     }
     
     @PostConstruct
@@ -61,11 +61,11 @@ public class IcsReader {
     }
     
     public void test(){
-        FileInputStream fin;
+
         try {
-            fin = new FileInputStream("/Applications/NetBeans/glassfish-4.1/glassfish/domains/domain1/config/test.ics");
+            FileInputStream fin = new FileInputStream("test.ics");
             CalendarBuilder builder = new CalendarBuilder();
-            Calendar calendar = builder.build(fin);
+            //Calendar calendar = builder.build(fin);
         } catch (Exception ex) {
             ex.printStackTrace();
         } 

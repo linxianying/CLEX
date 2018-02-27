@@ -8,17 +8,18 @@ package managedbeans;
 import entity.Timeslot;
 import entity.User;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.ejb.EJB;
 import session.ClexSessionBeanLocal;
-
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -27,6 +28,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import net.fortuna.ical4j.data.CalendarBuilder;
+import net.fortuna.ical4j.model.Component;
 import org.primefaces.event.FileUploadEvent;
  
 import org.primefaces.event.ScheduleEntryMoveEvent;
@@ -36,7 +39,7 @@ import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
-import session.ScheduleBeanLocal;
+import session.ScheduleSessionBeanLocal;
 import session.ToDoListSessionBeanLocal;
 
 /**
@@ -45,7 +48,7 @@ import session.ToDoListSessionBeanLocal;
  */
 @ManagedBean(name="schedulesBean")
 @ViewScoped
-public class SchedulesBean implements Serializable {
+public class ScheduleBean implements Serializable {
 
     /**
      * Creates a new instance of ScheduleBean
@@ -55,7 +58,7 @@ public class SchedulesBean implements Serializable {
     @EJB
     private ToDoListSessionBeanLocal tdsbl; 
     @EJB
-    private ScheduleBeanLocal sbl;
+    private ScheduleSessionBeanLocal sbl;
     
     private User userEntity;
     private String username;
@@ -64,7 +67,7 @@ public class SchedulesBean implements Serializable {
     private ScheduleModel eventModel = new DefaultScheduleModel();
     private ScheduleEvent event = new DefaultScheduleEvent();
     
-    public SchedulesBean() {
+    public ScheduleBean() {
     }
 
     public void testAddEvents(){
@@ -110,11 +113,11 @@ public class SchedulesBean implements Serializable {
         this.tdsbl = tdsbl;
     }
 
-    public ScheduleBeanLocal getSbl() {
+    public ScheduleSessionBeanLocal getSbl() {
         return sbl;
     }
 
-    public void setSbl(ScheduleBeanLocal sbl) {
+    public void setSbl(ScheduleSessionBeanLocal sbl) {
         this.sbl = sbl;
     }
 
@@ -224,4 +227,5 @@ public class SchedulesBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,  "File upload error: " + ex.getMessage(), ""));
         }
     }
+    
 }

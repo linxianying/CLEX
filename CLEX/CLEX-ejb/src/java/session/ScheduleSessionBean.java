@@ -40,7 +40,7 @@ import org.primefaces.model.DefaultScheduleModel;
  * @author lin
  */
 @Stateless
-public class ScheduleBean implements ScheduleBeanLocal {
+public class ScheduleSessionBean implements ScheduleSessionBeanLocal {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")

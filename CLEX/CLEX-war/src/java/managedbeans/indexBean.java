@@ -10,7 +10,7 @@ import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import session.ClexSessionBeanLocal;
-import session.ScheduleBeanLocal;
+import session.ScheduleSessionBeanLocal;
 import session.StudyPlanSessionBeanLocal;
 
 /**
@@ -25,7 +25,7 @@ public class indexBean {
     @EJB
     private ClexSessionBeanLocal csbl;
     @EJB
-    private ScheduleBeanLocal sbl;
+    private ScheduleSessionBeanLocal sbl;
     /**
      * Creates a new instance of indexBean
      */
