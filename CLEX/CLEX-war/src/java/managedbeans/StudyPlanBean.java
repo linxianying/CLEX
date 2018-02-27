@@ -83,8 +83,10 @@ public class StudyPlanBean {
         studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
         expectedCap = cap;
         System.out.println("Expected Cap reset to " + expectedCap);
-        newModuleGrade = "A+";
-        newCurrentModuleGrade = "A+";
+        this.setNewModuleGrade("A+");
+        //newModuleGrade = "A+";
+        this.setNewCurrentModuleGrade("A+");
+        //newCurrentModuleGrade = "A+";
         allCredits = cpsbl.getNumOfCredits(username);
         System.out.println("finish to update studyPlansInOrer");
         model = new DefaultDashboardModel();
@@ -163,6 +165,7 @@ public class StudyPlanBean {
     }
 
     public void setNewCurrentModuleGrade(String newCurrentModuleGrade) {
+        System.out.println("setNewCurrentModuleGrade: newCurrentModuleGrade set to " + newCurrentModuleGrade);
         this.newCurrentModuleGrade = newCurrentModuleGrade;
     }
 
@@ -183,6 +186,7 @@ public class StudyPlanBean {
     }
 
     public void setNewModuleGrade(String newModuleGrade) {
+        System.out.println("setNewModuleGrade: newModuleGrade set to " + newModuleGrade);
         this.newModuleGrade = newModuleGrade;
     }
 
