@@ -71,16 +71,37 @@ public class ScheduleSessionBean implements ScheduleSessionBeanLocal {
     }
     
     @Override
-    public Timeslot createTimeslot(String date, String timeFrom, String timeEnd, 
+    public Timeslot createTimeslot(String username, String date, String timeFrom, String timeEnd, 
                 String title, String details, String venue){
+        studentEntity = findStudent(username);
         timeslotEntity = new Timeslot();
         timeslotEntity.createTimeslot(date, timeFrom, timeEnd,title, details, venue);
         em.persist(timeslotEntity);
+        studentEntity.getTimeslots().add(timeslotEntity);
+        em.merge(studentEntity);
         em.flush();
         System.out.print("timeslot create: " + timeslotEntity.getId());
         return timeslotEntity;
     }
 
+    public Student findStudent(String username){
+        studentEntity = null;
+        try{
+            Query q = em.createQuery("SELECT u FROM Student u WHERE u.username=:username");
+            q.setParameter("username", username);
+            studentEntity = (Student) q.getSingleResult();
+            System.out.println("Student " + username + " found.");
+        }
+        catch(NoResultException e){
+            System.out.println("Student " + username + " does not exist.");
+            studentEntity = null;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return studentEntity;
+    }
+    
     @Override
     public void deleteTimeslot(Long id) {
         timeslotEntity = findTimeslot(id);

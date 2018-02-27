@@ -69,7 +69,7 @@ public class ScheduleBean implements Serializable {
 
     public void testAddEvents(){
         System.out.println("ScheduleBean: testAddEvents");
-        Timeslot timeslot = sbl.createTimeslot("2018-02-21", "14:00", "16:00", "title1", "venue", "details");
+        Timeslot timeslot = sbl.createTimeslot("namename","2018-02-21", "14:00", "16:00", "title1", "venue", "details");
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         System.out.print("timeslot create: " + timeslot.getId());
         try {

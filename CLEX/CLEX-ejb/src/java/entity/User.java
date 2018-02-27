@@ -80,6 +80,22 @@ public abstract class User implements Serializable{
         this.threads = threads;
     }
 
+    public Collection<Timeslot> getTimeslots() {
+        return timeslots;
+    }
+
+    public void setTimeslots(Collection<Timeslot> timeslots) {
+        this.timeslots = timeslots;
+    }
+
+    public Collection<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(Collection<Task> tasks) {
+        this.tasks = tasks;
+    }
+
     public Collection<Vote> getVotes() {
         return votes;
     }

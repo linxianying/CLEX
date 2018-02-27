@@ -18,7 +18,7 @@ import javax.ejb.Local;
 public interface ScheduleSessionBeanLocal {
 
     boolean loadIcsFile();
-    Timeslot createTimeslot(String date, String timeFrom, String timeEnd, 
+    Timeslot createTimeslot(String username, String date, String timeFrom, String timeEnd, 
                 String title, String details, String venue);
     void updateTimeslot(Long id, String date, String timeFrom, String timeEnd, 
                 String title, String details, String venue);

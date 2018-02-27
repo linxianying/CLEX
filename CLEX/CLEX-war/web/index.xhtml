@@ -6,17 +6,8 @@
        template="./layout/default.xhtml">
     
     <ui:define name="content"> 
-        any new JSF page (xhtml pages) needs to include "template..." line in order to inherit the layout (refer to index.xhtml line 6). <br/>
-        the layouts xhtml files can be found in the layout folder under CLEX-war > Web pages > layout<br/>
-        all colors and design is found in web pages > resources > css > cssLayout.css<br/>
-        the top black bar will be used for announcement, DM, logout navigations etc<br/>
-        ignore the navigation icon, i am changing it as you see this<br/>
-        This home page design is temporary and will be changed<br/>
-        
-        for any page, make sure you copy the format from the ___main.xhtml(depending on which user) <br/>
-        and then code the contents inside the ui:define> --- refer to index.xhtml for example
         <h:form>
-            <h:commandButton value="testIcs" actionListener="#{indexBean.testIcs}" action="index?faces-redirect=true" />
+            <h:commandButton value="testIcs" actionListener="#{schedulesBean.loadIcs()}" action="index?faces-redirect=true" />
         </h:form>
     </ui:define>
     
