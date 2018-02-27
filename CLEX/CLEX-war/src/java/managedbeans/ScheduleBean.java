@@ -15,7 +15,6 @@ import java.io.InputStream;
 import javax.ejb.EJB;
 import session.ClexSessionBeanLocal;
 import java.io.Serializable;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -28,8 +27,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import net.fortuna.ical4j.data.CalendarBuilder;
-import net.fortuna.ical4j.model.Component;
 import org.primefaces.event.FileUploadEvent;
  
 import org.primefaces.event.ScheduleEntryMoveEvent;
