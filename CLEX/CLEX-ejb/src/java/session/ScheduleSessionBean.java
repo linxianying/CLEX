@@ -73,14 +73,17 @@ public class ScheduleSessionBean implements ScheduleSessionBeanLocal {
     @Override
     public Timeslot createTimeslot(String username, String date, String timeFrom, String timeEnd, 
                 String title, String details, String venue){
-        studentEntity = findStudent(username);
+        userEntity = findUser(username);
+        if(userEntity==null){
+            return null;
+        }
         timeslotEntity = new Timeslot();
         timeslotEntity.createTimeslot(date, timeFrom, timeEnd,title, details, venue);
         em.persist(timeslotEntity);
-        studentEntity.getTimeslots().add(timeslotEntity);
-        em.merge(studentEntity);
+        userEntity.getTimeslots().add(timeslotEntity);
+        em.merge(userEntity);
         em.flush();
-        System.out.print("timeslot create: " + timeslotEntity.getId());
+        System.out.print("timeslot " + timeslotEntity.getId()+" created for user " + username);
         return timeslotEntity;
     }
 
@@ -100,6 +103,23 @@ public class ScheduleSessionBean implements ScheduleSessionBeanLocal {
             e.printStackTrace();
         }
         return studentEntity;
+    }
+    
+    public User findUser(String username){
+        try{
+            Query q = em.createQuery("SELECT u FROM BasicUser u WHERE u.username = :username");
+            q.setParameter("username", username);
+            userEntity = (User) q.getSingleResult();
+            System.out.println("User " + username + " found.");
+        }
+        catch(NoResultException e){
+            System.out.println("User " + username + " does not exist.");
+            userEntity = null;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return userEntity;
     }
     
     @Override

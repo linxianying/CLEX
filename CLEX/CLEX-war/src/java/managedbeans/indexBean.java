@@ -9,6 +9,7 @@ import java.util.Random;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
+import session.ClassroomSessionBeanLocal;
 import session.ClexSessionBeanLocal;
 import session.ScheduleSessionBeanLocal;
 import session.StudyPlanSessionBeanLocal;
@@ -26,6 +27,9 @@ public class indexBean {
     private ClexSessionBeanLocal csbl;
     @EJB
     private ScheduleSessionBeanLocal sbl;
+    @EJB
+    private ClassroomSessionBeanLocal crsbl;
+   
     /**
      * Creates a new instance of indexBean
      */
@@ -51,16 +55,17 @@ public class indexBean {
         csbl.createStudent("aaaaaa", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
         csbl.createStudent("bbbbbb", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "2", 0.0);
         csbl.createStudent("cccccc", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
-        csbl.createStudent("dddddd", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "2", 0.0);
+        csbl.createStudent("dddddd", "123456", "name", "email@email.com", "NUS", 65345455L, genSalt(), "soc", "IS","2015", "2", 0.0);
         csbl.createStudent("eeeeee", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
         csbl.createStudent("ffffff", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2016", "1", 0.0);
-        csbl.createStudent("gggggg", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2016", "2", 0.0);
-        csbl.createStudent("hhhhhh", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2016", "1", 0.0);
-        csbl.createStudent("iiiiii", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2016", "2", 0.0);
-        csbl.createStudent("jjjjjj", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2016", "1", 0.0);
-        csbl.createLecturer("hsianghui2", "123456", "LekHsiangHui2", "email@email.com", "NUS", 12345678L, genSalt(), "soc");
-        csbl.createLecturer("hsianghui3", "123456", "LekHsiangHui3", "email@email.com", "NUS", 12345678L, genSalt(), "soc");
-        csbl.createLecturer("hsianghui4", "123456", "LekHsiangHui4", "email@email.com", "NUS", 12345678L, genSalt(), "soc");
+        csbl.createStudent("gggggg", "123456", "name", "email@email.com", "NUS", 12345378L, genSalt(), "soc", "IS","2016", "2", 0.0);
+        csbl.createStudent("hhhhhh", "123456", "name", "email@email.com", "NUS", 12345278L, genSalt(), "soc", "IS","2016", "1", 0.0);
+        csbl.createStudent("iiiiii", "123456", "name", "email@email.com", "NUS", 12845678L, genSalt(), "soc", "IS","2016", "2", 0.0);
+        csbl.createStudent("jjjjjj", "123456", "name", "email@email.com", "NUS", 12345278L, genSalt(), "soc", "IS","2016", "1", 0.0);
+        csbl.createLecturer("lecturer", "123456", "Zhou Lifeng", "zlf@email.com", "NUS", 12345278L, genSalt(), "soc");
+        csbl.createLecturer("hsianghui2", "123456", "LekHsiangHui2", "hsianghui@email.com", "NUS", 92345678L, genSalt(), "soc");
+        csbl.createLecturer("hsianghui3", "123456", "LekHsiangHui3", "hh3@email.com", "NUS", 12342678L, genSalt(), "soc");
+        csbl.createLecturer("hsianghui4", "123456", "LekHsiangHui4", "hh4@email.com", "NUS", 12345678L, genSalt(), "soc");
         csbl.createGuest("guesta", "123456", "someguest", "email@email.com", "NUS", 12345678L, genSalt());
         csbl.createGuest("guestb", "123456", "someguest", "email@email.com", "NUS", 12345678L, genSalt());
         csbl.createGuest("guestc", "123456", "someguest", "email@email.com", "NUS", 12345678L, genSalt());
@@ -248,6 +253,24 @@ public class indexBean {
         sbl.createTimeslot("namename","2018-02-12", "11:00", "13:00", "Tutorial CS1010J", "COM1-203", "Tutorial");
         sbl.createTimeslot("namename","2018-02-27", "09:00", "10:00", "Go out with Caoyu", "Orchard", "Go shopping");
         sbl.createTimeslot("namename","2018-02-28", "20:00", "21:10", "Hang out with Susu", "Vivo City", "Buy clothes");
+        sbl.createTimeslot("guesta","2018-03-28", "18:00", "19:00", "Go with Su", "Beijing", "Buy clothes");
+        sbl.createTimeslot("dddddd","2018-02-28", "06:00", "07:00", "Homework", "Home", "Finish IS4103 homework");
+        sbl.createTimeslot("bbbbbb","2018-04-28", "11:00", "12:00", "Travel with Su", "Chongqing", "Buy sunglasses and eat hotpot");
+        sbl.createTimeslot("hsianghui3","2018-02-28", "16:00", "17:00", "Eat with Caoyu", "Bugis", "Eat hotpot");
+        
+        
+        crsbl.createPoll("CS2100", "2016", "2", "2016-08-27", "Computer Organization", 35, "type", "Do you like this course?");
+        crsbl.createPoll("CP3109", "2015", "1", "2015-04-27", "Project", 68, "type", "Do you think this course bring you something useful");
+        crsbl.createPoll("CS1020", "2016", "1", "2016-01-30", "Java OOP Concepts", 70, "type", "Do you feel familiar with four OOP concepts?");
+        crsbl.createPoll("GER1000", "2017", "1", "2017-02-27", "Final report", 38, "type", "How is your final report going?");
+        crsbl.createPoll("PC2193", "2017", "2", "2017-11-27", "Physics", 31, "type", "Do you like this course?");
+        crsbl.createPoll("LAL1201", "2017", "1", "2017-02-17", "Language Learning Curve", 18, "type", "Do you find it difficult to learn new languages?");
+        crsbl.createPoll("CS2100", "2016", "2", "2016-08-27", "Computer Organization", 38, "type", "Do you like this course?");
+        crsbl.createPoll("CP3109", "2015", "1", "2015-01-29", "Project", 11, "type", "Do you think this course bring you something interesting");
+        crsbl.createPoll("CS1020", "2016", "1", "2016-03-20", "Java OOP Concepts", 27, "type", "Do you feel familiar with four OOP concepts?");
+        crsbl.createPoll("GER1000", "2017", "1", "2017-01-27", "Final report", 53, "type", "How is the lecturer?");
+        crsbl.createPoll("PC2193", "2017", "2", "2017-10-27", "Physics", 39, "type", "Do you understand the concepts");
+        crsbl.createPoll("LAL1201", "2017", "1", "2017-04-17", "Language Learning Curve", 27, "type", "How is your learning experience?");
         
     }
 }
