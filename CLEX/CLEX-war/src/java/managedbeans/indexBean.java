@@ -43,7 +43,6 @@ public class indexBean {
     
     public void testIcs(){
         sbl.loadIcsFile();
-    
     }
     
     public void createEntities() {
