@@ -44,7 +44,17 @@
                             </h:panelGrid>
                         </p:dialog>    
                     </h:form>
+                    <h:form id="formFileUpload" enctype="multipart/form-data">
+            
+                        <p:panel header="ICS File Upload">
 
+                            <p:messages autoUpdate="true" redisplay="false" />
+
+                            <p:fileUpload fileUploadListener="#{schedulesBean.handleFileUpload}" />
+
+                        </p:panel>
+
+                    </h:form>
                     <style type="text/css">
                         .value {
                             width: 1000px;
