@@ -26,6 +26,7 @@ import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
+import session.ScheduleBeanLocal;
 import session.ToDoListSessionBeanLocal;
 
 /**
@@ -43,20 +44,53 @@ public class ScheduleBean implements Serializable {
     private ClexSessionBeanLocal csbl;
     @EJB
     private ToDoListSessionBeanLocal tdsbl; 
+    @EJB
+    private ScheduleBeanLocal sbl;
     
     private User userEntity;
     private String username;
     private String userType;
     
+    private ScheduleModel eventModel;
+    private ScheduleEvent event = new DefaultScheduleEvent();
+    
     public ScheduleBean() {
     }
 
+    @PostConstruct
+    public void init() {
+        eventModel = new DefaultScheduleModel();    
+    }
+     
+    public Date getInitialDate() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 0, 0, 0);
+         
+        return calendar.getTime();
+    }
+    
     public ClexSessionBeanLocal getCsbl() {
         return csbl;
     }
 
     public void setCsbl(ClexSessionBeanLocal csbl) {
         this.csbl = csbl;
+    }
+
+    public ToDoListSessionBeanLocal getTdsbl() {
+        return tdsbl;
+    }
+
+    public void setTdsbl(ToDoListSessionBeanLocal tdsbl) {
+        this.tdsbl = tdsbl;
+    }
+
+    public ScheduleBeanLocal getSbl() {
+        return sbl;
+    }
+
+    public void setSbl(ScheduleBeanLocal sbl) {
+        this.sbl = sbl;
     }
 
     public User getUserEntity() {
@@ -81,22 +115,6 @@ public class ScheduleBean implements Serializable {
 
     public void setUserType(String userType) {
         this.userType = userType;
-    }
-    
-    private ScheduleModel eventModel;
- 
-    private ScheduleEvent event = new DefaultScheduleEvent();
- 
-    @PostConstruct
-    public void init() {
-        eventModel = new DefaultScheduleModel();    
-    }
-     
-    public Date getInitialDate() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 0, 0, 0);
-         
-        return calendar.getTime();
     }
      
     public ScheduleModel getEventModel() {
@@ -143,4 +161,5 @@ public class ScheduleBean implements Serializable {
     private void addMessage(FacesMessage message) {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
+    
 }
