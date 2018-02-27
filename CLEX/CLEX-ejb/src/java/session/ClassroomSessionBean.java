@@ -119,6 +119,7 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
         return moduleEntity;
     }
     
+    @Override
     public Course findCourse(String moduleCode){
         courseEntity = null;
         try{
@@ -135,6 +136,62 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
             e.printStackTrace();
         }
         return courseEntity;
+    }
+
+    @Override
+    public void updatePoll(Module module, Long id, String datetime, String topic, int count, String type, String content) {
+        pollEntity = findPoll(id);
+        if(pollEntity==null){
+            return;
+        }
+        pollEntity.setContent(content);
+        pollEntity.setCount(count);
+        pollEntity.setDatetime(datetime);
+        pollEntity.setTopic(topic);
+        pollEntity.setType(type);
+        em.merge(pollEntity);
+        em.flush();
+    }
+    
+    @Override
+    public Poll findPoll(Long id){
+        pollEntity = null;
+        try{
+            Query q = em.createQuery("SELECT p FROM Poll p WHERE p.id=:id");
+            q.setParameter("id", id);
+            pollEntity = (Poll) q.getSingleResult();
+            System.out.println("Poll " + id + " found.");
+        }
+        catch(NoResultException e){
+            System.out.println("Poll " + id + " does not exist.");
+            pollEntity = null;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return pollEntity;
+    
+    }
+    
+    @Override
+    public boolean removePoll(String moduleCode, String takenYear, String takenSem, Long id){
+        pollEntity = findPoll(id);
+        moduleEntity = null;
+        moduleEntity = findModule(moduleCode, takenYear, takenSem);        
+        if(pollEntity==null){
+            System.out.println("RemovePoll: Poll does not exist!");
+            return false;
+        }
+        if(moduleEntity==null){
+            System.out.println("RemovePoll: Module does not exist!");
+            return false;
+        }
+        moduleEntity.getPolls().remove(pollEntity);
+        em.merge(moduleEntity);
+        em.remove(pollEntity);
+        em.flush();
+        return true;
+    
     }
     
 }
