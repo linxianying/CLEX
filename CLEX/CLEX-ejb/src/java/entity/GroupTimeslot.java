@@ -30,27 +30,26 @@ public class GroupTimeslot implements Serializable {
     private String venue;
     
     @ManyToOne
-    private ProjectGroup pojectGroup = new ProjectGroup();
+    private ProjectGroup projectGroup = new ProjectGroup();
 
     public void createGroupTimeslot(String date, String timeFrom, String timeEnd, 
-                String title, String details, String venue, ProjectGroup pojectGroup) {
+                String title, String details, String venue, ProjectGroup projectGroup) {
         this.date = date;
         this.timeFrom = timeFrom;
         this.timeEnd = timeEnd;
         this.details = details;
         this.title = title;
         this.venue = venue;
-        this.pojectGroup = pojectGroup;
-    }
-    
-    public ProjectGroup getPojectGroup() {
-        return pojectGroup;
+        this.projectGroup = projectGroup;
     }
 
-    public void setPojectGroup(ProjectGroup pojectGroup) {
-        this.pojectGroup = pojectGroup;
+    public ProjectGroup getProjectGroup() {
+        return projectGroup;
     }
-    
+
+    public void setProjectGroup(ProjectGroup projectGroup) {
+        this.projectGroup = projectGroup;
+    }
     
     
     public String getDate() {

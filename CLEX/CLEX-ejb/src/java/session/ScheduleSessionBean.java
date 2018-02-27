@@ -170,7 +170,7 @@ public class ScheduleSessionBean implements ScheduleSessionBeanLocal {
             groupTimeslotEntity.setTimeEnd(timeEnd);
             groupTimeslotEntity.setTitle(title);
             groupTimeslotEntity.setVenue(venue);
-            groupTimeslotEntity.setPojectGroup(pojectGroup);
+            groupTimeslotEntity.setProjectGroup(pojectGroup);
             em.merge(groupTimeslotEntity);
             em.flush();
         }else{

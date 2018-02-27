@@ -51,6 +51,14 @@ public class IndividualGroupTask implements Serializable {
         this.id = id;
     }
 
+    public GroupTask getGroupTask() {
+        return groupTask;
+    }
+
+    public void setGroupTask(GroupTask groupTask) {
+        this.groupTask = groupTask;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
