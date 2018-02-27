@@ -75,7 +75,7 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
             System.out.println("Module " + moduleCode + " does not exist!");
             return null;
         }else{
-            System.out.println("Module " + moduleCode + " is found");
+            System.out.println("Module " + moduleCode + " is found. Poll is created");
             pollEntity = new Poll();
             pollEntity.setContent(content);
             pollEntity.setCount(count);
@@ -83,6 +83,9 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
             pollEntity.setTopic(topic);
             pollEntity.setType(type);
             em.persist(pollEntity);
+            em.flush();
+            moduleEntity.getPolls().add(pollEntity);
+            em.merge(moduleEntity);
             em.flush();
         }
         return pollEntity;
@@ -133,4 +136,5 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
         }
         return courseEntity;
     }
+    
 }
