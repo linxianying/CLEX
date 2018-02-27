@@ -15,7 +15,11 @@
         
         for any page, make sure you copy the format from the ___main.xhtml(depending on which user) <br/>
         and then code the contents inside the ui:define> --- refer to index.xhtml for example
-        
+        <h:form>
+            <h:commandButton value="testIcs" actionListener="#{indexBean.testIcs}" action="index?faces-redirect=true" />
+        </h:form>
     </ui:define>
+    
+    
     
 </ui:composition>

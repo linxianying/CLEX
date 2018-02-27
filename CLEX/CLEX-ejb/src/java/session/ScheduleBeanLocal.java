@@ -5,6 +5,7 @@
  */
 package session;
 
+import entity.ProjectGroup;
 import entity.Timeslot;
 import javax.ejb.Local;
 
@@ -23,4 +24,7 @@ public interface ScheduleBeanLocal {
 
     public Timeslot findTimeslot(Long id);
     public void deleteTimeslot(Long id);
+    
+    public void createGroupTimeslot(String date, String timeFrom, String timeEnd, 
+                String title, String details, String venue, ProjectGroup pojectGroup);
 }

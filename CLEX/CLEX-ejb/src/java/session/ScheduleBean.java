@@ -8,6 +8,7 @@ package session;
 import entity.Admin;
 import entity.Course;
 import entity.GroupTask;
+import entity.GroupTimeslot;
 import entity.Guest;
 import entity.Lecturer;
 import entity.Lesson;
@@ -59,6 +60,7 @@ public class ScheduleBean implements ScheduleBeanLocal {
     private ProjectGroup projectGroupEntity;
     private SuperGroup superGroupEntity;
     private Lesson lessonEntity;
+    private GroupTimeslot groupTimeslotEntity;
     
 
     @Override
@@ -123,5 +125,14 @@ public class ScheduleBean implements ScheduleBeanLocal {
             e.printStackTrace();
         }
         return timeslotEntity;
+    }
+    
+    @Override
+    public void createGroupTimeslot(String date, String timeFrom, String timeEnd, 
+                String title, String details, String venue, ProjectGroup projectGroup) {
+        groupTimeslotEntity = new GroupTimeslot();
+        groupTimeslotEntity.createGroupTimeslot(date, timeFrom, timeEnd,title, details, venue, projectGroup);
+        em.persist(groupTimeslotEntity);
+        em.flush();
     }
 }
