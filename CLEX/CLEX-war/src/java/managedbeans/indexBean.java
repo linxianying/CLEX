@@ -145,6 +145,14 @@ public class indexBean {
         csbl.createModule("2017", "2", "none", "none", csbl.findCourse("LAM3201"));
         csbl.createModule("2017", "2", "none", "none", csbl.findCourse("TIE2010"));
         
+        
+        //create superGroup for current sem
+        csbl.createSuperGroup(3, 2, 3, csbl.findModule("PS2240", "2017", "2"));
+        csbl.createSuperGroup(3, 1, 3, csbl.findModule("PC2193", "2017", "2"));
+        csbl.createSuperGroup(3, 3, 3, csbl.findModule("SC3101", "2017", "2"));
+        csbl.createSuperGroup(4, 2, 3, csbl.findModule("LAM3201", "2017", "2"));
+        csbl.createSuperGroup(5, 2, 3, csbl.findModule("TIE2010", "2017", "2"));
+        
         csbl.linkLecturerModule("lecturer", "PS2240", "2017", "2");
         csbl.linkLecturerModule("hsianghui2", "PC2193", "2017", "2");
         csbl.linkLecturerModule("hsianghui3", "SC3101", "2017", "2");

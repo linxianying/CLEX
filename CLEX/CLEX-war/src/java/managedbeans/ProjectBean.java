@@ -25,9 +25,8 @@ public class ProjectBean {
     @EJB
     private ClexSessionBeanLocal csbl;
     
-    private User userEntity;
+    private User user;
     private String username;
-    private String userType;
     
     public ProjectBean() {
     }
@@ -41,11 +40,11 @@ public class ProjectBean {
     }
 
     public User getUserEntity() {
-        return userEntity;
+        return user;
     }
 
-    public void setUserEntity(User userEntity) {
-        this.userEntity = userEntity;
+    public void setUserEntity(User user) {
+        this.user = user;
     }
 
     public String getUsername() {
@@ -56,12 +55,5 @@ public class ProjectBean {
         this.username = username;
     }
 
-    public String getUserType() {
-        return userType;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
-    }
     
 }
