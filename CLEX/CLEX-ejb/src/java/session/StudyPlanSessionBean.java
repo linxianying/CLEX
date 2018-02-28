@@ -59,7 +59,7 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     private double expectedCap; 
     private HashMap<String,String> expectedCourseGrade;
 
-     @Override
+    @Override
     public Student findStudent(String username) {
         Student u = new Student();
         u = null;
