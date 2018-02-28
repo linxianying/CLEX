@@ -96,6 +96,12 @@
                                         <br />
                                         <h:outputText value="grades:" />
                                         <h:outputText value="#{grade.moduleGrade}" />
+                                        <br />
+                                        <h:outputText value="workload:" />
+                                        <h:outputText value="#{grade.module.course.workload}" />
+                                        <br />
+                                        <h:outputText value="module information:" />
+                                        <h:outputText value="#{grade.module.course.moduleInfo}" />
                                     </p:panel>
                                 </p:column>
                             </p:dataList>
@@ -117,7 +123,13 @@
                                         <h:outputText value="#{module.course.moduleName}" />
                                         <br />
                                         <h:outputText value="credits:" />
-                                    <h:outputText value="#{module.course.modularCredits}" />
+                                        <h:outputText value="#{module.course.modularCredits}" />
+                                        <br />
+                                        <h:outputText value="workload:" />
+                                        <h:outputText value="#{module.course.workload}" />
+                                        <br />
+                                        <h:outputText value="module information:" />
+                                        <h:outputText value="#{module.course.moduleInfo}" />
                                     </p:panel>
                                     Expected Grade: 
                                     <p:selectOneMenu id="newCurrentGrade" value="#{studyPlanBean.newCurrentModuleGrade}" style="width:150px">
@@ -158,6 +170,12 @@
                                     <br />
                                     <h:outputText value="credits:" />
                                     <h:outputText value="#{sp.course.modularCredits}" />
+                                    <br />
+                                    <h:outputText value="workload:" />
+                                    <h:outputText value="#{sp.course.workload}" />
+                                    <br />
+                                    <h:outputText value="module information:" />
+                                    <h:outputText value="#{sp.course.moduleInfo}" />
                                 </p:panel>
                                 <p:column>
                                     <p:commandButton  value="delete" update="@form" actionListener="#{studyPlanBean.deleteStudyPlan(sp.course.moduleCode)}" action="studyPlan?faces-redirect=true" id="deleteStudyPlan-button" />
