@@ -16,17 +16,22 @@ import java.io.OutputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperRunManager;
+import static org.primefaces.component.focus.Focus.PropertyKeys.context;
 import session.ClassroomSessionBeanLocal;
 import session.ClexSessionBeanLocal;
+import session.CourseMgmtBeanLocal;
 
 /**
  *
@@ -46,6 +51,8 @@ public class ClassroomBean {
     private ClexSessionBeanLocal csbl;
     @EJB
     private ClassroomSessionBeanLocal crsbl;
+    @EJB
+    CourseMgmtBeanLocal cmbl;
     
     private Lecturer lecturerEntity;
     private String username;
@@ -54,8 +61,19 @@ public class ClassroomBean {
     private ArrayList<Poll> polls ;
     private ArrayList<Module> modules;
     
+    FacesContext context;
+    HttpSession session;
     
     public ClassroomBean() {
+    }
+    
+    @PostConstruct
+    public void init() { 
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+        lecturerEntity = (Lecturer) session.getAttribute("user");
+        username = lecturerEntity.getUsername();
+        //modules = cmbl.getModulesFromLecturer(username);
     }
     
     public void testViewPolls(){
@@ -63,8 +81,8 @@ public class ClassroomBean {
     }
     
     public void viewModules(){
-        lecturerEntity = csbl.findLecturer("lecturer");
-        //lecturerEntity = csbl.findLecturer(username);
+        //lecturerEntity = csbl.findLecturer("lecturer");
+        lecturerEntity = csbl.findLecturer(username);
         if(lecturerEntity!=null)
             modules = crsbl.viewModules(lecturerEntity);
     }
