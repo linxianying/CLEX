@@ -99,6 +99,7 @@ public class StudyPlanBean {
         addButton = true;
         System.out.println("addButton:" + addButton);
         System.out.println("finish to render StudyPlanBean");
+        
         model = new DefaultDashboardModel();
         DashboardColumn column1 = new DefaultDashboardColumn();
         DashboardColumn column2 = new DefaultDashboardColumn();
@@ -383,26 +384,20 @@ public class StudyPlanBean {
         if (cpsbl.findCourse(addModuleCode) == null) {
             addErrorMsg = "Course " + addModuleCode + " does not exist";
             this.addButton = false;
-            RequestContext context = RequestContext.getCurrentInstance();
-            context.update("addForm:addStudyPlanButton");
-            System.out.println("addButton:" + addButton);
         }
         //this course already in studyPlan
         else if (cpsbl.checkStudyPlan(username, addModuleCode)) {
             addErrorMsg = "Course " + addModuleCode + " already exists in your study plan";
             this.addButton = false;
-            System.out.println("addButton:" + addButton);
         }
         //this course already in takenCourses list
         else if (cpsbl.checkStudentModule(username, addModuleCode)) {
             addErrorMsg = "You have already taken course " + addModuleCode;
             this.addButton = false;
-            System.out.println("addButton:" + addButton);
         }
         else {
             addErrorMsg = null;
             this.addButton = true;
-            System.out.println("addButton:" + addButton);
         }
     }
     
