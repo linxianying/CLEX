@@ -19,25 +19,64 @@
             <div>
                 <div id="content" class="left_content">
                     <h:form id="formJasperReport">
-            
                         <p:panel header="Test JasperReport Generation">
 
                             <p:commandButton value="Generate" actionListener="#{classroomBean.generateReport}" ajax="false" />
 
                         </p:panel>
-
                         
-                        <p:panel header="Test View Polls">
+                        <p:panel header="Test View Example Polls">
 
-                            <p:commandButton value="View Polls" actionListener="#{classroomBean.testViewPolls}" ajax="false" />
+                            <p:commandButton value="View Example Polls" actionListener="#{classroomBean.testViewPolls}" ajax="false" />
 
                         </p:panel>
                         
-                        <p:panel header="Test View Modules">
+                        <p:panel header="Test View Modules and Polls">
 
-                            <p:commandButton value="View Modules" actionListener="#{classroomBean.viewModules}" ajax="false" />
+                            <p:commandButton value="View Modules and Polls" actionListener="#{classroomBean.viewModules}" ajax="false" />
 
                         </p:panel>
+                    </h:form>
+                    
+                    <h:form>
+                        <p:dataTable var="poll" value="#{classroomBean.polls}" widgetVar="pollsTable"
+                                  emptyMessage="No polls found with given criteria." >
+                            <f:facet name="header">
+                                <p:outputPanel>
+                                    <h:outputText value="Search all fields:" />
+                                    <p:inputText id="globalFilter" onkeyup="PF('pollsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                </p:outputPanel>
+                            </f:facet>
+
+                            <p:column filterBy="#{poll.type}" headerText="Poll Type" filterMatchMode="in">
+                                <f:facet name="filter">
+                                    <p:selectCheckboxMenu label="Poll Types" onchange="PF('pollsTable').filter()" panelStyle="width:125px" scrollHeight="150">
+                                        <f:selectItems value="test" />
+                                    </p:selectCheckboxMenu>
+                                </f:facet>
+                                <h:outputText value="#{poll.type}" />
+                            </p:column>
+
+                            <p:column filterBy="#{poll.id}" headerText="ID" filterMatchMode="contains">
+                                <h:outputText value="#{poll.id}" />
+                            </p:column>
+
+                            <p:column filterBy="#{poll.datetime}" headerText="Datetime" filterMatchMode="contains">
+                                <h:outputText value="#{poll.datetime}" />
+                            </p:column>
+
+                            <p:column filterBy="#{poll.content}" headerText="Content" filterMatchMode="contains">
+                                <h:outputText value="#{poll.content}" />
+                            </p:column>
+
+                            <p:column filterBy="#{poll.topic}" headerText="Topic" filterMatchMode="contains">
+                                <h:outputText value="#{poll.topic}" />
+                            </p:column>
+
+                            <p:column filterBy="#{poll.correctRate}" headerText="Correct Rate" filterMatchMode="contains">
+                                <h:outputText value="#{poll.correctRate}" />
+                            </p:column>
+                        </p:dataTable>
                     </h:form>
                 </div>
             </div>

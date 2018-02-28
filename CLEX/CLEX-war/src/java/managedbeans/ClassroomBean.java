@@ -73,6 +73,14 @@ public class ClassroomBean {
         session = (HttpSession) context.getExternalContext().getSession(true);
         lecturerEntity = (Lecturer) session.getAttribute("user");
         username = lecturerEntity.getUsername();
+        System.out.println("Lecturer Name: " + username);
+        if(lecturerEntity!=null){
+            modules = crsbl.viewModules(lecturerEntity);
+            polls = crsbl.testViewPolls();
+        }
+        
+        System.out.println("ClassroomBean: initial finished");
+
         //modules = cmbl.getModulesFromLecturer(username);
     }
     
