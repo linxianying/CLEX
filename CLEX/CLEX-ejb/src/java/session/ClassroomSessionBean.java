@@ -214,10 +214,18 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
     
     @Override
     public ArrayList<Poll> viewPolls(Module module) {
-        ArrayList<Poll> polls = (ArrayList) module.getPolls();
-        Iterator<Poll> itr = polls.iterator();
-        while (itr.hasNext()) {
-          Poll p = itr.next();
+        
+        Collection<Poll> pollsCollection =  module.getPolls();
+        ArrayList<Poll> polls = new ArrayList<Poll>();
+        Iterator<Poll> itr = pollsCollection.iterator();
+        while(itr.hasNext()){
+            Poll p = itr.next();
+            polls.add(p);
+        }
+        
+        Iterator<Poll> iterator = polls.iterator();
+        while (iterator.hasNext()) {
+          Poll p = iterator.next();
           System.out.println(p.getDatetime() + " " + p.getTopic() + " " + p.getContent()
           + " " + p.getCorrectRate());
         }
@@ -229,10 +237,16 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
     
     @Override
     public ArrayList<Module> viewModules(Lecturer lecturer){
-        ArrayList<Module> modules = (ArrayList) lecturer.getModules();
-        Iterator<Module> itr = modules.iterator();
-        while (itr.hasNext()) {
-            Module m = itr.next();
+        Collection<Module> modulesCollection = lecturer.getModules();
+        ArrayList<Module> modules = new ArrayList<Module>();
+        Iterator<Module> itr = modulesCollection.iterator();
+        while(itr.hasNext()){
+            Module module = itr.next();
+            modules.add(module);
+        }
+        Iterator<Module> iterator = modules.iterator();
+        while (iterator.hasNext()) {
+            Module m = iterator.next();
             System.out.println(m.getCourse().getModuleCode()+ " " + 
                 m.getCourse().getModularCredits() + " " + m.getTakenYear() 
                 + "/" + m.getTakenSem() + " ");

@@ -63,7 +63,7 @@ public class ClassroomBean {
     }
     
     public void viewModules(){
-        lecturerEntity = csbl.findLecturer("hsianghui2");
+        lecturerEntity = csbl.findLecturer("lecturer");
         modules = crsbl.viewModules(lecturerEntity);
     }
     

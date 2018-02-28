@@ -82,36 +82,74 @@ public class indexBean {
         csbl.createModule("2015", "1", "none", "none", csbl.findCourse("LAG2201"));
         csbl.createModule("2015", "1", "none", "none", csbl.findCourse("ES1102"));
         csbl.createModule("2015", "1", "none", "none", csbl.findCourse("CL2280"));
+        
+        csbl.linkLecturerModule("lecturer", "CP3109", "2015", "1");
+        csbl.linkLecturerModule("hsianghui2", "YIR3312", "2015", "1");
+        csbl.linkLecturerModule("hsianghui3", "LAG2201", "2015", "1");
+        csbl.linkLecturerModule("hsianghui2", "ES1102", "2015", "1");
+        csbl.linkLecturerModule("hsianghui3", "CL2280", "2015", "1");
         //modules for 2015, sem 2
         csbl.createModule("2015", "2", "none", "none", csbl.findCourse("IS3106"));
         csbl.createModule("2015", "2", "none", "none", csbl.findCourse("CL2281"));
         csbl.createModule("2015", "2", "none", "none", csbl.findCourse("PL1101E"));
         csbl.createModule("2015", "2", "none", "none", csbl.findCourse("CM4254"));
         csbl.createModule("2015", "2", "none", "none", csbl.findCourse("YHU1210"));
+        
+        csbl.linkLecturerModule("lecturer", "IS3106", "2015", "2");
+        csbl.linkLecturerModule("hsianghui2", "CL2281", "2015", "2");
+        csbl.linkLecturerModule("hsianghui3", "PL1101E", "2015", "2");
+        csbl.linkLecturerModule("hsianghui4", "CM4254", "2015", "2");
+        csbl.linkLecturerModule("hsianghui4", "YHU1210", "2015", "2");
         //modules for 2016, sem 1
         csbl.createModule("2016", "1", "none", "none", csbl.findCourse("CS1020"));
         csbl.createModule("2016", "1", "none", "none", csbl.findCourse("EC3551"));
         csbl.createModule("2016", "1", "none", "none", csbl.findCourse("FIN3103A"));
         csbl.createModule("2016", "1", "none", "none", csbl.findCourse("ACC1701X"));
         csbl.createModule("2016", "1", "none", "none", csbl.findCourse("MS3212"));
+        
+        csbl.linkLecturerModule("lecturer", "CS1020", "2016", "1");
+        csbl.linkLecturerModule("hsianghui2", "EC3551", "2016", "1");
+        csbl.linkLecturerModule("hsianghui3", "FIN3103A", "2016", "1");
+        csbl.linkLecturerModule("hsianghui4", "ACC1701X", "2016", "1");
+        csbl.linkLecturerModule("hsianghui4", "MS3212", "2016", "1");
         //modules for 2016, sem 2
         csbl.createModule("2016", "2", "none", "none", csbl.findCourse("CS2100"));
         csbl.createModule("2016", "2", "none", "none", csbl.findCourse("IE1111"));
         csbl.createModule("2016", "2", "none", "none", csbl.findCourse("PF3302"));
         csbl.createModule("2016", "2", "none", "none", csbl.findCourse("MA2101"));
         csbl.createModule("2016", "2", "none", "none", csbl.findCourse("CL3551"));
+        
+        csbl.linkLecturerModule("lecturer", "CS2100", "2016", "2");
+        csbl.linkLecturerModule("hsianghui2", "IE1111", "2016", "2");
+        csbl.linkLecturerModule("hsianghui3", "PF3302", "2016", "2");
+        csbl.linkLecturerModule("hsianghui4", "MA2101", "2016", "2");
+        csbl.linkLecturerModule("hsianghui4", "CL3551", "2016", "2");
+        
         //modules for 2017, sem 1
         csbl.createModule("2017", "1", "none", "none", csbl.findCourse("GER1000"));
         csbl.createModule("2017", "1", "none", "none", csbl.findCourse("RE2102"));
         csbl.createModule("2017", "1", "none", "none", csbl.findCourse("MLE2101"));
         csbl.createModule("2017", "1", "none", "none", csbl.findCourse("NM4227"));
         csbl.createModule("2017", "1", "none", "none", csbl.findCourse("LAL1201"));
+        
+        csbl.linkLecturerModule("lecturer", "GER1000", "2017", "1");
+        csbl.linkLecturerModule("hsianghui2", "RE2102", "2017", "1");
+        csbl.linkLecturerModule("hsianghui3", "MLE2101", "2017", "1");
+        csbl.linkLecturerModule("hsianghui4", "NM4227", "2017", "1");
+        csbl.linkLecturerModule("hsianghui4", "LAL1201", "2017", "1");
+        
         //modules for 2017, sem 2, which is current year sem
         csbl.createModule("2017", "2", "none", "none", csbl.findCourse("PS2240"));
         csbl.createModule("2017", "2", "none", "none", csbl.findCourse("PC2193"));
         csbl.createModule("2017", "2", "none", "none", csbl.findCourse("SC3101"));
         csbl.createModule("2017", "2", "none", "none", csbl.findCourse("LAM3201"));
         csbl.createModule("2017", "2", "none", "none", csbl.findCourse("TIE2010"));
+        
+        csbl.linkLecturerModule("lecturer", "PS2240", "2017", "2");
+        csbl.linkLecturerModule("hsianghui2", "PC2193", "2017", "2");
+        csbl.linkLecturerModule("hsianghui3", "SC3101", "2017", "2");
+        csbl.linkLecturerModule("hsianghui4", "LAM3201", "2017", "2");
+        csbl.linkLecturerModule("hsianghui4", "TIE2010", "2017", "2");
         //modules for 2018, sem 1
         //csbl.createModule("2018", "1", "none", "none", csbl.findCourse("ST2334"));
         //csbl.createModule("2018", "1", "none", "none", csbl.findCourse("BT4212"));
@@ -271,6 +309,9 @@ public class indexBean {
         crsbl.createPoll("GER1000", "2017", "1", "2017-01-27", "Final report", 0.53, "type", "How is the lecturer?");
         crsbl.createPoll("PC2193", "2017", "2", "2017-10-27", "Physics", 0.39, "type", "Do you understand the concepts");
         crsbl.createPoll("LAL1201", "2017", "1", "2017-04-17", "Language Learning Curve", 0.27, "type", "How is your learning experience?");
+        crsbl.createPoll("IE1111", "2016", "2", "2017-10-17", "IE", 0.38, "type", "How is your learning experience?");
+        
+        
         
     }
 }
