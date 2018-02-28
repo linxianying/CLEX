@@ -15,7 +15,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Random;
 import javax.ejb.EJB;
-import javax.faces.bean.RequestScoped;
 import session.ClexSessionBeanLocal;
 import session.StudyPlanSessionBeanLocal;
 import javax.annotation.PostConstruct;
@@ -23,14 +22,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.CloseEvent;
 import org.primefaces.event.DashboardReorderEvent;
 import org.primefaces.event.ToggleEvent;
-import org.primefaces.model.DashboardColumn;
 import org.primefaces.model.DashboardModel;
-import org.primefaces.model.DefaultDashboardColumn;
-import org.primefaces.model.DefaultDashboardModel;
 
 /**
  *
@@ -65,7 +60,7 @@ public class StudyPlanBean {
     private Student student;
     
     //private int year;
-    private DashboardModel model;
+    //private DashboardModel model;
     //for add study plan
     private String addModuleCode;
     private String addPickYear;
@@ -99,49 +94,8 @@ public class StudyPlanBean {
         addButton = true;
         System.out.println("addButton:" + addButton);
         System.out.println("finish to render StudyPlanBean");
-        
-        model = new DefaultDashboardModel();
-        DashboardColumn column1 = new DefaultDashboardColumn();
-        DashboardColumn column2 = new DefaultDashboardColumn();
-        DashboardColumn column3 = new DefaultDashboardColumn();
-        DashboardColumn column4 = new DefaultDashboardColumn();
-        DashboardColumn column5 = new DefaultDashboardColumn();
-        DashboardColumn column6 = new DefaultDashboardColumn();
-         
-        column1.addWidget("testMod1");
-        column1.addWidget("testMod2");  
-        column2.addWidget("testMod3");
-        column2.addWidget("testMod4");
-        column3.addWidget("testMod5");
- 
-        model.addColumn(column1);
-        model.addColumn(column2);
-        model.addColumn(column3);
-        model.addColumn(column4);
-        model.addColumn(column5);
-        model.addColumn(column6);
-    }
-     
-    public void handleReorder(DashboardReorderEvent event) {
-        FacesMessage message = new FacesMessage();
-        message.setSeverity(FacesMessage.SEVERITY_INFO);
-        message.setSummary("Reordered: " + event.getWidgetId());
-        message.setDetail("Item index: " + event.getItemIndex() + ", Column index: " + event.getColumnIndex() + ", Sender index: " + event.getSenderColumnIndex());
-         
-        addMessage(message);
     }
     
-    public void handleClose(CloseEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Panel Closed", "Closed panel id:'" + event.getComponent().getId() + "'");
-         
-        addMessage(message);
-    }
-     
-    public void handleToggle(ToggleEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, event.getComponent().getId() + " toggled", "Status:" + event.getVisibility().name());
-         
-        addMessage(message);
-    }
 
     public HashMap<String, String> getExpectedCourseGrade() {
         return expectedCourseGrade;
@@ -223,14 +177,7 @@ public class StudyPlanBean {
     public void setAllCredits(int allCredits) {
         this.allCredits = allCredits;
     }
-     
-    private void addMessage(FacesMessage message) {
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
-     
-    public DashboardModel getModel() {
-        return model;
-    }
+
 
     private String genSalt(){
         Random rng = new Random();
