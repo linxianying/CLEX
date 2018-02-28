@@ -18,25 +18,7 @@
             </div>
             <div>
                 <div id="content" class="left_content">
-                    <h:form id="formJasperReport">
-                        <p:panel header="Test JasperReport Generation">
-
-                            <p:commandButton value="Generate" actionListener="#{classroomBean.generateReport}" ajax="false" />
-
-                        </p:panel>
-                        
-                        <p:panel header="Test View Example Polls">
-
-                            <p:commandButton value="View Example Polls" actionListener="#{classroomBean.testViewPolls}" ajax="false" />
-
-                        </p:panel>
-                        
-                        <p:panel header="Test View Modules and Polls">
-
-                            <p:commandButton value="View Modules and Polls" actionListener="#{classroomBean.viewModules}" ajax="false" />
-
-                        </p:panel>
-                    </h:form>
+                    
                     
                     <h:form>
                         <p:dataTable var="poll" value="#{classroomBean.polls}" widgetVar="pollsTable"
@@ -77,6 +59,26 @@
                                 <h:outputText value="#{poll.correctRate}" />
                             </p:column>
                         </p:dataTable>
+                    </h:form>
+                    
+                    <h:form id="formJasperReport">
+                        <p:panel header="Test JasperReport Generation">
+
+                            <p:commandButton value="Generate" actionListener="#{classroomBean.generateReport}" ajax="false" />
+
+                        </p:panel>
+                        
+                        <p:panel header="Test View Example Polls">
+
+                            <p:commandButton value="View Example Polls" actionListener="#{classroomBean.testViewPolls}" ajax="false" />
+
+                        </p:panel>
+                        
+                        <p:panel header="Test View Modules and Polls">
+
+                            <p:commandButton value="View Modules and Polls" actionListener="#{classroomBean.viewModules}" ajax="false" />
+
+                        </p:panel>
                     </h:form>
                 </div>
             </div>

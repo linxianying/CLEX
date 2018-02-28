@@ -38,4 +38,8 @@ public interface ClassroomSessionBeanLocal {
     
     public ArrayList<Poll> viewPolls(Module module);
     
+    //public ArrayList<Poll> viewAllPolls(Lecturer lecturer);
+    
+    public ArrayList<Poll> viewPolls(Lecturer lecturer);
+    
 }

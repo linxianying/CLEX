@@ -244,6 +244,8 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
     public ArrayList<Module> viewModules(Lecturer lecturer){
         Collection<Module> modulesCollection = lecturer.getModules();
         ArrayList<Module> modules = new ArrayList<Module>();
+        ArrayList<Poll> temp = new ArrayList<Poll>();
+        ArrayList<Poll> polls = new ArrayList<Poll>();
         Iterator<Module> itr = modulesCollection.iterator();
         while(itr.hasNext()){
             Module module = itr.next();
@@ -256,9 +258,42 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
                 m.getCourse().getModularCredits() + " " + m.getTakenYear() 
                 + "/" + m.getTakenSem() + " ");
             System.out.println("Polls of Module " + m.getCourse().getModuleCode());
-            viewPolls(m);
+            temp = viewPolls(m);
+            addTwoArrayList(polls,temp);
         }
         return modules;
+    }
+    
+    @Override
+    public ArrayList<Poll> viewPolls(Lecturer lecturer){
+        Collection<Module> modulesCollection = lecturer.getModules();
+        ArrayList<Module> modules = new ArrayList<Module>();
+        ArrayList<Poll> temp = new ArrayList<Poll>();
+        ArrayList<Poll> polls = new ArrayList<Poll>();
+        Iterator<Module> itr = modulesCollection.iterator();
+        while(itr.hasNext()){
+            Module module = itr.next();
+            modules.add(module);
+        }
+        Iterator<Module> iterator = modules.iterator();
+        while (iterator.hasNext()) {
+            Module m = iterator.next();
+            System.out.println(m.getCourse().getModuleCode()+ " " + 
+                m.getCourse().getModularCredits() + " " + m.getTakenYear() 
+                + "/" + m.getTakenSem() + " ");
+            System.out.println("Polls of Module " + m.getCourse().getModuleCode());
+            temp = viewPolls(m);
+            addTwoArrayList(polls,temp);
+        }
+        return polls;
+    }
+    
+    public void addTwoArrayList(ArrayList<Poll> polls, ArrayList<Poll> temp){
+        Iterator<Poll> iterator = temp.iterator();
+        while (iterator.hasNext()) {
+            Poll p = iterator.next();
+            polls.add(p);
+        }
     }
     
     public ArrayList<Poll> viewPollsByTopic(Module module, String topic){

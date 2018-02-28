@@ -76,7 +76,7 @@ public class ClassroomBean {
         System.out.println("Lecturer Name: " + username);
         if(lecturerEntity!=null){
             modules = crsbl.viewModules(lecturerEntity);
-            polls = crsbl.testViewPolls();
+            polls = crsbl.viewPolls(lecturerEntity);
         }
         
         System.out.println("ClassroomBean: initial finished");

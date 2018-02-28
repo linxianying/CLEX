@@ -10,27 +10,32 @@ import entity.Lecturer;
 import entity.Lesson;
 import entity.Module;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 import javax.servlet.http.HttpSession;
+import session.ClassroomSessionBeanLocal;
 import session.CourseMgmtBeanLocal;
 
 /**
  *
  * @author eeren
  */
-@ManagedBean
+@Named(value = "lecturerModuleListBean")
 @ViewScoped
 public class LecturerModuleListBean implements Serializable{
 
     @EJB
     CourseMgmtBeanLocal cmbl;
+    @EJB
+    private ClassroomSessionBeanLocal crsbl;
     
-    private List<Module> modules;
+    private ArrayList<Module> modules;
     private List<Module> filteredModules;
     
     private List<Lesson> lessons;
@@ -51,15 +56,17 @@ public class LecturerModuleListBean implements Serializable{
         session = (HttpSession) context.getExternalContext().getSession(true);
         lecturerEntity = (Lecturer) session.getAttribute("user");
         username = lecturerEntity.getUsername();
-        modules = (List) cmbl.getModulesFromLecturer(username);
+        modules = crsbl.viewModules(lecturerEntity);
+        System.out.println(modules);
+        //modules = (List) cmbl.getModulesFromLecturer(username);
         //lessons = cmbl.getAllLessons();
     }
 
-    public List<Module> getModules() {
+    public ArrayList<Module> getModules() {
         return modules;
     }
 
-    public void setModules(List<Module> modules) {
+    public void setModules(ArrayList<Module> modules) {
         this.modules = modules;
     }
 
