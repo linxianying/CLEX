@@ -197,7 +197,7 @@
                     <br />
                     <h:form>
                         Enter Module Code:<p:inputText value="#{studyPlanBean.addModuleCode}" required="true">
-                            <p:ajax event="change" update="addErrorMsg" listener="#{studyPlanBean.checkStudyPlan}" />
+                            <p:ajax event="change" update="addStudyPlanButton addErrorMsg" listener="#{studyPlanBean.checkStudyPlan}" />
                         </p:inputText>
                         <h:outputText id="addErrorMsg" value="#{studyPlanBean.addErrorMsg}" />
                         <br />
@@ -209,7 +209,7 @@
                             <f:selectItem itemLabel="2" itemValue="2" />
                         </p:selectOneMenu>
                         <br />
-                        <p:commandButton value="add" actionListener="#{studyPlanBean.addStudyPlan()}" action="studyPlan?faces-redirect=true" id="addStudyPlan-button" />
+                        <p:commandButton value="add" rendered="#{studyPlanBean.addButton}" actionListener="#{studyPlanBean.addStudyPlan()}" action="studyPlan?faces-redirect=true" id="addStudyPlanButton" />
                     </h:form>
                     <br />
                     <div style="height:500px">

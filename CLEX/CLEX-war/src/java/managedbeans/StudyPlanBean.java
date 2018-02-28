@@ -70,7 +70,7 @@ public class StudyPlanBean {
     private String addPickYear;
     private String addPickSem;
     private String addErrorMsg;
-    
+    private boolean addButton;
     
     public StudyPlanBean() {
     }
@@ -91,7 +91,8 @@ public class StudyPlanBean {
         this.setNewCurrentModuleGrade("A+");
         //newCurrentModuleGrade = "A+";
         allCredits = cpsbl.getNumOfCredits(username);
-        System.out.println("finish to update studyPlansInOrer");
+        addButton = true;
+        System.out.println("finish to render StudyPlanBean");
         model = new DefaultDashboardModel();
         DashboardColumn column1 = new DefaultDashboardColumn();
         DashboardColumn column2 = new DefaultDashboardColumn();
@@ -352,6 +353,10 @@ public class StudyPlanBean {
         return takenCoursesInOrder;
     }
 
+    public void setTakenCoursesInOrder(ArrayList<ArrayList<Course>> takenCoursesInOrder) {
+        this.takenCoursesInOrder = takenCoursesInOrder;
+    }
+    
     public String getAddErrorMsg() {
         return addErrorMsg;
     }
@@ -361,22 +366,35 @@ public class StudyPlanBean {
         this.addErrorMsg = addErrorMsg;
     }
 
-    public void setTakenCoursesInOrder(ArrayList<ArrayList<Course>> takenCoursesInOrder) {
-        this.takenCoursesInOrder = takenCoursesInOrder;
+    public boolean isAddButton() {
+        return addButton;
     }
+
+    public void setAddButton(boolean addButton) {
+        this.addButton = addButton;
+    }
+
     
     public void checkStudyPlan() {
         //this course does not exist
-        if (cpsbl.findCourse(addModuleCode) == null)
+        if (cpsbl.findCourse(addModuleCode) == null) {
             addErrorMsg = "Course " + addModuleCode + " does not exist";
+            this.addButton = false;
+        }
         //this course already in studyPlan
-        else if (cpsbl.checkStudyPlan(username, addModuleCode))
+        else if (cpsbl.checkStudyPlan(username, addModuleCode)) {
             addErrorMsg = "Course " + addModuleCode + " already exists in your study plan";
+            this.addButton = false;
+        }
         //this course already in takenCourses list
-        else if (cpsbl.checkStudentModule(username, addModuleCode))
+        else if (cpsbl.checkStudentModule(username, addModuleCode)) {
             addErrorMsg = "You have already taken course " + addModuleCode;
-        else
+            this.addButton = false;
+        }
+        else {
             addErrorMsg = null;
+            this.addButton = true;
+        }
     }
     
     public void addStudyPlan() {
