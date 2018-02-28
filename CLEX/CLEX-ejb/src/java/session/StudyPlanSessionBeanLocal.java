@@ -12,6 +12,7 @@ import entity.Student;
 import entity.StudyPlan;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import javax.ejb.Local;
 
 /**
@@ -77,13 +78,15 @@ public interface StudyPlanSessionBeanLocal {
 
     public double updateExpectedCapTwo(int allCredits, double cap, int newModuleCredit, String newModuleGrade);
 
-    public ArrayList<Course> getExpectedCurrentCourses(String username);
+    //public ArrayList<Course> getExpectedCurrentCourses(String username);
 
-    public ArrayList<Course> getExpectedStudyPlanCourses(String username);
+    //public ArrayList<Course> getExpectedStudyPlanCourses(String username);
 
     public double updateExpectedCapOne(int allCredits, double cap, int newModuleCredit, String oldGrade);
 
     public double updateExpectedCapFour(int allCredits, double cap, int newModuleCredit, String newModuleGrade, String oldGrade);
+
+    public HashMap<String, String> getExpectedCourseGrade(String username);
     
     
 }

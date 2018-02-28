@@ -13,6 +13,7 @@ import entity.StudyPlan;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -56,7 +57,7 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     private ArrayList<ArrayList<Grade>> gradesInOrder;
     private double currentCap;
     private double expectedCap; 
-
+    private HashMap<String,String> expectedCourseGrade;
 
      @Override
     public Student findStudent(String username) {
@@ -742,31 +743,21 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         return numOfSemTaken;
     }
     
-
-    //in short, get all current courses that can have an expected grade
     @Override
-    public ArrayList<Course> getExpectedCurrentCourses(String username) {
-        expectedCurrentCourses = new ArrayList<Course>();
+    public HashMap<String,String> getExpectedCourseGrade(String username) {
+        expectedCourseGrade = new HashMap<String,String>();
         takingModules = new ArrayList<Module>();
         takingModules = this.getCurrentModules(username);
         for (Module m: takingModules) {
-            expectedCurrentCourses.add(m.getCourse());
+            expectedCourseGrade.put(m.getCourse().getModuleCode(), "none");
         }
-        return expectedCurrentCourses;
-    }
-    
-    //in short, get all courses in study plan that can have an expected grade
-    @Override
-    public ArrayList<Course> getExpectedStudyPlanCourses(String username) {
-        expectedStudyPlanCourses = new ArrayList<Course>();
         studyPlans = new ArrayList<StudyPlan>();
         studyPlans = this.getAllStudyPlans(username);
         for (StudyPlan s: studyPlans) {
-            expectedStudyPlanCourses.add(s.getCourse());
+            expectedCourseGrade.put(s.getCourse().getModuleCode(), "none");
         }
-        return expectedStudyPlanCourses;
+        return expectedCourseGrade;
     }
-    
     
     
     

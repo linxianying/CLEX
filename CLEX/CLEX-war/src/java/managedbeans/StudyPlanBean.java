@@ -54,8 +54,6 @@ public class StudyPlanBean {
     private ArrayList<ArrayList<Grade>> gradesInOrder;
     private ArrayList<Module> takingModules;
     private Collection<StudyPlan> studyPlans;
-    private ArrayList<Course> expectedCurrentCourses;
-    private ArrayList<Course> expectedStudyPlanCourses;
     private ArrayList<ArrayList<StudyPlan>> studyPlansInOrer;
     private HashMap<String,String> expectedCourseGrade;
     private double cap;
@@ -85,8 +83,7 @@ public class StudyPlanBean {
         gradesInOrder = cpsbl.getAllGradesInOrder(username);
         takingModules = cpsbl.getCurrentModules(username);
         studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
-        //expectedCurrentCourses = cpsbl.getExpectedCurrentCourses(username);
-        //expectedStudyPlanCourses = cpsbl.getExpectedStudyPlanCourses(username);
+        expectedCourseGrade = cpsbl.getExpectedCourseGrade(username);
         expectedCap = cap;
         System.out.println("Expected Cap reset to " + expectedCap);
         this.setNewModuleGrade("A+");
@@ -146,21 +143,6 @@ public class StudyPlanBean {
         this.expectedCourseGrade = expectedCourseGrade;
     }
 
-    public ArrayList<Course> getExpectedCurrentCourses() {
-        return expectedCurrentCourses;
-    }
-
-    public void setExpectedCurrentCourses(ArrayList<Course> expectedCurrentCourses) {
-        this.expectedCurrentCourses = expectedCurrentCourses;
-    }
-
-    public ArrayList<Course> getExpectedStudyPlanCourses() {
-        return expectedStudyPlanCourses;
-    }
-
-    public void setExpectedStudyPlanCourses(ArrayList<Course> expectedStudyPlanCourses) {
-        this.expectedStudyPlanCourses = expectedStudyPlanCourses;
-    }
 
     public String getAddModuleCode() {
         return addModuleCode;
