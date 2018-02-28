@@ -18,7 +18,15 @@
             </div>
             <div>
                 <div id="content" class="left_content">
-                    <ui:insert name="content">Fill in here</ui:insert>
+                    <h:form id="formJasperReport">
+            
+                        <p:panel header="Test JasperReport Generation">
+
+                            <p:commandButton value="Generate" actionListener="#{classroomBean.generateReport}" ajax="false" />
+
+                        </p:panel>
+
+                    </h:form>
                 </div>
             </div>
 
