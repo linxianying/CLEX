@@ -64,7 +64,9 @@ public class ClassroomBean {
     
     public void viewModules(){
         lecturerEntity = csbl.findLecturer("lecturer");
-        modules = crsbl.viewModules(lecturerEntity);
+        //lecturerEntity = csbl.findLecturer(username);
+        if(lecturerEntity!=null)
+            modules = crsbl.viewModules(lecturerEntity);
     }
     
     public void generateReport(ActionEvent event){
