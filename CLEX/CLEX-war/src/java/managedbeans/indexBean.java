@@ -181,13 +181,18 @@ public class indexBean {
         
         //set student "namename" with taken modules 
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("CP3109", "2015", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("YIR3312", "2015", "1"));
+        //csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("YIR3312", "2015", "1"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("LAG2201", "2015", "1"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("ES1102", "2015", "1"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("CL2280", "2015", "1"));
         
         csbl.setStudentTakenModules(csbl.findStudent("aaaaaa"), csbl.findModule("CP3109", "2015", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("YIR3312", "2015", "1"));
+        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("CP3109", "2015", "1"));
+        csbl.setStudentTakenModules(csbl.findStudent("cccccc"), csbl.findModule("CP3109", "2015", "1"));
+        csbl.setStudentTakenModules(csbl.findStudent("dddddd"), csbl.findModule("CP3109", "2015", "1"));
+        csbl.setStudentTakenModules(csbl.findStudent("eeeeee"), csbl.findModule("CP3109", "2015", "1"));
+        csbl.setStudentTakenModules(csbl.findStudent("ffffff"), csbl.findModule("CP3109", "2015", "1"));
+        //csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("YIR3312", "2015", "1"));
         csbl.setStudentTakenModules(csbl.findStudent("cccccc"), csbl.findModule("LAG2201", "2015", "1"));
         csbl.setStudentTakenModules(csbl.findStudent("dddddd"), csbl.findModule("ES1102", "2015", "1"));
         csbl.setStudentTakenModules(csbl.findStudent("eeeeee"), csbl.findModule("CL2280", "2015", "1"));
@@ -206,6 +211,10 @@ public class indexBean {
         csbl.setStudentTakenModules(csbl.findStudent("ffffff"), csbl.findModule("YHU1210", "2015", "2"));
         
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("CS1020", "2016", "1"));
+        csbl.setStudentTakenModules(csbl.findStudent("aaaaaa"), csbl.findModule("CS1020", "2016", "1"));
+        csbl.setStudentTakenModules(csbl.findStudent("jjjjjj"), csbl.findModule("CS1020", "2016", "1"));
+        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("CS1020", "2016", "1"));
+        csbl.setStudentTakenModules(csbl.findStudent("cccccc"), csbl.findModule("CS1020", "2016", "1"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("EC3551", "2016", "1"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("FIN3103A", "2016", "1"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("ACC1701X", "2016", "1"));
@@ -218,6 +227,9 @@ public class indexBean {
         csbl.setStudentTakenModules(csbl.findStudent("dddddd"), csbl.findModule("MS3212", "2016", "1"));
       
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("CS2100", "2016", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("aaaaaa"), csbl.findModule("CS2100", "2016", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("dddddd"), csbl.findModule("CS2100", "2016", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("gggggg"), csbl.findModule("CS2100", "2016", "2"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("IE1111", "2016", "2"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("PF3302", "2016", "2"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("MA2101", "2016", "2"));
@@ -243,12 +255,16 @@ public class indexBean {
 
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("PS2240", "2017", "2"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("PC2193", "2017", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("aaaaaa"), csbl.findModule("PS2240", "2017", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("PC2193", "2017", "2"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("SC3101", "2017", "2"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("LAM3201", "2017", "2"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("TIE2010", "2017", "2"));
         
-        csbl.setStudentTakenModules(csbl.findStudent("aaaaaa"), csbl.findModule("PS2240", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("PC2193", "2017", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("PS2240", "2017", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("iiiiii"), csbl.findModule("PS2240", "2017", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("gggggg"), csbl.findModule("PS2240", "2017", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("hhhhhh"), csbl.findModule("PC2193", "2017", "2"));
         csbl.setStudentTakenModules(csbl.findStudent("aaaaaa"), csbl.findModule("SC3101", "2017", "2"));
         csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("LAM3201", "2017", "2"));
         csbl.setStudentTakenModules(csbl.findStudent("cccccc"), csbl.findModule("TIE2010", "2017", "2"));
@@ -336,7 +352,7 @@ public class indexBean {
         
         
         crsbl.createPoll("CS2100", "2016", "2", "2016-08-27", "Computer Organization", 0.35, "type", "Do you like this course?");
-        crsbl.createPoll("CP3109", "2015", "1", "2015-04-27", "Project", 0.68, "type", "Do you think this course bring you something useful");
+        
         crsbl.createPoll("CS1020", "2016", "1", "2016-01-30", "Java OOP Concepts", 0.70, "type", "Do you feel familiar with four OOP concepts?");
         crsbl.createPoll("GER1000", "2017", "1", "2017-02-27", "Final report", 0.38, "type", "How is your final report going?");
         crsbl.createPoll("PC2193", "2017", "2", "2017-11-27", "Physics", 0.31, "type", "Do you like this course?");
@@ -344,7 +360,9 @@ public class indexBean {
         crsbl.createPoll("CS2100", "2016", "2", "2016-08-27", "Computer Organization", 0.38, "type", "Do you like this course?");
         crsbl.createPoll("CP3109", "2015", "1", "2015-01-29", "Project", 0.11, "type", "Do you think this course bring you something interesting");
         crsbl.createPoll("CS1020", "2016", "1", "2016-03-20", "Java OOP Concepts", 0.27, "type", "Do you feel familiar with four OOP concepts?");
-        crsbl.createPoll("GER1000", "2017", "1", "2017-01-27", "Final report", 0.53, "type", "How is the lecturer?");
+        crsbl.createPoll("GER1000", "2017", "1", "2017-01-27", "First lecture", 0.53, "type", "How is the lecturer?");
+        crsbl.createPoll("GER1000", "2017", "1", "2017-02-27", "Second lecture", 0.13, "type", "How is the tutorial?");
+        crsbl.createPoll("GER1000", "2017", "1", "2017-03-27", "Assignment", 0.78, "type", "How is the assignment?");
         crsbl.createPoll("PC2193", "2017", "2", "2017-10-27", "Physics", 0.39, "type", "Do you understand the concepts");
         crsbl.createPoll("LAL1201", "2017", "1", "2017-04-17", "Language Learning Curve", 0.27, "type", "How is your learning experience?");
         crsbl.createPoll("IE1111", "2016", "2", "2017-10-17", "IE", 0.38, "type", "How is your learning experience?");
