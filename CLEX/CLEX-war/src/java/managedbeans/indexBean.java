@@ -53,15 +53,15 @@ public class indexBean {
         //create Users
         csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 5.0);
         csbl.createStudent("aaaaaa", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
-        csbl.createStudent("bbbbbb", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "2", 0.0);
+        csbl.createStudent("bbbbbb", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "CS","2015", "2", 0.0);
         csbl.createStudent("cccccc", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
-        csbl.createStudent("dddddd", "123456", "name", "email@email.com", "NUS", 65345455L, genSalt(), "soc", "IS","2015", "2", 0.0);
+        csbl.createStudent("dddddd", "123456", "name", "email@email.com", "NUS", 65345455L, genSalt(), "soc", "CS","2015", "2", 0.0);
         csbl.createStudent("eeeeee", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
-        csbl.createStudent("ffffff", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2016", "1", 0.0);
-        csbl.createStudent("gggggg", "123456", "name", "email@email.com", "NUS", 12345378L, genSalt(), "soc", "IS","2016", "2", 0.0);
+        csbl.createStudent("ffffff", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "CS","2016", "1", 0.0);
+        csbl.createStudent("gggggg", "123456", "name", "email@email.com", "NUS", 12345378L, genSalt(), "soc", "BA","2016", "2", 0.0);
         csbl.createStudent("hhhhhh", "123456", "name", "email@email.com", "NUS", 12345278L, genSalt(), "soc", "IS","2016", "1", 0.0);
-        csbl.createStudent("iiiiii", "123456", "name", "email@email.com", "NUS", 12845678L, genSalt(), "soc", "IS","2016", "2", 0.0);
-        csbl.createStudent("jjjjjj", "123456", "name", "email@email.com", "NUS", 12345278L, genSalt(), "soc", "IS","2016", "1", 0.0);
+        csbl.createStudent("iiiiii", "123456", "name", "email@email.com", "NUS", 12845678L, genSalt(), "soc", "EE","2016", "2", 0.0);
+        csbl.createStudent("jjjjjj", "123456", "name", "email@email.com", "NUS", 12345278L, genSalt(), "soc", "CEG","2016", "1", 0.0);
         csbl.createLecturer("lecturer", "123456", "Zhou Lifeng", "zlf@email.com", "NUS", 12345278L, genSalt(), "soc");
         csbl.createLecturer("hsianghui2", "123456", "LekHsiangHui2", "hsianghui@email.com", "NUS", 92345678L, genSalt(), "soc");
         csbl.createLecturer("hsianghui3", "123456", "LekHsiangHui3", "hh3@email.com", "NUS", 12342678L, genSalt(), "soc");
@@ -186,35 +186,72 @@ public class indexBean {
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("ES1102", "2015", "1"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("CL2280", "2015", "1"));
         
+        csbl.setStudentTakenModules(csbl.findStudent("aaaaaa"), csbl.findModule("CP3109", "2015", "1"));
+        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("YIR3312", "2015", "1"));
+        csbl.setStudentTakenModules(csbl.findStudent("cccccc"), csbl.findModule("LAG2201", "2015", "1"));
+        csbl.setStudentTakenModules(csbl.findStudent("dddddd"), csbl.findModule("ES1102", "2015", "1"));
+        csbl.setStudentTakenModules(csbl.findStudent("eeeeee"), csbl.findModule("CL2280", "2015", "1"));
+        
+        
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("IS3106", "2015", "2"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("CL2281", "2015", "2"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("PL1101E", "2015", "2"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("CM4254", "2015", "2"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("YHU1210", "2015", "2"));
         
+        csbl.setStudentTakenModules(csbl.findStudent("aaaaaa"), csbl.findModule("IS3106", "2015", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("CL2281", "2015", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("gggggg"), csbl.findModule("PL1101E", "2015", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("eeeeee"), csbl.findModule("CM4254", "2015", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("ffffff"), csbl.findModule("YHU1210", "2015", "2"));
+        
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("CS1020", "2016", "1"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("EC3551", "2016", "1"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("FIN3103A", "2016", "1"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("ACC1701X", "2016", "1"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("MS3212", "2016", "1"));
+        
+        csbl.setStudentTakenModules(csbl.findStudent("ffffff"), csbl.findModule("CS1020", "2016", "1"));
+        csbl.setStudentTakenModules(csbl.findStudent("ffffff"), csbl.findModule("EC3551", "2016", "1"));
+        csbl.setStudentTakenModules(csbl.findStudent("ffffff"), csbl.findModule("FIN3103A", "2016", "1"));
+        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("ACC1701X", "2016", "1"));
+        csbl.setStudentTakenModules(csbl.findStudent("dddddd"), csbl.findModule("MS3212", "2016", "1"));
       
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("CS2100", "2016", "2"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("IE1111", "2016", "2"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("PF3302", "2016", "2"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("MA2101", "2016", "2"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("CL3551", "2016", "2"));
+        
+        csbl.setStudentTakenModules(csbl.findStudent("ffffff"), csbl.findModule("CS2100", "2016", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("aaaaaa"), csbl.findModule("IE1111", "2016", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("jjjjjj"), csbl.findModule("PF3302", "2016", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("ffffff"), csbl.findModule("MA2101", "2016", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("CL3551", "2016", "2"));
 
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("GER1000", "2017", "1"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("RE2102", "2017", "1"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("MLE2101", "2017", "1"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("NM4227", "2017", "1"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("LAL1201", "2017", "1"));
+        
+        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("GER1000", "2017", "1"));
+        csbl.setStudentTakenModules(csbl.findStudent("jjjjjj"), csbl.findModule("RE2102", "2017", "1"));
+        csbl.setStudentTakenModules(csbl.findStudent("eeeeee"), csbl.findModule("MLE2101", "2017", "1"));
+        csbl.setStudentTakenModules(csbl.findStudent("dddddd"), csbl.findModule("NM4227", "2017", "1"));
+        csbl.setStudentTakenModules(csbl.findStudent("aaaaaa"), csbl.findModule("LAL1201", "2017", "1"));
 
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("PS2240", "2017", "2"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("PC2193", "2017", "2"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("SC3101", "2017", "2"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("LAM3201", "2017", "2"));
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("TIE2010", "2017", "2"));
+        
+        csbl.setStudentTakenModules(csbl.findStudent("aaaaaa"), csbl.findModule("PS2240", "2017", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("PC2193", "2017", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("aaaaaa"), csbl.findModule("SC3101", "2017", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("LAM3201", "2017", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("cccccc"), csbl.findModule("TIE2010", "2017", "2"));
         
         //csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("ST2334", "2018", "1"));
         //csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("BT4212", "2018", "1"));
@@ -279,6 +316,7 @@ public class indexBean {
         csbl.createGrade("A", csbl.findModule("MLE2101", "2017", "1"), csbl.findStudent("namename"));
         csbl.createGrade("A", csbl.findModule("NM4227", "2017", "1"), csbl.findStudent("namename"));
         csbl.createGrade("A", csbl.findModule("LAL1201", "2017", "1"), csbl.findStudent("namename"));
+
         
         //csbl.createGrade("A", csbl.findModule("PS2240", "2017", "2"), csbl.findStudent("namename"));
         //csbl.createGrade("A", csbl.findModule("PC2193", "2017", "2"), csbl.findStudent("namename"));

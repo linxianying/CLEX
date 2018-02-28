@@ -39,8 +39,11 @@
                 <p:column filterBy="#{module.course.workload}" headerText="Workload" filterMatchMode="contains">
                     <h:outputText value="#{module.course.workload}" />
                 </p:column>
-                <p:column filterBy="#{module.students}" headerText="Students" filterMatchMode="contains">
-                    <h:outputText value="#{module.students}" />
+                <p:column filterBy="#{module.students.size}" headerText="Students" filterMatchMode="contains">
+                    <h:outputText value="Num:#{module.students.size()}" />
+                </p:column>
+                <p:column filterBy="#{module.polls.size}" headerText="Polls" filterMatchMode="contains">
+                    <h:outputText value="Num:#{module.polls.size()}" />
                 </p:column>
                 <!--
                 <p:column filterBy="#{module.course.moduleInfo}" headerText="Description" filterMatchMode="contains">
