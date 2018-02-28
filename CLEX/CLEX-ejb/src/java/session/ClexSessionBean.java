@@ -567,4 +567,27 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         em.merge(lesson);
     }
 
+    @Override
+    public void linkLecturerModule(String username, String moduleCode, String takenYear, String takenSem) {
+        //To change body of generated methods, choose Tools | Templates.
+        moduleEntity = null;
+        lecturerEntity = null;
+        
+        moduleEntity = findModule(moduleCode, takenYear, takenSem);
+        lecturerEntity = findLecturer(username);
+        
+        if(lecturerEntity==null||moduleEntity==null){
+            System.out.println("LinkLecturerModule: cannot find module or lecturer");
+            return;
+        }
+        
+        lecturerEntity.getModules().add(moduleEntity);
+        em.merge(moduleEntity);
+        em.flush();
+        moduleEntity.getLecturers().add(lecturerEntity);
+        em.merge(lecturerEntity);
+        em.flush();
+        System.out.println("LinkLecturerModule: link finished");
+    }
+
 }

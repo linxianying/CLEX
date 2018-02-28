@@ -6,6 +6,8 @@
 package managedbeans;
 
 
+import entity.Lecturer;
+import entity.Module;
 import entity.Poll;
 import entity.User;
 import java.io.IOException;
@@ -45,11 +47,12 @@ public class ClassroomBean {
     @EJB
     private ClassroomSessionBeanLocal crsbl;
     
-    private User userEntity;
+    private Lecturer lecturerEntity;
     private String username;
     private String password;
     private String userType;
     private ArrayList<Poll> polls ;
+    private ArrayList<Module> modules;
     
     
     public ClassroomBean() {
@@ -59,8 +62,13 @@ public class ClassroomBean {
         polls = crsbl.testViewPolls();
     }
     
-    public void generateReport(ActionEvent event)
-    {        
+    public void viewModules(){
+        lecturerEntity = csbl.findLecturer("hsianghui2");
+        modules = crsbl.viewModules(lecturerEntity);
+    }
+    
+    public void generateReport(ActionEvent event){
+        
         try{
             HashMap parameters = new HashMap();
             parameters.put("IMAGEPATH", "http://localhost:1527/CLEX-war/jasperreports/cherry.jpg");
@@ -100,13 +108,22 @@ public class ClassroomBean {
         this.crsbl = crsbl;
     }
 
-    public User getUserEntity() {
-        return userEntity;
+    public Lecturer getLecturerEntity() {
+        return lecturerEntity;
     }
 
-    public void setUserEntity(User userEntity) {
-        this.userEntity = userEntity;
+    public void setLecturerEntity(Lecturer lecturerEntity) {
+        this.lecturerEntity = lecturerEntity;
     }
+
+    public ArrayList<Module> getModules() {
+        return modules;
+    }
+
+    public void setModules(ArrayList<Module> modules) {
+        this.modules = modules;
+    }
+
 
     public String getUsername() {
         return username;

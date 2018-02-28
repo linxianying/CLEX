@@ -29,6 +29,7 @@ import java.security.MessageDigest;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Random;
 import javaClass.JsonReader;
 import javax.ejb.Stateless;
@@ -209,5 +210,35 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
         System.out.println(polls);
         System.out.println("Classroom session bean: testViewPolls finish ");
         return polls;
+    }
+    
+    @Override
+    public ArrayList<Poll> viewPolls(Module module) {
+        ArrayList<Poll> polls = (ArrayList) module.getPolls();
+        Iterator<Poll> itr = polls.iterator();
+        while (itr.hasNext()) {
+          Poll p = itr.next();
+          System.out.println(p.getDatetime() + " " + p.getTopic() + " " + p.getContent()
+          + " " + p.getCorrectRate());
+        }
+        System.out.println(polls);
+        System.out.println("-------------------------------------------------------");
+        System.out.println("Classroom session bean: viewPolls finish ");
+        return polls;
+    }
+    
+    @Override
+    public ArrayList<Module> viewModules(Lecturer lecturer){
+        ArrayList<Module> modules = (ArrayList) lecturer.getModules();
+        Iterator<Module> itr = modules.iterator();
+        while (itr.hasNext()) {
+            Module m = itr.next();
+            System.out.println(m.getCourse().getModuleCode()+ " " + 
+                m.getCourse().getModularCredits() + " " + m.getTakenYear() 
+                + "/" + m.getTakenSem() + " ");
+            System.out.println("Polls of Module " + m.getCourse().getModuleCode());
+            viewPolls(m);
+        }
+        return modules;
     }
 }

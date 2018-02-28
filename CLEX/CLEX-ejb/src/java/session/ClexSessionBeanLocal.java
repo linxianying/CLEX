@@ -79,4 +79,6 @@ public interface ClexSessionBeanLocal {
 
     public void createGrade(String moduleGrade, Module module, Student student);
     
+    public void linkLecturerModule(String username, String moduleCode, String takenYear, String takenSem);
+    
 }
