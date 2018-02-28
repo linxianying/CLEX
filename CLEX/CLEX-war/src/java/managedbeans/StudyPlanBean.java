@@ -58,9 +58,6 @@ public class StudyPlanBean {
     private String newCurrentModuleGrade;
     private int allCredits;
     private Student student;
-    
-    //private int year;
-    //private DashboardModel model;
     //for add study plan
     private String addModuleCode;
     private String addPickYear;

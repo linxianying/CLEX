@@ -82,6 +82,8 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         superGroupEntity = new SuperGroup();
         superGroupEntity.createSuperGroup(numOfGroups, minStudentNum, maxStudentNum, module);
         em.persist(superGroupEntity);
+        module.setSuperGroup(superGroupEntity);
+        em.merge(module);
         em.flush();
     }
     
