@@ -380,4 +380,5 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
         return lecturerEntity;
     }
     
+    
 }

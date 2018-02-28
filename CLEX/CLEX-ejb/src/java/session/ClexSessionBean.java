@@ -589,5 +589,27 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         em.flush();
         System.out.println("LinkLecturerModule: link finished");
     }
+    
+    @Override
+    public void linkStudentModule(String username, String moduleCode, String takenYear, String takenSem){
+        moduleEntity = null;
+        studentEntity = null;
+        
+        moduleEntity = findModule(moduleCode, takenYear, takenSem);
+        studentEntity = findStudent(username);
+        
+        if(studentEntity==null||moduleEntity==null){
+            System.out.println("LinkStudentModule: cannot find module or student");
+            return;
+        }
+        studentEntity.getModules().add(moduleEntity);
+        em.merge(moduleEntity);
+        em.flush();
+        moduleEntity.getStudents().add(studentEntity);
+        em.merge(studentEntity);
+        em.flush();
+        System.out.println("LinkStudentModule: link finished");
+    }
 
+    
 }

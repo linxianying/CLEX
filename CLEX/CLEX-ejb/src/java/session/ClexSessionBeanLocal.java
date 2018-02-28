@@ -27,25 +27,46 @@ import javax.ejb.Local;
 @Local
 public interface ClexSessionBeanLocal {
 
-    public void createStudent(String username, String password, String name, String email, String school, Long contactNum, String salt,
+    public void createStudent(String username, String password, String name, 
+            String email, String school, Long contactNum, String salt,
                 String faculty, String major, String matricYear, String matricSem, double cap);
-    public void createLecturer(String username, String password, String name, String email, String school, Long contactNum, String salt,
+    public void createLecturer(String username, String password, String name, 
+            String email, String school, Long contactNum, String salt,
                 String faculty);
-    public void createGuest(String username, String password, String name, String email, String school, Long contactNum, String salt);
-    public void createAdmin(String username, String password, String name, String email, String school, Long contactNum, String salt);
+    public void createGuest(String username, String password, String name, 
+            String email, String school, Long contactNum, String salt);
+    public void createAdmin(String username, String password, String name, 
+            String email, String school, Long contactNum, String salt);
+    public void createCourse(String moduleCode, String moduleName, String moduleInfo, 
+            boolean discontinuedBool, String discountinuedYear, String discountinuedSem, 
+            String offeredSem, String school, String moduleCredit, String workload);
+    public void createSuperGroup(int numOfGroups, int minStudentNum, int maxStudentNum, Module module);
+    public void createProjectGroup(SuperGroup superGroup, double cost);
+
+    public void createModule(String takenYear, String takenSem, String prerequisite, 
+            String preclusions, Course course);
+
+    public void createStudyPlan(String pickYear, String pickSem, Course course, Student student);
+
+    public void createLesson(String day, String timeFrom, String timeEnd, 
+            String type, String venue, Module module);
+        
+    public void createTimeslot(String date, String timeFrom, String timeEnd, 
+            String title, String details, String venue);
+    public void createGrade(String moduleGrade, Module module, Student student);
     
     public boolean checkNewUser(String username);
     public boolean checkNewCourse(String moduleCode);
     public boolean checkNewAdmin(String username);
     public boolean checkNewLecturer(String username);
     public boolean checkNewStudent(String username);
+    public boolean checkPassword(String username, String password);
+    
     /*public String viewModule(String moduleCode); */
     public boolean updateStudentEmail(String username, String newEmail);
     public boolean updateStudentFaculty(String username, String faculty);
     public boolean updateStudentContact(String username, Long contactNum);
     
-    public boolean checkPassword(String username, String password);
-    public String resetPassword(String username);
     
     public User findUser(String username);
     public Student findStudent(String username);
@@ -54,31 +75,18 @@ public interface ClexSessionBeanLocal {
     public Guest findGuest(String username);
     public Module findModule(String moduleCode, String takenYear, String takenSem);
     public Course findCourse(String moduleCode);
+    public Lesson findLesson(String day, String timeFrom, String type, Module module);
 
-
-    public void createCourse(String moduleCode, String moduleName, String moduleInfo ,boolean discontinuedBool,
-        String discountinuedYear, String discountinuedSem, String offeredSem, String school, String moduleCredit, String workload);
-        
-    public void createTimeslot(String date, String timeFrom, String timeEnd, String title, String details, String venue);
+    
     public void dragAllNusMods(String url);
     public void getTimetable(String moduleCode);
-    public void createSuperGroup(int numOfGroups, int minStudentNum, int maxStudentNum, Module module);
-    public void createProjectGroup(SuperGroup superGroup, double cost);
-
-    void createModule(String takenYear, String takenSem, String prerequisite, String preclusions, Course course);
-
-    public void createStudyPlan(String pickYear, String pickSem, Course course, Student student);
-
-    public void createLesson(String day, String timeFrom, String timeEnd, String type, String venue, Module module);
+    public String resetPassword(String username);
 
     public void setStudentTakenModules(Student student, Module module);
 
     public void setStudentLesson(Student student, Lesson lesson);
 
-    public Lesson findLesson(String day, String timeFrom, String type, Module module);
-
-    public void createGrade(String moduleGrade, Module module, Student student);
-    
     public void linkLecturerModule(String username, String moduleCode, String takenYear, String takenSem);
     
+    public void linkStudentModule(String username, String moduleCode, String takenYear, String takenSem);
 }
