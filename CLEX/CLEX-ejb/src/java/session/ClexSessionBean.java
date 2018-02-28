@@ -556,17 +556,23 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     @Override
     public void setStudentTakenModules(Student student, Module module){
         student.getModules().add(module);
-        module.getStudents().add(student);
         em.merge(student);
+        em.flush();
+        
+        module.getStudents().add(student);
         em.merge(module);
+        em.flush();
     }
     
     @Override
     public void setStudentLesson(Student student, Lesson lesson) {
         student.getLessons().add(lesson);
-        lesson.getStudents().add(student);
         em.merge(student);
+        em.flush();
+        
+        lesson.getStudents().add(student);
         em.merge(lesson);
+        em.flush();
     }
 
     @Override

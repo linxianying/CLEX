@@ -9,6 +9,7 @@ import entity.Course;
 import entity.Lecturer;
 import entity.Lesson;
 import entity.Module;
+import entity.Student;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,8 @@ public class LecturerModuleListBean implements Serializable{
     private List<Lesson> filteredLessons;
     
     private Lecturer lecturerEntity;
+    private ArrayList<Student> students;
+    
     private String username;
     
     FacesContext context;
@@ -57,7 +60,7 @@ public class LecturerModuleListBean implements Serializable{
         lecturerEntity = (Lecturer) session.getAttribute("user");
         username = lecturerEntity.getUsername();
         modules = crsbl.viewModules(lecturerEntity);
-        System.out.println(modules);
+        System.out.println(modules.get(0).getStudents().size());
         //modules = (List) cmbl.getModulesFromLecturer(username);
         //lessons = cmbl.getAllLessons();
     }
@@ -108,6 +111,46 @@ public class LecturerModuleListBean implements Serializable{
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public CourseMgmtBeanLocal getCmbl() {
+        return cmbl;
+    }
+
+    public void setCmbl(CourseMgmtBeanLocal cmbl) {
+        this.cmbl = cmbl;
+    }
+
+    public ClassroomSessionBeanLocal getCrsbl() {
+        return crsbl;
+    }
+
+    public void setCrsbl(ClassroomSessionBeanLocal crsbl) {
+        this.crsbl = crsbl;
+    }
+
+    public ArrayList<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(ArrayList<Student> students) {
+        this.students = students;
+    }
+
+    public FacesContext getContext() {
+        return context;
+    }
+
+    public void setContext(FacesContext context) {
+        this.context = context;
+    }
+
+    public HttpSession getSession() {
+        return session;
+    }
+
+    public void setSession(HttpSession session) {
+        this.session = session;
     }
     
 }
