@@ -198,15 +198,20 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
     
     @Override
     public ArrayList<Poll> testViewPolls() {
+        
         ArrayList<Poll> polls = new ArrayList<Poll>();
-        if(this.findPoll(Long.valueOf(107))!=null)
+        if(this.findPoll(Long.valueOf(107))!=null){
             polls.add(this.findPoll(Long.valueOf(107)));
-        if(this.findPoll(Long.valueOf(108))!=null)
+        }
+        if(this.findPoll(Long.valueOf(108))!=null){
             polls.add(this.findPoll(Long.valueOf(108)));
-        if(this.findPoll(Long.valueOf(109))!=null)
+        }
+        if(this.findPoll(Long.valueOf(109))!=null){
             polls.add(this.findPoll(Long.valueOf(109)));
-        if(this.findPoll(Long.valueOf(105))!=null)
+        }
+        if(this.findPoll(Long.valueOf(105))!=null){
             polls.add(this.findPoll(Long.valueOf(105)));
+        }
         System.out.println(polls);
         System.out.println("Classroom session bean: testViewPolls finish ");
         return polls;
@@ -231,7 +236,7 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
         }
         System.out.println(polls);
         System.out.println("-------------------------------------------------------");
-        System.out.println("Classroom session bean: viewPolls finish ");
+        System.out.println("Classroom session bean: viewPolls finished ");
         return polls;
     }
     
@@ -255,4 +260,28 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
         }
         return modules;
     }
+    
+    public ArrayList<Poll> viewPollsByTopic(Module module, String topic){
+        Collection<Poll> pollsCollection =  module.getPolls();
+        ArrayList<Poll> polls = new ArrayList<Poll>();
+        Iterator<Poll> itr = pollsCollection.iterator();
+        while(itr.hasNext()){
+            Poll p = itr.next();
+            polls.add(p);
+        }
+        
+        Iterator<Poll> iterator = polls.iterator();
+        while (iterator.hasNext()) {
+            Poll p = iterator.next();
+            if(p.getTopic().equals(topic)){
+                System.out.println(p.getDatetime() + " " + p.getContent()
+                + " " + p.getCorrectRate());
+            }
+        }
+        System.out.println(polls);
+        System.out.println("-------------------------------------------------------");
+        System.out.println("Classroom session bean: viewPollsByTopic " + topic + " finished ");
+        return polls;
+    }
+    
 }
