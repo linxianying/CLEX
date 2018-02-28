@@ -195,9 +195,9 @@
                     <br />
                     Add new study plan entry:
                     <br />
-                    <h:form>
+                    <h:form id="addForm">
                         Enter Module Code:<p:inputText value="#{studyPlanBean.addModuleCode}" required="true">
-                            <p:ajax event="change" update="addStudyPlanButton addErrorMsg" listener="#{studyPlanBean.checkStudyPlan}" />
+                            <p:ajax event="change" listener="#{studyPlanBean.checkStudyPlan}" update="addForm"  />
                         </p:inputText>
                         <h:outputText id="addErrorMsg" value="#{studyPlanBean.addErrorMsg}" />
                         <br />
@@ -209,7 +209,7 @@
                             <f:selectItem itemLabel="2" itemValue="2" />
                         </p:selectOneMenu>
                         <br />
-                        <p:commandButton value="add" rendered="#{studyPlanBean.addButton}" actionListener="#{studyPlanBean.addStudyPlan()}" action="studyPlan?faces-redirect=true" id="addStudyPlanButton" />
+                        <p:commandButton value="add" id="addStudyPlanButton" rendered="#{studyPlanBean.addButton}" actionListener="#{studyPlanBean.addStudyPlan()}" action="studyPlan?faces-redirect=true" />
                     </h:form>
                     <br />
                     <div style="height:500px">

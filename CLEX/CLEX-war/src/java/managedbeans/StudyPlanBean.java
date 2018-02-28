@@ -23,6 +23,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.CloseEvent;
 import org.primefaces.event.DashboardReorderEvent;
 import org.primefaces.event.ToggleEvent;
@@ -91,7 +92,12 @@ public class StudyPlanBean {
         this.setNewCurrentModuleGrade("A+");
         //newCurrentModuleGrade = "A+";
         allCredits = cpsbl.getNumOfCredits(username);
+        addModuleCode = null;
+        addPickYear = null;
+        addPickSem = null;
+        addErrorMsg = null;
         addButton = true;
+        System.out.println("addButton:" + addButton);
         System.out.println("finish to render StudyPlanBean");
         model = new DefaultDashboardModel();
         DashboardColumn column1 = new DefaultDashboardColumn();
@@ -178,7 +184,6 @@ public class StudyPlanBean {
     }
 
     public void setNewCurrentModuleGrade(String newCurrentModuleGrade) {
-        System.out.println("setNewCurrentModuleGrade: newCurrentModuleGrade set to " + newCurrentModuleGrade);
         this.newCurrentModuleGrade = newCurrentModuleGrade;
     }
 
@@ -199,7 +204,6 @@ public class StudyPlanBean {
     }
 
     public void setNewModuleGrade(String newModuleGrade) {
-        System.out.println("setNewModuleGrade: newModuleGrade set to " + newModuleGrade);
         this.newModuleGrade = newModuleGrade;
     }
 
@@ -374,26 +378,31 @@ public class StudyPlanBean {
         this.addButton = addButton;
     }
 
-    
     public void checkStudyPlan() {
         //this course does not exist
         if (cpsbl.findCourse(addModuleCode) == null) {
             addErrorMsg = "Course " + addModuleCode + " does not exist";
             this.addButton = false;
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.update("addForm:addStudyPlanButton");
+            System.out.println("addButton:" + addButton);
         }
         //this course already in studyPlan
         else if (cpsbl.checkStudyPlan(username, addModuleCode)) {
             addErrorMsg = "Course " + addModuleCode + " already exists in your study plan";
             this.addButton = false;
+            System.out.println("addButton:" + addButton);
         }
         //this course already in takenCourses list
         else if (cpsbl.checkStudentModule(username, addModuleCode)) {
             addErrorMsg = "You have already taken course " + addModuleCode;
             this.addButton = false;
+            System.out.println("addButton:" + addButton);
         }
         else {
             addErrorMsg = null;
             this.addButton = true;
+            System.out.println("addButton:" + addButton);
         }
     }
     
@@ -406,6 +415,7 @@ public class StudyPlanBean {
         cpsbl.removeStudyPlan(username, moduleCode);
         studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
     }
+    
     public void updateExpectedCap(int newModuleCredit, String moduleCode) {
         String oldGrade = checkExpectedCourseGrade(moduleCode);
         //System.out.println("newModuleGrade" + newModuleGrade);
