@@ -75,7 +75,15 @@ public interface StudyPlanSessionBeanLocal {
 
     public int getNumOfCredits(String username);
 
-    public double updateExpectedCap(int allCredits, double cap, int newModuleCredit, String newModuleGrade);
+    public double updateExpectedCapTwo(int allCredits, double cap, int newModuleCredit, String newModuleGrade);
+
+    public ArrayList<Course> getExpectedCurrentCourses(String username);
+
+    public ArrayList<Course> getExpectedStudyPlanCourses(String username);
+
+    public double updateExpectedCapOne(int allCredits, double cap, int newModuleCredit, String oldGrade);
+
+    public double updateExpectedCapFour(int allCredits, double cap, int newModuleCredit, String newModuleGrade, String oldGrade);
     
     
 }

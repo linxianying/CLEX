@@ -50,6 +50,8 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     private ArrayList<ArrayList<Course>> takenCoursesInOrder;
     private ArrayList<StudyPlan> studyPlans;
     private ArrayList<ArrayList<StudyPlan>> studyPlansInOrder;
+    private ArrayList<Course> expectedCurrentCourses;
+    private ArrayList<Course> expectedStudyPlanCourses;
     private ArrayList<Grade> grades; 
     private ArrayList<ArrayList<Grade>> gradesInOrder;
     private double currentCap;
@@ -139,7 +141,7 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         return m;
     }
     
-    // find all courses taken by the user
+    // find all courses taken by the user, including currently taking courses
     @Override
     public ArrayList<Course> getTakenCourses(String username) {
         this.takenCourses = new ArrayList<Course>();
@@ -667,19 +669,34 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         return point;
     }
     
-    //update the student's expected cap based on new module's credit and garde,
-    //and all credits the student have taken and plans to take
+    //update the student's expected cap based on module's credit and garde,
+    //type 1: change grade from ABCDF to SU
     @Override
-    public double updateExpectedCap(int allCredits, double cap, int newModuleCredit, String newModuleGrade){
-        //if the grade is S or U, do nothing
-        if (newModuleGrade.equals("S") || newModuleGrade.equals("U"))
-            expectedCap = cap;
-        else {
-        expectedCap = cap*allCredits+this.convertGradeToPoint(newModuleGrade)*newModuleCredit;
-        expectedCap /= (allCredits+newModuleCredit);
-        }
+    public double updateExpectedCapOne(int allCredits, double cap, int newModuleCredit, String oldGrade){
+        expectedCap = cap*allCredits-this.convertGradeToPoint(oldGrade)*newModuleCredit;
+        expectedCap /= (allCredits-newModuleCredit);
         return expectedCap;
     }
+
+    //calculate the student's expected cap based on new module's credit and garde for first time
+    //or type 2: change grade from SU to ABCDF
+    @Override
+    public double updateExpectedCapTwo(int allCredits, double cap, int newModuleCredit, String newModuleGrade){
+        expectedCap = cap*allCredits+this.convertGradeToPoint(newModuleGrade)*newModuleCredit;
+        expectedCap /= (allCredits+newModuleCredit);
+        return expectedCap;
+    }
+    
+    //update the student's expected cap based on module's credit and garde,
+    //type 4: change grade from ABCDF to ABCDF
+    @Override
+    public double updateExpectedCapFour(int allCredits, double cap, int newModuleCredit, String newModuleGrade, String oldGrade){
+        expectedCap = cap*allCredits+(this.convertGradeToPoint(newModuleGrade)-this.convertGradeToPoint(oldGrade))*newModuleCredit;
+        expectedCap /= allCredits;
+        return expectedCap;
+    }
+    
+    
     
     @Override
     public void setStudentTakenModules(String username, String moduleCode, String takenYear, String takenSem) {
@@ -725,7 +742,30 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         return numOfSemTaken;
     }
     
-    //used for method getTakenModulesInOrder
+
+    //in short, get all current courses that can have an expected grade
+    @Override
+    public ArrayList<Course> getExpectedCurrentCourses(String username) {
+        expectedCurrentCourses = new ArrayList<Course>();
+        takingModules = new ArrayList<Module>();
+        takingModules = this.getCurrentModules(username);
+        for (Module m: takingModules) {
+            expectedCurrentCourses.add(m.getCourse());
+        }
+        return expectedCurrentCourses;
+    }
+    
+    //in short, get all courses in study plan that can have an expected grade
+    @Override
+    public ArrayList<Course> getExpectedStudyPlanCourses(String username) {
+        expectedStudyPlanCourses = new ArrayList<Course>();
+        studyPlans = new ArrayList<StudyPlan>();
+        studyPlans = this.getAllStudyPlans(username);
+        for (StudyPlan s: studyPlans) {
+            expectedStudyPlanCourses.add(s.getCourse());
+        }
+        return expectedStudyPlanCourses;
+    }
     
     
     

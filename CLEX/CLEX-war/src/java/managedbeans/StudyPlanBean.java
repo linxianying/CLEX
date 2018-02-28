@@ -12,6 +12,7 @@ import entity.Student;
 import entity.StudyPlan;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Random;
 import javax.ejb.EJB;
 import javax.faces.bean.RequestScoped;
@@ -53,7 +54,10 @@ public class StudyPlanBean {
     private ArrayList<ArrayList<Grade>> gradesInOrder;
     private ArrayList<Module> takingModules;
     private Collection<StudyPlan> studyPlans;
+    private ArrayList<Course> expectedCurrentCourses;
+    private ArrayList<Course> expectedStudyPlanCourses;
     private ArrayList<ArrayList<StudyPlan>> studyPlansInOrer;
+    private HashMap<String,String> expectedCourseGrade;
     private double cap;
     private double expectedCap; 
     private String newModuleGrade;
@@ -81,6 +85,8 @@ public class StudyPlanBean {
         gradesInOrder = cpsbl.getAllGradesInOrder(username);
         takingModules = cpsbl.getCurrentModules(username);
         studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
+        //expectedCurrentCourses = cpsbl.getExpectedCurrentCourses(username);
+        //expectedStudyPlanCourses = cpsbl.getExpectedStudyPlanCourses(username);
         expectedCap = cap;
         System.out.println("Expected Cap reset to " + expectedCap);
         this.setNewModuleGrade("A+");
@@ -130,6 +136,30 @@ public class StudyPlanBean {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, event.getComponent().getId() + " toggled", "Status:" + event.getVisibility().name());
          
         addMessage(message);
+    }
+
+    public HashMap<String, String> getExpectedCourseGrade() {
+        return expectedCourseGrade;
+    }
+
+    public void setExpectedCourseGrade(HashMap<String, String> expectedCourseGrade) {
+        this.expectedCourseGrade = expectedCourseGrade;
+    }
+
+    public ArrayList<Course> getExpectedCurrentCourses() {
+        return expectedCurrentCourses;
+    }
+
+    public void setExpectedCurrentCourses(ArrayList<Course> expectedCurrentCourses) {
+        this.expectedCurrentCourses = expectedCurrentCourses;
+    }
+
+    public ArrayList<Course> getExpectedStudyPlanCourses() {
+        return expectedStudyPlanCourses;
+    }
+
+    public void setExpectedStudyPlanCourses(ArrayList<Course> expectedStudyPlanCourses) {
+        this.expectedStudyPlanCourses = expectedStudyPlanCourses;
     }
 
     public String getAddModuleCode() {
@@ -374,20 +404,114 @@ public class StudyPlanBean {
     
     public void deleteStudyPlan(String moduleCode) {
         cpsbl.removeStudyPlan(username, moduleCode);
+        studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
+    }
+    public void updateExpectedCap(int newModuleCredit, String moduleCode) {
+        String oldGrade = checkExpectedCourseGrade(moduleCode);
+        //System.out.println("newModuleGrade" + newModuleGrade);
+        //the first time set the expected grade 
+        if (oldGrade.equals("none")) {
+            //it is not S or U, since setting as S or U for first time will be treated as the module has not been setted an expected grade before
+            if ((this.newModuleGrade != "S") && (this.newModuleGrade != "U")) {
+                //update the expectedCap for first time for this module
+                this.expectedCap = cpsbl.updateExpectedCapTwo(this.allCredits, this.expectedCap, newModuleCredit, newModuleGrade);
+                //update all the credits taken
+                this.allCredits += newModuleCredit;
+                //set the course's expected grade in hashmap
+                expectedCourseGrade.put(moduleCode, newModuleGrade);
+            }
+        }
+        //not the first time set the expected grade
+        else {
+            //if the last setted garde is S/U
+            if (oldGrade.equals("S") || oldGrade.equals("U")) {
+                // if this time it is S/U again, do nothing
+                // if not, type 2 
+                if ((!this.newModuleGrade.equals("S"))&&(!this.newModuleGrade.equals("U"))) {
+                    this.expectedCap = cpsbl.updateExpectedCapTwo(this.allCredits, this.expectedCap, newModuleCredit, newModuleGrade);
+                    //update all the credits taken
+                    this.allCredits += newModuleCredit;
+                    //set the course's expected grade in hashmap
+                    expectedCourseGrade.put(moduleCode, newModuleGrade);
+                }
+            }
+            //if the last setted garde is not S/U
+            else {
+                //if it is changed to S/U, type 1
+                if ((this.newModuleGrade.equals("S")) || (this.newModuleGrade.equals("U"))) {
+                    this.expectedCap = cpsbl.updateExpectedCapOne(this.allCredits, this.expectedCap, newModuleCredit, oldGrade);
+                    this.allCredits -= newModuleCredit;
+                    expectedCourseGrade.put(moduleCode, newModuleGrade);
+                }
+                // if it is not changed to S/U, type 4
+                else {
+                    this.expectedCap = cpsbl.updateExpectedCapFour(allCredits, cap, newModuleCredit, newModuleGrade, oldGrade);
+                    expectedCourseGrade.put(moduleCode, newModuleGrade);
+                }
+            }
+        }
+        System.out.println("Expected cap change to " + expectedCap);
     }
     
-    public void updateExpectedCap(int newModuleCredit) {
-        System.out.println("newModuleGrade" + newModuleGrade);
-        this.expectedCap = cpsbl.updateExpectedCap(this.allCredits, this.expectedCap, newModuleCredit, newModuleGrade);
+    public void updateCurrentExpectedCap(int newModuleCredit, String moduleCode) {
+        String oldGrade = checkExpectedCourseGrade(moduleCode);
+        //System.out.println("newCurrentModuleGrade" + newCurrentModuleGrade);
+        //the first time set the expected grade 
+        if (oldGrade.equals("none")) {
+            //it is not S or U, since setting as S or U for first time will be treated as the module has not been setted an expected grade before
+            if ((this.newCurrentModuleGrade != "S") && (this.newCurrentModuleGrade != "U")) {
+                //update the expectedCap for first time for this module
+                this.expectedCap = cpsbl.updateExpectedCapTwo(this.allCredits, this.expectedCap, newModuleCredit, newCurrentModuleGrade);
+                //update all the credits taken
+                this.allCredits += newModuleCredit;
+                //set the course's expected grade in hashmap
+                expectedCourseGrade.put(moduleCode, newCurrentModuleGrade);
+            }
+        }
+        //not the first time set the expected grade
+        else {
+            //if the last setted garde is S/U
+            if (oldGrade.equals("S") || oldGrade.equals("U")) {
+                // if this time it is S/U again, do nothing
+                // if not, type 2 
+                if ((!this.newCurrentModuleGrade.equals("S"))&&(!this.newCurrentModuleGrade.equals("U"))) {
+                    this.expectedCap = cpsbl.updateExpectedCapTwo(this.allCredits, this.expectedCap, newModuleCredit, newCurrentModuleGrade);
+                    //update all the credits taken
+                    this.allCredits += newModuleCredit;
+                    //set the course's expected grade in hashmap
+                    expectedCourseGrade.put(moduleCode, newCurrentModuleGrade);
+                }
+            }
+            //if the last setted garde is not S/U
+            else {
+                //if it is changed to S/U, type 1
+                if ((this.newCurrentModuleGrade.equals("S")) || (this.newCurrentModuleGrade.equals("U"))) {
+                    this.expectedCap = cpsbl.updateExpectedCapOne(this.allCredits, this.expectedCap, newModuleCredit, oldGrade);
+                    this.allCredits -= newModuleCredit;
+                    expectedCourseGrade.put(moduleCode, newCurrentModuleGrade);
+                }
+                // if it is not changed to S/U, type 4
+                else {
+                    this.expectedCap = cpsbl.updateExpectedCapFour(allCredits, cap, newModuleCredit, newCurrentModuleGrade, oldGrade);
+                    expectedCourseGrade.put(moduleCode, newCurrentModuleGrade);
+                }
+            }
+        }
         System.out.println("Expected cap change to " + expectedCap);
-        this.allCredits += newModuleCredit;
     }
     
-    public void updateCurrentExpectedCap(int newModuleCredit) {
-        System.out.println("newCurrentModuleGrade" + newCurrentModuleGrade);
-        this.expectedCap = cpsbl.updateExpectedCap(this.allCredits, this.expectedCap, newModuleCredit, newCurrentModuleGrade);
-        System.out.println("Expected cap change to " + expectedCap);
-        this.allCredits += newModuleCredit;
+    //check this expected garde is updated for the first time (an expected garde has been set before)or not
+    //if this is the first time, return none
+    // if not the first time, return the expected grade set for this course last time
+    public String checkExpectedCourseGrade(String moduleCode){
+        if (expectedCourseGrade.containsKey(moduleCode)) {
+            return expectedCourseGrade.get(moduleCode);
+        }
+        else {
+            System.out.println("sp bean: checkExpectedCourseGrade: Error，" 
+                    + moduleCode + " is not found in expectedCourseGrade");
+        }
+        return "none";
     }
     
     //-------------------------------------------------------------------------

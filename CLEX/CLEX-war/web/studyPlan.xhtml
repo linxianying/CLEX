@@ -8,8 +8,7 @@
                 xmlns:p="http://primefaces.org/ui" 
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-
-    <ui:define name="content">
+<ui:define name="content">
         <h:head>
             <title>PRISM Study Plan Page</title>
         </h:head>
@@ -135,7 +134,7 @@
                                         <f:selectItem itemLabel="F" itemValue="F" />
                                         <f:selectItem itemLabel="S" itemValue="S" />
                                         <f:selectItem itemLabel="U" itemValue="U" />
-                                        <p:ajax process="@this" partialSubmit="true" event="change" update="expectedCap" listener="#{studyPlanBean.updateCurrentExpectedCap(module.course.modularCredits)}" />
+                                        <p:ajax process="@this" partialSubmit="true" event="change" update="expectedCap" listener="#{studyPlanBean.updateCurrentExpectedCap(module.course.modularCredits, module.course.moduleCode)}" />
                                     </p:selectOneMenu>
                                 </p:column>
                         </p:dataList>
@@ -179,7 +178,7 @@
                                     <f:selectItem itemLabel="F" itemValue="F" />
                                     <f:selectItem itemLabel="S" itemValue="S" />
                                     <f:selectItem itemLabel="U" itemValue="U" />
-                                    <p:ajax event="change" update="expectedCap" listener="#{studyPlanBean.updateExpectedCap(sp.course.modularCredits)}" />
+                                    <p:ajax event="change" update="expectedCap" listener="#{studyPlanBean.updateExpectedCap(sp.course.modularCredits, sp.course.moduleCode)}" />
                                 </p:selectOneMenu>
                             </p:column>
                         </p:dataList>
