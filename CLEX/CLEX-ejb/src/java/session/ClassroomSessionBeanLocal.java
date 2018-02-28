@@ -8,6 +8,7 @@ package session;
 import entity.Course;
 import entity.Module;
 import entity.Poll;
+import java.util.ArrayList;
 import javax.ejb.Local;
 
 /**
@@ -24,4 +25,5 @@ public interface ClassroomSessionBeanLocal {
     public Course findCourse(String moduleCode);
     public Poll findPoll(Long id);
     public boolean removePoll(String moduleCode, String takenYear, String takenSem, Long id);
+    public ArrayList<Poll> testViewPolls();
 }

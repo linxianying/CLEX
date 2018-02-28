@@ -3,36 +3,22 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" 
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
                 xmlns:h="http://xmlns.jcp.org/jsf/html" 
-                template="./layout/lecturerLayout.xhtml" 
+                template="./layout/studentLayout.xhtml" 
                 xmlns:p="http://primefaces.org/ui" 
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="content">
         <h:head>
             <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-            <title>Classroom page</title>
+            <title>Student Polling page</title>
         </h:head>
         <h:body>
             <div id="top" class="top">
-                <ui:insert name="top">Classroom Page</ui:insert>
+                <ui:insert name="top">Student Polling Page</ui:insert>
             </div>
             <div>
                 <div id="content" class="left_content">
-                    <h:form id="formJasperReport">
-            
-                        <p:panel header="Test JasperReport Generation">
-
-                            <p:commandButton value="Generate" actionListener="#{classroomBean.generateReport}" ajax="false" />
-
-                        </p:panel>
-
-                        
-                        <p:panel header="Test View Polls">
-
-                            <p:commandButton value="View Polls" actionListener="#{classroomBean.testViewPolls}" ajax="false" />
-
-                        </p:panel>
-                    </h:form>
+                    <ui:insert name="top">Student Polling Page</ui:insert>
                 </div>
             </div>
 

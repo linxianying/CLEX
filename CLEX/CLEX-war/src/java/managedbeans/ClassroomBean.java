@@ -6,11 +6,13 @@
 package managedbeans;
 
 
+import entity.Poll;
 import entity.User;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
@@ -47,9 +49,14 @@ public class ClassroomBean {
     private String username;
     private String password;
     private String userType;
+    private ArrayList<Poll> polls ;
     
     
     public ClassroomBean() {
+    }
+    
+    public void testViewPolls(){
+        polls = crsbl.testViewPolls();
     }
     
     public void generateReport(ActionEvent event)
@@ -123,6 +130,14 @@ public class ClassroomBean {
 
     public void setUserType(String userType) {
         this.userType = userType;
+    }
+
+    public ArrayList<Poll> getPolls() {
+        return polls;
+    }
+
+    public void setPolls(ArrayList<Poll> polls) {
+        this.polls = polls;
     }
     
     

@@ -27,6 +27,7 @@ import entity.VoteReply;
 import entity.VoteThread;
 import java.security.MessageDigest;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 import javaClass.JsonReader;
@@ -194,5 +195,19 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
     
     }
     
-    
+    @Override
+    public ArrayList<Poll> testViewPolls() {
+        ArrayList<Poll> polls = new ArrayList<Poll>();
+        if(this.findPoll(Long.valueOf(107))!=null)
+            polls.add(this.findPoll(Long.valueOf(107)));
+        if(this.findPoll(Long.valueOf(108))!=null)
+            polls.add(this.findPoll(Long.valueOf(108)));
+        if(this.findPoll(Long.valueOf(109))!=null)
+            polls.add(this.findPoll(Long.valueOf(109)));
+        if(this.findPoll(Long.valueOf(105))!=null)
+            polls.add(this.findPoll(Long.valueOf(105)));
+        System.out.println(polls);
+        System.out.println("Classroom session bean: testViewPolls finish ");
+        return polls;
+    }
 }
