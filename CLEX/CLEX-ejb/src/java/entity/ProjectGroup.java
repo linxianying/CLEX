@@ -27,6 +27,7 @@ public class ProjectGroup implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private double cost;
+    private String name;
     
     @ManyToOne
     private SuperGroup superGroup;
@@ -43,9 +44,10 @@ public class ProjectGroup implements Serializable {
     @OneToMany(cascade={CascadeType.ALL})
     private Collection<GroupTask> groupTasks = new ArrayList<GroupTask>();
     
-    public void createProjectGroup(SuperGroup superGroup, double cost){
+    public void createProjectGroup(SuperGroup superGroup, String name, double cost){
         this.superGroup = superGroup;
         this.cost = cost;
+        this.name = name;
     }
 
     public Collection<GroupTimeslot> getGroupTimeslots() {
@@ -102,6 +104,14 @@ public class ProjectGroup implements Serializable {
 
     public void setSuperGroup(SuperGroup superGroup) {
         this.superGroup = superGroup;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
