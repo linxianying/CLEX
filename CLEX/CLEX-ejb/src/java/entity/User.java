@@ -39,7 +39,10 @@ public abstract class User implements Serializable{
     private String name;
     private String salt;
     private boolean approval; //false - not approved, true - approved
-
+    
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy="user")
+    private Collection<Announcement> announcements = new ArrayList<Announcement>();
+    
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="user")
     private Collection<Thread> threads = new ArrayList<Thread>();
 
@@ -70,6 +73,14 @@ public abstract class User implements Serializable{
     
     public static long getSerialVersionUID() {
         return serialVersionUID;
+    }
+
+    public Collection<Announcement> getAnnouncements() {
+        return announcements;
+    }
+
+    public void setAnnouncements(Collection<Announcement> announcements) {
+        this.announcements = announcements;
     }
 
     public Collection<Thread> getThreads() {

@@ -41,7 +41,7 @@ public class UserAccessControlBean implements UserAccessControlBeanLocal {
     
     @Override
     public List<String> createUserTypes(){
-        String[] allUserTypes = new String[4];
+        String[] allUserTypes = new String[3];
         allUserTypes[0] = "Student";
         allUserTypes[1] = "Lecturer";
         allUserTypes[2] = "Guest";

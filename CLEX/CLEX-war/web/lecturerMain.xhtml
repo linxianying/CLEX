@@ -3,11 +3,30 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                template="./layout/lecturerLayout.xhtml">
+                template="./layout/lecturerLayout.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="content">
         <div>
-            <h:outputText value="Welcome to PRISM, #{loginBean.username}" /><br></br>
+            <h:outputText value="Welcome to PRISM, #{loginBean.username}" />
+            <br></br>
+            <br></br>
+            <h:form>
+                <!-- putting on main page just for testing only-->
+                <h1 style="margin-top:0">Create announcement:</h1>
+                <h:panelGrid columns="4" cellpadding="5">
+                <h:outputLabel for= "title" value="Announcement Title:"/>
+                <p:inputText id="title" value="#{announcementBean.title}" required="true" />
+                <!-- make the text box bigger-->
+                <h:outputLabel for= "message" value="Contents:"/>
+                <p:inputText id="message" value="#{announcementBean.message}" required="true" />
+                <!-- maybe can give them a few choices and select instead of typing-->
+                <h:outputLabel for= "type" value="Module Code:"/>
+                <p:inputText id="type" value="#{announcementBean.type}" required="true" />
+                <p:commandButton value="Submit" actionListener="#{announcementBean.enterAnnouncement}" />
+                </h:panelGrid>
+            </h:form>
         </div>
     </ui:define>
 
