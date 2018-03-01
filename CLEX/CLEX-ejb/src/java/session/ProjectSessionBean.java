@@ -6,6 +6,7 @@
 package session;
 
 import entity.Module;
+import entity.ProjectGroup;
 import entity.Student;
 import entity.User;
 import java.util.ArrayList;
@@ -86,5 +87,37 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
         return student;
     }
     
+    //check the status of a student's module group
+    //return a type t0 indicate the status of the group 
+    @Override
+    public String checkModuleGroup(Student student, Module module) {
+        String type = "none";
+        //the module has not been enabled by the lecturer to be able to form group
+        if(module.getSuperGroup() == null) {
+            type = "noSuperGroup";
+        }
+        //there is superGroup but the student has not linked to a group
+        else if (!(checkStudentProjectGroup(student, module))) {
+            type = "formGroup";
+        }
+        //there is superGroup and the student has linked to a group
+        else {
+            type = "hasGroup";
+        }
+        return type;
+    }
     
+    //call by checkModuleGroup
+    //check whetehr a student has erolled in a project group of certain module
+    private boolean checkStudentProjectGroup(Student student, Module module) {
+        boolean has= false;
+        Collection<ProjectGroup> allGroups = new ArrayList<ProjectGroup>();
+        allGroups = student.getProjectGroups();
+        for (ProjectGroup pg: allGroups) {
+            if (pg.getSuperGroup().getModule() == module)
+                has = true;
+        }
+        return has;
+    }
+
 }

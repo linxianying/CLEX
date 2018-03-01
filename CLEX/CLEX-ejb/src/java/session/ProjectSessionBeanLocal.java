@@ -20,5 +20,8 @@ public interface ProjectSessionBeanLocal {
     public ArrayList<Module> getTakingModules(String username);
 
     public Student findStudent(String username);
+
+    public String checkModuleGroup(Student student, Module module);
+
     
 }

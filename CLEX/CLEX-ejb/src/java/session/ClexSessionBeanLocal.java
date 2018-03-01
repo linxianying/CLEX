@@ -111,4 +111,8 @@ public interface ClexSessionBeanLocal {
     public void linkLecturerModule(String username, String moduleCode, String takenYear, String takenSem);
 
     public void linkStudentModule(String username, String moduleCode, String takenYear, String takenSem);
+
+    public ProjectGroup findProjectgroup(String name, Module module);
+
+    public void linkStudentGroup(Student student, ProjectGroup projectGroup);
 }
