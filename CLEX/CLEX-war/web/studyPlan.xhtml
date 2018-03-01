@@ -133,6 +133,7 @@
                                     </p:panel>
                                     Expected Grade: 
                                     <p:selectOneMenu id="newCurrentGrade" value="#{studyPlanBean.newCurrentModuleGrade}" style="width:150px">
+                                        <f:selectItem itemLabel="Select One" itemValue="select" />
                                         <f:selectItem itemLabel="A+" itemValue="A+" />
                                         <f:selectItem itemLabel="A" itemValue="A" />
                                         <f:selectItem itemLabel="A-" itemValue="A-" />
@@ -208,7 +209,7 @@
                     <h:outputText id ="expectedCap" value="#{studyPlanBean.expectedCap}">
                         <f:convertNumber pattern="#0.00" />
                     </h:outputText>
-                    <p:commandButton value="Reset" action="studyPlan?faces-redirect=true" />
+                    
                     <br />
                     <br />
                     Add new study plan entry:
@@ -230,7 +231,6 @@
                         <p:commandButton value="add" id="addStudyPlanButton" rendered="#{studyPlanBean.addButton}" actionListener="#{studyPlanBean.addStudyPlan()}" action="studyPlan?faces-redirect=true" />
                     </h:form>
                     <br />
-                    
                 </div>
             </div>
         </h:body>
