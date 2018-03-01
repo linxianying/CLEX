@@ -47,7 +47,7 @@ public class JsonReader {
     }
 
     public static String[][] dragAllNusMods(String url){
-        String[][] arr = new String[4000][5];
+        String[][] arr = new String[4000][7];
         int index = 0;
         try {
             
@@ -57,8 +57,9 @@ public class JsonReader {
             String moduleInfo = "";
             String workload="";
             String tempUrl;
-            String moduleCredit="";
+            String moduleCredit = "";
             String prerequisite = "";
+            String preclusion = "";
             Iterator keys = json.keys();
             while (keys.hasNext()) {
                 Object key = keys.next();
@@ -72,13 +73,24 @@ public class JsonReader {
                     prerequisite = newJson.getString("Prerequisite");
                 if(newJson.has("ModuleDescription"))
                     moduleInfo = newJson.getString("ModuleDescription");
+                if(newJson.has("Preclusion"))
+                    preclusion = newJson.getString("Preclusion");
                 if(newJson.has("Workload"))
                     workload = newJson.getString("Workload");
+                if(moduleInfo.length()>800){
+                    moduleInfo = moduleInfo.substring(0, 800);
+                    moduleInfo = moduleInfo + "...";
+                }
+                //if(prerequisite.length()>250){
+                //    prerequisite = prerequisite.substring(0, 250);  
+                //}
                 arr[index][0]=moduleCode;
                 arr[index][1]=moduleTitle;
                 arr[index][2]=moduleInfo;
                 arr[index][3]=moduleCredit;
                 arr[index][4]=workload;
+                arr[index][5]=prerequisite;
+                arr[index][6]=preclusion;
                 index++;
             }  
         } catch (Exception e) {

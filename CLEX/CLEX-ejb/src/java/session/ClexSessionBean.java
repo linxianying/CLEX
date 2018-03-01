@@ -129,6 +129,7 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
                     arr[index][2] = arr[index][1];
                 }
                 createCourse(arr[index][0],arr[index][1],arr[index][2],false,"","","","NUS",arr[index][3],arr[index][4]);
+                createModule("2017","1",arr[index][5],arr[index][6],courseEntity);
                 index++;
             }
             //(moduleCode, moduleTitle, moduleInfo ,false,"","", "", "NUS",Integer.parseInt(moduleCredit),workload);
@@ -175,11 +176,11 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     @Override
     public void createCourse(String moduleCode, String moduleName, String moduleInfo ,boolean discontinuedBool,
         String discountinuedYear, String discountinuedSem, String offeredSem, String school, String moduleCredit, String workload) {
-        Course course = new Course();
-        course.createCourse(moduleCode, moduleName, moduleInfo, 
+        courseEntity = new Course();
+        courseEntity.createCourse(moduleCode, moduleName, moduleInfo, 
                 discontinuedBool, discountinuedYear, discountinuedSem, 
                 offeredSem, school,moduleCredit, workload);
-        em.persist(course);
+        em.persist(courseEntity);
         em.flush();
 
     }

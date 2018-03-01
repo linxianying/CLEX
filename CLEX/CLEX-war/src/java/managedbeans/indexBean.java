@@ -126,11 +126,11 @@ public class indexBean {
         csbl.linkLecturerModule("hsianghui4", "CL3551", "2016", "2");
         
         //modules for 2017, sem 1
-        csbl.createModule("2017", "1", "none", "none", csbl.findCourse("GER1000"));
-        csbl.createModule("2017", "1", "none", "none", csbl.findCourse("RE2102"));
-        csbl.createModule("2017", "1", "none", "none", csbl.findCourse("MLE2101"));
-        csbl.createModule("2017", "1", "none", "none", csbl.findCourse("NM4227"));
-        csbl.createModule("2017", "1", "none", "none", csbl.findCourse("LAL1201"));
+        //csbl.createModule("2017", "1", "none", "none", csbl.findCourse("GER1000"));
+        //csbl.createModule("2017", "1", "none", "none", csbl.findCourse("RE2102"));
+        //csbl.createModule("2017", "1", "none", "none", csbl.findCourse("MLE2101"));
+        //csbl.createModule("2017", "1", "none", "none", csbl.findCourse("NM4227"));
+        //csbl.createModule("2017", "1", "none", "none", csbl.findCourse("LAL1201"));
         
         csbl.linkLecturerModule("lecturer", "GER1000", "2017", "1");
         csbl.linkLecturerModule("hsianghui2", "RE2102", "2017", "1");

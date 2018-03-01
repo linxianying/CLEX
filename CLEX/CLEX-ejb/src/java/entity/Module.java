@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,7 +32,9 @@ public class Module implements Serializable {
     private Long id;
     private String takenYear;
     private String takenSem;
+    @Column(length=2048)
     private String prerequisite;
+    @Column(length=2048)
     private String preclusions;
 
     
@@ -58,7 +61,6 @@ public class Module implements Serializable {
                 String takenSem,String prerequisite, String preclusions, Course course){
         this.takenSem = takenSem;
         this.takenYear = takenYear;
-
         this.prerequisite = prerequisite;
         this.preclusions = preclusions;
         this.course = course;
