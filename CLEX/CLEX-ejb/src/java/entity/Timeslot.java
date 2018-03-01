@@ -6,10 +6,12 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -21,22 +23,19 @@ public class Timeslot implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String date;
-    private String timeFrom;
-    private String timeEnd;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date startDate;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date endDate;
     private String title;
     private String details;
     private String venue;
-    
-    
 
-    public void createTimeslot(String date, String timeFrom, String timeEnd, 
-                String title, String details, String venue) {
-        this.date = date;
-        this.timeFrom = timeFrom;
-        this.timeEnd = timeEnd;
-        this.details = details;
+    public void createTimeslot(String title, Date startDate, Date endDate, String details, String venue) {
         this.title = title;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.details = details;
         this.venue = venue;
     }
 
@@ -48,28 +47,20 @@ public class Timeslot implements Serializable {
         this.id = id;
     }
 
-    public String getDate() {
-        return date;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    public String getTimeFrom() {
-        return timeFrom;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public void setTimeFrom(String timeFrom) {
-        this.timeFrom = timeFrom;
-    }
-
-    public String getTimeEnd() {
-        return timeEnd;
-    }
-
-    public void setTimeEnd(String timeEnd) {
-        this.timeEnd = timeEnd;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public String getTitle() {

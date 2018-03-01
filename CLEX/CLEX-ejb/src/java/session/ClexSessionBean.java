@@ -23,6 +23,7 @@ import entity.User;
 import java.security.MessageDigest;
 import java.text.DecimalFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Random;
 import javaClass.JsonReader;
 import javax.ejb.Stateless;
@@ -68,10 +69,10 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     }
     
     @Override
-    public void createTimeslot(String date, String timeFrom, String timeEnd, 
-                String title, String details, String venue){
+    public void createTimeslot(String title, Date startDate, Date endDate,
+            String details, String venue){
         timeslotEntity = new Timeslot();
-        timeslotEntity.createTimeslot(date, timeFrom, timeEnd,title, details, venue);
+        timeslotEntity.createTimeslot(title, startDate, endDate, details, venue);
         em.persist(timeslotEntity);
         em.flush();
     }

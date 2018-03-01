@@ -22,6 +22,8 @@ import entity.User;
 import java.awt.Component;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import javaClass.IcsReader;
@@ -61,6 +63,7 @@ public class ScheduleSessionBean implements ScheduleSessionBeanLocal {
     private SuperGroup superGroupEntity;
     private Lesson lessonEntity;
     private GroupTimeslot groupTimeslotEntity;
+    private ArrayList<Timeslot> timeslots;
     
 
     @Override
@@ -71,19 +74,13 @@ public class ScheduleSessionBean implements ScheduleSessionBeanLocal {
     }
     
     @Override
-    public Timeslot createTimeslot(String username, String date, String timeFrom, String timeEnd, 
-                String title, String details, String venue){
-        userEntity = findUser(username);
-        if(userEntity==null){
-            return null;
-        }
+    public Timeslot createTimeslot(String title, Date startDate, Date endDate,
+            String details, String venue){
         timeslotEntity = new Timeslot();
-        timeslotEntity.createTimeslot(date, timeFrom, timeEnd,title, details, venue);
+        timeslotEntity.createTimeslot(title, startDate, endDate, details, venue);
         em.persist(timeslotEntity);
-        userEntity.getTimeslots().add(timeslotEntity);
-        em.merge(userEntity);
         em.flush();
-        System.out.print("timeslot " + timeslotEntity.getId()+" created for user " + username);
+        System.out.print("timeslot create: " + timeslotEntity.getId());
         return timeslotEntity;
     }
 
@@ -134,14 +131,13 @@ public class ScheduleSessionBean implements ScheduleSessionBeanLocal {
     }
     
     @Override
-    public void updateTimeslot(Long id, String date, String timeFrom, String timeEnd, 
-                String title, String details, String venue) {
+    public void updateTimeslot(Long id, String title, Date startDate, Date endDate, 
+            String details, String venue) {
         timeslotEntity = findTimeslot(id);
         if(timeslotEntity != null){
-            timeslotEntity.setDate(date);
             timeslotEntity.setDetails(details);
-            timeslotEntity.setTimeFrom(timeFrom);
-            timeslotEntity.setTimeEnd(timeEnd);
+            timeslotEntity.setStartDate(startDate);
+            timeslotEntity.setEndDate(endDate);
             timeslotEntity.setTitle(title);
             timeslotEntity.setVenue(venue);
             em.merge(timeslotEntity);
@@ -168,6 +164,17 @@ public class ScheduleSessionBean implements ScheduleSessionBeanLocal {
             e.printStackTrace();
         }
         return timeslotEntity;
+    }
+    
+        @Override
+    public ArrayList<Timeslot> getAllTimeslots(User userentitity) {
+        Collection<Timeslot> all = new ArrayList<Timeslot>();
+        timeslots = new ArrayList<Timeslot>();
+        all = userentitity.getTimeslots();
+        for (Timeslot t: all) {
+            timeslots.add(t);
+        }
+        return timeslots;
     }
     
     @Override
