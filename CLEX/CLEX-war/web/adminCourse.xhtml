@@ -8,282 +8,295 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="content">
-        <h:form>
-            <p:growl id="messages" showDetail="true" />
-            <h1 style="margin-top:0">Add a course:</h1>
-            <h:panelGrid columns="4" cellpadding="5">
-            <h:outputLabel for= "moduleCode" value="Module Code:"/>
-            <p:inputText id="moduleCode" value="#{courseBean.moduleCode}" required="true" />
-            <h:outputLabel for= "moduleName" value="Module Name:"/>
-            <p:inputText id="moduleName" value="#{courseBean.moduleName}" required="true" />
-            <h:outputLabel for= "moduleInfo" value="Module Info:"/>
-            <p:inputText id="moduleInfo" value="#{courseBean.moduleInfo}" required="true" />
-            <h:outputLabel for= "offeredSem" value="Offered Semester:"/>
-            <p:inputText id="offeredSem" value="#{courseBean.offeredSem}" required="true" />
-            <h:outputLabel for= "school" value="School:"/>
-            <p:inputText id="school" value="#{courseBean.school}" required="true" />
-            <h:outputLabel for= "workload" value="Workload:"/>
-            <p:inputText id="workload" value="#{courseBean.workload}" required="true" />
-            <h:outputLabel for= "modularCredits" value="Module Credits:"/>
-            <p:inputText id="modularCredits" value="#{courseBean.modularCredits}" required="true" />
-            <p:commandButton value="Submit" actionListener="#{courseBean.enterCourse}" />
-            </h:panelGrid>
-        </h:form>
+        <p:growl id="messages" showDetail="true" />
+        <h1 style="margin-top:0">Course Management Page</h1>
+        <p:tabView>
+            <p:tab title="CREATE COURSE">
+                <h:form>
+                    <h:panelGrid columns="4" cellpadding="5">
+                        <h:outputLabel for= "moduleCode" value="MODULE CODE:"/>
+                        <p:inputText id="moduleCode" value="#{courseBean.moduleCode}" required="true" style="text-transform: uppercase" />
+                        <h:outputLabel for= "moduleName" value="MODULE NAME:"/>
+                        <p:inputText id="moduleName" value="#{courseBean.moduleName}" required="true" />
+                        <h:outputLabel for= "moduleInfo" value="MODULE INFO:"/>
+                        <p:inputText id="moduleInfo" value="#{courseBean.moduleInfo}" required="true" />
+                        <h:outputLabel for= "offeredSem" value="OFFERED SEMESTER:"/>
+                        <p:inputText id="offeredSem" value="#{courseBean.offeredSem}" required="true" />
+                        <h:outputLabel for= "school" value="SCHOOL:" style="text-transform: uppercase" />
+                        <p:inputText id="school" value="#{courseBean.school}" required="true" />
+                        <h:outputLabel for= "workload" value="WORKLOAD:"/>
+                        <p:inputText id="workload" value="#{courseBean.workload}" required="true" />
+                        <h:outputLabel for= "modularCredits" value="MODULE CREDITS:"/>
+                        <p:inputText id="modularCredits" value="#{courseBean.modularCredits}" required="true" />
+                        <p:commandButton value="Submit" actionListener="#{courseBean.enterCourse}" />
+                    </h:panelGrid>
+                </h:form>
+            </p:tab>
+            <p:tab title="CREATE MODULE">
+                <h:form>
+                    <h:panelGrid columns="4" cellpadding="5">
+                        <h:outputLabel for= "moduleCodeForModule" value="MODULE CODE:"/>
+                        <p:inputText id="moduleCodeForModule" value="#{courseBean.moduleCode}" required="true" style="text-transform: uppercase" />
+                        <h:outputLabel for= "takenYear" value="TAKEN YEAR:"/>
+                        <p:inputText id="takenYear" value="#{courseBean.takenYear}" required="true" />
+                        <h:outputLabel for= "takenSem" value="TAKEN SEM:"/>
+                        <p:inputText id="takenSem" value="#{courseBean.takenSem}" required="true" />
+                        <h:outputLabel for= "prerequisite" value="PREREQUISITE:"/>
+                        <p:inputText id="prerequisite" value="#{courseBean.prerequisite}" required="true" />
+                        <h:outputLabel for= "preclusions" value="PRECLUSIONS:"/>
+                        <p:inputText id="preclusions" value="#{courseBean.preclusions}" required="true" />
+                        <p:commandButton value="Submit" actionListener="#{courseBean.enterModule}" />
+                    </h:panelGrid>
+                </h:form>
+            </p:tab>
+            <p:tab title="CREATE LESSON">
+                <h:form>
+                    <h:panelGrid columns="4" cellpadding="5">
+                        <h:outputLabel for= "moduleCodeForLesson" value="MODULE CODE:"/>
+                        <p:inputText id="moduleCodeForLesson" value="#{courseBean.moduleCode}" required="true" style="text-transform: uppercase" />
+                        <h:outputLabel for= "takenYearForLesson" value="MODULE YEAR:"/>
+                        <p:inputText id="takenYearForLesson" value="#{courseBean.takenYear}" required="true" />
+                        <h:outputLabel for= "takenSemForLesson" value="MODULE SEM:"/>
+                        <p:inputText id="takenSemForLesson" value="#{courseBean.takenSem}" required="true" />
+                        <h:outputLabel for= "day" value="DAY:"/>
+                        <p:inputText id="day" value="#{courseBean.day}" required="true" />
+                        <h:outputLabel for= "timeFrom" value="TIME FROM:"/>
+                        <p:inputText id="timeFrom" value="#{courseBean.timeFrom}" required="true" />
+                        <h:outputLabel for= "timeEnd" value="TIME END:"/>
+                        <p:inputText id="timeEnd" value="#{courseBean.timeEnd}" required="true" />    
+                        <h:outputLabel for= "type" value="LESSON TYPE:"/>
+                        <p:inputText id="type" value="#{courseBean.type}" required="true" />
+                        <h:outputLabel for= "venue" value="VENUE:"/>
+                        <p:inputText id="venue" value="#{courseBean.venue}" required="true" />            
+                        <p:commandButton value="Submit" actionListener="#{courseBean.enterLesson}" />
+                    </h:panelGrid>
+                </h:form>
+            </p:tab>
+        </p:tabView>    
+        <br></br>
+        <p:tabView>
+            <p:tab title="EDIT COURSE"> <!-- eeren: i want another way to present the editing of module, this is just for testing, remember to put this in lecturerModule-->
+                <h:form>
+                    <h:panelGrid columns="4" cellpadding="5">
+                        <h:outputLabel for= "moduleCode" value="MODULE CODE:"/>
+                        <p:inputText id="moduleCode" value="#{courseBean.moduleCode}" required="true" style="text-transform: uppercase" />
+                        <h:outputLabel for= "moduleName" value="MODULE NAME:"/>
+                        <p:inputText id="moduleName" value="#{courseBean.moduleName}" />
+                        <h:outputLabel for= "moduleInfo" value="MODULE INFO:"/>
+                        <p:inputText id="moduleInfo" value="#{courseBean.moduleInfo}" />
+                        <h:outputLabel for= "discontinuedBool" value="DISCONTINUED? TRUE/FALSE"/> <!-- Please change this-->
+                        <p:inputText id="discontinuedBool" value="#{courseBean.discontinuedBool}" />
+                        <h:outputLabel for= "discontinuedYear" value="DISCONTINUED YEAR:"/>
+                        <p:inputText id="discontinuedBoolYear" value="#{courseBean.discountinuedYear}" />
+                        <h:outputLabel for= "discontinuedSem" value="DISCONTINUED SEM:"/>
+                        <p:inputText id="discontinuedSem" value="#{courseBean.discountinuedSem}" />
+                        <h:outputLabel for= "offeredSem" value="OFFERED SEM:"/>
+                        <p:inputText id="offeredSem" value="#{courseBean.offeredSem}" />
+                        <h:outputLabel for= "school" value="SCHOOL:" style="text-transform: uppercase"/>
+                        <p:inputText id="school" value="#{courseBean.school}" />
+                        <h:outputLabel for= "workload" value="WORKLOAD:"/>
+                        <p:inputText id="workload" value="#{courseBean.workload}" />
+                        <h:outputLabel for= "modularCredits" value="MODULE CREDITS:"/>
+                        <p:inputText id="modularCredits" value="#{courseBean.modularCredits}" />
+                        <p:commandButton value="Submit" actionListener="#{courseBean.editCourse}" />
+                    </h:panelGrid>
+                </h:form>    
+            </p:tab>
+            <p:tab title="EDIT MODULE">
+                <h:form>
+                    <h:panelGrid columns="4" cellpadding="5">
+                        <h:outputLabel for= "moduleCodeForModule" value="MODULE CODE:"/>
+                        <p:inputText id="moduleCodeForModule" value="#{courseBean.moduleCode}" required="true" style="text-transform: uppercase" />
+                        <h:outputLabel for= "takenYear" value="MODULE YEAR:"/>
+                        <p:inputText id="takenYear" value="#{courseBean.takenYear}" required="true" />
+                        <h:outputLabel for= "takenSem" value="MODULE SEM:"/>
+                        <p:inputText id="takenSem" value="#{courseBean.takenSem}" required="true" />  
+                        <h:outputLabel for= "prerequisite" value="PREREQUISITES:"/>
+                        <p:inputText id="prerequisite" value="#{courseBean.prerequisite}" />
+                        <h:outputLabel for= "preclusions" value="PRECLUSIONS:"/>
+                        <p:inputText id="preclusions" value="#{courseBean.preclusions}"/>            
+                        <p:commandButton value="Submit" actionListener="#{courseBean.editModule}" />
+                    </h:panelGrid>
+                </h:form>
+            </p:tab>
+            <p:tab title="EDIT LESSON">
+                <h:form>
+                    <h:panelGrid columns="4" cellpadding="5">
+                        <h:outputLabel for= "moduleCodeForLesson" value="MODULE CODE:"/>
+                        <p:inputText id="moduleCodeForLesson" value="#{courseBean.moduleCode}" required="true" style="text-transform: uppercase" />
+                        <h:outputLabel for= "takenYearForLesson" value="MODULE YEAR:"/>
+                        <p:inputText id="takenYearForLesson" value="#{courseBean.takenYear}" required="true" />
+                        <h:outputLabel for= "takenSemForLesson" value="MODULE SEM:"/>
+                        <p:inputText id="takenSemForLesson" value="#{courseBean.takenSem}" required="true" />
+                        <h:outputLabel for= "day" value="DAY:"/>
+                        <p:inputText id="day" value="#{courseBean.day}" required="true" />
+                        <h:outputLabel for= "timeFrom" value="TIME FROM:"/>
+                        <p:inputText id="timeFrom" value="#{courseBean.timeFrom}" required="true" />
+                        <h:outputLabel for= "timeEnd" value="TIME END:"/>
+                        <p:inputText id="timeEnd" value="#{courseBean.timeEnd}" required="true" />  
+                        <h:outputLabel for= "type" value="LESSON TYPE:"/>
+                        <p:inputText id="type" value="#{courseBean.type}" required="true" />
+                        <h:outputLabel for= "venue" value="VENUE:"/>
+                        <p:inputText id="venue" value="#{courseBean.venue}" required="true" /> 
+                        <p:commandButton value="Submit" actionListener="#{courseBean.editLesson}" />
+                    </h:panelGrid>
+                </h:form>    
+            </p:tab>
+            <p:tab title="ASSIGN LECTURER TO MODULE">
+                <h:form>
+                    <h:panelGrid columns="4" cellpadding="5">
+                        <h:outputLabel for= "lecturer" value="LECTURER'S USERNAME:"/>
+                        <p:inputText id="lecturer" value="#{courseBean.lecturerUser}" required="true" />
+                        <h:outputLabel for= "moduleCodeAssign" value="MODULE CODE:"/>
+                        <p:inputText id="moduleCodeAssign" value="#{courseBean.moduleCode}" required="true" style="text-transform: uppercase" />
+                        <h:outputLabel for= "takenYearAssign" value="TAKEN YEAR:"/>
+                        <p:inputText id="takenYearAssign" value="#{courseBean.takenYear}" required="true" />
+                        <h:outputLabel for= "takenSemAssign" value="TAKEN SEM:"/>
+                        <p:inputText id="takenSemAssign" value="#{courseBean.takenSem}" required="true" />
+                        <p:commandButton value="Submit" actionListener="#{courseBean.assignLecturer}" />
+                    </h:panelGrid>
+                </h:form>
+            </p:tab>
+        </p:tabView>
+        <br></br>
+        <p:tabView>
+            <p:tab title="DELETE COURSE">
+                <h:form>
+                    <h:panelGrid columns="4" cellpadding="5">
+                        <h:outputLabel for= "moduleCode" value="MODULE CODE:"/>
+                        <p:inputText id="moduleCode" value="#{courseBean.moduleCode}" required="true" style="text-transform: uppercase" />
+                        <p:commandButton value="Submit" actionListener="#{courseBean.removeCourse}" />
+                    </h:panelGrid>
+                </h:form>
+            </p:tab>
+            <p:tab title="DELETE MODULE">
+                <h:form>
+                    <h:panelGrid columns="4" cellpadding="5">
+                        <h:outputLabel for= "moduleCodeForModule" value="MODULE CODE:"/>
+                        <p:inputText id="moduleCodeForModule" value="#{courseBean.moduleCode}" required="true" style="text-transform: uppercase" />
+                        <h:outputLabel for= "takenYear" value="MODULE YEAR:"/>
+                        <p:inputText id="takenYear" value="#{courseBean.takenYear}" required="true" />
+                        <h:outputLabel for= "takenSem" value="MODULE SEM:"/>
+                        <p:inputText id="takenSem" value="#{courseBean.takenSem}" required="true" />            
+                        <p:commandButton value="Submit" actionListener="#{courseBean.removeModule}" />
+                    </h:panelGrid>
+                </h:form>
+            </p:tab>
+            <p:tab title="DELETE LESSON">
+                <h:form>
+                    <h:panelGrid columns="4" cellpadding="5">
+                        <h:outputLabel for= "moduleCodeForLesson" value="MODULE CODE:"/>
+                        <p:inputText id="moduleCodeForLesson" value="#{courseBean.moduleCode}" required="true" style="text-transform: uppercase" />
+                        <h:outputLabel for= "takenYearForLesson" value="MODULE YEAR:"/>
+                        <p:inputText id="takenYearForLesson" value="#{courseBean.takenYear}" required="true" />
+                        <h:outputLabel for= "takenSemForLesson" value="MODULE SEM:"/>
+                        <p:inputText id="takenSemForLesson" value="#{courseBean.takenSem}" required="true" />
+                        <h:outputLabel for= "day" value="DAY:"/>
+                        <p:inputText id="day" value="#{courseBean.day}" required="true" />
+                        <h:outputLabel for= "timeFrom" value="TIME FROM:"/>
+                        <p:inputText id="timeFrom" value="#{courseBean.timeFrom}" required="true" />
+                        <h:outputLabel for= "timeEnd" value="TIME END:"/>
+                        <p:inputText id="timeEnd" value="#{courseBean.timeEnd}" required="true" />   
+                        <p:commandButton value="Submit" actionListener="#{courseBean.removeLesson}" />
+                    </h:panelGrid>
+                </h:form>
+            </p:tab>
+        </p:tabView>
         <br></br>
         <h:form>
-            <h1 style="margin-top:0">Assign a lecturer to a module:</h1>
-            <h:panelGrid columns="4" cellpadding="5">
-            <h:outputLabel for= "lecturer" value="Lecturer's username:"/>
-            <p:inputText id="lecturer" value="#{courseBean.lecturerUser}" required="true" />
-            <h:outputLabel for= "moduleCode" value="Module Code:"/>
-            <p:inputText id="moduleCode" value="#{courseBean.moduleCode}" required="true" />
-            <h:outputLabel for= "takenYear" value="Taken Year:"/>
-            <p:inputText id="takenYear" value="#{courseBean.takenYear}" required="true" />
-            <h:outputLabel for= "takenSem" value="Taken Sem:"/>
-            <p:inputText id="takenSem" value="#{courseBean.takenSem}" required="true" />
-            <p:commandButton value="Submit" actionListener="#{courseBean.assignLecturer}" />
-            </h:panelGrid>
-        </h:form>
-        <br></br>
-        <h:form>
-            <p:dataTable var="course" value="#{adminCourseListBean.courses}" widgetVar="coursesTable"
-            emptyMessage="No courses found with given criteria." filteredValue="#{adminCourseListBean.filteredCourses}">
-                <f:facet name="header">
-                    <p:outputPanel>
-                        <h:outputText value="Search all fields:" />
-                        <p:inputText id="globalFilter" onkeyup="PF('coursesTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-                    </p:outputPanel>
-                </f:facet>
+            <p:panel collapsed="true" styleClass="menuHeader" id="courselist" header="VIEW ALL COURSES" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
+                <p:dataTable var="course" value="#{adminCourseListBean.courses}" widgetVar="coursesTable"
+                emptyMessage="No courses found with given criteria." filteredValue="#{adminCourseListBean.filteredCourses}">
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Search all fields:" />
+                            <p:inputText id="globalFilter" onkeyup="PF('coursesTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                        </p:outputPanel>
+                    </f:facet>
 
-                <p:column filterBy="#{course.moduleCode}" headerText="Code" filterMatchMode="contains">
-                    <h:outputText value="#{course.moduleCode}" />
-                </p:column>
-                <p:column filterBy="#{course.moduleName}" headerText="Name" filterMatchMode="contains">
-                    <h:outputText value="#{course.moduleName}" />
-                </p:column>
-                <p:column filterBy="#{course.moduleInfo}" headerText="Info" filterMatchMode="contains">
-                    <h:outputText value="#{course.moduleInfo}" />
-                </p:column>
-                <p:column filterBy="#{course.offeredSem}" headerText="Semester" filterMatchMode="contains">
-                    <h:outputText value="#{course.offeredSem}" />
-                </p:column>
-                <p:column filterBy="#{course.school}" headerText="School" filterMatchMode="contains">
-                    <h:outputText value="#{course.school}" />
-                </p:column>
-                <p:column filterBy="#{course.workload}" headerText="Workload" filterMatchMode="contains">
-                    <h:outputText value="#{course.workload}" />
-                </p:column>
-                <p:column filterBy="#{course.modularCredits}" headerText="Credits" filterMatchMode="contains">
-                    <h:outputText value="#{course.modularCredits}" />
-                </p:column>
-            </p:dataTable>
-        </h:form>
-        <br></br>
-        <br></br>        
-        <h:form>
-            <h1 style="margin-top:0">Add a module:</h1>
-            <h:panelGrid columns="4" cellpadding="5">
-            <h:outputLabel for= "moduleCode" value="Module Code:"/>
-            <p:inputText id="moduleCode" value="#{courseBean.moduleCode}" required="true" />
-            <h:outputLabel for= "takenYear" value="Taken Year:"/>
-            <p:inputText id="takenYear" value="#{courseBean.takenYear}" required="true" />
-            <h:outputLabel for= "takenSem" value="Taken Sem:"/>
-            <p:inputText id="takenSem" value="#{courseBean.takenSem}" required="true" />
-            <h:outputLabel for= "prerequisite" value="Prerequisite:"/>
-            <p:inputText id="prerequisite" value="#{courseBean.prerequisite}" required="true" />
-            <h:outputLabel for= "preclusions" value="Preclusions:"/>
-            <p:inputText id="preclusions" value="#{courseBean.preclusions}" required="true" />
-            <p:commandButton value="Submit" actionListener="#{courseBean.enterModule}" />
-            </h:panelGrid>
-        </h:form>
-        <br></br>
+                    <p:column filterBy="#{course.moduleCode}" headerText="Code" filterMatchMode="contains">
+                        <h:outputText value="#{course.moduleCode}" />
+                    </p:column>
+                    <p:column filterBy="#{course.moduleName}" headerText="Name" filterMatchMode="contains">
+                        <h:outputText value="#{course.moduleName}" />
+                    </p:column>
+                    <p:column filterBy="#{course.moduleInfo}" headerText="Info" filterMatchMode="contains">
+                        <h:outputText value="#{course.moduleInfo}" />
+                    </p:column>
+                    <p:column filterBy="#{course.offeredSem}" headerText="Semester" filterMatchMode="contains">
+                        <h:outputText value="#{course.offeredSem}" />
+                    </p:column>
+                    <p:column filterBy="#{course.school}" headerText="School" filterMatchMode="contains">
+                        <h:outputText value="#{course.school}" />
+                    </p:column>
+                    <p:column filterBy="#{course.workload}" headerText="Workload" filterMatchMode="contains">
+                        <h:outputText value="#{course.workload}" />
+                    </p:column>
+                    <p:column filterBy="#{course.modularCredits}" headerText="Credits" filterMatchMode="contains">
+                        <h:outputText value="#{course.modularCredits}" />
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+        </h:form>     
         <h:form><!-- eeren: not sure why it dosent work, tested backend where the list of modules actually have the individual module object in them, might be frontend problem-->
-            <p:dataTable var="modules" value="#{adminCourseListBean.modules}" widgetVar="modulesTable"
-            emptyMessage="No modules found with given criteria." filteredValue="#{adminCourseListBean.filteredModules}">
-                <f:facet name="header">
-                    <p:outputPanel>
-                        <h:outputText value="Search all fields:" />
-                        <p:inputText id="globalFilter" onkeyup="PF('modulesTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-                    </p:outputPanel>
-                </f:facet>
-                
-                <p:column filterBy="#{module.takenYear}" headerText="Taken Year" filterMatchMode="contains">
-                    <h:outputText value="#{module.takenYear}" />
-                </p:column>
-                <p:column filterBy="#{module.takenSem}" headerText="Taken Sem" filterMatchMode="contains">
-                    <h:outputText value="#{module.takenSem}" />
-                </p:column>
-                <p:column filterBy="#{module.prerequisite}" headerText="Prerequisite" filterMatchMode="contains">
-                    <h:outputText value="#{module.prerequisite}" />
-                </p:column>
-                <p:column filterBy="#{module.preclusions}" headerText="Preclusions" filterMatchMode="contains">
-                    <h:outputText value="#{module.preclusions}" />
-                </p:column>
+            <p:panel collapsed="true" styleClass="menuHeader" id="modulelist" header="VIEW ALL MODULES" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
+                <p:dataTable var="modules" value="#{adminCourseListBean.modules}" widgetVar="modulesTable"
+                emptyMessage="No modules found with given criteria." filteredValue="#{adminCourseListBean.filteredModules}">
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Search all fields:" />
+                            <p:inputText id="globalFilter" onkeyup="PF('modulesTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                        </p:outputPanel>
+                    </f:facet>
 
-            </p:dataTable>
-        </h:form>  
-        <br></br>
-        <br></br>        
-        <h:form>
-            <h1 style="margin-top:0">Add a lesson:</h1>
-            <h:panelGrid columns="4" cellpadding="5">
-            <h:outputLabel for= "moduleCode" value="Module Code:"/>
-            <p:inputText id="moduleCode" value="#{courseBean.moduleCode}" required="true" />
-            <h:outputLabel for= "takenYear" value="Module Year:"/>
-            <p:inputText id="takenYear" value="#{courseBean.takenYear}" required="true" />
-            <h:outputLabel for= "takenSem" value="Module Sem:"/>
-            <p:inputText id="takenSem" value="#{courseBean.takenSem}" required="true" />
-            <h:outputLabel for= "day" value="Day:"/>
-            <p:inputText id="day" value="#{courseBean.day}" required="true" />
-            <h:outputLabel for= "timeFrom" value="Time From:"/>
-            <p:inputText id="timeFrom" value="#{courseBean.timeFrom}" required="true" />
-            <h:outputLabel for= "timeEnd" value="Time End:"/>
-            <p:inputText id="timeEnd" value="#{courseBean.timeEnd}" required="true" />    
-            <h:outputLabel for= "type" value="Lesson Type:"/>
-            <p:inputText id="type" value="#{courseBean.type}" required="true" />
-            <h:outputLabel for= "venue" value="Venue:"/>
-            <p:inputText id="venue" value="#{courseBean.venue}" required="true" />            
-            <p:commandButton value="Submit" actionListener="#{courseBean.enterLesson}" />
-            </h:panelGrid>
-        </h:form>
-        <br></br>
+                    <p:column filterBy="#{module.takenYear}" headerText="Taken Year" filterMatchMode="contains">
+                        <h:outputText value="#{module.takenYear}" />
+                    </p:column>
+                    <p:column filterBy="#{module.takenSem}" headerText="Taken Sem" filterMatchMode="contains">
+                        <h:outputText value="#{module.takenSem}" />
+                    </p:column>
+                    <p:column filterBy="#{module.prerequisite}" headerText="Prerequisite" filterMatchMode="contains">
+                        <h:outputText value="#{module.prerequisite}" />
+                    </p:column>
+                    <p:column filterBy="#{module.preclusions}" headerText="Preclusions" filterMatchMode="contains">
+                        <h:outputText value="#{module.preclusions}" />
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+        </h:form>        
         <h:form><!-- eeren: same as module-->
-            <p:dataTable var="lessons" value="#{adminCourseListBean.lessons}" widgetVar="lessonsTable"
-            emptyMessage="No lessons found with given criteria." filteredValue="#{adminCourseListBean.filteredLessons}">
-                <f:facet name="header">
-                    <p:outputPanel>
-                        <h:outputText value="Search all fields:" />
-                        <p:inputText id="globalFilter" onkeyup="PF('lessonsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-                    </p:outputPanel>
-                </f:facet>
+            <p:panel collapsed="true" styleClass="menuHeader" id="lessonlist" header="VIEW ALL LESSONS" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
+                <p:dataTable var="lessons" value="#{adminCourseListBean.lessons}" widgetVar="lessonsTable"
+                emptyMessage="No lessons found with given criteria." filteredValue="#{adminCourseListBean.filteredLessons}">
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Search all fields:" />
+                            <p:inputText id="globalFilter" onkeyup="PF('lessonsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                        </p:outputPanel>
+                    </f:facet>
 
-                <p:column filterBy="#{lesson.day}" headerText="Day" filterMatchMode="contains">
-                    <h:outputText value="#{lesson.day}" />
-                </p:column>
-                <p:column filterBy="#{lesson.timeFrom}" headerText="Time Start" filterMatchMode="contains">
-                    <h:outputText value="#{lesson.timeFrom}" />
-                </p:column>
-                <p:column filterBy="#{lesson.timeEnd}" headerText="Time End" filterMatchMode="contains">
-                    <h:outputText value="#{lesson.timeEnd}" />
-                </p:column>
-                <p:column filterBy="#{lesson.type}" headerText="Type" filterMatchMode="contains">
-                    <h:outputText value="#{lesson.type}" />
-                </p:column>
-                <p:column filterBy="#{lesson.venue}" headerText="Venue" filterMatchMode="contains">
-                    <h:outputText value="#{lesson.venue}" />
-                </p:column>
+                    <p:column filterBy="#{lesson.day}" headerText="Day" filterMatchMode="contains">
+                        <h:outputText value="#{lesson.day}" />
+                    </p:column>
+                    <p:column filterBy="#{lesson.timeFrom}" headerText="Time Start" filterMatchMode="contains">
+                        <h:outputText value="#{lesson.timeFrom}" />
+                    </p:column>
+                    <p:column filterBy="#{lesson.timeEnd}" headerText="Time End" filterMatchMode="contains">
+                        <h:outputText value="#{lesson.timeEnd}" />
+                    </p:column>
+                    <p:column filterBy="#{lesson.type}" headerText="Type" filterMatchMode="contains">
+                        <h:outputText value="#{lesson.type}" />
+                    </p:column>
+                    <p:column filterBy="#{lesson.venue}" headerText="Venue" filterMatchMode="contains">
+                        <h:outputText value="#{lesson.venue}" />
+                    </p:column>
 
-            </p:dataTable>
+                </p:dataTable>
+            </p:panel>
         </h:form>  
         <br></br>
         <br></br>        
-        <h:form>
-            <h1 style="margin-top:0">Delete a course:</h1>
-            <h:panelGrid columns="4" cellpadding="5">
-            <h:outputLabel for= "moduleCode" value="Module Code:"/>
-            <p:inputText id="moduleCode" value="#{courseBean.moduleCode}" required="true" />
-            <p:commandButton value="Submit" actionListener="#{courseBean.removeCourse}" />
-            </h:panelGrid>
-        </h:form>
-        <br></br>
-        <h:form>
-            <h1 style="margin-top:0">Delete a module:</h1>
-            <h:panelGrid columns="4" cellpadding="5">
-            <h:outputLabel for= "moduleCode" value="Module Code:"/>
-            <p:inputText id="moduleCode" value="#{courseBean.moduleCode}" required="true" />
-            <h:outputLabel for= "takenYear" value="Module Year:"/>
-            <p:inputText id="takenYear" value="#{courseBean.takenYear}" required="true" />
-            <h:outputLabel for= "takenSem" value="Module Sem:"/>
-            <p:inputText id="takenSem" value="#{courseBean.takenSem}" required="true" />            
-            <p:commandButton value="Submit" actionListener="#{courseBean.removeModule}" />
-            </h:panelGrid>
-        </h:form>
-        <br></br>
-        <h:form>
-            <h1 style="margin-top:0">Delete a lesson:</h1>
-            <h:panelGrid columns="4" cellpadding="5">
-            <h:outputLabel for= "moduleCode" value="Module Code:"/>
-            <p:inputText id="moduleCode" value="#{courseBean.moduleCode}" required="true" />
-            <h:outputLabel for= "takenYear" value="Module Year:"/>
-            <p:inputText id="takenYear" value="#{courseBean.takenYear}" required="true" />
-            <h:outputLabel for= "takenSem" value="Module Sem:"/>
-            <p:inputText id="takenSem" value="#{courseBean.takenSem}" required="true" />
-            <h:outputLabel for= "day" value="Day:"/>
-            <p:inputText id="day" value="#{courseBean.day}" required="true" />
-            <h:outputLabel for= "timeFrom" value="Time From:"/>
-            <p:inputText id="timeFrom" value="#{courseBean.timeFrom}" required="true" />
-            <h:outputLabel for= "timeEnd" value="Time End:"/>
-            <p:inputText id="timeEnd" value="#{courseBean.timeEnd}" required="true" />   
-            <p:commandButton value="Submit" actionListener="#{courseBean.removeLesson}" />
-            </h:panelGrid>
-        </h:form>
-        <br></br>
-        <h:form><!-- eeren: i want another way to present the editing of module, this is just for testing, remember to put this in lecturerModule-->
-            <h1 style="margin-top:0">Edit a course:</h1>
-            <h:panelGrid columns="4" cellpadding="5">
-            <h:outputLabel for= "moduleCode" value="Module Code:"/>
-            <p:inputText id="moduleCode" value="#{courseBean.moduleCode}" required="true" />
-            <h:outputLabel for= "moduleName" value="Module Name:"/>
-            <p:inputText id="moduleName" value="#{courseBean.moduleName}" />
-            <h:outputLabel for= "moduleInfo" value="Module Info:"/>
-            <p:inputText id="moduleInfo" value="#{courseBean.moduleInfo}" />
-            <h:outputLabel for= "discontinuedBool" value="Discontinued? True/False"/> <!-- Please change this-->
-            <p:inputText id="discontinuedBool" value="#{courseBean.discontinuedBool}" />
-            <h:outputLabel for= "discontinuedYear" value="Discontinued Year:"/>
-            <p:inputText id="discontinuedBoolYear" value="#{courseBean.discountinuedYear}" />
-            <h:outputLabel for= "discontinuedSem" value="Discontinued Sem:"/>
-            <p:inputText id="discontinuedSem" value="#{courseBean.discountinuedSem}" />
-            <h:outputLabel for= "offeredSem" value="Offered Semester:"/>
-            <p:inputText id="offeredSem" value="#{courseBean.offeredSem}" />
-            <h:outputLabel for= "school" value="School:"/>
-            <p:inputText id="school" value="#{courseBean.school}" />
-            <h:outputLabel for= "workload" value="Workload:"/>
-            <p:inputText id="workload" value="#{courseBean.workload}" />
-            <h:outputLabel for= "modularCredits" value="Module Credits:"/>
-            <p:inputText id="modularCredits" value="#{courseBean.modularCredits}" />
-            <p:commandButton value="Submit" actionListener="#{courseBean.editCourse}" />
-            </h:panelGrid>
-        </h:form>
-        <br></br>
-        <h:form>
-            <h1 style="margin-top:0">Edit a module:</h1>
-            <h:panelGrid columns="4" cellpadding="5">
-            <h:outputLabel for= "moduleCode" value="Module Code:"/>
-            <p:inputText id="moduleCode" value="#{courseBean.moduleCode}" required="true" />
-            <h:outputLabel for= "takenYear" value="Module Year:"/>
-            <p:inputText id="takenYear" value="#{courseBean.takenYear}" required="true" />
-            <h:outputLabel for= "takenSem" value="Module Sem:"/>
-            <p:inputText id="takenSem" value="#{courseBean.takenSem}" required="true" />  
-            <h:outputLabel for= "prerequisite" value="Prerequisite:"/>
-            <p:inputText id="prerequisite" value="#{courseBean.prerequisite}" />
-            <h:outputLabel for= "preclusions" value="Preclusions:"/>
-            <p:inputText id="preclusions" value="#{courseBean.preclusions}"/>            
-            <p:commandButton value="Submit" actionListener="#{courseBean.editModule}" />
-            </h:panelGrid>
-        </h:form>
-        <br></br>
-        <h:form>
-            <h1 style="margin-top:0">Edit a lesson:</h1>
-            <h:panelGrid columns="4" cellpadding="5">
-            <h:outputLabel for= "moduleCode" value="Module Code:"/>
-            <p:inputText id="moduleCode" value="#{courseBean.moduleCode}" required="true" />
-            <h:outputLabel for= "takenYear" value="Module Year:"/>
-            <p:inputText id="takenYear" value="#{courseBean.takenYear}" required="true" />
-            <h:outputLabel for= "takenSem" value="Module Sem:"/>
-            <p:inputText id="takenSem" value="#{courseBean.takenSem}" required="true" />
-            <h:outputLabel for= "day" value="Day:"/>
-            <p:inputText id="day" value="#{courseBean.day}" required="true" />
-            <h:outputLabel for= "timeFrom" value="Time From:"/>
-            <p:inputText id="timeFrom" value="#{courseBean.timeFrom}" required="true" />
-            <h:outputLabel for= "timeEnd" value="Time End:"/>
-            <p:inputText id="timeEnd" value="#{courseBean.timeEnd}" required="true" />  
-            <h:outputLabel for= "type" value="Lesson Type:"/>
-            <p:inputText id="type" value="#{courseBean.type}" required="true" />
-            <h:outputLabel for= "venue" value="Venue:"/>
-            <p:inputText id="venue" value="#{courseBean.venue}" required="true" /> 
-            <p:commandButton value="Submit" actionListener="#{courseBean.editLesson}" />
-            </h:panelGrid>
-        </h:form>
+
     </ui:define>
 
 </ui:composition>
