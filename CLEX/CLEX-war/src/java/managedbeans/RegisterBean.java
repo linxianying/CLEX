@@ -72,7 +72,7 @@ public class RegisterBean implements Serializable {
         System.out.println("Agree (Before check):-------------------------" + this.agree);
         if (agree == false) {
             System.out.println("Agree (If) :-------------------------" + this.agree);
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "You must agree to our Terms and Conditions", "");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "You must agree to our Terms &amp; Conditions", "");
             context.addMessage(null, fmsg);
         } else {
             System.out.println("Agree (Else):-------------------------" + this.agree);
@@ -81,19 +81,29 @@ public class RegisterBean implements Serializable {
                     if (userType.equals("1")) { //Student
                         csbl.createStudent(username, password, name, email, school, contactNum, genSalt(),
                                 faculty, major, matricYear, matricSem, cap);
+                        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Student '" + username + "' successfully created.", "We hope you will like PRISM.");
                     } else if (userType.equals("2")) { //Lecturer
                         csbl.createLecturer(username, password, name, email, school, contactNum, genSalt(),
                                 faculty);
+                        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Lecturer '" + username + "' successfully created.", "We hope you will like PRISM.");
                     } else { //Guest
                         csbl.createGuest(username, password, name, email, school, contactNum, genSalt());
+                        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Guest '" + username + "' successfully created.", "We hope you will like PRISM.");
                     }
                     //context.getExternalContext().redirect("login.xhtml"); //redirect will not show success
-                    fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "User '" + username + " successfully created.", "");
+
                     context.addMessage(null, fmsg);
+                    username = "";
+                    password = "";
+                    name = "";
+                    email = "";
+                    school = "";
+                    contactNum = null;
                 }
             } else {
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "User '" + username + "' already exists.", "");
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "User'" + username + "' already exists.", "Please choose another username.");
                 context.addMessage(null, fmsg);
+                username = "";
             }
         }
     }
