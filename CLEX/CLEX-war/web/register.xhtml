@@ -16,7 +16,7 @@
                 <h:form>
                     <h2>CREATE A NEW ACCOUNT</h2>
 
-                    <p:growl id="messages" showDetail="true" />
+                    <p:growl id="messages" showDetail="false" />
                     <h:panelGrid style="width: 100%" id="details" styleClass="textInput" columns="1" cellpadding="5">    
 
                         <p:inputText styleClass="textInput" title="6-12 alphanumeric without special characters"
@@ -74,36 +74,38 @@
                         </p:selectOneButton>
 
 
-                        <h:commandButton value="REGISTER" actionListener="#{registerBean.register}" id="regButton" > 
-                        </h:commandButton>
+                        <p:commandButton update="messages" value="REGISTER" actionListener="#{registerBean.register}" />
+                        <!--<h:commandButton value="REGISTER" actionListener="#{registerBean.register}"  > 
+                        </h:commandButton>-->
                         <br></br>
- 
+
 
                         <h:panelGrid columns="2" style="margin: auto">
-                            <h:outputText value="I agree to the terms and conditions"></h:outputText>
-                            <p:selectBooleanCheckbox value="#{registerBean.agree}" id="terms" required="true" requiredMessage="You must agree to our Terms and Conditions" >
+                            <h:outputText value="I agree to the terms &amp; conditions"></h:outputText>
+                            <p:selectBooleanCheckbox value="#{registerBean.agree}" id="terms" required="true" requiredMessage="You must agree to our Terms &amp; Conditions" >
                             </p:selectBooleanCheckbox>
                         </h:panelGrid>
 
                         <br></br>
-                        <p:commandButton ajax="false" value="Terms and Conditions">
+                        <p:commandButton ajax="false" value="Terms &amp; Conditions">
                             <p:confirm icon="ui-icon-alert" />
                         </p:commandButton>
-                        
-                        <p:confirmDialog header="Terms and Conditions" global="true" showEffect="fade" hideEffect="fade">
+
+                        <p:confirmDialog header="Terms &amp; Conditions" global="true" showEffect="fade" hideEffect="fade">
                             <f:facet name="message">
                                 <h:outputText value="PRISM will collect and store information about you." />
                                 <br />
                                 <h:outputText value="In accordance to PDPA, PRISM will not disclose your data without formal authorization." />
                                 <br />
-                                <h:outputText value="The rest of the T and C is still in progress." />
+                                <h:outputText value="The rest of the T &amp; C is still in progress." />
                             </f:facet>
-                            <p:commandButton process="@form" update="terms" value="Agree" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="Agree" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                             <p:commandButton value="Disagree" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                         </p:confirmDialog>
-                        
 
-                        <h:button value="BACK TO LOGIN" outcome="login"/>
+
+                        <p:commandButton update="messages" process="@this" action="#{registerBean.doBack}" id="backButton" value="BACK TO LOGIN" />
+                        <!--<h:button value="BACK TO LOGIN" outcome="login"/>-->
 
 
                         <!--tool tips-->
@@ -115,7 +117,6 @@
 
                     </h:panelGrid>    
 
-                    <!-- <h:messages id="msgs" infoStyle="color: green;" warnStyle="color: orange;" errorStyle="color: red;" fatalStyle="color: red;"/>-->
                 </h:form>
 
 

@@ -68,6 +68,14 @@ public class LoginBean implements Serializable {
         this.userType = userType;
     }
 
+    public void doRedirect() throws IOException {
+        FacesMessage fmsg = new FacesMessage();
+        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "redirecting to register", "");
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, fmsg);
+        context.getExternalContext().redirect("register.xhtml");
+    }
+
     public void doLogin() throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
@@ -121,7 +129,7 @@ public class LoginBean implements Serializable {
             }
         } else if (userType.equals("3")) { //Admin
             userEntity = csbl.findAdmin(username);
-            if (userEntity  == null) {
+            if (userEntity == null) {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + username + "' does not exists.", "");
                 context.addMessage(null, fmsg);
             } else {
