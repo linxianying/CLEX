@@ -621,5 +621,32 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         System.out.println("LinkStudentModule: link finished");
     }
 
+    @Override
+    public void linkStudentGroup(Student student, ProjectGroup projectGroup){
+        projectGroup.getGroupMembers().add(student);
+        student.getProjectGroups().add(projectGroup);
+        em.merge(projectGroup);
+        em.merge(student);
+        em.flush();
+    }
     
+    @Override
+    public ProjectGroup findProjectgroup(String name, Module module) {
+        
+        try{
+            Query q = em.createQuery("SELECT p FROM ProjectGroup p WHERE p.name = :name AND p.superGroup.id = :id");
+            q.setParameter("name", name);
+            q.setParameter("id", module.getSuperGroup().getId());
+            this.projectGroupEntity = (ProjectGroup) q.getSingleResult();
+            System.out.println("ProjectGroup " + name + " for " + module.getCourse().getModuleCode() +" found.");
+        }
+        catch(NoResultException e){
+            System.out.println("ProjectGroup " + name + " for " + module.getCourse().getModuleCode() + " does not exist.");
+            projectGroupEntity = null;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return projectGroupEntity;
+    }
 }

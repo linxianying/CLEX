@@ -127,8 +127,14 @@
                     <!-- START: Panel For Modules TAKING This Semester -->
                     <h:form>
                         <p:panel collapsed="true" styleClass="menuHeader" id="modulesTaking" header="Modules Taking This Semester" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
+                            <h2>
+                                <h:outputText value="AY " />
+                                <h:outputText value="#{studyPlanBean.takingModules.get(0).takenYear}" />
+                                <h:outputText value=" Sem " />
+                                <h:outputText value="#{studyPlanBean.takingModules.get(0).takenSem}" />  
+                            </h2>
                             <h:panelGrid columns="2" width="1000px">
-                                <p:dataList var="module" value="#{studyPlanBean.takingModules}">
+                                <p:dataList var="module" value="#{studyPlanBean.takingModules}">           
                                     <p:column>
                                         <p:accordionPanel multiple="true" activeIndex="1">
                                             <p:tab  title="#{module.course.moduleCode}">
@@ -274,7 +280,7 @@
                                 </tr>                   
                             </table>
                         </h:form>
-                     </p:panel> 
+                    </p:panel> 
                     <br />
                     <!-- END: Panel for Study Plan -->
 
