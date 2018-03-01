@@ -89,9 +89,9 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     }
     
     @Override
-    public void createProjectGroup(SuperGroup superGroup, double cost){
+    public void createProjectGroup(SuperGroup superGroup, String name, double cost){
         projectGroupEntity = new ProjectGroup();
-        projectGroupEntity.createProjectGroup(superGroup, cost);
+        projectGroupEntity.createProjectGroup(superGroup, name, cost);
         em.persist(projectGroupEntity);
         em.flush();
     }
