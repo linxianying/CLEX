@@ -374,6 +374,7 @@ public class StudyPlanBean {
     
     public void deleteStudyPlan(String moduleCode) {
         cpsbl.removeStudyPlan(username, moduleCode);
+        studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
     }
     
     public void updateExpectedCap(int newModuleCredit) {
