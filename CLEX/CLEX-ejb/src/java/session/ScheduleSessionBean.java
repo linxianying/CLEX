@@ -29,10 +29,12 @@ import java.util.Iterator;
 import javaClass.IcsReader;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.servlet.http.HttpSession;
 import jdk.nashorn.internal.runtime.ParserException;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
@@ -65,6 +67,7 @@ public class ScheduleSessionBean implements ScheduleSessionBeanLocal {
     private GroupTimeslot groupTimeslotEntity;
     private ArrayList<Timeslot> timeslots;
     
+    
 
     @Override
     public boolean loadIcsFile() {
@@ -88,16 +91,17 @@ public class ScheduleSessionBean implements ScheduleSessionBeanLocal {
         System.out.print("timeslot " + timeslotEntity.getId()+" created for user " + username);
         return timeslotEntity;
     }
-    @Override
-    public Timeslot createTimeslot(String title, String startDate, String endDate,
-            String details, String venue){
-        timeslotEntity = new Timeslot();
-        timeslotEntity.createTimeslot(title, startDate, endDate, details, venue);
-        em.persist(timeslotEntity);
-        em.flush();
-        System.out.print("timeslot create: " + timeslotEntity.getId());
-        return timeslotEntity;
-    }
+    
+    //@Override
+    //public Timeslot createTimeslot(String title, String startDate, String endDate,
+    //        String details, String venue){
+    //    timeslotEntity = new Timeslot();
+    //    timeslotEntity.createTimeslot(title, startDate, endDate, details, venue);
+    //    em.persist(timeslotEntity);
+    //    em.flush();
+    //    System.out.print("timeslot create: " + timeslotEntity.getId());
+    //    return timeslotEntity;
+    //}
 
     public Student findStudent(String username){
         studentEntity = null;
