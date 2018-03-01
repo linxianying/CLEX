@@ -79,9 +79,9 @@ public class StudyPlanBean {
         expectedCourseGrade = cpsbl.getExpectedCourseGrade(username);
         expectedCap = cap;
         System.out.println("Expected Cap reset to " + expectedCap);
-        this.setNewModuleGrade("A+");
+        this.setNewModuleGrade("select");
         //newModuleGrade = "A+";
-        this.setNewCurrentModuleGrade("A+");
+        this.setNewCurrentModuleGrade("select");
         //newCurrentModuleGrade = "A+";
         allCredits = cpsbl.getNumOfCredits(username);
         addModuleCode = null;
@@ -362,7 +362,7 @@ public class StudyPlanBean {
         if (oldGrade.equals("none")) {
             System.out.println(moduleCode+": first time;");
             //it is not S or U, since setting as S or U for first time will be treated as the module has not been setted an expected grade before
-            if ((!this.newModuleGrade.equals("S")) && (!this.newModuleGrade.equals("U"))) {
+            if ((!this.newModuleGrade.equals("S")) && (!this.newModuleGrade.equals("U")) && (!this.newModuleGrade.equals("select"))) {
                 //update the expectedCap for first time for this module
                 this.expectedCap = cpsbl.updateExpectedCapTwo(this.allCredits, this.expectedCap, newModuleCredit, newModuleGrade);
                 //update all the credits taken
@@ -373,11 +373,11 @@ public class StudyPlanBean {
         }
         //not the first time set the expected grade
         else {
-            //if the last setted garde is S/U
-            if (oldGrade.equals("S") || oldGrade.equals("U")) {
-                // if this time it is S/U again, do nothing
+            //if the last setted garde is S/U or select
+            if (oldGrade.equals("S") || oldGrade.equals("U") || oldGrade.equals("select")) {
+                // if this time it is S/U or select again, do nothing
                 // if not, type 2 
-                if ((!this.newModuleGrade.equals("S"))&&(!this.newModuleGrade.equals("U"))) {
+                if ((!this.newModuleGrade.equals("S"))&&(!this.newModuleGrade.equals("U"))&&(!this.newModuleGrade.equals("select"))) {
                     System.out.println(moduleCode+": type 2;");
                     this.expectedCap = cpsbl.updateExpectedCapTwo(this.allCredits, this.expectedCap, newModuleCredit, newModuleGrade);
                     //update all the credits taken
@@ -389,16 +389,16 @@ public class StudyPlanBean {
                     System.out.println(moduleCode+": type 3;");
                 }
             }
-            //if the last setted garde is not S/U
+            //if the last setted garde is not S/U or select
             else {
-                //if it is changed to S/U, type 1
-                if ((this.newModuleGrade.equals("S")) || (this.newModuleGrade.equals("U"))) {
+                //if it is changed to S/U or select, type 1
+                if ((this.newModuleGrade.equals("S")) || (this.newModuleGrade.equals("U")) || (this.newModuleGrade.equals("select"))) {
                     System.out.println(moduleCode+": type 1;");
                     this.expectedCap = cpsbl.updateExpectedCapOne(this.allCredits, this.expectedCap, newModuleCredit, oldGrade);
                     this.allCredits -= newModuleCredit;
                     expectedCourseGrade.put(moduleCode, newModuleGrade);
                 }
-                // if it is not changed to S/U, type 4
+                // if it is not changed to S/U or select, type 4
                 else {
                     System.out.println(moduleCode+": type 4;");
                     this.expectedCap = cpsbl.updateExpectedCapFour(this.allCredits, this.expectedCap, newModuleCredit, newModuleGrade, oldGrade);
@@ -415,8 +415,8 @@ public class StudyPlanBean {
         //the first time set the expected grade 
         if (oldGrade.equals("none")) {
             System.out.println(moduleCode+": first time;");
-            //it is not S or U, since setting as S or U for first time will be treated as the module has not been setted an expected grade before
-            if ((!this.newCurrentModuleGrade.equals("S")) && (!this.newCurrentModuleGrade.equals("U"))) {
+            //it is not S/U, since setting as S or U for first time will be treated as the module has not been setted an expected grade before
+            if ((!this.newCurrentModuleGrade.equals("S")) && (!this.newCurrentModuleGrade.equals("U"))&& (!this.newCurrentModuleGrade.equals("select"))) {
                 //update the expectedCap for first time for this module
                 this.expectedCap = cpsbl.updateExpectedCapTwo(this.allCredits, this.expectedCap, newModuleCredit, newCurrentModuleGrade);
                 //update all the credits taken
@@ -427,11 +427,11 @@ public class StudyPlanBean {
         }
         //not the first time set the expected grade
         else {
-            //if the last setted garde is S/U
-            if (oldGrade.equals("S") || oldGrade.equals("U")) {
-                // if this time it is S/U again, do nothing
+            //if the last setted garde is S/U or select
+            if (oldGrade.equals("S") || oldGrade.equals("U") || oldGrade.equals("select")) {
+                // if this time it is S/U  or select again, do nothing
                 // if not, type 2 
-                if ((!this.newCurrentModuleGrade.equals("S"))&&(!this.newCurrentModuleGrade.equals("U"))) {
+                if ((!this.newCurrentModuleGrade.equals("S"))&&(!this.newCurrentModuleGrade.equals("U"))&&(!this.newCurrentModuleGrade.equals("select"))) {
                     System.out.println(moduleCode+": type 2;");
                     this.expectedCap = cpsbl.updateExpectedCapTwo(this.allCredits, this.expectedCap, newModuleCredit, newCurrentModuleGrade);
                     //update all the credits taken
@@ -445,14 +445,14 @@ public class StudyPlanBean {
             }
             //if the last setted garde is not S/U
             else {
-                //if it is changed to S/U, type 1
-                if ((this.newCurrentModuleGrade.equals("S")) || (this.newCurrentModuleGrade.equals("U"))) {
+                //if it is changed to S/U or select, type 1
+                if ((this.newCurrentModuleGrade.equals("S")) || (this.newCurrentModuleGrade.equals("U")) || (this.newCurrentModuleGrade.equals("select"))) {
                     System.out.println(moduleCode+": type 1;");
                     this.expectedCap = cpsbl.updateExpectedCapOne(this.allCredits, this.expectedCap, newModuleCredit, oldGrade);
                     this.allCredits -= newModuleCredit;
                     expectedCourseGrade.put(moduleCode, newCurrentModuleGrade);
                 }
-                // if it is not changed to S/U, type 4
+                // if it is not changed to S/U or select, type 4
                 else {
                     System.out.println(moduleCode+": type 4;");
                     this.expectedCap = cpsbl.updateExpectedCapFour(this.allCredits, this.expectedCap, newModuleCredit, newCurrentModuleGrade, oldGrade);
