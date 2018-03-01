@@ -76,14 +76,14 @@ public class ScheduleSessionBean implements ScheduleSessionBeanLocal {
         return false;
     }
     @Override
-    public Timeslot createTimeslot(String username,  String timeFrom, String timeEnd, 
-                String title, String details, String venue){
+    public Timeslot createTimeslot(String username, String title, String startDate, 
+            String endDate, String details, String venue){
         userEntity = findUser(username);
         if(userEntity==null){
             return null;
         }
         timeslotEntity = new Timeslot();
-        timeslotEntity.createTimeslot( timeFrom, timeEnd,title, details, venue);
+        timeslotEntity.createTimeslot(title, startDate, endDate, details, venue);
         em.persist(timeslotEntity);
         userEntity.getTimeslots().add(timeslotEntity);
         em.merge(userEntity);
@@ -92,16 +92,6 @@ public class ScheduleSessionBean implements ScheduleSessionBeanLocal {
         return timeslotEntity;
     }
     
-    //@Override
-    //public Timeslot createTimeslot(String title, String startDate, String endDate,
-    //        String details, String venue){
-    //    timeslotEntity = new Timeslot();
-    //    timeslotEntity.createTimeslot(title, startDate, endDate, details, venue);
-    //    em.persist(timeslotEntity);
-    //    em.flush();
-    //    System.out.print("timeslot create: " + timeslotEntity.getId());
-    //    return timeslotEntity;
-    //}
 
     public Student findStudent(String username){
         studentEntity = null;
