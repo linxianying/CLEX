@@ -63,6 +63,14 @@ public class AcctMgmtBean implements Serializable{
         FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
     }
     
+    public void editProfile() throws IOException{
+        /*userEntity = csbl.findUser(username);
+        if (userEntity.getUserType() == "Student"){
+            FacesContext.getCurrentInstance().getExternalContext().redirect("studentProfile.xhtml");
+        }*/
+        FacesContext.getCurrentInstance().getExternalContext().redirect("studentProfile.xhtml");
+    }
+    
     //Only for those who cannot log in, don't use this for editing profile
     public void resetPassword() throws IOException{
         FacesMessage fmsg = new FacesMessage();
