@@ -72,7 +72,22 @@ public class ScheduleSessionBean implements ScheduleSessionBeanLocal {
         ics.test();
         return false;
     }
-    
+    @Override
+    public Timeslot createTimeslot(String username,  String timeFrom, String timeEnd, 
+                String title, String details, String venue){
+        userEntity = findUser(username);
+        if(userEntity==null){
+            return null;
+        }
+        timeslotEntity = new Timeslot();
+        timeslotEntity.createTimeslot( timeFrom, timeEnd,title, details, venue);
+        em.persist(timeslotEntity);
+        userEntity.getTimeslots().add(timeslotEntity);
+        em.merge(userEntity);
+        em.flush();
+        System.out.print("timeslot " + timeslotEntity.getId()+" created for user " + username);
+        return timeslotEntity;
+    }
     @Override
     public Timeslot createTimeslot(String title, String startDate, String endDate,
             String details, String venue){

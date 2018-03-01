@@ -79,7 +79,7 @@ public class ScheduleBean implements Serializable {
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             Date d1 = df.parse("2018-02-27 01:10");
             Date d2 = df.parse("2018-02-27 12:00");
-            Timeslot timeslot = sbl.createTimeslot("Event test", "2018-02-27 01:10", "2018-02-27 12:00", "some minor detail", "place");
+            Timeslot timeslot = sbl.createTimeslot("namename", "2018-02-27 01:10", "2018-02-27 12:00","Event", "some minor detail", "place");
             System.out.print("timeslot create: " + timeslot.getId() + " " + d1 + "///" + d2);
 
             eventModel.addEvent(new DefaultScheduleEvent(timeslot.getTitle(), toCalendar(timeslot.getStartDate()), toCalendar(timeslot.getEndDate())));
@@ -235,6 +235,14 @@ public class ScheduleBean implements Serializable {
 
     private void addMessage(FacesMessage message) {
         FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+
+    public ArrayList<Timeslot> getTimeslots() {
+        return timeslots;
+    }
+
+    public void setTimeslots(ArrayList<Timeslot> timeslots) {
+        this.timeslots = timeslots;
     }
 
     public void handleFileUpload(FileUploadEvent event) {

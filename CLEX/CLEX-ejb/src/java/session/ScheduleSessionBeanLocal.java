@@ -24,6 +24,8 @@ public interface ScheduleSessionBeanLocal {
     Timeslot createTimeslot(String title, String startDate, String endDate, String details, String venue);
     void updateTimeslot(Long id, String title, String startDate, String endDate, String details, String venue);
 
+    public Timeslot createTimeslot(String username, String timeFrom, String timeEnd, 
+                String title, String details, String venue);
     public Timeslot findTimeslot(Long id);
     public void deleteTimeslot(Long id);
     
