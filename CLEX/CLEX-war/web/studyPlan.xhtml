@@ -209,7 +209,7 @@
                     <h:outputText id ="expectedCap" value="#{studyPlanBean.expectedCap}">
                         <f:convertNumber pattern="#0.00" />
                     </h:outputText>
-                    
+                    <p:commandButton value="Reset" action="studyPlan?faces-redirect=true" />
                     <br />
                     <br />
                     Add new study plan entry:
@@ -229,6 +229,9 @@
                         </p:selectOneMenu>
                         <br />
                         <p:commandButton value="add" id="addStudyPlanButton" rendered="#{studyPlanBean.addButton}" actionListener="#{studyPlanBean.addStudyPlan()}" action="studyPlan?faces-redirect=true" />
+                    </h:form>
+                    <h:form id="initializePageDataForm">
+                        <p:remoteCommand name="initializePageDataCommand" autoRun="true" action="#{studyPlanBean.init()}" />
                     </h:form>
                     <br />
                 </div>
