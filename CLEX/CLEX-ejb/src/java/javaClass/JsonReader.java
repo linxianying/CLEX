@@ -120,7 +120,6 @@ public class JsonReader {
             System.out.println("Test method in JsonReader: Exception caught!");
             e.printStackTrace();
         }
-        
         return timetable;
     }
     
