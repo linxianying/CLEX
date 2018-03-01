@@ -58,7 +58,7 @@ public interface ClexSessionBeanLocal {
     public void createLesson(String day, String timeFrom, String timeEnd,
             String type, String venue, Module module);
 
-    public void createTimeslot(String title, Date startDate, Date endDate,
+    public void createTimeslot(String title, String startDate, String endDate,
             String details, String venue);
 
     public void createGrade(String moduleGrade, Module module, Student student);

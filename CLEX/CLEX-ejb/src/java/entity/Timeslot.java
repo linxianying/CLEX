@@ -23,15 +23,13 @@ public class Timeslot implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date startDate;
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date endDate;
+    private String startDate;
+    private String endDate;
     private String title;
     private String details;
     private String venue;
 
-    public void createTimeslot(String title, Date startDate, Date endDate, String details, String venue) {
+    public void createTimeslot(String title, String startDate, String endDate, String details, String venue) {
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -47,19 +45,19 @@ public class Timeslot implements Serializable {
         this.id = id;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 

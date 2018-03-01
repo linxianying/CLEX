@@ -69,7 +69,7 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     }
     
     @Override
-    public void createTimeslot(String title, Date startDate, Date endDate,
+    public void createTimeslot(String title, String startDate, String endDate,
             String details, String venue){
         timeslotEntity = new Timeslot();
         timeslotEntity.createTimeslot(title, startDate, endDate, details, venue);

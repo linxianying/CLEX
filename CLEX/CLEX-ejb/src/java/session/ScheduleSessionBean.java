@@ -74,7 +74,7 @@ public class ScheduleSessionBean implements ScheduleSessionBeanLocal {
     }
     
     @Override
-    public Timeslot createTimeslot(String title, Date startDate, Date endDate,
+    public Timeslot createTimeslot(String title, String startDate, String endDate,
             String details, String venue){
         timeslotEntity = new Timeslot();
         timeslotEntity.createTimeslot(title, startDate, endDate, details, venue);
@@ -131,7 +131,7 @@ public class ScheduleSessionBean implements ScheduleSessionBeanLocal {
     }
     
     @Override
-    public void updateTimeslot(Long id, String title, Date startDate, Date endDate, 
+    public void updateTimeslot(Long id, String title, String startDate, String endDate, 
             String details, String venue) {
         timeslotEntity = findTimeslot(id);
         if(timeslotEntity != null){
