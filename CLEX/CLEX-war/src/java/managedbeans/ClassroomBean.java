@@ -88,6 +88,7 @@ public class ClassroomBean {
         addPickYear = null;
         addPickSem = null;
         addErrorMsg = null;
+        addButton = true;
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
         lecturerEntity = (Lecturer) session.getAttribute("user");
@@ -147,7 +148,7 @@ public class ClassroomBean {
     }
 
     public void addPoll(){
-        System.out.println("addPollType:"+addPollType+"/Topic:"+addPollTopic);
+        System.out.println("addPollType:"+addPollType+"//////////////////////Topic:"+addPollTopic);
         //System.out.println("addPollTopic:"+addPollTopic);
     }
     

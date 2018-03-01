@@ -231,12 +231,12 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
         Iterator<Poll> iterator = polls.iterator();
         while (iterator.hasNext()) {
           Poll p = iterator.next();
-          System.out.println(p.getDatetime() + " " + p.getTopic() + " " + p.getContent()
-          + " " + p.getCorrectRate());
+          //System.out.println(p.getDatetime() + " " + p.getTopic() + " " + p.getContent()
+          //+ " " + p.getCorrectRate());
         }
-        System.out.println(polls);
-        System.out.println("-------------------------------------------------------");
-        System.out.println("Classroom session bean: viewPolls finished ");
+        //System.out.println(polls);
+        //System.out.println("-------------------------------------------------------");
+        //System.out.println("Classroom session bean: viewPolls finished ");
         return polls;
     }
     
@@ -254,10 +254,10 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
         Iterator<Module> iterator = modules.iterator();
         while (iterator.hasNext()) {
             Module m = iterator.next();
-            System.out.println(m.getCourse().getModuleCode()+ " " + 
-                m.getCourse().getModularCredits() + " " + m.getTakenYear() 
-                + "/" + m.getTakenSem() + " ");
-            System.out.println("Polls of Module " + m.getCourse().getModuleCode());
+            //System.out.println(m.getCourse().getModuleCode()+ " " + 
+            //    m.getCourse().getModularCredits() + " " + m.getTakenYear() 
+            //    + "/" + m.getTakenSem() + " ");
+            //System.out.println("Polls of Module " + m.getCourse().getModuleCode());
             temp = viewPolls(m);
             addTwoArrayList(polls,temp);
         }
@@ -278,10 +278,10 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
         Iterator<Module> iterator = modules.iterator();
         while (iterator.hasNext()) {
             Module m = iterator.next();
-            System.out.println(m.getCourse().getModuleCode()+ " " + 
-                m.getCourse().getModularCredits() + " " + m.getTakenYear() 
-                + "/" + m.getTakenSem() + " ");
-            System.out.println("Polls of Module " + m.getCourse().getModuleCode());
+            //System.out.println(m.getCourse().getModuleCode()+ " " + 
+            //    m.getCourse().getModularCredits() + " " + m.getTakenYear() 
+            //    + "/" + m.getTakenSem() + " ");
+            //System.out.println("Polls of Module " + m.getCourse().getModuleCode());
             temp = viewPolls(m);
             addTwoArrayList(polls,temp);
         }
@@ -309,12 +309,12 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
         while (iterator.hasNext()) {
             Poll p = iterator.next();
             if(p.getTopic().equals(topic)){
-                System.out.println(p.getDatetime() + " " + p.getContent()
-                + " " + p.getCorrectRate());
+                //System.out.println(p.getDatetime() + " " + p.getContent()
+                //+ " " + p.getCorrectRate());
             }
         }
-        System.out.println(polls);
-        System.out.println("-------------------------------------------------------");
+        //System.out.println(polls);
+        //System.out.println("-------------------------------------------------------");
         System.out.println("Classroom session bean: viewPollsByTopic " + topic + " finished ");
         return polls;
     }
