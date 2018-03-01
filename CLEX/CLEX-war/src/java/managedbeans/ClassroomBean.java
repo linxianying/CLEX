@@ -32,6 +32,7 @@ import static org.primefaces.component.focus.Focus.PropertyKeys.context;
 import session.ClassroomSessionBeanLocal;
 import session.ClexSessionBeanLocal;
 import session.CourseMgmtBeanLocal;
+import session.StudyPlanSessionBeanLocal;
 
 /**
  *
@@ -52,7 +53,10 @@ public class ClassroomBean {
     @EJB
     private ClassroomSessionBeanLocal crsbl;
     @EJB
-    CourseMgmtBeanLocal cmbl;
+    private CourseMgmtBeanLocal cmbl;
+    @EJB
+    private StudyPlanSessionBeanLocal cpsbl;
+
     
     private Lecturer lecturerEntity;
     private String username;
@@ -60,6 +64,17 @@ public class ClassroomBean {
     private String userType;
     private ArrayList<Poll> polls ;
     private ArrayList<Module> modules;
+    
+    private String addPollType;
+    private String addPollTopic;
+    private String addPollContent;
+    private String addPollCorrectRate;
+    private String addModuleCode;
+    private String addErrorMsg;
+    private String addPickYear;
+    private String addPickSem;
+    private boolean addButton;
+    
     
     FacesContext context;
     HttpSession session;
@@ -69,6 +84,10 @@ public class ClassroomBean {
     
     @PostConstruct
     public void init() { 
+        addModuleCode = null;
+        addPickYear = null;
+        addPickSem = null;
+        addErrorMsg = null;
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
         lecturerEntity = (Lecturer) session.getAttribute("user");
@@ -111,7 +130,27 @@ public class ClassroomBean {
         }
         
     }
+    
+    public void checkModule() {
 
+        if (cpsbl.findCourse(addModuleCode) == null) {
+            addErrorMsg = "Course " + addModuleCode + " does not exist";
+            this.addButton = false;
+        //}else if(crsbl.findModule(addModuleCode, addPickYear, addPickSem) == null){
+        //    addErrorMsg = "Module " + addModuleCode + "AY" + addPickYear + " Sem" + addPickSem + " does not exist";
+        //    this.addButton = false;
+        }
+        else {
+            addErrorMsg = null;
+            this.addButton = true;
+        }
+    }
+
+    public void addPoll(){
+        System.out.println("addPollType:"+addPollType+"/Topic:"+addPollTopic);
+        //System.out.println("addPollTopic:"+addPollTopic);
+    }
+    
     public DataSource getClexDataSource() {
         return clexDataSource;
     }
@@ -183,6 +222,112 @@ public class ClassroomBean {
 
     public void setPolls(ArrayList<Poll> polls) {
         this.polls = polls;
+    }
+
+    public CourseMgmtBeanLocal getCmbl() {
+        return cmbl;
+    }
+
+    public void setCmbl(CourseMgmtBeanLocal cmbl) {
+        this.cmbl = cmbl;
+    }
+
+    public String getAddPollType() {
+        return addPollType;
+    }
+
+    public void setAddPollType(String addPollType) {
+        this.addPollType = addPollType;
+    }
+
+    public String getAddPollTopic() {
+        return addPollTopic;
+    }
+
+    public void setAddPollTopic(String addPollTopic) {
+        this.addPollTopic = addPollTopic;
+    }
+
+    public String getAddPollContent() {
+        return addPollContent;
+    }
+
+    public void setAddPollContent(String addPollContent) {
+        this.addPollContent = addPollContent;
+    }
+
+    public String getAddPollCorrectRate() {
+        return addPollCorrectRate;
+    }
+
+    public void setAddPollCorrectRate(String addPollCorrectRate) {
+        this.addPollCorrectRate = addPollCorrectRate;
+    }
+
+    public StudyPlanSessionBeanLocal getCpsbl() {
+        return cpsbl;
+    }
+
+    public void setCpsbl(StudyPlanSessionBeanLocal cpsbl) {
+        this.cpsbl = cpsbl;
+    }
+
+    public String getAddModuleCode() {
+        return addModuleCode;
+    }
+
+    public void setAddModuleCode(String addModuleCode) {
+        this.addModuleCode = addModuleCode;
+    }
+
+
+
+    public String getAddErrorMsg() {
+        return addErrorMsg;
+    }
+
+    public void setAddErrorMsg(String addErrorMsg) {
+        this.addErrorMsg = addErrorMsg;
+    }
+
+    public String getAddPickYear() {
+        return addPickYear;
+    }
+
+    public void setAddPickYear(String addPickYear) {
+        this.addPickYear = addPickYear;
+    }
+
+    public String getAddPickSem() {
+        return addPickSem;
+    }
+
+    public void setAddPickSem(String addPickSem) {
+        this.addPickSem = addPickSem;
+    }
+
+    public FacesContext getContext() {
+        return context;
+    }
+
+    public void setContext(FacesContext context) {
+        this.context = context;
+    }
+
+    public HttpSession getSession() {
+        return session;
+    }
+
+    public void setSession(HttpSession session) {
+        this.session = session;
+    }
+
+    public boolean isAddButton() {
+        return addButton;
+    }
+
+    public void setAddButton(boolean addButton) {
+        this.addButton = addButton;
     }
     
     
