@@ -37,7 +37,8 @@
                         <f:selectItem itemValue = "3" itemLabel = "Admin" />
                         <f:selectItem itemValue = "4" itemLabel = "Guest" />
                     </p:selectOneButton><br/><br></br>
-                    <h:messages id="messages" infoStyle="color: green;" warnStyle="color: orange;" errorStyle="color: red;" fatalStyle="color: red;" /><br></br>
+                    <p:growl id="messages" showDetail="true" />
+                    <br></br>
                     <h:commandButton value="Login" actionListener="#{loginBean.doLogin}" id="login-button"/>
                     <h:button value="Sign Up" outcome="register"/>
 

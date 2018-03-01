@@ -1,4 +1,3 @@
-
 package managedbeans;
 
 /*
@@ -6,8 +5,6 @@ package managedbeans;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
 import entity.User;
 import java.io.IOException;
 import java.io.Serializable;
@@ -25,20 +22,20 @@ import session.ClexSessionBeanLocal;
  */
 @SessionScoped
 @ManagedBean
-public class LoginBean implements Serializable{
-    
+public class LoginBean implements Serializable {
+
     @EJB
     private ClexSessionBeanLocal csbl;
-    
+
     private User userEntity;
     private String username;
     private String password;
     private String userType;
 
-    public LoginBean(){
-        
+    public LoginBean() {
+
     }
-    
+
     public User getUserEntity() {
         return userEntity;
     }
@@ -71,104 +68,93 @@ public class LoginBean implements Serializable{
         this.userType = userType;
     }
 
-    public void doLogin() throws IOException{
+    public void doLogin() throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
-        HttpSession session =  (HttpSession) context.getExternalContext().getSession(true);
+        HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
         //Login based on usertype first, then check username, then password
-        if(userType.equals("1")){ //Student
+        int approved;
+        if (userType.equals("1")) { //Student
             userEntity = csbl.findStudent(username);
-            int approved = (userEntity.isApproval()) ? 1 : 0;
-            
-            if(userEntity == null){
-               fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + username + "' does not exists.", "");
-               context.addMessage(null, fmsg);
-            }
-            else{
-                if(csbl.checkPassword(username, password) && approved == 1){
+
+            if (userEntity == null) {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + username + "' does not exists.", "");
+                context.addMessage(null, fmsg);
+            } else {
+                approved = (userEntity.isApproval()) ? 1 : 0;
+                if (csbl.checkPassword(username, password) && approved == 1) {
                     session.setAttribute("user", userEntity);
                     session.setAttribute("username", username);
                     session.setAttribute("userType", 1);
                     context.getExternalContext().redirect("studentMain.xhtml");
-                }
-                else if (csbl.checkPassword(username, password) && approved == 0){
+                } else if (csbl.checkPassword(username, password) && approved == 0) {
                     session.setAttribute("user", userEntity);
                     session.setAttribute("username", username);
                     session.setAttribute("userType", 1);
                     context.getExternalContext().redirect("unapprovedUser.xhtml");
-                }
-                else{
+                } else {
                     fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect password.", "");
                     context.addMessage(null, fmsg);
                 }
             }
-        }
-        else if(userType.equals("2")){ //Lecturer
+        } else if (userType.equals("2")) { //Lecturer
             userEntity = csbl.findLecturer(username);
-            int approved = (userEntity.isApproval()) ? 1 : 0;
-            if(userEntity == null){
-               fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + username + "' does not exists.", "");
-               context.addMessage(null, fmsg);
-            }
-            else{
-                if(csbl.checkPassword(username, password) && approved == 1){
+            if (userEntity == null) {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + username + "' does not exists.", "");
+                context.addMessage(null, fmsg);
+            } else {
+                approved = (userEntity.isApproval()) ? 1 : 0;
+                if (csbl.checkPassword(username, password) && approved == 1) {
                     session.setAttribute("user", userEntity);
                     session.setAttribute("username", username);
                     session.setAttribute("userType", 2);
                     context.getExternalContext().redirect("lecturerMain.xhtml");
-                }
-                else if (csbl.checkPassword(username, password) && approved == 0){
+                } else if (csbl.checkPassword(username, password) && approved == 0) {
                     session.setAttribute("user", userEntity);
                     session.setAttribute("username", username);
                     session.setAttribute("userType", 2);
                     context.getExternalContext().redirect("unapprovedUser.xhtml");
-                }
-                else{
+                } else {
                     fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect password.", "");
                     context.addMessage(null, fmsg);
                 }
             }
-        }
-        else if(userType.equals("3")){ //Admin
+        } else if (userType.equals("3")) { //Admin
             userEntity = csbl.findAdmin(username);
-            if(userEntity == null){
-               fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + username + "' does not exists.", "");
-               context.addMessage(null, fmsg);
-            }
-            else{
-                if(csbl.checkPassword(username, password)){
+            if (userEntity  == null) {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + username + "' does not exists.", "");
+                context.addMessage(null, fmsg);
+            } else {
+                approved = (userEntity.isApproval()) ? 1 : 0;
+                if (csbl.checkPassword(username, password)) {
                     session.setAttribute("user", userEntity);
                     session.setAttribute("username", username);
                     session.setAttribute("userType", 3);
                     context.getExternalContext().redirect("adminMain.xhtml");
-                }
-                else{
+                } else {
                     fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect password.", "");
                     context.addMessage(null, fmsg);
                 }
             }
-        }
-        else{ //Guest
+        } else { //Guest
             userEntity = csbl.findGuest(username);
-            int approved = (userEntity.isApproval()) ? 1 : 0;
-            if(userEntity == null){
-               fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + username + "' does not exists.", "");
-               context.addMessage(null, fmsg);
-            }
-            else{
-                if(csbl.checkPassword(username, password) && approved == 1){
+
+            if (userEntity == null) {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + username + "' does not exists.", "");
+                context.addMessage(null, fmsg);
+            } else {
+                approved = (userEntity.isApproval()) ? 1 : 0;
+                if (csbl.checkPassword(username, password) && approved == 1) {
                     session.setAttribute("user", userEntity);
                     session.setAttribute("username", username);
                     session.setAttribute("userType", 4);
                     context.getExternalContext().redirect("guestMain.xhtml");
-                }
-                else if (csbl.checkPassword(username, password) && approved == 0){
+                } else if (csbl.checkPassword(username, password) && approved == 0) {
                     session.setAttribute("user", userEntity);
                     session.setAttribute("username", username);
                     session.setAttribute("userType", 4);
                     context.getExternalContext().redirect("unapprovedUser.xhtml");
-                }
-                else{
+                } else {
                     fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect password.", "");
                     context.addMessage(null, fmsg);
                 }
