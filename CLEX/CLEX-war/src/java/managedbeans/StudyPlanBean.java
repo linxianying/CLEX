@@ -108,7 +108,7 @@ public class StudyPlanBean {
     }
 
     public void setAddModuleCode(String addModuleCode) {
-        this.addModuleCode = addModuleCode;
+        this.addModuleCode = addModuleCode.toUpperCase();
     }
 
     public String getAddPickYear() {
@@ -325,18 +325,18 @@ public class StudyPlanBean {
 
     public void checkStudyPlan() {
         //this course does not exist
-        if (cpsbl.findCourse(addModuleCode) == null) {
-            addErrorMsg = "Course " + addModuleCode + " does not exist";
+        if (cpsbl.findCourse(addModuleCode.toUpperCase()) == null) {
+            addErrorMsg = "Module: " + addModuleCode.toUpperCase() + " does not exist";
             this.addButton = false;
         }
         //this course already in studyPlan
-        else if (cpsbl.checkStudyPlan(username, addModuleCode)) {
-            addErrorMsg = "Course " + addModuleCode + " already exists in your study plan";
+        else if (cpsbl.checkStudyPlan(username, addModuleCode.toUpperCase())) {
+            addErrorMsg = "Module: " + addModuleCode.toUpperCase() + " already exists in your study plan";
             this.addButton = false;
         }
         //this course already in takenCourses list
-        else if (cpsbl.checkStudentModule(username, addModuleCode)) {
-            addErrorMsg = "You have already taken course " + addModuleCode;
+        else if (cpsbl.checkStudentModule(username, addModuleCode.toUpperCase())) {
+            addErrorMsg = "You have already taken module - " + addModuleCode.toUpperCase();
             this.addButton = false;
         }
         else {
@@ -346,7 +346,7 @@ public class StudyPlanBean {
     }
     
     public void addStudyPlan() {
-        cpsbl.addStudyPlan(addPickYear, addPickSem, addModuleCode, username);
+        cpsbl.addStudyPlan(addPickYear, addPickSem, addModuleCode.toUpperCase(), username);
         studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
     }
     
