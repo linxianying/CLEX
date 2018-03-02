@@ -8,9 +8,6 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="content">
-        <h:head>
-            <title>PRISM Administrator Course Management Page</title>
-        </h:head>
         <p:growl id="messages" showDetail="true" />
         <h1 style="margin-top:0">Course Management Page</h1>
         <p:tabView>
@@ -31,7 +28,7 @@
                         <p:inputText id="workload" value="#{courseBean.workload}" required="true" />
                         <h:outputLabel for= "modularCredits" value="MODULE CREDITS:"/>
                         <p:inputText id="modularCredits" value="#{courseBean.modularCredits}" required="true" />
-                        <p:commandButton value="Submit" actionListener="#{courseBean.enterCourse}" />
+                        <p:commandButton value="Submit" actionListener="#{courseBean.enterCourse}" update="messages" />
                     </h:panelGrid>
                 </h:form>
             </p:tab>
@@ -48,7 +45,7 @@
                         <p:inputText id="prerequisite" value="#{courseBean.prerequisite}" required="true" />
                         <h:outputLabel for= "preclusions" value="PRECLUSIONS:"/>
                         <p:inputText id="preclusions" value="#{courseBean.preclusions}" required="true" />
-                        <p:commandButton value="Submit" actionListener="#{courseBean.enterModule}" />
+                        <p:commandButton value="Submit" actionListener="#{courseBean.enterModule}" update="messages" />
                     </h:panelGrid>
                 </h:form>
             </p:tab>
@@ -71,7 +68,7 @@
                         <p:inputText id="type" value="#{courseBean.type}" required="true" />
                         <h:outputLabel for= "venue" value="VENUE:"/>
                         <p:inputText id="venue" value="#{courseBean.venue}" required="true" />            
-                        <p:commandButton value="Submit" actionListener="#{courseBean.enterLesson}" />
+                        <p:commandButton value="Submit" actionListener="#{courseBean.enterLesson}" update="messages" />
                     </h:panelGrid>
                 </h:form>
             </p:tab>
@@ -101,7 +98,7 @@
                         <p:inputText id="workload" value="#{courseBean.workload}" />
                         <h:outputLabel for= "modularCredits" value="MODULE CREDITS:"/>
                         <p:inputText id="modularCredits" value="#{courseBean.modularCredits}" />
-                        <p:commandButton value="Submit" actionListener="#{courseBean.editCourse}" />
+                        <p:commandButton value="Submit" actionListener="#{courseBean.editCourse}" update="messages" />
                     </h:panelGrid>
                 </h:form>    
             </p:tab>
@@ -118,7 +115,7 @@
                         <p:inputText id="prerequisite" value="#{courseBean.prerequisite}" />
                         <h:outputLabel for= "preclusions" value="PRECLUSIONS:"/>
                         <p:inputText id="preclusions" value="#{courseBean.preclusions}"/>            
-                        <p:commandButton value="Submit" actionListener="#{courseBean.editModule}" />
+                        <p:commandButton value="Submit" actionListener="#{courseBean.editModule}" update="messages" />
                     </h:panelGrid>
                 </h:form>
             </p:tab>
@@ -141,7 +138,7 @@
                         <p:inputText id="type" value="#{courseBean.type}" required="true" />
                         <h:outputLabel for= "venue" value="VENUE:"/>
                         <p:inputText id="venue" value="#{courseBean.venue}" required="true" /> 
-                        <p:commandButton value="Submit" actionListener="#{courseBean.editLesson}" />
+                        <p:commandButton value="Submit" actionListener="#{courseBean.editLesson}" update="messages" />
                     </h:panelGrid>
                 </h:form>    
             </p:tab>
@@ -156,7 +153,7 @@
                         <p:inputText id="takenYearAssign" value="#{courseBean.takenYear}" required="true" />
                         <h:outputLabel for= "takenSemAssign" value="TAKEN SEM:"/>
                         <p:inputText id="takenSemAssign" value="#{courseBean.takenSem}" required="true" />
-                        <p:commandButton value="Submit" actionListener="#{courseBean.assignLecturer}" />
+                        <p:commandButton value="Submit" actionListener="#{courseBean.assignLecturer}" update="messages" />
                     </h:panelGrid>
                 </h:form>
             </p:tab>
@@ -168,7 +165,7 @@
                     <h:panelGrid columns="1" cellpadding="5">
                         <h:outputLabel for= "moduleCode" value="MODULE CODE:"/>
                         <p:inputText id="moduleCode" value="#{courseBean.moduleCode}" required="true" style="text-transform: uppercase" />
-                        <p:commandButton value="Submit" actionListener="#{courseBean.removeCourse}" />
+                        <p:commandButton value="Submit" actionListener="#{courseBean.removeCourse}" update="messages" />
                     </h:panelGrid>
                 </h:form>
             </p:tab>
@@ -181,7 +178,7 @@
                         <p:inputText id="takenYear" value="#{courseBean.takenYear}" required="true" />
                         <h:outputLabel for= "takenSem" value="MODULE SEM:"/>
                         <p:inputText id="takenSem" value="#{courseBean.takenSem}" required="true" />            
-                        <p:commandButton value="Submit" actionListener="#{courseBean.removeModule}" />
+                        <p:commandButton value="Submit" actionListener="#{courseBean.removeModule}" update="messages" />
                     </h:panelGrid>
                 </h:form>
             </p:tab>
@@ -200,7 +197,7 @@
                         <p:inputText id="timeFrom" value="#{courseBean.timeFrom}" required="true" />
                         <h:outputLabel for= "timeEnd" value="TIME END:"/>
                         <p:inputText id="timeEnd" value="#{courseBean.timeEnd}" required="true" />   
-                        <p:commandButton value="Submit" actionListener="#{courseBean.removeLesson}" />
+                        <p:commandButton value="Submit" actionListener="#{courseBean.removeLesson}" update="messages" />
                     </h:panelGrid>
                 </h:form>
             </p:tab>
