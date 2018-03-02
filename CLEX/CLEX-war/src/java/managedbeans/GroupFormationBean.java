@@ -15,6 +15,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import session.ClexSessionBeanLocal;
@@ -195,13 +196,22 @@ public class GroupFormationBean {
     }
     
     public void joinGroup(Long id) throws IOException{
+        FacesMessage fmsg = new FacesMessage();
         System.out.println("first step start");
         projectGroup = gfsbl.findProjectGroup(id);
         System.out.println("first step finish");
         // if the group is full ,refresh the page
         if (!gfsbl.joinGroup(student,projectGroup)) {
-            FacesContext context = FacesContext.getCurrentInstance();
             context.getExternalContext().redirect("groupFormation.xhtml");
+        }
+        //if sucessfully join the group, redeirect to the project page
+        else {
+            fmsg = new FacesMessage("Successful", "You have join the project group " 
+                    + projectGroup.getName() + " for module " 
+                    + projectGroup.getSuperGroup().getModule().getCourse().getModuleCode());
+            context.addMessage(null, fmsg);
+            context.getExternalContext().getFlash().setKeepMessages(true);
+            context.getExternalContext().redirect("project.xhtml");
         }
     }
     

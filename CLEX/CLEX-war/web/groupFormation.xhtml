@@ -8,6 +8,7 @@
         <title>Form a group!</title>
     </h:head>
     <h:body>
+        <p:growl id="messages" showDetail="true" />
         <h:outputText value="Group formation for "/>
         <h:outputText value="#{groupFormationBean.module.course.moduleCode}"/>
         <h:outputText value=", AY "/>
@@ -38,7 +39,9 @@
                             <br />
                         </ui:repeat>
                     </h:panelGrid>
+                    <h:form>
                     <p:commandButton value="Join this group" rendered="#{group.groupMembers.size() lt groupFormationBean.maxStudentNum}" action="#{groupFormationBean.joinGroup(group.id)}" />
+                    </h:form>
                 </p:tab>                
             </p:accordionPanel>
         </p:dataList>
