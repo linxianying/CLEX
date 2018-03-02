@@ -38,6 +38,7 @@ public class LecturerModuleListBean implements Serializable{
     
     private List<Module> modules;
     private List<Module> filteredModules;
+    private List moduleCodes;
     
     private List<Lesson> lessons;
     private List<Lesson> filteredLessons;
@@ -60,7 +61,6 @@ public class LecturerModuleListBean implements Serializable{
         lecturerEntity = (Lecturer) session.getAttribute("user");
         username = lecturerEntity.getUsername();
         modules = (List) cmbl.getModulesFromLecturer(username);
-        //lessons = cmbl.getAllLessons();
     }
 
     public List<Module> getModules() {

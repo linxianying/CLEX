@@ -8,6 +8,7 @@ package session;
 import entity.Announcement;
 import entity.User;
 import java.util.Collection;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -23,6 +24,8 @@ public interface AnnouncementSessionBeanLocal {
     public void editAnnc(String title, String message, Long id);
     
     public boolean deleteAnnc(String username, Long id);
+    
+    public List getModuleCodeByLecturer(String username);
     
     public Collection<Announcement> getAllAnnc();
     public Collection<Announcement> getAnncByUser(String username);

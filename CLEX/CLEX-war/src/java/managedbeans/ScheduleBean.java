@@ -78,24 +78,6 @@ public class ScheduleBean implements Serializable {
     public ScheduleBean() {
     }
 
-    public void testAddEvents() {
-        System.out.println("ScheduleBean: testAddEvents");
-        try {
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            Date d1 = df.parse("2018-02-27 01:10");
-            Date d2 = df.parse("2018-02-27 12:00");
-            
-            Timeslot timeslot = sbl.createTimeslot("namename", "Event", "2018-02-27 01:10", "2018-02-27 12:00", "some minor detail", "place");
-
-            System.out.print("timeslot create: " + timeslot.getId() + " " + d1 + "///" + d2);
-
-            eventModel.addEvent(new DefaultScheduleEvent(timeslot.getTitle(), toCalendar(timeslot.getStartDate()), toCalendar(timeslot.getEndDate()), timeslot));
-
-        } catch (Exception e) {
-            System.err.println(e);
-        }
-    }
-
     @PostConstruct
     public void init() {
         userEntity = null;
@@ -214,18 +196,17 @@ public class ScheduleBean implements Serializable {
             Timeslot timeslot = sbl.createTimeslot(username, event.getTitle(), df.format(event.getStartDate()), df.format(event.getEndDate()), details, venue);
             eventModel.addEvent(new DefaultScheduleEvent(timeslot.getTitle(), toCalendar(timeslot.getStartDate()), toCalendar(timeslot.getEndDate()), timeslot));
         } else {
-            Timeslot timeslot = (Timeslot)event.getData();
+            Timeslot timeslot = (Timeslot) event.getData();
             sbl.updateTimeslot(timeslot.getId(), event.getTitle(), df.format(event.getStartDate()), df.format(event.getEndDate()), details, venue);
             eventModel.updateEvent(new DefaultScheduleEvent(timeslot.getTitle(), toCalendar(timeslot.getStartDate()), toCalendar(timeslot.getEndDate()), timeslot));
         }
         event = new DefaultScheduleEvent();
     }
-    
-    public void deleteEvent(ActionEvent actionEvent){
-        
-        Timeslot timeslot = (Timeslot)event.getData();
-            sbl.deleteTimeslot(timeslot.getId(), userEntity);
-            eventModel.deleteEvent(event);
+
+    public void deleteEvent(ActionEvent actionEvent) {
+        Timeslot timeslot = (Timeslot) event.getData();
+        sbl.deleteTimeslot(timeslot.getId(), userEntity);
+        eventModel.deleteEvent(event);
     }
 
     public void onEventSelect(SelectEvent selectEvent) {
@@ -237,14 +218,22 @@ public class ScheduleBean implements Serializable {
     }
 
     public void onEventMove(ScheduleEntryMoveEvent event) {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        ScheduleEvent tempEvent = event.getScheduleEvent();
+        Timeslot timeslot = (Timeslot) tempEvent.getData();
+        sbl.updateTimeslot(timeslot.getId(), tempEvent.getTitle(), df.format(tempEvent.getStartDate()), df.format(tempEvent.getEndDate()), details, venue);
+        eventModel.updateEvent(new DefaultScheduleEvent(timeslot.getTitle(), toCalendar(timeslot.getStartDate()), toCalendar(timeslot.getEndDate()), timeslot));
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event updated", "Change in Days:" + event.getDayDelta() + ", Change in Minutes:" + event.getMinuteDelta());
-
         addMessage(message);
     }
 
     public void onEventResize(ScheduleEntryResizeEvent event) {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        ScheduleEvent tempEvent = event.getScheduleEvent();
+        Timeslot timeslot = (Timeslot) tempEvent.getData();
+        sbl.updateTimeslot(timeslot.getId(), tempEvent.getTitle(), df.format(tempEvent.getStartDate()), df.format(tempEvent.getEndDate()), details, venue);
+        eventModel.updateEvent(new DefaultScheduleEvent(timeslot.getTitle(), toCalendar(timeslot.getStartDate()), toCalendar(timeslot.getEndDate()), timeslot));
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event resized", "Day delta:" + event.getDayDelta() + ", Minute delta:" + event.getMinuteDelta());
-
         addMessage(message);
     }
 

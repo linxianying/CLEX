@@ -65,6 +65,10 @@ public class AcctMgmtBean implements Serializable{
     
     public void editProfile() throws IOException{
         FacesContext.getCurrentInstance().getExternalContext().redirect("profile.xhtml");
+        //student profile page: profile.xhtml
+        //lecturer profile page: lecturerProfile.xhtml
+        //admin profile page: adminProfile.xhtml
+        //guest profile page: guest.xhtml
     }
     
     //Only for those who cannot log in, don't use this for editing profile
