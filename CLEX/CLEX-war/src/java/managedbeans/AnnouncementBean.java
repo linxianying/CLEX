@@ -5,9 +5,12 @@
  */
 package managedbeans;
 
+import entity.Module;
 import entity.User;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -15,6 +18,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import session.AnnouncementSessionBeanLocal;
+import session.CourseMgmtBeanLocal;
 
 /**
  *
@@ -26,11 +30,14 @@ public class AnnouncementBean {
 
     @EJB
     AnnouncementSessionBeanLocal asbl;
-    
+
+    @EJB
+    CourseMgmtBeanLocal cmbl;
+
     private User userEntity;
     private String username;
     private int userType;
-    
+
     private Long anncId;
     private String title;
     private String message;
@@ -39,36 +46,59 @@ public class AnnouncementBean {
 
     FacesContext context;
     HttpSession session;
-    
+
     public AnnouncementBean() {
     }
-    
-    public void enterAnnouncement() throws IOException{
+
+    public void enterAnnouncement() throws IOException {
         FacesMessage fmsg = new FacesMessage();
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
         userEntity = (User) session.getAttribute("user");
         username = (String) session.getAttribute("username");
         userType = (int) session.getAttribute("userType");
-        
-        if(userType == 2){
-            asbl.createLecturerAnnc(username, title, message, type);
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Announcement created.", "");
-            context.addMessage(null, fmsg);           
-            context.getExternalContext().redirect("lecturerMain.xhtml");
+
+        System.out.println("\ntitle :" + title + "\nmsg :" + message + "\ntype :" + type + "\naudience :" + audience);
+
+        if (userType == 2) {
+            if (this.title.equals("")) {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Announcement title needed", "Up to 80 characters");
+            } else if (this.message.equals("")) {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Announcement details needed.", "Up to 300 characters.");
+            } else if (this.type == null) {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Intended recipients needed", "Please select from the list.");
+            } else {
+                asbl.createLecturerAnnc(username, title, message, type);
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Announcement created.", "");
+                title = "";
+                message = "";
+                type = "";
+                audience = "";
+                //context.getExternalContext().redirect("lecturerMain.xhtml"); //redirect will not show success message
+            }
+        } else if (userType == 3) {
+            if (this.title.equals("")) {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Announcement title needed", "Up to 80 characters");
+            } else if (this.message.equals("")) {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Announcement details needed.", "Up to 300 characters.");
+            } else if (this.audience == null) {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Intended recipients needed", "Please select from the list.");
+            } else {
+                asbl.createAdminAnnc(username, title, message, audience);
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Announcement created.", "");
+                //context.getExternalContext().redirect("adminMain.xhtml"); //redirect will not show success message
+                title = "";
+                message = "";
+                type = "";
+                audience = "";
+            }
+        } else {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error creating announcement.", "Missing fields");
         }
-        else if(userType == 3){
-            asbl.createAdminAnnc(username, title, message, audience);
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Announcement created.", "");
-            context.addMessage(null, fmsg);  
-            context.getExternalContext().redirect("adminMain.xhtml");
-        }
-        else{
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error creating announcement.", "");
-            context.addMessage(null, fmsg);
-        }
-    }  
-    
+        context.addMessage(null, fmsg);
+
+    }
+
     public User getUserEntity() {
         return userEntity;
     }
@@ -132,6 +162,4 @@ public class AnnouncementBean {
     public void setAudience(String audience) {
         this.audience = audience;
     }
-    
-    
 }

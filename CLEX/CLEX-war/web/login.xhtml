@@ -8,6 +8,7 @@
                 xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="content">
+
         <h:head>
             <title>PRISM Login Page</title>
         </h:head> 
@@ -17,34 +18,39 @@
                 <h:form>
                     <h:commandButton value="setEntites" actionListener="#{indexBean.createEntities}" action="login?faces-redirect=true" />
                 </h:form>
-                <h1>Login to your account</h1>
+                <h1>LOGIN</h1>
 
                 <h:form class="form">
-                    <p:inputText styleClass="textInput" id="username" value="#{loginBean.username}" 
-                                 required="true" requiredMessage="Please enter your username." 
-                                 placeholder="Username"
-                                 validatorMessage="Invalid format. Username must be between 6-12 letters/numbers. Special characters are not allowed.">
-                        <f:validateRegex pattern="^[a-zA-Z0-9]{6,12}$" />
-                    </p:inputText>
-                    <br></br>
-                    <p:password styleClass="textInput" id="password" value="#{loginBean.password}" 
-                                required="true" requiredMessage="Please enter your password." 
-                                placeholder="Password"/>
-                    
-                    <a href="resetPassword.xhtml" style="color: blue">Reset Password</a>
-                    <br></br>
-                    <br></br>
-                    <p:selectOneButton required="true" requiredMessage="Please select a user type" styleClass="menuSelect" id="userType" value="#{loginBean.userType}"> 
-                        <f:selectItem itemValue = "1" itemLabel = "Student" /> 
-                        <f:selectItem itemValue = "2" itemLabel = "Lecturer" /> 
-                        <f:selectItem itemValue = "3" itemLabel = "Admin" />
-                        <f:selectItem itemValue = "4" itemLabel = "Guest" />
-                    </p:selectOneButton><br/><br></br>
                     <p:growl id="messages" showDetail="true" />
-                    <br></br>
-                    <h:commandButton value="Login" actionListener="#{loginBean.doLogin}" id="login-button"/>
-                    <h:button value="Sign Up" outcome="register"/>
+                    <h:panelGrid style="width: 100%" id="details" styleClass="textInput" columns="1" cellpadding="5">
+                        <p:inputText styleClass="textInput" id="username" value="#{loginBean.username}" 
+                                     required="true" requiredMessage="Please enter your username!" 
+                                     placeholder="username"
+                                     validatorMessage="Invalid format. Username must be between 6-12 letters/numbers. Special characters are not allowed.">
+                            <f:validateRegex pattern="^[a-zA-Z0-9]{6,12}$" />
+                        </p:inputText>
+                        <br></br>
+                        <p:password styleClass="textInput" id="password" value="#{loginBean.password}" 
+                                    required="true" requiredMessage="Please enter your password!" 
+                                    placeholder="password"/>
 
+                        <a href="resetPassword.xhtml" style="color: blue">Reset Password</a>
+                        <br></br>
+                        <br></br>
+                        <p:selectOneButton required="true" requiredMessage="Please select a user type!" styleClass="menuSelect" id="userType" value="#{loginBean.userType}"> 
+                            <f:selectItem itemValue = "1" itemLabel = "Student" /> 
+                            <f:selectItem itemValue = "2" itemLabel = "Lecturer" /> 
+                            <f:selectItem itemValue = "3" itemLabel = "Admin" />
+                            <f:selectItem itemValue = "4" itemLabel = "Guest" />
+                        </p:selectOneButton><br/>
+
+
+                        <p:commandButton update="messages" value="LOGIN" actionListener="#{loginBean.doLogin}" id="login-button"/>
+                        <br></br>
+                        <p:commandButton update="messages" process="@this" action="#{loginBean.doRedirect}" id="signupButton" value="SIGN UP" />
+
+                        <!--<h:button value="CREATE AN ACCOUNT" outcome="register?faces-redirect=true"/>-->
+                    </h:panelGrid>
                 </h:form>
 
             </div>
@@ -62,8 +68,6 @@
                 <li></li>
             </ul>
         </div>
-        <h:outputScript name = "./js/index.js"/> 
-        <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 
         <br>--------------------------------------</br>
 

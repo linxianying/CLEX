@@ -57,6 +57,13 @@ public class RegisterBean implements Serializable {
 
     }
 
+    public void doBack() throws IOException {
+        FacesMessage fmsg = new FacesMessage();
+        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "redirecting to login", "");
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, fmsg);
+        context.getExternalContext().redirect("login.xhtml");
+    }
 
     public void register() throws IOException {
         FacesMessage fmsg = new FacesMessage();
@@ -65,7 +72,7 @@ public class RegisterBean implements Serializable {
         System.out.println("Agree (Before check):-------------------------" + this.agree);
         if (agree == false) {
             System.out.println("Agree (If) :-------------------------" + this.agree);
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "You must agree to our Terms and Conditions", "");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "You must agree to our Terms &amp; Conditions", "");
             context.addMessage(null, fmsg);
         } else {
             System.out.println("Agree (Else):-------------------------" + this.agree);
@@ -74,18 +81,31 @@ public class RegisterBean implements Serializable {
                     if (userType.equals("1")) { //Student
                         csbl.createStudent(username, password, name, email, school, contactNum, genSalt(),
                                 faculty, major, matricYear, matricSem, cap);
-                        context.getExternalContext().redirect("login.xhtml");
+                        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Student '" + username + "' successfully created.", "We hope you will like PRISM.");
+                        //context.getExternalContext().redirect("login.xhtml");
                     } else if (userType.equals("2")) { //Lecturer
                         csbl.createLecturer(username, password, name, email, school, contactNum, genSalt(),
                                 faculty);
-                        context.getExternalContext().redirect("login.xhtml");
+                        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Lecturer '" + username + "' successfully created.", "We hope you will like PRISM.");
+                        //context.getExternalContext().redirect("login.xhtml");
                     } else { //Guest
                         csbl.createGuest(username, password, name, email, school, contactNum, genSalt());
-                        context.getExternalContext().redirect("login.xhtml");
+                        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Guest '" + username + "' successfully created.", "We hope you will like PRISM.");
+                        //context.getExternalContext().redirect("login.xhtml");
                     }
+                    //context.getExternalContext().redirect("login.xhtml"); //redirect will not show success
+                    context.addMessage(null, fmsg);
+                    username = "";
+                    password = "";
+                    name = "";
+                    email = "";
+                    school = "";
+                    contactNum = null;
+
                 }
             } else {
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + username + "' already exists.", "");
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "User'" + username + "' already exists.", "Please choose another username.");
+                username = "";
                 context.addMessage(null, fmsg);
             }
         }

@@ -5,7 +5,6 @@
  */
 package managedbeans;
 
-import entity.Course;
 import entity.Lecturer;
 import entity.Lesson;
 import entity.Module;
@@ -18,49 +17,52 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Named;
 import javax.servlet.http.HttpSession;
+import session.AnnouncementSessionBeanLocal;
 import session.ClassroomSessionBeanLocal;
 import session.CourseMgmtBeanLocal;
 
-/**
- *
- * @author eeren
- */
+
 @ManagedBean
 @ViewScoped
-public class LecturerModuleListBean implements Serializable{
+public class LecturerModuleListBean implements Serializable {
 
     @EJB
     CourseMgmtBeanLocal cmbl;
     @EJB
+    AnnouncementSessionBeanLocal asbl;
+
     private ClassroomSessionBeanLocal crsbl;
     
     private List<Module> modules;
     private List<Module> filteredModules;
     private List moduleCodes;
-    
     private List<Lesson> lessons;
     private List<Lesson> filteredLessons;
-    
+
     private Lecturer lecturerEntity;
     private ArrayList<Student> students;
-    
+    private List<String> moduleCodes;
+
     private String username;
-    
+
     FacesContext context;
     HttpSession session;
 
     public LecturerModuleListBean() {
     }
-    
+
     @PostConstruct
-    public void init() { 
+    public void init() {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
         lecturerEntity = (Lecturer) session.getAttribute("user");
         username = lecturerEntity.getUsername();
         modules = (List) cmbl.getModulesFromLecturer(username);
+
+        moduleCodes = asbl.getModuleCodeByLecturer(username);
+        //lessons = cmbl.getAllLessons();
+
     }
 
     public List<Module> getModules() {
@@ -150,5 +152,12 @@ public class LecturerModuleListBean implements Serializable{
     public void setSession(HttpSession session) {
         this.session = session;
     }
-    
+
+    public List<String> getModuleCodes() {
+        return moduleCodes;
+    }
+
+    public void setModuleCodes(List<String> moduleCode) {
+        this.moduleCodes = moduleCode;
+    }
 }

@@ -3,11 +3,35 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                template="./layout/studentLayout.xhtml">
+                template="./layout/studentLayout.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="content">
         <div>
             <h:outputText value="Welcome to PRISM, #{loginBean.username}" /><br></br>
+            <h:form>
+                <p:growl id="messages" showDetail="true" />
+                <p:tabView>
+                    <p:tab title="Announcements by Admin">
+                        <h:panelGrid columns="1" cellpadding="10">
+
+                        </h:panelGrid>
+                    </p:tab>
+                    <p:tab title="Announcements by Lecturers">
+                        <h:panelGrid columns="2" cellpadding="10">
+                            <p:orderList value="#{lecturerModuleListBean.moduleCodes}" controlsLocation="none" itemLabel="" itemValue="" />
+
+
+                            <p:panel id="sports" header="Sports">
+                                <h:outputText value="Sports Content" />
+                            </p:panel>
+                        </h:panelGrid>
+                    </p:tab>
+
+                </p:tabView>
+            </h:form>
+
         </div>
     </ui:define>
 

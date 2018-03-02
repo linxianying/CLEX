@@ -16,10 +16,6 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import session.ClexSessionBeanLocal;
 
-/**
- *
- * @author eeren
- */
 @SessionScoped
 @ManagedBean
 public class LoginBean implements Serializable {
@@ -68,6 +64,14 @@ public class LoginBean implements Serializable {
         this.userType = userType;
     }
 
+    public void doRedirect() throws IOException {
+        FacesMessage fmsg = new FacesMessage();
+        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "redirecting to register", "");
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, fmsg);
+        context.getExternalContext().redirect("register.xhtml");
+    }
+
     public void doLogin() throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
@@ -78,8 +82,10 @@ public class LoginBean implements Serializable {
             userEntity = csbl.findStudent(username);
 
             if (userEntity == null) {
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + username + "' does not exists.", "");
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Student '" + username + "' does not exists.", "Have you signed up?");
                 context.addMessage(null, fmsg);
+                username = "";
+                password = "";
             } else {
                 approved = (userEntity.isApproval()) ? 1 : 0;
                 if (csbl.checkPassword(username, password) && approved == 1) {
@@ -93,15 +99,17 @@ public class LoginBean implements Serializable {
                     session.setAttribute("userType", 1);
                     context.getExternalContext().redirect("unapprovedUser.xhtml");
                 } else {
-                    fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect password.", "");
+                    fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect password.", "Have you forgotten your password? If so, click on reset password.");
                     context.addMessage(null, fmsg);
                 }
             }
         } else if (userType.equals("2")) { //Lecturer
             userEntity = csbl.findLecturer(username);
             if (userEntity == null) {
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + username + "' does not exists.", "");
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Lecturer '" + username + "' does not exists.", "Have you signed up?");
                 context.addMessage(null, fmsg);
+                username = "";
+                password = "";
             } else {
                 approved = (userEntity.isApproval()) ? 1 : 0;
                 if (csbl.checkPassword(username, password) && approved == 1) {
@@ -115,15 +123,17 @@ public class LoginBean implements Serializable {
                     session.setAttribute("userType", 2);
                     context.getExternalContext().redirect("unapprovedUser.xhtml");
                 } else {
-                    fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect password.", "");
+                    fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect password.", "Have you forgotten your password? If so, click on reset password.");
                     context.addMessage(null, fmsg);
                 }
             }
         } else if (userType.equals("3")) { //Admin
             userEntity = csbl.findAdmin(username);
-            if (userEntity  == null) {
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + username + "' does not exists.", "");
+            if (userEntity == null) {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Admin '" + username + "' does not exists.", "Are you an authorized admin?");
                 context.addMessage(null, fmsg);
+                username = "";
+                password = "";
             } else {
                 approved = (userEntity.isApproval()) ? 1 : 0;
                 if (csbl.checkPassword(username, password)) {
@@ -132,7 +142,7 @@ public class LoginBean implements Serializable {
                     session.setAttribute("userType", 3);
                     context.getExternalContext().redirect("adminMain.xhtml");
                 } else {
-                    fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect password.", "");
+                    fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect password.", "Are you an authorized admin?");
                     context.addMessage(null, fmsg);
                 }
             }
@@ -140,8 +150,10 @@ public class LoginBean implements Serializable {
             userEntity = csbl.findGuest(username);
 
             if (userEntity == null) {
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + username + "' does not exists.", "");
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Guest '" + username + "' does not exists.", "Have you signed up?");
                 context.addMessage(null, fmsg);
+                username = "";
+                password = "";
             } else {
                 approved = (userEntity.isApproval()) ? 1 : 0;
                 if (csbl.checkPassword(username, password) && approved == 1) {
@@ -155,7 +167,7 @@ public class LoginBean implements Serializable {
                     session.setAttribute("userType", 4);
                     context.getExternalContext().redirect("unapprovedUser.xhtml");
                 } else {
-                    fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect password.", "");
+                    fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect password.", "Have you forgotten your password? If so, click on reset password.");
                     context.addMessage(null, fmsg);
                 }
             }

@@ -13,18 +13,39 @@
             <br></br> 
             <br></br>           
             <h:form>
-                <!-- putting on main page just for testing only-->
+                <p:growl id="messages" showDetail="true" />
+
                 <h1 style="margin-top:0">Create announcement:</h1>
-                <h:panelGrid columns="4" cellpadding="5">
-                <h:outputLabel for= "title" value="Announcement Title:"/>
-                <p:inputText id="title" value="#{announcementBean.title}" required="true" />
-                <!-- make the text box bigger-->
-                <h:outputLabel for= "message" value="Contents:"/>
-                <p:inputText id="message" value="#{announcementBean.message}" required="true" />
-                <!-- maybe can give them a few choices and select instead of typing-->
-                <h:outputLabel for= "type" value="Module Code:"/>
-                <p:inputText id="type" value="#{announcementBean.type}" required="true" />
-                <p:commandButton value="Submit" actionListener="#{announcementBean.enterAnnouncement}" />
+                <h:panelGrid id="pGrid" columns="1" cellpadding="5" style="align: left">
+
+                    <p:inputText title="Announcement Title"
+                                 placeholder="title"
+                                 id="title" value="#{announcementBean.title}" 
+                                 maxlength="80" >
+                    </p:inputText>    
+
+                    <p:inputTextarea id="message" value="#{announcementBean.message}"
+                                     title="Announcement Body"
+                                     placeholder="message" 
+                                     rows="4" cols="30" counter="display" maxlength="300" 
+                                     counterTemplate="{0} characters remaining." autoResize="true" />
+
+                    <h:outputText id="display" />
+
+                    <p:selectOneMenu styleClass="textInput" 
+                                     id="modCode" value="#{announcementBean.type}" 
+                                     editable="false" placeholder="recipients" 
+                                     title="Select intended recipients of your announcement"
+                                     >
+                        <f:selectItem itemLabel="Select a module" itemValue="" />
+                        <f:selectItems value="#{lecturerModuleListBean.moduleCodes}" />
+                    </p:selectOneMenu>   
+
+                    <p:tooltip id="toolTipTitle" for="title" showEvent="focus" hideEvent="blur" position="right" showEffect="clip" />
+                    <p:tooltip id="toolTipMsg" for="message" showEvent="focus" hideEvent="blur" position="right" showEffect="clip" />
+
+                    <p:commandButton id="submitButton" update="@form" value="Submit" actionListener="#{announcementBean.enterAnnouncement}" >
+                    </p:commandButton>
                 </h:panelGrid>
             </h:form>
         </div>
