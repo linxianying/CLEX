@@ -6,8 +6,11 @@
 package managedbeans;
 
 import entity.Module;
+import entity.ProjectGroup;
+import entity.Student;
 import entity.User;
 import java.util.ArrayList;
+import java.util.Calendar;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -33,8 +36,12 @@ public class ProjectBean {
     
     private User user;
     private String username;
+    private Student student;
     private ArrayList<Module> takingModules;
     private boolean hasProjectGroup;
+    private ProjectGroup projectGroup;
+    private String currentYear;
+    private String currentSem;
     
     //for test
     private boolean check;
@@ -47,12 +54,13 @@ public class ProjectBean {
     public void init() {
         //for test purpose
         check = false;
-        module = csbl.findModule("PS2240", "2017", "2");
+        //module = csbl.findModule("PS2240", "2017", "2");
         //for test purpose only
         this.username="namename";
+        this.student = csbl.findStudent(username);
         takingModules = psbl.getTakingModules(username);
-        hasProjectGroup = false;
-    }
+        this.setCurrentYearSem();
+    }  
 
     
     public boolean isCheck() {
@@ -131,8 +139,40 @@ public class ProjectBean {
     public void setHasProjectGroup(boolean hasProjectGroup) {
         this.hasProjectGroup = hasProjectGroup;
     }
-    
-    
 
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+    
+    public void setCurrentYearSem() {
+        Calendar now = Calendar.getInstance();
+        int year = now.get(Calendar.YEAR);
+        // month starts from 0 to 11
+        int currentMonth = now.get(Calendar.MONTH);
+        if (currentMonth < 6) {
+            currentSem = "2";
+            year--;
+        }
+        else {
+            currentSem = "1";
+        }
+        currentYear = Integer.toString(year);
+        System.out.println("projectBean: Current Year:" + currentYear + ", current sem:" + currentSem);
+    }
+    
+    public boolean hasProjectGroup(String moduleCode) {
+        module = csbl.findModule(moduleCode, currentYear, currentSem);
+        return psbl.checkStudentProjectGroup(student, module);
+    }
+    
+    public String getStudentProjectGroup(String moduleCode) {
+        module = csbl.findModule(moduleCode, currentYear, currentSem);
+        projectGroup = psbl.getStudentProjectGroup(student, module);
+        return projectGroup.getName();
+    }
     
 }

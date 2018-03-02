@@ -30,7 +30,7 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
     private Student student;
     private String username;
     private ArrayList<Module> takingModules;
-    
+    private ProjectGroup projectGroup;
     
     @Override
     public ArrayList<Module> getTakingModules(String username) {
@@ -88,36 +88,54 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
     }
     
     //check the status of a student's module group
-    //return a type t0 indicate the status of the group 
+    //return a type to indicate the status of the group 
     @Override
     public String checkModuleGroup(Student student, Module module) {
         String type = "none";
         //the module has not been enabled by the lecturer to be able to form group
         if(module.getSuperGroup() == null) {
             type = "noSuperGroup";
+            System.out.println("No Super group for " + module.getCourse().getModuleCode());
         }
         //there is superGroup but the student has not linked to a group
         else if (!(checkStudentProjectGroup(student, module))) {
             type = "formGroup";
+            System.out.println("Not join project group for " + module.getCourse().getModuleCode());
         }
         //there is superGroup and the student has linked to a group
         else {
             type = "hasGroup";
+            System.out.println("Has a project group for " + module.getCourse().getModuleCode());
         }
         return type;
     }
     
     //call by checkModuleGroup
-    //check whetehr a student has erolled in a project group of certain module
-    private boolean checkStudentProjectGroup(Student student, Module module) {
+    //check whether a student has erolled in a project group of certain module
+    @Override
+    public boolean checkStudentProjectGroup(Student student, Module module) {
         boolean has= false;
         Collection<ProjectGroup> allGroups = new ArrayList<ProjectGroup>();
         allGroups = student.getProjectGroups();
+        System.out.println("project sb: checkStudentProjectGroup: " + allGroups.size());
         for (ProjectGroup pg: allGroups) {
-            if (pg.getSuperGroup().getModule() == module)
+            if (pg.getSuperGroup().getModule().getId().equals(module.getId()))
                 has = true;
         }
         return has;
+    }
+    
+    //get a certain project group of a certain module of the student
+    @Override
+    public ProjectGroup getStudentProjectGroup(Student student, Module module) {
+        Collection<ProjectGroup> allGroups = new ArrayList<ProjectGroup>();
+        allGroups = student.getProjectGroups();
+        System.out.println("project sb: checkStudentProjectGroup: " + allGroups.size());
+        for (ProjectGroup pg: allGroups) {
+            if (pg.getSuperGroup().getModule().getId().equals(module.getId()))
+                this.projectGroup = pg;
+            }
+        return projectGroup;
     }
 
 }
