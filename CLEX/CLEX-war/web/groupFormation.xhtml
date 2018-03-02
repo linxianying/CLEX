@@ -38,7 +38,7 @@
                             <br />
                         </ui:repeat>
                     </h:panelGrid>
-                    <p:commandButton value="Join this group"  rendered="#{group.groupMembers.size()<groupFormationBean.maxStudentNum}"/>
+                    <p:commandButton value="Join this group" rendered="#{group.groupMembers.size() lt groupFormationBean.maxStudentNum}" action="#{groupFormationBean.joinGroup(group.id)}" />
                 </p:tab>                
             </p:accordionPanel>
         </p:dataList>

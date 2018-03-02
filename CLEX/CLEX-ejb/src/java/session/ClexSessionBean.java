@@ -632,7 +632,6 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     
     @Override
     public ProjectGroup findProjectgroup(String name, Module module) {
-        
         try{
             Query q = em.createQuery("SELECT p FROM ProjectGroup p WHERE p.name = :name AND p.superGroup.id = :id");
             q.setParameter("name", name);

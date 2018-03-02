@@ -9,6 +9,7 @@ import entity.Module;
 import entity.ProjectGroup;
 import entity.Student;
 import entity.SuperGroup;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -193,6 +194,15 @@ public class GroupFormationBean {
         this.maxStudentNum = maxStudentNum;
     }
     
-    
+    public void joinGroup(Long id) throws IOException{
+        System.out.println("first step start");
+        projectGroup = gfsbl.findProjectGroup(id);
+        System.out.println("first step finish");
+        // if the group is full ,refresh the page
+        if (!gfsbl.joinGroup(student,projectGroup)) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.getExternalContext().redirect("groupFormation.xhtml");
+        }
+    }
     
 }
