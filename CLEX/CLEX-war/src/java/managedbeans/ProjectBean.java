@@ -9,12 +9,15 @@ import entity.Module;
 import entity.ProjectGroup;
 import entity.Student;
 import entity.User;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 import session.ClexSessionBeanLocal;
 import session.ProjectSessionBeanLocal;
 
@@ -34,7 +37,9 @@ public class ProjectBean {
     @EJB
     private ProjectSessionBeanLocal psbl;
     
-    private User user;
+    FacesContext context;
+    HttpSession session;
+    
     private String username;
     private Student student;
     private ArrayList<Module> takingModules;
@@ -42,10 +47,10 @@ public class ProjectBean {
     private ProjectGroup projectGroup;
     private String currentYear;
     private String currentSem;
+    private Module module;
     
     //for test
     private boolean check;
-    private Module module;
     
     public ProjectBean() {
     }
@@ -53,11 +58,18 @@ public class ProjectBean {
     @PostConstruct
     public void init() {
         //for test purpose
-        check = false;
+        //check = false;
         //module = csbl.findModule("PS2240", "2017", "2");
         //for test purpose only
-        this.username="namename";
-        this.student = csbl.findStudent(username);
+        //this.username="namename";
+        //this.student = csbl.findStudent(username);
+        
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+        
+        student = (Student) session.getAttribute("user");
+        username = student.getUsername();
+        
         takingModules = psbl.getTakingModules(username);
         this.setCurrentYearSem();
     }  
@@ -78,11 +90,46 @@ public class ProjectBean {
     public void setModule(Module module) {
         this.module = module;
     }
-    
-    
-    
-    
-    
+
+    public FacesContext getContext() {
+        return context;
+    }
+
+    public void setContext(FacesContext context) {
+        this.context = context;
+    }
+
+    public HttpSession getSession() {
+        return session;
+    }
+
+    public void setSession(HttpSession session) {
+        this.session = session;
+    }
+
+    public ProjectGroup getProjectGroup() {
+        return projectGroup;
+    }
+
+    public void setProjectGroup(ProjectGroup projectGroup) {
+        this.projectGroup = projectGroup;
+    }
+
+    public String getCurrentYear() {
+        return currentYear;
+    }
+
+    public void setCurrentYear(String currentYear) {
+        this.currentYear = currentYear;
+    }
+
+    public String getCurrentSem() {
+        return currentSem;
+    }
+
+    public void setCurrentSem(String currentSem) {
+        this.currentSem = currentSem;
+    }
     
     public ClexSessionBeanLocal getCsbl() {
         return csbl;
@@ -92,13 +139,6 @@ public class ProjectBean {
         this.csbl = csbl;
     }
 
-    public User getUserEntity() {
-        return user;
-    }
-
-    public void setUserEntity(User user) {
-        this.user = user;
-    }
 
     public String getUsername() {
         return username;
@@ -116,13 +156,6 @@ public class ProjectBean {
         this.psbl = psbl;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public ArrayList<Module> getTakingModules() {
         return takingModules;
@@ -173,6 +206,19 @@ public class ProjectBean {
         module = csbl.findModule(moduleCode, currentYear, currentSem);
         projectGroup = psbl.getStudentProjectGroup(student, module);
         return projectGroup.getName();
+    }
+    
+    public void goFormGroup(String moduleCode) {
+        try {
+            module = csbl.findModule(moduleCode, currentYear, currentSem);
+            session.setAttribute("module", module);
+            session.setAttribute("currentYear", currentYear);
+            session.setAttribute("currentSem", currentSem);
+            context.getExternalContext().redirect("groupFormation.xhtml");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
 }
