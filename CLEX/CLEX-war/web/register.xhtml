@@ -75,8 +75,8 @@
 
 
                         <p:commandButton update="@form" value="REGISTER" actionListener="#{registerBean.register}" />
-                        <!--<h:commandButton value="REGISTER" actionListener="#{registerBean.register}"  > 
-                        </h:commandButton>-->
+
+
                         <br></br>
 
 
@@ -84,10 +84,12 @@
                             <h:outputText value="I agree to the terms &amp; conditions"></h:outputText>
                             <p:selectBooleanCheckbox value="#{registerBean.agree}" id="terms" required="true" requiredMessage="You must agree to our Terms &amp; Conditions" >
                             </p:selectBooleanCheckbox>
+
                         </h:panelGrid>
 
                         <br></br>
                         <p:commandButton ajax="false" value="Terms &amp; Conditions">
+
                             <p:confirm icon="ui-icon-alert" />
                         </p:commandButton>
 
@@ -99,13 +101,13 @@
                                 <br />
                                 <h:outputText value="The rest of the T &amp; C is still in progress." />
                             </f:facet>
-                            <p:commandButton value="Agree" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton process="@form" update="terms" value="Agree" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                             <p:commandButton value="Disagree" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                         </p:confirmDialog>
 
-
                         <p:commandButton update="messages" process="@this" action="#{registerBean.doBack}" id="backButton" value="BACK TO LOGIN" />
-                        <!--<h:button value="BACK TO LOGIN" outcome="login"/>-->
+                        
+
 
 
                         <!--tool tips-->
@@ -117,6 +119,7 @@
 
                     </h:panelGrid>    
 
+                    <!-- <h:messages id="msgs" infoStyle="color: green;" warnStyle="color: orange;" errorStyle="color: red;" fatalStyle="color: red;"/>-->
                 </h:form>
 
 

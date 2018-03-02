@@ -82,16 +82,18 @@ public class RegisterBean implements Serializable {
                         csbl.createStudent(username, password, name, email, school, contactNum, genSalt(),
                                 faculty, major, matricYear, matricSem, cap);
                         fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Student '" + username + "' successfully created.", "We hope you will like PRISM.");
+                        //context.getExternalContext().redirect("login.xhtml");
                     } else if (userType.equals("2")) { //Lecturer
                         csbl.createLecturer(username, password, name, email, school, contactNum, genSalt(),
                                 faculty);
                         fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Lecturer '" + username + "' successfully created.", "We hope you will like PRISM.");
+                        //context.getExternalContext().redirect("login.xhtml");
                     } else { //Guest
                         csbl.createGuest(username, password, name, email, school, contactNum, genSalt());
                         fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Guest '" + username + "' successfully created.", "We hope you will like PRISM.");
+                        //context.getExternalContext().redirect("login.xhtml");
                     }
                     //context.getExternalContext().redirect("login.xhtml"); //redirect will not show success
-
                     context.addMessage(null, fmsg);
                     username = "";
                     password = "";
@@ -99,11 +101,12 @@ public class RegisterBean implements Serializable {
                     email = "";
                     school = "";
                     contactNum = null;
+
                 }
             } else {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "User'" + username + "' already exists.", "Please choose another username.");
-                context.addMessage(null, fmsg);
                 username = "";
+                context.addMessage(null, fmsg);
             }
         }
     }

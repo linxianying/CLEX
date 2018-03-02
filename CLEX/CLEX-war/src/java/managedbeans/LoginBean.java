@@ -16,10 +16,6 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import session.ClexSessionBeanLocal;
 
-/**
- *
- * @author eeren
- */
 @SessionScoped
 @ManagedBean
 public class LoginBean implements Serializable {

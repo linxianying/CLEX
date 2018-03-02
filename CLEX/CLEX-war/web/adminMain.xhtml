@@ -5,27 +5,108 @@
                  xmlns:h="http://xmlns.jcp.org/jsf/html"
                  template="./layout/adminLayout.xhtml"
                  xmlns:p="http://primefaces.org/ui"
-                 xmlns:f="http://xmlns.jcp.org/jsf/core">
+                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                 xmlns:pe="http://primefaces.org/ui">
 
     <ui:define name="content">
         <div>
             <h:outputText value="Welcome to PRISM, #{loginBean.username}" />
             <br></br>
             <br></br>
-            <h:form>
-                <!-- putting on main page just for testing only-->
-                <h1 style="margin-top:0">Create announcement:</h1>
-                <h:panelGrid columns="4" cellpadding="5">
-                <h:outputLabel for= "title" value="Announcement Title:"/>
-                <p:inputText id="title" value="#{announcementBean.title}" required="true" />
-                <!-- make the text box bigger-->
-                <h:outputLabel for= "message" value="Contents:"/>
-                <p:inputText id="message" value="#{announcementBean.message}" required="true" />
-                <!-- maybe can give them a few choices and select instead of typing-->
-                <h:outputLabel for= "audience" value="To who?"/>
-                <p:inputText id="audience" value="#{announcementBean.audience}" required="true" />
-                <p:commandButton value="Submit" actionListener="#{announcementBean.enterAnnouncement}" />
-                </h:panelGrid>
+            <h:form id="dashform">
+                <p:growl id="messages" showDetail="true" />
+                <p:tabView>
+                    <p:tab title="Create Announcement">
+                        <!-- putting on main page just for testing only-->
+                        <h1 style="margin-top:0">Create announcement:</h1>
+                        <h:panelGrid id="pGrid1" columns="1" cellpadding="5" style="align: left">
+                            <p:inputText title="Announcement Title"
+                                         placeholder="title"
+                                         id="title" value="#{announcementBean.title}" 
+                                         
+                                        
+                                         maxlength="80" >
+                            </p:inputText>    
+                            <p:inputTextarea id="message" value="#{announcementBean.message}"
+                                             title="Announcement Body"
+                                             placeholder="message" 
+                                             rows="4" cols="30" counter="display" maxlength="300" 
+                                             counterTemplate="{0} characters remaining." autoResize="true" />
+                            <h:outputText id="display" />
+                            <!--Input "1": all, "2": students only, "3": lecturers only, "4": guests only, "5": 2&3 (admin can use any, lecturer's default use 2)-->
+                            <p:selectOneMenu styleClass="textInput"  
+                                             id="audience" value="#{announcementBean.audience}" 
+                                             editable="false" placeholder="recipients" 
+                                             title="Select intended recipients of your announcement"
+                                             >
+                                <f:selectItem itemLabel="Intended recipients" itemDescription="Select intended recipients of your announcement"/>
+                                <f:selectItem itemLabel="All" itemValue="1" itemDescription="Send to all"/>
+                                <f:selectItem itemLabel="Students" itemValue="2" itemDescription="Send to all students only"/>
+                                <f:selectItem itemLabel="Lecturers" itemValue="3" itemDescription="Send to all lecturers only"/>
+                                <f:selectItem itemLabel="Guests" itemValue="4" itemDescription="Send to all guests only"/>
+                                <f:selectItem itemLabel="Lecturers and Students" itemValue="5" itemDescription="Send to all lecturers and students"/>
+                            </p:selectOneMenu>   
+                            <p:tooltip id="toolTipTitle" for="title" showEvent="focus" hideEvent="blur" position="right" showEffect="clip" />
+                            <p:tooltip id="toolTipMsg" for="message" showEvent="focus" hideEvent="blur" position="right" showEffect="clip" />
+                            <p:commandButton id="submitButton" update="@form" value="Submit" actionListener="#{announcementBean.enterAnnouncement}" >
+                            </p:commandButton>
+                        </h:panelGrid>
+                    </p:tab>
+                    <p:tab title="Edit an announcement">
+                        <!--<h:panelGrid id="pGrid2" columns="1" cellpadding="5" style="align: left">
+                            
+                            <h1 style="margin-top:0">Create announcement:</h1>
+                            <h:panelGrid id="pGrid1" columns="1" cellpadding="5" style="align: left">
+                                <p:selectOneMenu styleClass="textInput" required="true" 
+                                                 id="audience" value="#{announcementBean.title}" 
+                                                 editable="false" placeholder="recipients" 
+                                                 title="Select intended recipients of your announcement"
+                                                 requiredMessage="Select intended recipients ">
+                                    <f:selectItem itemLabel="Intended recipients" itemDescription="Select intended recipients of your announcement"/>
+                                    <f:selectItem itemLabel="All" itemValue="1" itemDescription="Send to all"/>
+                                    <f:selectItem itemLabel="Students" itemValue="2" itemDescription="Send to all students only"/>
+                                    <f:selectItem itemLabel="Lecturers" itemValue="3" itemDescription="Send to all lecturers only"/>
+                                    <f:selectItem itemLabel="Guests" itemValue="4" itemDescription="Send to all guests only"/>
+                                    <f:selectItem itemLabel="Lecturers and Students" itemValue="5" itemDescription="Send to all lecturers and students"/>
+                                </p:selectOneMenu>   
+
+                                <p:inputText title="Announcement Title"
+                                             placeholder="title"
+                                             id="title" value="#{announcementBean.title}" 
+                                             required="true" 
+                                             requiredMessage="Title required." 
+                                             maxlength="80" >
+                                </p:inputText>    
+                                <p:inputTextarea id="message" value="#{announcementBean.message}"
+                                                 title="Announcement Body"
+                                                 requiredMessage="Announcement details needed. Up to 300 characters."
+                                                 required="true"  placeholder="message" 
+                                                 rows="4" cols="30" counter="display" maxlength="300" 
+                                                 counterTemplate="{0} characters remaining." autoResize="true" />
+                                <h:outputText id="display" />
+                        
+                        <p:selectOneMenu styleClass="textInput" required="true" 
+                                         id="audience" value="#{announcementBean.audience}" 
+                                         editable="false" placeholder="recipients" 
+                                         title="Select intended recipients of your announcement"
+                                         requiredMessage="Select intended recipients ">
+                            <f:selectItem itemLabel="Intended recipients" itemDescription="Select intended recipients of your announcement"/>
+                            <f:selectItem itemLabel="All" itemValue="1" itemDescription="Send to all"/>
+                            <f:selectItem itemLabel="Students" itemValue="2" itemDescription="Send to all students only"/>
+                            <f:selectItem itemLabel="Lecturers" itemValue="3" itemDescription="Send to all lecturers only"/>
+                            <f:selectItem itemLabel="Guests" itemValue="4" itemDescription="Send to all guests only"/>
+                            <f:selectItem itemLabel="Lecturers and Students" itemValue="5" itemDescription="Send to all lecturers and students"/>
+                        </p:selectOneMenu>   
+                        <p:tooltip id="toolTipTitle" for="title" showEvent="focus" hideEvent="blur" position="right" showEffect="clip" />
+                        <p:tooltip id="toolTipMsg" for="message" showEvent="focus" hideEvent="blur" position="right" showEffect="clip" />
+                        <p:commandButton id="submitButton" update="messages" value="Submit" actionListener="#{announcementBean.enterAnnouncement}" >
+                        </p:commandButton>
+
+                        <p:commandButton id="deleteButton" update="messages" value="Delete" actionListener="#{announcementBean.deleteAnnouncement}" >
+                        </p:commandButton>
+                        </h:panelGrid>-->
+                    </p:tab>
+                </p:tabView>
             </h:form>            
         </div>
     </ui:define>

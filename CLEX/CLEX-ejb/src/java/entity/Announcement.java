@@ -44,15 +44,15 @@ public class Announcement implements Serializable {
     public void lecturerCreate(String title, String message, String type){
         this.title = title;
         this.message = message;
-        this.type = type;
-        this.audience = "2";
+        this.type = type; //module code
+        this.audience = "2"; // can only send to students
     }
     
     public void adminCreate(String title, String message, String audience){
         this.title = title;
         this.message = message;
-        this.type = "admin";
-        this.audience = audience;
+        this.type = "admin"; //by default, admin
+        this.audience = audience; //selectable by admin
     }    
     
     public Long getId() {
