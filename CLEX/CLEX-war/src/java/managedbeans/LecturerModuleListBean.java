@@ -36,7 +36,7 @@ public class LecturerModuleListBean implements Serializable {
     
     private List<Module> modules;
     private List<Module> filteredModules;
-    private List moduleCodes;
+    //private List moduleCodes;
     private List<Lesson> lessons;
     private List<Lesson> filteredLessons;
 
