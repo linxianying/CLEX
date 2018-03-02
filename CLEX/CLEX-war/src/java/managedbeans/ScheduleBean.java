@@ -219,6 +219,12 @@ public class ScheduleBean implements Serializable {
         }
         event = new DefaultScheduleEvent();
     }
+    
+    public void deleteEvent(ActionEvent actionEvent){
+        Timeslot timeslot = (Timeslot)event.getData();
+            sbl.deleteTimeslot(timeslot.getId());
+            eventModel.deleteEvent(event);
+    }
 
     public void onEventSelect(SelectEvent selectEvent) {
         event = (ScheduleEvent) selectEvent.getObject();
