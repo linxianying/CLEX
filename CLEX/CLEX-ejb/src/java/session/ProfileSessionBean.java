@@ -32,18 +32,16 @@ public class ProfileSessionBean implements ProfileSessionBeanLocal {
     private Guest guestEntity;
     
     @Override
-    public void editStudent(String username, String name, String email, String school, Long contactNum, String faculty, String major, String matricYear, String matricSem, double cap){
+    public void editStudent(String username, String name, String email, Long contactNum, String faculty, String major, String matricYear, String matricSem){
         studentEntity = findStudent(username);
         
         studentEntity.setName(name);
         studentEntity.setEmail(email);
-        studentEntity.setSchool(school);
         studentEntity.setContactNum(contactNum);
         studentEntity.setFaculty(faculty);
         studentEntity.setMajor(major);
         studentEntity.setMatricYear(matricYear);
         studentEntity.setMatricSem(matricSem);
-        studentEntity.setCap(cap);
         
         em.merge(studentEntity);
         em.flush();
@@ -55,7 +53,6 @@ public class ProfileSessionBean implements ProfileSessionBeanLocal {
         
         lecturerEntity.setName(name);
         lecturerEntity.setEmail(email);
-        lecturerEntity.setSchool(school);
         lecturerEntity.setContactNum(contactNum);
         lecturerEntity.setFaculty(faculty);
         
@@ -69,12 +66,13 @@ public class ProfileSessionBean implements ProfileSessionBeanLocal {
         
         guestEntity.setName(name);
         guestEntity.setEmail(email);
-        guestEntity.setSchool(school);
         guestEntity.setContactNum(contactNum);
         
         em.merge(guestEntity);
         em.flush();
-    }    
+    }
+    
+    
 
     @Override
     public void changePassword(String username, String newPassword){

@@ -14,7 +14,7 @@ import javax.ejb.Local;
 @Local
 public interface ProfileSessionBeanLocal {
 
-    public void editStudent(String username, String name, String email, String school, Long contactNum, String faculty, String major, String matricYear, String matricSem, double cap);
+    public void editStudent(String username, String name, String email, Long contactNum, String faculty, String major, String matricYear, String matricSem);
     public void editLecturer(String username, String name, String email, String school, Long contactNum, String faculty);
     public void editGuest(String username, String name, String email, String school, Long contactNum);
     
