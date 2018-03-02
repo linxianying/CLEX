@@ -27,7 +27,7 @@ import session.CourseMgmtBeanLocal;
  *
  * @author eeren
  */
-@Named(value = "lecturerModuleListBean")
+@ManagedBean
 @ViewScoped
 public class LecturerModuleListBean implements Serializable{
 
@@ -36,7 +36,7 @@ public class LecturerModuleListBean implements Serializable{
     @EJB
     private ClassroomSessionBeanLocal crsbl;
     
-    private ArrayList<Module> modules;
+    private List<Module> modules;
     private List<Module> filteredModules;
     
     private List<Lesson> lessons;
@@ -59,17 +59,15 @@ public class LecturerModuleListBean implements Serializable{
         session = (HttpSession) context.getExternalContext().getSession(true);
         lecturerEntity = (Lecturer) session.getAttribute("user");
         username = lecturerEntity.getUsername();
-        modules = crsbl.viewModules(lecturerEntity);
-        System.out.println(modules.get(0).getStudents().size());
-        //modules = (List) cmbl.getModulesFromLecturer(username);
+        modules = (List) cmbl.getModulesFromLecturer(username);
         //lessons = cmbl.getAllLessons();
     }
 
-    public ArrayList<Module> getModules() {
+    public List<Module> getModules() {
         return modules;
     }
 
-    public void setModules(ArrayList<Module> modules) {
+    public void setModules(List<Module> modules) {
         this.modules = modules;
     }
 
