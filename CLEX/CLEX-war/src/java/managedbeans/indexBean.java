@@ -147,7 +147,7 @@ public class indexBean {
         
         
         //create superGroup for current sem
-        //No superGroup for TIE2010
+        //No Group Formation needed for TIE2010
         csbl.createSuperGroup(3, 2, 3, csbl.findModule("PS2240", "2017", "2"));
         csbl.createSuperGroup(3, 1, 3, csbl.findModule("PC2193", "2017", "2"));
         csbl.createSuperGroup(3, 3, 3, csbl.findModule("SC3101", "2017", "2"));
@@ -155,17 +155,23 @@ public class indexBean {
         //csbl.createSuperGroup(5, 2, 3, csbl.findModule("TIE2010", "2017", "2"));
         
         //create projectGroup 
-        //no project group created for LAM3201
         csbl.createProjectGroup(csbl.findModule("PS2240", "2017", "2").getSuperGroup(), "N1",0.0);
         csbl.createProjectGroup(csbl.findModule("PS2240", "2017", "2").getSuperGroup(), "N2",0.0);
         csbl.createProjectGroup(csbl.findModule("PS2240", "2017", "2").getSuperGroup(), "N3",0.0);
         csbl.createProjectGroup(csbl.findModule("PC2193", "2017", "2").getSuperGroup(), "N1",0.0);
+        csbl.createProjectGroup(csbl.findModule("PC2193", "2017", "2").getSuperGroup(), "N2",0.0);
+        csbl.createProjectGroup(csbl.findModule("PC2193", "2017", "2").getSuperGroup(), "N3",0.0);
         csbl.createProjectGroup(csbl.findModule("SC3101", "2017", "2").getSuperGroup(), "N1",0.0);
+        csbl.createProjectGroup(csbl.findModule("SC3101", "2017", "2").getSuperGroup(), "N2",0.0);
+        csbl.createProjectGroup(csbl.findModule("SC3101", "2017", "2").getSuperGroup(), "N3",0.0);
+        csbl.createProjectGroup(csbl.findModule("LAM3201", "2017", "2").getSuperGroup(), "N1",0.0);
+        csbl.createProjectGroup(csbl.findModule("LAM3201", "2017", "2").getSuperGroup(), "N2",0.0);
+        csbl.createProjectGroup(csbl.findModule("LAM3201", "2017", "2").getSuperGroup(), "N3",0.0);
         
         //link student with projectgroup
-        //student not join any project group for SC3101
+        //student not join any project group for SC3101 and LAM3201
         csbl.linkStudentGroup(csbl.findStudent("namename"), csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")));
-        csbl.linkStudentGroup(csbl.findStudent("namename"), csbl.findProjectgroup("N1", csbl.findModule("PC2193", "2017", "2")));
+        csbl.linkStudentGroup(csbl.findStudent("namename"), csbl.findProjectgroup("N2", csbl.findModule("PC2193", "2017", "2")));
         
         csbl.linkLecturerModule("lecturer", "PS2240", "2017", "2");
         csbl.linkLecturerModule("hsianghui2", "PC2193", "2017", "2");
