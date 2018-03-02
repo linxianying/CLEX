@@ -6,6 +6,8 @@
 package session;
 
 import entity.Announcement;
+import entity.Lecturer;
+import entity.Module;
 import entity.User;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -84,6 +86,18 @@ public class AnnouncementSessionBean implements AnnouncementSessionBeanLocal {
         return false;
     }
 
+    @Override
+    public List getModuleCodeByLecturer(String username){
+        List<String> moduleCodes = new ArrayList();
+        Lecturer lecturerEntity = (Lecturer) findUser(username);
+        List<Module> modules = (List) lecturerEntity.getModules();
+        for(int i=0; i < modules.size(); i++){
+            moduleCodes.add(modules.get(i).getCourse().getModuleCode());
+        }
+        return moduleCodes;
+    }
+    
+    
     @Override
     public Collection<Announcement> getAllAnnc(){
         List<Announcement> announcements = new ArrayList<Announcement>();

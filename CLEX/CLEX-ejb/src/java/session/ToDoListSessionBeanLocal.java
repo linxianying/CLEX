@@ -44,5 +44,6 @@ public interface ToDoListSessionBeanLocal {
     public Student findStudent(String username);
     
     public String removeTask(Long taskId, User user);
+    public String removeGroupTask(Long taskId, ProjectGroup projectGroup) ;
 
 }

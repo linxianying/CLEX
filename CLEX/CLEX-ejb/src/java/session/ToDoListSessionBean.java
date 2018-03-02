@@ -81,13 +81,31 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
         else{
             //task = em.find(Task.class, taskId);
             user.getTasks().remove(task);
-            em.remove(task);
             em.merge(user);
+            em.remove(task);
             em.flush();
-            em.clear();
+
         }
         return "Task is sucessfully deleted!\n";
     }
+    
+    @Override
+    public String removeGroupTask(Long taskId, ProjectGroup projectGroup) {
+        groupTaskEntity = findGroupTask(taskId);
+        if (groupTaskEntity==null||projectGroup==null) {
+            return "GroupTask not found or projectGroup not found!\n";
+        }
+        else{
+            //task = em.find(Task.class, taskId);
+            projectGroup.getGroupTasks().remove(groupTaskEntity);
+            em.merge(projectGroup);
+            em.remove(groupTaskEntity);
+            em.flush();
+
+        }
+        return "Group Task is sucessfully deleted!\n";
+    }
+    
     @Override
     public void createTask(String username, String date, String deadline, String title,String details, String status){
         taskEntity = new Task();
