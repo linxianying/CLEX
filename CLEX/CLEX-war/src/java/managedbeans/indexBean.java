@@ -147,6 +147,7 @@ public class indexBean {
         
         
         //create superGroup for current sem
+        //No superGroup for TIE2010
         csbl.createSuperGroup(3, 2, 3, csbl.findModule("PS2240", "2017", "2"));
         csbl.createSuperGroup(3, 1, 3, csbl.findModule("PC2193", "2017", "2"));
         csbl.createSuperGroup(3, 3, 3, csbl.findModule("SC3101", "2017", "2"));
@@ -154,6 +155,7 @@ public class indexBean {
         //csbl.createSuperGroup(5, 2, 3, csbl.findModule("TIE2010", "2017", "2"));
         
         //create projectGroup 
+        //no project group created for LAM3201
         csbl.createProjectGroup(csbl.findModule("PS2240", "2017", "2").getSuperGroup(), "N1",0.0);
         csbl.createProjectGroup(csbl.findModule("PS2240", "2017", "2").getSuperGroup(), "N2",0.0);
         csbl.createProjectGroup(csbl.findModule("PS2240", "2017", "2").getSuperGroup(), "N3",0.0);
@@ -161,6 +163,7 @@ public class indexBean {
         csbl.createProjectGroup(csbl.findModule("SC3101", "2017", "2").getSuperGroup(), "N1",0.0);
         
         //link student with projectgroup
+        //student not join any project group for SC3101
         csbl.linkStudentGroup(csbl.findStudent("namename"), csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")));
         csbl.linkStudentGroup(csbl.findStudent("namename"), csbl.findProjectgroup("N1", csbl.findModule("PC2193", "2017", "2")));
         
@@ -367,8 +370,20 @@ public class indexBean {
         //sbl.createTimeslot("guesta","2018-03-28", "18:00", "19:00", "Go with Su", "Beijing", "Buy clothes");
         //sbl.createTimeslot("dddddd","2018-02-28", "06:00", "07:00", "Homework", "Home", "Finish IS4103 homework");
         //sbl.createTimeslot("bbbbbb","2018-04-28", "11:00", "12:00", "Travel with Su", "Chongqing", "Buy sunglasses and eat hotpot");
-        //sbl.createTimeslot("hsianghui3","2018-02-28", "16:00", "17:00", "Eat with Caoyu", "Bugis", "Eat hotpot");
-        
+        sbl.createTimeslot("hsianghui3", "Eat with Caoyu","2018-02-28 06:00", "2018-02-28 07:00", "Bugis", "Eat hotpot");
+        sbl.createTimeslot("namename", "IS3106", "2018-03-22 16:00", "2018-03-22 17:00", "LT17", "Lecture");
+        sbl.createTimeslot("namename", "CS2100","2018-03-26 16:00", "2018-03-26 17:00", "LT19", "Lecture");
+        sbl.createTimeslot("namename", "Lab of CS3228","2018-03-21 11:00", "2018-03-21 12:00", "COM2-201", "Lab");
+        sbl.createTimeslot("namename", "Tutorial CS1010J", "2018-03-10 10:00", "2018-03-10 11:00",  "COM1-203", "Tutorial");
+        sbl.createTimeslot("namename", "Go out with Caoyu", "2018-03-06 18:00", "2018-03-06 19:30", "Orchard", "Go shopping");
+        sbl.createTimeslot("namename", "Hang out with Susu", "2018-03-11 19:00", "2018-03-11 20:10",  "Vivo City", "Buy clothes");
+        sbl.createTimeslot("lecturer", "IS3106", "2018-03-22 16:00", "2018-03-22 17:00",  "LT17", "Lecture");
+        sbl.createTimeslot("lecturer", "CS2100", "2018-03-26 16:00", "2018-03-26 17:00", "LT19", "Lecture");
+        sbl.createTimeslot("lecturer", "Lab of CS3228", "2018-03-21 11:00", "2018-03-21 12:00",  "COM2-201", "Lab");
+        sbl.createTimeslot("lecturer", "Tutorial CS1010J", "2018-03-20 10:00", "2018-03-20 11:00",  "COM1-203", "Tutorial");
+        sbl.createTimeslot("lecturer", "MA Introduction", "2018-03-16 18:00", "2018-03-16 19:30",  "LT27", "Introduce Math to bridging course students");
+        sbl.createTimeslot("lecturer", "Meeting", "2018-03-11 09:00", "2018-03-11 10:10",  "Central Libriary", "Meeting with IS4103 group T02");
+        sbl.createTimeslot("guesta", "Go with Su", "2018-03-18 22:00", "2018-03-18 23:00",  "Beijing", "Buy clothes");
         
         crsbl.createPoll("CS2100", "2016", "2", "2016-08-27", "Computer Organization", 0.35, "type", "Do you like this course?");
         

@@ -14,7 +14,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -148,8 +151,17 @@ public class ClassroomBean {
     }
 
     public void addPoll(){
-        System.out.println("addPollType:"+addPollType+"//////////////////////Topic:"+addPollTopic);
-        //System.out.println("addPollTopic:"+addPollTopic);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        Poll p = crsbl.createPoll(addModuleCode, addPickYear, addPickSem, dateFormat.format(date), 
+                addPollTopic, Double.parseDouble(addPollCorrectRate), addPollType, addPollContent);
+        //System.out.println("addPollType:"+addPollType+"//////////////////////Topic:"+addPollTopic);
+        if(p==null){
+            System.out.println("ClassroomBean: Create Poll failed ");
+        }else{
+            System.out.println("ClassroomBean: New Poll id is "+p.getId());
+        }
+        
     }
     
     public DataSource getClexDataSource() {
