@@ -152,6 +152,7 @@ public class ScheduleSessionBean implements ScheduleSessionBeanLocal {
         userEntity = user;
         if(userEntity!=null&&userEntity!=null){
             userEntity.getTimeslots().remove(timeslotEntity);
+            em.merge(userEntity);
             em.remove(timeslotEntity);
             em.flush();
         }else{
