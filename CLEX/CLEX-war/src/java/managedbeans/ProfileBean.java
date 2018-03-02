@@ -91,14 +91,6 @@ public class ProfileBean implements Serializable {
         }
     }
 
-    public void editBasicProfileDetails() {
-
-    }
-    
-    public void changePassword(){
-        
-    }
-
     public User getUserEntity() {
         return userEntity;
     }
