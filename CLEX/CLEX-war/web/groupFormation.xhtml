@@ -14,12 +14,21 @@
         <h:outputText value="#{groupFormationBean.currentYear}"/>
         <h:outputText value=" Sem "/>
         <h:outputText value="#{groupFormationBean.currentSem}"/>
+        <br />
+        <h:outputText value="Group formation requirement: "/>
+        <h:outputText value="#{groupFormationBean.minStudentNum}"/>
+        <h:outputText value=" to " rendered="#{groupFormationBean.minStudentNum != groupFormationBean.maxStudentNum}"/>
+        <h:outputText value="#{groupFormationBean.maxStudentNum}" rendered="#{groupFormationBean.minStudentNum != groupFormationBean.maxStudentNum}"/>
+        <h:outputText value=" people per group"/>
+        
         <p:dataList var="group" value="#{groupFormationBean.projectGroups}">
             <p:accordionPanel multiple="true" activeIndex="1">
                 <p:tab title="#{group.name}">
-                    <h:outputText value="Number of students: "/>
-                    <h:outputText value="#{group.groupMembers.size()}"/>
-                    <h:panelGrid>
+                    <h:outputText value="Nobody in this group" rendered="#{empty group.groupMembers}"/>
+                    <h:outputText value="This group is full" rendered="#{(not empty group.groupMembers) and (group.groupMembers.size() == groupFormationBean.maxStudentNum)}"/>
+                    <h:outputText value="Number of students: " rendered="#{not empty group.groupMembers}"/>
+                    <h:outputText value="#{group.groupMembers.size()}" rendered="#{not empty group.groupMembers}"/>
+                    <h:panelGrid rendered="#{not empty group.groupMembers}">
                         <ui:repeat var="student" value="#{group.groupMembers}">
                             <h:outputText value="Student ID: "/>
                             <h:outputText value="#{student.id}" />
@@ -28,9 +37,8 @@
                             <h:outputText value="#{student.name}" />
                             <br />
                         </ui:repeat>
-                        
                     </h:panelGrid>
-                    <p:commandButton value="Join this group"  />
+                    <p:commandButton value="Join this group"  rendered="#{group.groupMembers.size()<groupFormationBean.maxStudentNum}"/>
                 </p:tab>                
             </p:accordionPanel>
         </p:dataList>

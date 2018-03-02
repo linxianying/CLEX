@@ -8,6 +8,7 @@ package managedbeans;
 import entity.Module;
 import entity.ProjectGroup;
 import entity.Student;
+import entity.SuperGroup;
 import java.util.ArrayList;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -40,12 +41,15 @@ public class GroupFormationBean {
     private String username;
     private Student student;
     private ProjectGroup projectGroup;
+    private Module module;
+    private SuperGroup superGroup;
+    private ArrayList<ProjectGroup> projectGroups;
+    
     private String currentYear;
     private String currentSem;
-    private Module module;
+    private int minStudentNum;
+    private int maxStudentNum;
     
-    private ArrayList<ProjectGroup> projectGroups;
-
     
     public GroupFormationBean() {
     }
@@ -61,7 +65,9 @@ public class GroupFormationBean {
         currentYear = (String) session.getAttribute("currentYear");
         currentSem = (String) session.getAttribute("currentSem");
         module = (Module) session.getAttribute("module");
-        System.out.println("Check module session attribute:" + module.getCourse().getModuleCode());
+        superGroup = module.getSuperGroup();
+        minStudentNum = superGroup.getMinStudentNum();
+        maxStudentNum = superGroup.getMaxStudentNum();
         projectGroups = gfsbl.getAllProjectGroups(module);
     }
 
@@ -161,6 +167,30 @@ public class GroupFormationBean {
 
     public void setProjectGroups(ArrayList<ProjectGroup> projectGroups) {
         this.projectGroups = projectGroups;
+    }
+
+    public SuperGroup getSuperGroup() {
+        return superGroup;
+    }
+
+    public void setSuperGroup(SuperGroup superGroup) {
+        this.superGroup = superGroup;
+    }
+
+    public int getMinStudentNum() {
+        return minStudentNum;
+    }
+
+    public void setMinStudentNum(int minStudentNum) {
+        this.minStudentNum = minStudentNum;
+    }
+
+    public int getMaxStudentNum() {
+        return maxStudentNum;
+    }
+
+    public void setMaxStudentNum(int maxStudentNum) {
+        this.maxStudentNum = maxStudentNum;
     }
     
     
