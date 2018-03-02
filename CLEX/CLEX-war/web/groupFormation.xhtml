@@ -1,12 +1,37 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Form a group!</title>
     </h:head>
     <h:body>
-        Hello from Facelets
+        <h:outputText value="Group formation for "/>
+        <h:outputText value="#{groupFormationBean.module.course.moduleCode}"/>
+        <h:outputText value=", AY "/>
+        <h:outputText value="#{groupFormationBean.currentYear}"/>
+        <h:outputText value=" Sem "/>
+        <h:outputText value="#{groupFormationBean.currentSem}"/>
+        <p:dataList var="group" value="#{groupFormationBean.projectGroups}">
+            <p:accordionPanel multiple="true" activeIndex="1">
+                <p:tab title="#{group.name}">
+                    <h:outputText value="Number of students: "/>
+                    <h:outputText value="#{group.groupMembers.size()}"/>
+                    <h:panelGrid>
+                        <ui:repeat var="student" value="#{group.groupMembers}">
+                            <h:outputText value="Student ID: "/>
+                            <h:outputText value="#{student.id}" />
+                            <h:outputText value="   "/>
+                            <h:outputText value="Student name: "/>
+                            <h:outputText value="#{student.name}" />
+                        </ui:repeat>
+                    </h:panelGrid>
+                    <p:commandButton value="Join this group"  />
+                </p:tab>                
+            </p:accordionPanel>
+        </p:dataList>
     </h:body>
 </html>
 

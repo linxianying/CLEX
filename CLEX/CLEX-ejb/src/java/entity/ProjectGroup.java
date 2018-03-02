@@ -43,12 +43,7 @@ public class ProjectGroup implements Serializable {
     
     @OneToMany(cascade={CascadeType.ALL})
     private Collection<GroupTask> groupTasks = new ArrayList<GroupTask>();
-    
-    public void createProjectGroup(SuperGroup superGroup, double cost){
-        this.superGroup = superGroup;
-        this.cost = cost;
-    }
-    
+
     public void createProjectGroup(SuperGroup superGroup, String name, double cost){
         this.superGroup = superGroup;
         this.cost = cost;
