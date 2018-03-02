@@ -73,18 +73,20 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
     }
     
     @Override
-    public String removeTask(Long taskId) {
+    public String removeTask(Long taskId, User user) {
         Task task = findTask(taskId);
-        if (task==null) {
-            return "Task not found!\n";
+        if (task==null||user==null) {
+            return "Task not found or user not found!\n";
         }
         else{
-            task = em.find(Task.class, taskId);
+            //task = em.find(Task.class, taskId);
+            user.getTasks().remove(task);
             em.remove(task);
+            em.merge(user);
             em.flush();
             em.clear();
         }
-        return "Tutorial is sucessfully deleted!\n";
+        return "Task is sucessfully deleted!\n";
     }
     @Override
     public void createTask(String username, String date, String deadline, String title,String details, String status){
@@ -107,8 +109,8 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
         }else{
             indGroupTaskEntity.setStudent(studentEntity);
             studentEntity.getIndividualGroupTasks().add(indGroupTaskEntity);
-            em.persist(indGroupTaskEntity);
-            em.persist(studentEntity);
+            em.merge(indGroupTaskEntity);
+            em.merge(studentEntity);
             em.flush();
         }
     }
@@ -139,7 +141,7 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
                 groupTaskEntity.setTitle(title);
             if(!urgency.equals(""))
                 groupTaskEntity.setUrgency(urgency);
-            em.persist(groupTaskEntity);
+            em.merge(groupTaskEntity);
             em.flush();
             System.out.println("ToDoList Session Bean updateTask: Group Task found! Updation performed");
         }else{
@@ -163,7 +165,7 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
                 taskEntity.setTitle(title);
             if(!urgency.equals(""))
                  taskEntity.setUrgency(urgency);
-            em.persist(taskEntity);
+            em.merge(taskEntity);
             em.flush();
             System.out.println("ToDoList Session Bean updateTask: Task found! Updation performed");
         }else{
@@ -175,7 +177,7 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
     public void finishTask(Long taskId){
         taskEntity = findTask(taskId);
         taskEntity.setStatus("finished");
-        em.persist(taskEntity);
+        em.merge(taskEntity);
         em.flush();
     }
     
@@ -183,7 +185,7 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
     public void finishGroupTask(Long taskId){
         groupTaskEntity = findGroupTask(taskId);
         groupTaskEntity.setStatus("finished");
-        em.persist(groupTaskEntity);
+        em.merge(groupTaskEntity);
         em.flush();
     }
     
@@ -222,7 +224,7 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
          //To change body of generated methods, choose Tools | Templates.
         groupTaskEntity = findGroupTask(TaskId);
         groupTaskEntity.setUrgency(urgency);
-        em.persist(groupTaskEntity);
+        em.merge(groupTaskEntity);
         em.flush();
     }
 
@@ -238,8 +240,8 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
         }else{
             taskEntity.setStudent(studentEntity);
             studentEntity.getTasks().add(taskEntity);
-            em.persist(taskEntity);
-            em.persist(studentEntity);
+            em.merge(taskEntity);
+            em.merge(studentEntity);
             em.flush();
         }
     }
