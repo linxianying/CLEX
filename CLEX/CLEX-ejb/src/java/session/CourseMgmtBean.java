@@ -41,7 +41,7 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
         String discountinuedYear, String discountinuedSem, String offeredSem, String school, String moduleCredit, String workload) {
         Course course = new Course();
         course.createCourse(moduleCode.toUpperCase(), moduleName, moduleInfo, discontinuedBool, discountinuedYear, discountinuedSem, 
-                offeredSem, school,moduleCredit, workload);
+                offeredSem, school.toUpperCase(), moduleCredit, workload);
         em.persist(course);
         em.flush();
     }
@@ -80,7 +80,7 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
         courseEntity.setDiscountinuedYear(discountinuedYear);
         courseEntity.setDiscountinuedSem(discountinuedSem);
         courseEntity.setOfferedSem(offeredSem);
-        courseEntity.setSchool(school);
+        courseEntity.setSchool(school.toUpperCase());
         courseEntity.setModularCredits(moduleCredit);
         courseEntity.setWorkload(workload);
         
@@ -129,7 +129,7 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
         moduleEntity = findModule(courseEntity, takenYear, takenSem);
         modules = courseEntity.getModules();
     
-        if(!moduleEntity.getLessons().isEmpty()){
+        if(!moduleEntity.getLessons().isEmpty() || !moduleEntity.getLecturers().isEmpty()){
             return false;
         }
         

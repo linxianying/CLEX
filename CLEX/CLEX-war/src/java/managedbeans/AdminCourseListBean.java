@@ -42,10 +42,10 @@ public class AdminCourseListBean implements Serializable{
     @PostConstruct
     public void init() {
         courses = cmbl.getAllCourses();    
-        modules = cmbl.getAllModules(); //eeren: got some problem with the front-end listing out, not sure how to solve, pretty sure it is able to retrieve the modules
-        lessons = cmbl.getAllLessons(); //same for modules
+        modules = cmbl.getAllModules();
+        lessons = cmbl.getAllLessons();
     }
-
+    
     public List<Course> getCourses() {
         return courses;
     }
