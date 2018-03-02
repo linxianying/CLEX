@@ -107,6 +107,16 @@ public class ProfileBean implements Serializable {
         // Need help for implementation success message on UI for successful edit of student profile
     }
     
+    public void editLecturerProfile() throws IOException{     
+        Long contactNo = Long.parseLong(contactNum);
+        
+        //System.out.println("name: " + name);
+        psbl.editLecturer(username, name, email, school, contactNo, faculty);
+        FacesContext.getCurrentInstance().getExternalContext().redirect("lecturerProfile.xhtml");
+        //Alert successful
+        // Need help for implementation success message on UI for successful edit of student profile
+    }
+    
     public void editPassword() throws IOException{
         if(!newPassword1.equals(newPassword2)){
             // Passwords don't match
@@ -122,6 +132,30 @@ public class ProfileBean implements Serializable {
                 //System.out.println("here");
                 psbl.changePassword(username, newPassword2);
                 FacesContext.getCurrentInstance().getExternalContext().redirect("profile.xhtml");
+            }
+            else{
+                //throw error: Wrong password
+                // Need help for implementation error message on UI for passwords mismatch
+                System.out.println("Wrong password with DB");
+            }
+        }
+    }
+    
+    public void editLecturerPassword() throws IOException{
+        if(!newPassword1.equals(newPassword2)){
+            // Passwords don't match
+            // Need help for implementation error message on UI for passwords mismatch
+            //fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Confirm Password does not match", "");
+            System.out.println("Passwords Mismatch");
+        }
+        else{
+            Boolean temp;
+            temp = psbl.checkPassword(username, oldPassword);
+            
+            if (temp == true){
+                //System.out.println("here");
+                psbl.changePassword(username, newPassword2);
+                FacesContext.getCurrentInstance().getExternalContext().redirect("lecturerProfile.xhtml");
             }
             else{
                 //throw error: Wrong password
