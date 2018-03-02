@@ -94,85 +94,88 @@
                     
                     <!-- START: Add New Poll -->
                     <h:form id="addForm">
-                        <table>
-                            <tr>
-                                <td>
-                                    Module Code:
-                                </td>
-                                <td>
-                                    <p:inputText value="#{classroomBean.addModuleCode}" required="true">
-                                        <p:ajax event="change" listener="#{classroomBean.checkModule}" update="addForm" />
-                                    </p:inputText>
-                                </td>
-                                
-                                <td>
-                                    <h:outputText id="addErrorMsg" value="#{classroomBean.addErrorMsg}" />
-                                </td>
+                        <p:panel collapsed="false" styleClass="menuHeader"  header="Add New Poll" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
 
-                            </tr>
-                            <tr>
-                                <td>
-                                    Year:
+                            <table>
+                                <tr>
+                                    <td>
+                                        Module Code:
+                                    </td>
+                                    <td>
+                                        <p:inputText value="#{classroomBean.addModuleCode}" required="true">
+                                            <p:ajax event="change" listener="#{classroomBean.checkModule}" update="addForm" />
+                                        </p:inputText>
+                                    </td>
 
-                                </td>
-                                <td>
-                                    <p:inputText value="#{classroomBean.addPickYear}" required="true" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p:outputLabel for="addPickSem" value="Semester" />
-                                </td>
-                                
-                                <td>
-                                    <p:selectOneMenu id="addPickSem" value="#{classroomBean.addPickSem}" style="width:125px">
-                                        <f:selectItem itemLabel="1" itemValue="1" />
-                                        <f:selectItem itemLabel="2" itemValue="2" />
-                                    </p:selectOneMenu>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Type of Poll:
-                                </td>
+                                    <td>
+                                        <h:outputText id="addErrorMsg" value="#{classroomBean.addErrorMsg}" />
+                                    </td>
 
-                                <td>
-                                    <p:inputText value="#{classroomBean.addPollType}" required="true" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Topic of Poll:
-                                </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Year:
 
-                                <td>
-                                    <p:inputText value="#{classroomBean.addPollTopic}" required="true" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Content of Poll:
-                                </td>
+                                    </td>
+                                    <td>
+                                        <p:inputText value="#{classroomBean.addPickYear}" required="true" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p:outputLabel for="addPickSem" value="Semester" />
+                                    </td>
 
-                                <td>
-                                    <p:inputText value="#{classroomBean.addPollContent}" required="true" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Correct Rate:
-                                </td>
+                                    <td>
+                                        <p:selectOneMenu id="addPickSem" value="#{classroomBean.addPickSem}" style="width:125px">
+                                            <f:selectItem itemLabel="1" itemValue="1" />
+                                            <f:selectItem itemLabel="2" itemValue="2" />
+                                        </p:selectOneMenu>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Type of Poll:
+                                    </td>
 
-                                <td>
-                                    <p:inputText value="#{classroomBean.addPollCorrectRate}" required="true" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p:commandButton value="Add" id="addPollButton" rendered="#{classroomBean.addButton}" action="#{classroomBean.addPoll}" />
-                                </td>
-                            </tr>
-                        </table>
+                                    <td>
+                                        <p:inputText value="#{classroomBean.addPollType}" required="true" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Topic of Poll:
+                                    </td>
+
+                                    <td>
+                                        <p:inputText value="#{classroomBean.addPollTopic}" required="true" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Content of Poll:
+                                    </td>
+
+                                    <td>
+                                        <p:inputText value="#{classroomBean.addPollContent}" required="true" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Correct Rate:
+                                    </td>
+
+                                    <td>
+                                        <p:inputText value="#{classroomBean.addPollCorrectRate}" required="true" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p:commandButton value="Add" id="addPollButton" rendered="#{classroomBean.addButton}" action="#{classroomBean.addPoll}" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </p:panel>>
                     </h:form>
                     <!-- END: Add New Poll -->
                     
