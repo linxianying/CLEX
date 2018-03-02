@@ -128,10 +128,43 @@ public class ScheduleSessionBean implements ScheduleSessionBeanLocal {
         return userEntity;
     }
     
+    public User findUser(Long id){
+        try{
+            Query q = em.createQuery("SELECT u FROM BasicUser u WHERE u.id = :id");
+            q.setParameter("id", id);
+            userEntity = (User) q.getSingleResult();
+            System.out.println("User id" + id + " found.");
+        }
+        catch(NoResultException e){
+            System.out.println("User id" + id + " does not exist.");
+            userEntity = null;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return userEntity;
+    }
+    
     @Override
     public void deleteTimeslot(Long id) {
         timeslotEntity = findTimeslot(id);
+        userEntity = null;
+        Long userId;
         if(timeslotEntity != null){
+            try{
+                Query q = em.createQuery("SELECT s.User_id FROM BasicUser_Timeslot s WHERE s.Timeslot_id = :id");
+                q.setParameter("Timeslot_id", id);
+                //q.getParameter("User_id", userId);
+                String user = (String) q.getSingleResult();
+                System.out.println(user);
+                userId = Long.parseLong(user);
+                userEntity = findUser(userId);
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+            }
+            if(userEntity!=null)
+                userEntity.getTimeslots().remove(timeslotEntity);
             em.remove(timeslotEntity);
             em.flush();
         }else{

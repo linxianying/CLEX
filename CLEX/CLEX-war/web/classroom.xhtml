@@ -16,7 +16,7 @@
             <div>
                 <div id="content" class="left_content">
                     <h:form>
-                    <p:growl id="messages" showDetail="true" />
+                        <p:growl id="messages" showDetail="true" />
                         <p:toolbar>
                             <f:facet name="left">
                                 <p:commandButton type="button" actionListener="#{studyPlanBean.newStudyPlan}" value="New" icon="ui-icon-document" />
@@ -132,8 +132,8 @@
                         Enter Correct Rate of Poll:
                         <p:inputText value="#{classroomBean.addPollCorrectRate}" required="true"/>
                         <br />
-                        <p:commandButton value="add" id="addPollButton" rendered="#{classroomBean.addButton}" actionListener="#{classroomBean.addPoll}" action="classroom?faces-redirect=true" />
-                    
+                        <p:commandButton value="Add" id="addPollButton" rendered="#{classroomBean.addButton}" action="#{classroomBean.addPoll}"  />
+
                     </h:form>
                 </div>
             </div>
