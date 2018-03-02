@@ -22,57 +22,65 @@ import session.ClexSessionBeanLocal;
  *
  * @author eeren
  */
-@ManagedBean
+@ManagedBean(name = "profileBean")
 @ViewScoped
-public class ProfileBean implements Serializable{
+public class ProfileBean implements Serializable {
 
     @EJB
     private ClexSessionBeanLocal csbl;
-    
+
     private User userEntity;
     private Student studentEntity;
-    
+
     private String username;
     private String password;
     private String userType;
-    
+
     //All users
     private String school;
     private String email;
     private String contactNum; //remember to parse back to long
-    private String name;   
-    
+    private String name;
+
     //Students and lecturer
     private String faculty;
-    
+
     //Students only
     private String major;
     private String matricYear;
-    private String matricSem;  
+    private String matricSem;
     private double cap;
-    
+
+    //New Values
+    private String newName;
+    private String newEmail;
+    private String newContactNum;
+    private String newPassword1;
+    private String newPassword2; //for confirm password
+    private String oldPassword;
+
     FacesContext context;
     HttpSession session;
-    
+
     public ProfileBean() {
     }
-    
+
     @PostConstruct
-    public void init() { 
+    public void init() {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
-        
+
         userEntity = (User) session.getAttribute("user");
         username = userEntity.getUsername();
         userType = userEntity.getUserType();
-        
+
         school = userEntity.getSchool();
         email = userEntity.getEmail();
         contactNum = Long.toString(userEntity.getContactNum());
         name = userEntity.getName();
-        
+
         //Only implemented for students, can use this for other user type as well
-        if(userType.equals("Student")){
+        if (userType.equals("Student")) {
             studentEntity = (Student) userEntity;
 
             faculty = studentEntity.getFaculty();
@@ -187,7 +195,88 @@ public class ProfileBean implements Serializable{
         this.cap = cap;
     }
 
+    /**
+     * @return the newName
+     */
+    public String getNewName() {
+        return newName;
+    }
 
-    
-    
+    /**
+     * @param newName the newName to set
+     */
+    public void setNewName(String newName) {
+        this.newName = newName;
+    }
+
+    /**
+     * @return the newEmail
+     */
+    public String getNewEmail() {
+        return newEmail;
+    }
+
+    /**
+     * @param newEmail the newEmail to set
+     */
+    public void setNewEmail(String newEmail) {
+        this.newEmail = newEmail;
+    }
+
+    /**
+     * @return the newContactNum
+     */
+    public String getNewContactNum() {
+        return newContactNum;
+    }
+
+    /**
+     * @param newContactNum the newContactNum to set
+     */
+    public void setNewContactNum(String newContactNum) {
+        this.newContactNum = newContactNum;
+    }
+
+    /**
+     * @return the oldPassword
+     */
+    public String getOldPassword() {
+        return oldPassword;
+    }
+
+    /**
+     * @param oldPassword the oldPassword to set
+     */
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
+    }
+
+    /**
+     * @return the newPassword1
+     */
+    public String getNewPassword1() {
+        return newPassword1;
+    }
+
+    /**
+     * @param newPassword1 the newPassword1 to set
+     */
+    public void setNewPassword1(String newPassword1) {
+        this.newPassword1 = newPassword1;
+    }
+
+    /**
+     * @return the newPassword2
+     */
+    public String getNewPassword2() {
+        return newPassword2;
+    }
+
+    /**
+     * @param newPassword2 the newPassword2 to set
+     */
+    public void setNewPassword2(String newPassword2) {
+        this.newPassword2 = newPassword2;
+    }
+
 }

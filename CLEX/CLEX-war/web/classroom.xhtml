@@ -10,13 +10,15 @@
     <ui:define name="content">
         <h:head>
             <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-            <title>Classroom page</title>
+            <title>PRISM Lecturer Classroom Page</title>
         </h:head>
         <h:body>
             <div>
                 <div id="content" class="left_content">
+                    <!--
                     <h:form>
-                    <p:growl id="messages" showDetail="true" />
+                        
+                        <p:growl id="messages" showDetail="true" />
                         <p:toolbar>
                             <f:facet name="left">
                                 <p:commandButton type="button" actionListener="#{studyPlanBean.newStudyPlan}" value="New" icon="ui-icon-document" />
@@ -31,7 +33,7 @@
                                 <p:commandButton type="button" title="Delete" icon="ui-icon-trash" />
                                 <p:commandButton type="button" title="Print" icon="ui-icon-print" />
                             </f:facet>
-                            <!--
+                            
                             <f:facet name="right">
                                 <p:menuButton value="Options">
                                     <p:menuitem value="Save" actionListener="#{studyPlanBean.save}" update="messages" icon="ui-icon-disk" />
@@ -40,101 +42,153 @@
                                     <p:menuitem value="Homepage" url="http://www.primefaces.org" icon="ui-icon-extlink" />
                                 </p:menuButton>
                             </f:facet>
-                            -->
+                            
                         </p:toolbar>
                     </h:form>
-                    <h:form>
-                        <p:dataTable var="poll" value="#{classroomBean.polls}" widgetVar="pollsTable"
-                                  emptyMessage="No polls found with given criteria." >
-                            <f:facet name="header">
-                                <p:outputPanel>
-                                    <h:outputText value="Search all fields:" />
-                                    <p:inputText id="globalFilter" onkeyup="PF('pollsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-                                </p:outputPanel>
-                            </f:facet>
-
-                            <p:column filterBy="#{poll.type}" headerText="Poll Type" filterMatchMode="in">
-                                <f:facet name="filter">
-                                    <p:selectCheckboxMenu label="Poll Types" onchange="PF('pollsTable').filter()" panelStyle="width:125px" scrollHeight="150">
-                                        <f:selectItems value="test" />
-                                    </p:selectCheckboxMenu>
-                                </f:facet>
-                                <h:outputText value="#{poll.type}" />
-                            </p:column>
-
-                            <p:column filterBy="#{poll.id}" headerText="ID" filterMatchMode="contains">
-                                <h:outputText value="#{poll.id}" />
-                            </p:column>
-
-                            <p:column filterBy="#{poll.datetime}" headerText="Datetime" filterMatchMode="contains">
-                                <h:outputText value="#{poll.datetime}" />
-                            </p:column>
-
-                            <p:column filterBy="#{poll.content}" headerText="Content" filterMatchMode="contains">
-                                <h:outputText value="#{poll.content}" />
-                            </p:column>
-
-                            <p:column filterBy="#{poll.topic}" headerText="Topic" filterMatchMode="contains">
-                                <h:outputText value="#{poll.topic}" />
-                            </p:column>
-
-                            <p:column filterBy="#{poll.correctRate}" headerText="Correct Rate" filterMatchMode="contains">
-                                <h:outputText value="#{poll.correctRate}" />
-                            </p:column>
-                        </p:dataTable>
-                    </h:form>
+                    -->
                     
+                    <!-- START: View All Polls -->
+                    <h:form>
+                        <p:panel collapsed="false" styleClass="menuHeader"  header="All Polls of Lecturer" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
+
+                            <p:dataTable var="poll" value="#{classroomBean.polls}" widgetVar="pollsTable" emptyMessage="No polls found with given criteria.">
+                                <f:facet name="header">
+                                    <p:outputPanel>
+                                        <h:outputText value="Search all fields:" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('pollsTable').filter()" style="width:150px" placeholder="Enter keyword" />
+                                    </p:outputPanel>
+                                </f:facet>
+
+                                <p:column filterBy="#{poll.type}" headerText="Poll Type" filterMatchMode="in">
+                                    <f:facet name="filter">
+                                        <p:selectCheckboxMenu label="Poll Types" onchange="PF('pollsTable').filter()" panelStyle="width:125px" scrollHeight="150">
+                                            <f:selectItems value="test" />
+                                        </p:selectCheckboxMenu>
+                                    </f:facet>
+                                    <h:outputText value="#{poll.type}" />
+                                </p:column>
+
+                                <p:column filterBy="#{poll.id}" headerText="ID" filterMatchMode="contains">
+                                    <h:outputText value="#{poll.id}" />
+                                </p:column>
+
+                                <p:column filterBy="#{poll.datetime}" headerText="Datetime" filterMatchMode="contains">
+                                    <h:outputText value="#{poll.datetime}" />
+                                </p:column>
+
+                                <p:column filterBy="#{poll.content}" headerText="Content" filterMatchMode="contains">
+                                    <h:outputText value="#{poll.content}" />
+                                </p:column>
+
+                                <p:column filterBy="#{poll.topic}" headerText="Topic" filterMatchMode="contains">
+                                    <h:outputText value="#{poll.topic}" />
+                                </p:column>
+
+                                <p:column filterBy="#{poll.correctRate}" headerText="Correct Rate" filterMatchMode="contains">
+                                    <h:outputText value="#{poll.correctRate}" />
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel> 
+                    </h:form>
+                    <!-- END: View All Polls -->
+                    
+                    <!-- START: Add New Poll -->
+                    <h:form id="addForm">
+                        <p:panel collapsed="false" styleClass="menuHeader"  header="Add New Poll" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
+
+                            <table>
+                                <tr>
+                                    <td>
+                                        Module Code:
+                                    </td>
+                                    <td>
+                                        <p:inputText value="#{classroomBean.addModuleCode}" required="true">
+                                            <p:ajax event="change" listener="#{classroomBean.checkModule}" update="addForm" />
+                                        </p:inputText>
+                                    </td>
+
+                                    <td>
+                                        <h:outputText id="addErrorMsg" value="#{classroomBean.addErrorMsg}" />
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Year:
+
+                                    </td>
+                                    <td>
+                                        <p:inputText value="#{classroomBean.addPickYear}" required="true" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p:outputLabel for="addPickSem" value="Semester" />
+                                    </td>
+
+                                    <td>
+                                        <p:selectOneMenu id="addPickSem" value="#{classroomBean.addPickSem}" style="width:125px">
+                                            <f:selectItem itemLabel="1" itemValue="1" />
+                                            <f:selectItem itemLabel="2" itemValue="2" />
+                                        </p:selectOneMenu>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Type of Poll:
+                                    </td>
+
+                                    <td>
+                                        <p:inputText value="#{classroomBean.addPollType}" required="true" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Topic of Poll:
+                                    </td>
+
+                                    <td>
+                                        <p:inputText value="#{classroomBean.addPollTopic}" required="true" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Content of Poll:
+                                    </td>
+
+                                    <td>
+                                        <p:inputText value="#{classroomBean.addPollContent}" required="true" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Correct Rate:
+                                    </td>
+
+                                    <td>
+                                        <p:inputText value="#{classroomBean.addPollCorrectRate}" required="true" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p:commandButton value="Add" id="addPollButton" rendered="#{classroomBean.addButton}" action="#{classroomBean.addPoll}" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </p:panel>>
+                    </h:form>
+                    <!-- END: Add New Poll -->
+                    
+                    
+                    <!-- START: Jasper Report Generator -->
                     <h:form id="formJasperReport">
                         <p:panel header="Test JasperReport Generation">
 
                             <p:commandButton value="Generate" actionListener="#{classroomBean.generateReport}" ajax="false" />
 
                         </p:panel>
-                        
-                        <p:panel header="Test View Example Polls">
-
-                            <p:commandButton value="View Example Polls" actionListener="#{classroomBean.testViewPolls}" ajax="false" />
-
-                        </p:panel>
-                        
-                        <p:panel header="Test View Modules and Polls">
-
-                            <p:commandButton value="View Modules and Polls" actionListener="#{classroomBean.viewModules}" ajax="false" />
-
-                        </p:panel>
                     </h:form>
-                    
-                    <h:form id="addForm">
-                        Enter Module Code:
-                        <p:inputText value="#{classroomBean.addModuleCode}" required="true">
-                            <p:ajax event="change" listener="#{classroomBean.checkModule}" update="addForm"  />
-                        </p:inputText>
-                        <h:outputText id="addErrorMsg" value="#{classroomBean.addErrorMsg}" />
-                        <br />
-                        Enter pick up year:
-                        <p:inputText value="#{classroomBean.addPickYear}" required="true"/>
-                        <br />
-                        <p:outputLabel for="addPickSem" value="Enter semester" />
-                        <p:selectOneMenu id="addPickSem" value="#{classroomBean.addPickSem}" style="width:125px">
-                            <f:selectItem itemLabel="1" itemValue="1" />
-                            <f:selectItem itemLabel="2" itemValue="2" />
-                        </p:selectOneMenu>
-                        <br />
-                        Enter Type of Poll:
-                        <p:inputText value="#{classroomBean.addPollType}" required="true"/>
-                        <br />
-                        Enter Topic of Poll:
-                        <p:inputText value="#{classroomBean.addPollTopic}" required="true"/>
-                        <br />
-                        Enter Content of Poll:
-                        <p:inputText value="#{classroomBean.addPollContent}" required="true"/>
-                        <br />
-                        Enter Correct Rate of Poll:
-                        <p:inputText value="#{classroomBean.addPollCorrectRate}" required="true"/>
-                        <br />
-                        <p:commandButton value="add" id="addPollButton" rendered="#{classroomBean.addButton}" actionListener="#{classroomBean.addPoll}" action="classroom?faces-redirect=true" />
-                    
-                    </h:form>
+                    <!-- END: Jasper Report Generator -->
                 </div>
             </div>
 

@@ -9,6 +9,7 @@ import entity.ProjectGroup;
 import entity.GroupTask;
 import entity.Student;
 import entity.Task;
+import entity.User;
 import javax.ejb.Local;
 
 /**
@@ -42,6 +43,7 @@ public interface ToDoListSessionBeanLocal {
     public void finishGroupTask(Long taskId);
     public Student findStudent(String username);
     
-    public String removeTask(Long taskId);
+    public String removeTask(Long taskId, User user);
+    public String removeGroupTask(Long taskId, ProjectGroup projectGroup) ;
 
 }

@@ -10,6 +10,7 @@ import entity.Grade;
 import entity.Module;
 import entity.Student;
 import entity.StudyPlan;
+import entity.User;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -22,6 +23,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
+import static org.primefaces.component.focus.Focus.PropertyKeys.context;
 import org.primefaces.event.CloseEvent;
 import org.primefaces.event.DashboardReorderEvent;
 import org.primefaces.event.ToggleEvent;
@@ -39,6 +42,9 @@ public class StudyPlanBean {
     private StudyPlanSessionBeanLocal cpsbl;
     @EJB
     private ClexSessionBeanLocal csbl;
+    
+    FacesContext context;
+    HttpSession session;
     
     private String username;
     private String moduleCode;
@@ -70,8 +76,12 @@ public class StudyPlanBean {
      
     @PostConstruct
     public void init() {
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+        student = (Student) session.getAttribute("user");
+        username = student.getUsername();
         //for test purpose only
-        this.username="namename";
+        //this.username="namename";
         cap = cpsbl.findStudent(username).getCap();
         gradesInOrder = cpsbl.getAllGradesInOrder(username);
         takingModules = cpsbl.getCurrentModules(username);
@@ -92,8 +102,23 @@ public class StudyPlanBean {
         System.out.println("addButton:" + addButton);
         System.out.println("finish to render StudyPlanBean");
     }
-    
 
+    public FacesContext getContext() {
+        return context;
+    }
+
+    public void setContext(FacesContext context) {
+        this.context = context;
+    }
+
+    public HttpSession getSession() {
+        return session;
+    }
+
+    public void setSession(HttpSession session) {
+        this.session = session;
+    }
+    
     public HashMap<String, String> getExpectedCourseGrade() {
         return expectedCourseGrade;
     }

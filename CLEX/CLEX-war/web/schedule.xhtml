@@ -7,6 +7,9 @@
                 xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="content">
+        <h:head>
+            <title>PRISM Student Schedule Page</title>
+        </h:head>
         <h:form>
             <h:commandButton value="TEST" actionListener="#{scheduleBean.testAddEvents}" action="schedule?faces-redirect=true" />
         </h:form>
@@ -42,13 +45,11 @@
                     <p:outputLabel for="venue" value="Venue:" />
                     <p:inputText id="venue" value="#{scheduleBean.venue}" required="false" />
 
-                    <p:outputLabel for="allDay" value="All Day:" />
-                    <h:selectBooleanCheckbox id="allDay" value="#{scheduleBean.event.allDay}" />
-
-                    <p:commandButton type="reset" value="Reset" />
-                    <p:commandButton id="addButton" value="Save" actionListener="#{scheduleBean.addEvent}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
+                    <p:commandButton id="deleteButton" value="delete" actionListener="#{scheduleBean.deleteEvent}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();"/>
+                    <p:commandButton style="float: right" id="addButton" value="Save" actionListener="#{scheduleBean.addEvent}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
+                    
                 </h:panelGrid>
-            </p:dialog>    
+            </p:dialog>
         </h:form>
         <h:form id="formFileUpload" enctype="multipart/form-data">
 

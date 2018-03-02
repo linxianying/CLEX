@@ -6,6 +6,9 @@
        template="./layout/default.xhtml">
     
     <ui:define name="content"> 
+        <h:head>
+            <title>PRISM Index Page</title>
+        </h:head>
         <h:form>
             <h:commandButton value="testIcs" actionListener="#{schedulesBean.loadIcs()}" action="index?faces-redirect=true" />
         </h:form>

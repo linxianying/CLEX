@@ -8,12 +8,15 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="content">
+        <h:head>
+            <title>PRISM Administrator Course Management Page</title>
+        </h:head>
         <p:growl id="messages" showDetail="true" />
         <h1 style="margin-top:0">Course Management Page</h1>
         <p:tabView>
             <p:tab title="CREATE COURSE">
                 <h:form>
-                    <h:panelGrid columns="4" cellpadding="5">
+                    <h:panelGrid columns="1" cellpadding="5">
                         <h:outputLabel for= "moduleCode" value="MODULE CODE:"/>
                         <p:inputText id="moduleCode" value="#{courseBean.moduleCode}" required="true" style="text-transform: uppercase" />
                         <h:outputLabel for= "moduleName" value="MODULE NAME:"/>
@@ -22,8 +25,8 @@
                         <p:inputText id="moduleInfo" value="#{courseBean.moduleInfo}" required="true" />
                         <h:outputLabel for= "offeredSem" value="OFFERED SEMESTER:"/>
                         <p:inputText id="offeredSem" value="#{courseBean.offeredSem}" required="true" />
-                        <h:outputLabel for= "school" value="SCHOOL:" style="text-transform: uppercase" />
-                        <p:inputText id="school" value="#{courseBean.school}" required="true" />
+                        <h:outputLabel for= "school" value="SCHOOL:" />
+                        <p:inputText id="school" value="#{courseBean.school}" required="true" style="text-transform: uppercase" />
                         <h:outputLabel for= "workload" value="WORKLOAD:"/>
                         <p:inputText id="workload" value="#{courseBean.workload}" required="true" />
                         <h:outputLabel for= "modularCredits" value="MODULE CREDITS:"/>
@@ -34,7 +37,7 @@
             </p:tab>
             <p:tab title="CREATE MODULE">
                 <h:form>
-                    <h:panelGrid columns="4" cellpadding="5">
+                    <h:panelGrid columns="1" cellpadding="5">
                         <h:outputLabel for= "moduleCodeForModule" value="MODULE CODE:"/>
                         <p:inputText id="moduleCodeForModule" value="#{courseBean.moduleCode}" required="true" style="text-transform: uppercase" />
                         <h:outputLabel for= "takenYear" value="TAKEN YEAR:"/>
@@ -51,7 +54,7 @@
             </p:tab>
             <p:tab title="CREATE LESSON">
                 <h:form>
-                    <h:panelGrid columns="4" cellpadding="5">
+                    <h:panelGrid columns="1" cellpadding="5">
                         <h:outputLabel for= "moduleCodeForLesson" value="MODULE CODE:"/>
                         <p:inputText id="moduleCodeForLesson" value="#{courseBean.moduleCode}" required="true" style="text-transform: uppercase" />
                         <h:outputLabel for= "takenYearForLesson" value="MODULE YEAR:"/>
@@ -75,9 +78,9 @@
         </p:tabView>    
         <br></br>
         <p:tabView>
-            <p:tab title="EDIT COURSE"> <!-- eeren: i want another way to present the editing of module, this is just for testing, remember to put this in lecturerModule-->
+            <p:tab title="EDIT COURSE"> <!-- if possible have another way to present the editing of module, remember to put this in lecturerModule-->
                 <h:form>
-                    <h:panelGrid columns="4" cellpadding="5">
+                    <h:panelGrid columns="1" cellpadding="5">
                         <h:outputLabel for= "moduleCode" value="MODULE CODE:"/>
                         <p:inputText id="moduleCode" value="#{courseBean.moduleCode}" required="true" style="text-transform: uppercase" />
                         <h:outputLabel for= "moduleName" value="MODULE NAME:"/>
@@ -92,8 +95,8 @@
                         <p:inputText id="discontinuedSem" value="#{courseBean.discountinuedSem}" />
                         <h:outputLabel for= "offeredSem" value="OFFERED SEM:"/>
                         <p:inputText id="offeredSem" value="#{courseBean.offeredSem}" />
-                        <h:outputLabel for= "school" value="SCHOOL:" style="text-transform: uppercase"/>
-                        <p:inputText id="school" value="#{courseBean.school}" />
+                        <h:outputLabel for= "school" value="SCHOOL:" />
+                        <p:inputText id="school" value="#{courseBean.school}" style="text-transform: uppercase" />
                         <h:outputLabel for= "workload" value="WORKLOAD:"/>
                         <p:inputText id="workload" value="#{courseBean.workload}" />
                         <h:outputLabel for= "modularCredits" value="MODULE CREDITS:"/>
@@ -104,7 +107,7 @@
             </p:tab>
             <p:tab title="EDIT MODULE">
                 <h:form>
-                    <h:panelGrid columns="4" cellpadding="5">
+                    <h:panelGrid columns="1" cellpadding="5">
                         <h:outputLabel for= "moduleCodeForModule" value="MODULE CODE:"/>
                         <p:inputText id="moduleCodeForModule" value="#{courseBean.moduleCode}" required="true" style="text-transform: uppercase" />
                         <h:outputLabel for= "takenYear" value="MODULE YEAR:"/>
@@ -121,7 +124,7 @@
             </p:tab>
             <p:tab title="EDIT LESSON">
                 <h:form>
-                    <h:panelGrid columns="4" cellpadding="5">
+                    <h:panelGrid columns="1" cellpadding="5">
                         <h:outputLabel for= "moduleCodeForLesson" value="MODULE CODE:"/>
                         <p:inputText id="moduleCodeForLesson" value="#{courseBean.moduleCode}" required="true" style="text-transform: uppercase" />
                         <h:outputLabel for= "takenYearForLesson" value="MODULE YEAR:"/>
@@ -144,7 +147,7 @@
             </p:tab>
             <p:tab title="ASSIGN LECTURER TO MODULE">
                 <h:form>
-                    <h:panelGrid columns="4" cellpadding="5">
+                    <h:panelGrid columns="1" cellpadding="5">
                         <h:outputLabel for= "lecturer" value="LECTURER'S USERNAME:"/>
                         <p:inputText id="lecturer" value="#{courseBean.lecturerUser}" required="true" />
                         <h:outputLabel for= "moduleCodeAssign" value="MODULE CODE:"/>
@@ -162,7 +165,7 @@
         <p:tabView>
             <p:tab title="DELETE COURSE">
                 <h:form>
-                    <h:panelGrid columns="4" cellpadding="5">
+                    <h:panelGrid columns="1" cellpadding="5">
                         <h:outputLabel for= "moduleCode" value="MODULE CODE:"/>
                         <p:inputText id="moduleCode" value="#{courseBean.moduleCode}" required="true" style="text-transform: uppercase" />
                         <p:commandButton value="Submit" actionListener="#{courseBean.removeCourse}" />
@@ -171,7 +174,7 @@
             </p:tab>
             <p:tab title="DELETE MODULE">
                 <h:form>
-                    <h:panelGrid columns="4" cellpadding="5">
+                    <h:panelGrid columns="1" cellpadding="5">
                         <h:outputLabel for= "moduleCodeForModule" value="MODULE CODE:"/>
                         <p:inputText id="moduleCodeForModule" value="#{courseBean.moduleCode}" required="true" style="text-transform: uppercase" />
                         <h:outputLabel for= "takenYear" value="MODULE YEAR:"/>
@@ -184,7 +187,7 @@
             </p:tab>
             <p:tab title="DELETE LESSON">
                 <h:form>
-                    <h:panelGrid columns="4" cellpadding="5">
+                    <h:panelGrid columns="1" cellpadding="5">
                         <h:outputLabel for= "moduleCodeForLesson" value="MODULE CODE:"/>
                         <p:inputText id="moduleCodeForLesson" value="#{courseBean.moduleCode}" required="true" style="text-transform: uppercase" />
                         <h:outputLabel for= "takenYearForLesson" value="MODULE YEAR:"/>
@@ -214,7 +217,7 @@
                         </p:outputPanel>
                     </f:facet>
 
-                    <p:column filterBy="#{course.moduleCode}" headerText="Code" filterMatchMode="contains">
+                    <p:column filterBy="#{course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
                         <h:outputText value="#{course.moduleCode}" />
                     </p:column>
                     <p:column filterBy="#{course.moduleName}" headerText="Name" filterMatchMode="contains">
@@ -222,7 +225,7 @@
                     </p:column>
                     <p:column filterBy="#{course.moduleInfo}" headerText="Info" filterMatchMode="contains">
                         <h:outputText value="#{course.moduleInfo}" />
-                    </p:column>
+                    </p:column>                                   
                     <p:column filterBy="#{course.offeredSem}" headerText="Semester" filterMatchMode="contains">
                         <h:outputText value="#{course.offeredSem}" />
                     </p:column>
@@ -240,7 +243,7 @@
         </h:form>     
         <h:form><!-- eeren: not sure why it dosent work, tested backend where the list of modules actually have the individual module object in them, might be frontend problem-->
             <p:panel collapsed="true" styleClass="menuHeader" id="modulelist" header="VIEW ALL MODULES" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
-                <p:dataTable var="modules" value="#{adminCourseListBean.modules}" widgetVar="modulesTable"
+                <p:dataTable var="module" value="#{adminCourseListBean.modules}" widgetVar="modulesTable"
                 emptyMessage="No modules found with given criteria." filteredValue="#{adminCourseListBean.filteredModules}">
                     <f:facet name="header">
                         <p:outputPanel>
@@ -248,7 +251,9 @@
                             <p:inputText id="globalFilter" onkeyup="PF('modulesTable').filter()" style="width:150px" placeholder="Enter keyword"/>
                         </p:outputPanel>
                     </f:facet>
-
+                    <p:column filterBy="#{module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
+                        <h:outputText value="#{module.course.moduleCode}" />
+                    </p:column>
                     <p:column filterBy="#{module.takenYear}" headerText="Taken Year" filterMatchMode="contains">
                         <h:outputText value="#{module.takenYear}" />
                     </p:column>
@@ -264,9 +269,9 @@
                 </p:dataTable>
             </p:panel>
         </h:form>        
-        <h:form><!-- eeren: same as module-->
+        <h:form>
             <p:panel collapsed="true" styleClass="menuHeader" id="lessonlist" header="VIEW ALL LESSONS" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
-                <p:dataTable var="lessons" value="#{adminCourseListBean.lessons}" widgetVar="lessonsTable"
+                <p:dataTable var="lesson" value="#{adminCourseListBean.lessons}" widgetVar="lessonsTable"
                 emptyMessage="No lessons found with given criteria." filteredValue="#{adminCourseListBean.filteredLessons}">
                     <f:facet name="header">
                         <p:outputPanel>
@@ -274,7 +279,15 @@
                             <p:inputText id="globalFilter" onkeyup="PF('lessonsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
                         </p:outputPanel>
                     </f:facet>
-
+                    <p:column filterBy="#{lesson.module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
+                        <h:outputText value="#{lesson.module.course.moduleCode}" />
+                    </p:column>
+                    <p:column filterBy="#{lesson.module.takenYear}" headerText="Taken Year" filterMatchMode="contains">
+                        <h:outputText value="#{lesson.module.takenYear}" />
+                    </p:column>
+                    <p:column filterBy="#{lesson.module.takenSem}" headerText="Taken Sem" filterMatchMode="contains">
+                        <h:outputText value="#{lesson.module.takenSem}" />
+                    </p:column>
                     <p:column filterBy="#{lesson.day}" headerText="Day" filterMatchMode="contains">
                         <h:outputText value="#{lesson.day}" />
                     </p:column>

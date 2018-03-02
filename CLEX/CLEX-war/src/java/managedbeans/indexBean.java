@@ -51,18 +51,22 @@ public class indexBean {
     
     public void createEntities() {
         //create Users
-        csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 5.0);
+        csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 5.00);
         csbl.createStudent("aaaaaa", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
         csbl.createStudent("bbbbbb", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "CS","2015", "2", 0.0);
         csbl.createStudent("cccccc", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
-        csbl.createStudent("dddddd", "123456", "name", "email@email.com", "NUS", 65345455L, genSalt(), "soc", "CS","2015", "2", 0.0);
-        csbl.createStudent("eeeeee", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
-        csbl.createStudent("ffffff", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "CS","2016", "1", 0.0);
-        csbl.createStudent("gggggg", "123456", "name", "email@email.com", "NUS", 12345378L, genSalt(), "soc", "BA","2016", "2", 0.0);
-        csbl.createStudent("hhhhhh", "123456", "name", "email@email.com", "NUS", 12345278L, genSalt(), "soc", "IS","2016", "1", 0.0);
-        csbl.createStudent("iiiiii", "123456", "name", "email@email.com", "NUS", 12845678L, genSalt(), "soc", "EE","2016", "2", 0.0);
-        csbl.createStudent("jjjjjj", "123456", "name", "email@email.com", "NUS", 12345278L, genSalt(), "soc", "CEG","2016", "1", 0.0);
-        csbl.createLecturer("lecturer", "123456", "Zhou Lifeng", "zlf@email.com", "NUS", 12345278L, genSalt(), "soc");
+        csbl.createStudent("dddddd", "123456", "name", "email@email.com", "NUS", 65345455L, genSalt(), "soc", "CS","2015", "2", 4.8);
+        csbl.createStudent("eeeeee", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 4.3);
+        csbl.createStudent("ffffff", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "CS","2016", "1", 4.2);
+        csbl.createStudent("gggggg", "123456", "name", "email@email.com", "NUS", 12345378L, genSalt(), "soc", "BA","2016", "2", 3.9);
+        csbl.createStudent("hhhhhh", "123456", "name", "email@email.com", "NUS", 12345278L, genSalt(), "soc", "IS","2016", "1", 4.7);
+        csbl.createStudent("iiiiii", "123456", "name", "email@email.com", "NUS", 12845678L, genSalt(), "soc", "EE","2016", "2", 3.5);
+        csbl.createStudent("jjjjjj", "123456", "name", "email@email.com", "NUS", 12345278L, genSalt(), "soc", "CEG","2016", "1", 4.0);
+        csbl.createStudent("XiaoHong", "123456", "XiaoHong", "email@email.com", "NUS", 12545678L, genSalt(), "soc", "IS","2015", "1", 5.0);
+        csbl.createStudent("XiaoHuang", "123456", "XiaoHuang", "email@email.com", "NUS", 12545678L, genSalt(), "soc", "IS","2015", "1", 5.0);
+        csbl.createStudent("XiaoLan", "123456", "XiaoLan", "email@email.com", "NUS", 63845678L, genSalt(), "soc", "IS","2015", "1", 5.0);
+        csbl.createStudent("XiaoLv", "123456", "XiaoLv", "email@email.com", "NUS", 12517578L, genSalt(), "soc", "IS","2015", "1", 5.0);
+        csbl.createLecturer("lecturer", "123456", "Zhou Lifeng", "zlf@email.com", "NUS", 86345278L, genSalt(), "soc");
         csbl.createLecturer("hsianghui2", "123456", "LekHsiangHui2", "hsianghui@email.com", "NUS", 92345678L, genSalt(), "soc");
         csbl.createLecturer("hsianghui3", "123456", "LekHsiangHui3", "hh3@email.com", "NUS", 12342678L, genSalt(), "soc");
         csbl.createLecturer("hsianghui4", "123456", "LekHsiangHui4", "hh4@email.com", "NUS", 12345678L, genSalt(), "soc");
@@ -144,25 +148,6 @@ public class indexBean {
         csbl.createModule("2017", "2", "none", "none", csbl.findCourse("SC3101"));
         csbl.createModule("2017", "2", "none", "none", csbl.findCourse("LAM3201"));
         csbl.createModule("2017", "2", "none", "none", csbl.findCourse("TIE2010"));
-        
-        
-        //create superGroup for current sem
-        csbl.createSuperGroup(3, 2, 3, csbl.findModule("PS2240", "2017", "2"));
-        csbl.createSuperGroup(3, 1, 3, csbl.findModule("PC2193", "2017", "2"));
-        csbl.createSuperGroup(3, 3, 3, csbl.findModule("SC3101", "2017", "2"));
-        csbl.createSuperGroup(4, 2, 3, csbl.findModule("LAM3201", "2017", "2"));
-        //csbl.createSuperGroup(5, 2, 3, csbl.findModule("TIE2010", "2017", "2"));
-        
-        //create projectGroup 
-        csbl.createProjectGroup(csbl.findModule("PS2240", "2017", "2").getSuperGroup(), "N1",0.0);
-        csbl.createProjectGroup(csbl.findModule("PS2240", "2017", "2").getSuperGroup(), "N2",0.0);
-        csbl.createProjectGroup(csbl.findModule("PS2240", "2017", "2").getSuperGroup(), "N3",0.0);
-        csbl.createProjectGroup(csbl.findModule("PC2193", "2017", "2").getSuperGroup(), "N1",0.0);
-        csbl.createProjectGroup(csbl.findModule("SC3101", "2017", "2").getSuperGroup(), "N1",0.0);
-        
-        //link student with projectgroup
-        csbl.linkStudentGroup(csbl.findStudent("namename"), csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")));
-        csbl.linkStudentGroup(csbl.findStudent("namename"), csbl.findProjectgroup("N1", csbl.findModule("PC2193", "2017", "2")));
         
         csbl.linkLecturerModule("lecturer", "PS2240", "2017", "2");
         csbl.linkLecturerModule("hsianghui2", "PC2193", "2017", "2");
@@ -288,6 +273,31 @@ public class indexBean {
         csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("LAM3201", "2017", "2"));
         csbl.setStudentTakenModules(csbl.findStudent("cccccc"), csbl.findModule("TIE2010", "2017", "2"));
         
+        csbl.setStudentTakenModules(csbl.findStudent("XiaoHong"), csbl.findModule("SC3101", "2017", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("XiaoHuang"), csbl.findModule("SC3101", "2017", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("XiaoLan"), csbl.findModule("SC3101", "2017", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("XiaoLv"), csbl.findModule("SC3101", "2017", "2"));
+        
+        csbl.setStudentTakenModules(csbl.findStudent("XiaoHong"), csbl.findModule("LAM3201", "2017", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("XiaoHuang"), csbl.findModule("LAM3201", "2017", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("XiaoLan"), csbl.findModule("LAM3201", "2017", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("XiaoLv"), csbl.findModule("LAM3201", "2017", "2"));
+        
+        csbl.setStudentTakenModules(csbl.findStudent("XiaoHong"), csbl.findModule("PS2240", "2017", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("XiaoHuang"), csbl.findModule("PS2240", "2017", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("XiaoLan"), csbl.findModule("PS2240", "2017", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("XiaoLv"), csbl.findModule("PS2240", "2017", "2"));
+        
+        csbl.setStudentTakenModules(csbl.findStudent("XiaoHong"), csbl.findModule("PC2193", "2017", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("XiaoHuang"), csbl.findModule("PC2193", "2017", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("XiaoLan"), csbl.findModule("PC2193", "2017", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("XiaoLv"), csbl.findModule("PC2193", "2017", "2"));
+        
+        csbl.setStudentTakenModules(csbl.findStudent("XiaoHong"), csbl.findModule("TIE2010", "2017", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("XiaoHuang"), csbl.findModule("TIE2010", "2017", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("XiaoLan"), csbl.findModule("TIE2010", "2017", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("XiaoLv"), csbl.findModule("TIE2010", "2017", "2"));
+        
         //csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("ST2334", "2018", "1"));
         //csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("BT4212", "2018", "1"));
         //csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("CM1501", "2018", "1"));
@@ -313,6 +323,54 @@ public class indexBean {
                 csbl.findLesson("Thursday", "12:00", "LAB [2]", csbl.findModule("LAM3201", "2017", "2")));
         csbl.setStudentLesson(csbl.findStudent("namename"), 
                 csbl.findLesson("Friday", "14:30", "LEC [1]", csbl.findModule("TIE2010", "2017", "2")));
+        
+        //create superGroup for current sem
+        //No Group Formation needed for TIE2010
+        csbl.createSuperGroup(3, 2, 3, csbl.findModule("PS2240", "2017", "2"));
+        csbl.createSuperGroup(3, 1, 3, csbl.findModule("PC2193", "2017", "2"));
+        csbl.createSuperGroup(3, 3, 3, csbl.findModule("SC3101", "2017", "2"));
+        csbl.createSuperGroup(4, 2, 3, csbl.findModule("LAM3201", "2017", "2"));
+        //csbl.createSuperGroup(5, 2, 3, csbl.findModule("TIE2010", "2017", "2"));
+        
+        //create projectGroup 
+        csbl.createProjectGroup(csbl.findModule("PS2240", "2017", "2").getSuperGroup(), "N1",0.0);
+        csbl.createProjectGroup(csbl.findModule("PS2240", "2017", "2").getSuperGroup(), "N2",0.0);
+        csbl.createProjectGroup(csbl.findModule("PS2240", "2017", "2").getSuperGroup(), "N3",0.0);
+        csbl.createProjectGroup(csbl.findModule("PC2193", "2017", "2").getSuperGroup(), "N1",0.0);
+        csbl.createProjectGroup(csbl.findModule("PC2193", "2017", "2").getSuperGroup(), "N2",0.0);
+        csbl.createProjectGroup(csbl.findModule("PC2193", "2017", "2").getSuperGroup(), "N3",0.0);
+        csbl.createProjectGroup(csbl.findModule("SC3101", "2017", "2").getSuperGroup(), "N1",0.0);
+        csbl.createProjectGroup(csbl.findModule("SC3101", "2017", "2").getSuperGroup(), "N2",0.0);
+        csbl.createProjectGroup(csbl.findModule("SC3101", "2017", "2").getSuperGroup(), "N3",0.0);
+        csbl.createProjectGroup(csbl.findModule("LAM3201", "2017", "2").getSuperGroup(), "N1",0.0);
+        csbl.createProjectGroup(csbl.findModule("LAM3201", "2017", "2").getSuperGroup(), "N2",0.0);
+        csbl.createProjectGroup(csbl.findModule("LAM3201", "2017", "2").getSuperGroup(), "N3",0.0);
+        
+        //link student with projectgroup
+        //student not join any project group for SC3101 and LAM3201
+        csbl.linkStudentGroup(csbl.findStudent("namename"), csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")));
+        csbl.linkStudentGroup(csbl.findStudent("namename"), csbl.findProjectgroup("N2", csbl.findModule("PC2193", "2017", "2")));
+        
+        csbl.linkStudentGroup(csbl.findStudent("XiaoHong"), csbl.findProjectgroup("N1", csbl.findModule("SC3101", "2017", "2")));
+        csbl.linkStudentGroup(csbl.findStudent("XiaoHong"), csbl.findProjectgroup("N1", csbl.findModule("LAM3201", "2017", "2")));
+        csbl.linkStudentGroup(csbl.findStudent("XiaoHong"), csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")));
+        csbl.linkStudentGroup(csbl.findStudent("XiaoHong"), csbl.findProjectgroup("N1", csbl.findModule("PC2193", "2017", "2")));
+
+        csbl.linkStudentGroup(csbl.findStudent("XiaoHuang"), csbl.findProjectgroup("N2", csbl.findModule("SC3101", "2017", "2")));
+        csbl.linkStudentGroup(csbl.findStudent("XiaoHuang"), csbl.findProjectgroup("N2", csbl.findModule("LAM3201", "2017", "2")));
+        csbl.linkStudentGroup(csbl.findStudent("XiaoHuang"), csbl.findProjectgroup("N2", csbl.findModule("PS2240", "2017", "2")));
+        csbl.linkStudentGroup(csbl.findStudent("XiaoHuang"), csbl.findProjectgroup("N2", csbl.findModule("PC2193", "2017", "2")));
+
+        csbl.linkStudentGroup(csbl.findStudent("XiaoLan"), csbl.findProjectgroup("N3", csbl.findModule("SC3101", "2017", "2")));
+        csbl.linkStudentGroup(csbl.findStudent("XiaoLan"), csbl.findProjectgroup("N3", csbl.findModule("LAM3201", "2017", "2")));
+        csbl.linkStudentGroup(csbl.findStudent("XiaoLan"), csbl.findProjectgroup("N3", csbl.findModule("PS2240", "2017", "2")));
+        csbl.linkStudentGroup(csbl.findStudent("XiaoLan"), csbl.findProjectgroup("N3", csbl.findModule("PC2193", "2017", "2")));
+
+        csbl.linkStudentGroup(csbl.findStudent("XiaoLv"), csbl.findProjectgroup("N1", csbl.findModule("SC3101", "2017", "2")));
+        csbl.linkStudentGroup(csbl.findStudent("XiaoLv"), csbl.findProjectgroup("N1", csbl.findModule("LAM3201", "2017", "2")));
+        csbl.linkStudentGroup(csbl.findStudent("XiaoLv"), csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")));
+        csbl.linkStudentGroup(csbl.findStudent("XiaoLv"), csbl.findProjectgroup("N1", csbl.findModule("PC2193", "2017", "2")));
+
         
         //create studyPlan, its relationship is set during create
         csbl.createStudyPlan("2018", "1", csbl.findCourse("CS2107"), csbl.findStudent("namename"));
@@ -367,8 +425,21 @@ public class indexBean {
         //sbl.createTimeslot("guesta","2018-03-28", "18:00", "19:00", "Go with Su", "Beijing", "Buy clothes");
         //sbl.createTimeslot("dddddd","2018-02-28", "06:00", "07:00", "Homework", "Home", "Finish IS4103 homework");
         //sbl.createTimeslot("bbbbbb","2018-04-28", "11:00", "12:00", "Travel with Su", "Chongqing", "Buy sunglasses and eat hotpot");
-        //sbl.createTimeslot("hsianghui3","2018-02-28", "16:00", "17:00", "Eat with Caoyu", "Bugis", "Eat hotpot");
-        
+        sbl.createTimeslot("hsianghui3", "Eat with Caoyu","2018-02-28 06:00", "2018-02-28 07:00", "Bugis", "Eat hotpot");
+        sbl.createTimeslot("namename", "Go for IS3106", "2018-03-22 16:00", "2018-03-22 17:00", "LT17", "Lecture");
+        sbl.createTimeslot("namename", "Go for CS2100","2018-03-26 16:00", "2018-03-26 17:00", "LT19", "Lecture");
+        sbl.createTimeslot("namename", "Lab for CS3228","2018-03-21 11:00", "2018-03-21 12:00", "COM2-201", "Lab");
+        sbl.createTimeslot("namename", "Tutorial for CS1010J", "2018-03-10 10:00", "2018-03-10 11:00",  "COM1-203", "Tutorial");
+        sbl.createTimeslot("namename", "Go out with Caoyu", "2018-03-06 18:00", "2018-03-06 19:30", "Orchard", "Go shopping with Caoyu");
+        sbl.createTimeslot("namename", "Hang out with Susu", "2018-03-11 19:00", "2018-03-11 20:10",  "Vivo City", "Buy clothes with Susu");
+        sbl.createTimeslot("lecturer", "IS3106", "2018-03-22 16:00", "2018-03-22 17:00",  "LT17", "Lecture");
+        sbl.createTimeslot("lecturer", "CS2100", "2018-03-26 16:00", "2018-03-26 17:00", "LT19", "Lecture");
+        sbl.createTimeslot("lecturer", "CS3228", "2018-03-21 11:00", "2018-03-21 12:00",  "COM2-201", "Lab");
+        sbl.createTimeslot("lecturer", "CS1010J", "2018-03-20 10:00", "2018-03-20 11:00",  "COM1-203", "Tutorial");
+        sbl.createTimeslot("lecturer", "MA Introduction", "2018-03-16 18:00", "2018-03-16 19:30",  "LT27", "Introduce Math to bridging course students");
+        sbl.createTimeslot("lecturer", "Meeting", "2018-03-11 09:00", "2018-03-11 10:10",  "Central Libriary", "Meeting with IS4103 group T02");
+        sbl.createTimeslot("hsianghui2", "IS4103", "2018-03-12 16:00", "2018-03-12 17:00",  "COM1-203", "Lecture");
+        //sbl.createTimeslot("guesta", "Go with Su", "2018-03-18 22:00", "2018-03-18 23:00",  "Beijing", "Buy clothes");
         
         crsbl.createPoll("CS2100", "2016", "2", "2016-08-27", "Computer Organization", 0.35, "type", "Do you like this course?");
         

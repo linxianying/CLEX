@@ -5,7 +5,9 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html" 
                 template="./layout/studentLayout.xhtml" 
                 xmlns:p="http://primefaces.org/ui" 
-                xmlns:f="http://xmlns.jcp.org/jsf/core">
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                >
 
     <ui:define name="content">
         <h:head>
@@ -19,12 +21,35 @@
             <div id="top" class="top">
                 <ui:insert name="top">Project Page</ui:insert>
             </div>
+            <br />
             <div>
                 <div id="content" class="left_content">
-                    <ui:insert name="content">Fill in here</ui:insert>
+                    <ui:repeat var="m" value="#{projectBean.takingModules}">
+                        <p:column>
+                            <p:panel header="#{m.course.moduleCode}">
+                                <h:outputText value="This course doesn't have a group" escape="false" rendered="#{empty m.superGroup}" />
+                                
+                                <h:outputText value="You havn't join a group" escape="false" rendered="#{not empty m.superGroup and !projectBean.hasProjectGroup(m.course.moduleCode)}" />
+                                <br />
+                                <p:commandButton value="Group formation" rendered="#{not empty m.superGroup and !projectBean.hasProjectGroup(m.course.moduleCode)}" action="#{projectBean.goFormGroup(m.course.moduleCode)}" />
+                                
+                                <h:outputText value="Your team" escape="false" rendered="#{not empty m.superGroup and projectBean.hasProjectGroup(m.course.moduleCode)}" />
+                                <br />
+                                <p:commandButton value="#{projectBean.getStudentProjectGroup(m.course.moduleCode)}" rendered="#{not empty m.superGroup and projectBean.hasProjectGroup(m.course.moduleCode)}" />
+                            </p:panel>
+                        </p:column>
+                    </ui:repeat>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                 </div>
             </div>
-
+            
         </h:body>
     </ui:define>
 </ui:composition>

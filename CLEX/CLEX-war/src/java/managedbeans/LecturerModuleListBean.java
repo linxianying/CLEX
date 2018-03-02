@@ -22,6 +22,7 @@ import session.AnnouncementSessionBeanLocal;
 import session.ClassroomSessionBeanLocal;
 import session.CourseMgmtBeanLocal;
 
+
 @ManagedBean
 @ViewScoped
 public class LecturerModuleListBean implements Serializable {
@@ -32,10 +33,10 @@ public class LecturerModuleListBean implements Serializable {
     AnnouncementSessionBeanLocal asbl;
 
     private ClassroomSessionBeanLocal crsbl;
-
+    
     private List<Module> modules;
     private List<Module> filteredModules;
-
+    private List moduleCodes;
     private List<Lesson> lessons;
     private List<Lesson> filteredLessons;
 
@@ -61,6 +62,7 @@ public class LecturerModuleListBean implements Serializable {
 
         moduleCodes = asbl.getModuleCodeByLecturer(username);
         //lessons = cmbl.getAllLessons();
+
     }
 
     public List<Module> getModules() {

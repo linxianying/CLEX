@@ -21,13 +21,14 @@ import javax.ejb.Local;
 public interface ScheduleSessionBeanLocal {
 
     boolean loadIcsFile();
-    //Timeslot createTimeslot(String title, String startDate, String endDate, String details, String venue);
+    
     void updateTimeslot(Long id, String title, String startDate, String endDate, String details, String venue);
 
-    public Timeslot createTimeslot(String username, String timeFrom, String timeEnd, 
-                String title, String details, String venue);
+    public Timeslot createTimeslot(String username, String title, String startDate, 
+            String endDate, String details, String venue);
     public Timeslot findTimeslot(Long id);
     public void deleteTimeslot(Long id);
+    public void deleteTimeslot(Long id, User user);
     
     public ArrayList<Timeslot> getAllTimeslots(User userentitity);
     
