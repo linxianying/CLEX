@@ -71,13 +71,12 @@ public class ScheduleBean implements Serializable {
     private ArrayList<Timeslot> timeslots;
     private ScheduleModel eventModel = new DefaultScheduleModel();
     private ScheduleEvent event = new DefaultScheduleEvent();
-    
+
     FacesContext context;
     HttpSession session;
-    
+
     public ScheduleBean() {
     }
-
 
     public void testAddEvents() {
         System.out.println("ScheduleBean: testAddEvents");
@@ -85,11 +84,12 @@ public class ScheduleBean implements Serializable {
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             Date d1 = df.parse("2018-02-27 01:10");
             Date d2 = df.parse("2018-02-27 12:00");
-            Timeslot timeslot = sbl.createTimeslot("namename", "2018-02-27 01:10", "2018-02-27 12:00","Event", "some minor detail", "place");
+            
+            Timeslot timeslot = sbl.createTimeslot("namename", "Event", "2018-02-27 01:10", "2018-02-27 12:00", "some minor detail", "place");
 
             System.out.print("timeslot create: " + timeslot.getId() + " " + d1 + "///" + d2);
 
-            eventModel.addEvent(new DefaultScheduleEvent(timeslot.getTitle(), toCalendar(timeslot.getStartDate()), toCalendar(timeslot.getEndDate())));
+            eventModel.addEvent(new DefaultScheduleEvent(timeslot.getTitle(), toCalendar(timeslot.getStartDate()), toCalendar(timeslot.getEndDate()), timeslot));
 
         } catch (Exception e) {
             System.err.println(e);
@@ -103,18 +103,13 @@ public class ScheduleBean implements Serializable {
         session = (HttpSession) context.getExternalContext().getSession(true);
         userEntity = (Student) session.getAttribute("user");
         username = userEntity.getUsername();
-        /*this.username = "namename";
-         userEntity = csbl.findUser(username);
-         timeslots = sbl.getAllTimeslots(userEntity);
-         Timeslot t;
-         System.out.println("---------------------------------------------managed bean test" + userEntity.getUsername());
-         System.out.println("---------------------------------------------managed bean test" + timeslots.get(0).getTitle());
-         for (Timeslot timeslot : timeslots) {
-         t = timeslot;
-         System.out.println("-----------------------------------------managed bean test" + t.getStartDate());
-         System.out.println("-----------------------------------------managed bean test" + t.getEndDate());
-         eventModel.addEvent(new DefaultScheduleEvent(t.getTitle(), toCalendar(t.getStartDate()), toCalendar(t.getEndDate())));
-         }*/
+        userEntity = csbl.findUser(username);
+        timeslots = sbl.getAllTimeslots(userEntity);
+        Timeslot t;
+        for (Timeslot timeslot : timeslots) {
+            t = timeslot;
+            eventModel.addEvent(new DefaultScheduleEvent(t.getTitle(), toCalendar(t.getStartDate()), toCalendar(t.getEndDate()), t));
+        }
     }
 
     //Convert String to Date format
@@ -215,11 +210,12 @@ public class ScheduleBean implements Serializable {
     public void addEvent(ActionEvent actionEvent) {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         if (event.getId() == null) {
-            eventModel.addEvent(event);
-            sbl.createTimeslot(username, df.format(event.getStartDate()), df.format(event.getEndDate()), event.getTitle(), details, venue);
+            Timeslot timeslot = sbl.createTimeslot(username, event.getTitle(), df.format(event.getStartDate()), df.format(event.getEndDate()), details, venue);
+            eventModel.addEvent(new DefaultScheduleEvent(timeslot.getTitle(), toCalendar(timeslot.getStartDate()), toCalendar(timeslot.getEndDate()), timeslot));
         } else {
-            eventModel.updateEvent(event);
-            sbl.updateTimeslot(Long.parseLong(event.getId()), event.getTitle(), df.format(event.getStartDate()), df.format(event.getEndDate()), details, venue);
+            Timeslot timeslot = (Timeslot)event.getData();
+            sbl.updateTimeslot(timeslot.getId(), event.getTitle(), df.format(event.getStartDate()), df.format(event.getEndDate()), details, venue);
+            eventModel.updateEvent(new DefaultScheduleEvent(timeslot.getTitle(), toCalendar(timeslot.getStartDate()), toCalendar(timeslot.getEndDate()), timeslot));
         }
         event = new DefaultScheduleEvent();
     }
