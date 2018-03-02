@@ -28,6 +28,7 @@ public interface ScheduleSessionBeanLocal {
             String endDate, String details, String venue);
     public Timeslot findTimeslot(Long id);
     public void deleteTimeslot(Long id);
+    public void deleteTimeslot(Long id, User user);
     
     public ArrayList<Timeslot> getAllTimeslots(User userentitity);
     

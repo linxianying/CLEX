@@ -146,7 +146,21 @@ public class ScheduleSessionBean implements ScheduleSessionBeanLocal {
     }
     
     @Override
+    public void deleteTimeslot(Long id, User user) {
+        
+        timeslotEntity = findTimeslot(id);
+        userEntity = user;
+        if(userEntity!=null&&userEntity!=null){
+            userEntity.getTimeslots().remove(timeslotEntity);
+            em.remove(timeslotEntity);
+            em.flush();
+        }else{
+            System.out.println("timeslot not found or user not found");
+        }
+    }
+    
     public void deleteTimeslot(Long id) {
+        
         timeslotEntity = findTimeslot(id);
         userEntity = null;
         Long userId;
