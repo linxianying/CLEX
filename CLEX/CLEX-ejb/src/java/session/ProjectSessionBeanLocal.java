@@ -6,6 +6,7 @@
 package session;
 
 import entity.Module;
+import entity.ProjectGroup;
 import entity.Student;
 import java.util.ArrayList;
 import javax.ejb.Local;
@@ -22,6 +23,10 @@ public interface ProjectSessionBeanLocal {
     public Student findStudent(String username);
 
     public String checkModuleGroup(Student student, Module module);
+
+    public boolean checkStudentProjectGroup(Student student, Module module);
+
+    public ProjectGroup getStudentProjectGroup(Student student, Module module);
 
     
 }
