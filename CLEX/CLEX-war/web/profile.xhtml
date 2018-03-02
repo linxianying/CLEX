@@ -1,13 +1,107 @@
 <?xml version='1.0' encoding='UTF-8' ?> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                template="./layout/studentLayout.xhtml">
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+                xmlns:h="http://xmlns.jcp.org/jsf/html" 
+                xmlns:f="http://xmlns.jcp.org/jsf/core" 
+                template="./layout/studentLayout.xhtml" 
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
     <ui:define name="content">
+        <h:head>
+            <title>Edit Profile</title>
+        </h:head>
         <div>
-            <h:outputText value="Profile Page" /><br></br>
+            <h2>Edit Your Profile</h2>
+            <div>
+                <table>
+                    <h:form>
+                        <tr>
+                            <h3> Basic Profile </h3>
+                        </tr>
+                        <tr>
+                            <td>
+                                Username: 
+                            </td>
+                            <td>
+                                <p:inputText id="username" value="#{loginBean.username}" readonly="true" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Name: 
+                            </td>
+                            <td>
+                                <p:inputText id="newName" value="#{profileBean.name}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Email:
+                            </td>
+                            <td>
+                                <p:inputText id="newEmail" value="#{profileBean.email}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Contact Number:
+                            </td>
+                            <td>
+                                <p:inputText id="newContactNum" value="#{profileBean.contactNum}" />
+                            </td>
+                        </tr>                           
+                        <tr>
+                            <td></td>
+                            <td>
+                                <h:commandButton value="Save Profile Details" actionListener="#{profileBean.editBasicProfileDetails()}" id="editBasicButton" />
+                            </td>
+                        </tr>
+                    </h:form>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <h:form>
+                        <tr>
+                            <td>
+                                <h3>Password</h3>
+                            </td>                               
+                        </tr>
+                        <tr>
+                            <td>
+                                Current Password:
+                            </td>
+                            <td>
+                                <p:password id="currentPassword" value="#{profileBean.oldPassword}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                New Password:
+                            </td>
+                            <td>
+                                <p:password id="firstPassword" value="#{profileBean.newPassword1}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Confirm New Password:
+                            </td>
+                            <td>
+                                <p:password id="confirmPassword" value="#{profileBean.newPassword2}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <h:commandButton value="Change Password" actionListener="#{profileBean.changePassword()}" id="editPasswordButton" />
+                            </td>
+                        </tr>
+                    </h:form>
+                </table>
+            </div>
         </div>
     </ui:define>
 

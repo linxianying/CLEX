@@ -64,11 +64,7 @@ public class AcctMgmtBean implements Serializable{
     }
     
     public void editProfile() throws IOException{
-        /*userEntity = csbl.findUser(username);
-        if (userEntity.getUserType() == "Student"){
-            FacesContext.getCurrentInstance().getExternalContext().redirect("studentProfile.xhtml");
-        }*/
-        FacesContext.getCurrentInstance().getExternalContext().redirect("studentProfile.xhtml");
+        FacesContext.getCurrentInstance().getExternalContext().redirect("profile.xhtml");
     }
     
     //Only for those who cannot log in, don't use this for editing profile
