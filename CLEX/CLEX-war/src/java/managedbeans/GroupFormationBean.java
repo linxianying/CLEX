@@ -61,6 +61,7 @@ public class GroupFormationBean {
         currentYear = (String) session.getAttribute("currentYear");
         currentSem = (String) session.getAttribute("currentSem");
         module = (Module) session.getAttribute("module");
+        System.out.println("Check module session attribute:" + module.getCourse().getModuleCode());
         projectGroups = gfsbl.getAllProjectGroups(module);
     }
 
