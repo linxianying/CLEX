@@ -11,16 +11,35 @@
         <h:head>
             <title>PRISM Lecturer Module Info Page</title>
         </h:head>
-         <div>
-            <h:outputText value=" #{moduleInfoBean.username}" /><br></br>
-            <h:outputText value=" #{moduleInfoBean.moduleCode}" /><br></br>
-            <h:outputText value=" #{moduleInfoBean.pickSem}" /><br></br>
-            <h:outputText value=" #{moduleInfoBean.pickYear}" /><br></br>
-        </div>
-        <br></br>
-        <h:form>
 
-        </h:form>
+        <h:form>
+            <p:panel collapsed="false" styleClass="menuHeader" header="Module #{moduleInfoBean.moduleCode} #{moduleInfoBean.moduleTitle}" toggleable="false" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
+                <h:panelGrid columns="2" width="1000px">     
+                    
+                        <p:tab  title="#{moduleInfoBean.moduleCode}">
+                            <h:panelGrid>
+                                
+                                <h:outputText value="Modular Credits: " />
+                                <h:outputText value="#{moduleInfoBean.moduleCredit}" />
+                                <br />
+                                <h:outputText value="Information: " />
+                                <h:outputText value="#{moduleInfoBean.moduleInfo}" />
+                                <br/>
+                                <h:outputText value="Workload:" />
+                                <h:outputText value="#{moduleInfoBean.workload}" />
+                                <br />
+                                <h:outputText value="Prerequisite: " />
+                                <h:outputText value="#{moduleInfoBean.prerequisite}" />
+                                <br />
+                                <h:outputText value="Preclusions: " />
+                                <h:outputText value="#{moduleInfoBean.preclusions}" />
+                            </h:panelGrid>
+                        </p:tab>
+                    
+       </h:panelGrid>
+            </p:panel> 
+            <br />
+        </h:form>  
 
     </ui:define>
 </ui:composition>

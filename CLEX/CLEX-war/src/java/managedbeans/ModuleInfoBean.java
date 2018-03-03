@@ -7,6 +7,7 @@ package managedbeans;
 
 import entity.Lecturer;
 import entity.Module;
+import entity.ProjectGroup;
 import entity.Student;
 import entity.SuperGroup;
 import java.util.ArrayList;
@@ -56,6 +57,7 @@ public class ModuleInfoBean {
     private String preclusions;
     private Module module;
     private SuperGroup superGroup;
+    private ArrayList<ProjectGroup> projectGroups;
     private ArrayList<Student> students;
     
     public ModuleInfoBean() {
@@ -80,6 +82,7 @@ public class ModuleInfoBean {
         prerequisite = module.getPrerequisite();
         preclusions = module.getPreclusions();
         superGroup = module.getSuperGroup();
+        //projectGroups = (ArrayList) superGroup.getProjectGroups();
         //students = (ArrayList) module.getStudents();
     }
 
