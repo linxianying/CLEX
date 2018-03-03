@@ -62,10 +62,11 @@
                 <p:column filterBy="#{module.prerequisite}" headerText="Prerequisite" filterMatchMode="contains">
                     <h:outputText value="#{module.prerequisite}" />
                 </p:column>
-                <p:column filterBy="#{module.preclusions}" headerText="Preclusions" filterMatchMode="contains">
-                    <h:outputText value="#{module.preclusions}" />
-                </p:column>
                 -->
+                <p:column >
+                    <p:commandButton value="view" actionListener="#{lecturerModuleListBean.viewModule(module)}" />
+                </p:column>
+                
             </p:dataTable>
         </h:form>
 

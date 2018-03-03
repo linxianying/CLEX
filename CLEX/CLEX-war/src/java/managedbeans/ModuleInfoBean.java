@@ -43,6 +43,8 @@ public class ModuleInfoBean {
     private String moduleInfo;
     private String workload;
     private String moduleCredit;
+    private String pickYear;
+    private String pickSem;
     private ArrayList<Student> students;
     
     public ModuleInfoBean() {
@@ -56,6 +58,9 @@ public class ModuleInfoBean {
         lecturerEntity = (Lecturer) session.getAttribute("user");
         username = lecturerEntity.getUsername();
         //lessons = cmbl.getAllLessons();
+        moduleCode = (String) session.getAttribute("moduleCode");
+        pickSem = (String) session.getAttribute("pickSem");
+        pickYear = (String) session.getAttribute("pickYear");
 
     }
 
@@ -145,6 +150,22 @@ public class ModuleInfoBean {
 
     public void setStudents(ArrayList<Student> students) {
         this.students = students;
+    }
+
+    public String getPickYear() {
+        return pickYear;
+    }
+
+    public void setPickYear(String pickYear) {
+        this.pickYear = pickYear;
+    }
+
+    public String getPickSem() {
+        return pickSem;
+    }
+
+    public void setPickSem(String pickSem) {
+        this.pickSem = pickSem;
     }
     
     

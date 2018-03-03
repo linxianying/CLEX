@@ -12,7 +12,10 @@
             <title>PRISM Lecturer Module Info Page</title>
         </h:head>
          <div>
-            <h:outputText value="Welcome to PRISM, #{lecturerModuleListBean.username}" /><br></br>
+            <h:outputText value=" #{moduleInfoBean.username}" /><br></br>
+            <h:outputText value=" #{moduleInfoBean.moduleCode}" /><br></br>
+            <h:outputText value=" #{moduleInfoBean.pickSem}" /><br></br>
+            <h:outputText value=" #{moduleInfoBean.pickYear}" /><br></br>
         </div>
         <br></br>
         <h:form>

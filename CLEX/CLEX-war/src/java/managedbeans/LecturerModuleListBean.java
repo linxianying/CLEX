@@ -67,7 +67,7 @@ public class LecturerModuleListBean implements Serializable {
 
     }
     
-    public void viewModule(Module module){
+    public void viewModule(Module module) throws IOException{
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
@@ -77,15 +77,16 @@ public class LecturerModuleListBean implements Serializable {
         session.setAttribute("moduleCode", module.getCourse().getModuleCode());
         session.setAttribute("pickSem", module.getTakenSem());
         session.setAttribute("pickYear", module.getTakenYear());
+        context.getExternalContext().redirect("lecturerModuleInfo.xhtml");
     }
     
-    public void doRedirect() throws IOException {
-        FacesMessage fmsg = new FacesMessage();
-        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "redirecting to module information", "");
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, fmsg);
-        context.getExternalContext().redirect("ModuleInfoBean.xhtml");
-    }
+    //public void doRedirect() throws IOException {
+    //    FacesMessage fmsg = new FacesMessage();
+    //    fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "redirecting to module information", "");
+    //    FacesContext context = FacesContext.getCurrentInstance();
+    //    context.addMessage(null, fmsg);
+    //    context.getExternalContext().redirect("ModuleInfoBean.xhtml");
+    //}
 
     public List<Module> getModules() {
         return modules;
