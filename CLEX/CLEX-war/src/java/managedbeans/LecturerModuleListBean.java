@@ -9,11 +9,13 @@ import entity.Lecturer;
 import entity.Lesson;
 import entity.Module;
 import entity.Student;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -63,6 +65,26 @@ public class LecturerModuleListBean implements Serializable {
         moduleCodes = asbl.getModuleCodeByLecturer(username);
         //lessons = cmbl.getAllLessons();
 
+    }
+    
+    public void viewModule(Module module){
+        FacesMessage fmsg = new FacesMessage();
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+        
+        session.setAttribute("user", lecturerEntity);
+        session.setAttribute("username", username);
+        session.setAttribute("moduleCode", module.getCourse().getModuleCode());
+        session.setAttribute("pickSem", module.getTakenSem());
+        session.setAttribute("pickYear", module.getTakenYear());
+    }
+    
+    public void doRedirect() throws IOException {
+        FacesMessage fmsg = new FacesMessage();
+        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "redirecting to module information", "");
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, fmsg);
+        context.getExternalContext().redirect("ModuleInfoBean.xhtml");
     }
 
     public List<Module> getModules() {
