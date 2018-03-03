@@ -6,7 +6,9 @@
 package managedbeans;
 
 import entity.Lecturer;
+import entity.Module;
 import entity.Student;
+import entity.SuperGroup;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -16,6 +18,7 @@ import javax.enterprise.context.Dependent;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import session.ClassroomSessionBeanLocal;
+import session.ClexSessionBeanLocal;
 import session.CourseMgmtBeanLocal;
 
 /**
@@ -33,7 +36,10 @@ public class ModuleInfoBean {
     CourseMgmtBeanLocal cmbl;
     
     @EJB
-    ClassroomSessionBeanLocal csbl;
+    ClexSessionBeanLocal csbl;
+    
+    @EJB
+    ClassroomSessionBeanLocal crsbl;
     
     FacesContext context;
     HttpSession session;
@@ -41,10 +47,15 @@ public class ModuleInfoBean {
     private String username;
     private String moduleCode;
     private String moduleInfo;
+    private String moduleTitle;
     private String workload;
     private String moduleCredit;
     private String pickYear;
     private String pickSem;
+    private String prerequisite;
+    private String preclusions;
+    private Module module;
+    private SuperGroup superGroup;
     private ArrayList<Student> students;
     
     public ModuleInfoBean() {
@@ -61,7 +72,15 @@ public class ModuleInfoBean {
         moduleCode = (String) session.getAttribute("moduleCode");
         pickSem = (String) session.getAttribute("pickSem");
         pickYear = (String) session.getAttribute("pickYear");
-
+        module = csbl.findModule(moduleCode, pickYear, pickSem);
+        moduleInfo = module.getCourse().getModuleInfo();
+        moduleTitle = module.getCourse().getModuleName();
+        moduleCredit = module.getCourse().getModularCredits();
+        workload = module.getCourse().getWorkload();
+        prerequisite = module.getPrerequisite();
+        preclusions = module.getPreclusions();
+        superGroup = module.getSuperGroup();
+        //students = (ArrayList) module.getStudents();
     }
 
     public CourseMgmtBeanLocal getCmbl() {
@@ -72,13 +91,31 @@ public class ModuleInfoBean {
         this.cmbl = cmbl;
     }
 
-    public ClassroomSessionBeanLocal getCsbl() {
+    public ClexSessionBeanLocal getCsbl() {
         return csbl;
     }
 
-    public void setCsbl(ClassroomSessionBeanLocal csbl) {
+    public void setCsbl(ClexSessionBeanLocal csbl) {
         this.csbl = csbl;
     }
+
+    public ClassroomSessionBeanLocal getCrsbl() {
+        return crsbl;
+    }
+
+    public void setCrsbl(ClassroomSessionBeanLocal crsbl) {
+        this.crsbl = crsbl;
+    }
+
+    public Module getModule() {
+        return module;
+    }
+
+    public void setModule(Module module) {
+        this.module = module;
+    }
+
+
 
     public FacesContext getContext() {
         return context;
@@ -166,6 +203,38 @@ public class ModuleInfoBean {
 
     public void setPickSem(String pickSem) {
         this.pickSem = pickSem;
+    }
+
+    public String getPrerequisite() {
+        return prerequisite;
+    }
+
+    public void setPrerequisite(String prerequisite) {
+        this.prerequisite = prerequisite;
+    }
+
+    public String getPreclusions() {
+        return preclusions;
+    }
+
+    public void setPreclusions(String preclusions) {
+        this.preclusions = preclusions;
+    }
+
+    public SuperGroup getSuperGroup() {
+        return superGroup;
+    }
+
+    public void setSuperGroup(SuperGroup superGroup) {
+        this.superGroup = superGroup;
+    }
+
+    public String getModuleTitle() {
+        return moduleTitle;
+    }
+
+    public void setModuleTitle(String moduleTitle) {
+        this.moduleTitle = moduleTitle;
     }
     
     
