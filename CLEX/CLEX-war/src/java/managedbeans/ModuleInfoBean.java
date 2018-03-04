@@ -10,9 +10,7 @@ import entity.Module;
 import entity.ProjectGroup;
 import entity.Student;
 import entity.SuperGroup;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -60,6 +58,7 @@ public class ModuleInfoBean {
     private SuperGroup superGroup;
     private Collection<ProjectGroup> projectGroups;
     private Collection<Student> students;
+    private Collection<Student> groupMembers;
     
     public ModuleInfoBean() {
     }
@@ -83,8 +82,9 @@ public class ModuleInfoBean {
         prerequisite = module.getPrerequisite();
         preclusions = module.getPreclusions();
         superGroup = module.getSuperGroup();
-        if(superGroup!=null)
-            projectGroups = (ArrayList) superGroup.getProjectGroups();
+        if(superGroup!=null){
+            projectGroups = superGroup.getProjectGroups();
+        }
         students = module.getStudents();
     }
 
@@ -248,6 +248,14 @@ public class ModuleInfoBean {
 
     public void setProjectGroups(Collection<ProjectGroup> projectGroups) {
         this.projectGroups = projectGroups;
+    }
+
+    public Collection<Student> getGroupMembers(ProjectGroup projectGroup) {
+        return projectGroup.getGroupMembers();
+    }
+
+    public void setGroupMembers(Collection<Student> groupMembers) {
+        this.groupMembers = groupMembers;
     }
     
     

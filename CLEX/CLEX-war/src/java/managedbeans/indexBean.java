@@ -51,17 +51,17 @@ public class indexBean {
     
     public void createEntities() {
         //create Users
-        csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 5.00);
-        csbl.createStudent("aaaaaa", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
-        csbl.createStudent("bbbbbb", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "CS","2015", "2", 0.0);
-        csbl.createStudent("cccccc", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
-        csbl.createStudent("dddddd", "123456", "name", "email@email.com", "NUS", 65345455L, genSalt(), "soc", "CS","2015", "2", 4.8);
-        csbl.createStudent("eeeeee", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 4.3);
-        csbl.createStudent("ffffff", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "CS","2016", "1", 4.2);
-        csbl.createStudent("gggggg", "123456", "name", "email@email.com", "NUS", 12345378L, genSalt(), "soc", "BA","2016", "2", 3.9);
-        csbl.createStudent("hhhhhh", "123456", "name", "email@email.com", "NUS", 12345278L, genSalt(), "soc", "IS","2016", "1", 4.7);
-        csbl.createStudent("iiiiii", "123456", "name", "email@email.com", "NUS", 12845678L, genSalt(), "soc", "EE","2016", "2", 3.5);
-        csbl.createStudent("jjjjjj", "123456", "name", "email@email.com", "NUS", 12345278L, genSalt(), "soc", "CEG","2016", "1", 4.0);
+        csbl.createStudent("namename", "123456", "Lin Xianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 5.00);
+        csbl.createStudent("aaaaaa", "123456", "Su Xinran", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
+        csbl.createStudent("bbbbbb", "123456", "Cao Yu", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "CS","2015", "2", 0.0);
+        csbl.createStudent("cccccc", "123456", "Joseph", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
+        csbl.createStudent("dddddd", "123456", "Wenjie", "email@email.com", "NUS", 65345455L, genSalt(), "soc", "CS","2015", "2", 4.8);
+        csbl.createStudent("eeeeee", "123456", "EE Ren", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 4.3);
+        csbl.createStudent("ffffff", "123456", "Lifeng Zhou", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "CS","2016", "1", 4.2);
+        csbl.createStudent("gggggg", "123456", "Fan Weiguang", "email@email.com", "NUS", 12345378L, genSalt(), "soc", "BA","2016", "2", 3.9);
+        csbl.createStudent("hhhhhh", "123456", "Duan Yichen", "email@email.com", "NUS", 12345278L, genSalt(), "soc", "IS","2016", "1", 4.7);
+        csbl.createStudent("iiiiii", "123456", "Luo Yuyang", "email@email.com", "NUS", 12845678L, genSalt(), "soc", "EE","2016", "2", 3.5);
+        csbl.createStudent("jjjjjj", "123456", "Sun Mingyang", "email@email.com", "NUS", 12345278L, genSalt(), "soc", "CEG","2016", "1", 4.0);
         csbl.createStudent("XiaoHong", "123456", "XiaoHong", "email@email.com", "NUS", 12545678L, genSalt(), "soc", "IS","2015", "1", 5.0);
         csbl.createStudent("XiaoHuang", "123456", "XiaoHuang", "email@email.com", "NUS", 12545678L, genSalt(), "soc", "IS","2015", "1", 5.0);
         csbl.createStudent("XiaoLan", "123456", "XiaoLan", "email@email.com", "NUS", 63845678L, genSalt(), "soc", "IS","2015", "1", 5.0);
@@ -70,11 +70,11 @@ public class indexBean {
         csbl.createLecturer("hsianghui2", "123456", "LekHsiangHui2", "hsianghui@email.com", "NUS", 92345678L, genSalt(), "soc");
         csbl.createLecturer("hsianghui3", "123456", "LekHsiangHui3", "hh3@email.com", "NUS", 12342678L, genSalt(), "soc");
         csbl.createLecturer("hsianghui4", "123456", "LekHsiangHui4", "hh4@email.com", "NUS", 12345678L, genSalt(), "soc");
-        csbl.createGuest("guesta", "123456", "someguest", "email@email.com", "NUS", 12345678L, genSalt());
-        csbl.createGuest("guestb", "123456", "someguest", "email@email.com", "NUS", 12345678L, genSalt());
-        csbl.createGuest("guestc", "123456", "someguest", "email@email.com", "NUS", 12345678L, genSalt());
-        csbl.createGuest("guestd", "123456", "someguest", "email@email.com", "NUS", 12345678L, genSalt());
-        csbl.createGuest("gueste", "123456", "someguest", "email@email.com", "NUS", 12345678L, genSalt());
+        csbl.createGuest("guesta", "123456", "Lim", "email@email.com", "NUS", 12345678L, genSalt());
+        csbl.createGuest("guestb", "123456", "Zhang", "email@email.com", "NUS", 12345678L, genSalt());
+        csbl.createGuest("guestc", "123456", "Zhong Mengjia", "email@email.com", "NUS", 12345678L, genSalt());
+        csbl.createGuest("guestd", "123456", "Yang Xiaoge", "email@email.com", "NUS", 12345678L, genSalt());
+        csbl.createGuest("gueste", "123456", "Sun Junyi", "email@email.com", "NUS", 12345678L, genSalt());
         
         //create course, read from nusmods
         csbl.dragAllNusMods("try");
@@ -330,6 +330,10 @@ public class indexBean {
         csbl.createSuperGroup(3, 1, 3, csbl.findModule("PC2193", "2017", "2"));
         csbl.createSuperGroup(3, 3, 3, csbl.findModule("SC3101", "2017", "2"));
         csbl.createSuperGroup(4, 2, 3, csbl.findModule("LAM3201", "2017", "2"));
+        csbl.createSuperGroup(3, 2, 3, csbl.findModule("CS1020", "2016", "1"));
+        csbl.createSuperGroup(3, 1, 3, csbl.findModule("GER1000", "2017", "1"));
+        csbl.createSuperGroup(3, 3, 3, csbl.findModule("CS2100", "2016", "2"));
+        csbl.createSuperGroup(4, 2, 3, csbl.findModule("CP3109", "2015", "1"));
         //csbl.createSuperGroup(5, 2, 3, csbl.findModule("TIE2010", "2017", "2"));
         
         //create projectGroup 
@@ -345,6 +349,17 @@ public class indexBean {
         csbl.createProjectGroup(csbl.findModule("LAM3201", "2017", "2").getSuperGroup(), "N1",0.0);
         csbl.createProjectGroup(csbl.findModule("LAM3201", "2017", "2").getSuperGroup(), "N2",0.0);
         csbl.createProjectGroup(csbl.findModule("LAM3201", "2017", "2").getSuperGroup(), "N3",0.0);
+        
+        csbl.createProjectGroup(csbl.findModule("CP3109", "2015", "1").getSuperGroup(), "N1",10.0);
+        csbl.createProjectGroup(csbl.findModule("CP3109", "2015", "1").getSuperGroup(), "N2",22.0);
+        csbl.createProjectGroup(csbl.findModule("CP3109", "2015", "1").getSuperGroup(), "N3",57.6);
+        csbl.createProjectGroup(csbl.findModule("CS2100", "2016", "2").getSuperGroup(), "N1",0.0);
+        csbl.createProjectGroup(csbl.findModule("CS2100", "2016", "2").getSuperGroup(), "N2",1.0);
+        csbl.createProjectGroup(csbl.findModule("CS2100", "2016", "2").getSuperGroup(), "N3",0.0);
+        csbl.createProjectGroup(csbl.findModule("GER1000", "2017", "1").getSuperGroup(), "N1",0.0);
+        csbl.createProjectGroup(csbl.findModule("GER1000", "2017", "1").getSuperGroup(), "N2",2.0);
+        csbl.createProjectGroup(csbl.findModule("GER1000", "2017", "1").getSuperGroup(), "N3",0.9);
+        
         
         //link student with projectgroup
         //student not join any project group for SC3101 and LAM3201
