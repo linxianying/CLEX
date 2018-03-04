@@ -240,6 +240,7 @@ public class indexBean {
         csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("CL3551", "2016", "2"));
         
         csbl.setStudentTakenModules(csbl.findStudent("ffffff"), csbl.findModule("CS2100", "2016", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("CS2100", "2016", "2"));
         csbl.setStudentTakenModules(csbl.findStudent("aaaaaa"), csbl.findModule("IE1111", "2016", "2"));
         csbl.setStudentTakenModules(csbl.findStudent("jjjjjj"), csbl.findModule("PF3302", "2016", "2"));
         csbl.setStudentTakenModules(csbl.findStudent("ffffff"), csbl.findModule("MA2101", "2016", "2"));
@@ -363,6 +364,8 @@ public class indexBean {
         
         //link student with projectgroup
         //student not join any project group for SC3101 and LAM3201
+        csbl.linkStudentGroup(csbl.findStudent("namename"), csbl.findProjectgroup("N1", csbl.findModule("CS2100", "2016", "2")));
+        csbl.linkStudentGroup(csbl.findStudent("namename"), csbl.findProjectgroup("N2", csbl.findModule("GER1000", "2017", "1")));
         csbl.linkStudentGroup(csbl.findStudent("namename"), csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")));
         csbl.linkStudentGroup(csbl.findStudent("namename"), csbl.findProjectgroup("N2", csbl.findModule("PC2193", "2017", "2")));
         
@@ -370,7 +373,9 @@ public class indexBean {
         csbl.linkStudentGroup(csbl.findStudent("XiaoHong"), csbl.findProjectgroup("N1", csbl.findModule("LAM3201", "2017", "2")));
         csbl.linkStudentGroup(csbl.findStudent("XiaoHong"), csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")));
         csbl.linkStudentGroup(csbl.findStudent("XiaoHong"), csbl.findProjectgroup("N1", csbl.findModule("PC2193", "2017", "2")));
-
+        csbl.linkStudentGroup(csbl.findStudent("bbbbbb"), csbl.findProjectgroup("N1", csbl.findModule("CS2100", "2016", "2")));
+        csbl.linkStudentGroup(csbl.findStudent("bbbbbb"), csbl.findProjectgroup("N2", csbl.findModule("GER1000", "2017", "1")));
+        
         csbl.linkStudentGroup(csbl.findStudent("XiaoHuang"), csbl.findProjectgroup("N2", csbl.findModule("SC3101", "2017", "2")));
         csbl.linkStudentGroup(csbl.findStudent("XiaoHuang"), csbl.findProjectgroup("N2", csbl.findModule("LAM3201", "2017", "2")));
         csbl.linkStudentGroup(csbl.findStudent("XiaoHuang"), csbl.findProjectgroup("N2", csbl.findModule("PS2240", "2017", "2")));
