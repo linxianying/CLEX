@@ -61,9 +61,10 @@ public class LecturerModuleListBean implements Serializable {
         lecturerEntity = (Lecturer) session.getAttribute("user");
         username = lecturerEntity.getUsername();
         modules = (List) cmbl.getModulesFromLecturer(username);
-
+        lessons = (List) cmbl.getLessonsFromLecturer(username);
+        
         moduleCodes = asbl.getModuleCodeByLecturer(username);
-        //lessons = cmbl.getAllLessons();
+  
 
     }
     
