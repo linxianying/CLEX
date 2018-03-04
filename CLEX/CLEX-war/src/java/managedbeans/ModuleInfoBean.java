@@ -257,6 +257,10 @@ public class ModuleInfoBean {
     public void setGroupMembers(Collection<Student> groupMembers) {
         this.groupMembers = groupMembers;
     }
+
+    public Collection<Student> getGroupMembers() {
+        return groupMembers;
+    }
     
     
 }
