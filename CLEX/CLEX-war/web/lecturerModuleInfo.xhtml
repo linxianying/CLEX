@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+                xmlns:h="http://xmlns.jcp.org/jsf/html" 
+                template="./layout/lecturerLayout.xhtml" 
+                xmlns:p="http://primefaces.org/ui" 
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:head>
+            <title>PRISM Lecturer Module Info Page</title>
+        </h:head>
+
+        <h:form>
+            <p:panel collapsed="false" styleClass="menuHeader" header="Module #{moduleInfoBean.moduleCode} #{moduleInfoBean.moduleTitle}" toggleable="false" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
+                <h:panelGrid columns="2" width="1000px">     
+                    
+                        <p:tab  title="#{moduleInfoBean.moduleCode}">
+                            <h:panelGrid>
+                                
+                                <h:outputText value="Modular Credits: " />
+                                <h:outputText value="#{moduleInfoBean.moduleCredit}" />
+                                <br />
+                                <h:outputText value="Information: " />
+                                <h:outputText value="#{moduleInfoBean.moduleInfo}" />
+                                <br/>
+                                <h:outputText value="Workload:" />
+                                <h:outputText value="#{moduleInfoBean.workload}" />
+                                <br />
+                                <h:outputText value="Prerequisite: " />
+                                <h:outputText value="#{moduleInfoBean.prerequisite}" />
+                                <br />
+                                <h:outputText value="Preclusions: " />
+                                <h:outputText value="#{moduleInfoBean.preclusions}" />
+                            </h:panelGrid>
+                        </p:tab>
+                    
+       </h:panelGrid>
+            </p:panel> 
+            <br />
+        </h:form>  
+
+    </ui:define>
+</ui:composition>
