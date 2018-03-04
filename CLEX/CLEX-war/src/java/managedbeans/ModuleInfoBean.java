@@ -11,6 +11,7 @@ import entity.ProjectGroup;
 import entity.Student;
 import entity.SuperGroup;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -57,8 +58,8 @@ public class ModuleInfoBean {
     private String preclusions;
     private Module module;
     private SuperGroup superGroup;
-    private ArrayList<ProjectGroup> projectGroups;
-    private ArrayList<Student> students;
+    private Collection<ProjectGroup> projectGroups;
+    private Collection<Student> students;
     
     public ModuleInfoBean() {
     }
@@ -82,8 +83,9 @@ public class ModuleInfoBean {
         prerequisite = module.getPrerequisite();
         preclusions = module.getPreclusions();
         superGroup = module.getSuperGroup();
-        //projectGroups = (ArrayList) superGroup.getProjectGroups();
-        //students = (ArrayList) module.getStudents();
+        if(superGroup!=null)
+            projectGroups = (ArrayList) superGroup.getProjectGroups();
+        students = module.getStudents();
     }
 
     public CourseMgmtBeanLocal getCmbl() {
@@ -184,11 +186,11 @@ public class ModuleInfoBean {
         this.moduleCredit = moduleCredit;
     }
 
-    public ArrayList<Student> getStudents() {
+    public Collection<Student> getStudents() {
         return students;
     }
 
-    public void setStudents(ArrayList<Student> students) {
+    public void setStudents(Collection<Student> students) {
         this.students = students;
     }
 
@@ -238,6 +240,14 @@ public class ModuleInfoBean {
 
     public void setModuleTitle(String moduleTitle) {
         this.moduleTitle = moduleTitle;
+    }
+
+    public Collection<ProjectGroup> getProjectGroups() {
+        return projectGroups;
+    }
+
+    public void setProjectGroups(Collection<ProjectGroup> projectGroups) {
+        this.projectGroups = projectGroups;
     }
     
     

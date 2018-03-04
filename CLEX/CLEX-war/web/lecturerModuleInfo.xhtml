@@ -33,6 +33,32 @@
                                 <br />
                                 <h:outputText value="Preclusions: " />
                                 <h:outputText value="#{moduleInfoBean.preclusions}" />
+                                <br />
+                                
+                                <h:outputText value="Students (#{moduleInfoBean.students.size()})" />
+                                <p:dataList var="student" value="#{moduleInfoBean.students}">
+                                    <p:accordionPanel multiple="true" activeIndex="1">
+                                        <p:tab  title="#{student.name}">
+                                            <h:panelGrid>
+                                                <h:outputText value="#{student.email}" />
+                                                <h:outputText value="#{student.faculty}" />
+                                                <h:outputText value="#{student.major}" />
+                                            </h:panelGrid>
+                                        </p:tab>
+                                    </p:accordionPanel>
+                                </p:dataList>
+                                <br />
+                                <h:outputText value="Students (#{moduleInfoBean.superGroup.minStudentNum} to #{moduleInfoBean.superGroup.maxStudentNum} )" />
+                                <p:dataList var="projectGroup" value="#{moduleInfoBean.projectGroups}">
+                                    <p:accordionPanel multiple="true" activeIndex="1">
+                                        <p:tab  title="#{projectGroup.name}">
+                                            <h:panelGrid>
+                                                <h:outputText value="Cost: #{projectGroup.cost}" />
+                                                
+                                            </h:panelGrid>
+                                        </p:tab>
+                                    </p:accordionPanel>
+                                </p:dataList>
                             </h:panelGrid>
                         </p:tab>
                     
