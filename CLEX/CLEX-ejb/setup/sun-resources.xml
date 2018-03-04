@@ -10,7 +10,7 @@
     <property name="serverName" value="localhost"/>
     <property name="PortNumber" value="1527"/>
     <property name="DatabaseName" value="clexDB"/>
-    <property name="User" value="admin"/>
+    <property name="User" value="administrator"/>
     <property name="Password" value="admin"/>
   </jdbc-connection-pool>
 </resources>
