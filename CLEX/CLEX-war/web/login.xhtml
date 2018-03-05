@@ -16,12 +16,10 @@
         <h:outputStylesheet name="./css/form.css" />
         <div class="wrapper">
             <div class="container">
-                
-                
 
-                <h:form class="form-validation">
-                    <img src="https://i.imgur.com/I97Io9u.png"></img>
-<!--
+                <h:form class="form-validation form-login">
+                    <img class="PRISM-logo" src="https://i.imgur.com/I97Io9u.png"></img>
+                    <!--
                 <h:form>
                     <h:commandButton value="setEntites" actionListener="#{indexBean.createEntities}" action="login?faces-redirect=true" />
                 </h:form>
@@ -30,59 +28,56 @@
                 <h:form class="form-login">
                     <div class="form-title-row">
                         <h1>Login</h1>
-                    </div>
--->
+                    </div>-->
                     <p:growl id="messages" showDetail="true" />
 
                     <!--<h:panelGrid style="width: 100%" id="details" styleClass="textInput" columns="1" cellpadding="5">
                       -->
                     <div class="form-row">
                         <label>
-                                    <span>Username</span>
-                                    <p:inputText styleClass="textInput" id="username" value="#{loginBean.username}" 
-                                     required="true" requiredMessage="Please enter your username!" 
-                                     placeholder="Username"
-                                     validatorMessage="Invalid format. Username must be between 6-12 letters/numbers. Special characters are not allowed.">
+                            <span>Username</span>
+                            <p:inputText styleClass="textInput" id="username" value="#{loginBean.username}" 
+                                 required="true" requiredMessage="Please enter your username!" 
+                                 placeholder="Username"
+                                 validatorMessage="Invalid format. Username must be between 6-12 letters/numbers. Special characters are not allowed.">
                             <f:validateRegex pattern="^[a-zA-Z0-9]{6,12}$" />
-                        </p:inputText>
-                                </label>
+                            </p:inputText>
+                        </label>
                     </div>
                     <div class="form-row">
                         <label>
-                                    <span>Password</span>
-                                    <p:password styleClass="textInput" id="password" value="#{loginBean.password}" 
-                                    required="true" requiredMessage="Please enter your password!" 
-                                    placeholder="Password"/>
-                                </label>
+                            <span>Password</span>
+                            <p:password styleClass="textInput" id="password" value="#{loginBean.password}" 
+                            required="true" requiredMessage="Please enter your password!" 
+                            placeholder="Password"/>
+                        </label>
                     </div>
 
                     <div class="form-row">
 
-                        <a href="resetPassword.xhtml" style="margin: auto;color: blue;">Reset Password</a>
-
-<!--
-                        <a href="resetPassword.xhtml" style="color: #009e9e">Forgot your password?</a>
-                        <br></br>
-                        <br></br>
-                        <p:selectOneButton required="true" requiredMessage="Please select a user type!" styleClass="menuSelect" id="userType" value="#{loginBean.userType}"> 
-                            <f:selectItem itemValue = "1" itemLabel = "Student" /> 
-                            <f:selectItem itemValue = "2" itemLabel = "Lecturer" /> 
-                            <f:selectItem itemValue = "3" itemLabel = "Admin" />
-                            <f:selectItem itemValue = "4" itemLabel = "Guest" />
-                        </p:selectOneButton><br/>
-      -->
+                        
+                        <a href="resetPassword.xhtml" class="resetPasswordTitle">Forgot your password?</a>
+                        <!--
+                            
+                            <br></br>
+                            <br></br>
+                            <p:selectOneButton required="true" requiredMessage="Please select a user type!" styleClass="menuSelect" id="userType" value="#{loginBean.userType}"> 
+                                <f:selectItem itemValue = "1" itemLabel = "Student" /> 
+                                <f:selectItem itemValue = "2" itemLabel = "Lecturer" /> 
+                                <f:selectItem itemValue = "3" itemLabel = "Admin" />
+                                <f:selectItem itemValue = "4" itemLabel = "Guest" />
+                            </p:selectOneButton><br/>
+                        -->
 
                     </div>
                     <br></br>
 
-<!--
+                    <!--
                         <p:commandButton update="messages" value="LOGIN" actionListener="#{loginBean.doLogin}" id="login-button"/>
                         <p:commandButton update="messages" process="@this" action="#{loginBean.doRedirect}" id="signupButton" value="Create an account" />
-
-                        <!--<h:button value="CREATE AN ACCOUNT" outcome="register?faces-redirect=true"/>
-                        <h:commandButton value="setEntites" actionListener="#{indexBean.createEntities}" action="login?faces-redirect=true" />
-                    </h:panelGrid>
--->
+                    -->
+                        
+                    
                     <p:selectOneButton required="true" requiredMessage="Please select a user type!" styleClass="menuSelect" id="userType" value="#{loginBean.userType}">
                         <f:selectItem itemValue="1" itemLabel="Student" />
                         <f:selectItem itemValue="2" itemLabel="Lecturer" />
@@ -94,19 +89,23 @@
                         <div class="form-row">
                             <p:commandButton styleClass="" update="messages" value="LOGIN" actionListener="#{loginBean.doLogin}" id="login-button"/>
                         </div>
-                        -->
+                    -->
                     <div class="form-row">
                         <h:commandButton value="LOGIN" actionListener="#{loginBean.doLogin}" />
                     </div>
                     <div class="form-row">
-                        <h:commandButton value="SIGN UP" actionListener="#{loginBean.doRedirect}" />
+                        <h:button value="SIGN UP" outcome="register?faces-redirect=true"/>
                     </div>
+                    <div class="form-row">
+                        <h:commandButton value="setEntites" actionListener="#{indexBean.createEntities}" action="login?faces-redirect=true" />
+                    </div>   
                     <!--
                         <div class="form-row">
                             <p:commandButton styleClass="" update="messages" process="@this" action="#{loginBean.doRedirect}" id="signupButton" value="SIGN UP" />
                         </div>
                         <h:button value="CREATE AN ACCOUNT" outcome="register?faces-redirect=true"/>
-                        </h:panelGrid>-->
+                        </h:panelGrid>
+                    -->
 
                 </h:form>
 

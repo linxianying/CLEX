@@ -114,10 +114,10 @@ html{
 .form-login{
     box-sizing: border-box;
     max-width: 475px;
-    margin: 0 auto;
+    margin: 20 auto;
     padding: 55px;
-    height: 600px;
-    opacity:0.88;
+    height: 688px;
+    opacity:0.91;
     background-color:  #ffffff;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
 
@@ -208,8 +208,22 @@ html{
     color: #ffffff;
     font-weight: bold;
     box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.08);
-    padding: 10px 18px;
+    padding: 8px 14px;
     border: 0;
     margin-top: 15px;
     opacity:1;
+}
+
+.PRISM-logo{
+    height:125px;
+    width:100%;
+    
+}
+
+.resetPasswordTitle{
+    vertical-align: middle;
+    display: table-cell; 
+    text-align: center;
+    color: #009e9e
+    
 }
