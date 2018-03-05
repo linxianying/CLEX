@@ -14,66 +14,76 @@
 
         <h:form>
             <p:panel collapsed="false" styleClass="menuHeader" header="Module #{moduleInfoBean.moduleCode} #{moduleInfoBean.moduleTitle}" toggleable="false" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
-                <h:panelGrid columns="2" width="1000px">     
-                    
-                        <p:tab  title="#{moduleInfoBean.moduleCode}">
-                            <h:panelGrid>
-                                
-                                <h:outputText value="Modular Credits: " />
-                                <h:outputText value="#{moduleInfoBean.moduleCredit}" />
-                                <br />
-                                <h:outputText value="Information: " />
-                                <h:outputText value="#{moduleInfoBean.moduleInfo}" />
-                                <br/>
-                                <h:outputText value="Workload:" />
-                                <h:outputText value="#{moduleInfoBean.workload}" />
-                                <br />
-                                <h:outputText value="Prerequisite: " />
-                                <h:outputText value="#{moduleInfoBean.prerequisite}" />
-                                <br />
-                                <h:outputText value="Preclusions: " />
-                                <h:outputText value="#{moduleInfoBean.preclusions}" />
-                                <br />
-                                
-                                <h:outputText value="Students (#{moduleInfoBean.students.size()})" />
-                                <p:dataList var="student" value="#{moduleInfoBean.students}">
-                                    <p:accordionPanel multiple="true" activeIndex="1">
-                                        <p:tab  title="#{student.name}">
-                                            <h:panelGrid>
-                                                <h:outputText value="#{student.email}" />
-                                                <h:outputText value="#{student.faculty}" />
-                                                <h:outputText value="#{student.major}" />
-                                            </h:panelGrid>
-                                        </p:tab>
-                                    </p:accordionPanel>
-                                </p:dataList>
-                                <br />
-                                <h:outputText value="Project Groups (#{moduleInfoBean.superGroup.minStudentNum} to #{moduleInfoBean.superGroup.maxStudentNum} )" />
-                                <p:dataList var="projectGroup" value="#{moduleInfoBean.projectGroups}">
-                                    <p:accordionPanel multiple="true" activeIndex="1">
-                                        <p:tab  title="#{projectGroup.name}">
-                                            <h:panelGrid>
-                                                <h:outputText value="Cost: #{projectGroup.cost}" />
-                                                <p:dataList var="groupMember" value="#{moduleInfoBean.getGroupMembers(projectGroup)}">
-                                                    <p:accordionPanel multiple="true" activeIndex="1">
-                                                        <p:tab  title="#{groupMember.name}">
-                                                            <h:panelGrid>
-                                                                <h:outputText value="#{groupMember.name}" />
-                                                            </h:panelGrid>
-                                                        </p:tab>
-                                                    </p:accordionPanel>
-                                                </p:dataList>
-                                            </h:panelGrid>
-                                        </p:tab>
-                                    </p:accordionPanel>
-                                </p:dataList>
-                            </h:panelGrid>
-                        </p:tab>
-                    
-       </h:panelGrid>
-            </p:panel> 
+                <h:panelGrid columns="2" width="1000px">
+
+                    <p:tab title="#{moduleInfoBean.moduleCode}">
+                        <h:panelGrid>
+
+                            <h:outputText value="Modular Credits: " />
+                            <h:outputText value="#{moduleInfoBean.moduleCredit}" />
+                            <br />
+                            
+                            <h:outputText value="Information: " />
+                            <h:outputText value="#{moduleInfoBean.moduleInfo}" />
+                            <br/>
+                            
+                            <h:outputText value="Workload:" />
+                            <h:outputText value="#{moduleInfoBean.workload}" />
+                            <br />
+                            
+                            <h:outputText value="Prerequisite: " />
+                            <h:outputText value="#{moduleInfoBean.prerequisite}" />
+                            <br />
+                            
+                            <h:outputText value="Preclusions: " />
+                            <h:outputText value="#{moduleInfoBean.preclusions}" />
+                            <br />
+
+                            <h:outputText value="Students (#{moduleInfoBean.students.size()})" />
+                            
+                            <!-- loop for students of a module -->
+                            <p:dataList var="student" value="#{moduleInfoBean.students}">
+                                <p:accordionPanel multiple="true" activeIndex="1">
+                                    <p:tab title="#{student.name}">
+                                        <h:panelGrid>
+                                            <h:outputText value="#{student.email}" />
+                                            <h:outputText value="#{student.faculty}" />
+                                            <h:outputText value="#{student.major}" />
+                                        </h:panelGrid>
+                                    </p:tab>
+                                </p:accordionPanel>
+                            </p:dataList>
+                            <br />
+                            
+                            
+                            <h:outputText value="Project Groups (#{moduleInfoBean.superGroup.minStudentNum} to #{moduleInfoBean.superGroup.maxStudentNum} )" />
+                            <!-- loop for students of a project group of a specific course -->
+                            <p:dataList var="projectGroup" value="#{moduleInfoBean.projectGroups}">
+                                <p:accordionPanel multiple="true" activeIndex="1">
+                                    <p:tab title="#{projectGroup.name}">
+                                        <h:panelGrid>
+                                            <h:outputText value="Cost: #{projectGroup.cost}" />
+                                            <p:dataList var="groupMember" value="#{moduleInfoBean.getGroupMembers(projectGroup)}">
+                                                <p:accordionPanel multiple="true" activeIndex="1">
+                                                    <p:tab title="#{groupMember.name}">
+                                                        <h:panelGrid>
+                                                            <h:outputText value="#{groupMember.name}" />
+                                                        </h:panelGrid>
+                                                    </p:tab>
+                                                </p:accordionPanel>
+                                            </p:dataList>
+                                        </h:panelGrid>
+                                    </p:tab>
+                                </p:accordionPanel>
+                            </p:dataList>
+                            
+                        </h:panelGrid>
+                    </p:tab>
+
+                </h:panelGrid>
+            </p:panel>
             <br />
-        </h:form>  
+        </h:form>
 
     </ui:define>
 </ui:composition>

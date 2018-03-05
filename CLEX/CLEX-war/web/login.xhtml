@@ -18,7 +18,7 @@
                 <h:form>
                     <h:commandButton value="setEntites" actionListener="#{indexBean.createEntities}" action="login?faces-redirect=true" />
                 </h:form>
-                <h1>LOGIN</h1>
+                <h1>Welcome to PRISM</h1>
 
                 <h:form class="form">
                     <p:growl id="messages" showDetail="true" />
@@ -45,9 +45,9 @@
                         </p:selectOneButton><br/>
 
 
-                        <p:commandButton update="messages" value="LOGIN" actionListener="#{loginBean.doLogin}" id="login-button"/>
+                        <p:commandButton styleClass="buttonTest" update="messages" value="LOGIN" actionListener="#{loginBean.doLogin}" id="login-button"/>
                         <br></br>
-                        <p:commandButton update="messages" process="@this" action="#{loginBean.doRedirect}" id="signupButton" value="SIGN UP" />
+                        <p:commandButton styleClass="buttonTest" update="messages" process="@this" action="#{loginBean.doRedirect}" id="signupButton" value="SIGN UP" />
 
                         <!--<h:button value="CREATE AN ACCOUNT" outcome="register?faces-redirect=true"/>-->
                     </h:panelGrid>
@@ -68,9 +68,8 @@
                 <li></li>
             </ul>
         </div>
-
-        <br>--------------------------------------</br>
-
+        <!--
+        
         <br>For testing: do testRegister in register page first, </br>
         <br>or to register first using student identity</br>
         <br>successful login requires</br>
@@ -80,6 +79,7 @@
         <br>for Admin: theadmin, Password: 123, Admin </br>
         <br>Other inputs will fail</br>
         <br>Note: if you want to test reset password, make sure the email you register is a real email</br>
+        -->
     </ui:define>
 
 </ui:composition>
