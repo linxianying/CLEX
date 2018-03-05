@@ -25,14 +25,14 @@
                     <h:panelGrid style="width: 100%" id="details" styleClass="textInput" columns="1" cellpadding="5">
                         <p:inputText styleClass="textInput" id="username" value="#{loginBean.username}" 
                                      required="true" requiredMessage="Please enter your username!" 
-                                     placeholder="username"
+                                     placeholder="Username"
                                      validatorMessage="Invalid format. Username must be between 6-12 letters/numbers. Special characters are not allowed.">
                             <f:validateRegex pattern="^[a-zA-Z0-9]{6,12}$" />
                         </p:inputText>
                         <br></br>
                         <p:password styleClass="textInput" id="password" value="#{loginBean.password}" 
                                     required="true" requiredMessage="Please enter your password!" 
-                                    placeholder="password"/>
+                                    placeholder="Password"/>
 
                         <a href="resetPassword.xhtml" style="color: blue">Reset Password</a>
                         <br></br>

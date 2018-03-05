@@ -17,6 +17,7 @@ import javax.mail.*;
 import javax.mail.internet.*;  
 import javax.activation.*;
 import javax.faces.bean.SessionScoped;
+import javax.servlet.http.HttpSession;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import session.ClexSessionBeanLocal;
@@ -36,6 +37,9 @@ public class AcctMgmtBean implements Serializable{
     private String username;
     private String password;
     private String userType;
+    
+    FacesContext context;
+    HttpSession session;
     
     public AcctMgmtBean(){
         
@@ -64,7 +68,25 @@ public class AcctMgmtBean implements Serializable{
     }
     
     public void editProfile() throws IOException{
-        FacesContext.getCurrentInstance().getExternalContext().redirect("profile.xhtml");
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+
+        userEntity = (User) session.getAttribute("user");
+        username = userEntity.getUsername();
+        userType = userEntity.getUserType();
+        
+        if(userType.equals("Student")){
+            FacesContext.getCurrentInstance().getExternalContext().redirect("profile.xhtml");
+        }
+        else if (userType.equals("Lecturer")){
+            FacesContext.getCurrentInstance().getExternalContext().redirect("lecturerProfile.xhtml");
+        }
+        else if (userType.equals("Guest")){
+            FacesContext.getCurrentInstance().getExternalContext().redirect("guestProfile.xhtml");
+        }
+        else {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("adminProfile.xhtml");
+        }
         //student profile page: profile.xhtml
         //lecturer profile page: lecturerProfile.xhtml
         //admin profile page: adminProfile.xhtml

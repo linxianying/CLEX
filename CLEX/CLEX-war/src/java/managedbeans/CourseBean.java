@@ -15,6 +15,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 import session.CourseMgmtBeanLocal;
 
 /**
@@ -139,6 +140,7 @@ public class CourseBean implements Serializable{
             context.addMessage(null, fmsg);
         }
     }
+    
     public void editLesson() throws IOException{
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
@@ -154,6 +156,54 @@ public class CourseBean implements Serializable{
         }
     }
     
+    public void lectEditModule() throws IOException{
+        FacesMessage fmsg = new FacesMessage();
+        FacesContext context = FacesContext.getCurrentInstance(); 
+        HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+        lecturerUser = (String) session.getAttribute("username");
+        
+        if(cmbl.checkExistingModule(moduleCode, takenYear, takenSem) == true){
+            if(cmbl.checkLectTeachModule(lecturerUser, moduleCode, takenYear, takenSem)){
+                cmbl.editModule(takenYear, takenSem, prerequisite, preclusions, moduleCode);
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Module has been edited.", "");
+                context.addMessage(null, fmsg);
+                context.getExternalContext().redirect("lecturerModule.xhtml");
+            }
+            else{
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "You are not authorised to edit this module.", "");
+                context.addMessage(null, fmsg);                
+            }
+        }
+        else{
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Module does not exist.", "");
+            context.addMessage(null, fmsg);
+        }
+    }
+    
+    public void lectEditLesson() throws IOException{
+        FacesMessage fmsg = new FacesMessage();
+        FacesContext context = FacesContext.getCurrentInstance(); 
+        HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+        lecturerUser = (String) session.getAttribute("username");
+        
+        if(cmbl.checkExistingLesson(moduleCode, takenYear, takenSem, day, timeFrom, timeEnd) == true){
+            if(cmbl.checkLectTeachModule(lecturerUser, moduleCode, takenYear, takenSem)){
+                cmbl.editLesson(day, timeFrom, timeEnd, type, venue, moduleCode, takenYear, takenSem);
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Module has been edited.", "");
+                context.addMessage(null, fmsg);
+                context.getExternalContext().redirect("lecturerModule.xhtml");
+            }
+            else{
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "You are not authorised to edit this lesson.", "");
+                context.addMessage(null, fmsg);                
+            }
+        }
+        else{
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Lesson does not exist.", "");
+            context.addMessage(null, fmsg);
+        }
+    }
+        
     public void removeCourse() throws IOException{
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();

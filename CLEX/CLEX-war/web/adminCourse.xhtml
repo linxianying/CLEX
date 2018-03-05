@@ -19,7 +19,7 @@
                         <h:outputLabel for= "moduleName" value="MODULE NAME:"/>
                         <p:inputText id="moduleName" value="#{courseBean.moduleName}" required="true" />
                         <h:outputLabel for= "moduleInfo" value="MODULE INFO:"/>
-                        <p:inputText id="moduleInfo" value="#{courseBean.moduleInfo}" required="true" />
+                        <p:inputTextarea rows="6" cols="33" id="moduleInfo" value="#{courseBean.moduleInfo}" required="true" />
                         <h:outputLabel for= "offeredSem" value="OFFERED SEMESTER:"/>
                         <p:inputText id="offeredSem" value="#{courseBean.offeredSem}" required="true" />
                         <h:outputLabel for= "school" value="SCHOOL:" />
@@ -42,9 +42,9 @@
                         <h:outputLabel for= "takenSem" value="TAKEN SEM:"/>
                         <p:inputText id="takenSem" value="#{courseBean.takenSem}" required="true" />
                         <h:outputLabel for= "prerequisite" value="PREREQUISITE:"/>
-                        <p:inputText id="prerequisite" value="#{courseBean.prerequisite}" required="true" />
+                        <p:inputTextarea rows="6" cols="33" id="prerequisite" value="#{courseBean.prerequisite}" required="true" />
                         <h:outputLabel for= "preclusions" value="PRECLUSIONS:"/>
-                        <p:inputText id="preclusions" value="#{courseBean.preclusions}" required="true" />
+                        <p:inputTextarea rows="6" cols="33" id="preclusions" value="#{courseBean.preclusions}" required="true" />
                         <p:commandButton value="Submit" actionListener="#{courseBean.enterModule}" update="messages" />
                     </h:panelGrid>
                 </h:form>
@@ -75,7 +75,7 @@
         </p:tabView>    
         <br></br>
         <p:tabView>
-            <p:tab title="EDIT COURSE"> <!-- if possible have another way to present the editing of module, remember to put this in lecturerModule-->
+            <p:tab title="EDIT COURSE">
                 <h:form>
                     <h:panelGrid columns="1" cellpadding="5">
                         <h:outputLabel for= "moduleCode" value="MODULE CODE:"/>
@@ -83,7 +83,7 @@
                         <h:outputLabel for= "moduleName" value="MODULE NAME:"/>
                         <p:inputText id="moduleName" value="#{courseBean.moduleName}" />
                         <h:outputLabel for= "moduleInfo" value="MODULE INFO:"/>
-                        <p:inputText id="moduleInfo" value="#{courseBean.moduleInfo}" />
+                        <p:inputTextarea rows="6" cols="33" id="moduleInfo" value="#{courseBean.moduleInfo}" />
                         <h:outputLabel for= "discontinuedBool" value="DISCONTINUED? TRUE/FALSE"/> <!-- Please change this-->
                         <p:inputText id="discontinuedBool" value="#{courseBean.discontinuedBool}" />
                         <h:outputLabel for= "discontinuedYear" value="DISCONTINUED YEAR:"/>
@@ -112,9 +112,9 @@
                         <h:outputLabel for= "takenSem" value="MODULE SEM:"/>
                         <p:inputText id="takenSem" value="#{courseBean.takenSem}" required="true" />  
                         <h:outputLabel for= "prerequisite" value="PREREQUISITES:"/>
-                        <p:inputText id="prerequisite" value="#{courseBean.prerequisite}" />
+                        <p:inputTextarea rows="6" cols="33" id="prerequisite" value="#{courseBean.prerequisite}" />
                         <h:outputLabel for= "preclusions" value="PRECLUSIONS:"/>
-                        <p:inputText id="preclusions" value="#{courseBean.preclusions}"/>            
+                        <p:inputTextarea rows="6" cols="33" id="preclusions" value="#{courseBean.preclusions}"/>            
                         <p:commandButton value="Submit" actionListener="#{courseBean.editModule}" update="messages" />
                     </h:panelGrid>
                 </h:form>
@@ -238,7 +238,7 @@
                 </p:dataTable>
             </p:panel>
         </h:form>     
-        <h:form><!-- eeren: not sure why it dosent work, tested backend where the list of modules actually have the individual module object in them, might be frontend problem-->
+        <h:form>
             <p:panel collapsed="true" styleClass="menuHeader" id="modulelist" header="VIEW ALL MODULES" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
                 <p:dataTable var="module" value="#{adminCourseListBean.modules}" widgetVar="modulesTable"
                 emptyMessage="No modules found with given criteria." filteredValue="#{adminCourseListBean.filteredModules}">

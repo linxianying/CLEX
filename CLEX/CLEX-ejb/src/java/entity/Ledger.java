@@ -20,7 +20,7 @@ import javax.persistence.ManyToOne;
 public class Ledger implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     //in this transaction, how much this student should pay 
     private double ascCost;

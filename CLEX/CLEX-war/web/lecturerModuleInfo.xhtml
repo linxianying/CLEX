@@ -48,13 +48,21 @@
                                     </p:accordionPanel>
                                 </p:dataList>
                                 <br />
-                                <h:outputText value="Students (#{moduleInfoBean.superGroup.minStudentNum} to #{moduleInfoBean.superGroup.maxStudentNum} )" />
+                                <h:outputText value="Project Groups (#{moduleInfoBean.superGroup.minStudentNum} to #{moduleInfoBean.superGroup.maxStudentNum} )" />
                                 <p:dataList var="projectGroup" value="#{moduleInfoBean.projectGroups}">
                                     <p:accordionPanel multiple="true" activeIndex="1">
                                         <p:tab  title="#{projectGroup.name}">
                                             <h:panelGrid>
                                                 <h:outputText value="Cost: #{projectGroup.cost}" />
-                                                
+                                                <p:dataList var="groupMember" value="#{moduleInfoBean.getGroupMembers(projectGroup)}">
+                                                    <p:accordionPanel multiple="true" activeIndex="1">
+                                                        <p:tab  title="#{groupMember.name}">
+                                                            <h:panelGrid>
+                                                                <h:outputText value="#{groupMember.name}" />
+                                                            </h:panelGrid>
+                                                        </p:tab>
+                                                    </p:accordionPanel>
+                                                </p:dataList>
                                             </h:panelGrid>
                                         </p:tab>
                                     </p:accordionPanel>

@@ -11,64 +11,125 @@
         <h:head>
             <title>PRISM Lecturer Module Page</title>
         </h:head>
-         <div>
-            <h:outputText value="Welcome to PRISM, #{lecturerModuleListBean.username}" /><br></br>
-        </div>
-        <br></br>
+        <p:growl id="messages" showDetail="true" />
+        <h1 style="margin-top:0">Module Management Page</h1>
+        <p:tabView>
+            <p:tab title="EDIT MODULE">
+                <h:form>
+                    <h:panelGrid columns="1" cellpadding="5">
+                        <h:outputLabel for= "moduleCodeForModule" value="MODULE CODE:"/>
+                        <p:inputText id="moduleCodeForModule" value="#{courseBean.moduleCode}" required="true" style="text-transform: uppercase" />
+                        <h:outputLabel for= "takenYear" value="MODULE YEAR:"/>
+                        <p:inputText id="takenYear" value="#{courseBean.takenYear}" required="true" />
+                        <h:outputLabel for= "takenSem" value="MODULE SEM:"/>
+                        <p:inputText id="takenSem" value="#{courseBean.takenSem}" required="true" />  
+                        <h:outputLabel for= "prerequisite" value="PREREQUISITES:"/>
+                        <p:inputTextarea rows="6" cols="33" id="prerequisite" value="#{courseBean.prerequisite}" />
+                        <h:outputLabel for= "preclusions" value="PRECLUSIONS:"/>
+                        <p:inputTextarea rows="6" cols="33" id="preclusions" value="#{courseBean.preclusions}"/>            
+                        <p:commandButton value="Submit" actionListener="#{courseBean.lectEditModule}" update="messages" />
+                    </h:panelGrid>
+                </h:form>
+            </p:tab>
+            <p:tab title="EDIT LESSON">
+                <h:form>
+                    <h:panelGrid columns="1" cellpadding="5">
+                        <h:outputLabel for= "moduleCodeForLesson" value="MODULE CODE:"/>
+                        <p:inputText id="moduleCodeForLesson" value="#{courseBean.moduleCode}" required="true" style="text-transform: uppercase" />
+                        <h:outputLabel for= "takenYearForLesson" value="MODULE YEAR:"/>
+                        <p:inputText id="takenYearForLesson" value="#{courseBean.takenYear}" required="true" />
+                        <h:outputLabel for= "takenSemForLesson" value="MODULE SEM:"/>
+                        <p:inputText id="takenSemForLesson" value="#{courseBean.takenSem}" required="true" />
+                        <h:outputLabel for= "day" value="DAY:"/>
+                        <p:inputText id="day" value="#{courseBean.day}" required="true" />
+                        <h:outputLabel for= "timeFrom" value="TIME FROM:"/>
+                        <p:inputText id="timeFrom" value="#{courseBean.timeFrom}" required="true" />
+                        <h:outputLabel for= "timeEnd" value="TIME END:"/>
+                        <p:inputText id="timeEnd" value="#{courseBean.timeEnd}" required="true" />  
+                        <h:outputLabel for= "type" value="LESSON TYPE:"/>
+                        <p:inputText id="type" value="#{courseBean.type}" required="true" />
+                        <h:outputLabel for= "venue" value="VENUE:"/>
+                        <p:inputText id="venue" value="#{courseBean.venue}" required="true" /> 
+                        <p:commandButton value="Submit" actionListener="#{courseBean.lectEditLesson}" update="messages" />
+                    </h:panelGrid>
+                </h:form>    
+            </p:tab>
+        </p:tabView>
         <h:form>
-            <p:dataTable var="module" value="#{lecturerModuleListBean.modules}" widgetVar="modulesTable"
-            emptyMessage="No modules found with given criteria." >
-                <f:facet name="header">
-                    <p:outputPanel>
-                        <h:outputText value="Search all fields:" />
-                        <p:inputText id="globalFilter" onkeyup="PF('modulesTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-                    </p:outputPanel>
-                </f:facet>
-                <p:column filterBy="#{module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
-                    <h:outputText value="#{module.course.moduleCode}(#{module.course.modularCredits})" />
-                </p:column>
-                <p:column filterBy="#{module.prerequisite}" headerText="Prerequisite" filterMatchMode="contains">
-                    <h:outputText value="#{module.prerequisite}" />
-                </p:column>
-                <p:column filterBy="#{module.preclusions}" headerText="Preclusions" filterMatchMode="contains">
-                    <h:outputText value="#{module.preclusions}" />
-                </p:column>
-                <p:column filterBy="#{module.course.moduleName}" headerText="Title" filterMatchMode="contains">
-                    <h:outputText value="#{module.course.moduleName}" />
-                </p:column>
-                <p:column filterBy="#{module.course.workload}" headerText="Workload" filterMatchMode="contains">
-                    <h:outputText value="#{module.course.workload}" />
-                </p:column>
-                <p:column filterBy="#{module.students.size}" headerText="Students" filterMatchMode="contains">
-                    <h:outputText value="Students:#{module.students.size()} " />
-                    <br />
-                    <h:outputText value="Polls:#{module.polls.size()}" />
-                </p:column>
+            <p:panel collapsed="true" styleClass="menuHeader" id="modulelist" header="VIEW MODULES" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
+                <p:dataTable var="module" value="#{lecturerModuleListBean.modules}" widgetVar="modulesTable"
+                emptyMessage="No modules found with given criteria." >
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Search all fields:" />
+                            <p:inputText id="globalFilter" onkeyup="PF('modulesTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                        </p:outputPanel>
+                    </f:facet>
+                    <p:column filterBy="#{module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
+                        <h:outputText value="#{module.course.moduleCode}(#{module.course.modularCredits})" />
+                    </p:column>
+                    <p:column filterBy="#{module.course.moduleName}" headerText="Title" filterMatchMode="contains">
+                        <h:outputText value="#{module.course.moduleName}" />
+                    </p:column>
+                    <p:column filterBy="#{module.students.size}" headerText="Students" filterMatchMode="contains">
+                        <h:outputText value="Students:#{module.students.size()} " />
+                        <br />
+                        <h:outputText value="Polls:#{module.polls.size()}" />
+                    </p:column>
 
-                <!--
-                <p:column filterBy="#{module.course.moduleInfo}" headerText="Description" filterMatchMode="contains">
-                    <h:outputText value="#{module.course.moduleInfo}" />
-                </p:column>
-                -->
-                <p:column filterBy="#{module.takenYear}" headerText="Taken Year" filterMatchMode="contains">
-                    <h:outputText value="AY#{module.takenYear} Sem#{module.takenSem}" />
-                </p:column>
-                
-                <!--
-                <p:column filterBy="#{module.takenSem}" headerText="Taken Sem" filterMatchMode="contains">
-                    <h:outputText value="#{module.takenSem}" />
-                </p:column>
-                
-                <p:column filterBy="#{module.prerequisite}" headerText="Prerequisite" filterMatchMode="contains">
-                    <h:outputText value="#{module.prerequisite}" />
-                </p:column>
-                -->
-                <p:column >
-                    <p:commandButton value="view" actionListener="#{lecturerModuleListBean.viewModule(module)}" />
-                </p:column>
-                
-            </p:dataTable>
+                    <!--
+                    <p:column filterBy="#{module.course.moduleInfo}" headerText="Description" filterMatchMode="contains">
+                        <h:outputText value="#{module.course.moduleInfo}" />
+                    </p:column>
+                    -->
+                    <p:column filterBy="#{module.takenYear}" headerText="Taken Year" filterMatchMode="contains">
+                        <h:outputText value="AY#{module.takenYear} Sem#{module.takenSem}" />
+                    </p:column>
+
+                    <p:column >
+                        <p:commandButton value="view" actionListener="#{lecturerModuleListBean.viewModule(module)}" />
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
         </h:form>
+        <h:form>
+            <p:panel collapsed="true" styleClass="menuHeader" id="modulelist" header="VIEW LESSONS" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
+                <p:dataTable var="lesson" value="#{lecturerModuleListBean.lessons}" widgetVar="lessonsTable"
+                emptyMessage="No modules found with given criteria." >
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Search all fields:" />
+                            <p:inputText id="globalFilter" onkeyup="PF('lessonsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                        </p:outputPanel>
+                    </f:facet>
+                    <p:column filterBy="#{lesson.module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
+                        <h:outputText value="#{lesson.module.course.moduleCode}" />
+                    </p:column>
+                    <p:column filterBy="#{lesson.module.takenYear}" headerText="Taken Year" filterMatchMode="contains">
+                        <h:outputText value="#{lesson.module.takenYear}" />
+                    </p:column>
+                    <p:column filterBy="#{lesson.module.takenSem}" headerText="Taken Sem" filterMatchMode="contains">
+                        <h:outputText value="#{lesson.module.takenSem}" />
+                    </p:column>
+                    <p:column filterBy="#{lesson.day}" headerText="Day" filterMatchMode="contains">
+                        <h:outputText value="#{lesson.day}" />
+                    </p:column>
+                    <p:column filterBy="#{lesson.timeFrom}" headerText="Time Start" filterMatchMode="contains">
+                        <h:outputText value="#{lesson.timeFrom}" />
+                    </p:column>
+                    <p:column filterBy="#{lesson.timeEnd}" headerText="Time End" filterMatchMode="contains">
+                        <h:outputText value="#{lesson.timeEnd}" />
+                    </p:column>
+                    <p:column filterBy="#{lesson.type}" headerText="Type" filterMatchMode="contains">
+                        <h:outputText value="#{lesson.type}" />
+                    </p:column>
+                    <p:column filterBy="#{lesson.venue}" headerText="Venue" filterMatchMode="contains">
+                        <h:outputText value="#{lesson.venue}" />
+                    </p:column>
 
+                </p:dataTable>
+            </p:panel>
+        </h:form>
     </ui:define>
 </ui:composition>
