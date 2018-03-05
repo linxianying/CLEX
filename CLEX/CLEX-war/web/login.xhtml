@@ -15,12 +15,11 @@
         <h:outputStylesheet name="./css/style.css"/>
         <div class="wrapper">
             <div class="container">
-                <h:form>
-                    <h:commandButton value="setEntites" actionListener="#{indexBean.createEntities}" action="login?faces-redirect=true" />
-                </h:form>
-                <h1>LOGIN</h1>
+                
+                
 
-                <h:form class="form">
+                <h:form class="form-validation">
+                    <img src="https://i.imgur.com/I97Io9u.png"></img>
                     <p:growl id="messages" showDetail="true" />
                     <h:panelGrid style="width: 100%" id="details" styleClass="textInput" columns="1" cellpadding="5">
                         <p:inputText styleClass="textInput" id="username" value="#{loginBean.username}" 
@@ -34,7 +33,7 @@
                                     required="true" requiredMessage="Please enter your password!" 
                                     placeholder="password"/>
 
-                        <a href="resetPassword.xhtml" style="color: blue">Reset Password</a>
+                        <a href="resetPassword.xhtml" style="color: #009e9e">Forgot your password?</a>
                         <br></br>
                         <br></br>
                         <p:selectOneButton required="true" requiredMessage="Please select a user type!" styleClass="menuSelect" id="userType" value="#{loginBean.userType}"> 
@@ -46,10 +45,10 @@
 
 
                         <p:commandButton update="messages" value="LOGIN" actionListener="#{loginBean.doLogin}" id="login-button"/>
-                        <br></br>
-                        <p:commandButton update="messages" process="@this" action="#{loginBean.doRedirect}" id="signupButton" value="SIGN UP" />
+                        <p:commandButton update="messages" process="@this" action="#{loginBean.doRedirect}" id="signupButton" value="Create an account" />
 
                         <!--<h:button value="CREATE AN ACCOUNT" outcome="register?faces-redirect=true"/>-->
+                        <h:commandButton value="setEntites" actionListener="#{indexBean.createEntities}" action="login?faces-redirect=true" />
                     </h:panelGrid>
                 </h:form>
 
@@ -68,18 +67,18 @@
                 <li></li>
             </ul>
         </div>
-
-        <br>--------------------------------------</br>
-
-        <br>For testing: do testRegister in register page first, </br>
-        <br>or to register first using student identity</br>
-        <br>successful login requires</br>
-        <br>for Student: namename, Password: 123456, Student</br>
-        <br>for Lecturer: hsianghui, Password: 123456, Lecturer</br>
-        <br>for Guest: aguest, Password: 123456, Guest</br>
-        <br>for Admin: theadmin, Password: 123, Admin </br>
-        <br>Other inputs will fail</br>
-        <br>Note: if you want to test reset password, make sure the email you register is a real email</br>
+        <!--
+                <br></br>
+        
+                <br>For testing: do testRegister in register page first, </br>
+                <br>or to register first using student identity</br>
+                <br>successful login requires</br>
+                <br>for Student: namename, Password: 123456, Student</br>
+                <br>for Lecturer: hsianghui, Password: 123456, Lecturer</br>
+                <br>for Guest: aguest, Password: 123456, Guest</br>
+                <br>for Admin: theadmin, Password: 123, Admin </br>
+                <br>Other inputs will fail</br>
+                <br>Note: if you want to test reset password, make sure the email you register is a real email</br> -->
     </ui:define>
 
 </ui:composition>
