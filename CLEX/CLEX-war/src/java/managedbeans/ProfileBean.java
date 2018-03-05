@@ -102,9 +102,8 @@ public class ProfileBean implements Serializable {
         
         //System.out.println("name: " + name);
         psbl.editStudent(username, name, email, contactNo, faculty, major, matricYear, matricSem);
-        FacesContext.getCurrentInstance().getExternalContext().redirect("profile.xhtml");
-        //Alert successful
-        // Need help for implementation success message on UI for successful edit of student profile
+        //FacesContext.getCurrentInstance().getExternalContext().redirect("profile.xhtml");
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Profile Successfully Updated", ""));
     }
     
     public void editLecturerProfile() throws IOException{     
@@ -112,9 +111,8 @@ public class ProfileBean implements Serializable {
         
         //System.out.println("name: " + name);
         psbl.editLecturer(username, name, email, school, contactNo, faculty);
-        FacesContext.getCurrentInstance().getExternalContext().redirect("lecturerProfile.xhtml");
-        //Alert successful
-        // Need help for implementation success message on UI for successful edit of student profile
+        //FacesContext.getCurrentInstance().getExternalContext().redirect("lecturerProfile.xhtml");
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Profile Successfully Updated", ""));
     }
     
     public void editGuestProfile() throws IOException{     
@@ -122,9 +120,8 @@ public class ProfileBean implements Serializable {
         
         //System.out.println("name: " + name);
         psbl.editGuest(username, name, email, school, contactNo);
-        FacesContext.getCurrentInstance().getExternalContext().redirect("guestProfile.xhtml");
-        //Alert successful
-        // Need help for implementation success message on UI for successful edit of student profile
+        //FacesContext.getCurrentInstance().getExternalContext().redirect("guestProfile.xhtml");
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Profile Successfully Updated", ""));
     }
     
     public void editAdminProfile() throws IOException{     
@@ -132,9 +129,8 @@ public class ProfileBean implements Serializable {
         
         //System.out.println("name: " + name);
         psbl.editAdmin(username, name, email, school, contactNo);
-        FacesContext.getCurrentInstance().getExternalContext().redirect("adminProfile.xhtml");
-        //Alert successful
-        // Need help for implementation success message on UI for successful edit of student profile
+        //FacesContext.getCurrentInstance().getExternalContext().redirect("adminProfile.xhtml");
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Profile Successfully Updated", ""));
     }
     
     public void editPassword() throws IOException{
@@ -143,6 +139,7 @@ public class ProfileBean implements Serializable {
             // Need help for implementation error message on UI for passwords mismatch
             //fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Confirm Password does not match", "");
             System.out.println("Passwords Mismatch");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "The 2 new passwords are not the same", ""));
         }
         else{
             Boolean temp;
@@ -167,6 +164,7 @@ public class ProfileBean implements Serializable {
             // Need help for implementation error message on UI for passwords mismatch
             //fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Confirm Password does not match", "");
             System.out.println("Passwords Mismatch");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "The 2 new passwords are not the same", ""));
         }
         else{
             Boolean temp;
@@ -191,6 +189,7 @@ public class ProfileBean implements Serializable {
             // Need help for implementation error message on UI for passwords mismatch
             //fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Confirm Password does not match", "");
             System.out.println("Passwords Mismatch");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "The 2 new passwords are not the same", ""));
         }
         else{
             Boolean temp;
@@ -199,12 +198,14 @@ public class ProfileBean implements Serializable {
             if (temp == true){
                 //System.out.println("here");
                 psbl.changePassword(username, newPassword2);
-                FacesContext.getCurrentInstance().getExternalContext().redirect("guestProfile.xhtml");
+                //FacesContext.getCurrentInstance().getExternalContext().redirect("guestProfile.xhtml");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Password has been successfully updated", ""));
             }
             else{
                 //throw error: Wrong password
                 // Need help for implementation error message on UI for passwords mismatch
                 System.out.println("Wrong password with DB");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Current password is incorrect", ""));
             }
         }
     }
@@ -215,6 +216,7 @@ public class ProfileBean implements Serializable {
             // Need help for implementation error message on UI for passwords mismatch
             //fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Confirm Password does not match", "");
             System.out.println("Passwords Mismatch");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "The 2 new passwords are not the same", ""));
         }
         else{
             Boolean temp;
