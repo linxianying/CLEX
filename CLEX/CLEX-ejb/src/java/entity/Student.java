@@ -26,7 +26,7 @@ import javax.persistence.OneToOne;
 public class Student extends User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     private String faculty;
@@ -221,7 +221,7 @@ public class Student extends User implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Student[ id=" + id + " ]";
+        return super.getName()+", username: " + super.getUsername();
     }
     
 }

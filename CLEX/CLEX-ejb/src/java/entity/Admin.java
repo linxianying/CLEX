@@ -19,7 +19,7 @@ import javax.persistence.Id;
 public class Admin extends User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     public void createAdmin(String username, String password, String name, 

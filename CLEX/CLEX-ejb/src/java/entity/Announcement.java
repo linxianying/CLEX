@@ -23,7 +23,7 @@ import javax.persistence.ManyToOne;
 public class Announcement implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     private String title;
@@ -45,7 +45,7 @@ public class Announcement implements Serializable {
         this.title = title;
         this.message = message;
         this.type = type; //module code
-        this.audience = "2"; // can only send to students
+        this.audience = "0"; // can only send to students
     }
     
     public void adminCreate(String title, String message, String audience){

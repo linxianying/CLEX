@@ -7,6 +7,7 @@ package session;
 
 import entity.Module;
 import entity.ProjectGroup;
+import entity.Student;
 import java.util.ArrayList;
 import javax.ejb.Local;
 
@@ -18,5 +19,9 @@ import javax.ejb.Local;
 public interface GroupFormationSessionBeanLocal {
 
     public ArrayList<ProjectGroup> getAllProjectGroups(Module module);
+
+    public boolean joinGroup(Student student, ProjectGroup group);
+
+    public ProjectGroup findProjectGroup(Long id);
     
 }
