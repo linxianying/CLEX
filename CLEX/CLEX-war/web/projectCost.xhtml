@@ -42,11 +42,34 @@
             
         <br />
         <h:outputText value="Split by " /> 
-        <p:selectOneMenu id="splitBy" value="#{projectCostBean.splitBy}" style="width:125px">
+        <p:selectOneMenu id="splitBy" value="#{projectCostBean.splitBy}" >
+            <p:ajax event="change" update="exactAmount percentage"  />
             <f:selectItem itemLabel="Equally" itemValue="Equally"/>
             <f:selectItem itemLabel="Exact Amount" itemValue="Exact Amount"/>
             <f:selectItem itemLabel="Percentage" itemValue="Percentage"/>
         </p:selectOneMenu>
+        <br />
+        <h:panelGroup id="exactAmount">
+            <h:outputText value="Enter the eact amount each member paid" rendered="#{projectCostBean.splitBy == 'Exact Amount'}"/>
+            <br />
+            <ui:repeat value="#{projectCostBean.payees}" var="payee" rendered="#{projectCostBean.splitBy == 'Exact Amount'}"> 
+                <h:outputText value="#{payee.student}"/>
+                <h:inputText value="#{payee.cost}"/>
+                <br />
+            </ui:repeat>
+        </h:panelGroup>
+        
+        <h:panelGroup id="percentage" >
+            <h:outputText value="Enter the percentage each member paid" rendered="#{projectCostBean.splitBy == 'Percentage'}"/>
+            <br />
+            <ui:repeat value="#{projectCostBean.payees}" var="payee" rendered="#{projectCostBean.splitBy == 'Percentage'}"> 
+                <h:outputText value="#{payee.student}"/>
+                <h:inputText value="#{payee.cost}" />
+                <h:outputText value="%"/>
+                <br />
+            </ui:repeat>
+        </h:panelGroup>
+        <p:commandButton value="Add this Transaction" action="#{projectCostBean.addTransaction()}" /> 
         </h:form>
     </h:body>
 </html>

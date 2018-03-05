@@ -65,7 +65,9 @@ public class ProjectCostBean implements Serializable {
         groupMembers = group.getGroupMembers();
         module = (Module) session.getAttribute("module");
         paidBy = "Individual";
+        splitBy = "Equally";
         this.setOriPayers();
+        this.setOriPayees();
     }
 
     public FacesContext getContext() {
@@ -199,6 +201,20 @@ public class ProjectCostBean implements Serializable {
         }
     }
     
+    //in case of multiple payees, set each student with the amount they use
+    public void setOriPayees() {
+        payees = new ArrayList<StudentCost>();
+        for (Student s: this.groupMembers) {
+            StudentCost studentCost = new StudentCost(s, 0.0);
+            payees.add(studentCost);
+        }
+    }
+    
+    public void addTransaction() {
+        
+    }
+    
+    //for test purpose
     //check there is one payer or multiple
     public void checkNumOfPayer() {
         // if there is more than one payer
