@@ -5,6 +5,7 @@
  */
 package managedbeans;
 
+import entity.Lecturer;
 import entity.Student;
 import entity.User;
 import java.io.IOException;
@@ -35,6 +36,7 @@ public class ProfileBean implements Serializable {
 
     private User userEntity;
     private Student studentEntity;
+    private Lecturer lecturerEntity;
 
     private String username;
     private String password;
@@ -94,6 +96,11 @@ public class ProfileBean implements Serializable {
             matricYear = studentEntity.getMatricYear();
             matricSem = studentEntity.getMatricSem();
             cap = studentEntity.getCap();
+        }
+        else if (userType.equals("Lecturer")) {
+            lecturerEntity = (Lecturer) userEntity;
+            
+            faculty = lecturerEntity.getFaculty();
         }
     }
     
