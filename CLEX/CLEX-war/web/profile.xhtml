@@ -10,11 +10,101 @@
 
     <ui:define name="content">
         <h:head>
-            <title>Edit Profile</title>
+            <title>PRISM Student Profile Page</title>
+            <h:outputStylesheet name="./css/form.css"/>
         </h:head>
         <div>
-            <h2>Edit Your Profile</h2>
             <div>
+                <table style="margin-left: auto; margin-right: auto">
+                    <td>
+                        <h:form class="form-labels-on-top" >
+                            <div class="form-title-row">
+                                <h1>Basic Profile</h1>
+                            </div>
+                            <div class="form-row">
+                                <label>
+                                    <span>Username</span>
+                                    <p:inputText id="username" value="#{profileBean.username}" readonly="true" />
+                                </label>                        
+                            </div>
+                            <div class="form-row">
+                                <label>
+                                    <span>Full Name</span>
+                                    <p:inputText id="newName" value="#{profileBean.name}" />
+                                </label>
+                            </div>
+                            <div class="form-row">
+                                <label>
+                                    <span>Email</span>
+                                    <p:inputText id="newEmail" value="#{profileBean.email}" />
+                                </label>
+                            </div>
+                            <div class="form-row">
+                                <label>
+                                    <span>Contact Number</span>
+                                    <p:inputText id="newContactNum" value="#{profileBean.contactNum}" />
+                                </label>
+                            </div>
+                            <div class="form-row">
+                                <label>
+                                    <span>School</span>
+                                    <p:inputText id="newSchool" value="#{profileBean.school}" readonly="true"/>
+                                </label>
+                            </div>
+                            <div class="form-row">
+                                <label>
+                                    <span>Faculty</span>
+                                    <p:inputText id="newFaculty" value="#{profileBean.faculty}" />
+                                </label>
+                            </div>
+                            <div class="form-row">
+                                <label>
+                                    <span>Matriculated Year</span>
+                                    <p:inputText id="newMatricYear" value="#{profileBean.matricYear}" />
+                                </label>
+                            </div>
+                            <div class="form-row">
+                                <label>
+                                    <span>Matriculated Semester</span>
+                                    <p:inputText id="newMatricSem" value="#{profileBean.matricSem}" />
+                                </label>
+                            </div>
+                            <div class="form-row">
+                                <h:commandButton value="Save Profile Details" actionListener="#{profileBean.editStudentProfile}" id="editBasicButton" />
+                            </div>
+                        </h:form>
+                    </td>
+                    <td>
+
+                        <h:form class="form-labels-on-top" >
+                            <div class="form-title-row">
+                                <h1>Change Password</h1>
+                            </div>
+                            <div class="form-row">
+                                <label>
+                                    <span>Current Password</span>
+                                    <p:password id="currentPassword" value="#{profileBean.oldPassword}" />
+                                </label>
+                            </div>
+                            <div class="form-row">
+                                <label>
+                                    <span>New Password</span>
+                                    <p:password id="firstPassword" value="#{profileBean.newPassword1}" />
+                                </label>
+                            </div>
+                            <div class="form-row">
+                                <label>
+                                    <span>Confirm Password</span>
+                                    <p:password id="confirmPassword" value="#{profileBean.newPassword2}" />
+                                </label>
+                            </div>
+                            <div class="form-row">
+                                <h:commandButton value="Change Password" actionListener="#{profileBean.editPassword}" id="editPasswordButton" />
+                            </div>
+                        </h:form>
+                    </td>
+                </table>
+                <!--
                 <table>
                     <h:form>                       
                         <tr>
@@ -133,6 +223,7 @@
                         </tr>
                     </h:form>
                 </table>
+                -->
             </div>
         </div>
     </ui:define>
