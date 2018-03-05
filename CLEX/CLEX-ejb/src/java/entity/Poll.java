@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,10 +22,20 @@ public class Poll implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Column(length = 32, nullable = false)
     private String datetime;
+    
+    @Column(length = 32, nullable = false)
     private String topic;
+    
+    @Column(length = 32, nullable = false)
     private String type;
+    
+    @Column(length = 256, nullable = false)
     private String content;
+    
+    @Column(length = 32, nullable = false)
     private double correctRate;
 
 

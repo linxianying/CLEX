@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,11 +30,19 @@ public class Student extends User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @Column(length = 32, nullable = false)
     private String faculty;
+    
+    @Column(length = 32, nullable = false)
     private String major;
+    
+    @Column(length = 32, nullable = false)
     private String matricYear;
+    
+    @Column(length = 32, nullable = false)
     private String matricSem;
     //private String currentYear;
+    @Column(length = 32, nullable = false)
     private double cap;
     
     @ManyToMany(cascade={CascadeType.PERSIST}, mappedBy="students")

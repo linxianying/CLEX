@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.*;  
+import javax.persistence.Column;
 
 /**
  *
@@ -22,7 +23,11 @@ public class Attendence implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Column(length = 32, nullable = false)
     private Long studentId;
+    
+    @Column(length = 32, nullable = false)
     private String moduleCode;
     private List<String> attendStatus;
 

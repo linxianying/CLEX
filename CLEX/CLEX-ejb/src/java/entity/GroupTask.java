@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,11 +23,23 @@ public class GroupTask implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Column(length = 128, nullable = false)
     private String date;
+    
+    @Column(length = 128, nullable = false)
     private String deadline;
+    
+    @Column(length = 512, nullable = false)
     private String title;
+    
+    @Column(length = 512, nullable = false)
     private String details;
+    
+    @Column(length = 32, nullable = false)
     private String status;
+    
+    @Column(length = 32)
     private String urgency;
     
     @ManyToOne

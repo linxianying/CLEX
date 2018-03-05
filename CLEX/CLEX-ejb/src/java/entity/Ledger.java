@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,8 +24,10 @@ public class Ledger implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     //in this transaction, how much this student should pay 
+    @Column(length = 32, nullable = false)
     private double ascCost;
     //in this transaction, how much this student actually paid 
+    @Column(length = 32, nullable = false)
     private double pay;
     
     @ManyToOne

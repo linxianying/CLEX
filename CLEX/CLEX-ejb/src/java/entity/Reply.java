@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,9 +24,17 @@ public class Reply implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long threadId;
+    
+    @Column(length = 32, nullable = false)
     private String dateTime;
+    
+    @Column(length = 256, nullable = false)
     private String content;
+    
+    @Column(length = 32, nullable = false)
     private int upVote;
+    
+    @Column(length = 32, nullable = false)
     private int downVote;
 
     @ManyToOne

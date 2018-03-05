@@ -30,10 +30,16 @@ public class Module implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Column(length = 16, nullable = false)
     private String takenYear;
+    
+    @Column(length = 16, nullable = false)
     private String takenSem;
+    
     @Column(length=2048)
     private String prerequisite;
+    
     @Column(length=2048)
     private String preclusions;
 

@@ -27,14 +27,22 @@ public class Lesson implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "LESSON_DAY")
+    
+    @Column(length = 64, name = "LESSON_DAY")
     private String day;
-    @Column(name = "LESSON_FROMTIME")
+    
+    @Column(length = 64, name = "LESSON_FROMTIME")
     private String timeFrom;
-    @Column(name = "LESSON_ENDTIME")
+    
+    @Column(length = 64, name = "LESSON_ENDTIME")
     private String timeEnd;
+    
+    @Column(length = 32, nullable = false)
     private String type;
+    
+    @Column(length = 32, nullable = false)
     private String venue;
+    
     @ManyToOne
     private Module module = new Module();
     @ManyToMany(cascade={CascadeType.PERSIST})
