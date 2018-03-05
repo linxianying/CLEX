@@ -13,8 +13,8 @@
         <div class="wrapper">
             <div class="container">
 
-                <h:form>
-                    <h2>CREATE A NEW ACCOUNT</h2>
+                <h:form class="form-validation">
+                    <h1 class="form-title-row">CREATE A NEW ACCOUNT</h1>
 
                     <p:growl id="messages" showDetail="true" />
                     <h:panelGrid style="width: 100%" id="details" styleClass="textInput" columns="1" cellpadding="5">    
@@ -59,7 +59,7 @@
                                      validatorMessage="Invalid format. Contact number must be at least 8 digits">
                         </p:inputText>
 
-                        <p:selectOneMenu styleClass="textInput" required="true" id="school" value="#{registerBean.school}" 
+                        <p:selectOneMenu style="padding-right: 0%; width: 39%" required="true" id="school" value="#{registerBean.school}" 
                                          editable="true" placeholder="school" requiredMessage="Please enter your school name or choose from the list">
                             <f:selectItem itemLabel="NUS" itemValue="NUS" />
                             <f:selectItem itemLabel="NTU" itemValue="NTU" />
@@ -72,41 +72,44 @@
                             <f:selectItem itemLabel="lecturer" itemValue="2" />
                             <f:selectItem itemLabel="guest" itemValue="3" />
                         </p:selectOneButton>
+                        
 
+                        <p:confirmDialog style="max-width: 40%; max-height:50%; overflow:auto" global="true" showEffect="fade" hideEffect="fade">
+                            <h:outputText value="1. Terms:"/>
+                            <br/>
+                            <h:outputText value="By accessing the website, you are agreeing to be bound by these terms of service, all applicable laws and regulations, and agree that you are responsible for compliance with any applicable local laws. If you do not agree with any of these terms, you are prohibited from using or accessing this site. The materials contained in this website are protected by applicable copyright and trademark law." />
+                            <br/><br/>
+                            <h:outputText value="2. Disclaimer:"/>
+                            <br/>
+                            <h:outputText value="The materials on PRISM's website are provided on an 'as is' basis. PRISM makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights."/>
+                            <br/><br/>
+                            <h:outputText value="3. Limitations"/>
+                            <br/>
+                            <h:outputText value="In no event shall PRISM or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on PRISM's website, even if PRISM or a PRISM authorized representative has been notified orally or in writing of the possibility of such damage. Because some jurisdictions do not allow limitations on implied warranties, or limitations of liability for consequential or incidental damages, these limitations may not apply to you."/>
+                            <br/><br/>
+                            <h:outputText value="4. Modifications"/>
+                            <br/>
+                            <h:outputText value="PRISM may revise these terms of service for its website at any time without notice. By using this website you are agreeing to be bound by the then current version of these terms of service."/>
+                            <br/><br/>
+                            <h:outputText value="5. Governing Law"/>
+                            <br/>
+                            <h:outputText value="These terms and conditions are governed by and construed in accordance with the laws of Singapore and you irrevocably submit to the exclusive jurisdiction of the courts in that State or location."/>
+                        </p:confirmDialog>
 
-                        <p:commandButton update="@form" value="REGISTER" actionListener="#{registerBean.register}" />
+                        <p:commandButton styleClass="termsBtn" ajax="false" value="Terms &amp; Conditions">
+                            <p:confirm  message="Terms &amp; Conditions" icon="ui-icon-alert" />
+                        </p:commandButton>
 
-
-                        <br></br>
-
-
-                        <h:panelGrid columns="2" style="margin: auto">
+                        <h:panelGrid styleClass="form-title-row" columns="2" style="margin: auto">
                             <h:outputText value="I agree to the terms &amp; conditions"></h:outputText>
                             <p:selectBooleanCheckbox value="#{registerBean.agree}" id="terms" required="true" requiredMessage="You must agree to our Terms &amp; Conditions" >
                             </p:selectBooleanCheckbox>
-
                         </h:panelGrid>
 
-                        <br></br>
-                        <p:commandButton ajax="false" value="Terms &amp; Conditions">
-
-                            <p:confirm icon="ui-icon-alert" />
-                        </p:commandButton>
-
-                        <p:confirmDialog header="Terms &amp; Conditions" global="true" showEffect="fade" hideEffect="fade">
-                            <f:facet name="message">
-                                <h:outputText value="PRISM will collect and store information about you." />
-                                <br />
-                                <h:outputText value="In accordance to PDPA, PRISM will not disclose your data without formal authorization." />
-                                <br />
-                                <h:outputText value="The rest of the T &amp; C is still in progress." />
-                            </f:facet>
-                            <p:commandButton process="@form" update="terms" value="Agree" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                            <p:commandButton value="Disagree" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                        </p:confirmDialog>
+                        <p:commandButton update="@form" value="REGISTER" actionListener="#{registerBean.register}" />
 
                         <p:commandButton update="messages" process="@this" action="#{registerBean.doBack}" id="backButton" value="BACK TO LOGIN" />
-                        
+
 
 
 
