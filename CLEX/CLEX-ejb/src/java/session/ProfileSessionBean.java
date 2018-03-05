@@ -30,6 +30,7 @@ public class ProfileSessionBean implements ProfileSessionBeanLocal {
     private Student studentEntity;
     private Lecturer lecturerEntity;
     private Guest guestEntity;
+    private Admin adminEntity;
     
     @Override
     public void editStudent(String username, String name, String email, Long contactNum, String faculty, String major, String matricYear, String matricSem){
@@ -72,7 +73,17 @@ public class ProfileSessionBean implements ProfileSessionBeanLocal {
         em.flush();
     }
     
-    
+    @Override
+    public void editAdmin(String username, String name, String email, String school, Long contactNum){
+        adminEntity = findAdmin(username);
+        
+        adminEntity.setName(name);
+        adminEntity.setEmail(email);
+        adminEntity.setContactNum(contactNum);
+        
+        em.merge(adminEntity);
+        em.flush();
+    }
 
     @Override
     public void changePassword(String username, String newPassword){
@@ -174,5 +185,23 @@ public class ProfileSessionBean implements ProfileSessionBeanLocal {
             e.printStackTrace();
         }
         return guestEntity;
+    }
+    
+    public Admin findAdmin(String username){
+        adminEntity = null;
+        try{
+            Query q = em.createQuery("SELECT a FROM Admin a WHERE a.username=:username");
+            q.setParameter("username", username);
+            adminEntity = (Admin) q.getSingleResult();
+            System.out.println("Admin " + username + " found.");
+        }
+        catch(NoResultException e){
+            System.out.println("Admin " + username + " does not exist.");
+            guestEntity = null;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return adminEntity;
     }
 }
