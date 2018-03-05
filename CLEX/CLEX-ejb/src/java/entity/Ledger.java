@@ -22,8 +22,10 @@ public class Ledger implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long studentId;
+    //in this transaction, how much this student should pay 
     private double ascCost;
+    //in this transaction, how much this student actually paid 
+    private double pay;
     
     @ManyToOne
     private Student student = new Student();
@@ -31,9 +33,10 @@ public class Ledger implements Serializable {
     @ManyToOne
     private Transaction transaction = new Transaction();
  
-    public void createLedger(Long studentId, double ascCost, Transaction transaction){
-        this.studentId = studentId;
+    public void createLedger(Student student, double ascCost, double pay, Transaction transaction){
+        this.student = student;
         this.ascCost = ascCost;
+        this.pay = pay;
         this.transaction = transaction;
     }
 
@@ -62,14 +65,6 @@ public class Ledger implements Serializable {
         this.id = id;
     }
 
-    public Long getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
-    }
-
     public double getAscCost() {
         return ascCost;
     }
@@ -78,6 +73,14 @@ public class Ledger implements Serializable {
         this.ascCost = ascCost;
     }
 
+    public double getPay() {
+        return pay;
+    }
+
+    public void setPay(double pay) {
+        this.pay = pay;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

@@ -221,7 +221,7 @@ public class Student extends User implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Student[ id=" + id + " ]";
+        return super.getName()+", username: " + super.getUsername();
     }
     
 }
