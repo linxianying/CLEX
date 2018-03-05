@@ -148,12 +148,14 @@ public class ProfileBean implements Serializable {
             if (temp == true){
                 //System.out.println("here");
                 psbl.changePassword(username, newPassword2);
-                FacesContext.getCurrentInstance().getExternalContext().redirect("profile.xhtml");
+                //FacesContext.getCurrentInstance().getExternalContext().redirect("profile.xhtml");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Password has been successfully updated", ""));
             }
             else{
                 //throw error: Wrong password
                 // Need help for implementation error message on UI for passwords mismatch
                 System.out.println("Wrong password with DB");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Current password is incorrect", ""));
             }
         }
     }
