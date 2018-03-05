@@ -10,10 +10,71 @@
     <ui:define name="content">
         <h:head>
             <title>PRISM Administrator Profile Page</title>
+            <h:outputStylesheet name="./css/form.css"/>
         </h:head>
         <div>
-            <h2>Edit Your Profile</h2>
+            <!--<h2>Edit Your Profile</h2>-->
             <div>
+                <h:form class="form-labels-on-top" >
+                    <div class="form-title-row">
+                        <h1>Basic Profile</h1>
+                    </div>
+                    <div class="form-row">
+                        <label>
+                            <span>Username</span>
+                            <p:inputText id="username" value="#{profileBean.username}" readonly="true" />
+                        </label>                        
+                    </div>
+                    <div class="form-row">
+                        <label>
+                            <span>Full Name</span>
+                            <p:inputText id="newName" value="#{profileBean.name}" />
+                        </label>
+                    </div>
+                    <div class="form-row">
+                        <label>
+                            <span>Email</span>
+                            <p:inputText id="newEmail" value="#{profileBean.email}" />
+                        </label>
+                    </div>
+                    <div class="form-row">
+                        <label>
+                            <span>Contact Number</span>
+                            <p:inputText id="newContactNum" value="#{profileBean.contactNum}" />
+                        </label>
+                    </div>
+                    <div class="form-row">
+                        <h:commandButton value="Save Profile Details" actionListener="#{profileBean.editAdminProfile}" id="editBasicButton" />
+                    </div>
+                </h:form>
+                
+                <h:form class="form-labels-on-top" >
+                    <div class="form-title-row">
+                        <h1>Change Password</h1>
+                    </div>
+                    <div class="form-row">
+                        <label>
+                            <span>Current Password</span>
+                            <p:password id="currentPassword" value="#{profileBean.oldPassword}" />
+                        </label>
+                    </div>
+                    <div class="form-row">
+                        <label>
+                            <span>New Password</span>
+                            <p:password id="firstPassword" value="#{profileBean.newPassword1}" />
+                        </label>
+                    </div>
+                    <div class="form-row">
+                        <label>
+                            <span>Confirm Password</span>
+                            <p:password id="confirmPassword" value="#{profileBean.newPassword2}" />
+                        </label>
+                    </div>
+                    <div class="form-row">
+                        <h:commandButton value="Change Password" actionListener="#{profileBean.editAdminPassword}" id="editPasswordButton" />
+                    </div>
+                </h:form>
+                <!--
                 <table>
                     <h:form>
                         <tr>
@@ -100,6 +161,7 @@
                         </tr>
                     </h:form>
                 </table>
+                -->
             </div>
         </div>
     </ui:define>
