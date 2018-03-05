@@ -5,29 +5,33 @@
  */
 package managedbeans;
 
-import entity.Lecturer;
 import entity.Student;
 import entity.User;
+import java.io.IOException;
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import session.ClexSessionBeanLocal;
+import session.ProfileSessionBeanLocal;
 
 /**
  *
  * @author eeren
  */
 @ManagedBean(name = "profileBean")
-@ViewScoped
+@SessionScoped
 public class ProfileBean implements Serializable {
 
     @EJB
     private ClexSessionBeanLocal csbl;
+    
+    @EJB
+    private ProfileSessionBeanLocal psbl;
 
     private User userEntity;
     private Student studentEntity;
@@ -59,8 +63,10 @@ public class ProfileBean implements Serializable {
     private String newPassword2; //for confirm password
     private String oldPassword;
 
-    FacesContext context;
     HttpSession session;
+    
+    FacesMessage fmsg = new FacesMessage();
+    FacesContext context = FacesContext.getCurrentInstance();
 
     public ProfileBean() {
     }
@@ -88,6 +94,108 @@ public class ProfileBean implements Serializable {
             matricYear = studentEntity.getMatricYear();
             matricSem = studentEntity.getMatricSem();
             cap = studentEntity.getCap();
+        }
+    }
+    
+    public void editStudentProfile() throws IOException{     
+        Long contactNo = Long.parseLong(contactNum);
+        
+        //System.out.println("name: " + name);
+        psbl.editStudent(username, name, email, contactNo, faculty, major, matricYear, matricSem);
+        FacesContext.getCurrentInstance().getExternalContext().redirect("profile.xhtml");
+        //Alert successful
+        // Need help for implementation success message on UI for successful edit of student profile
+    }
+    
+    public void editLecturerProfile() throws IOException{     
+        Long contactNo = Long.parseLong(contactNum);
+        
+        //System.out.println("name: " + name);
+        psbl.editLecturer(username, name, email, school, contactNo, faculty);
+        FacesContext.getCurrentInstance().getExternalContext().redirect("lecturerProfile.xhtml");
+        //Alert successful
+        // Need help for implementation success message on UI for successful edit of student profile
+    }
+    
+    public void editGuestProfile() throws IOException{     
+        Long contactNo = Long.parseLong(contactNum);
+        
+        //System.out.println("name: " + name);
+        psbl.editGuest(username, name, email, school, contactNo);
+        FacesContext.getCurrentInstance().getExternalContext().redirect("guestProfile.xhtml");
+        //Alert successful
+        // Need help for implementation success message on UI for successful edit of student profile
+    }
+    
+    public void editPassword() throws IOException{
+        if(!newPassword1.equals(newPassword2)){
+            // Passwords don't match
+            // Need help for implementation error message on UI for passwords mismatch
+            //fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Confirm Password does not match", "");
+            System.out.println("Passwords Mismatch");
+        }
+        else{
+            Boolean temp;
+            temp = psbl.checkPassword(username, oldPassword);
+            
+            if (temp == true){
+                //System.out.println("here");
+                psbl.changePassword(username, newPassword2);
+                FacesContext.getCurrentInstance().getExternalContext().redirect("profile.xhtml");
+            }
+            else{
+                //throw error: Wrong password
+                // Need help for implementation error message on UI for passwords mismatch
+                System.out.println("Wrong password with DB");
+            }
+        }
+    }
+    
+    public void editLecturerPassword() throws IOException{
+        if(!newPassword1.equals(newPassword2)){
+            // Passwords don't match
+            // Need help for implementation error message on UI for passwords mismatch
+            //fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Confirm Password does not match", "");
+            System.out.println("Passwords Mismatch");
+        }
+        else{
+            Boolean temp;
+            temp = psbl.checkPassword(username, oldPassword);
+            
+            if (temp == true){
+                //System.out.println("here");
+                psbl.changePassword(username, newPassword2);
+                FacesContext.getCurrentInstance().getExternalContext().redirect("lecturerProfile.xhtml");
+            }
+            else{
+                //throw error: Wrong password
+                // Need help for implementation error message on UI for passwords mismatch
+                System.out.println("Wrong password with DB");
+            }
+        }
+    }
+    
+    public void editGuestPassword() throws IOException{
+        if(!newPassword1.equals(newPassword2)){
+            // Passwords don't match
+            // Need help for implementation error message on UI for passwords mismatch
+            //fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Confirm Password does not match", "");
+            System.out.println("Passwords Mismatch");
+        }
+        else{
+            Boolean temp;
+            temp = psbl.checkPassword(username, oldPassword);
+            
+            if (temp == true){
+                //System.out.println("here");
+                psbl.changePassword(username, newPassword2);
+                FacesContext.getCurrentInstance().getExternalContext().redirect("guestProfile.xhtml");
+            }
+            else{
+                //throw error: Wrong password
+                // Need help for implementation error message on UI for passwords mismatch
+                System.out.println("Wrong password with DB");
+            }
         }
     }
 
