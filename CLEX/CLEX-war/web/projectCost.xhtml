@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Project Cost</title>
+    </h:head>
+    <h:body>
+        <h:form>
+        Add an transaction: <br />
+        <h:outputText value="Activity: " /> 
+        <h:inputText id="activity" value="#{projectCostBean.activity}" />
+        <br />
+        <h:outputText value="Total Cost: " /> 
+        <h:inputText id="cost" value="#{projectCostBean.cost}" />
+        <br />
+        <h:outputText value="Paid by " /> 
+        <p:selectOneMenu id="paidBy" value="#{projectCostBean.paidBy}" >
+            <p:ajax event="change" update="individualPayer multiplePayers"  />
+            <f:selectItem itemLabel="Individual" itemValue="Individual"/>
+            <f:selectItem itemLabel="Multiple People" itemValue="Multiple People"/>
+        </p:selectOneMenu>
+        <br />
+        <h:panelGroup id="individualPayer">
+        <p:selectOneMenu value="#{projectCostBean.individualPayer}" rendered="#{projectCostBean.paidBy == 'Individual'}" >
+            <f:selectItems value="#{projectCostBean.groupMembers}" />
+        </p:selectOneMenu>
+        </h:panelGroup>
+        
+        <h:panelGroup id="multiplePayers" >
+            <h:outputText value="Enter amount each member paid" rendered="#{projectCostBean.paidBy == 'Multiple People'}"/>
+            <br />
+            <ui:repeat value="#{projectCostBean.payers}" var="payer" rendered="#{projectCostBean.paidBy == 'Multiple People'}"> 
+                <h:outputText value="#{payer.student}"/>
+                <h:inputText value="#{payer.cost}"/>
+                <br />
+            </ui:repeat>
+        </h:panelGroup>
+            
+        <br />
+        <h:outputText value="Split by " /> 
+        <p:selectOneMenu id="splitBy" value="#{projectCostBean.splitBy}" style="width:125px">
+            <f:selectItem itemLabel="Equally" itemValue="Equally"/>
+            <f:selectItem itemLabel="Exact Amount" itemValue="Exact Amount"/>
+            <f:selectItem itemLabel="Percentage" itemValue="Percentage"/>
+        </p:selectOneMenu>
+        </h:form>
+    </h:body>
+</html>
+

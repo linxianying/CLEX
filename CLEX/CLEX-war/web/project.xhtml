@@ -34,9 +34,9 @@
                                 <br />
                                 <p:commandButton value="Group formation" rendered="#{not empty m.superGroup and !projectBean.hasProjectGroup(m.course.moduleCode)}" action="#{projectBean.goFormGroup(m.course.moduleCode)}" />
                                 
-                                <h:outputText value="Your team" escape="false" rendered="#{not empty m.superGroup and projectBean.hasProjectGroup(m.course.moduleCode)}" />
+                                <h:outputText value="Your group" escape="false" rendered="#{not empty m.superGroup and projectBean.hasProjectGroup(m.course.moduleCode)}" />
                                 <br />
-                                <p:commandButton value="#{projectBean.getStudentProjectGroup(m.course.moduleCode)}" rendered="#{not empty m.superGroup and projectBean.hasProjectGroup(m.course.moduleCode)}" />
+                                <p:commandButton value="#{projectBean.getStudentProjectGroupName(m.course.moduleCode)}" rendered="#{not empty m.superGroup and projectBean.hasProjectGroup(m.course.moduleCode)}" action="#{projectBean.GoGroupPage(m.course.moduleCode)}"/>
                             </p:panel>
                         </p:column>
                     </ui:repeat>

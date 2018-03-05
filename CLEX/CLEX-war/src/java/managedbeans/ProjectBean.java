@@ -202,7 +202,13 @@ public class ProjectBean {
         return psbl.checkStudentProjectGroup(student, module);
     }
     
-    public String getStudentProjectGroup(String moduleCode) {
+    public ProjectGroup getStudentProjectGroup(String moduleCode) {
+        module = csbl.findModule(moduleCode, currentYear, currentSem);
+        projectGroup = psbl.getStudentProjectGroup(student, module);
+        return projectGroup;
+    }
+    
+     public String getStudentProjectGroupName(String moduleCode) {
         module = csbl.findModule(moduleCode, currentYear, currentSem);
         projectGroup = psbl.getStudentProjectGroup(student, module);
         return projectGroup.getName();
@@ -221,4 +227,16 @@ public class ProjectBean {
         }
     }
     
+    public void GoGroupPage(String moduleCode) {
+        try {
+            module = csbl.findModule(moduleCode, currentYear, currentSem);
+            session.setAttribute("module", module);
+            projectGroup = psbl.getStudentProjectGroup(student, module);
+            session.setAttribute("projectGroup", projectGroup);
+            context.getExternalContext().redirect("projectCost.xhtml");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
