@@ -39,7 +39,7 @@ public class RegisterBean implements Serializable {
     @Size(min = 6, max = 12)
     private String password;
     private String name;
-    @Size(min = 4, max = 20)
+    @Size(min = 4, max = 32)
     @Pattern(regexp = "\\b[\\w.%-]+@[-.\\w]+\\.[A-Za-z]{2,4}\\b")
     private String email;
     private String userType;

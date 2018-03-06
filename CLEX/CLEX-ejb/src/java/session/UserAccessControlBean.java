@@ -51,7 +51,7 @@ public class UserAccessControlBean implements UserAccessControlBeanLocal {
     @Override
     public boolean approveUser(String username){
         userEntity = findUser(username);
-        if(userEntity != null){
+        if(!userEntity.isApproval()){
             userEntity.setApproval(true);
             em.merge(userEntity);
             em.flush();
