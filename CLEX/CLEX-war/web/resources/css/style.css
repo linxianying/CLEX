@@ -53,11 +53,15 @@ body :-ms-input-placeholder {
     background: #50a3a2;
     background: -webkit-gradient(linear, left top, right bottom, from(#50a3a2), to(#53e3a6));
     background: linear-gradient(to bottom right, #50a3a2 0%, #53e3a6 100%);
-    position: relative;
-    top: 100%;
+    position: absolute;
+    top: 0;
     left: 0;
+    bottom: 0;
+    right: 0;
+    overflow: auto;
     width: 100%;
-    height: 900px;
+    min-height: 100%;
+    margin: 0;
     overflow: hidden;
 }
 .wrapper.form-success .container h1 {
@@ -66,7 +70,6 @@ body :-ms-input-placeholder {
 }
 .container {
     margin: 0 auto;
-    height: 100%;
     text-align: center;
 }
 
@@ -230,11 +233,11 @@ form input:focus {
 
 .form-validation{
     box-sizing: border-box;
-    max-width: 40%;
-    margin: 0 auto;
+    max-width:35%;
+    margin: 20px auto;
     padding: 0px;
     padding-bottom: 5px;
-    background-color:  rgba(240, 240, 240, 1);
+    background-color: #f0f0f0;
     text-align: center;
 }
 
@@ -273,10 +276,26 @@ form input:focus {
 
 .termsBtn{
     color: #ffffff;
-    font-size: 18px;
     background: #8c8c8c !important;
     padding: 0px 20px 0px 20px !important;
-    text-decoration: none;
+}
+
+.loginBtn{
+    color: #ffffff !important;
+    background: #5daade;
+}
+
+.regBtn{
+    color: #ffffff !important;
+    background: #ed9923;
+}
+
+.loginBtn:hover {
+    background: #7dcdff !important;
+}
+
+.regBtn:hover {
+    background: #edc122 !important;
 }
 
 .form-validation .form-row > label span{
@@ -293,7 +312,7 @@ form input:focus {
     box-sizing: border-box;
     width: 300px;
     box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.08);
-    padding: 12px 18px;
+    padding: 9px 18px;
     border: 1px solid #dbdbdb;
     opacity:1;
 }
@@ -306,7 +325,7 @@ form input:focus {
     font-size: 18px;
     background: #5daade;
     padding: 10px 20px ;
-    padding: 7px 20px 7px 20px;
+    padding: 5px 20px 5px 20px;
     width:300px;
     text-decoration: none;
 }
