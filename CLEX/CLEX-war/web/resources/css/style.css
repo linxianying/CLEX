@@ -230,16 +230,18 @@ form input:focus {
 
 .form-validation{
     box-sizing: border-box;
-    max-width: 640px;
+    max-width: 40%;
     margin: 0 auto;
     padding: 0px;
-    background-color:  rgba(240, 240, 240, 0.7);
+    padding-bottom: 5px;
+    background-color:  rgba(240, 240, 240, 1);
     text-align: center;
 }
 
 .form-row{
+    text-align: center;
     position: relative;
-    text-align: left;
+    margin: 0 auto;
     margin-bottom: 23px;
 }
 
@@ -251,7 +253,7 @@ form input:focus {
 .form-validation h1{
     display: inline-block;
     box-sizing: border-box;
-    color:  #ffffff;
+    color:  #777777;
     padding: 10px 8px;
     font-size: 25px;
     font-family: 'arial';
@@ -287,13 +289,13 @@ form input:focus {
 }
 
 .form-validation input{
-    position: relative;
     color:  #5f5f5f;
     box-sizing: border-box;
-    width: 240px;
+    width: 300px;
     box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.08);
     padding: 12px 18px;
     border: 1px solid #dbdbdb;
+    opacity:1;
 }
 
 .form-validation button{
@@ -305,7 +307,7 @@ form input:focus {
     background: #5daade;
     padding: 10px 20px ;
     padding: 7px 20px 7px 20px;
-    width:250px;
+    width:300px;
     text-decoration: none;
 }
 

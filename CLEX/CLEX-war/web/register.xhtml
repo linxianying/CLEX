@@ -17,15 +17,16 @@
                     <h1 class="form-title-row">CREATE A NEW ACCOUNT</h1>
 
                     <p:growl id="messages" showDetail="true" />
-                    <h:panelGrid style="width: 100%" id="details" styleClass="textInput" columns="1" cellpadding="5">    
+                    <!--<h:panelGrid style="width: 100%" id="details" styleClass="textInput" columns="1" cellpadding="5">    -->
 
+                    <div class="form-row">
                         <p:inputText styleClass="textInput" title="6-12 alphanumeric without special characters"
                                      placeholder="username"
                                      id="username" value="#{registerBean.username}" 
                                      required="true" requiredMessage="Username required." 
                                      validatorMessage="Invalid format. Username must be between 6-12 letters/numbers. Special characters are not allowed.">
                             <f:validateRegex pattern="^[a-zA-Z0-9]{6,12}$" /> 
-                        </p:inputText>                        
+                        </p:inputText>
 
                         <p:password styleClass="textInput" 
                                     placeholder="password"
@@ -59,21 +60,20 @@
                                      validatorMessage="Invalid format. Contact number must be at least 8 digits">
                         </p:inputText>
 
-                        <p:selectOneMenu style="padding-right: 0%; width: 39%" required="true" id="school" value="#{registerBean.school}" 
+                        <p:selectOneMenu style="padding: 0%; width: 300px" required="true" id="school" value="#{registerBean.school}" 
                                          editable="true" placeholder="school" requiredMessage="Please enter your school name or choose from the list">
                             <f:selectItem itemLabel="NUS" itemValue="NUS" />
                             <f:selectItem itemLabel="NTU" itemValue="NTU" />
                             <f:selectItem itemLabel="SMU" itemValue="SMU" />
-                        </p:selectOneMenu>                                                                  
-
-
+                        </p:selectOneMenu>
+                        <br/>
                         <p:selectOneButton styleClass="textInput" required="true" requiredMessage="Please select a user type" id="userType" value="#{registerBean.userType}">
                             <f:selectItem itemLabel="student" itemValue="1" />
                             <f:selectItem itemLabel="lecturer" itemValue="2" />
                             <f:selectItem itemLabel="guest" itemValue="3" />
                         </p:selectOneButton>
-                        
 
+                        <br/>
                         <p:confirmDialog style="max-width: 40%; max-height:50%; overflow:auto" global="true" showEffect="fade" hideEffect="fade">
                             <h:outputText value="1. Terms:"/>
                             <br/>
@@ -105,22 +105,22 @@
                             <p:selectBooleanCheckbox value="#{registerBean.agree}" id="terms" required="true" requiredMessage="You must agree to our Terms &amp; Conditions" >
                             </p:selectBooleanCheckbox>
                         </h:panelGrid>
+                    </div>
 
+                    <div class="form-row">
                         <p:commandButton update="@form" value="REGISTER" actionListener="#{registerBean.register}" />
-
+                        <br/>
                         <p:commandButton update="messages" process="@this" action="#{registerBean.doBack}" id="backButton" value="BACK TO LOGIN" />
+                    </div>
 
+                    <!--tool tips-->
+                    <p:tooltip id="toolTipUser" for="username" showEvent="focus" hideEvent="blur" position="left" showEffect="clip" />
+                    <p:tooltip id="toolTipPass" for="password" showEvent="focus" hideEvent="blur" position="left" showEffect="clip"/>
+                    <p:tooltip id="toolTipEmail" for="email" showEvent="focus" hideEvent="blur" position="left" showEffect="clip"/>
+                    <p:tooltip id="toolTipName" for="name" showEvent="focus" hideEvent="blur" position="left" showEffect="clip"/>
+                    <p:tooltip id="toolTipNum" for="contact" showEvent="focus" hideEvent="blur" position="left" showEffect="clip"/>
 
-
-
-                        <!--tool tips-->
-                        <p:tooltip id="toolTipUser" for="username" showEvent="focus" hideEvent="blur" position="left" showEffect="clip" />
-                        <p:tooltip id="toolTipPass" for="password" showEvent="focus" hideEvent="blur" position="left" showEffect="clip"/>
-                        <p:tooltip id="toolTipEmail" for="email" showEvent="focus" hideEvent="blur" position="left" showEffect="clip"/>
-                        <p:tooltip id="toolTipName" for="name" showEvent="focus" hideEvent="blur" position="left" showEffect="clip"/>
-                        <p:tooltip id="toolTipNum" for="contact" showEvent="focus" hideEvent="blur" position="left" showEffect="clip"/>
-
-                    </h:panelGrid>    
+                    <!-- </h:panelGrid> -->    
 
                     <!-- <h:messages id="msgs" infoStyle="color: green;" warnStyle="color: orange;" errorStyle="color: red;" fatalStyle="color: red;"/>-->
                 </h:form>

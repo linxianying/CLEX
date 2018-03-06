@@ -17,7 +17,7 @@
         <div class="wrapper">
             <div class="container">
 
-                <h:form class="form-validation form-login">
+                <h:form class="form-login">
                     <img class="PRISM-logo" src="https://i.imgur.com/I97Io9u.png"></img>
                     <!--
                 <h:form>
@@ -35,7 +35,6 @@
                       -->
                     <div class="form-row">
                         <label>
-                            <span>Username</span>
                             <p:inputText styleClass="textInput" id="username" value="#{loginBean.username}" 
                                  required="true" requiredMessage="Please enter your username!" 
                                  placeholder="Username"
@@ -46,7 +45,6 @@
                     </div>
                     <div class="form-row">
                         <label>
-                            <span>Password</span>
                             <p:password styleClass="textInput" id="password" value="#{loginBean.password}" 
                             required="true" requiredMessage="Please enter your password!" 
                             placeholder="Password"/>
@@ -92,12 +90,11 @@
                     -->
                     <div class="form-row">
                         <h:commandButton value="LOGIN" actionListener="#{loginBean.doLogin}" />
-                    </div>
-                    <div class="form-row">
+                    
                         <h:button value="SIGN UP" outcome="register?faces-redirect=true"/>
                     </div>
                     <div class="form-row">
-                        <h:commandButton value="setEntites" actionListener="#{indexBean.createEntities}" action="login?faces-redirect=true" />
+                        <h:commandButton styleClass="" value="setEntites" actionListener="#{indexBean.createEntities}" action="login?faces-redirect=true" />
                     </div>   
                     <!--
                         <div class="form-row">

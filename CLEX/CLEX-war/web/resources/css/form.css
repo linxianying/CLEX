@@ -16,8 +16,6 @@ html{
     text-align: center;
 }
 
-
-
 .form-labels-on-top .form-row{
     text-align: left;
     max-width: 315px;
@@ -114,9 +112,9 @@ html{
 .form-login{
     box-sizing: border-box;
     max-width: 475px;
-    margin: 20 auto;
+    margin: 0 auto;
     padding: 55px;
-    height: 688px;
+    height: 650px;
     opacity:0.91;
     background-color:  #ffffff;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
@@ -224,6 +222,6 @@ html{
     vertical-align: middle;
     display: table-cell; 
     text-align: center;
-    color: #009e9e
-    
+    color: #009e9e;
+    padding-left: 10px;
 }
