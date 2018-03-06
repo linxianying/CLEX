@@ -40,6 +40,9 @@ public class Reply implements Serializable {
     @ManyToOne
     private User user;
     
+    @ManyToOne
+    private Thread thread;
+    
     public void createReply(Long threadId, String dateTime, 
                 String content,int upVote, int downVote, User user){
         this.threadId = threadId;
@@ -88,6 +91,14 @@ public class Reply implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Thread getThread() {
+        return thread;
+    }
+
+    public void setThread(Thread thread) {
+        this.thread = thread;
     }
 
     public int getUpVote() {

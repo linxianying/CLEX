@@ -14,6 +14,7 @@ import entity.Lesson;
 import entity.Module;
 import entity.Poll;
 import entity.ProjectGroup;
+import entity.Reply;
 import entity.Student;
 import entity.SuperGroup;
 import entity.Task;
@@ -53,6 +54,7 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
     private VoteThread voteThreadEntity;
     private Poll pollEntity;
     private Thread threadEntity;
+    private Reply replyEntity;
     
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
@@ -64,6 +66,17 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         em.persist(threadEntity);
         em.flush();
         return threadEntity;
+    }
+    
+    @Override
+    public Reply createReply(Long threadId, String dateTime, 
+                String content,int upVote, int downVote, User user){
+        replyEntity = new Reply();
+        replyEntity.createReply(threadId, dateTime, content, upVote, downVote, user);
+        em.persist(replyEntity);
+        em.flush();
+        return replyEntity;
+        
     }
     
     

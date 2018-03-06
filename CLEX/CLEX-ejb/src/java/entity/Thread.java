@@ -6,12 +6,16 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -44,6 +48,12 @@ public class Thread implements Serializable {
     
     @ManyToOne
     private User user;
+    
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy="thread")
+    private Collection<Reply> replies = new ArrayList<Reply>();
+    
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy="thread")
+    private Collection<VoteThread> voteThreads = new ArrayList<VoteThread>();
 
     public void createThread(String username, String content, String dateTime, String title, 
                 int upVote, int downVote, User user){
@@ -118,6 +128,22 @@ public class Thread implements Serializable {
 
     public void setDownVote(int downVote) {
         this.downVote = downVote;
+    }
+
+    public Collection<Reply> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(Collection<Reply> replies) {
+        this.replies = replies;
+    }
+
+    public Collection<VoteThread> getVoteThreads() {
+        return voteThreads;
+    }
+
+    public void setVoteThreads(Collection<VoteThread> voteThreads) {
+        this.voteThreads = voteThreads;
     }
 
     @Override
