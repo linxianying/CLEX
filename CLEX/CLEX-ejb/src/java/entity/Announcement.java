@@ -27,16 +27,16 @@ public class Announcement implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(length = 32, nullable = false)
+    @Column(length = 128, nullable = false)
     private String title;
     
-    @Column(length = 32, nullable = false)
+    @Column(length = 512, nullable = false)
     private String message;
     
-    @Column(length = 32, nullable = false)
+    @Column(length = 64, nullable = false)
     private String createdDate;
     
-    @Column(length = 32, nullable = false)
+    @Column(length = 256, nullable = false)
     private String type; //Input "admin": admin announcement, "<modulecode>": lecturer announcement
     private String audience; //Input "1": all, "2": students only, "3": lecturers only, "4": guests only, "5": 2&3 (admin can use any, lecturer's default use 2)
     

@@ -35,13 +35,13 @@ public abstract class User implements Serializable{
     @Column(length = 512, nullable = false)
     private String password;
     
-    @Column(length = 32, nullable = false)
+    @Column(length = 64, nullable = false)
     private String username;
     
     @Column(length = 32, nullable = false)
     private String userType;
     
-    @Column(length = 32, nullable = false)
+    @Column(length = 64, nullable = false)
     private String school;
     
     @Column(length = 32, nullable = false)
