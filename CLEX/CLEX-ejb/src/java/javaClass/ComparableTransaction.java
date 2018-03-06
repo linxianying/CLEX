@@ -70,6 +70,10 @@ public class ComparableTransaction implements Comparable<ComparableTransaction>{
         this.ledgers = ledgers;
     }
     
+    @Override
+    public String toString() {
+        return ("Date: " + date + ", Activity: " + activity);
+    }
     
     @Override
     public int compareTo(ComparableTransaction t) {

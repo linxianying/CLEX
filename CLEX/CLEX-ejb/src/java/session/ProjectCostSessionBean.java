@@ -11,7 +11,10 @@ import entity.Student;
 import entity.Transaction;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import javaClass.ComparableTransaction;
 import javaClass.StudentCost;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -29,7 +32,8 @@ public class ProjectCostSessionBean implements ProjectCostSessionBeanLocal {
     private String username;
     private ProjectGroup group;
     private ArrayList<Transaction> transactions;
-    
+    private ComparableTransaction comTransaction;
+    private ArrayList<ComparableTransaction> sortedTransactions;
     private Transaction transaction;
     private Ledger ledger;
     private double cost;
@@ -55,7 +59,7 @@ public class ProjectCostSessionBean implements ProjectCostSessionBeanLocal {
         transaction.createTransaction(totalCost, date, activity, group);
         em.persist(transaction);
         em.flush();
-        System.out.println("pc session bean: addTransaction");
+        //System.out.println("pc session bean: addTransaction");
         for(StudentCost sc: all) {
             student = sc.getStudent();
             cost = sc.getCost();
@@ -75,4 +79,30 @@ public class ProjectCostSessionBean implements ProjectCostSessionBeanLocal {
         em.flush();
     }
     
+    //sort all transactions of a group according to date
+    public ArrayList<ComparableTransaction> getSortedTransactions(ProjectGroup group) {
+        try{    
+            if (group.getTransactions().isEmpty())
+                return null;
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            sortedTransactions = new ArrayList<ComparableTransaction>();
+            transactions = new ArrayList<Transaction>();
+            Collection<Transaction> all = group.getTransactions();
+            for(Transaction t: all){
+                transactions.add(t);
+            }
+            for (Transaction t: transactions) {
+                comTransaction = new ComparableTransaction(t.getCost(), formatter.parse(t.getDate()), 
+                t.getActivity(), t.getProjectGroup(), t.getLedgers());
+                sortedTransactions.add(comTransaction);
+            }
+            Collections.sort(sortedTransactions);
+            System.out.println(sortedTransactions.size());
+            System.out.println(sortedTransactions);
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return sortedTransactions;
+    }
 }

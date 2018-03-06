@@ -233,7 +233,7 @@ public class ProjectBean {
             session.setAttribute("module", module);
             projectGroup = psbl.getStudentProjectGroup(student, module);
             session.setAttribute("projectGroup", projectGroup);
-            context.getExternalContext().redirect("projectCost.xhtml");
+            context.getExternalContext().redirect("viewProjectCost.xhtml");
         }
         catch (Exception e) {
             e.printStackTrace();
