@@ -85,7 +85,9 @@
                             <div class="form-row">
                                 <label>
                                     <span>Confirm Password</span>
-                                    <p:password id="confirmPassword" value="#{profileBean.newPassword2}" />
+                                    <p:password id="confirmPassword" value="#{profileBean.newPassword2}" validatorMessage="Password needs to be between 6-12 characters">
+                                        <f:validateRegex pattern="^[a-zA-Z0-9]{6,12}$" />
+                                    </p:password>
                                 </label>
                             </div>
                             <div class="form-row">
