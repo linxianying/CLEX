@@ -12,7 +12,7 @@
         <h:outputStylesheet name="./css/cssLayout.css"/>
         <div id="top">
             <h:form>
-                 <p:commandLink title="Notifications" style="text-decoration: none;"
+                 <p:commandLink title="Notifications" styleClass="notiBtn"
                                onclick="PF('announcementsDialog').show()" value="Notifications"></p:commandLink>
                 <p:commandLink title="Private Message" style="text-decoration: none;" styleClass="msgBtn"></p:commandLink>
                 <p:commandLink title="Settings" style="text-decoration: none;" styleClass="settingsBtn" action="#{acctMgmtBean.editProfile}"></p:commandLink>

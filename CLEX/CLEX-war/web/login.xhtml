@@ -10,29 +10,17 @@
     <ui:define name="content">
 
         <h:head>
-            <title>PRISM Login Page</title>
+            <title>PRISM Login</title>
         </h:head>
         <h:outputStylesheet name="./css/style.css" />
         <h:outputStylesheet name="./css/form.css" />
         <div class="wrapper">
             <div class="container">
-
                 <h:form class="form-login">
                     <img class="PRISM-logo" src="https://i.imgur.com/I97Io9u.png"></img>
-                    <!--
-                <h:form>
-                    <h:commandButton value="setEntites" actionListener="#{indexBean.createEntities}" action="login?faces-redirect=true" />
-                </h:form>
-                <h1>Welcome to PRISM</h1>
 
-                <h:form class="form-login">
-                    <div class="form-title-row">
-                        <h1>Login</h1>
-                    </div>-->
                     <p:growl id="messages" showDetail="true" />
 
-                    <!--<h:panelGrid style="width: 100%" id="details" styleClass="textInput" columns="1" cellpadding="5">
-                      -->
                     <div class="form-row">
                         <label>
                             <p:inputText styleClass="textInput" id="username" value="#{loginBean.username}" 
@@ -52,29 +40,9 @@
                     </div>
 
                     <div class="form-row">
-
-                        
                         <a href="resetPassword.xhtml" class="resetPasswordTitle">Forgot your password?</a>
-                        <!--
-                            
-                            <br></br>
-                            <br></br>
-                            <p:selectOneButton required="true" requiredMessage="Please select a user type!" styleClass="menuSelect" id="userType" value="#{loginBean.userType}"> 
-                                <f:selectItem itemValue = "1" itemLabel = "Student" /> 
-                                <f:selectItem itemValue = "2" itemLabel = "Lecturer" /> 
-                                <f:selectItem itemValue = "3" itemLabel = "Admin" />
-                                <f:selectItem itemValue = "4" itemLabel = "Guest" />
-                            </p:selectOneButton><br/>
-                        -->
-
                     </div>
                     <br></br>
-
-                    <!--
-                        <p:commandButton update="messages" value="LOGIN" actionListener="#{loginBean.doLogin}" id="login-button"/>
-                        <p:commandButton update="messages" process="@this" action="#{loginBean.doRedirect}" id="signupButton" value="Create an account" />
-                    -->
-                        
                     
                     <p:selectOneButton required="true" requiredMessage="Please select a user type!" styleClass="menuSelect" id="userType" value="#{loginBean.userType}">
                         <f:selectItem itemValue="1" itemLabel="Student" />
@@ -83,56 +51,17 @@
                         <f:selectItem itemValue="4" itemLabel="Guest" />
                     </p:selectOneButton><br/>
 
-                    <!--
-                        <div class="form-row">
-                            <p:commandButton styleClass="" update="messages" value="LOGIN" actionListener="#{loginBean.doLogin}" id="login-button"/>
-                        </div>
-                    -->
+                    <br/><br/>
                     <div class="form-row">
-                        <h:commandButton value="LOGIN" actionListener="#{loginBean.doLogin}" />
+                        <h:commandButton styleClass="loginBtn" value="LOGIN" actionListener="#{loginBean.doLogin}" />
                     
-                        <h:button value="SIGN UP" outcome="register?faces-redirect=true"/>
+                        <h:button styleClass="regBtn" value="SIGN UP" outcome="register?faces-redirect=true"/>
                     </div>
-                    <div class="form-row">
-                        <h:commandButton styleClass="" value="setEntites" actionListener="#{indexBean.createEntities}" action="login?faces-redirect=true" />
-                    </div>   
-                    <!--
-                        <div class="form-row">
-                            <p:commandButton styleClass="" update="messages" process="@this" action="#{loginBean.doRedirect}" id="signupButton" value="SIGN UP" />
-                        </div>
-                        <h:button value="CREATE AN ACCOUNT" outcome="register?faces-redirect=true"/>
-                        </h:panelGrid>
-                    -->
-
                 </h:form>
-
-            </div>
-
-            <ul class="bg-bubbles">
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-            </ul>
+                <ul class="bg-bubbles"><li/><li/><li/><li/><li/><li/><li/><li/></ul>
+            </div>    
         </div>
-        <!--
         
-        <br>For testing: do testRegister in register page first, </br>
-        <br>or to register first using student identity</br>
-        <br>successful login requires</br>
-        <br>for Student: namename, Password: 123456, Student</br>
-        <br>for Lecturer: hsianghui, Password: 123456, Lecturer</br>
-        <br>for Guest: aguest, Password: 123456, Guest</br>
-        <br>for Admin: theadmin, Password: 123, Admin </br>
-        <br>Other inputs will fail</br>
-        <br>Note: if you want to test reset password, make sure the email you register is a real email</br>
-        -->
     </ui:define>
 
 </ui:composition>
