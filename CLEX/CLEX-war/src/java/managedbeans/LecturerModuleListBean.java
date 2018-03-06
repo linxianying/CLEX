@@ -70,8 +70,8 @@ public class LecturerModuleListBean implements Serializable {
     
     public void viewModule(Module module) throws IOException{
         FacesMessage fmsg = new FacesMessage();
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
         
         session.setAttribute("user", lecturerEntity);
         session.setAttribute("username", username);
