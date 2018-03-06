@@ -51,7 +51,8 @@
 
             <p:dialog id="notifications" widgetVar="announcementsDialog"
                       position="left top" draggable="true" resizable="false"
-                      closeOnEscape="true" appendTo="@(body)" modal="true">
+                      closeOnEscape="true" appendTo="@(body)" modal="true" 
+                      style="box-sizing: border-box; overflow: auto; max-height: 40%; max-width: 40%; position: absolute">
                 <h1 style="margin-top:0">Announcements by Admin</h1>
                 <h:panelGrid columns="2" cellpadding="5" >
                     <h:panelGrid id="panelOuter1" columns="2" width="100%">
