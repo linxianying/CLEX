@@ -95,7 +95,7 @@ public class CourseBean implements Serializable {
             context.addMessage(null, fmsg);
             context.getExternalContext().redirect("adminCourse.xhtml");
         } else {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Course '" + moduleCode + "' already exists.", "");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Course '" + moduleCode + "' already exists.");
             context.addMessage(null, fmsg);
         }
     }
@@ -109,7 +109,7 @@ public class CourseBean implements Serializable {
             context.addMessage(null, fmsg);
             context.getExternalContext().redirect("adminCourse.xhtml");
         } else {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error creating module.", "");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Module already exists.");
             context.addMessage(null, fmsg);
         }
     }
@@ -123,12 +123,12 @@ public class CourseBean implements Serializable {
             context.addMessage(null, fmsg);
             context.getExternalContext().redirect("adminCourse.xhtml");
         } else {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error creating lesson.", "");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Lesson already exists.");
             context.addMessage(null, fmsg);
         }
     }
 
-    //All edits cannot change primary key (Course: moduleCode, Module: takenYear, takenSem, Lesson: day, timeFrom, timeEnd)
+    //All edits cannot change primary key (Course: moduleCode | Module: takenYear, takenSem | Lesson: day, timeFrom, timeEnd)
     public void editCourse() throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
@@ -139,7 +139,7 @@ public class CourseBean implements Serializable {
             context.addMessage(null, fmsg);
             context.getExternalContext().redirect("adminCourse.xhtml");
         } else {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Course '" + moduleCode + "' does not exists.", "");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Course '" + moduleCode + "' does not exists.");
             context.addMessage(null, fmsg);
         }
     }
@@ -153,7 +153,7 @@ public class CourseBean implements Serializable {
             context.addMessage(null, fmsg);
             context.getExternalContext().redirect("adminCourse.xhtml");
         } else {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error editing module.", "");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Module does not exists.");
             context.addMessage(null, fmsg);
         }
     }
@@ -167,7 +167,7 @@ public class CourseBean implements Serializable {
             context.addMessage(null, fmsg);
             context.getExternalContext().redirect("adminCourse.xhtml");
         } else {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error editing lesson.", "");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Lesson does not exists.");
             context.addMessage(null, fmsg);
         }
     }
@@ -189,7 +189,7 @@ public class CourseBean implements Serializable {
                 context.addMessage(null, fmsg);
             }
         } else {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Module does not exist.", "");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Module does not exist.");
             context.addMessage(null, fmsg);
         }
     }
@@ -203,7 +203,7 @@ public class CourseBean implements Serializable {
         if (cmbl.checkExistingLesson(moduleCode, takenYear, takenSem, day, timeFrom, timeEnd) == true) {
             if (cmbl.checkLectTeachModule(lecturerUser, moduleCode, takenYear, takenSem)) {
                 cmbl.editLesson(day, timeFrom, timeEnd, type, venue, moduleCode, takenYear, takenSem);
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Module has been edited.", "");
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Lesson has been edited.", "");
                 context.addMessage(null, fmsg);
                 context.getExternalContext().redirect("lecturerModule.xhtml");
             } else {
@@ -211,7 +211,7 @@ public class CourseBean implements Serializable {
                 context.addMessage(null, fmsg);
             }
         } else {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Lesson does not exist.", "");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Lesson does not exist.");
             context.addMessage(null, fmsg);
         }
     }
@@ -230,7 +230,7 @@ public class CourseBean implements Serializable {
                 context.addMessage(null, fmsg);
             }
         } else {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Course not found.", "");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Course " + moduleCode + " not found.");
             context.addMessage(null, fmsg);
         }
     }
@@ -248,7 +248,7 @@ public class CourseBean implements Serializable {
                 context.addMessage(null, fmsg);
             }
         } else {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Module not found.", "");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Module not found.");
             context.addMessage(null, fmsg);
         }
     }
@@ -266,7 +266,7 @@ public class CourseBean implements Serializable {
                 context.addMessage(null, fmsg);
             }
         } else {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Lesson not found.", "");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Lesson not found.");
             context.addMessage(null, fmsg);
         }
     }
@@ -280,11 +280,11 @@ public class CourseBean implements Serializable {
                 context.addMessage(null, fmsg);
                 context.getExternalContext().redirect("adminCourse.xhtml");
             } else {
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Failed to assign lecturer.", "");
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error.", "Failed to assign lecturer.");
                 context.addMessage(null, fmsg);
             }
         } else {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Module does not exists", "");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Module does not exists");
             context.addMessage(null, fmsg);
         }
     }

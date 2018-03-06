@@ -6,8 +6,11 @@
 package entity;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -54,16 +57,19 @@ public class Thread implements Serializable {
     
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="thread")
     private Collection<VoteThread> voteThreads = new ArrayList<VoteThread>();
-
-    public void createThread(String username, String content, String dateTime, String title, 
-                int upVote, int downVote, User user){
+    
+    public Thread(){
+        Date current = new Date();
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        this.dateTime = format.format(current);
+    }
+    
+    public void createThread(String username, String content, String title){
+        this.upVote = 0; //by default 0
+        this.downVote = 0;
         this.username = username;
-        this.content = content;
-        this.dateTime = dateTime;
-        this.upVote = upVote;
-        this.downVote = downVote;
         this.title = title;
-        this.user = user;
+        this.content = content;        
     }
     
     public Long getId() {

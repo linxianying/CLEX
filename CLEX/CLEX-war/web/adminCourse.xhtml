@@ -251,7 +251,14 @@
                                 <f:selectItems value="#{courseBean.timelist}" />
                             </p:selectOneMenu> 
                             <h:outputLabel for= "type" value="LESSON TYPE:"/>
-                            <p:inputText id="type" value="#{courseBean.type}" required="true" />
+                            <p:selectOneMenu style="width: 300px" required="true" id="type" value="#{courseBean.type}" 
+                                             editable="true" title="Please select a lesson type">
+                                <f:selectItem itemLabel="Please select a lesson type" itemValue=""/>
+                                <f:selectItem itemLabel="Lecture" itemValue="LECTURE" />
+                                <f:selectItem itemLabel="Tutorial" itemValue="TUTORIAL" />
+                                <f:selectItem itemLabel="Laboratory" itemValue="LABORATORY" />
+                                <f:selectItem itemLabel="Recitation" itemValue="RECITATION" />
+                            </p:selectOneMenu>
                             <h:outputLabel for= "venue" value="VENUE:"/>
                             <p:inputText id="venue" value="#{courseBean.venue}" required="true" /> 
                             <p:commandButton value="Submit" actionListener="#{courseBean.editLesson}" update="messages" />

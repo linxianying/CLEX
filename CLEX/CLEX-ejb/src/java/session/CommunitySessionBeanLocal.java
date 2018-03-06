@@ -17,8 +17,7 @@ import javax.ejb.Local;
 @Local
 public interface CommunitySessionBeanLocal {
 
-    public Thread createThread(String username, String content, String dateTime, String title, int upVote, int downVote, User user);
-
-    public Reply createReply(Long threadId, String dateTime, String content, int upVote, int downVote, User user);
+    public void createThread(String username, String content, String title);
+    public void createReply(Long threadId, String content, String username);
     
 }

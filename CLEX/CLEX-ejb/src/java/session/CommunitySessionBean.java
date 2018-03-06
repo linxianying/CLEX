@@ -26,7 +26,9 @@ import entity.VoteThread;
 import entity.Thread;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -55,29 +57,69 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
     private Poll pollEntity;
     private Thread threadEntity;
     private Reply replyEntity;
-    
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+
     @Override
-    public Thread createThread(String username, String content, String dateTime, String title, 
-                int upVote, int downVote, User user){
-        threadEntity = new Thread();
-        threadEntity.createThread(username, content, dateTime, title, upVote, downVote, user);
-        em.persist(threadEntity);
+    public void createThread(String username, String content, String title){
+        userEntity = findUser(username);
+        Thread thread = new Thread();
+        
+        thread.createThread(username, content, title);
+        thread.setUser(userEntity);
+        userEntity.getThreads().add(thread);
+        
+        em.merge(userEntity);
+        em.persist(thread);
         em.flush();
+    }
+    
+    @Override
+    public void createReply(Long threadId, String content, String username){
+        userEntity = findUser(username);
+        threadEntity = findThread(threadId);
+        Reply reply = new Reply();
+        
+        reply.createReply(threadId, content);
+        reply.setUser(userEntity);
+        reply.setThread(threadEntity);
+        
+        userEntity.getReplys().add(reply);
+        threadEntity.getReplies().add(reply);
+        
+        em.merge(userEntity);
+        em.merge(threadEntity);
+        em.persist(reply);
+        em.flush();     
+    }
+    
+    public User findUser(String username) {
+        userEntity = null;
+        try {
+            Query q = em.createQuery("SELECT u FROM BasicUser u WHERE u.username = :username");
+            q.setParameter("username", username);
+            userEntity = (User) q.getSingleResult();
+            System.out.println("User " + username + " found.");
+        } catch (NoResultException e) {
+            System.out.println("User " + username + " does not exist.");
+            userEntity = null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userEntity;
+    }
+    
+    public Thread findThread(Long id) {
+        threadEntity = null;
+        try {
+            Query q = em.createQuery("SELECT t FROM Thread t WHERE t.id = :id");
+            q.setParameter("id", id);
+            threadEntity = (Thread) q.getSingleResult();
+            System.out.println("Thread " + id + " found.");
+        } catch (NoResultException e) {
+            System.out.println("Thread " + id + " does not exist.");
+            threadEntity = null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return threadEntity;
     }
-    
-    @Override
-    public Reply createReply(Long threadId, String dateTime, 
-                String content,int upVote, int downVote, User user){
-        replyEntity = new Reply();
-        replyEntity.createReply(threadId, dateTime, content, upVote, downVote, user);
-        em.persist(replyEntity);
-        em.flush();
-        return replyEntity;
-        
-    }
-    
-    
 }

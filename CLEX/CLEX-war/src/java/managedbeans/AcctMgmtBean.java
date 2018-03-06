@@ -143,7 +143,7 @@ public class AcctMgmtBean implements Serializable{
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
             message.setSubject("[PRISM] Password Reset");
-            message.setText("Your new password is " + newPass + ".");
+            message.setText("Your account has been reseted. Please enter " + newPass + "as your password on your next log in.");
 
             Transport.send(message);
             System.out.println("Reset password email sent.");

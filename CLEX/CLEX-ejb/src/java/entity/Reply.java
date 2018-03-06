@@ -6,6 +6,9 @@
 package entity;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -43,14 +46,17 @@ public class Reply implements Serializable {
     @ManyToOne
     private Thread thread;
     
-    public void createReply(Long threadId, String dateTime, 
-                String content,int upVote, int downVote, User user){
+    public Reply(){
+        Date current = new Date();
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        this.dateTime = format.format(current);
+    }
+    
+    public void createReply(Long threadId, String content){
         this.threadId = threadId;
-        this.dateTime = dateTime;
-        this.upVote = upVote;
-        this.downVote = downVote;
+        this.upVote = 0; //by default 0
+        this.downVote = 0;
         this.content = content;
-        this.user = user;
     }
     
     public Long getId() {
