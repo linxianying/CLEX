@@ -5,6 +5,9 @@
  */
 package session;
 
+import entity.ProjectGroup;
+import java.util.ArrayList;
+import javaClass.StudentCost;
 import javax.ejb.Local;
 
 /**
@@ -13,5 +16,8 @@ import javax.ejb.Local;
  */
 @Local
 public interface ProjectCostSessionBeanLocal {
+
+    public void addTransaction(ArrayList<StudentCost> all, String activity, double totalCost, ProjectGroup group);
+
     
 }

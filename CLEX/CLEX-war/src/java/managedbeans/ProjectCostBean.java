@@ -13,12 +13,16 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import javaClass.StudentCost;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.RequestScoped;
+import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import session.ClexSessionBeanLocal;
+import session.ProjectCostSessionBeanLocal;
 
 /**
  *
@@ -27,21 +31,30 @@ import session.ClexSessionBeanLocal;
 @Named(value = "projectCostBean")
 @SessionScoped
 public class ProjectCostBean implements Serializable {
-    
-    ClexSessionBeanLocal csbl;
+    @EJB
+    private ClexSessionBeanLocal csbl;
+    @EJB
+    private ProjectCostSessionBeanLocal pcsbl;
     
     FacesContext context;
     HttpSession session;
     
     private Module module;
     private ProjectGroup group;
+    private Student student;
     
     private String activity;
+    private double totalCost;
     private double cost;
+    //private Map<Long, Student> groupMembers;
     private Collection<Student> groupMembers;
+    private ArrayList<Student> testGroupMembers;
+    private ArrayList<String> testGroupMembersName;
     private Student individualPayer;
-    private ArrayList<StudentCost> payers;
-    private ArrayList<StudentCost> payees;
+    private String individualPayerUsername;
+    private Long individualPayerId;
+    private ArrayList<StudentCost> all;
+    //private ArrayList<StudentCost> payees;
     private String splitBy;
     private String paidBy;
 
@@ -63,11 +76,14 @@ public class ProjectCostBean implements Serializable {
         session = (HttpSession) context.getExternalContext().getSession(true);
         group = (ProjectGroup) session.getAttribute("projectGroup");
         groupMembers = group.getGroupMembers();
+        //testGroupMembers = new ArrayList<Student>();
+        //testGroupMembersName = new ArrayList<String>();
+        this.setOriStudentCost();
         module = (Module) session.getAttribute("module");
         paidBy = "Individual";
         splitBy = "Equally";
-        this.setOriPayers();
-        this.setOriPayees();
+        this.setOriStudentCost();
+        System.out.println("Finish initialization");
     }
 
     public FacesContext getContext() {
@@ -116,14 +132,6 @@ public class ProjectCostBean implements Serializable {
 
     public void setCsbl(ClexSessionBeanLocal csbl) {
         this.csbl = csbl;
-    }
-
-    public Collection<Student> getGroupMembers() {
-        return groupMembers;
-    }
-
-    public void setGroupMembers(Collection<Student> groupMembers) {
-        this.groupMembers = groupMembers;
     }
 
     public Student getIndividualPayer() {
@@ -176,41 +184,103 @@ public class ProjectCostBean implements Serializable {
         this.module = module;
     }
 
-    public ArrayList<StudentCost> getPayers() {
-        return payers;
+    public Student getStudent() {
+        return student;
     }
 
-    public void setPayers(ArrayList<StudentCost> payers) {
-        this.payers = payers;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
-    public ArrayList<StudentCost> getPayees() {
-        return payees;
+    public double getTotalCost() {
+        return totalCost;
     }
 
-    public void setPayees(ArrayList<StudentCost> payees) {
-        this.payees = payees;
+    public void setTotalCost(double totalCost) {
+        this.totalCost = totalCost;
+    }
+
+    public ProjectCostSessionBeanLocal getPcsbl() {
+        return pcsbl;
+    }
+
+    public void setPcsbl(ProjectCostSessionBeanLocal pcsbl) {
+        this.pcsbl = pcsbl;
+    }
+
+    public ArrayList<StudentCost> getAll() {
+        return all;
+    }
+
+    public void setAll(ArrayList<StudentCost> all) {
+        this.all = all;
+    }
+
+    public Collection<Student> getGroupMembers() {
+        return groupMembers;
+    }
+
+    public void setGroupMembers(Collection<Student> groupMembers) {
+        this.groupMembers = groupMembers;
     }
     
-    //in case of multiple payers, set each student with the amount they pay
-    public void setOriPayers() {
-        payers = new ArrayList<StudentCost>();
-        for (Student s: this.groupMembers) {
-            StudentCost studentCost = new StudentCost(s, 0.0);
-            payers.add(studentCost);
+    
+    
+    //in case of multiple payers and payees, set each student with the amount they pay
+    public void setOriStudentCost() {
+        all = new ArrayList<StudentCost>();
+        for (Student s: this.getGroupMembers()) {
+            StudentCost studentCost = new StudentCost(s, 0.0, 0.0);
+            all.add(studentCost);
         }
     }
     
-    //in case of multiple payees, set each student with the amount they use
-    public void setOriPayees() {
-        payees = new ArrayList<StudentCost>();
-        for (Student s: this.groupMembers) {
-            StudentCost studentCost = new StudentCost(s, 0.0);
-            payees.add(studentCost);
-        }
-    }
     
     public void addTransaction() {
+        System.out.println("Strat to add transaction");
+        System.out.println("activity=" + this.activity);
+        System.out.println("totalcost=" + this.totalCost);
+        System.out.println("individual payer ID = " + individualPayerId);
+
+        for (StudentCost sc: all) {
+            System.out.println(sc.toString());
+            System.out.println(" ");
+        }
+        //if paid by individual
+        if (paidBy.equals("Individual")) {
+            // find the individualPayer in the payer arrayList and assign total cost to it
+            System.out.println("It is paid by individual");
+            for (StudentCost sc: all) {
+                if (sc.getStudent().getId().equals(individualPayerId)) {
+                    System.out.println(sc.getStudent().getName() + "find");
+                    sc.setPay(totalCost);
+                }
+            }
+        }
+        // no need to set anything if paid by multiple people
+        //if split equally 
+        if (splitBy.equals("Equally")) {
+            cost = totalCost/getGroupMembers().size();
+            for (StudentCost sc: all) 
+                sc.setCost(cost);
+        }
+        //if split by percentage 
+        else if (splitBy.equals("Percentage")) {
+            for (StudentCost sc: all) {
+                cost = totalCost*sc.getCost()/100;
+                sc.setCost(cost);
+            }
+        }
+        System.out.println("activity=" + this.activity);
+        System.out.println("totalcost=" + this.totalCost);
+        System.out.println("all=" + this.all.toString());
+        pcsbl.addTransaction(all, activity, totalCost, group);
+        
+        //initialize 
+        for (StudentCost sc: all) {
+            sc.setPay(0.0);
+            sc.setCost(0.0);
+        }
         
     }
     
@@ -219,6 +289,52 @@ public class ProjectCostBean implements Serializable {
     public void checkNumOfPayer() {
         // if there is more than one payer
         System.out.println("paidby:" + paidBy);
+    }
+
+    /*
+    @return the groupMembers
+     
+    public Map<Long, Student> getGroupMembers() {
+        return groupMembers;
+    }
+
+   
+     * @param groupMembers the groupMembers to set
+    public void setGroupMembers(Map<Long, Student> groupMembers) {
+        this.groupMembers = groupMembers;
+    }
+    */
+
+    public String getIndividualPayerUsername() {
+        return individualPayerUsername;
+    }
+
+    public void setIndividualPayerUsername(String individualPayerUsername) {
+        this.individualPayerUsername = individualPayerUsername;
+    }
+
+    public ArrayList<Student> getTestGroupMembers() {
+        return testGroupMembers;
+    }
+
+    public void setTestGroupMembers(ArrayList<Student> testGroupMembers) {
+        this.testGroupMembers = testGroupMembers;
+    }
+
+    public ArrayList<String> getTestGroupMembersName() {
+        return testGroupMembersName;
+    }
+
+    public void setTestGroupMembersName(ArrayList<String> testGroupMembersName) {
+        this.testGroupMembersName = testGroupMembersName;
+    }
+
+    public Long getIndividualPayerId() {
+        return individualPayerId;
+    }
+
+    public void setIndividualPayerId(Long individualPayerId) {
+        this.individualPayerId = individualPayerId;
     }
     
     
