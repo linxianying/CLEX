@@ -30,19 +30,19 @@ public class Student extends User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(length = 32, nullable = false)
+    @Column(length = 32)
     private String faculty;
     
-    @Column(length = 32, nullable = false)
+    @Column(length = 32)
     private String major;
     
-    @Column(length = 32, nullable = false)
+    @Column(length = 32)
     private String matricYear;
     
-    @Column(length = 32, nullable = false)
+    @Column(length = 32)
     private String matricSem;
     //private String currentYear;
-    @Column(length = 32, nullable = false)
+    @Column(length = 32)
     private double cap;
     
     @ManyToMany(cascade={CascadeType.PERSIST}, mappedBy="students")
