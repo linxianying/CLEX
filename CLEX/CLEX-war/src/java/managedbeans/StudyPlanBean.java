@@ -48,6 +48,7 @@ public class StudyPlanBean {
     
     private String username;
     private String moduleCode;
+    //private String matricYear;
     private String pickYear;
     private String pickSem;
     private ArrayList<Course> takenCourses;
@@ -83,12 +84,19 @@ public class StudyPlanBean {
         //for test purpose only
         //this.username="namename";
         cap = cpsbl.findStudent(username).getCap();
-        gradesInOrder = cpsbl.getAllGradesInOrder(username);
+        if (student.getGrades() != null) {
+            gradesInOrder = cpsbl.getAllGradesInOrder(username);
+        }
         takingModules = cpsbl.getCurrentModules(username);
-        studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
-        expectedCourseGrade = cpsbl.getExpectedCourseGrade(username);
-        expectedCap = cap;
-        System.out.println("Expected Cap reset to " + expectedCap);
+        if (student.getStudyPlan() != null) {
+            studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
+            expectedCourseGrade = cpsbl.getExpectedCourseGrade(username);
+            expectedCap = cap;
+            System.out.println("Expected Cap reset to " + expectedCap);
+        }
+        else {
+            expectedCap = 0.0;
+        }
         this.setNewModuleGrade("select");
         //newModuleGrade = "A+";
         this.setNewCurrentModuleGrade("select");

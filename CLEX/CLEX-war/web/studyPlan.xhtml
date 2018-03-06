@@ -15,71 +15,12 @@
         <h:body>
             <div>
                 <div id="content" class="left_content">
-                    <!--   _________________TO-BE DELETED TEST FUNCTIONS ____________
-                    <h:form>
-                        <p:growl id="messages" showDetail="true" />
-                        <p:toolbar>
-                            <f:facet name="left">
-                                <p:commandButton type="button" actionListener="#{studyPlanBean.newStudyPlan}" value="New" icon="ui-icon-document" />
-
-                                <p:commandButton type="button" value="Refresh" icon="ui-icon-folder-open" />
-
-                                <span class="ui-separator">
-                                    <span class="ui-icon ui-icon-grip-dotted-vertical" />
-                                </span>
-
-                                <p:commandButton type="button" title="Save" icon="ui-icon-disk" />
-                                <p:commandButton type="button" title="Delete" icon="ui-icon-trash" />
-                                <p:commandButton type="button" title="Print" icon="ui-icon-print" />
-                            </f:facet>
-
-                            <f:facet name="right">
-                                <p:menuButton value="Options">
-                                    <p:menuitem value="Save" actionListener="#{studyPlanBean.save}" update="messages" icon="ui-icon-disk" />
-                                    <p:menuitem value="Update" actionListener="#{studyPlanBean.update}" update="messages" icon="ui-icon-arrowrefresh-1-w" />
-                                    <p:menuitem value="Delete" actionListener="#{studyPlanBean.delete}" ajax="false" icon="ui-icon-close" />
-                                    <p:menuitem value="Homepage" url="http://www.primefaces.org" icon="ui-icon-extlink" />
-                                </p:menuButton>
-                            </f:facet>
-
-                        </p:toolbar>
-                    </h:form>
-                    <br />
-                    <h:form>
-                        <h:commandButton value="TestAddModuleFromNUSMods" actionListener="#{studyPlanBean.testAddModuleFromNUSMods}" action="studyPlan?faces-redirect=true" />
-                    </h:form>
-                    <br />
-                    <h:form>
-                        <h:commandButton value="TestGetTimetable" actionListener="#{studyPlanBean.getTimetable}" action="studyPlan?faces-redirect=true" />
-                    </h:form>
-                    <br />
-                    <h:form>
-                        <h:commandButton value="TestAddStudyPlan" actionListener="#{studyPlanBean.testAddStudyPlan}" action="studyPlan?faces-redirect=true" />
-                    </h:form>
-                    <br />
-                    <h:form>
-                        <h:commandButton value="TestUpdateStudyPlan" actionListener="#{studyPlanBean.testUpdateStudyPlan}" action="studyPlan?faces-redirect=true" />
-                    </h:form>
-                    <br />
-                    <h:form>
-                        <h:commandButton value="TestRemoveStudyPlan" actionListener="#{studyPlanBean.testRemoveStudyPlan}" action="studyPlan?faces-redirect=true" />
-                    </h:form>
-                    <br />
-                    <h:form>
-                        <h:commandButton value="testViewTakenCourses" actionListener="#{studyPlanBean.testViewTakenCourses}" action="studyPlan?faces-redirect=true" />
-                    </h:form>
-                    <h:form>
-                        <h:commandButton value="testViewStudyPlan" actionListener="#{studyPlanBean.testViewStudyPlan}" action="studyPlan?faces-redirect=true" />
-                    </h:form>
-                    <h:form>
-                        <h:commandButton value="testViewTakenCoursesInOrder" actionListener="#{studyPlanBean.testViewTakenCoursesInOrder}" action="studyPlan?faces-redirect=true" />
-                    </h:form>
-                    <br />
-                    -->
+                    
 
                     <!-- START: Panel Modules TAKEN -->
                     <h:form>
-                        <p:panel collapsed="true" styleClass="menuHeader" id="modulesTaken" header="Modules Taken Previously" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
+                        <h:outputText value="You have not taken any module before" rendered="#{empty studyPlanBean.student.grades}"/>
+                        <p:panel collapsed="true" styleClass="menuHeader" id="modulesTaken" header="Modules Taken Previously" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px" rendered="#{not empty studyPlanBean.student.grades}">
                             <h:panelGrid columns="2" width="1000px">
                                 <p:dataList var="grades" value="#{studyPlanBean.gradesInOrder}">
                                     <p:column>
@@ -126,7 +67,8 @@
 
                     <!-- START: Panel For Modules TAKING This Semester -->
                     <h:form>
-                        <p:panel collapsed="true" styleClass="menuHeader" id="modulesTaking" header="Modules Taking This Semester" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
+                        <h:outputText value="You are not taking any module currently" rendered="#{empty studyPlanBean.takingModules}"/>
+                        <p:panel collapsed="true" styleClass="menuHeader" id="modulesTaking" header="Modules Taking This Semester" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px" rendered="#{not empty studyPlanBean.takingModules}">
                             <h2>
                                 <h:outputText value="AY " />
                                 <h:outputText value="#{studyPlanBean.takingModules.get(0).takenYear}" />
@@ -180,7 +122,8 @@
 
 
                     <!-- START: Panel for Study Plan -->
-                    <p:panel styleClass="menuHeader" id="studyPlan" header="Study Plans" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
+                    <h:outputText value="You do not have any StudyPlan currently" rendered="#{empty studyPlanBean.student.studyPlan}"/>
+                    <p:panel styleClass="menuHeader" id="studyPlan" header="Study Plans" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px" rendered="#{not empty studyPlanBean.student.studyPlan}">
                         <h:panelGrid columns="2" width="1000px">
                             <p:dataList var="studyPlans" value="#{studyPlanBean.studyPlansInOrer}" id="studyPlansList">
                                 <h2>
