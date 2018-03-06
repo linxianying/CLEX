@@ -8,19 +8,40 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="content">
-        <h:head>
-            <title>PRISM Administrator User List Page</title>
-        </h:head>
+        <p:growl id="messages" showDetail="true" />
+        <h1 style="margin-top:0">User Management Page</h1>
+        <p:tabView>
+            <p:tab title="APPROVE USER">
                 <h:form>
-                    <p:growl id="messages" showDetail="true" />
-                    <h:panelGrid columns="4" cellpadding="5">
+                    <h:panelGrid columns="1" cellpadding="5">
                         <h:outputLabel for= "username" value="Please enter a user to approve:"/>
                         <p:inputText id="username" value="#{accessControlBean.username}" required="true" />
-                        <p:commandButton value="Submit" actionListener="#{accessControlBean.approveUser}" />
+                        <p:commandButton value="Submit" actionListener="#{accessControlBean.approveUser}" update="messages"/>
                     </h:panelGrid>
                 </h:form>
+            </p:tab>
+            <p:tab title="REJECT USER">
+                <h:form>
+                    <h:panelGrid columns="1" cellpadding="5">
+                        <h:outputLabel for= "usernameReject" value="Please enter a user to reject:"/>
+                        <p:inputText id="usernameReject" value="#{accessControlBean.username}" required="true" />
+                        <p:commandButton value="Submit" actionListener="#{accessControlBean.rejectUser}" update="messages" />
+                    </h:panelGrid>
+                </h:form>
+            </p:tab>
+            <p:tab title="DELETE USER">
+                <h:form>
+                    <h:panelGrid columns="1" cellpadding="5">
+                        <h:outputLabel for= "usernameDelete" value="Please enter a user to delete:"/>
+                        <p:inputText id="usernameDelete" value="#{accessControlBean.username}" required="true" />
+                        <p:commandButton value="Submit" actionListener="#{accessControlBean.removeUser}" update="messages" />
+                    </h:panelGrid>
+                </h:form>
+            </p:tab>
+        </p:tabView>
             <br></br>
                 <h:form>
+                    <p:panel collapsed="true" styleClass="menuHeader" id="userlist" header="VIEW ALL USERS" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
                     <p:dataTable var="user" value="#{userListBean.users}" widgetVar="usersTable"
                               emptyMessage="No users found with given criteria." filteredValue="#{userListBean.filteredUsers}">
 
@@ -68,6 +89,7 @@
                                 <h:outputText value="#{user.approval ? 'Yes': 'No'}" />
                             </p:column>
                     </p:dataTable>
+                    </p:panel>
             </h:form>
     </ui:define>
 

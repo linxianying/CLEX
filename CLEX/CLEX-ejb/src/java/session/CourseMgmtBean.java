@@ -124,6 +124,7 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
         return true;
     }
     
+    @Override
     public boolean deleteModule(String moduleCode, String takenYear, String takenSem){
         courseEntity = findCourse(moduleCode.toUpperCase());
         moduleEntity = findModule(courseEntity, takenYear, takenSem);
@@ -287,12 +288,33 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
             return false;
         }
         
+        if(lecturerEntity.getModules().contains(moduleEntity)){
+            return false;
+        }
+        
         moduleEntity.getLecturers().add(lecturerEntity);
         lecturerEntity.getModules().add(moduleEntity);
         em.merge(moduleEntity);
         em.merge(lecturerEntity);       
         em.flush();
         return true;
+    }
+    
+    @Override
+    public boolean checkLectTeachModule(String username, String moduleCode, String takenYear, String takenSem){
+        lecturerEntity = findLecturer(username);
+        courseEntity = findCourse(moduleCode.toUpperCase());
+        moduleEntity = findModule(courseEntity, takenYear, takenSem);
+        
+        if(lecturerEntity == null){
+            return false;
+        }
+        
+        if(lecturerEntity.getModules().contains(moduleEntity)){
+            return true;
+        }
+        
+        return false;
     }
     
     public Collection<Module> getModulesFromCourse(String moduleCode){
@@ -306,6 +328,23 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
         lecturerEntity = findLecturer(username);
         modules = lecturerEntity.getModules();
         return modules;
+    }
+    
+    @Override
+    public Collection<Lesson> getLessonsFromLecturer(String username){
+        lecturerEntity = findLecturer(username);
+        List<Module> moduleList = (List) lecturerEntity.getModules();
+        List<Lesson> lessonList = new ArrayList<Lesson>();
+        Collection<Lesson> lectLessons = new ArrayList<Lesson>();
+        
+        for(int i=0; i<modules.size(); i++){
+            lessonList = (List) moduleList.get(i).getLessons();
+            for(int j=0; j<lessonList.size(); j++){
+                lessonEntity = lessonList.get(j);
+                lectLessons.add(lessonEntity);
+            }
+        }    
+        return lectLessons;
     }
     
     public Collection<Lesson> getLessonsFromModule(String moduleCode, String takenYear, String takenSem){

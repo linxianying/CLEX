@@ -623,6 +623,13 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
 
     @Override
     public void linkStudentGroup(Student student, ProjectGroup projectGroup){
+        //to make sure that students number in a project group will not be larger than the max number
+        if(projectGroup.getGroupMembers().size()>=projectGroup.getSuperGroup().getMaxStudentNum()){
+            System.out.println("This project Group " + projectGroup.getName() + " of " 
+                    + projectGroup.getSuperGroup().getModule().getCourse().getModuleCode() 
+                    +" is full.");
+            return;
+        }
         projectGroup.getGroupMembers().add(student);
         student.getProjectGroups().add(projectGroup);
         em.merge(projectGroup);
@@ -632,7 +639,6 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     
     @Override
     public ProjectGroup findProjectgroup(String name, Module module) {
-        
         try{
             Query q = em.createQuery("SELECT p FROM ProjectGroup p WHERE p.name = :name AND p.superGroup.id = :id");
             q.setParameter("name", name);

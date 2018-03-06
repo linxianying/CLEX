@@ -17,4 +17,5 @@ public interface UserAccessControlBeanLocal {
     public List getAllUsers();
     public List<String> createUserTypes();
     public boolean approveUser(String username);
+    public boolean deleteUser(String username);
 }

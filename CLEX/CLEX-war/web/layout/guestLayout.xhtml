@@ -15,7 +15,7 @@
                  <p:commandLink title="Notifications" style="text-decoration: none;"
                                onclick="PF('announcementsDialog').show()" value="Notifications"></p:commandLink>
                 <p:commandLink title="Private Message" style="text-decoration: none;" styleClass="msgBtn"></p:commandLink>
-                <p:commandLink title="Settings" style="text-decoration: none;" styleClass="settingsBtn"></p:commandLink>
+                <p:commandLink title="Settings" style="text-decoration: none;" styleClass="settingsBtn" action="#{acctMgmtBean.editProfile}"></p:commandLink>
                 <p:commandLink title="Logout" style="text-decoration: none;" styleClass="logoutBtn" action="#{acctMgmtBean.logout}" ></p:commandLink>
             </h:form>
         </div>
@@ -28,7 +28,7 @@
                 <div id="style-1">
                     <ul>
                         <li>
-                            <a href="guestAdmin.xhtml">
+                            <a href="guestMain.xhtml">
                                 <i class="fa fa-home fa-lg"></i>
                                 <span class="nav-text">Dashboard</span>
                             </a>

@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,10 +25,16 @@ import javax.persistence.OneToMany;
 public class Transaction implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Column(length = 32, nullable = false)
     private double cost;
+    
+    @Column(length = 64, nullable = false)
     private String date;
+    
+    @Column(length = 512, nullable = false)
     private String activity;
     
     @ManyToOne

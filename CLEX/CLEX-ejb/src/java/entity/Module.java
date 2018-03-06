@@ -28,12 +28,18 @@ import javax.persistence.OneToOne;
 public class Module implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Column(length = 16, nullable = false)
     private String takenYear;
+    
+    @Column(length = 16, nullable = false)
     private String takenSem;
+    
     @Column(length=2048)
     private String prerequisite;
+    
     @Column(length=2048)
     private String preclusions;
 

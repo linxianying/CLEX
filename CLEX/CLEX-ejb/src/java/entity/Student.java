@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,14 +27,22 @@ import javax.persistence.OneToOne;
 public class Student extends User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @Column(length = 32)
     private String faculty;
+    
+    @Column(length = 32)
     private String major;
+    
+    @Column(length = 32)
     private String matricYear;
+    
+    @Column(length = 32)
     private String matricSem;
     //private String currentYear;
+    @Column(length = 32)
     private double cap;
     
     @ManyToMany(cascade={CascadeType.PERSIST}, mappedBy="students")
@@ -221,7 +230,7 @@ public class Student extends User implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Student[ id=" + id + " ]";
+        return super.getName()+", username: " + super.getUsername();
     }
     
 }

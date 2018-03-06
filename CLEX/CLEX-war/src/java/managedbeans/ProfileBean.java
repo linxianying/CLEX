@@ -8,29 +8,35 @@ package managedbeans;
 import entity.Lecturer;
 import entity.Student;
 import entity.User;
+import java.io.IOException;
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import session.ClexSessionBeanLocal;
+import session.ProfileSessionBeanLocal;
 
 /**
  *
  * @author eeren
  */
 @ManagedBean(name = "profileBean")
-@ViewScoped
+@SessionScoped
 public class ProfileBean implements Serializable {
 
     @EJB
     private ClexSessionBeanLocal csbl;
+    
+    @EJB
+    private ProfileSessionBeanLocal psbl;
 
     private User userEntity;
     private Student studentEntity;
+    private Lecturer lecturerEntity;
 
     private String username;
     private String password;
@@ -59,8 +65,10 @@ public class ProfileBean implements Serializable {
     private String newPassword2; //for confirm password
     private String oldPassword;
 
-    FacesContext context;
     HttpSession session;
+    
+    FacesMessage fmsg = new FacesMessage();
+    FacesContext context = FacesContext.getCurrentInstance();
 
     public ProfileBean() {
     }
@@ -88,6 +96,155 @@ public class ProfileBean implements Serializable {
             matricYear = studentEntity.getMatricYear();
             matricSem = studentEntity.getMatricSem();
             cap = studentEntity.getCap();
+        }
+        else if (userType.equals("Lecturer")) {
+            lecturerEntity = (Lecturer) userEntity;
+            
+            faculty = lecturerEntity.getFaculty();
+        }
+    }
+    
+    public void editStudentProfile() throws IOException{     
+        Long contactNo = Long.parseLong(contactNum);
+        
+        //System.out.println("name: " + name);
+        psbl.editStudent(username, name, email, contactNo, faculty, major, matricYear, matricSem);
+        //FacesContext.getCurrentInstance().getExternalContext().redirect("profile.xhtml");
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Profile Successfully Updated", ""));
+    }
+    
+    public void editLecturerProfile() throws IOException{     
+        Long contactNo = Long.parseLong(contactNum);
+        
+        //System.out.println("name: " + name);
+        psbl.editLecturer(username, name, email, school, contactNo, faculty);
+        //FacesContext.getCurrentInstance().getExternalContext().redirect("lecturerProfile.xhtml");
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Profile Successfully Updated", ""));
+    }
+    
+    public void editGuestProfile() throws IOException{     
+        Long contactNo = Long.parseLong(contactNum);
+        
+        //System.out.println("name: " + name);
+        psbl.editGuest(username, name, email, school, contactNo);
+        //FacesContext.getCurrentInstance().getExternalContext().redirect("guestProfile.xhtml");
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Profile Successfully Updated", ""));
+    }
+    
+    public void editAdminProfile() throws IOException{     
+        Long contactNo = Long.parseLong(contactNum);
+        
+        //System.out.println("name: " + name);
+        psbl.editAdmin(username, name, email, school, contactNo);
+        //FacesContext.getCurrentInstance().getExternalContext().redirect("adminProfile.xhtml");
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Profile Successfully Updated", ""));
+    }
+    
+    public void editPassword() throws IOException{
+        if(!newPassword1.equals(newPassword2)){
+            // Passwords don't match
+            // Need help for implementation error message on UI for passwords mismatch
+            //fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Confirm Password does not match", "");
+            System.out.println("Passwords Mismatch");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "The 2 new passwords are not the same", ""));
+        }
+        else{
+            Boolean temp;
+            temp = psbl.checkPassword(username, oldPassword);
+            
+            if (temp == true){
+                //System.out.println("here");
+                psbl.changePassword(username, newPassword2);
+                //FacesContext.getCurrentInstance().getExternalContext().redirect("profile.xhtml");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Password has been successfully updated", ""));
+            }
+            else{
+                //throw error: Wrong password
+                // Need help for implementation error message on UI for passwords mismatch
+                System.out.println("Wrong password with DB");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Current password is incorrect", ""));
+            }
+        }
+    }
+    
+    public void editLecturerPassword() throws IOException{
+        if(!newPassword1.equals(newPassword2)){
+            // Passwords don't match
+            // Need help for implementation error message on UI for passwords mismatch
+            //fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Confirm Password does not match", "");
+            System.out.println("Passwords Mismatch");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "The 2 new passwords are not the same", ""));
+        }
+        else{
+            Boolean temp;
+            temp = psbl.checkPassword(username, oldPassword);
+            
+            if (temp == true){
+                //System.out.println("here");
+                psbl.changePassword(username, newPassword2);
+                //FacesContext.getCurrentInstance().getExternalContext().redirect("lecturerProfile.xhtml");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Password has been successfully updated", ""));
+            }
+            else{
+                //throw error: Wrong password
+                // Need help for implementation error message on UI for passwords mismatch
+                System.out.println("Wrong password with DB");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Current password is incorrect", ""));
+            }
+        }
+    }
+    
+    public void editGuestPassword() throws IOException{
+        if(!newPassword1.equals(newPassword2)){
+            // Passwords don't match
+            // Need help for implementation error message on UI for passwords mismatch
+            //fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Confirm Password does not match", "");
+            System.out.println("Passwords Mismatch");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "The 2 new passwords are not the same", ""));
+        }
+        else{
+            Boolean temp;
+            temp = psbl.checkPassword(username, oldPassword);
+            
+            if (temp == true){
+                //System.out.println("here");
+                psbl.changePassword(username, newPassword2);
+                //FacesContext.getCurrentInstance().getExternalContext().redirect("guestProfile.xhtml");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Password has been successfully updated", ""));
+            }
+            else{
+                //throw error: Wrong password
+                // Need help for implementation error message on UI for passwords mismatch
+                System.out.println("Wrong password with DB");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Current password is incorrect", ""));
+            }
+        }
+    }
+    
+    public void editAdminPassword() throws IOException{
+        if(!newPassword1.equals(newPassword2)){
+            // Passwords don't match
+            // Need help for implementation error message on UI for passwords mismatch
+            //fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Confirm Password does not match", "");
+            System.out.println("Passwords Mismatch");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "The 2 new passwords are not the same", ""));
+        }
+        else{
+            Boolean temp;
+            temp = psbl.checkPassword(username, oldPassword);
+            
+            if (temp == true){
+                //System.out.println("here");
+                psbl.changePassword(username, newPassword2);
+                //FacesContext.getCurrentInstance().getExternalContext().redirect("adminProfile.xhtml");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Password has been successfully updated", ""));
+            }
+            else{
+                //throw error: Wrong password
+                // Need help for implementation error message on UI for passwords mismatch
+                System.out.println("Wrong password with DB");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Current password is incorrect", ""));
+            }
         }
     }
 

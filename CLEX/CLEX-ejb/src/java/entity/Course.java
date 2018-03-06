@@ -28,18 +28,34 @@ public class Course implements Serializable {
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
     
-    
+    @Column(length = 64, nullable = false)
     private String moduleCode;
+    
+    @Column(length = 256, nullable = false)
     private String moduleName;
     
-    @Column(length=2048)
+    @Column(length = 2048)
     private String moduleInfo;
+    
+    @Column(length = 64)
     private boolean discontinuedBool;
+    
+    @Column(length = 64)
     private String discountinuedYear;
+    
+    @Column(length = 64)
     private String discountinuedSem;
+    
+    @Column(length = 256)
     private String offeredSem;
+    
+    @Column(length = 256)
     private String school;
+    
+    @Column(length = 128)
     private String workload;
+    
+    @Column(length = 32)
     private String modularCredits;
     
     

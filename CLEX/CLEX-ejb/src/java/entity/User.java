@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinTable;
@@ -28,16 +29,34 @@ import javax.persistence.OneToMany;
 public abstract class User implements Serializable{
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Column(length = 512, nullable = false)
     private String password;
+    
+    @Column(length = 64, nullable = false)
     private String username;
+    
+    @Column(length = 32, nullable = false)
     private String userType;
+    
+    @Column(length = 64, nullable = false)
     private String school;
+    
+    @Column(length = 32, nullable = false)
     private String email;
+    
+    @Column(length = 32, nullable = false)
     private Long contactNum;
+    
+    @Column(length = 64, nullable = false)
     private String name;
+    
+    
     private String salt;
+    
+    @Column(length = 32, nullable = false)
     private boolean approval; //false - not approved, true - approved
     
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="user")
