@@ -84,7 +84,8 @@ public class StudyPlanBean {
         //for test purpose only
         //this.username="namename";
         cap = cpsbl.findStudent(username).getCap();
-        if (student.getGrades() != null) {
+        if (student.getGrades().size() > 0) {
+            System.out.println(student.getGrades().size());
             gradesInOrder = cpsbl.getAllGradesInOrder(username);
         }
         takingModules = cpsbl.getCurrentModules(username);

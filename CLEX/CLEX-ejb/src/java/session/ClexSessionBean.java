@@ -196,8 +196,8 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         em.persist(module);
         em.merge(course);
         em.flush();
-        System.out.println("Try: get course's modules" + course.getModules().size());
-        System.out.println("Try: get course's modules" + course.getModules());
+        //System.out.println("Try: get course's modules" + course.getModules().size());
+        //System.out.println("Try: get course's modules" + course.getModules());
     }
     
     public void createLesson(String day, String timeFrom, String timeEnd, String type, String venue, Module module) {

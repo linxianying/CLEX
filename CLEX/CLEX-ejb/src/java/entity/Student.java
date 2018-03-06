@@ -37,13 +37,13 @@ public class Student extends User implements Serializable {
     private String major;
     
     @Column(length = 32)
-    private String matricYear;
+    private String matricYear = "";
     
     @Column(length = 32)
-    private String matricSem;
+    private String matricSem = "";
     //private String currentYear;
     @Column(length = 32)
-    private double cap;
+    private double cap = 0.0;
     
     @ManyToMany(cascade={CascadeType.PERSIST}, mappedBy="students")
     @JoinTable(name="Student_Module")

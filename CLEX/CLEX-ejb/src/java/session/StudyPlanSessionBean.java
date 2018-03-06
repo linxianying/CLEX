@@ -228,7 +228,9 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         gradesInOrder = new ArrayList<ArrayList<Grade>>();
         grades = this.getAllGrades(username);
         //the iterator of for loop to change to next semster
-        int year = Integer.parseInt(this.findStudent(username).getMatricYear());
+        int year = 2018;
+        if(this.findStudent(username).getMatricYear()!=null)
+            year= Integer.parseInt(this.findStudent(username).getMatricYear());
         int sem = 1;
         int numOfSemTaken = checkNumOfSemTaken(username)-1;
         //from matric year sem 1, check what are the courses taken for the sem
