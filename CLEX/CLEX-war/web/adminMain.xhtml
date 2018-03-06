@@ -13,131 +13,137 @@
             <title>PRISM Administrator Main Page</title>
         </h:head>
         <div>
-            <h:outputText value="Welcome to PRISM, #{loginBean.username}" />
-            <br></br>
-            <br></br>
-            <h:form id="adminForm">
+            <h:body>
+                <h:outputText value="Welcome to PRISM, #{loginBean.username}" />
+                <br></br>
+                <br></br>
                 <p:growl id="messages" showDetail="true" />
-                <p:tabView id="outerTab">
-                    <p:tab title="Create Announcement">
-                        <!-- putting on main page just for testing only-->
-                        <h1 style="margin-top:0">Create announcement:</h1>
-                        <h:panelGrid id="pGrid1" columns="1" cellpadding="5" style="align: left">
-                            <p:inputText title="Announcement Title"
-                                         placeholder="title"
-                                         id="title" value="#{announcementBean.title}" 
-                                         maxlength="80" >
-                            </p:inputText>    
-                            <p:inputTextarea id="message" value="#{announcementBean.message}"
-                                             title="Announcement Body"
-                                             placeholder="message" 
-                                             rows="4" cols="30" counter="display" maxlength="300" 
-                                             counterTemplate="{0} characters remaining." autoResize="true" />
-                            <h:outputText id="display" />
-                            <!--Input "1": all, "2": students only, "3": lecturers only, "4": guests only, "5": 2&3 (admin can use any, lecturer's default use 2)-->
-                            <p:selectOneMenu styleClass="textInput"  
-                                             id="audience" value="#{announcementBean.audience}" 
-                                             editable="false" placeholder="recipients" 
-                                             title="Select intended recipients of your announcement"
-                                             >
-                                <f:selectItem itemLabel="Intended recipients" itemDescription="Select intended recipients of your announcement"/>
-                                <f:selectItem itemLabel="All" itemValue="1" itemDescription="Send to all"/>
-                                <f:selectItem itemLabel="Students" itemValue="2" itemDescription="Send to all students only"/>
-                                <f:selectItem itemLabel="Lecturers" itemValue="3" itemDescription="Send to all lecturers only"/>
-                                <f:selectItem itemLabel="Guests" itemValue="4" itemDescription="Send to all guests only"/>
-                                <f:selectItem itemLabel="Lecturers and Students" itemValue="5" itemDescription="Send to all lecturers and students"/>
-                            </p:selectOneMenu>   
-                            <p:tooltip id="toolTipTitle" for="title" showEvent="focus" hideEvent="blur" position="right" showEffect="clip" />
-                            <p:tooltip id="toolTipMsg" for="message" showEvent="focus" hideEvent="blur" position="right" showEffect="clip" />
-                            <p:commandButton id="submitButton" update="adminForm" 
-                                             action="adminMain?faces-redirect=true"
-                                             value="Submit" actionListener="#{announcementBean.enterAnnouncement}" >
-                            </p:commandButton>
-                        </h:panelGrid>
-                    </p:tab>
-                    <p:tab title="Announcements by you">
-                        <h1 style="margin-top:0">Announcements by you</h1>
-                        <h:panelGrid columns="1" cellpadding="10">
-                            <h:panelGrid id="panelOuter2" columns="2" width="100%">
-                                <p:dataList var="adminAnnouncementList" value="#{announcementBean.announcements}" id="adminAnncList">
-                                    <p:accordionPanel multiple="true" activeIndex="1">
-                                        <p:tab title="#{adminAnnouncementList.title}">
-                                            <h:panelGrid id="indivGrid2" columns="2">
-                                                <h:outputText value="Announcement Date:" />
-                                                <h:outputText value="#{adminAnnouncementList.createdDate}" />
-                                                <h:outputText value="Announcement Title:" />
-                                                <p:inputText title="Announcement Title"
-                                                             placeholder="title"
-                                                             id="title2" value="#{adminAnnouncementList.title}" 
-                                                             maxlength="80" >
-                                                </p:inputText>    
-                                                <h:outputText value="Announcement Message:" />
-                                                <p:inputTextarea id="message2" value="#{adminAnnouncementList.message}"
-                                                                 title="Announcement Body"
-                                                                 placeholder="message" 
-                                                                 rows="4" cols="30" counter="display" maxlength="300" 
-                                                                 counterTemplate="{0} characters remaining." autoResize="true"/>
-                                                <br></br>
-                                                <h:outputText id="display" />
-                                                <h:outputText value="Recipient:" />
-                                                <p:selectOneMenu styleClass="textInput"  
-                                                                 id="audience" value="#{adminAnnouncementList.audience}" 
-                                                                 editable="false" disabled="true">      
-                                                    <f:selectItem itemLabel="All" itemValue="1" itemDescription="Send to all"/>
-                                                    <f:selectItem itemLabel="Students" itemValue="2" itemDescription="Send to all students only"/>
-                                                    <f:selectItem itemLabel="Lecturers" itemValue="3" itemDescription="Send to all lecturers only"/>
-                                                    <f:selectItem itemLabel="Guests" itemValue="4" itemDescription="Send to all guests only"/>
-                                                    <f:selectItem itemLabel="Lecturers and Students" itemValue="5" itemDescription="Send to all lecturers and students"/>
-                                                </p:selectOneMenu> 
-                                                <br></br><br></br><br></br>
-                                                <h:panelGrid columns="2" width="100%">
-                                                    <p:commandButton  value="Update" update="@form"
-                                                                      action="adminMain?faces-redirect=true"
-                                                                      actionListener="#{announcementBean.updateAnnouncement(adminAnnouncementList.title, adminAnnouncementList.message, adminAnnouncementList.id)}" 
-                                                                      id="updateAnnouncement-button" />
+                <h:form id="submitForm">
+                    <p:tabView id="outerTab">
+                        <p:tab title="Create Announcement">
+                            <!-- putting on main page just for testing only-->
+                            <h1 style="margin-top:0">Create announcement:</h1>
+
+                            <h:panelGrid id="pGrid1" columns="1" cellpadding="5" style="align: left">
+                                <p:inputText title="Announcement Title"
+                                             placeholder="title"
+                                             id="title" value="#{announcementBean.title}" 
+                                             maxlength="80" >
+                                </p:inputText>    
+                                <p:inputTextarea id="message" value="#{announcementBean.message}"
+                                                 title="Announcement Body"
+                                                 placeholder="message" 
+                                                 rows="4" cols="30" counter="display" maxlength="300" 
+                                                 counterTemplate="{0} characters remaining." autoResize="true" />
+                                <h:outputText id="display" />
+                                <!--Input "1": all, "2": students only, "3": lecturers only, "4": guests only, "5": 2&3 (admin can use any, lecturer's default use 2)-->
+                                <p:selectOneMenu styleClass="textInput"  
+                                                 id="audience" value="#{announcementBean.audience}" 
+                                                 editable="false" placeholder="recipients" 
+                                                 title="Select intended recipients of your announcement"
+                                                 >
+                                    <f:selectItem itemLabel="Intended recipients" itemDescription="Select intended recipients of your announcement"/>
+                                    <f:selectItem itemLabel="All" itemValue="1" itemDescription="Send to all"/>
+                                    <f:selectItem itemLabel="Students" itemValue="2" itemDescription="Send to all students only"/>
+                                    <f:selectItem itemLabel="Lecturers" itemValue="3" itemDescription="Send to all lecturers only"/>
+                                    <f:selectItem itemLabel="Guests" itemValue="4" itemDescription="Send to all guests only"/>
+                                    <f:selectItem itemLabel="Lecturers and Students" itemValue="5" itemDescription="Send to all lecturers and students"/>
+                                </p:selectOneMenu>   
+                                <p:tooltip id="toolTipTitle" for="title" showEvent="focus" hideEvent="blur" position="right" showEffect="clip" />
+                                <p:tooltip id="toolTipMsg" for="message" showEvent="focus" hideEvent="blur" position="right" showEffect="clip" />
+                                <p:commandButton id="submitButton" update="@form"
+                                                 action="adminMain?faces-redirect=true"
+                                                 value="Submit" actionListener="#{announcementBean.enterAnnouncement}" >
+
+
+                                </p:commandButton>
+                            </h:panelGrid>
+                        </p:tab>
+                        <p:tab title="Announcements by you">
+                            <h1 style="margin-top:0">Announcements by you</h1>
+                            <h:panelGrid columns="1" cellpadding="10">
+                                <h:panelGrid id="panelOuter2" columns="2" width="100%">
+                                    <p:dataList var="adminAnnouncementList" value="#{announcementBean.announcements}" id="adminAnncList">
+                                        <p:accordionPanel multiple="true" activeIndex="1">
+                                            <p:tab title="#{adminAnnouncementList.title}">
+                                                <h:panelGrid id="indivGrid2" columns="2">
+                                                    <h:outputText value="Announcement Date:" />
+                                                    <h:outputText value="#{adminAnnouncementList.createdDate}" />
+                                                    <h:outputText value="Announcement Title:" />
+                                                    <p:inputText title="Announcement Title"
+                                                                 placeholder="title"
+                                                                 id="title2" value="#{adminAnnouncementList.title}" 
+                                                                 maxlength="80" >
+                                                    </p:inputText>    
+                                                    <h:outputText value="Announcement Message:" />
+                                                    <p:inputTextarea id="message2" value="#{adminAnnouncementList.message}"
+                                                                     title="Announcement Body"
+                                                                     placeholder="message" 
+                                                                     rows="4" cols="30" counter="display" maxlength="300" 
+                                                                     counterTemplate="{0} characters remaining." autoResize="true"/>
+                                                    <br></br>
+                                                    <h:outputText id="display" />
+                                                    <h:outputText value="Recipient:" />
+                                                    <p:selectOneMenu styleClass="textInput"  
+                                                                     title="Please delete and create a new announcement if the recipients are wrong"
+                                                                     id="audience" value="#{adminAnnouncementList.audience}" 
+                                                                     editable="false" disabled="true">      
+                                                        <f:selectItem itemLabel="All" itemValue="1" itemDescription="Send to all"/>
+                                                        <f:selectItem itemLabel="Students" itemValue="2" itemDescription="Send to all students only"/>
+                                                        <f:selectItem itemLabel="Lecturers" itemValue="3" itemDescription="Send to all lecturers only"/>
+                                                        <f:selectItem itemLabel="Guests" itemValue="4" itemDescription="Send to all guests only"/>
+                                                        <f:selectItem itemLabel="Lecturers and Students" itemValue="5" itemDescription="Send to all lecturers and students"/>
+                                                    </p:selectOneMenu> 
+                                                    <br></br><br></br><br></br>
+                                                    <h:panelGrid columns="2" width="100%">
+
+                                                        <p:commandButton  value="Update" update="@form"
+                                                                          action="adminMain?faces-redirect=true"
+                                                                          actionListener="#{announcementBean.updateAnnouncement(adminAnnouncementList.title, adminAnnouncementList.message, adminAnnouncementList.id)}" 
+                                                                          id="updateAnnouncement-button" />
+                                                        <p:commandButton  value="Delete" update="@form"
+                                                                          action="adminMain?faces-redirect=true"
+                                                                          actionListener="#{announcementBean.deleteAnnouncement(loginBean.username, adminAnnouncementList.id)}" 
+                                                                          id="deleteAnnouncement-button" />
+                                                    </h:panelGrid>
+                                                </h:panelGrid>
+                                            </p:tab>
+                                        </p:accordionPanel>
+                                    </p:dataList>
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </p:tab>
+                        <p:tab title="All other Announcements">
+                            <h1 style="margin-top:0">Announcements by others</h1>
+                            <h:panelGrid columns="1" cellpadding="10">
+                                <h:panelGrid id="panelOuter3" columns="2" width="100%">
+                                    <p:dataList var="otherAnnouncementList" value="#{announcementBean.announcements2}" id="otherAnncList">
+                                        <p:accordionPanel multiple="true" activeIndex="1">
+                                            <p:tab title="#{otherAnnouncementList.title}">
+                                                <h:panelGrid id="indivGrid2" columns="2">
+                                                    <h:outputText value="Announcement by:" />
+                                                    <h:outputText value="#{otherAnnouncementList.getUser().getName()}" />
+                                                    <h:outputText value="Announcement Date:" />
+                                                    <h:outputText value="#{otherAnnouncementList.createdDate}" />
+                                                    <h:outputText value="Message:" />
+                                                    <p:inputTextarea id="message2" value="#{otherAnnouncementList.message}"
+                                                                     title="Announcement Body"
+                                                                     rows="4" cols="30" maxlength="300" readonly="true" 
+                                                                     autoResize="true"/> 
                                                     <p:commandButton  value="Delete" update="@form"
                                                                       action="adminMain?faces-redirect=true"
-                                                                      actionListener="#{announcementBean.deleteAnnouncement(loginBean.username, adminAnnouncementList.id)}" 
-                                                                      id="deleteAnnouncement-button" />
+                                                                      actionListener="#{announcementBean.deleteAnnouncement(otherAnnouncementList.getUser().getUsername(), otherAnnouncementList.id)}" 
+                                                                      id="deleteAnnouncement-button2" />
                                                 </h:panelGrid>
-                                            </h:panelGrid>
-                                        </p:tab>
-                                    </p:accordionPanel>
-                                </p:dataList>
+                                            </p:tab>
+                                        </p:accordionPanel>
+                                    </p:dataList>
+                                </h:panelGrid>
                             </h:panelGrid>
-                        </h:panelGrid>
-                    </p:tab>
-
-                    <p:tab title="All other Announcements">
-                        <h1 style="margin-top:0">Announcements by others</h1>
-                        <h:panelGrid columns="1" cellpadding="10">
-                            <h:panelGrid id="panelOuter3" columns="2" width="100%">
-                                <p:dataList var="otherAnnouncementList" value="#{announcementBean.announcements2}" id="otherAnncList">
-                                    <p:accordionPanel multiple="true" activeIndex="1">
-                                        <p:tab title="#{otherAnnouncementList.title}">
-                                            <h:panelGrid id="indivGrid2" columns="2">
-                                                <h:outputText value="Announcement by:" />
-                                                <h:outputText value="#{otherAnnouncementList.getUser().getName()}" />
-                                                <h:outputText value="Announcement Date:" />
-                                                <h:outputText value="#{otherAnnouncementList.createdDate}" />
-                                                <h:outputText value="Message:" />
-                                                <p:inputTextarea id="message2" value="#{otherAnnouncementList.message}"
-                                                                 title="Announcement Body"
-                                                                 rows="4" cols="30" maxlength="300" readonly="true" 
-                                                                 autoResize="true"/> 
-                                                <p:commandButton  value="Delete" update="@form"
-                                                                  action="adminMain?faces-redirect=true"
-                                                                  actionListener="#{announcementBean.deleteAnnouncement(otherAnnouncementList.getUser().getUsername(), otherAnnouncementList.id)}" 
-                                                                  id="deleteAnnouncement-button2" />
-                                            </h:panelGrid>
-                                        </p:tab>
-                                    </p:accordionPanel>
-                                </p:dataList>
-                            </h:panelGrid>
-                        </h:panelGrid>
-                    </p:tab>
-                </p:tabView>
-            </h:form>            
+                        </p:tab>
+                    </p:tabView>
+                </h:form>
+            </h:body>
         </div>
     </ui:define>
 

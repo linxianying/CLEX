@@ -72,14 +72,15 @@
         </div>
         <h:form>
             <p:growl id="messages" showDetail="true" />
-            <p:dialog id="notifications" widgetVar="announcementsDialog"
-                      position="center" draggable="true" resizable="false"
-                      closeOnEscape="true" appendTo="@(body)" modal="true">
 
+            <p:dialog id="notifications" widgetVar="announcementsDialog"
+                      position="left top" draggable="true" resizable="false"
+                      closeOnEscape="true" appendTo="@(body)" modal="true"
+                      style="position: absolute">
                 <p:tabView>
                     <p:tab title="Announcements by Admin">
                         <h1 style="margin-top:0">Announcements by Admin</h1>
-                        <h:panelGrid columns="2" cellpadding="5">
+                        <h:panelGrid columns="2" cellpadding="5" >
                             <h:panelGrid id="panelOuter1" columns="2" width="100%">
                                 <p:dataList var="adminAnnouncementList" value="#{announcementBean.announcements}" id="adminAnncList">
                                     <p:accordionPanel multiple="true" activeIndex="1">
@@ -91,7 +92,7 @@
                                                 <p:inputTextarea id="message2" value="#{adminAnnouncementList.message}"
                                                                  readonly="true" title="Announcement Body"
                                                                  rows="4" cols="30" maxlength="300" 
-                                                                 autoResize="true"/>     
+                                                                 autoResize="true"/>    
                                             </h:panelGrid>
                                         </p:tab>
                                     </p:accordionPanel>
@@ -117,7 +118,7 @@
                                                         <p:inputTextarea id="message2" value="#{moduleAnnouncements.message}"
                                                                          readonly="true" title="Announcement Body"
                                                                          rows="4" cols="30" maxlength="300" 
-                                                                         autoResize="true"/>     
+                                                                         autoResize="true"/>    
                                                     </h:panelGrid>
                                                 </p:tab>
                                             </p:accordionPanel>
