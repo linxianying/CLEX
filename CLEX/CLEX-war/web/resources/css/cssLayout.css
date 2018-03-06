@@ -2,7 +2,7 @@
     position: relative;
     background-color: #3b3b3b;
     color: white;
-    padding: 0.95%;
+    padding: 12.5px;
     margin: -10px 0px 0px 45px;
     height: 35px;
 }
@@ -70,7 +70,7 @@
     position: relative;
     color: white;
     display: inline-block;
-    left: 90%;
+    float: right;
 }
 
 .msgBtn:before {
@@ -295,4 +295,9 @@ nav ul,nav li {
     font-style: normal;
     font-weight: 300;
     src: local('Titillium WebLight'), local('TitilliumWeb-Light'), url(http://themes.googleusercontent.com/static/fonts/titilliumweb/v2/anMUvcNT0H1YN4FII8wpr24bNCNEoFTpS2BTjF6FB5E.woff) format('woff');
+}
+
+.ui-datalist .ui-datalist-header,
+.ui-datalist .ui-datalist-footer {
+  background-color: #03A9F4 !important; /* SoftBlueBack */
 }
