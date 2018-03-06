@@ -37,17 +37,17 @@ public class ProjectGroup implements Serializable {
     @ManyToOne
     private SuperGroup superGroup;
     
-    @OneToMany(cascade={CascadeType.ALL}, mappedBy="projectGroup")
-    private Collection<Transaction> transactions = new ArrayList<Transaction>();
-    
-    @ManyToMany(cascade={CascadeType.PERSIST}, mappedBy="projectGroups")
+    @ManyToMany(cascade={CascadeType.PERSIST})
     private Collection<Student> groupMembers = new ArrayList<Student>();
     
-    @OneToMany(cascade={CascadeType.ALL})
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy="projectGroup")
     private Collection<GroupTimeslot> groupTimeslots = new ArrayList<GroupTimeslot>();
     
     @OneToMany(cascade={CascadeType.ALL})
     private Collection<GroupTask> groupTasks = new ArrayList<GroupTask>();
+    
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy="projectGroup")
+    private Collection<Transaction> transactions = new ArrayList<Transaction>();
 
     public void createProjectGroup(SuperGroup superGroup, String name, double cost){
         this.superGroup = superGroup;

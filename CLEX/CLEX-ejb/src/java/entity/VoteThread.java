@@ -25,6 +25,12 @@ public class VoteThread extends Vote implements Serializable {
     
     @ManyToOne
     private Thread thread;
+    
+    public void createVoteThread(String dateTime, User user, Thread thread){
+        super.createVote(dateTime, user);
+        this.thread = thread;
+        
+    }
 
     public Long getId() {
         return id;
@@ -32,6 +38,14 @@ public class VoteThread extends Vote implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Thread getThread() {
+        return thread;
+    }
+
+    public void setThread(Thread thread) {
+        this.thread = thread;
     }
 
     @Override

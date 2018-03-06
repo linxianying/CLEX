@@ -27,6 +27,12 @@ public class VoteReply extends Vote implements Serializable {
 
     @ManyToOne
     private Reply reply;
+    
+    public void createVoteReply(String dateTime, User user, Reply reply){
+        super.createVote(dateTime, user);
+        this.reply = reply;
+        
+    }
 
     public Long getId() {
         return id;
