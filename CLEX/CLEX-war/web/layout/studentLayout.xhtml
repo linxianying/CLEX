@@ -12,8 +12,8 @@
         <h:outputStylesheet name="./css/cssLayout.css"/>
         <div id="top">
             <h:form>
-                <p:commandLink title="Notifications" style="text-decoration: none;"
-                               onclick="PF('announcementsDialog').show()" value="Notifications"></p:commandLink>
+                <p:commandLink title="Notifications" style="text-decoration: none;" styleClass="notiBtn"
+                               onclick="PF('announcementsDialog').show()"></p:commandLink>
                 <p:commandLink title="Private Message" style="text-decoration: none;" styleClass="msgBtn"></p:commandLink>
                 <p:commandLink title="Settings" style="text-decoration: none;" styleClass="settingsBtn" action="#{acctMgmtBean.editProfile}" ></p:commandLink>
                 <p:commandLink title="Logout" style="text-decoration: none;" styleClass="logoutBtn" action="#{acctMgmtBean.logout}" ></p:commandLink>
@@ -74,7 +74,8 @@
             <p:growl id="messages" showDetail="true" />
             <p:dialog id="notifications" widgetVar="announcementsDialog"
                       position="center" draggable="true" resizable="false"
-                      closeOnEscape="true" appendTo="@(body)" modal="true">
+                      closeOnEscape="true" appendTo="@(body)" modal="false"
+                      style="box-sizing: border-box; overflow: auto; max-height: 40%; max-width: 40%; position: absolute">
 
                 <p:tabView>
                     <p:tab title="Announcements by Admin">
