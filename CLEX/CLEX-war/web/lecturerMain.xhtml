@@ -36,8 +36,7 @@
                             <p:selectOneMenu styleClass="textInput" 
                                              id="modCode" value="#{announcementBean.type}" 
                                              editable="false" placeholder="recipients" 
-                                             title="Select intended recipients of your announcement"
-                                             >
+                                             title="Select intended recipients of your announcement">
                                 <f:selectItem itemLabel="Select a module" itemValue="" />
                                 <f:selectItems value="#{lecturerModuleListBean.moduleCodes}" />
                             </p:selectOneMenu>   
@@ -77,6 +76,7 @@
                                                 <h:outputText id="display" />
                                                 <h:outputText value="Recipient:" />
                                                 <p:selectOneMenu styleClass="textInput" 
+                                                                 title="Please delete and create a new announcement if the recipients are wrong"
                                                                  id="modCode" value="#{lectAnnouncementList.type}" 
                                                                  editable="false" disabled="true" placeholder="recipients">
                                                     <f:selectItem itemLabel="Select a module" itemValue="" />

@@ -73,10 +73,12 @@ public class AnnouncementBean {
             announcements = getAnnouncementsSelf(username);
             announcements2 = getAnnouncementByAdminForLecturer();
         } else if (userType == 3) {
-            announcements = getAnnouncementsSelf(username);            
+            announcements = getAnnouncementsSelf(username);
             //get all announcements then remove those by admin
             announcements2 = getAllAnnouncements();
             announcements2.removeAll(announcements);
+        } else if (userType == 4) {
+            announcements = getAnnouncementByAdminForGuests();
         }
     }
 
@@ -148,6 +150,17 @@ public class AnnouncementBean {
         }
         return tempAllAnnouncements1;
     }
+    
+        public ArrayList<Announcement> getAnnouncementByAdminForGuests() {
+        ArrayList<Announcement> tempAllAnnouncements1;
+        ArrayList<Announcement> tempAllAnnouncements2;
+        tempAllAnnouncements1 = (ArrayList<Announcement>) asbl.getAnncByAudience("1");
+        tempAllAnnouncements2 = (ArrayList<Announcement>) asbl.getAnncByAudience("4");
+        for (int i = 0; i < tempAllAnnouncements2.size(); i++) {
+            tempAllAnnouncements1.add(tempAllAnnouncements2.get(i));
+        }
+        return tempAllAnnouncements1;
+    }
 
     public ArrayList<Announcement> getAnnouncementByAdminForLecturer() {
         ArrayList<Announcement> tempAllAnnouncements1;
@@ -169,18 +182,20 @@ public class AnnouncementBean {
         ArrayList<Announcement> tempAllAnnouncements4 = (ArrayList<Announcement>) asbl.getAnncByUser(username);
         return tempAllAnnouncements4;
     }
-     public ArrayList<Announcement> getAllAnnouncements() {
+
+    public ArrayList<Announcement> getAllAnnouncements() {
         ArrayList<Announcement> tempAllAnnouncements5 = (ArrayList<Announcement>) asbl.getAllAnnc();
         return tempAllAnnouncements5;
     }
+
     public void updateAnnouncement(String title, String message, Long Id) {
         asbl.editAnnc(title, message, Id);
     }
+
     public void deleteAnnouncement(String username, Long Id) {
         asbl.deleteAnnc(username, Id);
     }
 
-    
     public User getUserEntity() {
         return userEntity;
     }

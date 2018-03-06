@@ -29,7 +29,7 @@ public class Lecturer extends User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(length = 32, nullable = false)
+    @Column(length = 32)
     private String faculty;
     
     @ManyToMany(cascade={CascadeType.PERSIST})
