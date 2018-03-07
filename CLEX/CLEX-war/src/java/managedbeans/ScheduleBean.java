@@ -42,6 +42,7 @@ import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
+import org.primefaces.model.UploadedFile;
 import session.ScheduleSessionBeanLocal;
 import session.ToDoListSessionBeanLocal;
 
@@ -252,12 +253,18 @@ public class ScheduleBean implements Serializable {
     public void handleFileUpload(FileUploadEvent event) {
 
         try {
-            String newFilePath = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("alternatedocroot_1") + System.getProperty("file.separator") + event.getFile().getFileName();
-
+            //String newFilePath = "\""+"Users"+"\""+ "lin"+"\""+"Downloads"; 
+            String newFilePath = "\\Users\\lin\\Downloads";
             System.err.println("Schedules.handleFileUpload(): File name: " + event.getFile().getFileName());
             System.err.println("ScheduleshandleFileUpload(): newFilePath: " + newFilePath);
 
+            UploadedFile uploadedFile = event.getFile();
+            String fileName = uploadedFile.getFileName();
+            String contentType = uploadedFile.getContentType();
+            byte[] contents = uploadedFile.getContents();
+
             File file = new File(newFilePath);
+                    
             FileOutputStream fileOutputStream = new FileOutputStream(file);
 
             int a;
