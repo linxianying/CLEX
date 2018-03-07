@@ -186,13 +186,24 @@
                         <h:form id="addForm">
                             <table>
                                 <tr>
-                                    <td>
+<!--                                    <td>
                                         Module Code: 
                                     </td>
                                     <td>
                                         <p:inputText value="#{studyPlanBean.addModuleCode}" required="true" style="text-transform: uppercase">
                                             <p:ajax event="change" listener="#{studyPlanBean.checkStudyPlan}" update="addForm"  />
                                         </p:inputText>
+                                    </td>-->
+                                    <td>
+                                        <p:outputLabel for="moduleCode" value="Module Code:"  />
+                                        <p:selectOneMenu id="moduleCode" value="#{studyPlanBean.addModuleCode}"  panelStyle="width:180px" effect="fade" 
+                                                         var="course" style="width:160px" filter="true" filterMatchMode="contains" appendTo="@this">
+                                            <p:ajax event="change" listener="#{studyPlanBean.checkStudyPlan}" update="addForm"  />
+                                            <f:selectItems value="#{studyPlanBean.courses}" var="course" itemLabel="#{course.moduleCode}" itemValue="#{course.moduleCode}" />
+                                            <p:column>
+                                                <h:outputText value="#{course.moduleCode}" />
+                                            </p:column>
+                                        </p:selectOneMenu>
                                     </td>
                                     <td>
                                         <h:outputText id="addErrorMsg" value="#{studyPlanBean.addErrorMsg}" />
@@ -200,17 +211,13 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        Year: 
-                                    </td>
-                                    <td>
-                                        <p:inputText value="#{studyPlanBean.addPickYear}" required="true"/>
+                                        <p:outputLabel for="addPickYear" value="Year: " />
+                                        <p:inputText id="addPickYear" value="#{studyPlanBean.addPickYear}" required="true"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <p:outputLabel for="addPickSem" value="Semester: " />
-                                    </td>
-                                    <td>
                                         <p:selectOneMenu id="addPickSem" value="#{studyPlanBean.addPickSem}" style="width:125px">
                                             <f:selectItem itemLabel="1" itemValue="1" />
                                             <f:selectItem itemLabel="2" itemValue="2" />
@@ -240,7 +247,7 @@
                     <br />
                     <br />
                     <h:form id="initializePageDataForm">
-                        <p:remoteCommand name="initializePageDataCommand" autoRun="true" action="#{studyPlanBean.init()}" update="studyPlan modulesTakingForm"/>
+                        <p:remoteCommand name="initializePageDataCommand" autoRun="true" action="#{studyPlanBean.init()}" update="studyPlan modulesTakingForm expectedCap"/>
                     </h:form>
                     <br />
                 </div>

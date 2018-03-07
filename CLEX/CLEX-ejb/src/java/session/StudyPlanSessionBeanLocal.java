@@ -13,6 +13,7 @@ import entity.StudyPlan;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -87,6 +88,8 @@ public interface StudyPlanSessionBeanLocal {
     public double updateExpectedCapFour(int allCredits, double cap, int newModuleCredit, String newModuleGrade, String oldGrade);
 
     public HashMap<String, String> getExpectedCourseGrade(String username);
+
+    public List<Course> getAllCourses();
     
     
 }

@@ -15,6 +15,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -761,7 +762,12 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         return expectedCourseGrade;
     }
     
-    
+    @Override
+    public List<Course> getAllCourses() {
+        Query q = em.createQuery("SELECT c FROM Course c");
+            List<Course> all = q.getResultList();
+            return all;
+    }
     
     //-------------------------------------------------------------------------
     //for test urpose only

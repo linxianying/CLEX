@@ -14,6 +14,7 @@ import entity.User;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 import javax.ejb.EJB;
 import session.ClexSessionBeanLocal;
@@ -72,6 +73,7 @@ public class StudyPlanBean {
     private String addErrorMsg;
     private boolean addButton;
     
+    private List<Course> courses;
     public StudyPlanBean() {
     }
      
@@ -109,6 +111,7 @@ public class StudyPlanBean {
         addErrorMsg = null;
         addButton = true;
         System.out.println("addButton:" + addButton);
+        courses = cpsbl.getAllCourses();
         System.out.println("finish to render StudyPlanBean");
     }
 
@@ -355,6 +358,14 @@ public class StudyPlanBean {
 
     public void setAddButton(boolean addButton) {
         this.addButton = addButton;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
     }
 
     public void checkStudyPlan() {
