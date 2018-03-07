@@ -22,6 +22,7 @@ public class StudentBalance implements Comparable<StudentBalance>{
     public StudentBalance(Student student, double totalAmount) {
         this.student = student;
         this.totalAmount = totalAmount;
+        payees = new HashMap<Student, Double>();
     }
 
     public Student getStudent() {

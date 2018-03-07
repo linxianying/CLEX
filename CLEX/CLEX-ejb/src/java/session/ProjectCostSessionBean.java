@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import javaClass.ComparableTransaction;
 import javaClass.StudentBalance;
@@ -164,6 +165,79 @@ public class ProjectCostSessionBean implements ProjectCostSessionBeanLocal {
         Collections.sort(balances);
         System.out.println("balances: " + balances.size());
         System.out.println(balances);
+        
+        //set each student's balance
+        int payerIndex = 0;
+        int payeeIndex = balances.size()-1;
+        StudentBalance payerStudentBalance = balances.get(payerIndex);
+        StudentBalance payeeStudentBalance = balances.get(payeeIndex);;
+        double payerBalance = Math.abs(payerStudentBalance.getTotalAmount());
+        double payeeBalance = Math.abs(payeeStudentBalance.getTotalAmount());
+        double amountPaid = 0.0;
+        while(payerIndex < payeeIndex) {
+//            payerStudentBalance = balances.get(payerIndex);
+//            payeeStudentBalance = balances.get(payeeIndex);
+//            payerBalance = Math.abs(payerStudentBalance.getTotalAmount());
+//            payeeBalance = Math.abs(payeeStudentBalance.getTotalAmount());
+            
+            // if the payer owes money less than the payee lends, let the payer pays all the amount the payer owes to the payee
+            if (payerBalance <= payeeBalance) {
+                amountPaid = payerBalance;
+                payerBalance = 0.0;
+                payeeBalance -= payerBalance;
+                //set StudentBalance of the payer
+                student = payeeStudentBalance.getStudent();
+                payerStudentBalance.getPayees().put(student, amountPaid);
+                //set StudentBalance of the payee
+                student = payerStudentBalance.getStudent();
+                payeeStudentBalance.getPayees().put(student, amountPaid);
+                System.out.println(payerStudentBalance.getStudent().getName() + 
+                        " pays $" + amountPaid + " to " + payeeStudentBalance.getStudent().getName());
+            }
+            // if the payer owes money more than the payee lends, let the payer pays all the amount the payee lends to the payee
+            else {
+                amountPaid = payeeBalance;
+                payeeBalance = 0.0;
+                payerBalance -= payeeBalance;
+                //set StudentBalance of the payer
+                student = payeeStudentBalance.getStudent();
+                payerStudentBalance.getPayees().put(student, amountPaid);
+                //set StudentBalance of the payee
+                student = payerStudentBalance.getStudent();
+                payeeStudentBalance.getPayees().put(student, amountPaid);
+                System.out.println(payerStudentBalance.getStudent().getName() + 
+                        " pays $" + amountPaid + " to " + payeeStudentBalance.getStudent().getName());
+            }
+            //move the iterator if the balance is zero
+            if (payerBalance == 0.0)
+                payerIndex++;
+            if (payeeBalance == 0.0)
+                payeeIndex--;
+            //in case of index out of bound
+            //reset the values
+            if (payerIndex < balances.size() && payeeIndex >= 0) {
+                if (payerBalance == 0.0) {
+                    payerStudentBalance = balances.get(payerIndex);
+                    payerBalance = Math.abs(payerStudentBalance.getTotalAmount());
+                }
+                if (payeeBalance == 0.0) {
+                    payeeStudentBalance = balances.get(payeeIndex);
+                    payeeBalance = Math.abs(payeeStudentBalance.getTotalAmount());
+                }
+            }
+            //test print out
+            for (StudentBalance sb: balances) {
+                System.out.println("------------For " + sb.getStudent().getName() + "------------");
+                HashMap<Student, Double> all = sb.getPayees();
+                for (Student s: all.keySet()){
+                    String key = s.getName();
+                    String value = Double.toString(all.get(s));  
+                    System.out.println(key + " " + value);  
+                } 
+            }
+        }
+        //add the zeroBalances arraylist
+        
         return balances;
     }
     
