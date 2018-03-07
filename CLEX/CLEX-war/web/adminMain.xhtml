@@ -54,8 +54,6 @@
                                 <p:commandButton id="submitButton" update="@form"
                                                  action="adminMain?faces-redirect=true"
                                                  value="Submit" actionListener="#{announcementBean.enterAnnouncement}" >
-
-
                                 </p:commandButton>
                             </h:panelGrid>
                         </p:tab>
@@ -122,14 +120,18 @@
                                             <p:tab title="#{otherAnnouncementList.title}">
                                                 <h:panelGrid id="indivGrid2" columns="2">
                                                     <h:outputText value="Announcement by:" />
-                                                    <h:outputText value="#{otherAnnouncementList.getUser().getName()}" />
+                                                    <h:outputText value="#{otherAnnouncementList.getUser().name}" />
+                                                    <h:outputText value="School:" />
+                                                    <h:outputText value="#{otherAnnouncementList.getUser().school}" />
                                                     <h:outputText value="Announcement Date:" />
                                                     <h:outputText value="#{otherAnnouncementList.createdDate}" />
                                                     <h:outputText value="Message:" />
                                                     <p:inputTextarea id="message2" value="#{otherAnnouncementList.message}"
                                                                      title="Announcement Body"
                                                                      rows="4" cols="30" maxlength="300" readonly="true" 
-                                                                     autoResize="true"/> 
+                                                                     autoResize="true"/>
+                                                    <h:outputText value="Sent to (Module Code):" />
+                                                    <h:outputText value="#{otherAnnouncementList.type}" />
                                                     <p:commandButton  value="Delete" update="@form"
                                                                       action="adminMain?faces-redirect=true"
                                                                       actionListener="#{announcementBean.deleteAnnouncement(otherAnnouncementList.getUser().getUsername(), otherAnnouncementList.id)}" 
