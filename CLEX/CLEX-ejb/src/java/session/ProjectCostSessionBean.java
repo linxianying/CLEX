@@ -80,6 +80,7 @@ public class ProjectCostSessionBean implements ProjectCostSessionBeanLocal {
     }
     
     //sort all transactions of a group according to date
+    @Override
     public ArrayList<ComparableTransaction> getSortedTransactions(ProjectGroup group) {
         try{    
             if (group.getTransactions().isEmpty())
