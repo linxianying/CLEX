@@ -285,5 +285,27 @@ public class ScheduleBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "File upload error: " + ex.getMessage(), ""));
         }
     }
+    
+    public void addIcsFile(){
+        DefaultScheduleEvent event = sbl.loadIcsFile("");
+        if(event!=null){
+            eventModel.addEvent(event);
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            String startDate = df.format(event.getStartDate());
+            String endDate = df.format(event.getEndDate());
+            String title = event.getTitle();
+            String description = event.getDescription();
+            System.out.println(startDate);
+            System.out.println(endDate);
+            System.out.println(title);
+            System.out.println(description);
+            if(username!=null&title!=null&&startDate!=null&&endDate!=null&&description!=null)
+                sbl.createTimeslot(username, title, startDate, endDate, description, "");
+            if(username!=null&title!=null&&startDate!=null&&endDate!=null)
+                sbl.createTimeslot(username, title, startDate, endDate, "", "");
+        }else{
+            System.out.println("event is null");
+        }
+    }
 
 }

@@ -49,7 +49,7 @@ public class indexBean {
     }
     
     public void testIcs(){
-        sbl.loadIcsFile();
+        sbl.loadIcsFile("");
     }
     
     public void createEntities() {
@@ -64,11 +64,12 @@ public class indexBean {
         csbl.createStudent("gggggg", "123456", "Fan Weiguang", "email@email.com", "NUS", 12345378L, genSalt(), "soc", "BA","2016", "2", 3.9);
         csbl.createStudent("hhhhhh", "123456", "Duan Yichen", "email@email.com", "NUS", 12345278L, genSalt(), "soc", "IS","2016", "1", 4.7);
         csbl.createStudent("iiiiii", "123456", "Luo Yuyang", "email@email.com", "NUS", 12845678L, genSalt(), "soc", "EE","2016", "2", 3.5);
-        csbl.createStudent("jjjjjj", "123456", "Sun Mingyang", "email@email.com", "NUS", 12345278L, genSalt(), "soc", "CEG","2016", "1", 4.0);
+        csbl.createStudent("jjjjjj", "123456", "Yang Ming", "email@email.com", "NUS", 12345278L, genSalt(), "soc", "CEG","2016", "1", 1.6);
         csbl.createStudent("XiaoHong", "123456", "XiaoHong", "email@email.com", "NUS", 12545678L, genSalt(), "soc", "IS","2015", "1", 5.0);
         csbl.createStudent("XiaoHuang", "123456", "XiaoHuang", "email@email.com", "NUS", 12545678L, genSalt(), "soc", "IS","2015", "1", 5.0);
         csbl.createStudent("XiaoLan", "123456", "XiaoLan", "email@email.com", "NUS", 63845678L, genSalt(), "soc", "IS","2015", "1", 5.0);
         csbl.createStudent("XiaoLv", "123456", "XiaoLv", "email@email.com", "NUS", 12517578L, genSalt(), "soc", "IS","2015", "1", 5.0);
+        csbl.createStudent("bahbahbluebluesheep", "123456", "Sun Mingyang", "miemiemie@email.com", "NUS", 12345278L, genSalt(), "soc", "CEG","2016", "1", 2.6);
         csbl.createLecturer("lecturer", "123456", "Zhou Lifeng", "zlf@email.com", "NUS", 86345278L, genSalt(), "soc");
         csbl.createLecturer("hsianghui2", "123456", "LekHsiangHui2", "hsianghui@email.com", "NUS", 92345678L, genSalt(), "soc");
         csbl.createLecturer("hsianghui3", "123456", "LekHsiangHui3", "hh3@email.com", "NUS", 12342678L, genSalt(), "soc");

@@ -16,7 +16,7 @@
         <h:form>
             <p:panel collapsed="false" styleClass="menuHeader" id="modulelist" header="VIEW MODULES" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
                 <p:dataTable var="module" value="#{lecturerModuleListBean.modules}" widgetVar="modulesTable"
-                             emptyMessage="No modules found with given criteria." >
+                             emptyMessage="No modules found with given criteria." filteredValue="#{lecturerModuleListBean.filteredModules}">
                     <f:facet name="header">
                         <p:outputPanel>
                             <h:outputText value="Search all fields:" />
@@ -29,7 +29,7 @@
                     <p:column filterBy="#{module.course.moduleName}" headerText="Title" filterMatchMode="contains">
                         <h:outputText value="#{module.course.moduleName}" />
                     </p:column>
-                    <p:column filterBy="#{module.students.size}" headerText="Students" filterMatchMode="contains">
+                    <p:column filterBy="" headerText="Students" filterMatchMode="contains">
                         <h:outputText value="Students:#{module.students.size()} " />
                         <br />
                         <h:outputText value="Polls:#{module.polls.size()}" />
