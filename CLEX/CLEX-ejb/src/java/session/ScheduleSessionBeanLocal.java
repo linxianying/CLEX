@@ -21,7 +21,7 @@ import org.primefaces.model.DefaultScheduleEvent;
 @Local
 public interface ScheduleSessionBeanLocal {
 
-    public DefaultScheduleEvent loadIcsFile(String path);
+    public DefaultScheduleEvent loadIcsFile(String path); 
     
     void updateTimeslot(Long id, String title, String startDate, String endDate, String details, String venue);
 

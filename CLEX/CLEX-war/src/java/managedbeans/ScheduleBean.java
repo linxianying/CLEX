@@ -272,7 +272,7 @@ public class ScheduleBean implements Serializable {
                 if (a < 0) {
                     break;
                 }
-
+                
                 fileOutputStream.write(buffer, 0, a);
                 fileOutputStream.flush();
             }
