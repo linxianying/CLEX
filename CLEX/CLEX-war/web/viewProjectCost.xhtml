@@ -23,14 +23,14 @@
                                             <f:convertDateTime pattern="dd-MM-yyyy" />
                                         </h:outputText>
                                         <br />
-<!--                                        <ui:repeat>
-                                            <h:outputText value="" />
+                                        <ui:repeat var="l" value="#{transaction.ledgers}">
+                                            <h:outputText value="#{l.student.name}" />
                                             <h:outputText value=" paid " />
-                                            <h:outputText value="" />
+                                            <h:outputText value="#{l.pay}" />
                                             <h:outputText value=" dollars and owes " />
-                                            <h:outputText value="" />
+                                            <h:outputText value="#{l.ascCost}" />
                                             <br />
-                                        </ui:repeat>-->
+                                        </ui:repeat>
                                     </h:panelGrid>
                                 </p:tab>
                             </p:accordionPanel>

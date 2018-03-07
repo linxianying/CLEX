@@ -7,6 +7,7 @@ package javaClass;
 
 import entity.Ledger;
 import entity.ProjectGroup;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -72,7 +73,8 @@ public class ComparableTransaction implements Comparable<ComparableTransaction>{
     
     @Override
     public String toString() {
-        return ("Date: " + date + ", Activity: " + activity);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        return ("Date: " + formatter.format(date) + ", Activity: " + activity);
     }
     
     @Override
