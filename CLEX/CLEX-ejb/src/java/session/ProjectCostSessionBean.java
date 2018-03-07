@@ -14,11 +14,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import javaClass.ComparableTransaction;
+import javaClass.StudentBalance;
 import javaClass.StudentCost;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -34,10 +38,14 @@ public class ProjectCostSessionBean implements ProjectCostSessionBeanLocal {
     private ArrayList<Transaction> transactions;
     private ComparableTransaction comTransaction;
     private ArrayList<ComparableTransaction> sortedTransactions;
+    private ArrayList<StudentBalance> balances;
+    private ArrayList<StudentBalance> zeroBalances;
     private Transaction transaction;
+    private StudentBalance studentBalance;
     private Ledger ledger;
     private double cost;
     private double pay;
+    private double assCost;
     
     
     //get all transactions of a projectgroup sorted according to date
@@ -106,4 +114,57 @@ public class ProjectCostSessionBean implements ProjectCostSessionBeanLocal {
         }
         return sortedTransactions;
     }
+    
+    //caculated the asscociated cost of a Student's all ledgers in all Transactions of the projectGroup
+    //which means in total, th student needs to get how much back (if assCost>0) or owes how much (if assCost<0)
+    private double calculateAssCost(Student student, ProjectGroup group) {
+        try{
+            Query q = em.createQuery("SELECT l FROM Ledger l WHERE l.student.id=:studentId AND l.transaction.projectGroup.id=:groupId");
+//            if (q == null)
+//                System.out.println("query is null");
+//            else if (student == null)
+//                System.out.println("student is null");
+//            else if (student.getId() == null)
+//                System.out.println("student id is null");
+            q.setParameter("studentId", student.getId());
+            q.setParameter("groupId", group.getId());
+            List<Ledger> all = q.getResultList();
+            assCost = 0;
+            for (Ledger l: all) {
+                assCost += (l.getPay()-l.getAscCost());
+            }
+            System.out.println("balance for " + student.getName() + " in group " + group.getName() + " is " + assCost);
+        }
+        catch(NoResultException e){
+            System.out.println("pc session bean: calculateAssCost: no ledger for " + student.getName() + " in group " + group.getName());
+            return 0.0;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return assCost;
+    }
+    
+    @Override
+    public ArrayList<StudentBalance> getAllStudentBalance(ProjectGroup group) {
+        Collection<Student> allStudents = group.getGroupMembers();
+        zeroBalances = new ArrayList<StudentBalance>();
+        balances = new ArrayList<StudentBalance>();
+        for (Student s: allStudents) {
+            cost = calculateAssCost(s, group);
+            studentBalance = new StudentBalance(s, cost);
+            //for sorting purposes, add students with zero balances to another arraylist first
+            if (cost == 0.0)
+                zeroBalances.add(studentBalance);
+            else 
+                balances.add(studentBalance);
+        }
+        
+        //sort the studentBalance by totalAmount
+        Collections.sort(balances);
+        System.out.println("balances: " + balances.size());
+        System.out.println(balances);
+        return balances;
+    }
+    
 }

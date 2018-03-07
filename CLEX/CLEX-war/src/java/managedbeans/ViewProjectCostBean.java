@@ -11,6 +11,7 @@ import entity.Student;
 import entity.Transaction;
 import java.util.ArrayList;
 import javaClass.ComparableTransaction;
+import javaClass.StudentBalance;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -41,6 +42,7 @@ public class ViewProjectCostBean {
     private ArrayList<Transaction> transactions;
     private ArrayList<ComparableTransaction> sortedTransactions;
     
+    private ArrayList<StudentBalance> balances;
     
     
     
@@ -56,6 +58,8 @@ public class ViewProjectCostBean {
         group = (ProjectGroup) session.getAttribute("projectGroup");
         
         sortedTransactions = pcsbl.getSortedTransactions(group);
+        
+        balances = pcsbl.getAllStudentBalance(group);
         System.out.println("Finish initialization");
     }
 
@@ -129,6 +133,14 @@ public class ViewProjectCostBean {
 
     public void setSortedTransactions(ArrayList<ComparableTransaction> sortedTransactions) {
         this.sortedTransactions = sortedTransactions;
+    }
+
+    public ArrayList<StudentBalance> getBalances() {
+        return balances;
+    }
+
+    public void setBalances(ArrayList<StudentBalance> balances) {
+        this.balances = balances;
     }
     
     
