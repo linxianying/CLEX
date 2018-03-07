@@ -36,6 +36,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.servlet.http.HttpSession;
 import jdk.nashorn.internal.runtime.ParserException;
+import net.fortuna.ical4j.util.CompatibilityHints;
+import static net.fortuna.ical4j.util.CompatibilityHints.KEY_RELAXED_UNFOLDING;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
 
@@ -70,11 +72,13 @@ public class ScheduleSessionBean implements ScheduleSessionBeanLocal {
     
 
     @Override
-    public boolean loadIcsFile() {
+    public DefaultScheduleEvent loadIcsFile(String path) {
+        CompatibilityHints.setHintEnabled(KEY_RELAXED_UNFOLDING, true);
         IcsReader ics = new IcsReader();
-        ics.test();
-        return false;
+        DefaultScheduleEvent event = ics.addEvents("");
+        return event;
     }
+    
     @Override
     public Timeslot createTimeslot(String username, String title, String startDate, 
             String endDate, String details, String venue){

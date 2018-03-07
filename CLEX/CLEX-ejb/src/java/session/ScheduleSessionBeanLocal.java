@@ -12,6 +12,7 @@ import entity.User;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.ejb.Local;
+import org.primefaces.model.DefaultScheduleEvent;
 
 /**
  *
@@ -20,7 +21,7 @@ import javax.ejb.Local;
 @Local
 public interface ScheduleSessionBeanLocal {
 
-    boolean loadIcsFile();
+    public DefaultScheduleEvent loadIcsFile(String path);
     
     void updateTimeslot(Long id, String title, String startDate, String endDate, String details, String venue);
 
