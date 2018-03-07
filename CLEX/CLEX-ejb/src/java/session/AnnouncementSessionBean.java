@@ -149,6 +149,7 @@ public class AnnouncementSessionBean implements AnnouncementSessionBeanLocal {
         return announcements;
     }
 
+    @Override
     public User findUser(String username) {
         userEntity = null;
         try {
@@ -165,6 +166,7 @@ public class AnnouncementSessionBean implements AnnouncementSessionBeanLocal {
         return userEntity;
     }
 
+    @Override
     public Announcement findAnnc(Long id) {
         anncEntity = null;
         try {

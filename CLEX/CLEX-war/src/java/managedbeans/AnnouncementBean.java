@@ -10,12 +10,20 @@ import entity.Module;
 import entity.User;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Properties;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 import session.AnnouncementSessionBeanLocal;
 import session.CourseMgmtBeanLocal;
@@ -188,14 +196,56 @@ public class AnnouncementBean {
         return tempAllAnnouncements5;
     }
 
-    public void updateAnnouncement(String title, String message, Long Id) {
-        asbl.editAnnc(title, message, Id);
+    public void updateAnnouncement(String title, String message, Long id) {
+        asbl.editAnnc(title, message, id);
     }
 
-    public void deleteAnnouncement(String username, Long Id) {
-        asbl.deleteAnnc(username, Id);
+    public void deleteAnnouncement(String username, Long id) {
+        Announcement tempAnnc = asbl.findAnnc(id);
+        asbl.deleteAnnc(username, id);
+        //If admin delete lecturer only
+        if(asbl.findUser(username).getUserType().equals("Lecturer") && userType == 3){
+            deleteNotify(username, asbl.findUser(username).getEmail(), tempAnnc);
+        }
     }
+    
+    public void deleteNotify(String username, String email, Announcement tempAnnc){
+        String to = email;
+        String from = "iamprism@gmail.com";
 
+        Properties props = System.getProperties();
+
+        props.put("mail.smtp.auth", "true");
+	props.put("mail.smtp.starttls.enable", "true");
+	props.put("mail.smtp.host", "smtp.gmail.com");
+	props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+        
+        Session session = Session.getInstance(props,
+		  new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication("prismeduc@gmail.com", "fvgbhnjm"); //don't change this
+			}
+		  });
+
+        try{
+            MimeMessage message = new MimeMessage(session);
+
+            message.setFrom(new InternetAddress(from));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+
+            message.setSubject("[PRISM] Notification for Deletion of Announcement");
+            message.setText("The following announcement (ID: " + tempAnnc.getId() + ") has been deleted by the admin.\n\nTitle: " + tempAnnc.getTitle() + 
+                    "\n\nMessage: "+ tempAnnc.getMessage());
+
+            Transport.send(message);
+            System.out.println("Notification email sent.");
+        }
+        catch (MessagingException mex) {
+             mex.printStackTrace();
+        }
+    }
+    
     public User getUserEntity() {
         return userEntity;
     }
