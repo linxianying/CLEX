@@ -22,6 +22,7 @@ public interface ProjectCostSessionBeanLocal {
     public void addTransaction(ArrayList<StudentCost> all, String activity, double totalCost, ProjectGroup group);
 
     public ArrayList<ComparableTransaction> getSortedTransactions(ProjectGroup group);
+    
 
     public ArrayList<StudentBalance> getAllStudentBalance(ProjectGroup group);
 

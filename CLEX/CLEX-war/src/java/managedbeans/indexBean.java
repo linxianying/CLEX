@@ -9,6 +9,7 @@ import java.util.Random;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
+import session.AnnouncementSessionBeanLocal;
 import session.ClassroomSessionBeanLocal;
 import session.ClexSessionBeanLocal;
 import session.ScheduleSessionBeanLocal;
@@ -29,6 +30,8 @@ public class indexBean {
     private ScheduleSessionBeanLocal sbl;
     @EJB
     private ClassroomSessionBeanLocal crsbl;
+    @EJB
+    private AnnouncementSessionBeanLocal asbl;
    
     /**
      * Creates a new instance of indexBean
@@ -477,7 +480,11 @@ public class indexBean {
         crsbl.createPoll("LAL1201", "2017", "1", "2017-04-17", "Language Learning Curve", 0.27, "type", "How is your learning experience?");
         crsbl.createPoll("IE1111", "2016", "2", "2017-10-17", "IE", 0.38, "type", "How is your learning experience?");
         
-        
-        
+        asbl.createLecturerAnnc("lecturer", "CS2100 Lecture 5 cancelled", "Lecture 5, which is on next Friday is cancelled", "CS2100");
+        asbl.createLecturerAnnc("lecturer", "IS3106 Lecture 6 cancelled", "Lecture 6, which is on next Monday is cancelled", "IS3106");
+        asbl.createLecturerAnnc("lecturer", "PS2240 Tutorial 5 cancelled", "Tutorial 3, which is on next Friday is cancelled", "PS2240");
+        asbl.createLecturerAnnc("hsianghui2", "PC2193 Lecture 5 cancelled", "PC2193 Lecture 6, which is on next Friday is cancelled", "PC2193");
+        asbl.createLecturerAnnc("hsianghui2", "PC2193 Lab 3 cancelled", "PC2193 Lab 3, which is on this Thursday is cancelled", "PC2193");
+        //asbl.createAdminAnnc("admin", "CIT Recruitment for System Engineer", "Interested candidates are advised to read the detailed requirements and apply for the above position at this following link: https://nuscareers.taleo.net/careersection/nusep/jobdetail.ftl?job=007LB Thank you! Admin Wong", "1");
     }
 }
