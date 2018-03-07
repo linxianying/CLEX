@@ -87,9 +87,9 @@ public abstract class User implements Serializable{
         this.password = password;
         this.email = email;
         this.salt = salt;
-        //for easier test
-        this.approval = true; 
-        //this.approval = false;
+        //for easier test <disabled>
+        //this.approval = true; 
+        this.approval = false;
     }
     
     public static long getSerialVersionUID() {

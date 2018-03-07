@@ -31,4 +31,7 @@ public interface AnnouncementSessionBeanLocal {
     public Collection<Announcement> getAnncByUser(String username);
     public Collection<Announcement> getAnncByModule(String moduleCode);
     public Collection<Announcement> getAnncByAudience(String audience);
+    
+    public User findUser(String username);
+    public Announcement findAnnc(Long id);
 }
