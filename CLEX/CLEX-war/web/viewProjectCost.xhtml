@@ -11,12 +11,12 @@
     <h:body>
         <h:form>
             <h:outputText value="You group has no transactions yet" rendered="#{empty viewProjectCostBean.sortedTransactions}"/>
-            <p:panel collapsed="true" styleClass="menuHeader" id="transactions" header="Transactions" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px" rendered="#{not empty viewProjectCostBean.sortedTransactions}">
+            <p:panel collapsed="false" styleClass="menuHeader" id="transactions" header="Transactions" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px" rendered="#{not empty viewProjectCostBean.sortedTransactions}">
                 <h:panelGrid columns="1" width="1000px">
                     <p:column>
                         <p:dataList value="#{viewProjectCostBean.sortedTransactions}" var="transaction">
                             <p:accordionPanel multiple="true" activeIndex="1">
-                                <p:tab  title="#{transaction.activity}">
+                                <p:tab  title="#{'try '.concat(transaction.activity)}">
                                     <h:panelGrid>
                                         <h:outputText value="Date: "/>
                                         <h:outputText value="#{transaction.date}">
@@ -25,10 +25,13 @@
                                         <br />
                                         <ui:repeat var="l" value="#{transaction.ledgers}">
                                             <h:outputText value="#{l.student.name}" />
-                                            <h:outputText value=" paid " />
-                                            <h:outputText value="#{l.pay}" />
-                                            <h:outputText value=" dollars and owes " />
-                                            <h:outputText value="#{l.ascCost}" />
+                                            <h:outputText value=" paid " rendered="#{l.pay != 0.0}"/>
+                                            <h:outputText value="#{l.pay}" rendered="#{l.pay != 0.0}"/>
+                                            <h:outputText value=" dollars " rendered="#{l.pay != 0.0}"/>
+                                            <h:outputText value="  and  " rendered="#{l.pay != 0.0 and l.ascCost != 0.0}"/>
+                                            <h:outputText value=" owes " rendered="#{l.ascCost != 0.0}"/>
+                                            <h:outputText value="#{l.ascCost}" rendered="#{l.ascCost != 0.0}"/>
+                                            <h:outputText value=" dollars " rendered="#{l.ascCost != 0.0}"/>
                                             <br />
                                         </ui:repeat>
                                     </h:panelGrid>

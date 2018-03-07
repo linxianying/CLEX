@@ -106,7 +106,10 @@ public class Ledger implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Ledger[ id=" + id + " ]";
+        String result = "Student: " + student.getName() +  ", module: " + 
+                transaction.getProjectGroup().getSuperGroup().getModule().getCourse().getModuleCode() 
+                + ", group: " + transaction.getProjectGroup().getName() + ", transaction: " + transaction.getActivity();
+        return ("Ledger id=" + id + ", " + result);
     }
     
 }
