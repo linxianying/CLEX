@@ -56,20 +56,42 @@
                             <div class="form-row">
                                 <label>
                                     <span>Faculty</span>
-                                    <p:inputText id="newFaculty" value="#{profileBean.faculty}" />
                                 </label>
+                                <!--<p:inputText id="newFaculty" value="#{profileBean.faculty}" />-->
+                                <p:selectOneMenu style="padding: 0%; width: 300px" required="true" id="newFaculty" value="#{profileBean.faculty}" 
+                                                 editable="true" placeholder="Faculty">
+                                    <f:selectItem itemLabel="School of computing" itemValue="School of computing" />
+                                    <f:selectItem itemLabel="School of Business" itemValue="School of Business" />
+                                    <f:selectItem itemLabel="School of Engineering" itemValue="School of Engineering" />
+                                    <f:selectItem itemLabel="School of Science" itemValue="School of Science" />
+                                    <f:selectItem itemLabel="School of Law" itemValue="School of Law" />
+                                    <f:selectItem itemLabel="School of Social Sciences" itemValue="School of Social Sciences" />
+                                </p:selectOneMenu>
                             </div>
                             <div class="form-row">
                                 <label>
                                     <span>Matriculated Year</span>
-                                    <p:inputText id="newMatricYear" value="#{profileBean.matricYear}" />
                                 </label>
+                                <!--<p:inputText id="newMatricYear" value="#{profileBean.matricYear}" />-->
+                                <p:selectOneMenu style="padding: 0%; width: 300px" id="maticYear" value="#{profileBean.matricYear}" 
+                                                 editable="true" placeholder="Matriculated Year">
+                                    <f:selectItem itemLabel="2014" itemValue="2014" />
+                                    <f:selectItem itemLabel="2015" itemValue="2015" />
+                                    <f:selectItem itemLabel="2016" itemValue="2016" />
+                                    <f:selectItem itemLabel="2017" itemValue="2017" />
+                                    <f:selectItem itemLabel="2018" itemValue="2018" />
+                                </p:selectOneMenu>
                             </div>
                             <div class="form-row">
                                 <label>
                                     <span>Matriculated Semester</span>
-                                    <p:inputText id="newMatricSem" value="#{profileBean.matricSem}" />
                                 </label>
+                                <!--<p:inputText id="newMatricSem" value="#{profileBean.matricSem}" />-->
+                                <p:selectOneMenu style="padding: 0%; width: 300px" id="maticSem" value="#{profileBean.matricSem}" 
+                                                 editable="true" placeholder="Matriculated Semester">
+                                    <f:selectItem itemLabel="1" itemValue="1" />
+                                    <f:selectItem itemLabel="2" itemValue="2" />
+                                </p:selectOneMenu>
                             </div>
                             <div class="form-row">
                                 <h:commandButton value="Save Profile Details" actionListener="#{profileBean.editStudentProfile}" id="editBasicButton" />

@@ -56,8 +56,17 @@
                             <div class="form-row">
                                 <label>
                                     <span>Faculty</span>
-                                    <p:inputText id="newFaculty" value="#{profileBean.faculty}" />
                                 </label>
+                                    <!--<p:inputText id="newFaculty" value="#{profileBean.faculty}" />-->
+                                <p:selectOneMenu style="padding: 0%; width: 300px" required="true" id="newFaculty" value="#{profileBean.faculty}" 
+                                                 editable="true" placeholder="Faculty">
+                                    <f:selectItem itemLabel="School of Computing" itemValue="School of Computing" />
+                                    <f:selectItem itemLabel="School of Business" itemValue="School of Business" />
+                                    <f:selectItem itemLabel="School of Engineering" itemValue="School of Engineering" />
+                                    <f:selectItem itemLabel="School of Science" itemValue="School of Science" />
+                                    <f:selectItem itemLabel="School of Law" itemValue="School of Law" />
+                                    <f:selectItem itemLabel="School of Social Sciences" itemValue="School of Social Sciences" />
+                                </p:selectOneMenu>
                             </div>
                             <div class="form-row">
                                 <h:commandButton value="Save Profile Details" actionListener="#{profileBean.editLecturerProfile}" id="editBasicButton" />
@@ -96,7 +105,7 @@
                         </h:form>
                     </td>
                 </table>
-                
+
                 <!--<table>
                     <h:form>
                         <tr>
