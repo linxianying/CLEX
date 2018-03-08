@@ -175,7 +175,7 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
 }
 
     @Override
-    public void createCourse(String moduleCode, String moduleName, String moduleInfo ,boolean discontinuedBool,
+    public void createCourse(String moduleCode, String moduleName, String moduleInfo, boolean discontinuedBool,
         String discountinuedYear, String discountinuedSem, String offeredSem, String school, String moduleCredit, String workload) {
         courseEntity = new Course();
         courseEntity.createCourse(moduleCode, moduleName, moduleInfo, 

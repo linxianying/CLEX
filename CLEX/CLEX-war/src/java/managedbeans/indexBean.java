@@ -54,6 +54,7 @@ public class indexBean {
     
     public void createEntities() {
         //create Users
+        csbl.createAdmin("adminadmin", "123456", "Stephen Hawking", "hawking@gmail.com", "NUS", 87246583L, genSalt());
         csbl.createStudent("namename", "123456", "Lin Xianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 5.00);
         csbl.createStudent("aaaaaa", "123456", "Su Xinran", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
         csbl.createStudent("bbbbbb", "123456", "Cao Yu", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "CS","2015", "2", 0.0);
@@ -80,6 +81,8 @@ public class indexBean {
         csbl.createGuest("guestd", "123456", "Yang Xiaoge", "email@email.com", "NUS", 12345678L, genSalt());
         csbl.createGuest("gueste", "123456", "Sun Junyi", "email@email.com", "NUS", 12345678L, genSalt());
         
+        csbl.createStudent("useless", "123456", "Berk", "email@email.com", "NUS", 18907578L, genSalt(), "soc", "IS","2015", "1", 5.0);
+        csbl.createStudent("irrelevant", "123456", "Lucy", "email@email.com", "NUS", 12511948L, genSalt(), "soc", "IS","2015", "1", 5.0);        
         //create course, read from nusmods
         csbl.dragAllNusMods("try");
         
