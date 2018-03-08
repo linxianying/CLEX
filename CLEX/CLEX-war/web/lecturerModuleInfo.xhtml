@@ -46,9 +46,9 @@
                                 <p:accordionPanel multiple="true" activeIndex="1">
                                     <p:tab title="#{student.name}">
                                         <h:panelGrid>
-                                            <h:outputText value="#{student.email}" />
-                                            <h:outputText value="#{student.faculty}" />
-                                            <h:outputText value="#{student.major}" />
+                                            <h:outputText value="Email: #{student.email}" />
+                                            <h:outputText value="Faculty: #{student.faculty}" />
+                                            <h:outputText value="Major: #{student.major}" />
                                         </h:panelGrid>
                                     </p:tab>
                                 </p:accordionPanel>
@@ -62,7 +62,7 @@
                                 <p:accordionPanel multiple="true" activeIndex="1">
                                     <p:tab title="#{projectGroup.name}">
                                         <h:panelGrid>
-                                            <h:outputText value="Cost: #{projectGroup.cost}" />
+<!--                                            <h:outputText value="Cost: #{projectGroup.cost}" />-->
                                             <p:dataList var="groupMember" value="#{moduleInfoBean.getGroupMembers(projectGroup)}">
                                                 <p:accordionPanel multiple="true" activeIndex="1">
                                                     <p:tab title="#{groupMember.name}">
