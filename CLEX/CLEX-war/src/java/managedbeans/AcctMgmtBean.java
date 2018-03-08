@@ -37,6 +37,9 @@ public class AcctMgmtBean implements Serializable{
     private String username;
     private String password;
     private String userType;
+    private String email;
+    private String newPassword1;
+    private String newPassword2;
     
     FacesContext context;
     HttpSession session;
@@ -44,24 +47,7 @@ public class AcctMgmtBean implements Serializable{
     public AcctMgmtBean(){
         
     }
-    
-    public User getUserEntity() {
-        return userEntity;
-    }
 
-    public void setUserEntity(User userEntity) {
-        this.userEntity = userEntity;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    //eeren: Im not sure how but I need to research on how to store variables when you visit other pages
     public void logout() throws IOException{
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
@@ -93,21 +79,24 @@ public class AcctMgmtBean implements Serializable{
         //guest profile page: guest.xhtml
     }
     
-    //Only for those who cannot log in, don't use this for editing profile
-    public void resetPassword() throws IOException{
+    public void changePassword() throws IOException{
         FacesMessage fmsg = new FacesMessage();
         userEntity = csbl.findUser(username);
         
         if(userEntity != null){
-            String newPass = csbl.resetPassword(username);
-            
-            if(newPass != null && !newPass.isEmpty()){
-                resetEmail(newPass, userEntity.getEmail());
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "User " + username + "'s password has been reset. Please check your email.", "");
-                FacesContext.getCurrentInstance().addMessage(null, fmsg);
+            if(userEntity.getEmail().equals(email)){
+                if(newPassword1.equals(newPassword2)){
+                    csbl.changePassword(username, newPassword2);
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Password has been successfully reset.", ""));
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
+                }    
+                else{
+                    System.out.println("Passwords Mismatch");
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect new passwords.", ""));
+                }
             }
             else{
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to reset password. Please check with the administrator.", "");
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "The entered email is not registered with the user.", "");
                 FacesContext.getCurrentInstance().addMessage(null, fmsg);
             }
         }
@@ -117,7 +106,35 @@ public class AcctMgmtBean implements Serializable{
         }
     }
     
-    public void resetEmail(String newPass, String email){
+    //Only for those who cannot log in, don't use this for editing profile
+    public void resetPassword() throws IOException{
+        FacesMessage fmsg = new FacesMessage();
+        userEntity = csbl.findUser(username);
+        
+        if(userEntity != null){
+            //Old method for resetting password
+            //String newPass = csbl.resetPassword(username);
+            /*if(newPass != null && !newPass.isEmpty()){
+                resetEmail(newPass, userEntity.getEmail());
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "User " + username + "'s password has been reset. Please check your email.", "");
+                FacesContext.getCurrentInstance().addMessage(null, fmsg);
+            }
+            else{
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to reset password. Please check with the administrator.", "");
+                FacesContext.getCurrentInstance().addMessage(null, fmsg);
+            }
+            */
+            resetEmail(userEntity.getEmail());
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "The reset instructions have been sent to " + username + "'s email.", "");
+            FacesContext.getCurrentInstance().addMessage(null, fmsg);
+        }
+        else{
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + username + "' does not exists.", "");
+            FacesContext.getCurrentInstance().addMessage(null, fmsg);
+        }
+    }
+    
+    public void resetEmail(String email){
         String to = email;
         String from = "iamprism@gmail.com";
 
@@ -143,8 +160,8 @@ public class AcctMgmtBean implements Serializable{
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
             message.setSubject("[PRISM] Password Reset");
-            message.setText("Your account has been reseted. Please enter " + newPass + "as your password on your next log in.");
-
+            //message.setText("Your account has been reseted. Please enter " + newPass + "as your password on your next log in.");
+            message.setText("To reset the password, please use the link below and provide the necessary details for authentication.\n\nhttp://localhost:8080/CLEX-war/reset.xhtml");
             Transport.send(message);
             System.out.println("Reset password email sent.");
         }
@@ -153,5 +170,63 @@ public class AcctMgmtBean implements Serializable{
         }
     
     }
+
+    public User getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(User userEntity) {
+        this.userEntity = userEntity;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getNewPassword1() {
+        return newPassword1;
+    }
+
+    public void setNewPassword1(String newPassword1) {
+        this.newPassword1 = newPassword1;
+    }
+
+    public String getNewPassword2() {
+        return newPassword2;
+    }
+
+    public void setNewPassword2(String newPassword2) {
+        this.newPassword2 = newPassword2;
+    }
+    
+    
     
 }

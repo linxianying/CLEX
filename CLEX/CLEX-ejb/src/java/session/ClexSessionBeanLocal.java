@@ -102,6 +102,8 @@ public interface ClexSessionBeanLocal {
 
     public void getTimetable(String moduleCode);
 
+    public void changePassword(String username, String newPassword);
+    
     public String resetPassword(String username);
 
     public void setStudentTakenModules(Student student, Module module);

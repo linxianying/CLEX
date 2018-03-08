@@ -487,6 +487,17 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     }
     
     @Override
+    public void changePassword(String username, String newPassword){
+        Query q = em.createQuery("SELECT u FROM BasicUser u WHERE u.username = :username");
+        q.setParameter("username", username);
+        userEntity = (User) q.getSingleResult();
+        userEntity.setPassword(hashPassword(newPassword, userEntity.getSalt()));
+        System.out.println("Password of " + username + " has been changed.");
+        em.merge(userEntity);
+        em.flush();
+    }
+    
+    @Override
     public boolean checkPassword(String username, String password) {
         if(checkNewUser(username)==true){
             System.out.println("Error: This is a new user! Please register first!");
