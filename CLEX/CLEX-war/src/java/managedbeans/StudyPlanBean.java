@@ -108,7 +108,7 @@ public class StudyPlanBean {
         addPickYear = null;
         addPickSem = null;
         addErrorMsg = null;
-        addButton = true;
+        addButton = false;
         updatePickYear = null;
         updatePickSem = null;
         System.out.println("addButton:" + addButton);
@@ -401,8 +401,10 @@ public class StudyPlanBean {
 //        }
         context = FacesContext.getCurrentInstance();
         FacesMessage fmsg = new FacesMessage();
+        if (addModuleCode.endsWith("select"))
+            this.addButton = false;
         //this course already in studyPlan
-        if (cpsbl.checkStudyPlan(username, addModuleCode.toUpperCase())) {
+        else if (cpsbl.checkStudyPlan(username, addModuleCode.toUpperCase())) {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, 
                     "The study plan for course " + addModuleCode + " already in your study plan", "Please change a course");
             context.addMessage(null, fmsg);
@@ -426,11 +428,27 @@ public class StudyPlanBean {
     public void addStudyPlan() {
         cpsbl.addStudyPlan(addPickYear, addPickSem, addModuleCode.toUpperCase(), username);
         studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
+        addModuleCode = null;
+        addPickYear = null;
+        addPickSem = null;
+        this.addButton = false;
+        try {
+        context.getExternalContext().redirect("studyPlan.xhtml");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     public void deleteStudyPlan(String moduleCode) {
         cpsbl.removeStudyPlan(username, moduleCode);
         studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
+        try {
+        context.getExternalContext().redirect("studyPlan.xhtml");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     public void updateExpectedCap(int newModuleCredit, String moduleCode) {

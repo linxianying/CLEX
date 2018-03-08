@@ -125,8 +125,8 @@
 
 
                     <!-- START: Panel for Study Plan -->
-                    <h:outputText value="You do not have any StudyPlan currently" rendered="#{empty studyPlanBean.student.studyPlan}"/>
-                    <p:panel styleClass="menuHeader" id="studyPlan" header="Study Plans" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px" rendered="#{not empty studyPlanBean.student.studyPlan}">
+                    <h:outputText value="You do not have any StudyPlan currently" rendered="#{empty studyPlanBean.studyPlansInOrer}"/>
+                    <p:panel styleClass="menuHeader" id="studyPlan" header="Study Plans" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px" rendered="#{not empty studyPlanBean.studyPlansInOrer}">
                         <h:panelGrid columns="2" width="1000px">
                             <p:dataList var="studyPlans" value="#{studyPlanBean.studyPlansInOrer}" id="studyPlansList">
                                 <h2>
@@ -202,7 +202,11 @@
 
                             </p:dataList>
                         </h:panelGrid>
-                        <h3>Add a new study plan entry:</h3>
+                        
+                    </p:panel> 
+                    <br />
+                    <!-- END: Panel for Study Plan -->
+                    <h3>Add a new study plan entry:</h3>
                         <h:form id="addForm">
                             <table>
                                 <tr>
@@ -221,6 +225,7 @@
                                         <p:selectOneMenu id="moduleCode" value="#{studyPlanBean.addModuleCode}"  panelStyle="width:180px" effect="fade" 
                                                          var="course" style="width:160px" filter="true" filterMatchMode="contains" appendTo="@this">
                                             <p:ajax event="change" listener="#{studyPlanBean.checkStudyPlan}" update="addForm addErrorMsg"  />
+                                            <f:selectItem itemLabel="Select One" itemValue="select"/>
                                             <f:selectItems value="#{studyPlanBean.courses}" var="course" itemLabel="#{course.moduleCode}" itemValue="#{course.moduleCode}" />
                                             <p:column>
                                                 <h:outputText value="#{course.moduleCode}" />
@@ -252,15 +257,11 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <p:commandButton value="Add" id="addStudyPlanButton" rendered="#{studyPlanBean.addButton}" actionListener="#{studyPlanBean.addStudyPlan()}" action="studyPlan?faces-redirect=true" />
+                                        <p:commandButton value="Add" id="addStudyPlanButton" rendered="#{studyPlanBean.addButton}" actionListener="#{studyPlanBean.addStudyPlan()}" action="studyPlan?faces-redirect=true" update="studyPlan"/>
                                     </td>
                                 </tr>                   
                             </table>
                         </h:form>
-                    </p:panel> 
-                    <br />
-                    <!-- END: Panel for Study Plan -->
-
                     <h2>
                         Expected Cap: 
                         <h:outputText id ="expectedCap" value="#{studyPlanBean.expectedCap}">
