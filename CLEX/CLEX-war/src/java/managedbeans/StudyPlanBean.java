@@ -73,6 +73,10 @@ public class StudyPlanBean {
     private String addErrorMsg;
     private boolean addButton;
     
+    private String updateModuleCode;
+    private String updatePickYear;
+    private String updatePickSem;
+    
     private List<Course> courses;
     public StudyPlanBean() {
     }
@@ -368,15 +372,39 @@ public class StudyPlanBean {
         this.courses = courses;
     }
 
+    public String getUpdateModuleCode() {
+        return updateModuleCode;
+    }
+
+    public void setUpdateModuleCode(String updateModuleCode) {
+        this.updateModuleCode = updateModuleCode;
+    }
+
+    public String getUpdatePickYear() {
+        return updatePickYear;
+    }
+
+    public void setUpdatePickYear(String updatePickYear) {
+        this.updatePickYear = updatePickYear;
+    }
+
+    public String getUpdatePickSem() {
+        return updatePickSem;
+    }
+
+    public void setUpdatePickSem(String updatePickSem) {
+        this.updatePickSem = updatePickSem;
+    }
+
     public void checkStudyPlan() {
         //this course does not exist
         if (cpsbl.findCourse(addModuleCode.toUpperCase()) == null) {
-            addErrorMsg = "Module: " + addModuleCode.toUpperCase() + " does not exist";
+            addErrorMsg = "Module " + addModuleCode.toUpperCase() + " does not exist";
             this.addButton = false;
         }
         //this course already in studyPlan
         else if (cpsbl.checkStudyPlan(username, addModuleCode.toUpperCase())) {
-            addErrorMsg = "Module: " + addModuleCode.toUpperCase() + " already exists in your study plan";
+            addErrorMsg = "Module " + addModuleCode.toUpperCase() + " already exists in your study plan";
             this.addButton = false;
         }
         //this course already in takenCourses list
@@ -520,6 +548,13 @@ public class StudyPlanBean {
                     + moduleCode + " is not found in expectedCourseGrade");
         }
         return "none";
+    }
+    
+    public void updateStudyPlan(String updateModuleCode) {
+        System.out.println("Strat to update");
+        cpsbl.updateStudyPlan(username, updateModuleCode, updatePickYear, updatePickSem);
+        studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
+        
     }
     
     //-------------------------------------------------------------------------
