@@ -216,6 +216,8 @@
                                     </td>-->
                                     <td>
                                         <p:outputLabel for="moduleCode" value="Module Code:"  />
+                                    </td>
+                                    <td>
                                         <p:selectOneMenu id="moduleCode" value="#{studyPlanBean.addModuleCode}"  panelStyle="width:180px" effect="fade" 
                                                          var="course" style="width:160px" filter="true" filterMatchMode="contains" appendTo="@this">
                                             <p:ajax event="change" listener="#{studyPlanBean.checkStudyPlan}" update="addForm addErrorMsg"  />
@@ -232,12 +234,16 @@
                                 <tr>
                                     <td>
                                         <h:outputText value="Year: " />
+                                    </td>
+                                    <td>
                                         <p:inputText id="addPickYear" value="#{studyPlanBean.addPickYear}" required="true"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <p:outputLabel for="addPickSem" value="Semester: " />
+                                    </td>
+                                    <td>
                                         <p:selectOneMenu id="addPickSem" value="#{studyPlanBean.addPickSem}" style="width:125px">
                                             <f:selectItem itemLabel="1" itemValue="1" />
                                             <f:selectItem itemLabel="2" itemValue="2" />
