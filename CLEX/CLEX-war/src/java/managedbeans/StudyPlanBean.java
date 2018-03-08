@@ -395,22 +395,30 @@ public class StudyPlanBean {
 
     public void checkStudyPlan() {
         //this course does not exist
-        if (cpsbl.findCourse(addModuleCode.toUpperCase()) == null) {
-            addErrorMsg = "Module " + addModuleCode.toUpperCase() + " does not exist";
-            this.addButton = false;
-        }
+//        if (cpsbl.findCourse(addModuleCode.toUpperCase()) == null) {
+//            addErrorMsg = "Module " + addModuleCode.toUpperCase() + " does not exist";
+//            this.addButton = false;
+//        }
+        context = FacesContext.getCurrentInstance();
+        FacesMessage fmsg = new FacesMessage();
         //this course already in studyPlan
-        else if (cpsbl.checkStudyPlan(username, addModuleCode.toUpperCase())) {
-            addErrorMsg = "Module " + addModuleCode.toUpperCase() + " already exists in your study plan";
+        if (cpsbl.checkStudyPlan(username, addModuleCode.toUpperCase())) {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+                    "The study plan for course " + addModuleCode + " already in your study plan", "Please change a course");
+            context.addMessage(null, fmsg);
             this.addButton = false;
         }
         //this course already in takenCourses list
         else if (cpsbl.checkStudentModule(username, addModuleCode.toUpperCase())) {
-            addErrorMsg = "You have already taken module - " + addModuleCode.toUpperCase();
+//            addErrorMsg = "You have already taken module - " + addModuleCode.toUpperCase();
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+                    "You have already taken the course " + addModuleCode , "Please change a course");
+            context.addMessage(null, fmsg);
             this.addButton = false;
         }
         else {
-            addErrorMsg = null;
+            fmsg = null;
+//            addErrorMsg = null;
             this.addButton = true;
         }
     }
@@ -585,93 +593,93 @@ public class StudyPlanBean {
     //-------------------------------------------------------------------------
     //for test addStudyPlan, dont forget to create student and module before test
    
-    public void testAddStudyPlan(){
-        if(csbl.checkNewUser("namename") == true){
-            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
-        }
-        cpsbl.addStudyPlan("namename", "IS4103", "2018", "2");
-    }
-    
-    public void testAddModuleFromNUSMods(){
-        csbl.dragAllNusMods(username);
-    }
-    
-    public void getTimetable(){
-        csbl.getTimetable("IS4103");
-    }
-    
-    public void testUpdateStudyPlan() {
-        cpsbl.updateStudyPlan("namename", "IS4103", "2020", "1");
-    }
-    
-    public void testRemoveStudyPlan(){
-        cpsbl.removeStudyPlan("namename", "IS4103");
-    }
-    
-    public void testViewTakenCourses() {
-        if(csbl.checkNewUser("namename") == true){
-            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
-        }
-        this.student = cpsbl.findStudent("namename");
-        //to add some taken modules for student
-        //first,create some modules
-        csbl.createModule("2018", "1", "none", "none", csbl.findCourse("CP3109"));
-        csbl.createModule("2018", "1", "none", "none", csbl.findCourse("IS3106"));
-        csbl.createModule("2018", "1", "none", "none", csbl.findCourse("CS1020"));
-        csbl.createModule("2018", "1", "none", "none", csbl.findCourse("CS2100"));
-        csbl.createModule("2018", "1", "none", "none", csbl.findCourse("GER1000"));
-        //add these modules to the student's Module list
-        cpsbl.setStudentTakenModules("namename", "CP3109", "2018", "1");
-        cpsbl.setStudentTakenModules("namename", "IS3106", "2018", "1");
-        cpsbl.setStudentTakenModules("namename", "CS1020", "2018", "1");
-        cpsbl.setStudentTakenModules("namename", "CS2100", "2018", "1");
-        cpsbl.setStudentTakenModules("namename", "GER1000", "2018", "1");
-        
-        this.takenCourses = cpsbl.getTakenCourses("namename");
-        System.out.println(takenCourses);
-        System.out.println("sp bean: testViewTakenCourses finish ");
-    }
-    
-    public void testViewStudyPlan() {
-        cpsbl.addStudyPlan("2018", "1", "ACC1002X", "namename");
-        cpsbl.addStudyPlan("2018", "1", "MA1101R", "namename");
-        cpsbl.addStudyPlan("2018", "1", "IS1103", "namename");
-        cpsbl.addStudyPlan("2018", "1", "IS1105", "namename");
-        cpsbl.addStudyPlan("2018", "1", "CS2102", "namename");
-        this.studyPlans = cpsbl.getAllStudyPlans("namename");
-    }
-    
-    public void testViewTakenCoursesInOrder(){
-        if(csbl.checkNewUser("namename") == true){
-            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
-        }
-        this.student = cpsbl.findStudent("namename");
-        //to add some taken modules for student
-        //first,create some modules
-        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("CP3109"));
-        csbl.createModule("2015", "2", "none", "none", csbl.findCourse("IS3106"));
-        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("CS1020"));
-        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("CS2100"));
-        csbl.createModule("2017", "1", "none", "none", csbl.findCourse("GER1000"));
-        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("PS2240"));
-        //csbl.createModule("2018", "1", "none", "none", csbl.findCourse("ST2334"));
-        //add these modules to the student's Module list
-        cpsbl.setStudentTakenModules("namename", "CP3109", "2015", "1");
-        cpsbl.setStudentTakenModules("namename", "IS3106", "2015", "2");
-        cpsbl.setStudentTakenModules("namename", "CS1020", "2016", "1");
-        cpsbl.setStudentTakenModules("namename", "CS2100", "2016", "2");
-        cpsbl.setStudentTakenModules("namename", "GER1000", "2017", "1");
-        cpsbl.setStudentTakenModules("namename", "PS2240", "2017", "2");
-        //cpsbl.setStudentTakenModules("namename", "ST2334", "2018", "1");
-        
-        takenCoursesInOrder = cpsbl.getTakenModulesInOrder("namename");
-        System.out.print("sp bean: takenCoursesInOrder:");
-        System.out.println(takenCoursesInOrder.size());
-        System.out.println(takenCoursesInOrder);
-        System.out.println("sp bean: testViewTakenCoursesInOrder finish ");
-        
-        //year = Integer.parseInt(student.getMatricYear());
-    }
+//    public void testAddStudyPlan(){
+//        if(csbl.checkNewUser("namename") == true){
+//            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
+//        }
+//        cpsbl.addStudyPlan("namename", "IS4103", "2018", "2");
+//    }
+//    
+//    public void testAddModuleFromNUSMods(){
+//        csbl.dragAllNusMods(username);
+//    }
+//    
+//    public void getTimetable(){
+//        csbl.getTimetable("IS4103");
+//    }
+//    
+//    public void testUpdateStudyPlan() {
+//        cpsbl.updateStudyPlan("namename", "IS4103", "2020", "1");
+//    }
+//    
+//    public void testRemoveStudyPlan(){
+//        cpsbl.removeStudyPlan("namename", "IS4103");
+//    }
+//    
+//    public void testViewTakenCourses() {
+//        if(csbl.checkNewUser("namename") == true){
+//            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
+//        }
+//        this.student = cpsbl.findStudent("namename");
+//        //to add some taken modules for student
+//        //first,create some modules
+//        csbl.createModule("2018", "1", "none", "none", csbl.findCourse("CP3109"));
+//        csbl.createModule("2018", "1", "none", "none", csbl.findCourse("IS3106"));
+//        csbl.createModule("2018", "1", "none", "none", csbl.findCourse("CS1020"));
+//        csbl.createModule("2018", "1", "none", "none", csbl.findCourse("CS2100"));
+//        csbl.createModule("2018", "1", "none", "none", csbl.findCourse("GER1000"));
+//        //add these modules to the student's Module list
+//        cpsbl.setStudentTakenModules("namename", "CP3109", "2018", "1");
+//        cpsbl.setStudentTakenModules("namename", "IS3106", "2018", "1");
+//        cpsbl.setStudentTakenModules("namename", "CS1020", "2018", "1");
+//        cpsbl.setStudentTakenModules("namename", "CS2100", "2018", "1");
+//        cpsbl.setStudentTakenModules("namename", "GER1000", "2018", "1");
+//        
+//        this.takenCourses = cpsbl.getTakenCourses("namename");
+//        System.out.println(takenCourses);
+//        System.out.println("sp bean: testViewTakenCourses finish ");
+//    }
+//    
+//    public void testViewStudyPlan() {
+//        cpsbl.addStudyPlan("2018", "1", "ACC1002X", "namename");
+//        cpsbl.addStudyPlan("2018", "1", "MA1101R", "namename");
+//        cpsbl.addStudyPlan("2018", "1", "IS1103", "namename");
+//        cpsbl.addStudyPlan("2018", "1", "IS1105", "namename");
+//        cpsbl.addStudyPlan("2018", "1", "CS2102", "namename");
+//        this.studyPlans = cpsbl.getAllStudyPlans("namename");
+//    }
+//    
+//    public void testViewTakenCoursesInOrder(){
+//        if(csbl.checkNewUser("namename") == true){
+//            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
+//        }
+//        this.student = cpsbl.findStudent("namename");
+//        //to add some taken modules for student
+//        //first,create some modules
+//        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("CP3109"));
+//        csbl.createModule("2015", "2", "none", "none", csbl.findCourse("IS3106"));
+//        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("CS1020"));
+//        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("CS2100"));
+//        csbl.createModule("2017", "1", "none", "none", csbl.findCourse("GER1000"));
+//        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("PS2240"));
+//        //csbl.createModule("2018", "1", "none", "none", csbl.findCourse("ST2334"));
+//        //add these modules to the student's Module list
+//        cpsbl.setStudentTakenModules("namename", "CP3109", "2015", "1");
+//        cpsbl.setStudentTakenModules("namename", "IS3106", "2015", "2");
+//        cpsbl.setStudentTakenModules("namename", "CS1020", "2016", "1");
+//        cpsbl.setStudentTakenModules("namename", "CS2100", "2016", "2");
+//        cpsbl.setStudentTakenModules("namename", "GER1000", "2017", "1");
+//        cpsbl.setStudentTakenModules("namename", "PS2240", "2017", "2");
+//        //cpsbl.setStudentTakenModules("namename", "ST2334", "2018", "1");
+//        
+//        takenCoursesInOrder = cpsbl.getTakenModulesInOrder("namename");
+//        System.out.print("sp bean: takenCoursesInOrder:");
+//        System.out.println(takenCoursesInOrder.size());
+//        System.out.println(takenCoursesInOrder);
+//        System.out.println("sp bean: testViewTakenCoursesInOrder finish ");
+//        
+//        //year = Integer.parseInt(student.getMatricYear());
+//    }
     
     
 }

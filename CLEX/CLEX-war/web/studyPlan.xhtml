@@ -14,6 +14,7 @@
         </h:head>
         <h:body>
             <p:growl id="updateErrorMsg" showDetail="true" />
+            <p:growl id="addErrorMsg" showDetail="true" />
             <div>
                 <div id="content" class="left_content">
                     
@@ -217,20 +218,20 @@
                                         <p:outputLabel for="moduleCode" value="Module Code:"  />
                                         <p:selectOneMenu id="moduleCode" value="#{studyPlanBean.addModuleCode}"  panelStyle="width:180px" effect="fade" 
                                                          var="course" style="width:160px" filter="true" filterMatchMode="contains" appendTo="@this">
-                                            <p:ajax event="change" listener="#{studyPlanBean.checkStudyPlan}" update="addForm"  />
+                                            <p:ajax event="change" listener="#{studyPlanBean.checkStudyPlan}" update="addForm addErrorMsg"  />
                                             <f:selectItems value="#{studyPlanBean.courses}" var="course" itemLabel="#{course.moduleCode}" itemValue="#{course.moduleCode}" />
                                             <p:column>
                                                 <h:outputText value="#{course.moduleCode}" />
                                             </p:column>
                                         </p:selectOneMenu>
                                     </td>
-                                    <td>
+<!--                                    <td>
                                         <h:outputText id="addErrorMsg" value="#{studyPlanBean.addErrorMsg}" />
-                                    </td>
+                                    </td>-->
                                 </tr>
                                 <tr>
                                     <td>
-                                        <p:outputLabel for="addPickYear" value="Year: " />
+                                        <h:outputText value="Year: " />
                                         <p:inputText id="addPickYear" value="#{studyPlanBean.addPickYear}" required="true"/>
                                     </td>
                                 </tr>
