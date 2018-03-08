@@ -13,6 +13,7 @@
             <title>PRISM Study Plan Page</title>
         </h:head>
         <h:body>
+            <p:growl id="updateErrorMsg" showDetail="true" />
             <div>
                 <div id="content" class="left_content">
                     
@@ -174,20 +175,23 @@
                                                         <br/>
                                                         <p:commandButton  value="Delete" update="@form" actionListener="#{studyPlanBean.deleteStudyPlan(sp.course.moduleCode)}" action="studyPlan?faces-redirect=true" id="deleteStudyPlan-button" />
                                                         <br />
-<!--                                                        <h:form id="updateStudyPlan">-->
-                                                            <h:outputText value="Change Pick Year:"/>
-                                                            <br/>
-                                                            <p:inputText id="updatePickYear" value="#{studyPlanBean.updatePickYear}"/>
-                                                            <br/>
-                                                            <h:outputText value="Change Pick Sem"/>
-                                                            <br/>
-                                                            <p:selectOneMenu id="updatePickSem" value="#{studyPlanBean.updatePickSem}" style="width:125px">
-                                                                <f:selectItem itemLabel="1" itemValue="1" />
-                                                                <f:selectItem itemLabel="2" itemValue="2" />
-                                                            </p:selectOneMenu>
-                                                            <br/>
-                                                            <p:commandButton value="Update" id="updateStudyPlanButton" actionListener="#{studyPlanBean.updateStudyPlan(sp.course.moduleCode)}" update="@form" action="studyPlan?faces-redirect=true" />
-<!--                                                        </h:form>-->
+<!--                                                    <h:form id="updateStudyPlan">-->
+                                                        <h:outputText value="Change Pick Year:"/>
+                                                        <br/>
+                                                        <p:inputText id="updatePickYear" value="#{studyPlanBean.updatePickYear}"/>
+                                                        <br/>
+                                                        <h:outputText value="Change Pick Sem"/>
+                                                        <br/>
+                                                        <p:selectOneMenu id="updatePickSem" value="#{studyPlanBean.updatePickSem}" style="width:125px">
+                                                            <f:selectItem itemLabel="1" itemValue="1" />
+                                                            <f:selectItem itemLabel="2" itemValue="2" />
+                                                        </p:selectOneMenu>
+                                                        <br/>
+                                                        <p:commandButton value="Update" id="updateStudyPlanButton" actionListener="#{studyPlanBean.updateStudyPlan(sp.course.moduleCode)}" update="updateErrorMsg"  />
+                                                        <br />
+<!--                                                        <h:outputText id="updateErrorMsg" value="#{studyPlanBean.updateErrorMsg}" />-->
+<!--                                                        <p:growl id="updateErrorMsg" showDetail="true" />-->
+<!--                                                    </h:form>-->
                                                     </h:panelGrid>
                                                 </p:tab>
                                             </p:accordionPanel>

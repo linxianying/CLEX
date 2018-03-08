@@ -10,7 +10,6 @@ import entity.Grade;
 import entity.Module;
 import entity.Student;
 import entity.StudyPlan;
-import entity.User;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -25,11 +24,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
-import static org.primefaces.component.focus.Focus.PropertyKeys.context;
-import org.primefaces.event.CloseEvent;
-import org.primefaces.event.DashboardReorderEvent;
-import org.primefaces.event.ToggleEvent;
-import org.primefaces.model.DashboardModel;
 
 /**
  *
@@ -85,6 +79,7 @@ public class StudyPlanBean {
     public void init() {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
+        
         student = (Student) session.getAttribute("user");
         username = student.getUsername();
         //for test purpose only
@@ -114,6 +109,8 @@ public class StudyPlanBean {
         addPickSem = null;
         addErrorMsg = null;
         addButton = true;
+        updatePickYear = null;
+        updatePickSem = null;
         System.out.println("addButton:" + addButton);
         courses = cpsbl.getAllCourses();
         System.out.println("finish to render StudyPlanBean");
@@ -551,10 +548,38 @@ public class StudyPlanBean {
     }
     
     public void updateStudyPlan(String updateModuleCode) {
-        System.out.println("Strat to update");
-        cpsbl.updateStudyPlan(username, updateModuleCode, updatePickYear, updatePickSem);
-        studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
+        try {
+            if (checkUpdateStudyPlan(updateModuleCode)) {
+    //            System.out.println("Strat to update");
+                cpsbl.updateStudyPlan(username, updateModuleCode, updatePickYear, updatePickSem);
+                studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
+                context = FacesContext.getCurrentInstance();
+                context.getExternalContext().redirect("studyPlan.xhtml");
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
         
+    }
+    
+    public boolean checkUpdateStudyPlan(String updateModuleCode) {
+        System.out.println("find " + username + "'s study plan for " + updateModuleCode);
+        StudyPlan updatedStudyPlan = cpsbl.findStudyPlan(username, updateModuleCode);
+        FacesContext context = FacesContext.getCurrentInstance();
+        FacesMessage fmsg = new FacesMessage();
+        if (updatePickYear.equals(updatedStudyPlan.getPickYear()) && updatePickSem.equals(updatedStudyPlan.getPickSem())) {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+                    "The study plan for course" + updateModuleCode + "already in Year " + updatePickYear + " Sem " + updatePickSem
+                            , "Please change a semester");
+            context.addMessage(null, fmsg);
+//            System.out.println("update error message added");
+            return false;
+        }
+        else {
+            fmsg = null;
+            return true;
+        }
     }
     
     //-------------------------------------------------------------------------
