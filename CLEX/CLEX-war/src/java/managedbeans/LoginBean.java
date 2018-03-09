@@ -99,7 +99,7 @@ public class LoginBean implements Serializable {
                     session.setAttribute("userType", 1);
                     context.getExternalContext().redirect("unapprovedUser.xhtml");
                 } else {
-                    fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Incorrect password.", "Have you forgotten your password? If so, click on reset password.");
+                    fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login Failure", "Invalid Credentials");
                     context.addMessage(null, fmsg);
                 }
             }
