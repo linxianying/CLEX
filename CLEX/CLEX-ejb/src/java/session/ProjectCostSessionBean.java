@@ -133,6 +133,7 @@ public class ProjectCostSessionBean implements ProjectCostSessionBeanLocal {
             assCost = 0;
             for (Ledger l: all) {
                 assCost += (l.getPay()-l.getAscCost());
+                System.out.println("For " + student.getName() + " pay " + l.getPay() + ", spend " + l.getAscCost());
             }
             System.out.println("balance for " + student.getName() + " in group " + group.getName() + " is " + assCost);
         }
@@ -166,6 +167,7 @@ public class ProjectCostSessionBean implements ProjectCostSessionBeanLocal {
         System.out.println("balances: " + balances.size());
         System.out.println(balances);
         
+        if (!balances.isEmpty()){
         //set each student's balance
         int payerIndex = 0;
         int payeeIndex = balances.size()-1;
@@ -225,6 +227,8 @@ public class ProjectCostSessionBean implements ProjectCostSessionBeanLocal {
                     payeeBalance = Math.abs(payeeStudentBalance.getTotalAmount());
                 }
             }
+        }
+            
             //test print out
             for (StudentBalance sb: balances) {
                 System.out.println("------------For " + sb.getStudent().getName() + "------------");
@@ -236,8 +240,9 @@ public class ProjectCostSessionBean implements ProjectCostSessionBeanLocal {
                 } 
             }
         }
-        //add the zeroBalances arraylist
         
+        //add the zeroBalances arraylist (zeroBalances, payees is empty)
+        balances.addAll(zeroBalances); 
         return balances;
     }
     
