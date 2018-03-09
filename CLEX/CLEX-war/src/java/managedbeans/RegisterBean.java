@@ -38,6 +38,7 @@ public class RegisterBean implements Serializable {
     private String username;
     @Size(min = 6, max = 12)
     private String password;
+    private String password1;
     private String name;
     @Size(min = 4, max = 32)
     @Pattern(regexp = "\\b[\\w.%-]+@[-.\\w]+\\.[A-Za-z]{2,4}\\b")
@@ -77,31 +78,38 @@ public class RegisterBean implements Serializable {
         } else {
             System.out.println("Agree (Else):-------------------------" + this.agree);
             if (csbl.checkNewUser(username) == true) {
+                
                 if (password.length() >= 6 && !username.equals("") && !email.equals("")) {
-                    if (userType.equals("1")) { //Student
-                        csbl.createStudent(username, password, name, email, school, contactNum, genSalt(),
-                                faculty, major, matricYear, matricSem, cap);
-                        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Student '" + username + "' successfully created.", "We hope you will like PRISM.");
-                        //context.getExternalContext().redirect("login.xhtml");
-                    } else if (userType.equals("2")) { //Lecturer
-                        csbl.createLecturer(username, password, name, email, school, contactNum, genSalt(),
-                                faculty);
-                        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Lecturer '" + username + "' successfully created.", "We hope you will like PRISM.");
-                        //context.getExternalContext().redirect("login.xhtml");
-                    } else { //Guest
-                        csbl.createGuest(username, password, name, email, school, contactNum, genSalt());
-                        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Guest '" + username + "' successfully created.", "We hope you will like PRISM.");
-                        //context.getExternalContext().redirect("login.xhtml");
+                    if(password.equals(password1)){
+                        if (userType.equals("1")) { //Student
+                            csbl.createStudent(username, password, name, email, school, contactNum, genSalt(),
+                                    faculty, major, matricYear, matricSem, cap);
+                            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Student '" + username + "' successfully created.", "We hope you will like PRISM.");
+                            //context.getExternalContext().redirect("login.xhtml");
+                        } else if (userType.equals("2")) { //Lecturer
+                            csbl.createLecturer(username, password, name, email, school, contactNum, genSalt(),
+                                    faculty);
+                            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Lecturer '" + username + "' successfully created.", "We hope you will like PRISM.");
+                            //context.getExternalContext().redirect("login.xhtml");
+                        } else { //Guest
+                            csbl.createGuest(username, password, name, email, school, contactNum, genSalt());
+                            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Guest '" + username + "' successfully created.", "We hope you will like PRISM.");
+                            //context.getExternalContext().redirect("login.xhtml");
+                        }
+                        //context.getExternalContext().redirect("login.xhtml"); //redirect will not show success
+                        context.addMessage(null, fmsg);
+                        username = "";
+                        password = "";
+                        name = "";
+                        email = "";
+                        school = "";
+                        contactNum = null;
                     }
-                    //context.getExternalContext().redirect("login.xhtml"); //redirect will not show success
-                    context.addMessage(null, fmsg);
-                    username = "";
-                    password = "";
-                    name = "";
-                    email = "";
-                    school = "";
-                    contactNum = null;
-
+                    else{
+                        fmsg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "The password are not consistent", "Please enter again.");
+                        username = "";
+                        context.addMessage(null, fmsg);
+                    }
                 }
             } else {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "User'" + username + "' already exists.", "Please choose another username.");
@@ -304,4 +312,21 @@ public class RegisterBean implements Serializable {
     public void setAgree(boolean agree) {
         this.agree = agree;
     }
+
+    public ClexSessionBeanLocal getCsbl() {
+        return csbl;
+    }
+
+    public void setCsbl(ClexSessionBeanLocal csbl) {
+        this.csbl = csbl;
+    }
+
+    public String getPassword1() {
+        return password1;
+    }
+
+    public void setPassword1(String password1) {
+        this.password1 = password1;
+    }
+    
 }

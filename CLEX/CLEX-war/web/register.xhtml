@@ -59,8 +59,17 @@
                                         title="Password should be 6-12 characters"
                                         id="password" value="#{registerBean.password}" 
                                         feedback="true"
-                                        validatorMessage="Invalid format. Password must be between 6-12 letters/numbers."
+                                        match="password1"
+                                        validatorMessage="Invalid format or inconsistent passwords. Please enter again."
                                         required="true" requiredMessage="Password required." />
+                            
+                            <p:password styleClass="textInput" 
+                                        placeholder="password again"
+                                        title="Password again"
+                                        id="password1" value="#{registerBean.password}" 
+                                        feedback="true"
+                                        validatorMessage="Passwords are not consistent. Please enter again."
+                                        required="true" requiredMessage="Enter password again required." />
 
 
                             <p:selectOneMenu style="padding: 0%; width: 300px" required="true" id="school" value="#{registerBean.school}" 
