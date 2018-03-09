@@ -21,7 +21,7 @@
                         <p:growl id="messages" showDetail="true" />
 
                         <div class="form-row">
-                            <p:inputText styleClass="textInput" title="6-12 alphanumeric without special characters"
+                            <p:inputText styleClass="textInput" title="Username should be 6-12 alphanumeric without special characters"
                                          placeholder="username"
                                          id="username" value="#{registerBean.username}" 
                                          required="true" requiredMessage="Username required." 
@@ -29,14 +29,7 @@
                                 <f:validateRegex pattern="^[a-zA-Z0-9]{6,12}$" /> 
                             </p:inputText>
 
-                            <p:password styleClass="textInput" 
-                                        placeholder="password"
-                                        title="6-12 characters"
-                                        id="password" value="#{registerBean.password}" 
-                                        feedback="true"
-                                        validatorMessage="Invalid format. Password must be between 6-12 letters/numbers."
-                                        required="true" requiredMessage="Password required." />
-
+                            
                             <p:inputText styleClass="textInput" 
                                          title="Please enter your full name"
                                          placeholder="name"
@@ -60,6 +53,15 @@
                                          required="true" requiredMessage="Contact number required." 
                                          validatorMessage="Invalid format. Contact number must be at least 8 digits">
                             </p:inputText>
+                            
+                            <p:password styleClass="textInput" 
+                                        placeholder="password"
+                                        title="Password should be 6-12 characters"
+                                        id="password" value="#{registerBean.password}" 
+                                        feedback="true"
+                                        validatorMessage="Invalid format. Password must be between 6-12 letters/numbers."
+                                        required="true" requiredMessage="Password required." />
+
 
                             <p:selectOneMenu style="padding: 0%; width: 300px" required="true" id="school" value="#{registerBean.school}" 
                                              editable="true" placeholder="school" requiredMessage="Please enter your school name or choose from the list">
@@ -109,7 +111,7 @@
                         </div>
 
                         <div class="form-row">
-                            <p:commandButton update="@form" value="REGISTER" actionListener="#{registerBean.register}" />
+                            <p:commandButton update="@form" value="REGISTER" actionListener="#{registerBean.register}" action="login?faces-redirect=true" />
                             <br/>
                             <p:commandButton update="messages" process="@this" action="#{registerBean.doBack}" id="backButton" value="BACK TO LOGIN" />
                         </div>
