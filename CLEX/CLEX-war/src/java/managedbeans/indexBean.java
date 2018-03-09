@@ -5,6 +5,7 @@
  */
 package managedbeans;
 
+import entity.Transaction;
 import java.util.Random;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -33,9 +34,7 @@ public class indexBean {
     @EJB
     private AnnouncementSessionBeanLocal asbl;
    
-    /**
-     * Creates a new instance of indexBean
-     */
+    
     public indexBean() {
         
     }
@@ -398,6 +397,34 @@ public class indexBean {
         csbl.linkStudentGroup(csbl.findStudent("XiaoLv"), csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")));
         csbl.linkStudentGroup(csbl.findStudent("XiaoLv"), csbl.findProjectgroup("N1", csbl.findModule("PC2193", "2017", "2")));
 
+        //create Transaction and ledger for PS2240 N1 group
+        //date is of format dd-MM-yyyy
+        Transaction t = new Transaction();
+        t = csbl.createTransaction(43.7, "03-01-2018", "Dinner", csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")));
+        csbl.createLedger(csbl.findStudent("namename"), (43.7/3), 43.7, t);
+        csbl.createLedger(csbl.findStudent("XiaoHong"), (43.7/3), 0.0, t);
+        csbl.createLedger(csbl.findStudent("XiaoLv"), (43.7/3), 0.0, t);
+        
+        t = csbl.createTransaction(15.6, "26-09-2017", "Lunch", csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")));
+        csbl.createLedger(csbl.findStudent("namename"), 4.0, 7.0, t);
+        csbl.createLedger(csbl.findStudent("XiaoHong"), 7.2, 8.6, t);
+        csbl.createLedger(csbl.findStudent("XiaoLv"), 4.4, 0.0, t);
+        
+        t = csbl.createTransaction(6.3, "11-09-2017", "Print", csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")));
+        csbl.createLedger(csbl.findStudent("namename"), 2.1, 0.0, t);
+        csbl.createLedger(csbl.findStudent("XiaoHong"), 2.1, 0.0, t);
+        csbl.createLedger(csbl.findStudent("XiaoLv"), 2.1, 6.3, t);
+        
+        t = csbl.createTransaction(17.2, "03-12-2017", "Buy materials", csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")));
+        csbl.createLedger(csbl.findStudent("namename"), (17.2*0.3), 0.0, t);
+        csbl.createLedger(csbl.findStudent("XiaoHong"), (17.2*0.1), 7.2, t);
+        csbl.createLedger(csbl.findStudent("XiaoLv"), (17.2*0.6), 10.0, t);
+        
+        t = csbl.createTransaction(3.9, "24-02-2018", "Print", csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")));
+        csbl.createLedger(csbl.findStudent("namename"), 1.3, 3.9, t);
+        csbl.createLedger(csbl.findStudent("XiaoHong"), 1.3, 0.0, t);
+        csbl.createLedger(csbl.findStudent("XiaoLv"), 1.3, 0.0, t);
+        
         
         //create studyPlan, its relationship is set during create
         csbl.createStudyPlan("2018", "1", csbl.findCourse("CS2107"), csbl.findStudent("namename"));

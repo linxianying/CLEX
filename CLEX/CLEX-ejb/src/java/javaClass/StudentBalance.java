@@ -6,7 +6,10 @@
 package javaClass;
 
 import entity.Student;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -49,6 +52,11 @@ public class StudentBalance implements Comparable<StudentBalance>{
         this.payees = payees;
     }
 
+    public ArrayList<HashMap.Entry<Student, Double>> getBalances() {
+         Set<HashMap.Entry<Student, Double>> balances = payees.entrySet();
+    return new ArrayList<HashMap.Entry<Student, Double>>(balances);
+    }
+    
     @Override
     public String toString() {
         return (student.getName() + " with asscociated cost " + totalAmount);
