@@ -69,8 +69,13 @@
                                 <h:outputText value="#{user.username}" />
                             </p:column>
 
-                            <p:column filterBy="#{user.email}" headerText="Email" filterMatchMode="contains">
-                                <h:outputText value="#{user.email}" />
+                            <p:column filterBy="#{user.email}" headerText="Email" filterMatchMode="contains">                           
+                                    <h:outputLink value="Mailto:#{user.email}">
+                                        <h:outputText  style="color:black;font-weight:normal;" value="#{user.email}" />
+                                        <f:param name="subject" value="[PRISM_Admin]" />
+                                        <f:param name="body" value="" />
+                                        <h:outputText value="mail" />
+                                    </h:outputLink>
                             </p:column>
 
                             <p:column filterBy="#{user.school}" headerText="School" filterMatchMode="contains">
