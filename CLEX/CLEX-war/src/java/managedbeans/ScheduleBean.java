@@ -92,7 +92,10 @@ public class ScheduleBean implements Serializable {
         Timeslot t;
         for (Timeslot timeslot : timeslots) {
             t = timeslot;
-            eventModel.addEvent(new DefaultScheduleEvent(t.getTitle(), toCalendar(t.getStartDate()), toCalendar(t.getEndDate()), t));
+            DefaultScheduleEvent dse = new DefaultScheduleEvent(t.getTitle(), toCalendar(t.getStartDate()), toCalendar(t.getEndDate()), t);
+            dse.setDescription(t.getDetails());
+            //System.out.println(t.getDetails());
+            eventModel.addEvent(dse);
         }
     }
 
@@ -268,11 +271,12 @@ public class ScheduleBean implements Serializable {
                     String start = component.getProperty("DTSTART").getValue();
                     String end = component.getProperty("DTEND").getValue();
                     String summary = component.getProperty("SUMMARY").getValue();
+                    String description = component.getProperty("DESCRIPTION").getValue();
 
                     System.out.println("Information gathered( start: "+start+" end: "+ end + " summary:" + summary+")");
 
                     DefaultScheduleEvent dsf =  new DefaultScheduleEvent(summary, SDF.parse(start), SDF.parse(end));
-
+                    dsf.setDescription(description);
 
                     addIcsFile(dsf);
                 }
@@ -299,6 +303,8 @@ public class ScheduleBean implements Serializable {
             System.out.println(endDate);
             System.out.println(title);
             System.out.println(description);
+            if(description!=null && description.length()>1028)
+                description = description.substring(0, 1000);
             if(username!=null&title!=null&&startDate!=null&&endDate!=null&&description!=null)
                 sbl.createTimeslot(username, title, startDate, endDate, description, "");
             if(username!=null&title!=null&&startDate!=null&&endDate!=null)

@@ -42,7 +42,7 @@
                     <p:calendar id="to" value="#{scheduleBean.event.endDate}" timeZone="GMT+8" pattern="dd/MM/yyyy HH:mm"/>
 
                     <p:outputLabel for="details" value="Details:" />
-                    <p:inputText id="details" value="#{scheduleBean.details}" required="false" />
+                    <p:inputText id="details" value="#{scheduleBean.event.description}" required="false" />
 
                     <p:outputLabel for="venue" value="Venue:" />
                     <p:inputText id="venue" value="#{scheduleBean.venue}" required="false" />
