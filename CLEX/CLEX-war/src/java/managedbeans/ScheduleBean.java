@@ -279,6 +279,7 @@ public class ScheduleBean implements Serializable {
                     dsf.setDescription(description);
 
                     addIcsFile(dsf);
+                    FacesContext.getCurrentInstance().addMessage(null,new FacesMessage("File Uploaded Successfully"));
                 }
                 in.close();
             }
