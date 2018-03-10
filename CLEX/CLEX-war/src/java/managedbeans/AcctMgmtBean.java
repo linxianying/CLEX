@@ -103,6 +103,8 @@ public class AcctMgmtBean implements Serializable{
         else{
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "User '" + username + "' does not exists.", "");
             FacesContext.getCurrentInstance().addMessage(null, fmsg);
+            
+            
         }
     }
     
@@ -227,6 +229,10 @@ public class AcctMgmtBean implements Serializable{
         this.newPassword2 = newPassword2;
     }
     
+    public void addMessage(String summary, String detail) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
     
     
 }
