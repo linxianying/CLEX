@@ -48,7 +48,13 @@
                                 </label>
                             </div>
                             <div class="form-row">
-                                <h:commandButton value="Save Profile Details" actionListener="#{profileBean.editGuestProfile}"/>
+                                <p:commandButton value="Save Profile Details" actionListener="#{profileBean.editGuestProfile}">
+                                    <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                                </p:commandButton>
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </p:confirmDialog>
                             </div>
                         </h:form>
                     </td>
@@ -79,7 +85,13 @@
                                 </label>
                             </div>
                             <div class="form-row">
-                                <h:commandButton value="Change Password" actionListener="#{profileBean.editGuestPassword}" id="editPasswordButton" />
+                                <p:commandButton value="Change Password" actionListener="#{profileBean.editGuestPassword}" id="editPasswordButton" >
+                                    <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                                </p:commandButton>
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </p:confirmDialog>
                             </div>
                         </h:form>
                     </td>
