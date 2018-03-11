@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./layout/unapprovedUserLayout.xhtml" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html" 
+                xmlns:f="http://xmlns.jcp.org/jsf/core" 
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:define name="content">
+        <h:head>
+            <title>PRISM Lecturer Profile Page</title>
+            <h:outputStylesheet name="./css/form.css"/>
+        </h:head>
+        <div>
+            <div>
+                <p:growl id="messages" showDetail="true" />
+                <table style="margin-left: auto; margin-right: auto">
+                    <td>
+                        <h:form class="form-labels-on-top" >
+                            <div class="form-title-row">
+                                <h1>Basic Profile</h1>
+                            </div>
+                            <div class="form-row">
+                                <label>
+                                    <span>Username</span>
+                                    <p:inputText id="username" value="#{profileBean.username}" readonly="true" />
+                                </label>                        
+                            </div>
+                            <div class="form-row">
+                                <label>
+                                    <span>Full Name</span>
+                                    <p:inputText id="newName" value="#{profileBean.name}" />
+                                </label>
+                            </div>
+                            <div class="form-row">
+                                <label>
+                                    <span>Email</span>
+                                    <p:inputText id="newEmail" value="#{profileBean.email}" />
+                                </label>
+                            </div>
+                            <div class="form-row">
+                                <label>
+                                    <span>Contact Number</span>
+                                    <p:inputText id="newContactNum" value="#{profileBean.contactNum}" />
+                                </label>
+                            </div>
+                            <div class="form-row">
+                                <label>
+                                    <span>School</span>
+                                    <p:inputText id="newSchool" value="#{profileBean.school}" readonly="true"/>
+                                </label>
+                            </div>
+                            <div class="form-row">
+                                <label>
+                                    <span>Faculty</span>
+                                </label>
+                                    <!--<p:inputText id="newFaculty" value="#{profileBean.faculty}" />-->
+                                <p:selectOneMenu style="padding: 0%; width: 300px" required="true" id="newFaculty" value="#{profileBean.faculty}" 
+                                                 editable="true" placeholder="Faculty">
+                                    <f:selectItem itemLabel="School of Computing" itemValue="School of Computing" />
+                                    <f:selectItem itemLabel="School of Business" itemValue="School of Business" />
+                                    <f:selectItem itemLabel="School of Engineering" itemValue="School of Engineering" />
+                                    <f:selectItem itemLabel="School of Science" itemValue="School of Science" />
+                                    <f:selectItem itemLabel="School of Law" itemValue="School of Law" />
+                                    <f:selectItem itemLabel="School of Social Sciences" itemValue="School of Social Sciences" />
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="form-row">
+                                <h:commandButton value="Save Profile Details" actionListener="#{profileBean.editLecturerProfile}" id="editBasicButton" />
+                            </div>
+                        </h:form>
+                    </td>
+                    <td>
+
+                        <h:form class="form-labels-on-top" >
+                            <div class="form-title-row">
+                                <h1>Change Password</h1>
+                            </div>
+                            <div class="form-row">
+                                <label>
+                                    <span>Current Password</span>
+                                    <p:password id="currentPassword" value="#{profileBean.oldPassword}" />
+                                </label>
+                            </div>
+                            <div class="form-row">
+                                <label>
+                                    <span>New Password</span>
+                                    <p:password id="firstPassword" value="#{profileBean.newPassword1}" />
+                                </label>
+                            </div>
+                            <div class="form-row">
+                                <label>
+                                    <span>Confirm Password</span>
+                                    <p:password id="confirmPassword" value="#{profileBean.newPassword2}" validatorMessage="Password needs to be between 6-12 characters">
+                                        <f:validateRegex pattern="^[a-zA-Z0-9]{6,12}$" />
+                                    </p:password>
+                                </label>
+                            </div>
+                            <div class="form-row">
+                                <h:commandButton value="Change Password" actionListener="#{profileBean.editLecturerPassword}" id="editPasswordButton" />
+                            </div>
+                        </h:form>
+                    </td>
+                </table>
+
+                <!--<table>
+                    <h:form>
+                        <tr>
+                            <h3> Basic Profile </h3>
+                        </tr>
+                        <tr>
+                            <td>
+                                Username:
+                            </td>
+                            <td>
+                                <p:inputText id="username" value="#{profileBean.username}" readonly="true" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Name:
+                            </td>
+                            <td>
+                                <p:inputText id="newName" value="#{profileBean.name}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Email:
+                            </td>
+                            <td>
+                                <p:inputText id="newEmail" value="#{profileBean.email}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Contact Number:
+                            </td>
+                            <td>
+                                <p:inputText id="newContactNum" value="#{profileBean.contactNum}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                School:
+                            </td>
+                            <td>
+                                <p:inputText id="newSchool" value="#{profileBean.school}" readonly="true" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Faculty:
+                            </td>
+                            <td>
+                                <p:inputText id="newFaculty" value="#{profileBean.faculty}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <h:commandButton value="Save Profile Details" actionListener="#{profileBean.editLecturerProfile}" id="editBasicButton" />
+                            </td>
+                        </tr>
+                    </h:form>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <h:form>
+                        <tr>
+                            <td>
+                                <h3>Password</h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Current Password:
+                            </td>
+                            <td>
+                                <p:password id="currentPassword" value="#{profileBean.oldPassword}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                New Password:
+                            </td>
+                            <td>
+                                <p:password id="firstPassword" value="#{profileBean.newPassword1}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Confirm New Password:
+                            </td>
+                            <td>
+                                <p:password id="confirmPassword" value="#{profileBean.newPassword2}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <h:commandButton value="Change Password" actionListener="#{profileBean.editLecturerPassword}" id="editPasswordButton" />
+                            </td>
+                        </tr>
+                    </h:form>
+                </table>
+                -->
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>
