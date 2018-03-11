@@ -83,6 +83,7 @@ public class IcsReader {
 
                 System.out.println("added( start: "+start+"end: "+ end + " summary:" + summary+")");
                 
+                
 
             }
         } catch (Exception ex) {

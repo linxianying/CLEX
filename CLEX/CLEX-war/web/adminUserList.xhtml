@@ -8,6 +8,9 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="content">
+        <h:head>
+            <title>PRISM Administrator User List Page</title>
+        </h:head>
         <p:growl id="messages" showDetail="true" />
         <h1 style="margin-top:0">User Management Page</h1>
         <p:tabView>
@@ -25,7 +28,13 @@
                     <h:panelGrid columns="1" cellpadding="5">
                         <h:outputLabel for= "usernameReject" value="Please enter a user to reject:"/>
                         <p:inputText id="usernameReject" value="#{accessControlBean.username}" required="true" />
-                        <p:commandButton value="Submit" actionListener="#{accessControlBean.rejectUser}" update="messages" />
+                        <p:commandButton value="Submit" actionListener="#{accessControlBean.rejectUser}" update="messages" >
+                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
                     </h:panelGrid>
                 </h:form>
             </p:tab>
@@ -34,7 +43,13 @@
                     <h:panelGrid columns="1" cellpadding="5">
                         <h:outputLabel for= "usernameDelete" value="Please enter a user to delete:"/>
                         <p:inputText id="usernameDelete" value="#{accessControlBean.username}" required="true" />
-                        <p:commandButton value="Submit" actionListener="#{accessControlBean.removeUser}" update="messages" />
+                        <p:commandButton value="Submit" actionListener="#{accessControlBean.removeUser}" update="messages">
+                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
                     </h:panelGrid>
                 </h:form>
             </p:tab>
@@ -69,8 +84,13 @@
                                 <h:outputText value="#{user.username}" />
                             </p:column>
 
-                            <p:column filterBy="#{user.email}" headerText="Email" filterMatchMode="contains">
-                                <h:outputText value="#{user.email}" />
+                            <p:column filterBy="#{user.email}" headerText="Email" filterMatchMode="contains">                           
+                                    <h:outputLink value="Mailto:#{user.email}">
+                                        <h:outputText  style="color:black;font-weight:normal;" value="#{user.email}" />
+                                        <f:param name="subject" value="[PRISM_Admin]" />
+                                        <f:param name="body" value="" />
+                                        <h:outputText value="" />
+                                    </h:outputLink>
                             </p:column>
 
                             <p:column filterBy="#{user.school}" headerText="School" filterMatchMode="contains">

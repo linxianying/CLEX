@@ -8,6 +8,9 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="content">
+        <h:head>
+            <title>PRISM Lecturer Main Page</title>
+        </h:head>
         <div>
             <h:outputText value="Welcome to PRISM, #{loginBean.username}" />
             <br></br> 
@@ -85,13 +88,20 @@
                                                 <br></br><br></br><br></br>
                                                 <h:panelGrid columns="2" width="100%">
                                                     <p:commandButton  value="Update" update="@form"
-                                                                      action="lectMain?faces-redirect=true"
+                                                                      action="lecturerMain?faces-redirect=true"
                                                                       actionListener="#{announcementBean.updateAnnouncement(lectAnnouncementList.title, lectAnnouncementList.message, lectAnnouncementList.id)}" 
                                                                       id="updateAnnouncement-button" />
                                                     <p:commandButton  value="Delete" update="@form"
-                                                                      action="lectMain?faces-redirect=true"
+                                                                      action="lecturerMain?faces-redirect=true"
                                                                       actionListener="#{announcementBean.deleteAnnouncement(loginBean.username, lectAnnouncementList.id)}" 
-                                                                      id="deleteAnnouncement-button" />
+                                                                      id="deleteAnnouncement-button" 
+                                                                      >
+                                                        <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                                                    </p:commandButton>
+                                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                                        <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                                    </p:confirmDialog>
                                                 </h:panelGrid>
                                             </h:panelGrid>
                                         </p:tab>

@@ -16,7 +16,7 @@
                     <p:column>
                         <p:dataList value="#{viewProjectCostBean.sortedTransactions}" var="transaction">
                             <p:accordionPanel multiple="true" activeIndex="1">
-                                <p:tab  title="#{'try '.concat(transaction.activity)}">
+                                <p:tab  title="#{transaction.activity}">
                                     <h:panelGrid>
                                         <h:outputText value="Date: "/>
                                         <h:outputText value="#{transaction.date}">
@@ -26,17 +26,54 @@
                                         <ui:repeat var="l" value="#{transaction.ledgers}">
                                             <h:outputText value="#{l.student.name}" />
                                             <h:outputText value=" paid " rendered="#{l.pay != 0.0}"/>
-                                            <h:outputText value="#{l.pay}" rendered="#{l.pay != 0.0}"/>
+                                            <h:outputText value="#{l.pay}" rendered="#{l.pay != 0.0}">
+                                                <f:convertNumber pattern="#0.00" />
+                                            </h:outputText>
                                             <h:outputText value=" dollars " rendered="#{l.pay != 0.0}"/>
                                             <h:outputText value="  and  " rendered="#{l.pay != 0.0 and l.ascCost != 0.0}"/>
                                             <h:outputText value=" owes " rendered="#{l.ascCost != 0.0}"/>
-                                            <h:outputText value="#{l.ascCost}" rendered="#{l.ascCost != 0.0}"/>
+                                            <h:outputText value="#{l.ascCost}" rendered="#{l.ascCost != 0.0}">
+                                                <f:convertNumber pattern="#0.00" />
+                                            </h:outputText>
                                             <h:outputText value=" dollars " rendered="#{l.ascCost != 0.0}"/>
                                             <br />
                                         </ui:repeat>
                                     </h:panelGrid>
                                 </p:tab>
                             </p:accordionPanel>
+                        </p:dataList>
+                    </p:column>
+                </h:panelGrid>
+            </p:panel>
+            
+            <p:panel collapsed="false" styleClass="menuHeader" id="balance" header="Balances" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px" rendered="#{not empty viewProjectCostBean.sortedTransactions}">
+                <h:panelGrid columns="1" width="1000px">
+                    <p:column>
+                        <p:dataList value="#{viewProjectCostBean.balances}" var="balance">
+                            <h:outputText value="#{balance.student.name}: "/>
+                            <h:outputText value="has a zero balance" rendered="#{balance.totalAmount eq 0}"/>
+                            <h:outputText value="owes $" rendered="#{balance.totalAmount lt 0}"/>
+                            <h:outputText value="gets back $" rendered="#{balance.totalAmount gt 0}"/>
+                            <h:outputText value="#{(balance.totalAmount lt 0) ? -balance.totalAmount : balance.totalAmount}" rendered="#{balance.totalAmount ne 0}">
+                                <f:convertNumber pattern="#0.00" />
+                            </h:outputText>
+                            <h:outputText value=" in total" rendered="#{balance.totalAmount ne 0}"/>
+                            <br />
+                            <ui:repeat value="#{balance.getBalances()}" var="payee">
+                                <h:outputText value="#{payee.key.name} owes $" rendered="#{balance.totalAmount gt 0}"/>
+                                <h:outputText value="#{payee.value}" rendered="#{balance.totalAmount gt 0}">
+                                    <f:convertNumber pattern="#0.00" />
+                                </h:outputText>
+                                <h:outputText value=" to #{balance.student.name}" rendered="#{balance.totalAmount gt 0}"/>
+                                
+                                <h:outputText value="#{balance.student.name} owes $" rendered="#{balance.totalAmount lt 0}"/>
+                                <h:outputText value="#{payee.value}" rendered="#{balance.totalAmount lt 0}">
+                                    <f:convertNumber pattern="#0.00" />
+                                </h:outputText>
+                                <h:outputText value=" to #{payee.key.name}" rendered="#{balance.totalAmount lt 0}"/>
+                                <br/>
+                            </ui:repeat>
+                            <br/>
                         </p:dataList>
                     </p:column>
                 </h:panelGrid>

@@ -15,6 +15,7 @@ import entity.ProjectGroup;
 import entity.Student;
 import entity.SuperGroup;
 import entity.Task;
+import entity.Transaction;
 import entity.User;
 import java.util.Date;
 import java.util.List;
@@ -117,4 +118,8 @@ public interface ClexSessionBeanLocal {
     public ProjectGroup findProjectgroup(String name, Module module);
 
     public void linkStudentGroup(Student student, ProjectGroup projectGroup);
+
+    public Transaction createTransaction(double cost, String date, String activity, ProjectGroup group);
+
+    public void createLedger(Student student, double ascCost, double pay, Transaction transaction);
 }

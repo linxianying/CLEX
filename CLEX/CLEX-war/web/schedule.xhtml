@@ -37,7 +37,7 @@
                     <p:calendar id="to" value="#{scheduleBean.event.endDate}" timeZone="GMT+8" pattern="dd/MM/yyyy HH:mm"/>
 
                     <p:outputLabel for="details" value="Details:" />
-                    <p:inputText id="details" value="#{scheduleBean.details}" required="false" />
+                    <p:inputText id="details" value="#{scheduleBean.event.description}" required="false" />
 
                     <p:outputLabel for="venue" value="Venue:" />
                     <p:inputText id="venue" value="#{scheduleBean.venue}" required="false" />
@@ -52,9 +52,14 @@
 
             <p:panel header="ICS File Upload">
 
-                <p:messages autoUpdate="true" redisplay="false" />
-
-                <p:fileUpload fileUploadListener="#{scheduleBean.handleFileUpload}" auto="true"/>
+                <p:growl id="msg"></p:growl>
+                <p:fileUpload   fileUploadListener="#{scheduleBean.handleFileUpload}" 
+                                invalidSizeMessage="ScheduleFileUpload: Invalid Size"
+                                invalidFileMessage="ScheduleFileUpload: Invalid File Type"
+                                fileLimitMessage="ScheduleFileUpload: Invalid File Limit"
+                                mode="advanced" multiple="true" fileLimit="3" sizeLimit="204800"
+                                allowTypes="/(\.|\/)(ics)$/"
+                                update="msg" />
 
             </p:panel>
 

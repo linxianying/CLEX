@@ -5,8 +5,6 @@
  */
 package managedbeans;
 
-import entity.Lecturer;
-import entity.Student;
 import entity.Timeslot;
 import entity.User;
 import java.io.File;
@@ -23,16 +21,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
+import net.fortuna.ical4j.data.CalendarBuilder;
+import net.fortuna.ical4j.model.Component;
 import org.primefaces.event.FileUploadEvent;
 
 import org.primefaces.event.ScheduleEntryMoveEvent;
@@ -72,9 +69,12 @@ public class ScheduleBean implements Serializable {
     private ArrayList<Timeslot> timeslots;
     private ScheduleModel eventModel = new DefaultScheduleModel();
     private ScheduleEvent event = new DefaultScheduleEvent();
+    private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
+
 
     FacesContext context;
     HttpSession session;
+    private UploadedFile uploadedFile;
 
     public ScheduleBean() {
     }
@@ -92,7 +92,10 @@ public class ScheduleBean implements Serializable {
         Timeslot t;
         for (Timeslot timeslot : timeslots) {
             t = timeslot;
-            eventModel.addEvent(new DefaultScheduleEvent(t.getTitle(), toCalendar(t.getStartDate()), toCalendar(t.getEndDate()), t));
+            DefaultScheduleEvent dse = new DefaultScheduleEvent(t.getTitle(), toCalendar(t.getStartDate()), toCalendar(t.getEndDate()), t);
+            dse.setDescription(t.getDetails());
+            //System.out.println(t.getDetails());
+            eventModel.addEvent(dse);
         }
     }
 
@@ -251,50 +254,45 @@ public class ScheduleBean implements Serializable {
     }
 
     public void handleFileUpload(FileUploadEvent event) {
-
+        
         try {
             //String newFilePath = "\""+"Users"+"\""+ "lin"+"\""+"Downloads"; 
-            String newFilePath = "\\Users\\lin\\Downloads";
             System.err.println("Schedules.handleFileUpload(): File name: " + event.getFile().getFileName());
-            System.err.println("ScheduleshandleFileUpload(): newFilePath: " + newFilePath);
 
-            UploadedFile uploadedFile = event.getFile();
-            String fileName = uploadedFile.getFileName();
-            String contentType = uploadedFile.getContentType();
-            byte[] contents = uploadedFile.getContents();
+            uploadedFile = event.getFile();
+            
+            InputStream in = uploadedFile.getInputstream();
+            CalendarBuilder builder = new CalendarBuilder();
+            net.fortuna.ical4j.model.Calendar calendar = builder.build(in);
+            for (Iterator i = calendar.getComponents().iterator(); i.hasNext();) {
+                Component component = (Component) i.next();
+                //new event
+                if(component.getProperty("DTSTART")!=null&&component.getProperty("DTEND")!=null&&component.getProperty("SUMMARY")!=null){
+                    String start = component.getProperty("DTSTART").getValue();
+                    String end = component.getProperty("DTEND").getValue();
+                    String summary = component.getProperty("SUMMARY").getValue();
+                    String description = component.getProperty("DESCRIPTION").getValue();
 
-            File file = new File(newFilePath);
-                    
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
+                    System.out.println("Information gathered( start: "+start+" end: "+ end + " summary:" + summary+")");
 
-            int a;
-            int BUFFER_SIZE = 8192;
-            byte[] buffer = new byte[BUFFER_SIZE];
+                    DefaultScheduleEvent dsf =  new DefaultScheduleEvent(summary, SDF.parse(start), SDF.parse(end));
+                    dsf.setDescription(description);
 
-            InputStream inputStream = event.getFile().getInputstream();
-
-            while (true) {
-                a = inputStream.read(buffer);
-
-                if (a < 0) {
-                    break;
+                    addIcsFile(dsf);
+                    FacesContext.getCurrentInstance().addMessage(null,new FacesMessage("File Uploaded Successfully"));
                 }
-                
-                fileOutputStream.write(buffer, 0, a);
-                fileOutputStream.flush();
+                in.close();
             }
-
-            fileOutputStream.close();
-            inputStream.close();
-
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "File uploaded successfully", ""));
-        } catch (IOException ex) {
+            } catch (Exception ex) {
+            System.err.println(ex);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "File upload error: " + ex.getMessage(), ""));
         }
+        
+        
     }
     
-    public void addIcsFile(){
-        DefaultScheduleEvent event = sbl.loadIcsFile("");
+    public void addIcsFile(DefaultScheduleEvent event){
+        
         if(event!=null){
             eventModel.addEvent(event);
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -306,6 +304,8 @@ public class ScheduleBean implements Serializable {
             System.out.println(endDate);
             System.out.println(title);
             System.out.println(description);
+            if(description!=null && description.length()>1028)
+                description = description.substring(0, 1000);
             if(username!=null&title!=null&&startDate!=null&&endDate!=null&&description!=null)
                 sbl.createTimeslot(username, title, startDate, endDate, description, "");
             if(username!=null&title!=null&&startDate!=null&&endDate!=null)
@@ -314,5 +314,30 @@ public class ScheduleBean implements Serializable {
             System.out.println("event is null");
         }
     }
+
+    public FacesContext getContext() {
+        return context;
+    }
+
+    public void setContext(FacesContext context) {
+        this.context = context;
+    }
+
+    public HttpSession getSession() {
+        return session;
+    }
+
+    public void setSession(HttpSession session) {
+        this.session = session;
+    }
+
+    public UploadedFile getUploadedFile() {
+        return uploadedFile;
+    }
+
+    public void setUploadedFile(UploadedFile uploadedFile) {
+        this.uploadedFile = uploadedFile;
+    }
+    
 
 }

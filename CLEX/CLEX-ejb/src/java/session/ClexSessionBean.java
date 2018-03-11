@@ -13,12 +13,14 @@ import entity.Grade;
 import entity.GroupTask;
 import entity.Guest;
 import entity.Lecturer;
+import entity.Ledger;
 import entity.Lesson;
 import entity.ProjectGroup;
 import entity.StudyPlan;
 import entity.SuperGroup;
 import entity.Task;
 import entity.Timeslot;
+import entity.Transaction;
 import entity.User;
 import java.security.MessageDigest;
 import java.text.DecimalFormat;
@@ -55,6 +57,8 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     private ProjectGroup projectGroupEntity;
     private SuperGroup superGroupEntity;
     private Lesson lessonEntity;
+    private Transaction transactionEntity;
+    private Ledger ledgerEntity;
     
     private DecimalFormat df = new DecimalFormat("#.##");
 
@@ -665,5 +669,28 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
             e.printStackTrace();
         }
         return projectGroupEntity;
+    }
+    
+    //date is of format dd-MM-yyyy
+    @Override
+    public Transaction createTransaction(double cost, String date, String activity, ProjectGroup group) {
+        transactionEntity = new Transaction();
+        transactionEntity.createTransaction(cost, date, activity, group);
+        group.getTransactions().add(transactionEntity);
+        em.persist(transactionEntity);
+        em.merge(group);
+        em.flush();
+        return transactionEntity;
+    }
+    
+    @Override
+    public void createLedger(Student student, double ascCost, double pay, Transaction transaction) {
+        ledgerEntity = new Ledger();
+        ledgerEntity.createLedger(student, ascCost, pay, transaction);
+        student.getLedgers().add(ledgerEntity);
+        transaction.getLedgers().add(ledgerEntity);
+        em.persist(ledgerEntity);
+        em.merge(student);
+        em.merge(transaction);
     }
 }
