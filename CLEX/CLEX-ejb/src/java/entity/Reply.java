@@ -56,7 +56,7 @@ public class Reply implements Serializable {
     @ManyToOne
     private Thread thread;
 
-    @OneToMany(cascade={CascadeType.ALL}, mappedBy="thread")
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy="reply")
     private Collection<VoteReply> voteReplies = new ArrayList<VoteReply>();
         
     public Reply(){
