@@ -83,6 +83,31 @@ public class AccessControlBean implements Serializable {
         }
     }
     
+    public void approveUser(String username) throws IOException{
+        FacesMessage fmsg = new FacesMessage();
+        FacesContext context = FacesContext.getCurrentInstance();
+        userEntity = csbl.findUser(username);
+        
+        if(userEntity != null){
+            if(uacbl.approveUser(username) == true){
+                approveEmail(username, userEntity.getEmail());
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success.", username + " has been approved.");
+                context.addMessage(null, fmsg);
+                context.getExternalContext().redirect("adminUserList.xhtml");
+            }
+            else{
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", username + " has already been approved.");
+                context.addMessage(null, fmsg);
+            }
+        }
+        else{
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", username + " not found.");
+            context.addMessage(null, fmsg);
+        }
+    }
+    
+
+    
     //Note: the method itself does not do anything but to only send a reject email
     public void rejectUser() throws IOException{
         FacesMessage fmsg = new FacesMessage();
@@ -184,6 +209,21 @@ public class AccessControlBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         
         if(uacbl.deleteUser(username) == true){
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, username + " has been deleted.", "");
+            context.addMessage(null, fmsg);
+            context.getExternalContext().redirect("adminUserList.xhtml");
+        }
+        else{
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fail to delete " + username + ".", "");
+            context.addMessage(null, fmsg);
+        }
+    }
+    
+    public void removeUser(User user) throws IOException{
+        FacesMessage fmsg = new FacesMessage();
+        FacesContext context = FacesContext.getCurrentInstance();
+        
+        if(uacbl.deleteUser(user.getUsername()) == true){
             fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, username + " has been deleted.", "");
             context.addMessage(null, fmsg);
             context.getExternalContext().redirect("adminUserList.xhtml");

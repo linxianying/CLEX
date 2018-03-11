@@ -11,11 +11,12 @@
         <h:head>
             <title>PRISM Administrator User List Page</title>
         </h:head>
-        <p:growl id="messages" showDetail="true" />
+        
         <h1 style="margin-top:0">User Management Page</h1>
         <p:tabView>
             <p:tab title="APPROVE USER">
                 <h:form>
+                    <p:growl id="messages" showDetail="true" />
                     <h:panelGrid columns="1" cellpadding="5">
                         <h:outputLabel for= "username" value="Please enter a user to approve:"/>
                         <p:inputText id="username" value="#{accessControlBean.username}" required="true" />
@@ -25,6 +26,7 @@
             </p:tab>
             <p:tab title="REJECT USER">
                 <h:form>
+                    <p:growl id="messages" showDetail="true" />
                     <h:panelGrid columns="1" cellpadding="5">
                         <h:outputLabel for= "usernameReject" value="Please enter a user to reject:"/>
                         <p:inputText id="usernameReject" value="#{accessControlBean.username}" required="true" />
@@ -40,6 +42,7 @@
             </p:tab>
             <p:tab title="DELETE USER">
                 <h:form>
+                    <p:growl id="messages" showDetail="true" />
                     <h:panelGrid columns="1" cellpadding="5">
                         <h:outputLabel for= "usernameDelete" value="Please enter a user to delete:"/>
                         <p:inputText id="usernameDelete" value="#{accessControlBean.username}" required="true" />
@@ -56,6 +59,7 @@
         </p:tabView>
             <br></br>
                 <h:form>
+                    <p:growl id="messages" showDetail="true" />
                     <p:panel collapsed="true" styleClass="menuHeader" id="userlist" header="VIEW ALL USERS" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
                     <p:dataTable var="user" value="#{userListBean.users}" widgetVar="usersTable"
                               emptyMessage="No users found with given criteria." filteredValue="#{userListBean.filteredUsers}">
@@ -107,6 +111,17 @@
                                     </p:selectOneButton>
                                  </f:facet>
                                 <h:outputText value="#{user.approval ? 'Yes': 'No'}" />
+                            </p:column>
+                        
+                            <p:column  headerText="Actions">
+                                <p:growl id="messages" showDetail="true" />
+                                
+                                <p:commandButton value="Approve" 
+                                                 update="messages" 
+                                                 actionListener="#{accessControlBean.approveUser(user.username)}" 
+                                                 
+                                                 action="adminUserList?faces-redirect=false"/>
+
                             </p:column>
                     </p:dataTable>
                     </p:panel>
