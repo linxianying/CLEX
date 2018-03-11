@@ -49,6 +49,15 @@ public class Thread implements Serializable {
     @Column(length = 32, nullable = false)
     private int downVote;
     
+    @Column(length = 32, nullable = false)
+    private String tag; //KIV can give them many types (e.g "1": general, "2": reviews, "3": technical, "4": academic, "0": others
+    
+    @Column(length = 32, nullable = false)
+    private boolean edited; //false = no (default), true = yes
+    
+    @Column(length = 32, nullable = false)
+    private String editDateTime;
+    
     @ManyToOne
     private User user;
     
@@ -64,12 +73,15 @@ public class Thread implements Serializable {
         this.dateTime = format.format(current);
     }
     
-    public void createThread(String username, String content, String title){
+    public void createThread(String username, String content, String title, String tag){
         this.upVote = 0; //by default 0
         this.downVote = 0;
         this.username = username;
         this.title = title;
-        this.content = content;        
+        this.content = content;
+        this.tag = tag;
+        this.edited = false;
+        this.editDateTime = "";
     }
     
     public Long getId() {
@@ -134,6 +146,30 @@ public class Thread implements Serializable {
 
     public void setDownVote(int downVote) {
         this.downVote = downVote;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public boolean isEdited() {
+        return edited;
+    }
+
+    public void setEdited(boolean edited) {
+        this.edited = edited;
+    }
+
+    public String getEditDateTime() {
+        return editDateTime;
+    }
+
+    public void setEditDateTime(String editDateTime) {
+        this.editDateTime = editDateTime;
     }
 
     public Collection<Reply> getReplies() {

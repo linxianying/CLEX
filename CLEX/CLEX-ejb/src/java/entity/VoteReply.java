@@ -24,14 +24,12 @@ public class VoteReply extends Vote implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-
     @ManyToOne
     private Reply reply;
     
-    public void createVoteReply(String dateTime, User user, Reply reply){
-        super.createVote(dateTime, user);
+    public void createVoteReply(String dateTime, boolean voteType, User user, Reply reply){
+        super.createVote(dateTime, false, voteType, user);
         this.reply = reply;
-        
     }
 
     public Long getId() {

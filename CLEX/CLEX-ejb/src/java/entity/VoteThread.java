@@ -26,10 +26,9 @@ public class VoteThread extends Vote implements Serializable {
     @ManyToOne
     private Thread thread;
     
-    public void createVoteThread(String dateTime, User user, Thread thread){
-        super.createVote(dateTime, user);
+    public void createVoteThread(String dateTime, boolean voteType, User user, Thread thread){
+        super.createVote(dateTime, true, voteType, user);
         this.thread = thread;
-        
     }
 
     public Long getId() {

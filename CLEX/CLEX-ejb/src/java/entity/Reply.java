@@ -8,13 +8,17 @@ package entity;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -40,12 +44,21 @@ public class Reply implements Serializable {
     @Column(length = 32, nullable = false)
     private int downVote;
 
+    @Column(length = 32, nullable = false)
+    private boolean edited; //false = no (default), true = yes
+    
+    @Column(length = 32, nullable = false)
+    private String editDateTime;
+    
     @ManyToOne
     private User user;
     
     @ManyToOne
     private Thread thread;
-    
+
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy="thread")
+    private Collection<VoteReply> voteReplies = new ArrayList<VoteReply>();
+        
     public Reply(){
         Date current = new Date();
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -57,6 +70,8 @@ public class Reply implements Serializable {
         this.upVote = 0; //by default 0
         this.downVote = 0;
         this.content = content;
+        this.edited = false;
+        this.editDateTime = "";
     }
     
     public Long getId() {
@@ -121,6 +136,30 @@ public class Reply implements Serializable {
 
     public void setDownVote(int downVote) {
         this.downVote = downVote;
+    }
+
+    public boolean isEdited() {
+        return edited;
+    }
+
+    public void setEdited(boolean edited) {
+        this.edited = edited;
+    }
+
+    public String getEditDateTime() {
+        return editDateTime;
+    }
+
+    public void setEditDateTime(String editDateTime) {
+        this.editDateTime = editDateTime;
+    }
+
+    public Collection<VoteReply> getVoteReplies() {
+        return voteReplies;
+    }
+
+    public void setVoteReplies(Collection<VoteReply> voteReplies) {
+        this.voteReplies = voteReplies;
     }
 
     @Override

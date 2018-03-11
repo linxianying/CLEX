@@ -30,14 +30,22 @@ public abstract class Vote implements Serializable {
     @Column(length = 64, nullable = false)
     private String dateTime;
     
+    @Column(length = 32, nullable = false)
+    private boolean voteFor; //false - reply, true - thread
+    
+    @Column(length = 32, nullable = false)
+    private boolean voteType; //false - downvote, true - upvote
+            
     @ManyToOne
     private User user;
     
     public Vote(){ 
     }
     
-    public void createVote(String dateTime, User user){
+    public void createVote(String dateTime, boolean voteFor, boolean voteType, User user){
         this.dateTime = dateTime;
+        this.voteFor = voteFor;
+        this.voteType = voteType;
         this.user = user;
     }
 
@@ -57,13 +65,28 @@ public abstract class Vote implements Serializable {
         this.id = id;
     }
 
-
     public String getDateTime() {
         return dateTime;
     }
 
     public void setDateTime(String dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public boolean isVoteFor() {
+        return voteFor;
+    }
+
+    public void setVoteFor(boolean voteFor) {
+        this.voteFor = voteFor;
+    }
+
+    public boolean isVoteType() {
+        return voteType;
+    }
+
+    public void setVoteType(boolean voteType) {
+        this.voteType = voteType;
     }
 
     @Override
