@@ -51,7 +51,13 @@
                     <h:form>
                         <p:panel collapsed="false" styleClass="menuHeader"  header="All Polls of Lecturer" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
 
-                            <p:dataTable var="poll" value="#{classroomBean.polls}" widgetVar="pollsTable" emptyMessage="No polls found with given criteria.">
+                            <p:dataTable var="poll" value="#{classroomBean.polls}" 
+                                         widgetVar="pollsTable" 
+                                         emptyMessage="No polls found with given criteria."
+                                         paginator="true"
+                                         rows="10"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="10,20,50">
                                 <f:facet name="header">
                                     <p:outputPanel>
                                         <h:outputText value="Search all fields:" />

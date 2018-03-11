@@ -15,8 +15,14 @@
         <h1 style="margin-top:0">Module Management Page</h1>
         <h:form>
             <p:panel collapsed="false" styleClass="menuHeader" id="modulelist" header="VIEW MODULES" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
-                <p:dataTable var="module" value="#{lecturerModuleListBean.modules}" widgetVar="modulesTable"
-                             emptyMessage="No modules found with given criteria." filteredValue="#{lecturerModuleListBean.filteredModules}">
+                <p:dataTable var="module" value="#{lecturerModuleListBean.modules}" 
+                             widgetVar="modulesTable"
+                             emptyMessage="No modules found with given criteria." 
+                             filteredValue="#{lecturerModuleListBean.filteredModules}"
+                             paginator="true"
+                             rows="10"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,20,50">
                     <f:facet name="header">
                         <p:outputPanel>
                             <h:outputText value="Search all fields:" />
@@ -53,8 +59,13 @@
         </h:form>
         <h:form>
             <p:panel collapsed="true" styleClass="menuHeader" id="modulelist" header="VIEW LESSONS" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
-                <p:dataTable var="lesson" value="#{lecturerModuleListBean.lessons}" widgetVar="lessonsTable"
-                             emptyMessage="No modules found with given criteria." >
+                <p:dataTable var="lesson" value="#{lecturerModuleListBean.lessons}" 
+                             widgetVar="lessonsTable"
+                             emptyMessage="No modules found with given criteria." 
+                             paginator="true"
+                             rows="5"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,20,50">
                     <f:facet name="header">
                         <p:outputPanel>
                             <h:outputText value="Search all fields:" />
