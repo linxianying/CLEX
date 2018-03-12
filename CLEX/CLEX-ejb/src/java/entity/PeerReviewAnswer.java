@@ -23,8 +23,9 @@ public class PeerReviewAnswer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private ArrayList<String> answers;
-    
+    private ArrayList<String> answers = new ArrayList<String>();
+    //whether the student submit or not, decides whether the lecturer can view or not
+    private boolean submit;
     @ManyToOne
     private Student reviewer;
     
@@ -36,6 +37,14 @@ public class PeerReviewAnswer implements Serializable {
     
     @ManyToOne
     private ProjectGroup projectGroup;
+
+    public void createPeerReviewAnswer(Student reviewer, Student reviewee, PeerReviewQuestion question, ProjectGroup projectGroup) {
+        this.reviewer = reviewer;
+        this.reviewee = reviewee;
+        this.question = question;
+        this.projectGroup = projectGroup;
+        submit=false;
+    }
     
     public Long getId() {
         return id;
@@ -83,6 +92,14 @@ public class PeerReviewAnswer implements Serializable {
 
     public void setProjectGroup(ProjectGroup projectGroup) {
         this.projectGroup = projectGroup;
+    }
+
+    public boolean isSubmit() {
+        return submit;
+    }
+
+    public void setSubmit(boolean submit) {
+        this.submit = submit;
     }
 
 

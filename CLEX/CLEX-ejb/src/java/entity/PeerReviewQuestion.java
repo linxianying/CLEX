@@ -8,6 +8,7 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import javaClass.Question;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -28,14 +29,45 @@ public class PeerReviewQuestion implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
-    private ArrayList<Question> questions;
+    //questions for a spesific group member
+    private ArrayList<Question> individualQuestions;
+    //questions for the whole group or all group members
+    private ArrayList<Question> groupQuestions;
+    private Date deadline;
     
     @OneToOne(mappedBy = "peerReviewQuestion")
     private Module module;
     
     @OneToMany(cascade={CascadeType.ALL}, mappedBy = "question")
     private Collection<PeerReviewAnswer> answer;
+
     
+    public void createPeerReviewQuestion(String title, Date deadline, Module module) {
+        this.title = title;
+        this.deadline = deadline;
+        this.module = module;
+        //pre settled question
+        Question q = new Question("how do you rate this group member's cooperativeness", "rating");
+        q.setLevelOfRating(5);
+        individualQuestions.add(q);
+        q = new Question("how do you rate this group member's punctuality", "rating");
+        q.setLevelOfRating(5);
+        individualQuestions.add(q);
+        q = new Question("how do you rate this group member's commitment to the project", "rating");
+        q.setLevelOfRating(5);
+        individualQuestions.add(q);
+        q = new Question("how do you rate this group member's contribution", "rating");
+        q.setLevelOfRating(7);
+        individualQuestions.add(q);
+        q = new Question("what are the advantages of this group member", "open");
+        individualQuestions.add(q);
+        q = new Question("what are the advantages of this group member", "open");
+        individualQuestions.add(q);
+        q = new Question("what do you think of this project", "open");
+        groupQuestions.add(q);
+        q = new Question("ny other comment for this group", "open");
+        groupQuestions.add(q);
+    }
 
     public Long getId() {
         return id;
@@ -53,14 +85,6 @@ public class PeerReviewQuestion implements Serializable {
         this.title = title;
     }
 
-    public ArrayList<Question> getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(ArrayList<Question> questions) {
-        this.questions = questions;
-    }
-
     public Module getModule() {
         return module;
     }
@@ -75,6 +99,30 @@ public class PeerReviewQuestion implements Serializable {
 
     public void setAnswer(Collection<PeerReviewAnswer> answer) {
         this.answer = answer;
+    }
+
+    public Date getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(Date deadline) {
+        this.deadline = deadline;
+    }
+
+    public ArrayList<Question> getIndividualQuestions() {
+        return individualQuestions;
+    }
+
+    public void setIndividualQuestions(ArrayList<Question> individualQuestions) {
+        this.individualQuestions = individualQuestions;
+    }
+
+    public ArrayList<Question> getGroupQuestions() {
+        return groupQuestions;
+    }
+
+    public void setGroupQuestions(ArrayList<Question> groupQuestions) {
+        this.groupQuestions = groupQuestions;
     }
 
 
