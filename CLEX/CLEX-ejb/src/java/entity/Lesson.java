@@ -45,6 +45,7 @@ public class Lesson implements Serializable {
     
     @ManyToOne
     private Module module = new Module();
+    
     @ManyToMany(cascade={CascadeType.PERSIST})
     private Collection<Student> students = new ArrayList<Student>();
 

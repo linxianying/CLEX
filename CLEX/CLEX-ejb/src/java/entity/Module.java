@@ -63,6 +63,9 @@ public class Module implements Serializable {
     @OneToMany(cascade={CascadeType.ALL})  
     private Collection<Poll> polls = new ArrayList<Poll>();
     
+    @OneToOne(cascade={CascadeType.ALL}) 
+    private PeerReviewQuestion peerReviewQuestion;
+    
     public void createModule(String takenYear, 
                 String takenSem,String prerequisite, String preclusions, Course course){
         this.takenSem = takenSem;
@@ -161,6 +164,14 @@ public class Module implements Serializable {
 
     public void setPreclusions(String preclusions) {
         this.preclusions = preclusions;
+    }
+
+    public PeerReviewQuestion getPeerReviewQuestion() {
+        return peerReviewQuestion;
+    }
+
+    public void setPeerReviewQuestion(PeerReviewQuestion peerReviewQuestion) {
+        this.peerReviewQuestion = peerReviewQuestion;
     }
 
 
