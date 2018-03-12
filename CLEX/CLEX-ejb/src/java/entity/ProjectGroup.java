@@ -49,7 +49,7 @@ public class ProjectGroup implements Serializable {
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="projectGroup")
     private Collection<Transaction> transactions = new ArrayList<Transaction>();
 
-    @OneToMany(cascade={CascadeType.ALL}, mappedBy = "group")
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy = "projectGroup")
     private Collection<PeerReviewAnswer> answers = new ArrayList<PeerReviewAnswer>();
     
     public void createProjectGroup(SuperGroup superGroup, String name, double cost){

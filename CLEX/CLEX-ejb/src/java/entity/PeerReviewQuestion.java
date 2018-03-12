@@ -17,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -33,6 +34,8 @@ public class PeerReviewQuestion implements Serializable {
     private ArrayList<Question> individualQuestions;
     //questions for the whole group or all group members
     private ArrayList<Question> groupQuestions;
+    
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date deadline;
     
     @OneToOne(mappedBy = "peerReviewQuestion")
