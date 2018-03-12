@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -15,22 +12,22 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
             <meta name="apple-mobile-web-app-capable" content="yes" />
         </f:facet>
-        <title>PRISM - Access Denied</title>
+        <title>PRISM Error Page - 404</title>
     </h:head>
 
-    <h:body styleClass="exception-body access-page">
+    <h:body styleClass="exception-body notfound-page">
     
         <div class="exception-top">
-            <p:graphicImage name="images/icon-access.png" library="poseidon-layout" />
+            <p:graphicImage name="images/icon-404.png" library="poseidon-layout" />
         </div>
         
         <div class="exception-bottom">
             <div class="exception-wrapper">
-                <span class="exception-summary">Access Denied</span>
-                <span class="exception-detail">You Don't Have Permissions To Access As You Are Not Approved By Administrator</span>
-                <p:button outcome="/landing" value="Home Page" icon="fa fa-home" styleClass="black-btn"/>
+                <span class="exception-summary">Page Not Found</span>
+                <span class="exception-detail">The resource you are looking for does not exist.</span>
+                <p:button outcome="/login" value="Login" icon="fa fa-home" styleClass="turquoise-btn"/>
                 <p:graphicImage name="images/logo-icon-white.png" library="poseidon-layout" styleClass="logo-icon"/>
-                <span class="exception-footer">PRISM OFFICIAL</span>
+                <span class="exception-footer">PRISM Official</span>
             </div>
         </div>
         <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="poseidon-layout" />
