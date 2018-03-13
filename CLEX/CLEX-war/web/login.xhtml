@@ -1,31 +1,31 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
-                xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
-                xmlns:h="http://xmlns.jcp.org/jsf/html" 
-                xmlns:f="http://xmlns.jcp.org/jsf/core" 
-                template="./layout/default.xhtml" 
-                xmlns:p="http://primefaces.org/ui">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
 
-    <ui:define name="content">
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+        <title>PRISM Login Page</title>
+    </h:head>
 
-        <h:head>
-            <title>PRISM Login Page</title>
-        </h:head>
-        <h:outputStylesheet name="./css/style.css" />
-        <h:outputStylesheet name="./css/form.css" />
-        <div class="wrapper">
-            <div class="container">
-                <h:form>
-                    <h:commandButton styleClass="" value="setEntites" actionListener="#{indexBean.createEntities}" action="login?faces-redirect=true" />
-                </h:form>
-                <h:form class="form-login">
-                    <img class="PRISM-logo" src="https://i.imgur.com/I97Io9u.png"></img>
-
-                    <p:growl id="messages" showDetail="true" />
-
-                    <div class="form-row">
-                        <label>
+    <h:body styleClass="login-body">
+        <div class="login-panel ui-fluid">
+            
+            <h:form>
+               <p:messages showDetail="true" autoUpdate="true" closable="true" />
+            <div class="ui-g">
+                <div class="ui-g-12 logo-container">
+                    <p:graphicImage name="images/login/login-logo.png" library="poseidon-layout" />
+                </div>
+                <div class="ui-g-12">
+                    <label>
                             <p:inputText styleClass="textInput" id="username" value="#{loginBean.username}" 
                                          required="true" requiredMessage="Please enter your username!" 
                                          placeholder="Username"
@@ -33,40 +33,35 @@
                                 <f:validateRegex pattern="^[a-zA-Z0-9]{6,12}$" />
                             </p:inputText>
                         </label>
-                    </div>
-                    <div class="form-row">
-                        <label>
-                            <p:password styleClass="textInput" id="password" value="#{loginBean.password}" 
-                                        required="true" requiredMessage="Please enter your password!" 
-                                        placeholder="Password"/>
-                        </label>
-                    </div>
-
-                    <div class="form-row">
-                        <a href="resetPassword.xhtml" class="resetPasswordTitle">Forgot your password?</a>
-                    </div>
-                    <br></br>
-
-                    <p:selectOneButton required="true" requiredMessage="Please select a user type!" styleClass="menuSelect" id="userType" value="#{loginBean.userType}">
-                        <f:selectItem itemValue="1" itemLabel="Student" />
-                        <f:selectItem itemValue="2" itemLabel="Lecturer" />
-                        <f:selectItem itemValue="3" itemLabel="Admin" />
-                        <f:selectItem itemValue="4" itemLabel="Guest" />
+                </div>
+                <div class="ui-g-12">
+                   <label>
+                        <p:password styleClass="textInput" id="password" value="#{loginBean.password}" 
+                                    required="true" requiredMessage="Please enter your password!" 
+                                    placeholder="Password"/>
+                    </label>
+                </div>
+                <div class="ui-g-12 chkbox-container">
+                   <p:selectOneButton required="true" requiredMessage="Please select a user type!" styleClass="menuSelect" id="userType" value="#{loginBean.userType}">
+                        <f:selectItem itemValue="1" itemLabel="STU" />
+                        <f:selectItem itemValue="2" itemLabel="LEC" />
+                        <f:selectItem itemValue="3" itemLabel="ADM" />
+                        <f:selectItem itemValue="4" itemLabel="GUE" />
                     </p:selectOneButton><br/>
+                </div>
+                
+                
+                <div class="ui-g-12 button-container">
+                    <p:commandButton  icon="fa fa-home" styleClass="loginBtn" value="Login" actionListener="#{loginBean.doLogin}" />
 
-                    <br/><br/>
-                    <div class="form-row">
-                        <h:commandButton styleClass="loginBtn" value="LOGIN" actionListener="#{loginBean.doLogin}" />
-
-                        <h:button styleClass="regBtn" value="SIGN UP" outcome="register?faces-redirect=true"/>
-                    </div>
-                </h:form>
-
-
+                    <p:button outcome="/register" value="Sign Up" icon="fa fa-user" styleClass="pink-btn"/>
+                    <p:button outcome="/resetPassword" value="Forgot Password" icon="fa fa-key" styleClass="blue-btn" />
+                </div>
             </div>
-            <ul class="bg-bubbles"><li/><li/><li/><li/><li/><li/><li/><li/></ul>
+            </h:form>
         </div>
+        
+        <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="poseidon-layout" />
+    </h:body>
 
-    </ui:define>
-
-</ui:composition>
+</html>
