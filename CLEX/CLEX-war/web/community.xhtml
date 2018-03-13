@@ -3,13 +3,25 @@
 <ui:composition  xmlns="http://www.w3.org/1999/xhtml"
        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
        xmlns:h="http://xmlns.jcp.org/jsf/html"
-       template="/WEB-INF/template.xhtml">
+       template="/WEB-INF/template.xhtml"
+       xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="content">
         <h:head>
             <title>PRISM Student Community Page</title>
         </h:head>
-
+        
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <div class="card">
+                    <h1>Empty Page</h1>
+                    <p>Use this page to start from scratch and place your custom content.</p>
+                    <p:button outcome="dashboard" value="Home" style="display:inline-block;margin-top:5px"/>
+                </div>
+            </div>
+        </div>
+        
+        
 
     </ui:define>
 </ui:composition>
