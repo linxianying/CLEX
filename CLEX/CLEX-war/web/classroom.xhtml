@@ -56,6 +56,7 @@
                         <p:panel collapsed="false" styleClass="menuHeader"  header="All Polls of Lecturer" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
 
                             <p:dataTable var="poll" value="#{classroomBean.polls}" 
+                                         id="tbl"
                                          widgetVar="pollsTable" 
                                          emptyMessage="No polls found with given criteria."
                                          paginator="true"
@@ -67,7 +68,28 @@
                                         <h:outputText value="Search all fields:" />
                                         <p:inputText id="globalFilter" onkeyup="PF('pollsTable').filter()" style="width:150px" placeholder="Enter keyword" />
                                     </p:outputPanel>
+                                    <h:commandLink>
+                                        <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                                        <p:dataExporter type="xls" target="tbl" fileName="polls" />
+                                    </h:commandLink>
+
+                                    <h:commandLink>
+                                        <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                                        <p:dataExporter type="pdf" target="tbl" fileName="polls"/>
+                                    </h:commandLink>
+
+                                    <h:commandLink>
+                                        <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                                        <p:dataExporter type="csv" target="tbl" fileName="polls" />
+                                    </h:commandLink>
+
+                                    <h:commandLink>
+                                        <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                                        <p:dataExporter type="xml" target="tbl" fileName="polls" />
+                                    </h:commandLink>
+                                    
                                 </f:facet>
+                                
 
                                 <p:column filterBy="#{poll.type}" headerText="Poll Type" filterMatchMode="in">
                                     <f:facet name="filter">
@@ -98,6 +120,9 @@
                                     <h:outputText value="#{poll.correctRate}" />
                                 </p:column>
                             </p:dataTable>
+                            
+                            
+                            
                         </p:panel> 
                     </h:form>
                     <!-- END: View All Polls -->
