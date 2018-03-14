@@ -24,6 +24,7 @@
                              filteredValue="#{lecturerModuleListBean.filteredModules}"
                              paginator="true"
                              rows="10"
+                             id="tbl"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="10,20,50">
                     <f:facet name="header">
@@ -31,6 +32,25 @@
                             <h:outputText value="Search all fields:" />
                             <p:inputText id="globalFilter" onkeyup="PF('modulesTable').filter()" style="width:150px" placeholder="Enter keyword"/>
                         </p:outputPanel>
+                        <h:commandLink>
+                            <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                            <p:dataExporter type="xls" target="tbl" fileName="modules" />
+                        </h:commandLink>
+
+                        <h:commandLink>
+                            <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                            <p:dataExporter type="pdf" target="tbl" fileName="modules"/>
+                        </h:commandLink>
+
+                        <h:commandLink>
+                            <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                            <p:dataExporter type="csv" target="tbl" fileName="modules" />
+                        </h:commandLink>
+
+                        <h:commandLink>
+                            <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                            <p:dataExporter type="xml" target="tbl" fileName="modules" />
+                        </h:commandLink>
                     </f:facet>
                     <p:column filterBy="#{module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
                         <h:outputText value="#{module.course.moduleCode}(#{module.course.modularCredits})" />
