@@ -1,60 +1,86 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./layout/default.xhtml"
-                xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://xmlns.jcp.org/jsf/html" 
-                xmlns:f="http://xmlns.jcp.org/jsf/core" 
-                xmlns:p="http://primefaces.org/ui">
-                    
-    <ui:define name="content">
-        <h:head>
-            <title>PRISM Reset Password Page</title>
-            <h:outputStylesheet name="./css/form.css"/>
-        </h:head>
-        <p:growl id="messages" showDetail="true" />
-            <h:form class="form-labels-on-top" >
-                <p:growl id="messages" />
-                                <div class="form-title-row">
-                                    <h1>Reset Password</h1>
-                                </div>
-                                <div class="form-row">
-                                    <label>
-                                        <span>Username</span>
-                                        <p:inputText id="username" value="#{acctMgmtBean.username}" required="true" requiredMessage="Username required."/>
-                                    </label>
-                                </div>
-                                <div class="form-row">
-                                    <label>
-                                        <span>Email</span>
-                                        <p:inputText id="email" value="#{acctMgmtBean.email}" required="true" requiredMessage="Email required."/>
-                                    </label>
-                                </div>
-                                <div class="form-row">
-                                    <label>
-                                        <span>New Password</span>
-                                        <p:password id="firstPassword" value="#{acctMgmtBean.newPassword1}" />
-                                    </label>
-                                </div>
-                                <div class="form-row">
-                                    <label>
-                                        <span>Confirm Password</span>
-                                        <p:password id="confirmPassword" value="#{acctMgmtBean.newPassword2}" validatorMessage="Password needs to be between 6-12 characters">
-                                            <f:validateRegex pattern="^[a-zA-Z0-9]{6,12}$" />
-                                        </p:password>
-                                    </label>
-                                </div>
-                                <div class="form-row" style="text-align: center;">
-                                    <p:commandButton id="saveBtn" value="Change Password" actionListener="#{acctMgmtBean.changePassword}" id="editPasswordButton" update="messages">
-                                        <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
-                                    </p:commandButton>
-                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                                        <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                                    </p:confirmDialog>
-                                     
-                                </div>
-            </h:form>
-    </ui:define>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
 
-</ui:composition>
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+        <title>PRISM Password Reset Page</title>
+
+        <!-- TEST FAVICON -->
+        <link rel="icon" 
+              type="image/png" 
+              href="https://cdn4.iconfinder.com/data/icons/new-google-logo-2015/400/new-google-favicon-128.png" />
+    </h:head>
+
+    <h:body styleClass="login-body">
+        <div class="login-panel ui-fluid">
+
+            <h:form>
+                <p:messages showDetail="false" autoUpdate="true" closable="true" />
+                <div class="ui-g">
+                    <div class="ui-g-12 logo-container">
+                        <p:graphicImage name="images/login/login-logo.png" library="poseidon-layout" />
+                    </div>
+                    <div>
+                        <h2>Reset Password</h2>
+                    </div>
+                    <!-- UserName -->
+                    <div class="ui-g-12">
+                        <label>
+                            <p:inputText styleClass="textInput" id="username" value="#{acctMgmtBean.username}" required="true" requiredMessage="Username Required." placeholder="Username" />
+                        </label>
+                    </div>
+                    <p:message for="username" />
+
+                    <!-- Email -->
+                    <div class="ui-g-12">
+                        <label>
+                            <p:inputText styleClass="textInput" id="email" value="#{acctMgmtBean.email}" required="true" requiredMessage="Email Required." placeholder="Email Address" />
+                        </label>
+                    </div>
+                    <p:message for="email" />
+
+                    <!-- Password -->
+                    <div class="ui-g-12">
+                        <label>
+                            <p:password styleClass="textInput" id="password1" value="#{acctMgmtBean.newPassword1}" required="true" requiredMessage="New Password Required." placeholder="New Password" />
+                        </label>
+                    </div>
+                    <p:message for="password1" />
+
+                    <!-- Confirm Password -->
+                    <div class="ui-g-12">
+                        <label>
+                            <p:password styleClass="textInput" id="password2" value="#{acctMgmtBean.newPassword2}" required="true" requiredMessage="Confirm Password Required." placeholder="Confirm Password" validatorMessage="Password needs to be between 6-12 characters">
+                                <f:validateRegex pattern="^[a-zA-Z0-9]{6,12}$" />
+                            </p:password>
+                        </label>
+                    </div>
+                    <p:message for="password2" />
+
+                    <div class="ui-g-12 button-container">
+                        <p:commandButton value="Change Password" actionListener="#{acctMgmtBean.changePassword}" id="editPasswordButton" icon="fa fa-key" styleClass="blue-btn">
+                            <p:confirm header="Confirm Change Password" message="Are you sure to change your password?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+                    </div>
+                </div>
+            </h:form>
+        </div>
+
+        <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="poseidon-layout" />
+    </h:body>
+
+</html>
+
