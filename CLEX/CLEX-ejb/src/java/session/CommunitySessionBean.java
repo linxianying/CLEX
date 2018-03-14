@@ -64,8 +64,14 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
     private Reply replyEntity;
 
     @Override
-    public void createThread(String username, String content, String title, String tag){
+    public boolean createThread(String username, String content, String title, String tag){
         userEntity = findUser(username);
+        
+        if(userEntity == null){
+            System.out.println("User not logged in.");
+            return false;
+        }
+        
         Thread thread = new Thread();
         
         thread.createThread(username, content, title, tag);
@@ -75,12 +81,21 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         em.merge(userEntity);
         em.persist(thread);
         em.flush();
+        
+        System.out.println("Thread " + thread.getId() + " created.");
+        return true;
     }
     
     @Override
-    public void createReply(Long threadId, String content, String username){
+    public boolean createReply(Long threadId, String username, String content){
         userEntity = findUser(username);
         threadEntity = findThread(threadId);
+        
+        if(userEntity == null){
+            System.out.println("User not logged in.");
+            return false;
+        }
+        
         Reply reply = new Reply();
         
         reply.createReply(threadId, content);
@@ -94,6 +109,9 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         em.merge(threadEntity);
         em.persist(reply);
         em.flush();     
+        
+        System.out.println("Reply " + reply.getId() + " created.");
+        return true;
     }
     
     @Override
@@ -182,15 +200,15 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         em.flush();  
     }
     
-    //All the deletes need to test properly
     @Override
     public boolean deleteThread(String username, Long threadId){
         userEntity = findUser(username);
         threadEntity = findThread(threadId);
         
-        if(userEntity.getReplys().remove(threadEntity)){
+        if(userEntity.getThreads().remove(threadEntity)){
             em.merge(userEntity);
             em.remove(threadEntity);
+            em.flush();
             em.clear();
             System.out.println("Thread " + threadId + " deleted.");
             return true;
@@ -204,10 +222,13 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
     public boolean deleteReply(String username, Long replyId){
         userEntity = findUser(username);
         replyEntity = findReply(replyId);
+        threadEntity = replyEntity.getThread();
         
-        if(userEntity.getReplys().remove(replyEntity)){
+        if(userEntity.getReplys().remove(replyEntity) && threadEntity.getReplies().remove(replyEntity)){
             em.merge(userEntity);
+            em.merge(threadEntity);
             em.remove(replyEntity);
+            em.flush();
             em.clear();
             System.out.println("Reply " + replyId + " deleted.");
             return true;
@@ -222,7 +243,7 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         userEntity = findUser(username);
         threadEntity = findThread(threadId);
         voteEntity = findVote(voteId);
-    
+        
         if(userEntity.getVotes().remove(voteEntity) && threadEntity.getVoteThreads().remove((VoteThread) voteEntity)){
             
             if(voteEntity.isVoteType()){
@@ -231,10 +252,11 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
             else{
                 threadEntity.setDownVote((threadEntity.getDownVote() - 1));     
             }
-            
+
+            em.remove(voteEntity);
             em.merge(userEntity);
             em.merge(threadEntity);
-            em.remove(voteEntity);
+            em.flush();
             em.clear();
             System.out.println("Vote " + voteId + " deleted.");
             return true;
@@ -251,16 +273,18 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         voteEntity = findVote(voteId); 
     
         if(userEntity.getVotes().remove(voteEntity) && replyEntity.getVoteReplies().remove((VoteReply) voteEntity)){
+            
             if(voteEntity.isVoteType()){
                 replyEntity.setUpVote((replyEntity.getUpVote() - 1));
             }
             else{
                 replyEntity.setDownVote((replyEntity.getDownVote() - 1));     
             }
-    
+            
             em.merge(userEntity);
             em.merge(replyEntity);
-            em.remove(voteEntity);
+            em.remove(voteEntity);  
+            em.flush();
             em.clear();
             System.out.println("Vote " + voteId + " deleted.");
             return true;
@@ -412,6 +436,7 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         return format.format(current);
     }
 
+    @Override
     public User findUser(String username) {
         userEntity = null;
         try {
@@ -474,5 +499,41 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
             e.printStackTrace();
         }
         return voteEntity;
+    }
+    
+    @Override
+    public VoteThread findVoteByUserThread(Long userId, Long threadId){
+        voteThreadEntity = null;
+        try {
+            Query q = em.createQuery("SELECT v FROM VoteThread v WHERE v.user.id = :userid AND v.thread.id = :threadid");
+            q.setParameter("userid", userId);
+            q.setParameter("threadid", threadId);
+            voteThreadEntity = (VoteThread) q.getSingleResult();
+            System.out.println("Vote found.");
+        } catch (NoResultException e) {
+            System.out.println("Vote does not exist.");
+            voteThreadEntity = null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return voteThreadEntity;
+    }
+    
+    @Override
+    public VoteReply findVoteByUserReply(Long userId, Long replyId){
+        voteReplyEntity = null;
+        try {
+            Query q = em.createQuery("SELECT v FROM VoteReply v WHERE v.user.id = :userid AND v.reply.id = :replyid");
+            q.setParameter("userid", userId);
+            q.setParameter("replyid", replyId);
+            voteReplyEntity = (VoteReply) q.getSingleResult();
+            System.out.println("Vote found.");
+        } catch (NoResultException e) {
+            System.out.println("Vote does not exist.");
+            voteReplyEntity = null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return voteReplyEntity;
     }
 }

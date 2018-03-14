@@ -20,7 +20,7 @@ import javax.persistence.ManyToOne;
  * @author lin
  */
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Vote implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
