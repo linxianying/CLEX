@@ -385,7 +385,10 @@
             </p:tabView>
         </p:panel>
         <br></br>
-        <h:form>
+        <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+            <p:printer target="panel" />
+        </p:commandButton>
+        <h:form id="panel">
             <p:panel collapsed="true" styleClass="menuHeader" id="courselist" header="VIEW ALL COURSES" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
                 <p:dataTable var="course" value="#{adminCourseListBean.courses}" 
                              widgetVar="coursesTable"
@@ -425,8 +428,13 @@
                     </p:column>
                 </p:dataTable>
             </p:panel>
-        </h:form>     
-        <h:form>
+        </h:form> 
+        
+        
+        <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+            <p:printer target="panel1" />
+        </p:commandButton>
+        <h:form id="panel1">
             <p:panel collapsed="true" styleClass="menuHeader" id="modulelist" header="VIEW ALL MODULES" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
                 <p:dataTable var="module" value="#{adminCourseListBean.modules}" 
                              widgetVar="modulesTable"
@@ -459,8 +467,13 @@
                     </p:column>
                 </p:dataTable>
             </p:panel>
-        </h:form>        
-        <h:form>
+        </h:form>    
+        
+        
+        <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+            <p:printer target="panel2" />
+        </p:commandButton>
+        <h:form id="panel2">
             <p:panel collapsed="true" styleClass="menuHeader" id="lessonlist" header="VIEW ALL LESSONS" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
                 <p:dataTable var="lesson" value="#{adminCourseListBean.lessons}" 
                              widgetVar="lessonsTable"

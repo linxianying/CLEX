@@ -13,7 +13,10 @@
         </h:head>
         <p:growl id="messages" showDetail="true" />
         <h1 style="margin-top:0">Module Management Page</h1>
-        <h:form>
+        <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+            <p:printer target="panel" />
+        </p:commandButton>
+        <h:form id="panel">
             <p:panel collapsed="false" styleClass="menuHeader" id="modulelist" header="VIEW MODULES" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
                 <p:dataTable var="module" value="#{lecturerModuleListBean.modules}" 
                              widgetVar="modulesTable"

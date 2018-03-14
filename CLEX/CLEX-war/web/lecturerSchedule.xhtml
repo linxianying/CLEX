@@ -17,8 +17,10 @@
         -->
         <h:form>
             <p:growl id="messages" showDetail="true" />
-
-            <h:panelGrid columnClasses="value">
+            <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+                <p:printer target="cal" />
+            </p:commandButton>
+            <h:panelGrid id="cal" columnClasses="value">
                 <h3 style="margin-top: 0">My Schedule</h3>
 
                 <p:schedule id="schedule" value="#{scheduleBean.eventModel}" widgetVar="myschedule" timeZone="GMT+8">
@@ -69,6 +71,8 @@
             </p:panel>
 
         </h:form>
+        
+        
     </ui:define>
 
 </ui:composition>

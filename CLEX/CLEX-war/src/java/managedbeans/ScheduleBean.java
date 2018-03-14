@@ -64,8 +64,8 @@ public class ScheduleBean implements Serializable {
     private User userEntity;
     private String username;
     private String userType;
-    private String details;
-    private String venue;
+    private String details="";
+    private String venue="";
     private ArrayList<Timeslot> timeslots;
     private ScheduleModel eventModel = new DefaultScheduleModel();
     private ScheduleEvent event = new DefaultScheduleEvent();

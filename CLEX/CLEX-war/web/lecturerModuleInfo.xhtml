@@ -11,9 +11,11 @@
         <h:head>
             <title>PRISM Lecturer Module Info Page</title>
         </h:head>
-
-        <h:form>
-            <p:panel collapsed="false" styleClass="menuHeader" header="Module #{moduleInfoBean.moduleCode} #{moduleInfoBean.moduleTitle}" toggleable="false" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
+        <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+            <p:printer target="panel" />
+        </p:commandButton>
+        <h:form id="panel">
+            <p:panel  collapsed="false" styleClass="menuHeader" header="Module #{moduleInfoBean.moduleCode} #{moduleInfoBean.moduleTitle}" toggleable="false" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
                 <h:panelGrid columns="2" width="1000px">
 
                     <p:tab title="#{moduleInfoBean.moduleCode}">

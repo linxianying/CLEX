@@ -49,7 +49,10 @@
                     -->
                     
                     <!-- START: View All Polls -->
-                    <h:form>
+                    <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+                        <p:printer target="panel" />
+                    </p:commandButton>
+                    <h:form id="panel">
                         <p:panel collapsed="false" styleClass="menuHeader"  header="All Polls of Lecturer" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
 
                             <p:dataTable var="poll" value="#{classroomBean.polls}" 

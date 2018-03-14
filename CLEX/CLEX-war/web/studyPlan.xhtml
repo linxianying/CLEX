@@ -20,7 +20,13 @@
                     
 
                     <!-- START: Panel Modules TAKEN -->
-                    <h:form>
+                    <p:commandButton value="Print Taken Modules" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+                        <p:printer target="taken" />
+                    </p:commandButton>
+                    <p:commandButton value="Print Takeing Modules" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+                        <p:printer target="modulesTakingForm" />
+                    </p:commandButton>
+                    <h:form id="taken">
                         <h:outputText value="You have not taken any module before" rendered="#{empty studyPlanBean.student.grades}"/>
                         <p:panel collapsed="true" styleClass="menuHeader" id="modulesTaken" header="Modules Taken Previously" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px" rendered="#{not empty studyPlanBean.student.grades}">
                             <h:panelGrid columns="2" width="1000px">
