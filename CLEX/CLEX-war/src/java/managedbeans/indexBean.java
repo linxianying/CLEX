@@ -15,6 +15,7 @@ import session.ClassroomSessionBeanLocal;
 import session.ClexSessionBeanLocal;
 import session.ScheduleSessionBeanLocal;
 import session.StudyPlanSessionBeanLocal;
+import session.ToDoListSessionBeanLocal;
 
 /**
  *
@@ -33,6 +34,8 @@ public class indexBean {
     private ClassroomSessionBeanLocal crsbl;
     @EJB
     private AnnouncementSessionBeanLocal asbl;
+    @EJB
+    private ToDoListSessionBeanLocal tdsbl;
    
     
     public indexBean() {
@@ -517,5 +520,19 @@ public class indexBean {
         asbl.createLecturerAnnc("hsianghui2", "PC2193 Lecture 5 cancelled", "PC2193 Lecture 6, which is on next Friday is cancelled", "PC2193");
         asbl.createLecturerAnnc("hsianghui2", "PC2193 Lab 3 cancelled", "PC2193 Lab 3, which is on this Thursday is cancelled", "PC2193");
         //asbl.createAdminAnnc("admin", "CIT Recruitment for System Engineer", "Interested candidates are advised to read the detailed requirements and apply for the above position at this following link: https://nuscareers.taleo.net/careersection/nusep/jobdetail.ftl?job=007LB Thank you! Admin Wong", "1");
+    
+        tdsbl.createTask("namename", "2018-01-17", "2018-02-21 12:00", "IS4103 Lab 1", "IS4103 Lab Week 4", "unfinished");
+        tdsbl.createTask("namename", "2018-02-17", "2018-03-21 12:00", "IS4103 Lab 2", "IS4103 Lab Week 4", "unfinished");
+        tdsbl.createTask("namename", "2018-03-17", "2018-03-21 21:00", "IS4103 Lab 3", "IS4103 Lab Week 4", "unfinished");
+        tdsbl.createTask("namename", "2018-04-17", "2018-04-21 23:59", "IS4103 Lab 4", "IS4103 Lab Week 4", "unfinished");
+        tdsbl.createTask("namename", "2018-01-17", "2018-05-21 02:00", "IS4103 Lab 5", "IS4103 Lab Week 4", "unfinished");
+        tdsbl.createTask("aaaaaa", "2018-01-17", "2018-01-21 12:00", "IS4103 Lab 1", "IS4103 Lab Week 4", "unfinished");
+        tdsbl.createTask("aaaaaa", "2018-01-17", "2018-02-21 17:00", "IS4103 Lab 2", "IS4103 Lab Week 4", "unfinished");
+        tdsbl.createTask("aaaaaa", "2018-01-17", "2018-03-21 23:00", "IS4103 Lab 3", "IS4103 Lab Week 4", "unfinished");
+        tdsbl.createTask("aaaaaa", "2018-01-17", "2018-04-21 13:00", "IS4103 Lab 4", "IS4103 Lab Week 4", "unfinished");
+        tdsbl.createTask("aaaaaa", "2018-01-17", "2018-05-21 09:00", "IS4103 Lab 5", "IS4103 Lab Week 4", "unfinished");
+
+    
+    
     }
 }

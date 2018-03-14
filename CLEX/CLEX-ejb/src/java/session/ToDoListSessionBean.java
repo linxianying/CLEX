@@ -57,16 +57,16 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
     }
     
     @Override
-    public Task findTask(Long taskId){
+    public Task findTask(Long id){
         taskEntity = null;
         try{
-            Query q = em.createQuery("SELECT t FROM Task t WHERE t.taskId=:taskId");
-            q.setParameter("taskId", taskId);
+            Query q = em.createQuery("SELECT t FROM Task t WHERE t.id=:id");
+            q.setParameter("id", id);
             taskEntity = (Task) q.getSingleResult();
-            System.out.println("Task " + taskId + " found.");
+            System.out.println("Task " + id + " found.");
         }
         catch(NoResultException e){
-            System.out.println("Task " + taskId + " does not exist.");
+            System.out.println("Task " + id + " does not exist.");
             taskEntity = null;
         }
         return taskEntity;
@@ -108,12 +108,19 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
     
     @Override
     public void createTask(String username, String date, String deadline, String title,String details, String status){
-        taskEntity = new Task();
-        taskEntity.createTask(date, deadline, title, details, status);
-        Long id = taskEntity.getId();
-        linkTaskStudent(id, username);
-        em.persist(taskEntity);
-        em.flush();
+        
+        studentEntity = findStudent(username);
+        if(studentEntity==null){
+            System.out.println("Student " + username + " does not exist. Create Task failed.");
+        }else{
+            taskEntity = new Task();
+            taskEntity.createTask(date, deadline, title, details, status);
+            taskEntity.setStudent(studentEntity);
+            studentEntity.getTasks().add(taskEntity);
+            em.persist(taskEntity);
+            em.merge(studentEntity);
+            em.flush();
+        }
     
     }
     

@@ -12,10 +12,29 @@
             <title>PRISM Student Main Page</title>
         </h:head>
         <div>
+            
             <h:outputText value="Welcome to PRISM, #{loginBean.userEntity.name}" /><br></br>
-            <h:form>
-                <p:growl id="messages" showDetail="true" />
+            <h3>Timeline Of To Do List</h3>
+            <p:growl id="growl" showSummary="true" showDetail="true">
+               
+            </p:growl>
 
+            <p:timeline id="timeline" value="#{toDoTimelineBean.model}" height="250px"
+                    selectable="#{toDoTimelineBean.selectable}"
+                    zoomable="#{toDoTimelineBean.zoomable}"
+                    moveable="#{toDoTimelineBean.moveable}"
+                    stackEvents="#{toDoTimelineBean.stackEvents}"
+                    axisOnTop="#{toDoTimelineBean.axisOnTop}"
+                    eventStyle="#{toDoTimelineBean.eventStyle}"
+                    showCurrentTime="#{toDoTimelineBean.showCurrentTime}"
+                    showNavigation="#{toDoTimelineBean.showNavigation}">
+
+                <p:ajax event="select" listener="#{toDoTimelineBean.onSelect}"/>
+
+            </p:timeline>
+            
+            <h:form>
+                <h:commandButton value="test" actionListener="#{toDoTimelineBean.test}" />
             </h:form>
 
         </div>

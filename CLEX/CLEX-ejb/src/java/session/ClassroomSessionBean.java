@@ -108,8 +108,8 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
             q.setParameter("takenYear", takenYear);
             q.setParameter("takenSem", takenSem);
             moduleEntity = (Module) q.getSingleResult();
-            System.out.println("Module: " + moduleCode + "with takenYear=" + 
-                    takenYear + ", takenSem= " + takenSem + " found.");
+            //System.out.println("Module: " + moduleCode + "with takenYear=" + 
+            //        takenYear + ", takenSem= " + takenSem + " found.");
         }
         catch(NoResultException e){
             System.out.println("Course " + moduleCode + " does not exist.");
