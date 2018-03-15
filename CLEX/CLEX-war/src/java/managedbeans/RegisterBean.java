@@ -106,7 +106,7 @@ public class RegisterBean implements Serializable {
                         contactNum = null;
                     }
                     else{
-                        fmsg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "The password are not consistent", "Please enter again.");
+                        fmsg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "The password are inconsistent", "Please enter again.");
                         username = "";
                         context.addMessage(null, fmsg);
                     }

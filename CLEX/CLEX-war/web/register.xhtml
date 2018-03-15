@@ -13,14 +13,14 @@
             <meta name="apple-mobile-web-app-capable" content="yes" />
         </f:facet>
         <title>PRISM Register Page</title>
-        
+
         <!-- TEST FAVICON -->
         <link rel="icon" 
               type="image/png" 
               href="https://cdn4.iconfinder.com/data/icons/new-google-logo-2015/400/new-google-favicon-128.png" />
     </h:head>
 
-    <h:body styleClass="login-body">
+    <h:body styleClass="login-body" ondblclick="closeDialog();" >
         <div class="login-panel ui-fluid">
 
             <h:form>
@@ -97,7 +97,7 @@
                     <!-- Username -->
                     <div class="ui-g-12">
                         <label>
-                            <p:inputText styleClass="textInput" title="Username should be 6-12 alphanumeric without special characters"
+                            <p:inputText styleClass="textInput" title="6-12 alphanumeric without special characters"
                                          placeholder="Username"
                                          id="username" value="#{registerBean.username}" 
                                          required="true" requiredMessage="Username Required." 
@@ -110,68 +110,67 @@
 
                     <!-- Password -->
                     <div class="ui-g-12">
-                        <label>
-                            <p:password styleClass="textInput" 
-                                        placeholder="Password"
-                                        title="Password should be 6-12 characters"
-                                        id="password" value="#{registerBean.password}" 
-                                        feedback="true"
-                                        match="password1"
-                                        validatorMessage="Invalid format or inconsistent passwords. Please enter again."
-                                        required="true" requiredMessage="Password Required." />
-                        </label>
+
+                        <p:password styleClass="textInput" 
+                                    placeholder="Password"
+                                    title="6-12 characters"
+                                    id="password" value="#{registerBean.password}" 
+                                    feedback="true"
+                                    match="password1"
+                                    validatorMessage="Invalid format or inconsistent passwords. Please enter again."
+                                    required="true" requiredMessage="Password Required." />
+
                     </div>
-                    <p:message for="password" />
+                    <p:message for="password"/>
 
                     <!-- Confirm Password -->
                     <div class="ui-g-12">
-                        <label>
-                            <p:password styleClass="textInput" 
-                                        placeholder="Confirm Password"
-                                        title="Password again"
-                                        id="password1" value="#{registerBean.password1}" 
-                                        feedback="true"
-                                        validatorMessage="Passwords are not consistent. Please enter again."
-                                        required="true" requiredMessage="Confirm Password Required" />
-                        </label>
+
+                        <p:password styleClass="textInput" 
+                                    placeholder="Confirm Password"
+                                    title="Enter your password again"
+                                    id="password1" value="#{registerBean.password1}" 
+                                    feedback="true"
+                                    promptLabel="Ensure both passwords are the same"
+                                    validatorMessage="Passwords are inconsistent. Please enter again."
+                                    required="true" requiredMessage="Password required and must match." />
+
                     </div>
                     <p:message for="password1" />
 
+                    <p:confirmDialog style="max-width: 40%; max-height:50%; overflow:auto"  
+                        widgetVar="termsdlg" global="true" showEffect="fade" hideEffect="fade" >
+                        <h:outputText value="1. Terms:"/>
+                        <br/>
+                        <h:outputText value="By accessing the website, you are agreeing to be bound by these terms of service, all applicable laws and regulations, and agree that you are responsible for compliance with any applicable local laws. If you do not agree with any of these terms, you are prohibited from using or accessing this site. The materials contained in this website are protected by applicable copyright and trademark law." />
+                        <br/><br/>
+                        <h:outputText value="2. Disclaimer:"/>
+                        <br/>
+                        <h:outputText value="The materials on PRISM's website are provided on an 'as is' basis. PRISM makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights."/>
+                        <br/><br/>
+                        <h:outputText value="3. Limitations"/>
+                        <br/>
+                        <h:outputText value="In no event shall PRISM or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on PRISM's website, even if PRISM or a PRISM authorized representative has been notified orally or in writing of the possibility of such damage. Because some jurisdictions do not allow limitations on implied warranties, or limitations of liability for consequential or incidental damages, these limitations may not apply to you."/>
+                        <br/><br/>
+                        <h:outputText value="4. Modifications"/>
+                        <br/>
+                        <h:outputText value="PRISM may revise these terms of service for its website at any time without notice. By using this website you are agreeing to be bound by the then current version of these terms of service."/>
+                        <br/><br/>
+                        <h:outputText value="5. Governing Law"/>
+                        <br/>
+                        <h:outputText value="These terms and conditions are governed by and construed in accordance with the laws of Singapore and you irrevocably submit to the exclusive jurisdiction of the courts in that State or location."/>
+                    </p:confirmDialog>
                     <!-- T&C -->
                     <div class="ui-g-12">
-                        <label>
-                            <p:confirmDialog style="max-width: 40%; max-height:50%; overflow:auto"  widgetVar="termsdlg" global="true" showEffect="fade" hideEffect="fade" >
-                                <h:outputText value="1. Terms:"/>
-                                <br/>
-                                <h:outputText value="By accessing the website, you are agreeing to be bound by these terms of service, all applicable laws and regulations, and agree that you are responsible for compliance with any applicable local laws. If you do not agree with any of these terms, you are prohibited from using or accessing this site. The materials contained in this website are protected by applicable copyright and trademark law." />
-                                <br/><br/>
-                                <h:outputText value="2. Disclaimer:"/>
-                                <br/>
-                                <h:outputText value="The materials on PRISM's website are provided on an 'as is' basis. PRISM makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights."/>
-                                <br/><br/>
-                                <h:outputText value="3. Limitations"/>
-                                <br/>
-                                <h:outputText value="In no event shall PRISM or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on PRISM's website, even if PRISM or a PRISM authorized representative has been notified orally or in writing of the possibility of such damage. Because some jurisdictions do not allow limitations on implied warranties, or limitations of liability for consequential or incidental damages, these limitations may not apply to you."/>
-                                <br/><br/>
-                                <h:outputText value="4. Modifications"/>
-                                <br/>
-                                <h:outputText value="PRISM may revise these terms of service for its website at any time without notice. By using this website you are agreeing to be bound by the then current version of these terms of service."/>
-                                <br/><br/>
-                                <h:outputText value="5. Governing Law"/>
-                                <br/>
-                                <h:outputText value="These terms and conditions are governed by and construed in accordance with the laws of Singapore and you irrevocably submit to the exclusive jurisdiction of the courts in that State or location."/>
-                            </p:confirmDialog>
+                        <p:commandButton styleClass="termsBtn" ajax="false" value="Read Terms &amp; Conditions">
+                            <p:confirm  message="Terms &amp; Conditions" icon="ui-icon-alert" />
+                        </p:commandButton>
+                        <h:panelGrid styleClass="form-title-row" columns="2" style="margin: auto">
+                            <h:outputText value="I agree to the terms &amp; conditions"></h:outputText>
+                            <p:selectBooleanCheckbox value="#{registerBean.agree}" id="terms" required="true" requiredMessage="You must agree to our Terms &amp; Conditions" >
+                            </p:selectBooleanCheckbox>
+                        </h:panelGrid>
 
-                            <p:commandButton styleClass="termsBtn" ajax="false" value="Terms &amp; Conditions">
-                                <p:confirm  message="Terms &amp; Conditions" icon="ui-icon-alert" />
-                            </p:commandButton>
-
-                            <h:panelGrid styleClass="form-title-row" columns="2" style="margin: auto">
-                                <h:outputText value="I agree to the terms &amp; conditions"></h:outputText>
-                                <p:selectBooleanCheckbox value="#{registerBean.agree}" id="terms" required="true" requiredMessage="You must agree to our Terms &amp; Conditions" >
-                                </p:selectBooleanCheckbox>
-                            </h:panelGrid>
-                        </label>
                         <p:message for="terms"/>
                     </div>
 
@@ -187,6 +186,10 @@
 
         <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="poseidon-layout" />
     </h:body>
-
+    <script>
+        function closeDialog() {
+            PF('termsdlg').hide();
+        }
+    </script>
 </html>
 
