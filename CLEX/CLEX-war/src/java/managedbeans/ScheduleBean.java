@@ -15,6 +15,10 @@ import java.io.InputStream;
 import javax.ejb.EJB;
 import session.ClexSessionBeanLocal;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,6 +34,7 @@ import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
 import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.model.Component;
+import org.apache.commons.io.FilenameUtils;
 import org.primefaces.event.FileUploadEvent;
 
 import org.primefaces.event.ScheduleEntryMoveEvent;
@@ -42,6 +47,7 @@ import org.primefaces.model.ScheduleModel;
 import org.primefaces.model.UploadedFile;
 import session.ScheduleSessionBeanLocal;
 import session.ToDoListSessionBeanLocal;
+
 
 /**
  *
@@ -258,10 +264,20 @@ public class ScheduleBean implements Serializable {
         try {
             //String newFilePath = "\""+"Users"+"\""+ "lin"+"\""+"Downloads"; 
             System.err.println("Schedules.handleFileUpload(): File name: " + event.getFile().getFileName());
-
+            File f = new File("");
+            //System.out.println(f.getAbsolutePath());
             uploadedFile = event.getFile();
             
             InputStream in = uploadedFile.getInputstream();
+            Path folder = Paths.get(f.getAbsolutePath());
+            String filename = FilenameUtils.getBaseName(uploadedFile.getFileName()); 
+            String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
+            Path file = Files.createTempFile(folder, filename + "-", "." + extension);
+            try (InputStream input = uploadedFile.getInputstream()) {
+                Files.copy(input, file, StandardCopyOption.REPLACE_EXISTING);
+            }
+
+            System.out.println("Uploaded file successfully saved in " + file);
             CalendarBuilder builder = new CalendarBuilder();
             net.fortuna.ical4j.model.Calendar calendar = builder.build(in);
             for (Iterator i = calendar.getComponents().iterator(); i.hasNext();) {
