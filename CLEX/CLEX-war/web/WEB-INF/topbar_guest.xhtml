@@ -133,31 +133,22 @@
                         <span class="topbar-badge animated rubberBand">4</span>
                         <span class="topbar-item-name">Notifications</span>
                     </a>
-                    <ul class="poseidon-menu animated">
-                        <li role="menuitem">
-                            <a href="#">
-                                <i class="fa fa-fw fa-tasks"></i>
-                                <span>Pending tasks</span>
-                            </a>
-                        </li>
-                        <li role="menuitem">
-                            <a href="#">
-                                <i class="fa fa-fw fa-calendar-check-o"></i>
-                                <span>Meeting today at 3pm</span>
-                            </a>
-                        </li>
-                        <li role="menuitem">
-                            <a href="#">
-                                <i class="fa fa-fw fa-download"></i>
-                                <span>Download documents</span>
-                            </a>
-                        </li>
-                        <li role="menuitem">
-                            <a href="#">
-                                <i class="fa fa-fw fa-plane"></i>
-                                <span>Book flight</span>
-                            </a>
-                        </li>
+                    <ul  style="overflow: auto; height: 500%; width: 700%">
+                        <span style="color: #e33f3f">Notifications</span>
+                        <br/>
+                        <p:dataList var="annc" value="#{announcementBean.getAnnouncementByAdminForGuests()}">
+                            <button type="button" disabled="disabled" class="anncBox">
+                                <h:outputText value="#{annc.type} posted a new announcement" />
+                                <br/>
+                                <br/>
+                                <h:outputText value="#{annc.message}" />
+                                <br/>
+                                <h:outputText value="by: #{annc.getUser().getName()}" />
+                                <br/>
+                                <h:outputText value="#{annc.createdDate}" />
+                                <br/>
+                            </button>
+                        </p:dataList>
                     </ul>
                 </li>
             </ul>

@@ -133,9 +133,12 @@
                         <span class="topbar-badge animated rubberBand">4</span>
                         <span class="topbar-item-name">Notifications</span>
                     </a>
-                    <div class="poseidon-menu animated">
                     <ul  style="overflow: auto; height: 500%; width: 700%">
                         <span style="color: #e33f3f">Notifications</span>
+                        <br/>
+                        <p:button value="All" styleClass="secondary" />
+                        <p:button value="mod1" styleClass="secondary" />
+                        <p:button value="mod2" styleClass="secondary" />
                         <p:dataList var="annc" value="#{announcementBean.getAllAnnouncements()}">
                             <button type="button" disabled="disabled" class="anncBox">
                                 <h:outputText value="#{annc.type} posted a new announcement" />
@@ -149,11 +152,7 @@
                                 <br/>
                             </button>
                         </p:dataList>
-                        
                     </ul>
-                    <button></button>
-                    </div>
-                    
                 </li>
             </ul>
         </div>
