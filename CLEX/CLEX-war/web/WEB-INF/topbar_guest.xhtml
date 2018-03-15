@@ -46,10 +46,13 @@
                             </a>
                         </li>
                         <li role="menuitem">
-                            <a href="#">
-                                <i class="fa fa-fw fa-sign-out"></i>
-                                <span>Logout</span>
-                            </a>
+                            <h:form>
+                                <a href="#" onclick="logout()">
+                                    <i class="fa fa-fw fa-sign-out"></i>
+                                    <span>Logout</span>
+                                    <p:remoteCommand name="logout" actionListener="#{acctMgmtBean.logout}"/>
+                                </a>
+                            </h:form>
                         </li>
                     </ul>
                 </li>

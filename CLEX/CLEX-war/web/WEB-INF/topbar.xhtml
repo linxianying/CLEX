@@ -47,12 +47,12 @@
                         </li>
                         <li role="menuitem">
                             <h:form>
-                            <a href="#" onclick="rc()">
-                                <i class="fa fa-fw fa-sign-out"></i>
-                                <span>Logout</span>
-                                <p:remoteCommand name="rc" actionListener="#{acctMgmtBean.logout}"/>
-                                
-                            </a></h:form>
+                                <a href="#" onclick="logout()">
+                                    <i class="fa fa-fw fa-sign-out"></i>
+                                    <span>Logout</span>
+                                    <p:remoteCommand name="logout" actionListener="#{acctMgmtBean.logout}"/>
+                                </a>
+                            </h:form>
                         </li>
                     </ul>
                 </li>
@@ -140,7 +140,6 @@
                                 <span>Pending tasks</span>
                             </a>
                         </li>
-                        
                     </ul>
                 </li>
             </ul>
