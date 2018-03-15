@@ -10,12 +10,12 @@
         <div class="topbar-left">            
             <div class="logo"></div>
         </div>
-        
+
         <div class="topbar-right">
             <a id="menu-button" href="#">
                 <i class="fa fa-angle-left"></i>
             </a>
-            
+
             <a id="topbar-menu-button" href="#">
                 <i class="fa fa-bars"></i>
             </a>
@@ -25,7 +25,7 @@
                         <div class="profile-image"></div>
                         <span class="topbar-item-name">Jane Williams</span>
                     </a>
-                    
+
                     <ul class="poseidon-menu animated">
                         <li role="menuitem">
                             <a href="profile.xhtml">
@@ -33,12 +33,12 @@
                                 <span>Profile</span>
                             </a>
                         </li>
-                        <li role="menuitem">
+                        <!--<li role="menuitem">
                             <a href="#">
                                 <i class="fa fa-fw fa-user-secret"></i>
                                 <span>Privacy</span>
                             </a>
-                        </li>
+                        </li>-->
                         <li role="menuitem">
                             <a href="#">
                                 <i class="fa fa-fw fa-cog"></i>
@@ -46,10 +46,13 @@
                             </a>
                         </li>
                         <li role="menuitem">
-                            <a href="#">
+                            <h:form>
+                            <a href="#" onclick="rc()">
                                 <i class="fa fa-fw fa-sign-out"></i>
                                 <span>Logout</span>
-                            </a>
+                                <p:remoteCommand name="rc" actionListener="#{acctMgmtBean.logout}"/>
+                                
+                            </a></h:form>
                         </li>
                     </ul>
                 </li>
@@ -137,24 +140,7 @@
                                 <span>Pending tasks</span>
                             </a>
                         </li>
-                        <li role="menuitem">
-                            <a href="#">
-                                <i class="fa fa-fw fa-calendar-check-o"></i>
-                                <span>Meeting today at 3pm</span>
-                            </a>
-                        </li>
-                        <li role="menuitem">
-                            <a href="#">
-                                <i class="fa fa-fw fa-download"></i>
-                                <span>Download documents</span>
-                            </a>
-                        </li>
-                        <li role="menuitem">
-                            <a href="#">
-                                <i class="fa fa-fw fa-plane"></i>
-                                <span>Book flight</span>
-                            </a>
-                        </li>
+                        
                     </ul>
                 </li>
             </ul>

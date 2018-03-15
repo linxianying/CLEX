@@ -49,8 +49,10 @@ public class AcctMgmtBean implements Serializable{
     }
 
     public void logout() throws IOException{
+        System.out.println("successfully logged out.");
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
+        //session = (HttpSession) context.getExternalContext().getSession(true);
     }
     
     public void editProfile() throws IOException{
@@ -73,10 +75,6 @@ public class AcctMgmtBean implements Serializable{
         else {
             FacesContext.getCurrentInstance().getExternalContext().redirect("adminProfile.xhtml");
         }
-        //student profile page: profile.xhtml
-        //lecturer profile page: lecturerProfile.xhtml
-        //admin profile page: adminProfile.xhtml
-        //guest profile page: guest.xhtml
     }
     
     public void changePassword() throws IOException{
