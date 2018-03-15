@@ -12,7 +12,6 @@
     <ui:define name="content">
         <h:head>
             <title>PRISM Student Profile Page</title>
-            <h:outputStylesheet name="./css/form.css"/>
         </h:head>
         <div class="ui-g ui-fluid">
             <div class="ui-g-12 ui-lg-6">
@@ -60,14 +59,16 @@
                                 <f:selectItem itemLabel="1" itemValue="1" />
                                 <f:selectItem itemLabel="2" itemValue="2" />
                             </p:selectOneMenu>
-                            <p:commandButton value="Save Profile Details" actionListener="#{profileBean.editStudentProfile}" id="editBasicButton" update="messages">
-                                <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
-                            </p:commandButton>
-                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                                <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                            </p:confirmDialog>
+                            
                         </p:panelGrid>
+                        <p:commandButton value="Save Profile Details" actionListener="#{profileBean.editStudentProfile}" id="editBasicButton" update="messages">
+                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+
                     </div>
                 </h:form>
             </div>
@@ -76,18 +77,19 @@
                 <div class="card card-w-title">
                 <h1>Change Password</h1>
                     <h:form >
+                        <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
+                            <span>Current Password</span>
+                            <p:password id="currentPassword" value="#{profileBean.oldPassword}" />
 
-                        <span>Current Password</span>
-                        <p:password id="currentPassword" value="#{profileBean.oldPassword}" />
+                            <span>New Password</span>
+                            <p:password id="firstPassword" value="#{profileBean.newPassword1}" />
 
-                        <span>New Password</span>
-                        <p:password id="firstPassword" value="#{profileBean.newPassword1}" />
+                            <span>Confirm Password</span>
+                            <p:password id="confirmPassword" value="#{profileBean.newPassword2}" validatorMessage="Password needs to be between 6-12 characters">
+                                <f:validateRegex pattern="^[a-zA-Z0-9]{6,12}$" />
+                            </p:password>
 
-                        <span>Confirm Password</span>
-                        <p:password id="confirmPassword" value="#{profileBean.newPassword2}" validatorMessage="Password needs to be between 6-12 characters">
-                            <f:validateRegex pattern="^[a-zA-Z0-9]{6,12}$" />
-                        </p:password>
-
+                        </p:panelGrid>
                         <p:commandButton value="Change Password" actionListener="#{profileBean.editPassword}" id="editPasswordButton" update="messages">
                             <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
                         </p:commandButton>
