@@ -14,254 +14,89 @@
             <title>PRISM Student Profile Page</title>
             <h:outputStylesheet name="./css/form.css"/>
         </h:head>
-        <div>
-            <div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-lg-6">
                 <p:growl id="messages" showDetail="true" />
-                <table style="margin-left: auto; margin-right: auto">
-                    <td>
-                        <h:form class="form-labels-on-top" >
-                            <div class="form-title-row">
-                                <h1>Basic Profile</h1>
-                            </div>
-                            <div class="form-row">
-                                <label>
-                                    <span>Username</span>
-                                    <p:inputText id="username" value="#{profileBean.username}" readonly="true" />
-                                </label>                        
-                            </div>
-                            <div class="form-row">
-                                <label>
-                                    <span>Full Name</span>
-                                    <p:inputText id="newName" value="#{profileBean.name}" />
-                                </label>
-                            </div>
-                            <div class="form-row">
-                                <label>
-                                    <span>Email</span>
-                                    <p:inputText id="newEmail" value="#{profileBean.email}" />
-                                </label>
-                            </div>
-                            <div class="form-row">
-                                <label>
-                                    <span>Contact Number</span>
-                                    <p:inputText id="newContactNum" value="#{profileBean.contactNum}" />
-                                </label>
-                            </div>
-                            <div class="form-row">
-                                <label>
-                                    <span>School</span>
-                                    <p:inputText id="newSchool" value="#{profileBean.school}" readonly="true"/>
-                                </label>
-                            </div>
-                            <div class="form-row">
-                                <label>
-                                    <span>Faculty</span>
-                                </label>
-                                <!--<p:inputText id="newFaculty" value="#{profileBean.faculty}" />-->
-                                <p:selectOneMenu style="padding: 0%; width: 300px" required="true" id="newFaculty" value="#{profileBean.faculty}" 
-                                                 editable="true" placeholder="Faculty">
-                                    <f:selectItem itemLabel="School of computing" itemValue="School of computing" />
-                                    <f:selectItem itemLabel="School of Business" itemValue="School of Business" />
-                                    <f:selectItem itemLabel="School of Engineering" itemValue="School of Engineering" />
-                                    <f:selectItem itemLabel="School of Science" itemValue="School of Science" />
-                                    <f:selectItem itemLabel="School of Law" itemValue="School of Law" />
-                                    <f:selectItem itemLabel="School of Social Sciences" itemValue="School of Social Sciences" />
-                                </p:selectOneMenu>
-                            </div>
-                            <div class="form-row">
-                                <label>
-                                    <span>Matriculated Year</span>
-                                </label>
-                                <!--<p:inputText id="newMatricYear" value="#{profileBean.matricYear}" />-->
-                                <p:selectOneMenu style="padding: 0%; width: 300px" id="maticYear" value="#{profileBean.matricYear}" 
-                                                 editable="true" placeholder="Matriculated Year">
-                                    <f:selectItem itemLabel="2014" itemValue="2014" />
-                                    <f:selectItem itemLabel="2015" itemValue="2015" />
-                                    <f:selectItem itemLabel="2016" itemValue="2016" />
-                                    <f:selectItem itemLabel="2017" itemValue="2017" />
-                                    <f:selectItem itemLabel="2018" itemValue="2018" />
-                                </p:selectOneMenu>
-                            </div>
-                            <div class="form-row">
-                                <label>
-                                    <span>Matriculated Semester</span>
-                                </label>
-                                <!--<p:inputText id="newMatricSem" value="#{profileBean.matricSem}" />-->
-                                <p:selectOneMenu style="padding: 0%; width: 300px" id="maticSem" value="#{profileBean.matricSem}" 
-                                                 editable="true" placeholder="Matriculated Semester">
-                                    <f:selectItem itemLabel="1" itemValue="1" />
-                                    <f:selectItem itemLabel="2" itemValue="2" />
-                                </p:selectOneMenu>
-                            </div>
-                            <div class="form-row">
-                                <p:commandButton value="Save Profile Details" actionListener="#{profileBean.editStudentProfile}" id="editBasicButton" update="messages">
-                                    <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
-                                </p:commandButton>
-                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                                    <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                                </p:confirmDialog>
-                            </div>
-                        </h:form>
-                    </td>
-                    <td>
+                <h:form>
 
-                        <h:form class="form-labels-on-top" >
-                            <div class="form-title-row">
-                                <h1>Change Password</h1>
-                            </div>
-                            <div class="form-row">
-                                <label>
-                                    <span>Current Password</span>
-                                    <p:password id="currentPassword" value="#{profileBean.oldPassword}" />
-                                </label>
-                            </div>
-                            <div class="form-row">
-                                <label>
-                                    <span>New Password</span>
-                                    <p:password id="firstPassword" value="#{profileBean.newPassword1}" />
-                                </label>
-                            </div>
-                            <div class="form-row">
-                                <label>
-                                    <span>Confirm Password</span>
-                                    <p:password id="confirmPassword" value="#{profileBean.newPassword2}" validatorMessage="Password needs to be between 6-12 characters">
-                                        <f:validateRegex pattern="^[a-zA-Z0-9]{6,12}$" />
-                                    </p:password>
-                                </label>
-                            </div>
-                            <div class="form-row">
-                                <p:commandButton value="Change Password" actionListener="#{profileBean.editPassword}" id="editPasswordButton" update="messages">
-                                    <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
-                                </p:commandButton>
-                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                                    <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                                </p:confirmDialog>
-                            </div>
-                        </h:form>
-                    </td>
-                </table>
-                <!--
-                <table>
-                    <h:form>                       
-                        <tr>
-                            <h3> Basic Profile </h3>
-                        </tr>
-                        <tr>
-                            <td>
-                                Username: 
-                            </td>
-                            <td>
-                                <p:inputText id="username" value="#{profileBean.username}" readonly="true" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Name: 
-                            </td>
-                            <td>
-                                <p:inputText id="newName" value="#{profileBean.name}" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Email:
-                            </td>
-                            <td>
-                                <p:inputText id="newEmail" value="#{profileBean.email}" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Contact Number:
-                            </td>
-                            <td>
-                                <p:inputText id="newContactNum" value="#{profileBean.contactNum}" />
-                            </td>
-                        </tr>  
-                        <tr>
-                            <td>
-                                School:
-                            </td>
-                            <td>
-                                <p:inputText id="newschool" value="#{profileBean.school}" readonly="true"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Faculty:
-                            </td>
-                            <td>
-                                <p:inputText id="newFaculty" value="#{profileBean.faculty}" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Matriculated Year:
-                            </td>
-                            <td>
-                                <p:inputText id="newMatricYear" value="#{profileBean.matricYear}" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Matriculated Semester:
-                            </td>
-                            <td>
-                                <p:inputText id="newMatricSem" value="#{profileBean.matricSem}" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <h:commandButton value="Save Profile Details" actionListener="#{profileBean.editStudentProfile}" id="editBasicButton" />
-                            </td>
-                        </tr>
-                    </h:form>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <h:form>
-                        <tr>
-                            <td>
-                                <h3>Password</h3>
-                            </td>                               
-                        </tr>
-                        <tr>
-                            <td>
-                                Current Password:
-                            </td>
-                            <td>
-                                <p:password id="currentPassword" value="#{profileBean.oldPassword}" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                New Password:
-                            </td>
-                            <td>
-                                <p:password id="firstPassword" value="#{profileBean.newPassword1}" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Confirm New Password:
-                            </td>
-                            <td>
-                                <p:password id="confirmPassword" value="#{profileBean.newPassword2}" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <h:commandButton value="Change Password" actionListener="#{profileBean.editPassword}" id="editPasswordButton" />
-                            </td>
-                        </tr>
-                    </h:form>
-                </table>
-                -->
+                <!-- Left Side -->
+                    <div class="card card-w-title">
+                        <h1>Basic Profile</h1>
+                        <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
+                            <span>Username</span>
+                            <p:inputText id="username" value="#{profileBean.username}" readonly="true" />
+                            <span>Full Name</span>
+                            <p:inputText id="newName" value="#{profileBean.name}" />
+                            <span>Email</span>
+                            <p:inputText id="newEmail" value="#{profileBean.email}" />
+
+                            <span>Contact Number</span>
+                            <p:inputText id="newContactNum" value="#{profileBean.contactNum}" />
+
+                            <span>School</span>
+                            <p:inputText id="newSchool" value="#{profileBean.school}" readonly="true"/>
+                            <span>Faculty</span>
+                            <p:selectOneMenu style="padding: 0%; width: 190px" required="true" id="newFaculty" value="#{profileBean.faculty}" 
+                                            editable="true" placeholder="Faculty">
+                               <f:selectItem itemLabel="School of computing" itemValue="School of computing" />
+                               <f:selectItem itemLabel="School of Business" itemValue="School of Business" />
+                               <f:selectItem itemLabel="School of Engineering" itemValue="School of Engineering" />
+                               <f:selectItem itemLabel="School of Science" itemValue="School of Science" />
+                               <f:selectItem itemLabel="School of Law" itemValue="School of Law" />
+                               <f:selectItem itemLabel="School of Social Sciences" itemValue="School of Social Sciences" />
+                           </p:selectOneMenu>
+                            <span>Matriculated Year</span>
+                            <p:selectOneMenu style="padding: 0%; width: 190px" id="maticYear" value="#{profileBean.matricYear}" 
+                                             editable="true" placeholder="Matriculated Year">
+                                <f:selectItem itemLabel="2014" itemValue="2014" />
+                                <f:selectItem itemLabel="2015" itemValue="2015" />
+                                <f:selectItem itemLabel="2016" itemValue="2016" />
+                                <f:selectItem itemLabel="2017" itemValue="2017" />
+                                <f:selectItem itemLabel="2018" itemValue="2018" />
+                            </p:selectOneMenu>
+                            <span>Matriculated Semester</span>
+                            <p:selectOneMenu style="padding: 0%; width: 190px" id="maticSem" value="#{profileBean.matricSem}" 
+                                             editable="true" placeholder="Matriculated Semester">
+                                <f:selectItem itemLabel="1" itemValue="1" />
+                                <f:selectItem itemLabel="2" itemValue="2" />
+                            </p:selectOneMenu>
+                            <p:commandButton value="Save Profile Details" actionListener="#{profileBean.editStudentProfile}" id="editBasicButton" update="messages">
+                                <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                            </p:commandButton>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            </p:confirmDialog>
+                        </p:panelGrid>
+                    </div>
+                </h:form>
+            </div>
+                
+            <div class="ui-g-12 ui-lg-6">
+                <div class="card card-w-title">
+                <h1>Change Password</h1>
+                    <h:form >
+
+                        <span>Current Password</span>
+                        <p:password id="currentPassword" value="#{profileBean.oldPassword}" />
+
+                        <span>New Password</span>
+                        <p:password id="firstPassword" value="#{profileBean.newPassword1}" />
+
+                        <span>Confirm Password</span>
+                        <p:password id="confirmPassword" value="#{profileBean.newPassword2}" validatorMessage="Password needs to be between 6-12 characters">
+                            <f:validateRegex pattern="^[a-zA-Z0-9]{6,12}$" />
+                        </p:password>
+
+                        <p:commandButton value="Change Password" actionListener="#{profileBean.editPassword}" id="editPasswordButton" update="messages">
+                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+                    </h:form>             
+                </div>
             </div>
         </div>
     </ui:define>

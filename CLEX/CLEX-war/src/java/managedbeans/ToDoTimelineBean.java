@@ -94,7 +94,7 @@ public class ToDoTimelineBean {
                 while(itr.hasNext()){
                     Task t = itr.next();
                     model.add(new TimelineEvent(t.getTitle(), df.parse(t.getDeadline())));
-                    System.out.println("Timeline: " + t.getTitle() + " " + t.getDeadline());
+                    //System.out.println("Timeline: " + t.getTitle() + " " + t.getDeadline());
                 }
             } catch (ParseException ex) {
                 Logger.getLogger(ToDoTimelineBean.class.getName()).log(Level.SEVERE, null, ex);
