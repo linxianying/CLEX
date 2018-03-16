@@ -55,7 +55,9 @@ public class AnnouncementBean {
     private String message;
     private String type; //Input "admin": admin announcement, "<modulecode>": lecturer announcement
     private String audience; //Input "1": all, "2": students only, "3": lecturers only, "4": guests only, "5": 2&3 (admin can use any, lecturer's default use 2)
-
+    private int anncSize;
+    private int latestCount;
+    
     private ArrayList<Announcement> announcements;
     private ArrayList<Announcement> announcements2;
 
@@ -143,29 +145,32 @@ public class AnnouncementBean {
         return tempAllAnnouncements2;
     }
     
-    //For wenjie 
     public ArrayList<Announcement> getLatestAnnouncementForAllModules(){
         userEntity = asbl.findUser(username);
         ArrayList<Announcement> allAnncList = new ArrayList<Announcement>();
         ArrayList<Announcement> tempList = new ArrayList<Announcement>();
-        ArrayList<Announcement> latestList = new ArrayList<Announcement>();
         
         for(int i=0; i<takingModules.size(); i++){
             tempList = (ArrayList<Announcement>) asbl.getAnncByModule(takingModules.get(i).getCourse().getModuleCode());
             allAnncList.addAll(tempList);
         }
+        
         allAnncList = (ArrayList<Announcement>) asbl.sortAnncByDate(allAnncList);
+        setAnncSize(allAnncList.size());
         
-        int latestCount = allAnncList.size() - userEntity.getViewAnncCount();
-        for(int j=0; j<latestCount; j++){
-            latestList.add(allAnncList.get(j));
-        }
-        asbl.setViewAnncCount(username, allAnncList.size());
+        setLatestCount(allAnncList.size() - userEntity.getViewAnncCount());
         
-        return latestList;
+        return allAnncList;
     }
-//Input "1": all, "2": students only, "3": lecturers only, "4": guests only, "5" Lecturer and Student)
-
+    
+    //updates the counter above the notification icon upon closing it
+    public void setAnncViewCount(){
+        System.out.println("annc size = "+ getAnncSize());
+        asbl.setViewAnncCount(username, getAnncSize());
+        setLatestCount(anncSize - userEntity.getViewAnncCount());
+    }
+    
+    //Input "1": all, "2": students only, "3": lecturers only, "4": guests only, "5" Lecturer and Student)
     public ArrayList<Announcement> getAnnouncementByAdminForStudent() {
         ArrayList<Announcement> tempAllAnnouncements1;
         ArrayList<Announcement> tempAllAnnouncements2;
@@ -179,6 +184,8 @@ public class AnnouncementBean {
         for (int i = 0; i < tempAllAnnouncements3.size(); i++) {
             tempAllAnnouncements1.add(tempAllAnnouncements3.get(i));
         }
+        
+        tempAllAnnouncements1 = (ArrayList<Announcement>) asbl.sortAnncByDate(tempAllAnnouncements1);
         return tempAllAnnouncements1;
     }
     
@@ -190,6 +197,8 @@ public class AnnouncementBean {
         for (int i = 0; i < tempAllAnnouncements2.size(); i++) {
             tempAllAnnouncements1.add(tempAllAnnouncements2.get(i));
         }
+        
+        tempAllAnnouncements1 = (ArrayList<Announcement>) asbl.sortAnncByDate(tempAllAnnouncements1);
         return tempAllAnnouncements1;
     }
 
@@ -206,16 +215,20 @@ public class AnnouncementBean {
         for (int i = 0; i < tempAllAnnouncements3.size(); i++) {
             tempAllAnnouncements1.add(tempAllAnnouncements3.get(i));
         }
+        
+        tempAllAnnouncements1 = (ArrayList<Announcement>) asbl.sortAnncByDate(tempAllAnnouncements1);
         return tempAllAnnouncements1;
     }
 
     public ArrayList<Announcement> getAnnouncementsSelf(String username) {
         ArrayList<Announcement> tempAllAnnouncements4 = (ArrayList<Announcement>) asbl.getAnncByUser(username);
+        tempAllAnnouncements4 = (ArrayList<Announcement>) asbl.sortAnncByDate(tempAllAnnouncements4);
         return tempAllAnnouncements4;
     }
 
     public ArrayList<Announcement> getAllAnnouncements() {
         ArrayList<Announcement> tempAllAnnouncements5 = (ArrayList<Announcement>) asbl.getAllAnnc();
+        tempAllAnnouncements5 = (ArrayList<Announcement>) asbl.sortAnncByDate(tempAllAnnouncements5);
         return tempAllAnnouncements5;
     }
 
@@ -355,5 +368,21 @@ public class AnnouncementBean {
 
     public void setAnnouncements2(ArrayList<Announcement> announcements2) {
         this.announcements2 = announcements2;
+    }
+
+    public int getAnncSize() {
+        return anncSize;
+    }
+
+    public void setAnncSize(int anncSize) {
+        this.anncSize = anncSize;
+    }
+
+    public int getLatestCount() {
+        return latestCount;
+    }
+
+    public void setLatestCount(int latestCount) {
+        this.latestCount = latestCount;
     }
 }
