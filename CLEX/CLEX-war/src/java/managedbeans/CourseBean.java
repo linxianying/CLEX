@@ -20,6 +20,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import org.primefaces.event.CellEditEvent;
 import session.CourseMgmtBeanLocal;
 
 /**
@@ -35,6 +36,10 @@ public class CourseBean implements Serializable {
 
     //Course
     Course courseEntity;
+    private Course selectedCourse;
+
+    private Module selectedModule;
+    private Lesson selectedLesson;
     private String moduleCode;
     private String moduleName;
     private String moduleInfo;
@@ -62,6 +67,7 @@ public class CourseBean implements Serializable {
 
     //Others
     private String lecturerUser;
+    private List<String> modularCreditList;
 
     private List<String> timelist;
 
@@ -78,12 +84,17 @@ public class CourseBean implements Serializable {
 
     @PostConstruct
     public void init() {
+        refresh();
+    }
+
+    public void refresh() {
         courselist = (ArrayList<Course>) cmbl.getAllCourses();
         modulelist = (ArrayList<Module>) cmbl.getAllModules();
         timelist = (List) cmbl.getAllTimings();
         daylist = (List) cmbl.getAllDays();
         lecturerlist = (ArrayList<User>) cmbl.getLecturerName();
         lessonlist = (ArrayList<Lesson>) cmbl.getAllLessons();
+        modularCreditList = (List) cmbl.getAllModularCredits();
     }
 
     public void enterCourse() throws IOException {
@@ -129,61 +140,88 @@ public class CourseBean implements Serializable {
     }
 
     //All edits cannot change primary key (Course: moduleCode | Module: takenYear, takenSem | Lesson: day, timeFrom, timeEnd)
-    public void editCourse() throws IOException {
+    public void editCourse(Course courseEntity) throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
-        if (cmbl.checkExistingCourse(moduleCode) == true) {
-            cmbl.editCourse(moduleCode, moduleName, moduleInfo, discontinuedBool, discountinuedYear, discountinuedSem,
-                    offeredSem, school, modularCredits, workload);
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, moduleCode + " has been edited.", "");
+        String tempModCode = courseEntity.getModuleCode();
+        String tempModName = courseEntity.getModuleName();
+        String tempModInfo = courseEntity.getModuleInfo();
+        boolean tempBool = courseEntity.isDiscontinuedBool();
+        String tempYear = courseEntity.getDiscountinuedYear();
+        String tempDisSem = courseEntity.getDiscountinuedSem();
+        String tempOffSem = courseEntity.getOfferedSem();
+        String tempSchool = courseEntity.getSchool();
+        String tempModCredits = courseEntity.getModularCredits();
+        String tempWorkload = courseEntity.getWorkload();
+        if (cmbl.checkExistingCourse(tempModCode) == true) {
+            cmbl.editCourse(tempModCode, tempModName, tempModInfo, tempBool, tempYear, tempDisSem,
+                    tempOffSem, tempSchool, tempModCredits, tempWorkload);
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, tempModCode + " has been edited.", "");
             context.addMessage(null, fmsg);
-            context.getExternalContext().redirect("adminCourse.xhtml");
         } else {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Course '" + moduleCode + "' does not exists.");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Course '" + tempModCode + "' does not exists.");
             context.addMessage(null, fmsg);
         }
+
     }
 
-    public void editModule() throws IOException {
+    public void editModule(Module moduleEntity) throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
-        if (cmbl.checkExistingModule(moduleCode, takenYear, takenSem) == true) {
-            cmbl.editModule(takenYear, takenSem, prerequisite, preclusions, moduleCode);
+        String tempModCode = moduleEntity.getCourse().getModuleCode();
+        String tempTakenYear = moduleEntity.getTakenYear();
+        String tempTakenSem = moduleEntity.getTakenSem();
+        String tempPrerequisite = moduleEntity.getPrerequisite();
+        String tempPreclusions = moduleEntity.getPreclusions();
+        if (cmbl.checkExistingModule(tempModCode, tempTakenYear, tempTakenSem) == true) {
+            cmbl.editModule(tempTakenYear, tempTakenSem, tempPrerequisite, tempPreclusions, tempModCode);
             fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Module has been edited.", "");
             context.addMessage(null, fmsg);
-            context.getExternalContext().redirect("adminCourse.xhtml");
+            //context.getExternalContext().redirect("adminCourse.xhtml");
         } else {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Module does not exists.");
             context.addMessage(null, fmsg);
         }
     }
 
-    public void editLesson() throws IOException {
+    public void editLesson(Lesson lessonEntity) throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
-        if (cmbl.checkExistingLesson(moduleCode, takenYear, takenSem, day, timeFrom, timeEnd) == true) {
-            cmbl.editLesson(day, timeFrom, timeEnd, type, venue, moduleCode, takenYear, takenSem);
+        String tempModCode = lessonEntity.getModule().getCourse().getModuleCode();
+        String tempTakenYear = lessonEntity.getModule().getTakenYear();
+        String tempTakenSem = lessonEntity.getModule().getTakenSem();
+        String tempDay = lessonEntity.getDay();
+        String tempTimeStart = lessonEntity.getTimeFrom();
+        String tempTimeEnd = lessonEntity.getTimeEnd();
+        String tempType = lessonEntity.getType();
+        String tempVenue = lessonEntity.getVenue();
+        if (cmbl.checkExistingLesson(tempModCode, tempTakenYear, tempTakenSem, tempDay, tempTimeStart, tempTimeEnd) == true) {
+            cmbl.editLesson(tempDay, tempTimeStart, tempTimeEnd, tempType, tempVenue, tempModCode, tempTakenYear, tempTakenSem);
             fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Lesson has been edited.", "");
             context.addMessage(null, fmsg);
-            context.getExternalContext().redirect("adminCourse.xhtml");
+            //context.getExternalContext().redirect("adminCourse.xhtml");
         } else {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Lesson does not exists.");
             context.addMessage(null, fmsg);
         }
     }
 
-    public void lectEditModule() throws IOException {
+    public void lectEditModule(Module moduleEntity) throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
         lecturerUser = (String) session.getAttribute("username");
-
-        if (cmbl.checkExistingModule(moduleCode, takenYear, takenSem) == true) {
-            if (cmbl.checkLectTeachModule(lecturerUser, moduleCode, takenYear, takenSem)) {
-                cmbl.editModule(takenYear, takenSem, prerequisite, preclusions, moduleCode);
+        String tempModCode = moduleEntity.getCourse().getModuleCode();
+        String tempTakenYear = moduleEntity.getTakenYear();
+        String tempTakenSem = moduleEntity.getTakenSem();
+        String tempPrerequisite = moduleEntity.getPrerequisite();
+        String tempPreclusions = moduleEntity.getPreclusions();
+        if (cmbl.checkExistingModule(tempModCode, tempTakenYear, tempTakenSem) == true) {
+            if (cmbl.checkLectTeachModule(lecturerUser, tempModCode, tempTakenYear, tempTakenSem)) {
+                cmbl.editModule(tempTakenYear, tempTakenSem, tempPrerequisite, tempPreclusions, tempModCode);
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Module has been edited.", "");
                 context.addMessage(null, fmsg);
-                context.getExternalContext().redirect("lecturerModule.xhtml");
+                //context.getExternalContext().redirect("lecturerModule.xhtml");
             } else {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "You are not authorised to edit this module.", "");
                 context.addMessage(null, fmsg);
@@ -194,18 +232,25 @@ public class CourseBean implements Serializable {
         }
     }
 
-    public void lectEditLesson() throws IOException {
+    public void lectEditLesson(Lesson lessonEntity) throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
         lecturerUser = (String) session.getAttribute("username");
-
-        if (cmbl.checkExistingLesson(moduleCode, takenYear, takenSem, day, timeFrom, timeEnd) == true) {
-            if (cmbl.checkLectTeachModule(lecturerUser, moduleCode, takenYear, takenSem)) {
-                cmbl.editLesson(day, timeFrom, timeEnd, type, venue, moduleCode, takenYear, takenSem);
+        String tempModCode = lessonEntity.getModule().getCourse().getModuleCode();
+        String tempTakenYear = lessonEntity.getModule().getTakenYear();
+        String tempTakenSem = lessonEntity.getModule().getTakenSem();
+        String tempDay = lessonEntity.getDay();
+        String tempTimeStart = lessonEntity.getTimeFrom();
+        String tempTimeEnd = lessonEntity.getTimeEnd();
+        String tempType = lessonEntity.getType();
+        String tempVenue = lessonEntity.getVenue();
+        if (cmbl.checkExistingLesson(tempModCode, tempTakenYear, tempTakenSem, tempDay, tempTimeStart, tempTimeEnd) == true) {
+            if (cmbl.checkLectTeachModule(lecturerUser, tempModCode, tempTakenYear, tempTakenSem)) {
+                cmbl.editLesson(tempDay, tempTimeStart, tempTimeEnd, tempType, tempVenue, tempModCode, tempTakenYear, tempTakenSem);
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Lesson has been edited.", "");
                 context.addMessage(null, fmsg);
-                context.getExternalContext().redirect("lecturerModule.xhtml");
+                //context.getExternalContext().redirect("lecturerModule.xhtml");
             } else {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "You are not authorised to edit this lesson.", "");
                 context.addMessage(null, fmsg);
@@ -219,18 +264,19 @@ public class CourseBean implements Serializable {
     public void removeCourse() throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
-        if (cmbl.checkExistingCourse(moduleCode) == true) {
-            if (cmbl.deleteCourse(moduleCode) == true) {
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, moduleCode + " has been deleted.", "");
+        String modCode = selectedCourse.getModuleCode();
+        if (cmbl.checkExistingCourse(modCode) == true) {
+            if (cmbl.deleteCourse(modCode) == true) {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, modCode + " has been deleted.", "Please refresh the page");
                 System.out.println("yes");
                 context.addMessage(null, fmsg);
-                context.getExternalContext().redirect("adminCourse.xhtml");
+                //context.getExternalContext().redirect("adminCourse.xhtml");
             } else {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to delete course.", "");
                 context.addMessage(null, fmsg);
             }
         } else {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Course " + moduleCode + " not found.");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Course " + modCode + " not found.");
             context.addMessage(null, fmsg);
         }
     }
@@ -238,11 +284,14 @@ public class CourseBean implements Serializable {
     public void removeModule() throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
-        if (cmbl.checkExistingModule(moduleCode, takenYear, takenSem) == true) {
-            if (cmbl.deleteModule(moduleCode, takenYear, takenSem) == true) {
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Module has been deleted.", "");
+        String modCode = selectedModule.getCourse().getModuleCode();
+        String tempTakenYear = selectedModule.getTakenYear();
+        String tempTakenSem = selectedModule.getTakenSem();
+        if (cmbl.checkExistingModule(modCode, tempTakenYear, tempTakenSem) == true) {
+            if (cmbl.deleteModule(modCode, tempTakenYear, tempTakenSem) == true) {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Module has been deleted.", "Please refresh the page");
                 context.addMessage(null, fmsg);
-                context.getExternalContext().redirect("adminCourse.xhtml");
+                //context.getExternalContext().redirect("adminCourse.xhtml");
             } else {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to delete module.", "");
                 context.addMessage(null, fmsg);
@@ -256,11 +305,24 @@ public class CourseBean implements Serializable {
     public void removeLesson() throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
-        if (cmbl.checkExistingLesson(moduleCode, takenYear, takenSem, day, timeFrom, timeEnd) == true) {
-            if (cmbl.deleteLesson(day, timeFrom, timeEnd, moduleCode, takenYear, takenSem) == true) {
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Lesson has been deleted.", "");
+        String tempDay = selectedLesson.getDay();
+        System.out.println("Day: " + tempDay);
+        String tempTimeStart = selectedLesson.getTimeFrom();
+        System.out.println("start: " + tempTimeStart);
+        String tempTimeEnd = selectedLesson.getTimeEnd();
+        System.out.println("end: " + tempTimeEnd);
+        String tempModCode = selectedLesson.getModule().getCourse().getModuleCode();
+        System.out.println("modcode: " + tempModCode);
+        String tempTakenYear = selectedLesson.getModule().getTakenYear();
+        System.out.println("year: " + tempTakenYear);
+        String tempTakenSem = selectedLesson.getModule().getTakenSem();
+        System.out.println("sem: " + tempTakenSem);
+
+        if (cmbl.checkExistingLesson(tempModCode, tempTakenYear, tempTakenSem, tempDay, tempTimeStart, tempTimeEnd) == true) {
+            if (cmbl.deleteLesson(tempDay, tempTimeStart, tempTimeEnd, tempModCode, tempTakenYear, tempTakenSem) == true) {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Lesson has been deleted.", "Please refresh the page");
                 context.addMessage(null, fmsg);
-                context.getExternalContext().redirect("adminCourse.xhtml");
+                //context.getExternalContext().redirect("adminCourse.xhtml");
             } else {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to delete lesson.", "");
                 context.addMessage(null, fmsg);
@@ -511,5 +573,37 @@ public class CourseBean implements Serializable {
 
     public void setCourselist(ArrayList<Course> courselist) {
         this.courselist = courselist;
+    }
+
+    public List<String> getModularCreditList() {
+        return modularCreditList;
+    }
+
+    public void setModularCreditList(List<String> modularCreditList) {
+        this.modularCreditList = modularCreditList;
+    }
+
+    public Course getSelectedCourse() {
+        return selectedCourse;
+    }
+
+    public void setSelectedCourse(Course selectedCourse) {
+        this.selectedCourse = selectedCourse;
+    }
+
+    public Module getSelectedModule() {
+        return selectedModule;
+    }
+
+    public void setSelectedModule(Module selectedModule) {
+        this.selectedModule = selectedModule;
+    }
+
+    public Lesson getSelectedLesson() {
+        return selectedLesson;
+    }
+
+    public void setSelectedLesson(Lesson selectedLesson) {
+        this.selectedLesson = selectedLesson;
     }
 }

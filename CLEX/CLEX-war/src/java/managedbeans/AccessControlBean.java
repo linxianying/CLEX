@@ -32,15 +32,17 @@ import session.UserAccessControlBeanLocal;
 @ManagedBean
 @ViewScoped
 public class AccessControlBean implements Serializable {
-    
+
     @EJB
     private UserAccessControlBeanLocal uacbl;
     @EJB
     private ClexSessionBeanLocal csbl;
-            
+
+    private User selectedUser;
+
     private User userEntity;
     private String username;
-    
+
     public AccessControlBean() {
     }
 
@@ -59,99 +61,91 @@ public class AccessControlBean implements Serializable {
     public void setUsername(String username) {
         this.username = username;
     }
-    
-    public void approveUser() throws IOException{
-        FacesMessage fmsg = new FacesMessage();
-        FacesContext context = FacesContext.getCurrentInstance();
-        userEntity = csbl.findUser(username);
-        
-        if(userEntity != null){
-            if(uacbl.approveUser(username) == true){
-                approveEmail(username, userEntity.getEmail());
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success.", username + " has been approved.");
-                context.addMessage(null, fmsg);
-                context.getExternalContext().redirect("adminUserList.xhtml");
-            }
-            else{
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", username + " has already been approved.");
-                context.addMessage(null, fmsg);
-            }
-        }
-        else{
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", username + " not found.");
-            context.addMessage(null, fmsg);
-        }
-    }
-    
-    public void approveUser(String username) throws IOException{
-        FacesMessage fmsg = new FacesMessage();
-        FacesContext context = FacesContext.getCurrentInstance();
-        userEntity = csbl.findUser(username);
-        
-        if(userEntity != null){
-            if(uacbl.approveUser(username) == true){
-                approveEmail(username, userEntity.getEmail());
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success.", username + " has been approved.");
-                context.addMessage(null, fmsg);
-                context.getExternalContext().redirect("adminUserList.xhtml");
-            }
-            else{
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", username + " has already been approved.");
-                context.addMessage(null, fmsg);
-            }
-        }
-        else{
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", username + " not found.");
-            context.addMessage(null, fmsg);
-        }
-    }
-    
 
-    
-    //Note: the method itself does not do anything but to only send a reject email
-    public void rejectUser() throws IOException{
+    public void approveUser() throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
         userEntity = csbl.findUser(username);
-        
-        if(userEntity != null){
-            if(!userEntity.isApproval()){
+
+        if (userEntity != null) {
+            if (uacbl.approveUser(username) == true) {
+                approveEmail(username, userEntity.getEmail());
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success.", username + " has been approved.");
+                context.addMessage(null, fmsg);
+                context.getExternalContext().redirect("adminUserList.xhtml");
+            } else {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", username + " has already been approved.");
+                context.addMessage(null, fmsg);
+            }
+        } else {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", username + " not found.");
+            context.addMessage(null, fmsg);
+        }
+    }
+
+    public void approveUser(String username) throws IOException {
+        FacesMessage fmsg = new FacesMessage();
+        FacesContext context = FacesContext.getCurrentInstance();
+        userEntity = csbl.findUser(username);
+
+        if (userEntity != null) {
+            if (uacbl.approveUser(username) == true) {
+                approveEmail(username, userEntity.getEmail());
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success.", username + " has been approved.");
+                context.addMessage(null, fmsg);
+                context.getExternalContext().redirect("adminUserList.xhtml");
+            } else {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", username + " has already been approved.");
+                context.addMessage(null, fmsg);
+            }
+        } else {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", username + " not found.");
+            context.addMessage(null, fmsg);
+        }
+    }
+
+    //Note: the method itself does not do anything but to only send a reject email
+    public void rejectUser() throws IOException {
+        FacesMessage fmsg = new FacesMessage();
+        FacesContext context = FacesContext.getCurrentInstance();
+        userEntity = csbl.findUser(username);
+
+        if (userEntity != null) {
+            if (!userEntity.isApproval()) {
                 rejectEmail(username, userEntity.getEmail());
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Rejection email sent.", "");
                 FacesContext.getCurrentInstance().addMessage(null, fmsg);
                 context.getExternalContext().redirect("adminUserList.xhtml");
-            }
-            else{
+            } else {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", username + " cannot be rejected.");
                 context.addMessage(null, fmsg);
             }
-        }
-        else{
+        } else {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", username + " not found.");
             context.addMessage(null, fmsg);
         }
     }
-    
-    public void approveEmail(String username, String email){
+
+    public void approveEmail(String username, String email) {
         String to = email;
         String from = "iamprism@gmail.com";
 
         Properties props = System.getProperties();
 
         props.put("mail.smtp.auth", "true");
-	props.put("mail.smtp.starttls.enable", "true");
-	props.put("mail.smtp.host", "smtp.gmail.com");
-	props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
         props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
-        
-        Session session = Session.getInstance(props,
-		  new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication("prismeduc@gmail.com", "fvgbhnjm"); //don't change this
-			}
-		  });
 
-        try{
+        Session session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication("prismeduc@gmail.com", "fvgbhnjm"); //don't change this
+                    }
+                });
+
+        try {
             MimeMessage message = new MimeMessage(session);
 
             message.setFrom(new InternetAddress(from));
@@ -162,32 +156,31 @@ public class AccessControlBean implements Serializable {
 
             Transport.send(message);
             System.out.println("Approve email sent.");
-        }
-        catch (MessagingException mex) {
-             mex.printStackTrace();
+        } catch (MessagingException mex) {
+            mex.printStackTrace();
         }
     }
-    
-    public void rejectEmail(String username, String email){
+
+    public void rejectEmail(String username, String email) {
         String to = email;
         String from = "iamprism@gmail.com";
 
         Properties props = System.getProperties();
 
         props.put("mail.smtp.auth", "true");
-	props.put("mail.smtp.starttls.enable", "true");
-	props.put("mail.smtp.host", "smtp.gmail.com");
-	props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
         props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
-        
-        Session session = Session.getInstance(props,
-		  new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication("prismeduc@gmail.com", "fvgbhnjm"); //don't change this
-			}
-		  });
 
-        try{
+        Session session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication("prismeduc@gmail.com", "fvgbhnjm"); //don't change this
+                    }
+                });
+
+        try {
             MimeMessage message = new MimeMessage(session);
 
             message.setFrom(new InternetAddress(from));
@@ -198,40 +191,44 @@ public class AccessControlBean implements Serializable {
 
             Transport.send(message);
             System.out.println("Reject email sent.");
-        }
-        catch (MessagingException mex) {
-             mex.printStackTrace();
+        } catch (MessagingException mex) {
+            mex.printStackTrace();
         }
     }
-    
-    public void removeUser() throws IOException{
+
+    public void removeUser() throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
-        
-        if(uacbl.deleteUser(username) == true){
+
+        if (uacbl.deleteUser(selectedUser.getUsername()) == true) {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, username + " has been deleted.", "");
             context.addMessage(null, fmsg);
             context.getExternalContext().redirect("adminUserList.xhtml");
+        } else {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fail to delete " + selectedUser.getUsername() + ".", "");
+            context.addMessage(null, fmsg);
         }
-        else{
+    }
+
+    public void removeUser(User user) throws IOException {
+        FacesMessage fmsg = new FacesMessage();
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        if (uacbl.deleteUser(user.getUsername()) == true) {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, username + " has been deleted.", "");
+            context.addMessage(null, fmsg);
+            context.getExternalContext().redirect("adminUserList.xhtml");
+        } else {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fail to delete " + username + ".", "");
             context.addMessage(null, fmsg);
         }
     }
-    
-    public void removeUser(User user) throws IOException{
-        FacesMessage fmsg = new FacesMessage();
-        FacesContext context = FacesContext.getCurrentInstance();
-        
-        if(uacbl.deleteUser(user.getUsername()) == true){
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, username + " has been deleted.", "");
-            context.addMessage(null, fmsg);
-            context.getExternalContext().redirect("adminUserList.xhtml");
-        }
-        else{
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fail to delete " + username + ".", "");
-            context.addMessage(null, fmsg);
-        }
+
+    public User getSelectedUser() {
+        return selectedUser;
     }
-    
+
+    public void setSelectedUser(User selectedUser) {
+        this.selectedUser = selectedUser;
+    }
 }

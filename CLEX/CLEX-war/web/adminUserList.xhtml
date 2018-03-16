@@ -11,7 +11,7 @@
         <h:head>
             <title>PRISM Administrator User List Page</title>
         </h:head>
-        
+
         <h1 style="margin-top:0">User Management Page</h1>
         <p:tabView>
             <p:tab title="APPROVE USER">
@@ -57,80 +57,93 @@
                 </h:form>
             </p:tab>
         </p:tabView>
-            <br></br>
-                <h:form>
-                    <p:growl id="messages" showDetail="true" />
-                    <p:panel collapsed="true" styleClass="menuHeader" id="userlist" header="VIEW ALL USERS" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
-                    <p:dataTable var="user" value="#{userListBean.users}" 
-                                 widgetVar="usersTable" rows="10"
-                                 emptyMessage="No users found with given criteria." 
-                                 filteredValue="#{userListBean.filteredUsers}"
-                                 paginator="true"
-                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="10,20,50">
+        <br></br>
+        <h:form>
+            <p:growl id="messages" showDetail="true" />
+            <p:panel collapsed="true" styleClass="menuHeader" id="userlist" header="VIEW ALL USERS" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
+                <p:dataTable id="usertable" editable="false" selectionMode="single"
+                             selection="#{accessControlBean.selectedUser}" rowKey="#{user.id}"
+                             var="user" value="#{userListBean.users}" 
+                             widgetVar="usersTable" rows="10"
+                             emptyMessage="No users found with given criteria." 
+                             filteredValue="#{userListBean.filteredUsers}"
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,20,50">
 
-                            <f:facet name="header">
-                                <p:outputPanel>
-                                    <h:outputText value="Search all fields:" />
-                                    <p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-                                </p:outputPanel>
-                            </f:facet>
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Search all fields:" />
+                            <p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                        </p:outputPanel>
+                    </f:facet>
 
-                            <p:column filterBy="#{user.userType}" headerText="User Type" filterMatchMode="in">
-                                <f:facet name="filter">
-                                    <p:selectCheckboxMenu label="User Types" onchange="PF('usersTable').filter()" panelStyle="width:125px" scrollHeight="150">
-                                        <f:selectItems value="#{userListBean.allUserTypes}" />
-                                    </p:selectCheckboxMenu>
-                                </f:facet>
-                                <h:outputText value="#{user.userType}" />
-                            </p:column>
+                    <p:column filterBy="#{user.userType}" headerText="User Type" filterMatchMode="in">
+                        <f:facet name="filter">
+                            <p:selectCheckboxMenu label="User Types" onchange="PF('usersTable').filter()" panelStyle="width:125px" scrollHeight="150">
+                                <f:selectItems value="#{userListBean.allUserTypes}" />
+                            </p:selectCheckboxMenu>
+                        </f:facet>
+                        <h:outputText value="#{user.userType}" />
+                    </p:column>
 
-                            <p:column filterBy="#{user.id}" headerText="ID" filterMatchMode="contains">
-                                <h:outputText value="#{user.id}" />
-                            </p:column>
+                    <p:column filterBy="#{user.id}" headerText="ID" filterMatchMode="contains">
+                        <h:outputText value="#{user.id}" />
+                    </p:column>
 
-                            <p:column filterBy="#{user.username}" headerText="Username" filterMatchMode="contains">
-                                <h:outputText value="#{user.username}" />
-                            </p:column>
+                    <p:column filterBy="#{user.username}" headerText="Username" filterMatchMode="contains">
+                        <h:outputText value="#{user.username}" />
+                    </p:column>
 
-                            <p:column filterBy="#{user.email}" headerText="Email" filterMatchMode="contains">                           
-                                    <h:outputLink value="Mailto:#{user.email}">
-                                        <h:outputText  style="color:black;font-weight:normal;" value="#{user.email}" />
-                                        <f:param name="subject" value="[PRISM_Admin]" />
-                                        <f:param name="body" value="" />
-                                        <h:outputText value="" />
-                                    </h:outputLink>
-                            </p:column>
+                    <p:column filterBy="#{user.email}" headerText="Email" filterMatchMode="contains">                           
+                        <h:outputLink value="Mailto:#{user.email}">
+                            <h:outputText  style="color:black;font-weight:normal;" value="#{user.email}" />
+                            <f:param name="subject" value="[PRISM_Admin]" />
+                            <f:param name="body" value="" />
+                            <h:outputText value="" />
+                        </h:outputLink>
+                    </p:column>
 
-                            <p:column filterBy="#{user.school}" headerText="School" filterMatchMode="contains">
-                                <h:outputText value="#{user.school}" />
-                            </p:column>
+                    <p:column filterBy="#{user.school}" headerText="School" filterMatchMode="contains">
+                        <h:outputText value="#{user.school}" />
+                    </p:column>
 
-                            <p:column filterBy="#{user.approval}" headerText="Approved?" filterMatchMode="equals">
-                                <f:facet name="filter">
-                                    <p:selectOneButton onchange="PF('usersTable').filter()">
-                                        <f:converter converterId="javax.faces.Boolean" />
-                                        <f:selectItem itemLabel="All" itemValue="" />
-                                        <f:selectItem itemLabel="Yes" itemValue="true" />
-                                        <f:selectItem itemLabel="No" itemValue="false" />
-                                    </p:selectOneButton>
-                                 </f:facet>
-                                <h:outputText value="#{user.approval ? 'Yes': 'No'}" />
-                            </p:column>
-                        
-                            <p:column  headerText="Actions">
-                                <p:growl id="messages" showDetail="true" />
-                                
-                                <p:commandButton value="Approve" 
-                                                 update="messages" 
-                                                 actionListener="#{accessControlBean.approveUser(user.username)}" 
-                                                 
-                                                 action="adminUserList?faces-redirect=false"/>
+                    <p:column filterBy="#{user.approval}" headerText="Approved?" filterMatchMode="equals">
+                        <f:facet name="filter">
+                            <p:selectOneButton onchange="PF('usersTable').filter()">
+                                <f:converter converterId="javax.faces.Boolean" />
+                                <f:selectItem itemLabel="All" itemValue="" />
+                                <f:selectItem itemLabel="Yes" itemValue="true" />
+                                <f:selectItem itemLabel="No" itemValue="false" />
+                            </p:selectOneButton>
+                        </f:facet>
+                        <p:inputSwitch onLabel="Yes" offLabel="No" value="#{user.approval}" >
+                            <p:ajax listener="#{accessControlBean.approveUser(user.username)}" update="messages"/>
+                        </p:inputSwitch>
+                    </p:column>
 
-                            </p:column>
-                    </p:dataTable>
-                    </p:panel>
-            </h:form>
+                    <p:column  headerText="Actions">
+                        <p:growl id="messages" showDetail="true" />
+
+                        <p:commandButton value="Approve" 
+                                         update="messages" 
+                                         actionListener="#{accessControlBean.approveUser(user.username)}" 
+
+                                         action="adminUserList?faces-redirect=false"/>
+
+                    </p:column>
+                </p:dataTable>
+                <p:contextMenu for="usertable">
+                    <p:menuitem value="Delete User" update="messages" icon="ui-icon-close" actionListener="#{accessControlBean.removeUser}">
+                        <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                    </p:menuitem>
+                </p:contextMenu>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+            </p:panel>
+        </h:form>
     </ui:define>
 
 </ui:composition>

@@ -24,7 +24,6 @@ import session.AnnouncementSessionBeanLocal;
 import session.ClassroomSessionBeanLocal;
 import session.CourseMgmtBeanLocal;
 
-
 @ManagedBean
 @ViewScoped
 public class LecturerModuleListBean implements Serializable {
@@ -35,7 +34,7 @@ public class LecturerModuleListBean implements Serializable {
     AnnouncementSessionBeanLocal asbl;
 
     private ClassroomSessionBeanLocal crsbl;
-    
+
     private List<Module> modules;
     private List<Module> filteredModules;
     //private List moduleCodes;
@@ -45,6 +44,8 @@ public class LecturerModuleListBean implements Serializable {
     private Lecturer lecturerEntity;
     private ArrayList<Student> students;
     private List<String> moduleCodes;
+
+    private Module selectedModule;
 
     private String username;
 
@@ -62,17 +63,16 @@ public class LecturerModuleListBean implements Serializable {
         username = lecturerEntity.getUsername();
         modules = (List) cmbl.getModulesFromLecturer(username);
         lessons = (List) cmbl.getLessonsFromLecturer(username);
-        
+
         moduleCodes = asbl.getModuleCodeByLecturer(username);
-  
 
     }
-    
-    public void viewModule(Module module) throws IOException{
+
+    public void viewModule(Module module) throws IOException {
         FacesMessage fmsg = new FacesMessage();
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
-        
+
         session.setAttribute("user", lecturerEntity);
         session.setAttribute("username", username);
         session.setAttribute("moduleCode", module.getCourse().getModuleCode());
@@ -80,7 +80,7 @@ public class LecturerModuleListBean implements Serializable {
         session.setAttribute("pickYear", module.getTakenYear());
         context.getExternalContext().redirect("lecturerModuleInfo.xhtml");
     }
-    
+
     //public void doRedirect() throws IOException {
     //    FacesMessage fmsg = new FacesMessage();
     //    fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "redirecting to module information", "");
@@ -88,7 +88,6 @@ public class LecturerModuleListBean implements Serializable {
     //    context.addMessage(null, fmsg);
     //    context.getExternalContext().redirect("ModuleInfoBean.xhtml");
     //}
-
     public List<Module> getModules() {
         return modules;
     }
@@ -183,5 +182,13 @@ public class LecturerModuleListBean implements Serializable {
 
     public void setModuleCodes(List<String> moduleCode) {
         this.moduleCodes = moduleCode;
+    }
+
+    public Module getSelectedModule() {
+        return selectedModule;
+    }
+
+    public void setSelectedModule(Module selectedModule) {
+        this.selectedModule = selectedModule;
     }
 }
