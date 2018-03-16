@@ -13,18 +13,7 @@
         </h:head>
 
         <h1 style="margin-top:0">User Management Page</h1>
-        <p:tabView>
-            <p:tab title="APPROVE USER">
-                <h:form>
-                    <p:growl id="messages" showDetail="true" />
-                    <h:panelGrid columns="1" cellpadding="5">
-                        <h:outputLabel for= "username" value="Please enter a user to approve:"/>
-                        <p:inputText id="username" value="#{accessControlBean.username}" required="true" />
-                        <p:commandButton value="Submit" actionListener="#{accessControlBean.approveUser}" update="messages"/>
-                    </h:panelGrid>
-                </h:form>
-            </p:tab>
-            <p:tab title="REJECT USER">
+
                 <h:form>
                     <p:growl id="messages" showDetail="true" />
                     <h:panelGrid columns="1" cellpadding="5">
@@ -39,24 +28,7 @@
                         </p:confirmDialog>
                     </h:panelGrid>
                 </h:form>
-            </p:tab>
-            <p:tab title="DELETE USER">
-                <h:form>
-                    <p:growl id="messages" showDetail="true" />
-                    <h:panelGrid columns="1" cellpadding="5">
-                        <h:outputLabel for= "usernameDelete" value="Please enter a user to delete:"/>
-                        <p:inputText id="usernameDelete" value="#{accessControlBean.username}" required="true" />
-                        <p:commandButton value="Submit" actionListener="#{accessControlBean.removeUser}" update="messages">
-                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
-                        </p:commandButton>
-                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                            <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                        </p:confirmDialog>
-                    </h:panelGrid>
-                </h:form>
-            </p:tab>
-        </p:tabView>
+
         <br></br>
         <h:form>
             <p:growl id="messages" showDetail="true" />
@@ -87,9 +59,9 @@
                         <h:outputText value="#{user.userType}" />
                     </p:column>
 
-                    <p:column filterBy="#{user.id}" headerText="ID" filterMatchMode="contains">
+                    <!--<p:column filterBy="#{user.id}" headerText="ID" filterMatchMode="contains">
                         <h:outputText value="#{user.id}" />
-                    </p:column>
+                    </p:column>-->
 
                     <p:column filterBy="#{user.username}" headerText="Username" filterMatchMode="contains">
                         <h:outputText value="#{user.username}" />
@@ -124,12 +96,6 @@
 
                     <p:column  headerText="Actions">
                         <p:growl id="messages" showDetail="true" />
-
-                        <p:commandButton value="Approve" 
-                                         update="messages" 
-                                         actionListener="#{accessControlBean.approveUser(user.username)}" 
-
-                                         action="adminUserList?faces-redirect=false"/>
 
                     </p:column>
                 </p:dataTable>

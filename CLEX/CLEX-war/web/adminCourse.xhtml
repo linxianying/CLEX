@@ -183,7 +183,7 @@
                         </p:outputPanel>
                     </f:facet>
                     <p:ajax event="cellEdit" listener="#{courseBean.editCourse(course)}" update="messages"/>
-                    <p:column filterBy="#{course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
+                    <p:column filterBy="#{course.moduleCode}" headerText="Module Code" sortBy="#{course.moduleCode}" filterMatchMode="contains">
                         <h:outputText value="#{course.moduleCode}" />
                     </p:column>
                     <p:column filterBy="#{course.moduleName}" headerText="Name" filterMatchMode="contains">
@@ -205,7 +205,7 @@
                                                  autoResize="false"/></f:facet>
                         </p:cellEditor>
                     </p:column>     
-                    <p:column filterBy="#{course.school}" headerText="School" filterMatchMode="contains">
+                    <p:column filterBy="#{course.school}" headerText="School" sortBy="#{course.school}" filterMatchMode="contains">
                         <p:cellEditor>                            
                             <f:facet name="output"><h:outputText value="#{course.school}" /></f:facet>
                             <f:facet name="input">
@@ -223,7 +223,7 @@
                             <f:facet name="input"><p:inputText id="courseWorkloadInput" value="#{course.workload}" style="width:96%"/></f:facet>
                         </p:cellEditor>
                     </p:column>
-                    <p:column filterBy="#{course.modularCredits}" headerText="Credits" filterMatchMode="contains">
+                    <p:column filterBy="#{course.modularCredits}" headerText="Credits" sortBy="#{course.modularCredits}" filterMatchMode="contains">
                         <p:cellEditor>
                             <f:facet name="output"><h:outputText value="#{course.modularCredits}" /></f:facet>
                             <f:facet name="input">
@@ -233,7 +233,7 @@
                                 </p:selectOneMenu></f:facet>                            
                         </p:cellEditor>
                     </p:column>
-                    <p:column filterBy="#{course.discontinuedBool}" headerText="Discontinued" filterMatchMode="equals">
+                    <p:column filterBy="#{course.discontinuedBool}" headerText="Discontinued" sortBy="#{course.discontinuedBool}" filterMatchMode="equals">
                         <f:facet name="filter">
                             <p:inputSwitch value="false" onchange="PF('coursesTable').filter()" onLabel="Yes" offLabel="No" />
                         </f:facet>
@@ -241,13 +241,13 @@
                             <p:ajax listener="#{courseBean.editCourse(course)}" update="messages"/>
                         </p:inputSwitch>
                     </p:column>
-                    <p:column filterBy="#{course.discountinuedYear}" headerText="Discontinued Year" filterMatchMode="contains">
+                    <p:column filterBy="#{course.discountinuedYear}" headerText="Discontinued Year" sortBy="#{course.discountinuedYear}" filterMatchMode="contains">
                         <p:cellEditor>
                             <f:facet name="output"><h:outputText value="#{course.discountinuedYear}" /></f:facet>
                             <f:facet name="input"><p:inputText id="discontYearInput" value="#{course.discountinuedYear}" style="width:96%"/></f:facet>                            
                         </p:cellEditor>
                     </p:column>
-                    <p:column filterBy="#{course.discountinuedSem}" headerText="Discontinued Semester" filterMatchMode="contains">
+                    <p:column filterBy="#{course.discountinuedSem}" headerText="Discontinued Semester" sortBy="#{course.discountinuedSem}" filterMatchMode="contains">
                         <f:facet name="filter">
                             <p:selectOneButton onchange="PF('coursesTable').filter()">
                                 <f:selectItem itemLabel="All" itemValue="" />
@@ -261,7 +261,7 @@
                             <p:ajax listener="#{courseBean.editCourse(course)}" update="messages"/>
                         </p:selectOneButton>
                     </p:column>
-                    <p:column filterBy="#{course.offeredSem}" headerText="Offered Semester" filterMatchMode="contains">
+                    <p:column filterBy="#{course.offeredSem}" headerText="Offered Semester" sortBy="#{course.offeredSem}" filterMatchMode="contains">
                         <f:facet name="filter">
                             <p:selectOneButton onchange="PF('coursesTable').filter()">
                                 <f:selectItem itemLabel="All" itemValue="" />
@@ -310,13 +310,13 @@
                         </p:outputPanel>
                     </f:facet>
                     <p:ajax event="cellEdit" listener="#{courseBean.editModule(module)}" update="messages"/>
-                    <p:column filterBy="#{module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
+                    <p:column filterBy="#{module.course.moduleCode}" headerText="Module Code" sortBy="#{module.course.moduleCode}" filterMatchMode="contains">
                         <h:outputText value="#{module.course.moduleCode}" />
                     </p:column>
-                    <p:column filterBy="#{module.takenYear}" headerText="Taken Year" filterMatchMode="contains">
+                    <p:column filterBy="#{module.takenYear}" headerText="Taken Year" sortBy="#{module.takenYear}" filterMatchMode="contains">
                         <h:outputText value="#{module.takenYear}" />
                     </p:column>
-                    <p:column filterBy="#{module.takenSem}" headerText="Taken Sem" filterMatchMode="contains">
+                    <p:column filterBy="#{module.takenSem}" headerText="Taken Sem" sortBy="#{module.takenSem}" filterMatchMode="contains">
                         <f:facet name="filter">
                             <p:selectOneButton onchange="PF('modulesTable').filter()">
                                 <f:selectItem itemLabel="All" itemValue="" />
@@ -406,13 +406,13 @@
                         </p:outputPanel>
                     </f:facet>
                     <p:ajax event="cellEdit" listener="#{courseBean.editLesson(lesson)}" update="messages"/>
-                    <p:column filterBy="#{lesson.module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
+                    <p:column filterBy="#{lesson.module.course.moduleCode}" headerText="Module Code" sortBy="#{lesson.module.course.moduleCode}" filterMatchMode="contains">
                         <h:outputText value="#{lesson.module.course.moduleCode}" />
                     </p:column>
-                    <p:column filterBy="#{lesson.module.takenYear}" headerText="Taken Year" filterMatchMode="contains">
+                    <p:column filterBy="#{lesson.module.takenYear}" headerText="Taken Year" sortBy="#{lesson.module.takenYear}" filterMatchMode="contains">
                         <h:outputText value="#{lesson.module.takenYear}" />
                     </p:column>
-                    <p:column filterBy="#{lesson.module.takenSem}" headerText="Taken Sem" filterMatchMode="contains">
+                    <p:column filterBy="#{lesson.module.takenSem}" headerText="Taken Sem" sortBy="#{lesson.module.takenSem}" filterMatchMode="contains">
                         <f:facet name="filter">
                             <p:selectOneButton onchange="PF('lessonsTable').filter()">
                                 <f:selectItem itemLabel="All" itemValue="" />
@@ -422,7 +422,7 @@
                         </f:facet>
                         <h:outputText value="#{lesson.module.takenSem}" />
                     </p:column>
-                    <p:column filterBy="#{lesson.day}" headerText="Day" filterMatchMode="contains">
+                    <p:column filterBy="#{lesson.day}" headerText="Day" sortBy="#{lesson.day}" filterMatchMode="contains">
                         <f:facet name="filter">
                             <p:selectOneMenu onchange="PF('lessonsTable').filter()">
                                 <f:selectItem itemLabel="All" itemValue="" />
@@ -431,7 +431,7 @@
                         </f:facet>
                         <h:outputText value="#{lesson.day}" />
                     </p:column>
-                    <p:column filterBy="#{lesson.timeFrom}" headerText="Time Start" filterMatchMode="contains">
+                    <p:column filterBy="#{lesson.timeFrom}" headerText="Time Start" sortBy="#{lesson.timeFrom}" filterMatchMode="contains">
                         <f:facet name="filter">
                             <p:selectOneMenu onchange="PF('lessonsTable').filter()">
                                 <f:selectItem itemLabel="All" itemValue="" />
@@ -440,7 +440,7 @@
                         </f:facet>
                         <h:outputText value="#{lesson.timeFrom}" />
                     </p:column>
-                    <p:column filterBy="#{lesson.timeEnd}" headerText="Time End" filterMatchMode="contains">
+                    <p:column filterBy="#{lesson.timeEnd}" headerText="Time End" sortBy="#{lesson.timeEnd}" filterMatchMode="contains">
                         <f:facet name="filter">
                             <p:selectOneMenu onchange="PF('lessonsTable').filter()">
                                 <f:selectItem itemLabel="All" itemValue="" />
@@ -449,7 +449,7 @@
                         </f:facet>
                         <h:outputText value="#{lesson.timeEnd}" />
                     </p:column>
-                    <p:column filterBy="#{lesson.type}" headerText="Type" filterMatchMode="contains">
+                    <p:column filterBy="#{lesson.type}" headerText="Type" sortBy="#{lesson.type}" filterMatchMode="contains">
                         <p:cellEditor>
                             <f:facet name="output"><h:outputText value="#{lesson.type}" /></f:facet>
                             <f:facet name="input">
@@ -462,7 +462,7 @@
                                 </p:selectOneMenu></f:facet>
                         </p:cellEditor>
                     </p:column>
-                    <p:column filterBy="#{lesson.venue}" headerText="Venue" filterMatchMode="contains">
+                    <p:column filterBy="#{lesson.venue}" headerText="Venue" sortBy="#{lesson.venue}" filterMatchMode="contains">
                         <p:cellEditor>
                             <f:facet name="output"><h:outputText value="#{lesson.venue}" /></f:facet>
                             <f:facet name="input"><p:inputText id="venueInput" value="#{lesson.venue}" style="width:96%"/></f:facet>

@@ -93,7 +93,7 @@ public class AccessControlBean implements Serializable {
                 approveEmail(username, userEntity.getEmail());
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success.", username + " has been approved.");
                 context.addMessage(null, fmsg);
-                context.getExternalContext().redirect("adminUserList.xhtml");
+                //context.getExternalContext().redirect("adminUserList.xhtml");
             } else {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", username + " has already been approved.");
                 context.addMessage(null, fmsg);
