@@ -27,6 +27,8 @@ import entity.Thread;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -536,4 +538,27 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         }
         return voteReplyEntity;
     }
+    
+    @Override
+    public List<Thread> sortThreadByUpvote(List<Thread> threadList){
+        //Descending order (Highest vote to lowest)
+        Collections.sort(threadList, new Comparator<Thread>() {
+            public int compare(Thread t1, Thread t2) {
+                return t2.getUpVote() - t1.getUpVote();
+            }
+        });
+        return threadList;
+    }
+    
+    @Override
+    public List<Thread> sortThreadByDate(List<Thread> threadList){
+        //Descending order (Latest to oldest)
+        Collections.sort(threadList, new Comparator<Thread>() {
+            public int compare(Thread t1, Thread t2) {
+                return t2.getDateTime().compareTo(t1.getDateTime());
+            }
+        });
+        return threadList;
+    }
+    
 }

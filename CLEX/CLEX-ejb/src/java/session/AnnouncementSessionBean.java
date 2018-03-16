@@ -11,6 +11,8 @@ import entity.Module;
 import entity.User;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -88,6 +90,16 @@ public class AnnouncementSessionBean implements AnnouncementSessionBeanLocal {
         return false;
     }
 
+    @Override
+    public void setViewAnncCount(String username, int viewCount) {
+        userEntity = findUser(username);
+        
+        userEntity.setViewAnncCount(viewCount);
+        
+        em.merge(userEntity);
+        em.flush();
+    }
+    
     @Override
     public List getModuleCodeByLecturer(String username) {
         List<String> moduleCodes = new ArrayList();
@@ -179,5 +191,15 @@ public class AnnouncementSessionBean implements AnnouncementSessionBeanLocal {
             anncEntity = null;
         }
         return anncEntity;
+    }
+    
+    @Override
+    public List<Announcement> sortAnncByDate(List<Announcement> anncList){
+        Collections.sort(anncList, new Comparator<Announcement>() {
+            public int compare(Announcement annc1, Announcement annc2) {
+                return annc2.getCreatedDate().compareTo(annc1.getCreatedDate());
+            }
+        });
+        return anncList;
     }
 }

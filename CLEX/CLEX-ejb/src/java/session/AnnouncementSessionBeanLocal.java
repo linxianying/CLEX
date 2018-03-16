@@ -25,6 +25,8 @@ public interface AnnouncementSessionBeanLocal {
     
     public boolean deleteAnnc(String username, Long id);
     
+    public void setViewAnncCount(String username, int viewCount);
+    
     public List getModuleCodeByLecturer(String username);
     
     public Collection<Announcement> getAllAnnc();
@@ -34,4 +36,6 @@ public interface AnnouncementSessionBeanLocal {
     
     public User findUser(String username);
     public Announcement findAnnc(Long id);
+    
+    public List<Announcement> sortAnncByDate(List<Announcement> anncList);
 }

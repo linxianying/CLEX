@@ -55,4 +55,6 @@ public interface CommunitySessionBeanLocal {
     public VoteThread findVoteByUserThread(Long userId, Long threadId);
     public VoteReply findVoteByUserReply(Long userId, Long replyId);
             
+    public List<Thread> sortThreadByUpvote(List<Thread> threadList);
+    public List<Thread> sortThreadByDate(List<Thread> threadList);
 }

@@ -283,7 +283,22 @@ public class CommunityBean {
         context.addMessage(null, fmsg);
     }
     
-    /*/For debugging entities
+    //For debugging entities
+    public void sort(){
+        List<Thread> threadList = cmsbl.getAllThreads();
+        List<Thread> sortedListByUpvote = cmsbl.sortThreadByUpvote(cmsbl.getAllThreads()); //highest vote first
+        List<Thread> sortedListByDate = cmsbl.sortThreadByDate(cmsbl.getAllThreads()); //latest first
+        for(int i=0; i<threadList.size(); i++){
+            System.out.println("TestBeforeSort" + i + ": " + threadList.get(i).getDateTime());
+        }
+        for(int i=0; i<sortedListByUpvote.size(); i++){
+            System.out.println("TestAfterSortByUpvote" + i + ": " + sortedListByUpvote.get(i).getDateTime());
+        }
+        for(int i=0; i<sortedListByDate.size(); i++){
+            System.out.println("TestAfterSortByDate" + i + ": " + sortedListByDate.get(i).getDateTime());
+        }
+    }
+    
     public void test(){
         FacesMessage fmsg = new FacesMessage();
         context = FacesContext.getCurrentInstance();
@@ -324,7 +339,7 @@ public class CommunityBean {
         for(int i=0; i<allvotes.size(); i++){
             System.out.println("TestprintUserVote" + i + ": " + allvotes.get(i).getDateTime());
         }
-    }*/
+    }
     
     public User getUserEntity() {
         return userEntity;

@@ -53,6 +53,8 @@ public abstract class User implements Serializable{
     @Column(length = 64, nullable = false)
     private String name;
     
+    @Column(length = 32, nullable = false)
+    private int viewAnncCount; //by default = 0, used for announcement notification
     
     private String salt;
     
@@ -61,6 +63,10 @@ public abstract class User implements Serializable{
     
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="user")
     private Collection<Announcement> announcements = new ArrayList<Announcement>();
+    
+    @ManyToMany(cascade={CascadeType.ALL})
+    @JoinTable(name="BasicUser_Conversation")
+    private Collection<Conversation> conversations = new ArrayList<Conversation>();
     
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="user")
     private Collection<Thread> threads = new ArrayList<Thread>();
@@ -86,10 +92,11 @@ public abstract class User implements Serializable{
         this.name = name;
         this.password = password;
         this.email = email;
+        this.viewAnncCount = 0;
         this.salt = salt;
         //for easier test <disabled>
-        this.approval = true; 
-        //this.approval = false;
+        //this.approval = true; 
+        this.approval = false;
     }
     
     public static long getSerialVersionUID() {
@@ -102,6 +109,14 @@ public abstract class User implements Serializable{
 
     public void setAnnouncements(Collection<Announcement> announcements) {
         this.announcements = announcements;
+    }
+
+    public Collection<Conversation> getConversations() {
+        return conversations;
+    }
+
+    public void setConversations(Collection<Conversation> conversations) {
+        this.conversations = conversations;
     }
 
     public Collection<Thread> getThreads() {
@@ -172,6 +187,10 @@ public abstract class User implements Serializable{
         return name;
     }
 
+    public int getViewAnncCount() {
+        return viewAnncCount;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -198,6 +217,10 @@ public abstract class User implements Serializable{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setViewAnncCount(int viewAnncCount) {
+        this.viewAnncCount = viewAnncCount;
     }
           
     public Long getId() {

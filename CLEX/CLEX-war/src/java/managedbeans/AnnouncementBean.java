@@ -77,6 +77,7 @@ public class AnnouncementBean {
         if (userType == 1) {
             takingModules = spsbl.getCurrentModules(username);
             announcements = getAnnouncementByAdminForStudent();
+            announcements2 = getLatestAnnouncementForAllModules();
         } else if (userType == 2) {
             announcements = getAnnouncementsSelf(username);
             announcements2 = getAnnouncementByAdminForLecturer();
@@ -140,6 +141,28 @@ public class AnnouncementBean {
         ArrayList<Announcement> tempAllAnnouncements2 = new ArrayList<Announcement>();
         tempAllAnnouncements2 = (ArrayList<Announcement>) asbl.getAnncByModule(moduleCode);
         return tempAllAnnouncements2;
+    }
+    
+    //For wenjie 
+    public ArrayList<Announcement> getLatestAnnouncementForAllModules(){
+        userEntity = asbl.findUser(username);
+        ArrayList<Announcement> allAnncList = new ArrayList<Announcement>();
+        ArrayList<Announcement> tempList = new ArrayList<Announcement>();
+        ArrayList<Announcement> latestList = new ArrayList<Announcement>();
+        
+        for(int i=0; i<takingModules.size(); i++){
+            tempList = (ArrayList<Announcement>) asbl.getAnncByModule(takingModules.get(i).getCourse().getModuleCode());
+            allAnncList.addAll(tempList);
+        }
+        allAnncList = (ArrayList<Announcement>) asbl.sortAnncByDate(allAnncList);
+        
+        int latestCount = allAnncList.size() - userEntity.getViewAnncCount();
+        for(int j=0; j<latestCount; j++){
+            latestList.add(allAnncList.get(j));
+        }
+        asbl.setViewAnncCount(username, allAnncList.size());
+        
+        return latestList;
     }
 //Input "1": all, "2": students only, "3": lecturers only, "4": guests only, "5" Lecturer and Student)
 
