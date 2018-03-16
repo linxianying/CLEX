@@ -105,23 +105,24 @@ public class AccessControlBean implements Serializable {
     }
 
     //Note: the method itself does not do anything but to only send a reject email
-    public void rejectUser() throws IOException {
+    public void rejectUser(User selectedUser) throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
-        userEntity = csbl.findUser(username);
+        String tempUser = selectedUser.getUsername();
+        userEntity = csbl.findUser(tempUser);
 
         if (userEntity != null) {
             if (!userEntity.isApproval()) {
-                rejectEmail(username, userEntity.getEmail());
+                rejectEmail(tempUser, userEntity.getEmail());
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Rejection email sent.", "");
                 FacesContext.getCurrentInstance().addMessage(null, fmsg);
-                context.getExternalContext().redirect("adminUserList.xhtml");
+                //context.getExternalContext().redirect("adminUserList.xhtml");
             } else {
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", username + " cannot be rejected.");
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", tempUser + " cannot be rejected.");
                 context.addMessage(null, fmsg);
             }
         } else {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", username + " not found.");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", tempUser + " not found.");
             context.addMessage(null, fmsg);
         }
     }

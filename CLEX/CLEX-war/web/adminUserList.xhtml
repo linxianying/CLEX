@@ -13,26 +13,9 @@
         </h:head>
 
         <h1 style="margin-top:0">User Management Page</h1>
-
-                <h:form>
-                    <p:growl id="messages" showDetail="true" />
-                    <h:panelGrid columns="1" cellpadding="5">
-                        <h:outputLabel for= "usernameReject" value="Please enter a user to reject:"/>
-                        <p:inputText id="usernameReject" value="#{accessControlBean.username}" required="true" />
-                        <p:commandButton value="Submit" actionListener="#{accessControlBean.rejectUser}" update="messages" >
-                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
-                        </p:commandButton>
-                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                            <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                        </p:confirmDialog>
-                    </h:panelGrid>
-                </h:form>
-
-        <br></br>
         <h:form>
             <p:growl id="messages" showDetail="true" />
-            <p:panel collapsed="true" styleClass="menuHeader" id="userlist" header="VIEW ALL USERS" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
+            <p:panel collapsed="false" styleClass="menuHeader" id="userlist" header="VIEW ALL USERS" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
                 <p:dataTable id="usertable" editable="false" selectionMode="single"
                              selection="#{accessControlBean.selectedUser}" rowKey="#{user.id}"
                              var="user" value="#{userListBean.users}" 
@@ -50,7 +33,7 @@
                         </p:outputPanel>
                     </f:facet>
 
-                    <p:column filterBy="#{user.userType}" headerText="User Type" filterMatchMode="in">
+                    <p:column filterBy="#{user.userType}" sortBy="#{user.userType}" headerText="User Type" filterMatchMode="in">
                         <f:facet name="filter">
                             <p:selectCheckboxMenu label="User Types" onchange="PF('usersTable').filter()" panelStyle="width:125px" scrollHeight="150">
                                 <f:selectItems value="#{userListBean.allUserTypes}" />
@@ -63,11 +46,11 @@
                         <h:outputText value="#{user.id}" />
                     </p:column>-->
 
-                    <p:column filterBy="#{user.username}" headerText="Username" filterMatchMode="contains">
+                    <p:column filterBy="#{user.username}" sortBy="#{user.username}" headerText="Username" filterMatchMode="contains">
                         <h:outputText value="#{user.username}" />
                     </p:column>
 
-                    <p:column filterBy="#{user.email}" headerText="Email" filterMatchMode="contains">                           
+                    <p:column filterBy="#{user.email}" sortBy="#{user.email}" headerText="Email" filterMatchMode="contains">                           
                         <h:outputLink value="Mailto:#{user.email}">
                             <h:outputText  style="color:black;font-weight:normal;" value="#{user.email}" />
                             <f:param name="subject" value="[PRISM_Admin]" />
@@ -76,11 +59,11 @@
                         </h:outputLink>
                     </p:column>
 
-                    <p:column filterBy="#{user.school}" headerText="School" filterMatchMode="contains">
+                    <p:column filterBy="#{user.school}" sortBy="#{user.school}" headerText="School" filterMatchMode="contains">
                         <h:outputText value="#{user.school}" />
                     </p:column>
 
-                    <p:column filterBy="#{user.approval}" headerText="Approved?" filterMatchMode="equals">
+                    <p:column filterBy="#{user.approval}" sortBy="#{user.approval}" headerText="Approved?" filterMatchMode="equals">
                         <f:facet name="filter">
                             <p:selectOneButton onchange="PF('usersTable').filter()">
                                 <f:converter converterId="javax.faces.Boolean" />
@@ -89,14 +72,19 @@
                                 <f:selectItem itemLabel="No" itemValue="false" />
                             </p:selectOneButton>
                         </f:facet>
-                        <p:inputSwitch onLabel="Yes" offLabel="No" value="#{user.approval}" >
-                            <p:ajax listener="#{accessControlBean.approveUser(user.username)}" update="messages"/>
-                        </p:inputSwitch>
-                    </p:column>
-
-                    <p:column  headerText="Actions">
                         <p:growl id="messages" showDetail="true" />
-
+                        <p:panelGrid columns="2">
+                            <p:inputSwitch onLabel="Yes" offLabel="No" value="#{user.approval}" >
+                                <p:ajax listener="#{accessControlBean.approveUser(user.username)}" update="messages"/>
+                            </p:inputSwitch>
+                            <p:commandButton rendered="#{user.approval eq false}" value="Reject User" actionListener="#{accessControlBean.rejectUser(user)}" update="messages" >
+                                <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                            </p:commandButton>
+                        </p:panelGrid>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
                     </p:column>
                 </p:dataTable>
                 <p:contextMenu for="usertable">
