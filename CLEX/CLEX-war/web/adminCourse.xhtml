@@ -53,9 +53,9 @@
                                 <f:selectItems value="#{courseBean.courselist}" var="courselist"
                                                itemLabel="#{courselist.moduleCode}" itemValue="#{courselist.moduleCode}"/>
                             </p:selectOneMenu>
-                            <h:outputLabel for= "takenYear" value="TAKEN YEAR:"/>
+                            <h:outputLabel for= "takenYear" value="OFFERED YEAR:"/>
                             <p:inputText id="takenYear" value="#{courseBean.takenYear}" required="true" />
-                            <h:outputLabel for= "takenSem" value="TAKEN SEM:"/>
+                            <h:outputLabel for= "takenSem" value="OFFERED SEMESTER:"/>
                             <p:selectOneButton styleClass="textInput" required="true"
                                                id="takenSem" value="#{courseBean.takenSem}" >
                                 <f:selectItem itemLabel="1" itemValue="1" />
@@ -83,7 +83,7 @@
                             </p:selectOneMenu>
                             <h:outputLabel for= "takenYearForLesson" value="MODULE YEAR:"/>
                             <p:inputText id="takenYearForLesson" value="#{courseBean.takenYear}" required="true" />
-                            <h:outputLabel for= "takenSemForLesson" value="MODULE SEM:"/>
+                            <h:outputLabel for= "takenSemForLesson" value="MODULE SEMESTER:"/>
                             <p:selectOneButton styleClass="textInput" required="true"
                                                id="takenSemForLesson" value="#{courseBean.takenSem}" >
                                 <f:selectItem itemLabel="1" itemValue="1" />
@@ -127,45 +127,14 @@
             </p:tabView>    
         </p:panel>
         <br></br>
-        <h:form>
-            <p:panel collapsed="true" styleClass="menuHeader" header="ASSIGN LECTURER TO MODULE" id="editBox" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
-                <h:panelGrid columns="2" cellpadding="5">
-                    <h:outputLabel for= "lecturer" value="LECTURER NAME:"/>
-                    <p:selectOneMenu id="lecturer" value="#{courseBean.lecturerUser}"
-                                     editable="false" style="width: 300px"
-                                     title="Select a lecturer" required="true">
-                        <f:selectItems value="#{courseBean.lecturerlist}" var="lecturerlist" 
-                                       itemLabel="#{lecturerlist.name}" itemValue="#{lecturerlist.username}" />
-                    </p:selectOneMenu>
-                    <h:outputLabel for= "moduleCodeAssign" value="MODULE CODE:"/>
-                    <p:selectOneMenu id="moduleCodeAssign" value="#{courseBean.moduleCode}"
-                                     editable="false" style="width: 300px"
-                                     title="Select a module" required="true">
-                        <f:selectItem itemLabel="Please select a module" itemValue=""/>
-                        <f:selectItems value="#{courseBean.modulelist}" var="modulelist"
-                                       itemLabel="#{modulelist.course.moduleCode}" itemValue="#{modulelist.course.moduleCode}" />
-                    </p:selectOneMenu>
-                    <h:outputLabel for= "takenYearAssign" value="TAKEN YEAR:"/>
-                    <p:inputText id="takenYearAssign" value="#{courseBean.takenYear}" required="true" />
-                    <h:outputLabel for= "takenSemAssign" value="TAKEN SEM:"/>
-                    <p:selectOneButton styleClass="textInput" required="true"
-                                       id="takenSemAssign" value="#{courseBean.takenSem}" >
-                        <f:selectItem itemLabel="1" itemValue="1" />
-                        <f:selectItem itemLabel="2" itemValue="2" />
-                    </p:selectOneButton>
-                    <p:commandButton value="Submit" actionListener="#{courseBean.assignLecturer(module)}" update="messages" />
-                </h:panelGrid>
-            </p:panel>
-        </h:form>
-        <br></br>
+
         <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
             <p:printer target="panel" />
         </p:commandButton>
         <h:form id="panel">
             <p:panel collapsed="true" id="courselist" header="VIEW ALL COURSES" footer="Select an entry to edit and right click to delete" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
                 <p:dataTable id="coursetable"
-                             editable="true" editMode="cell" selectionMode="single"
-                             selection="#{courseBean.selectedCourse}" rowKey="#{course.id}"
+                             editable="true" editMode="cell" 
                              var="course" value="#{adminCourseListBean.courses}" 
                              widgetVar="coursesTable"
                              emptyMessage="No courses found with given criteria." 
@@ -200,7 +169,14 @@
                         </p:cellEditor>
                     </p:column>
                     <p:column style="width: 15%" filterBy="#{course.moduleCode}" headerText="Module Code" sortBy="#{course.moduleCode}" filterMatchMode="contains">
-                        <h:outputText value="#{course.moduleCode}" /><br />
+                        <p:panelGrid columns="1" >
+                            <h:outputText value="#{course.moduleCode}" />
+                            <p:commandButton icon="ui-icon-trash" id="deleteCourseButtonutton"
+                                             value="Delete" type="button">
+                                <p:confirm header="Delete #{course.moduleCode}" message="Are you sure?" icon="ui-icon-alert" />
+                                <p:ajax listener="#{courseBean.removeCourse(course)}" update="messages"/>
+                            </p:commandButton>
+                        </p:panelGrid>
                     </p:column>
                     <p:column style="width: 15%" filterBy="#{course.moduleName}" headerText="Name" filterMatchMode="contains">
                         <p:cellEditor>
@@ -307,18 +283,6 @@
                         </p:selectOneButton>
                     </p:column>
                 </p:dataTable>
-                <p:contextMenu for="courselist">
-                    <p:menuitem value="Create Module for #{courseBean.selectedCourse.moduleCode}" update="messages" icon="ui-icon-plus" onclick="PF('createdlg').show();"> 
-                    </p:menuitem>
-                    <p:menuitem value="Delete #{courseBean.selectedCourse.moduleCode}" update="messages" icon="ui-icon-close" actionListener="#{courseBean.removeCourse}">
-                        <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
-                    </p:menuitem>
-                </p:contextMenu>
-                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                    <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                </p:confirmDialog>
-
             </p:panel>            
         </h:form> 
 
@@ -328,8 +292,7 @@
         <h:form id="panel1">
             <p:panel collapsed="true" id="modulelist" header="VIEW ALL MODULES" footer="Select an entry to edit and right click to delete" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
                 <p:dataTable id="moduletable"
-                             editable="true" editMode="cell" selectionMode="single"
-                             selection="#{courseBean.selectedModule}" rowKey="#{module.id}"
+                             editable="true" editMode="cell" 
                              var="module" value="#{adminCourseListBean.modules}" 
                              widgetVar="modulesTable"
                              emptyMessage="No modules found with given criteria." 
@@ -364,7 +327,14 @@
                         <h:outputText value="#{module.course.moduleCode}" />
                     </p:column>
                     <p:column style="width: 10%" filterBy="#{module.takenYear}" headerText="Taken Year" sortBy="#{module.takenYear}" filterMatchMode="contains">
-                        <h:outputText value="#{module.takenYear}" />
+                        <p:panelGrid columns="1">
+                            <h:outputText value="#{module.course.moduleCode}" />
+                            <p:commandButton icon="ui-icon-trash" id="deleteModuleButtonutton"
+                                             value="Delete" type="button">
+                                <p:confirm header="Delete #{module.course.moduleCode}" message="Are you sure?" icon="ui-icon-alert" />
+                                <p:ajax listener="#{courseBean.removeModule(module)}" update="messages"/>
+                            </p:commandButton>
+                        </p:panelGrid>
                     </p:column>
                     <p:column style="width: 10%" filterBy="#{module.takenSem}" headerText="Taken Sem" sortBy="#{module.takenSem}" filterMatchMode="contains">
                         <f:facet name="filter">
@@ -434,7 +404,7 @@
                                                    itemLabel="#{lecturerlist.name} #{lecturerlist.school}" itemValue="#{lecturerlist.username}" />
                                 </p:selectOneMenu>
                                 <p:commandButton icon="ui-icon-plusthick" 
-                                                 actionListener="#{courseBean.assignLecturer(module)}" update="messages" >
+                                                 actionListener="#{courseBean.assignLecturer}" update="messages" >
                                     <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
                                 </p:commandButton>
                             </p:panelGrid>
@@ -444,36 +414,7 @@
                             </p:confirmDialog>
                         </p:overlayPanel>
                     </p:column>
-
-
-<!--<p:column filterBy="#{courseBean.lecturerlist.school}" sortBy="#{courseBean.lecturerlist.name}" headerText="Lecturer assigned" filterMatchMode="contains">
-    <f:facet name="filter">
-        <p:selectOneMenu editable="true" style="width: 80%; text-transform: uppercase;"
-                         onchange="PF('modulesTable').filter()" >
-            <f:selectItem itemLabel="" itemValue="" />
-            <f:selectItems value="#{courseBean.schoollist}"/>
-        </p:selectOneMenu>
-    </f:facet>
-    <p:cellEditor>
-        <f:facet name="output"> <h:outputText value="#{module.lecturers.getName()}" /></f:facet>
-        <f:facet name="input"> 
-            <p:selectOneMenu value="#{courseBean.lecturerUser}"
-                             editable="false" title="Select a lecturer">
-                <f:selectItems value="#{courseBean.lecturerlist}" var="lecturerlist" 
-                               itemLabel="#{lecturerlist.name}" itemValue="#{lecturerlist.username}" />
-            </p:selectOneMenu></f:facet>
-    </p:cellEditor>
-</p:column>-->
                 </p:dataTable>
-                <p:contextMenu for="modulelist">
-                    <p:menuitem value="Delete Module" update="messages" icon="ui-icon-close" actionListener="#{courseBean.removeModule}">                    
-                        <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
-                    </p:menuitem>
-                </p:contextMenu>
-                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                    <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                </p:confirmDialog>
             </p:panel>
         </h:form>    
 
@@ -482,8 +423,7 @@
         </p:commandButton>
         <h:form id="panel2">
             <p:panel collapsed="true" id="lessonlist" header="VIEW ALL LESSONS" footer="Select an entry to edit and right click to delete" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
-                <p:dataTable id="lessontable" editable="true" editMode="cell" selectionMode="single"
-                             selection="#{courseBean.selectedLesson}" rowKey="#{lesson.id}"
+                <p:dataTable id="lessontable" editable="true" editMode="cell" 
                              var="lesson" value="#{adminCourseListBean.lessons}" 
                              widgetVar="lessonsTable" emptyMessage="No lessons found with given criteria." 
                              filteredValue="#{adminCourseListBean.filteredLessons}"
@@ -514,7 +454,14 @@
                         </p:cellEditor>
                     </p:column>
                     <p:column style="width: 10%" filterBy="#{lesson.module.course.moduleCode}" headerText="Module Code" sortBy="#{lesson.module.course.moduleCode}" filterMatchMode="contains">
-                        <h:outputText value="#{lesson.module.course.moduleCode}" />
+                        <p:panelGrid columns="1">
+                            <h:outputText value="#{lesson.module.course.moduleCode}" />
+                            <p:commandButton icon="ui-icon-trash" id="deleteModuleButtonutton"
+                                             value="Delete" type="button">
+                                <p:confirm header="Delete #{lesson.module.course.moduleCode}" message="Are you sure?" icon="ui-icon-alert" />
+                                <p:ajax listener="#{courseBean.removeLesson(lesson)}" update="messages"/>
+                            </p:commandButton>
+                        </p:panelGrid>
                     </p:column>
                     <p:column style="width: 10%" filterBy="#{lesson.module.takenYear}" headerText="Taken Year" sortBy="#{lesson.module.takenYear}" filterMatchMode="contains">
                         <h:outputText value="#{lesson.module.takenYear}" />
@@ -576,15 +523,6 @@
                         </p:cellEditor>
                     </p:column>
                 </p:dataTable>
-                <p:contextMenu for="lessonlist">
-                    <p:menuitem value="Delete Lesson" update="messages" icon="ui-icon-close" actionListener="#{courseBean.removeLesson}">                    
-                        <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
-                    </p:menuitem>
-                </p:contextMenu>
-                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                    <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                </p:confirmDialog>
             </p:panel>
         </h:form> 
     </ui:define>

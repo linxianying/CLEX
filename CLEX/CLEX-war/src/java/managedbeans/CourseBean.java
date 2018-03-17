@@ -126,7 +126,7 @@ public class CourseBean implements Serializable {
         }
     }
 
-    public void enterModule(String moduleCode) throws IOException {
+    public void enterModule() throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
         if (cmbl.checkNewModule(moduleCode, takenYear, takenSem) == true) {
@@ -278,11 +278,11 @@ public class CourseBean implements Serializable {
         }
     }
 
-    public void removeCourse() throws IOException {
+    public void removeCourse(Course courseEntity) throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
         RequestContext reqcontext = RequestContext.getCurrentInstance();
-        String modCode = selectedCourse.getModuleCode();
+        String modCode = courseEntity.getModuleCode();
         if (cmbl.checkExistingCourse(modCode) == true) {
             if (cmbl.deleteCourse(modCode) == true) {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, modCode + " has been deleted.", "Please refresh the page");
@@ -300,12 +300,15 @@ public class CourseBean implements Serializable {
         }
     }
 
-    public void removeModule() throws IOException {
+    public void removeModule(Module moduleEntity) throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
-        String modCode = selectedModule.getCourse().getModuleCode();
-        String tempTakenYear = selectedModule.getTakenYear();
-        String tempTakenSem = selectedModule.getTakenSem();
+        String modCode = moduleEntity.getCourse().getModuleCode();
+        String tempTakenYear = moduleEntity.getTakenYear();
+        String tempTakenSem = moduleEntity.getTakenSem();
+        System.out.println(modCode);
+        System.out.println(tempTakenYear);
+        System.out.println(tempTakenSem);
         if (cmbl.checkExistingModule(modCode, tempTakenYear, tempTakenSem) == true) {
             if (cmbl.deleteModule(modCode, tempTakenYear, tempTakenSem) == true) {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Module has been deleted.", "Please refresh the page");
@@ -321,20 +324,20 @@ public class CourseBean implements Serializable {
         }
     }
 
-    public void removeLesson() throws IOException {
+    public void removeLesson(Lesson lessonEntity) throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
-        String tempDay = selectedLesson.getDay();
+        String tempDay = lessonEntity.getDay();
         System.out.println("Day: " + tempDay);
-        String tempTimeStart = selectedLesson.getTimeFrom();
+        String tempTimeStart = lessonEntity.getTimeFrom();
         System.out.println("start: " + tempTimeStart);
-        String tempTimeEnd = selectedLesson.getTimeEnd();
+        String tempTimeEnd = lessonEntity.getTimeEnd();
         System.out.println("end: " + tempTimeEnd);
-        String tempModCode = selectedLesson.getModule().getCourse().getModuleCode();
+        String tempModCode = lessonEntity.getModule().getCourse().getModuleCode();
         System.out.println("modcode: " + tempModCode);
-        String tempTakenYear = selectedLesson.getModule().getTakenYear();
+        String tempTakenYear = lessonEntity.getModule().getTakenYear();
         System.out.println("year: " + tempTakenYear);
-        String tempTakenSem = selectedLesson.getModule().getTakenSem();
+        String tempTakenSem = lessonEntity.getModule().getTakenSem();
         System.out.println("sem: " + tempTakenSem);
 
         if (cmbl.checkExistingLesson(tempModCode, tempTakenYear, tempTakenSem, tempDay, tempTimeStart, tempTimeEnd) == true) {
@@ -353,16 +356,13 @@ public class CourseBean implements Serializable {
         }
     }
 
-    public void assignLecturer(Module moduleEntity) throws IOException {
+    public void assignLecturer() throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
         System.out.println(lecturerUser);
-        System.out.println(moduleEntity.getCourse().getModuleCode());
-        String tempModCode = moduleEntity.getCourse().getModuleCode();
-        String tempTakenYear = moduleEntity.getTakenYear();
-        String tempTakenSem = moduleEntity.getTakenSem();
-        if (cmbl.checkExistingModule(tempModCode, tempTakenYear, tempTakenSem) == true) {
-            if (cmbl.linkLecturerToModule(tempModCode, tempTakenYear, tempTakenSem, lecturerUser) == true) {
+        System.out.println(moduleCode);
+        if (cmbl.checkExistingModule(moduleCode, takenYear, takenSem) == true) {
+            if (cmbl.linkLecturerToModule(moduleCode, takenYear, takenSem, lecturerUser) == true) {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Lecturer " + lecturerUser + " assigned to module.", "");
                 context.addMessage(null, fmsg);
                 //context.getExternalContext().redirect("adminCourse.xhtml");
