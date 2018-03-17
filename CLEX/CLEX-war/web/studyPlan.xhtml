@@ -35,7 +35,7 @@
                                                     </p:commandLink>
                                                     <br />
                                                     <p:commandButton value="Delete" id="deleteStudyPlan-button" >
-                                                        <p:ajax update="tab:studyPlanForm:studyPlansList" listener="#{studyPlanBean.deleteStudyPlan(sp.course.moduleCode)}" />
+                                                        <p:ajax update="tab:studyPlanForm:studyPlansList, tab:studyPlanForm:addForm:addSPButton" listener="#{studyPlanBean.deleteStudyPlan(sp.course.moduleCode)}" />
                                                         <p:confirm header="Delete #{sp.course.moduleCode}" message="Are you sure?" icon="ui-icon-alert" />
                                                     </p:commandButton>
                                                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
@@ -84,40 +84,43 @@
                                         </p:dataGrid>
                                     </p:panelGrid>
                                 </p:panel>
+                                <h:form id="addForm">
+                                    <h3>Add a new study plan entry:</h3>
+                                    <p:panelGrid columns ="2">
+                                        <p:outputLabel id="viewLabel" for="moduleCode" value="Module Code:" >
+                                        </p:outputLabel>
 
-                                <h3>Add a new study plan entry:</h3>
-                                <p:panelGrid columns="2" >
-                                    <p:outputLabel id="viewLabel" for="moduleCode" value="Module Code:" >
-                                    </p:outputLabel>
-                                    <p:selectOneMenu id="moduleCode" value="#{studyPlanBean.addModuleCode}"  panelStyle="width:180px" effect="fade" 
-                                                     var="course" style="width:160px" filter="true" filterMatchMode="contains" appendTo="@this">
-                                        <p:ajax event="change" listener="#{studyPlanBean.checkStudyPlan}" update="tab:studyPlanForm:addSPButton, addErrorMsg"  />
-                                        <f:selectItem itemLabel="Select One" itemValue="select"/>
-                                        <f:selectItems value="#{studyPlanBean.courses}" var="course" itemLabel="#{course.moduleCode}" itemValue="#{course.moduleCode}" />
-                                        <p:column>
-                                            <h:outputText value="#{course.moduleCode}" />
-                                        </p:column>
-                                    </p:selectOneMenu>
+                                        <p:selectOneMenu id="moduleCode" value="#{studyPlanBean.addModuleCode}"  panelStyle="width:180px" effect="fade" 
+                                                         var="course" style="width:160px" filter="true" filterMatchMode="contains" appendTo="@this">
+                                            <p:ajax event="change" listener="#{studyPlanBean.checkStudyPlan}" update="tab:studyPlanForm:addForm:addSPButton, addErrorMsg"  />
+                                            <f:selectItem itemLabel="Select One" itemValue="select"/>
+                                            <f:selectItems value="#{studyPlanBean.courses}" var="course" itemLabel="#{course.moduleCode}" itemValue="#{course.moduleCode}" />
+                                        </p:selectOneMenu>
 
-                                    <h:outputText value="Year: " />
-                                    <p:inputText id="addPickYear" value="#{studyPlanBean.addPickYear}" required="true"/>
+                                        <h:outputLabel for="addPickYearLabel" value="Year: " />
 
-                                    <p:outputLabel for="addPickSem" value="Semester: " />
-                                    <p:selectOneButton id="addPickSem" value="#{studyPlanBean.addPickSem}" >
-                                        <f:selectItem itemLabel="1" itemValue="1" />
-                                        <f:selectItem itemLabel="2" itemValue="2" />
-                                    </p:selectOneButton>
-                                </p:panelGrid>
-                                <h:panelGroup id="addSPButton">
-                                    <p:commandButton value="Add" id="addStudyPlanButton" rendered="#{studyPlanBean.addButton}">
-                                        <p:ajax update="tab:studyPlanForm:studyPlansList" listener="#{studyPlanBean.addStudyPlan()}" />
-                                        <p:confirm header="Add #{sp.course.moduleCode}" message="Are you sure?" icon="ui-icon-alert" />
-                                    </p:commandButton>
-                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                                        <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                                    </p:confirmDialog>
-                                </h:panelGroup>
+                                        <p:inputText id="addPickYearLabel" value="#{studyPlanBean.addPickYear}" required="true"/>
+
+                                        <p:outputLabel for="addPickSemLabel" value="Semester: " />
+                                        <p:selectOneButton id="addPickSemLabel" value="#{studyPlanBean.addPickSem}" required="true">
+                                            <f:selectItem itemLabel="1" itemValue="1" />
+                                            <f:selectItem itemLabel="2" itemValue="2" />
+                                        </p:selectOneButton>                                        
+                                    </p:panelGrid>
+                                    <h:panelGroup id="addSPButton">
+                                        <p:commandButton value="Add" id="addStudyPlanButton" 
+                                                         rendered="#{studyPlanBean.addButton}" 
+                                                         update="tab:studyPlanForm:studyPlansList, tab:studyPlanForm:addForm:addSPButton" 
+                                                         actionListener="#{studyPlanBean.addStudyPlan()}">
+                                            <p:confirm header="Add #{studyPlanBean.addModuleCode}" message="Are you sure?" icon="ui-icon-alert" />
+                                        </p:commandButton>
+                                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                            <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                        </p:confirmDialog>
+                                    </h:panelGroup>
+                                </h:form>
+
                             </h:form>
                             <h3>
                                 Expected Cap: 
@@ -378,9 +381,9 @@
                     </p:tabView>
                     <br />
                     <br />
-                    <h:form id="initializePageDataForm">
+                    <!--<h:form id="initializePageDataForm">
                         <p:remoteCommand name="initializePageDataCommand" autoRun="true" action="#{studyPlanBean.init()}" update="tab:studyPlanForm:studyPlan, tab:modulesTakingForm tab:expectedCap, tab:expectedCap2"/>
-                    </h:form>
+                    </h:form>-->
                     <br />
                 </div>
             </div>

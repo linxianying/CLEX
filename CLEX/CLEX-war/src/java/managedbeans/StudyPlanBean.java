@@ -29,18 +29,18 @@ import javax.servlet.http.HttpSession;
  *
  * @author caoyu
  */
-@ManagedBean(name="studyPlanBean")
+@ManagedBean(name = "studyPlanBean")
 @SessionScoped
 public class StudyPlanBean {
-    
+
     @EJB
     private StudyPlanSessionBeanLocal cpsbl;
     @EJB
     private ClexSessionBeanLocal csbl;
-    
+
     FacesContext context;
     HttpSession session;
-    
+
     private String username;
     private String moduleCode;
     //private String matricYear;
@@ -53,9 +53,9 @@ public class StudyPlanBean {
     private ArrayList<Module> takingModules;
     private Collection<StudyPlan> studyPlans;
     private ArrayList<ArrayList<StudyPlan>> studyPlansInOrer;
-    private HashMap<String,String> expectedCourseGrade;
+    private HashMap<String, String> expectedCourseGrade;
     private double cap;
-    private double expectedCap; 
+    private double expectedCap;
     private String newModuleGrade;
     private String newCurrentModuleGrade;
     private int allCredits;
@@ -66,20 +66,21 @@ public class StudyPlanBean {
     private String addPickSem;
     private String addErrorMsg;
     private boolean addButton;
-    
+
     private String updateModuleCode;
     private String updatePickYear;
     private String updatePickSem;
-    
+
     private List<Course> courses;
+
     public StudyPlanBean() {
     }
-     
+
     @PostConstruct
     public void init() {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
-        
+
         student = (Student) session.getAttribute("user");
         username = student.getUsername();
         //for test purpose only
@@ -95,8 +96,7 @@ public class StudyPlanBean {
             expectedCourseGrade = cpsbl.getExpectedCourseGrade(username);
             expectedCap = cap;
             System.out.println("Expected Cap reset to " + expectedCap);
-        }
-        else {
+        } else {
             expectedCap = 0.0;
         }
         this.setNewModuleGrade("select");
@@ -131,7 +131,7 @@ public class StudyPlanBean {
     public void setSession(HttpSession session) {
         this.session = session;
     }
-    
+
     public HashMap<String, String> getExpectedCourseGrade() {
         return expectedCourseGrade;
     }
@@ -139,7 +139,6 @@ public class StudyPlanBean {
     public void setExpectedCourseGrade(HashMap<String, String> expectedCourseGrade) {
         this.expectedCourseGrade = expectedCourseGrade;
     }
-
 
     public String getAddModuleCode() {
         return addModuleCode;
@@ -213,33 +212,31 @@ public class StudyPlanBean {
         this.allCredits = allCredits;
     }
 
-
-    private String genSalt(){
+    private String genSalt() {
         Random rng = new Random();
         Integer gen = rng.nextInt(13371337);
         String salt = gen.toString();
-        
+
         return salt;
     }
-    
+
     public void save() {
         addMessage("Success", "Data saved");
     }
-     
+
     public void update() {
         addMessage("Success", "Data updated");
     }
-     
+
     public void delete() {
         addMessage("Success", "Data deleted");
     }
-     
+
     public void addMessage(String summary, String detail) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-    
     public StudyPlanSessionBeanLocal getCpsbl() {
         return cpsbl;
     }
@@ -343,11 +340,10 @@ public class StudyPlanBean {
     public void setTakenCoursesInOrder(ArrayList<ArrayList<Course>> takenCoursesInOrder) {
         this.takenCoursesInOrder = takenCoursesInOrder;
     }
-    
+
     public String getAddErrorMsg() {
         return addErrorMsg;
     }
-
 
     public void setAddErrorMsg(String addErrorMsg) {
         this.addErrorMsg = addErrorMsg;
@@ -401,62 +397,60 @@ public class StudyPlanBean {
 //        }
         context = FacesContext.getCurrentInstance();
         FacesMessage fmsg = new FacesMessage();
-        if (addModuleCode.endsWith("select"))
+        if (addModuleCode.endsWith("select")) {
             this.addButton = false;
-        //this course already in studyPlan
+        } //this course already in studyPlan
         else if (cpsbl.checkStudyPlan(username, addModuleCode.toUpperCase())) {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "The module " + addModuleCode + " already in your study plan", "Please change to another module");
             context.addMessage(null, fmsg);
             this.addButton = false;
-        }
-        //this course already in takenCourses list
+        } //this course already in takenCourses list
         else if (cpsbl.checkStudentModule(username, addModuleCode.toUpperCase())) {
 //            addErrorMsg = "You have already taken module - " + addModuleCode.toUpperCase();
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-                    "You have already taken " + addModuleCode , "Please change to another module");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "You have already taken " + addModuleCode, "Please change to another module");
             context.addMessage(null, fmsg);
             this.addButton = false;
-        }
-        else {
+        } else {
             fmsg = null;
 //            addErrorMsg = null;
             this.addButton = true;
         }
     }
-    
+
     public void addStudyPlan() {
+        System.out.println("addModuleCode" + addModuleCode);
+        System.out.println("addpickyear" + addPickYear);
+        System.out.println("addpickSem" + addPickSem);
+        
+        context = FacesContext.getCurrentInstance();
+        System.out.println("username" + username);
         cpsbl.addStudyPlan(addPickYear, addPickSem, addModuleCode.toUpperCase(), username);
         studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
         addModuleCode = null;
         addPickYear = null;
         addPickSem = null;
         this.addButton = false;
-        try {
-        context.getExternalContext().redirect("studyPlan.xhtml");
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+        
     }
-    
+
     public void deleteStudyPlan(String moduleCode) {
         cpsbl.removeStudyPlan(username, moduleCode);
         studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
         try {
-        context.getExternalContext().redirect("studyPlan.xhtml");
-        }
-        catch (Exception e) {
+            context.getExternalContext().redirect("studyPlan.xhtml");
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     public void updateExpectedCap(int newModuleCredit, String moduleCode) {
         String oldGrade = checkExpectedCourseGrade(moduleCode);
         //System.out.println("newModuleGrade" + newModuleGrade);
         //the first time set the expected grade 
         if (oldGrade.equals("none")) {
-            System.out.println(moduleCode+": first time;");
+            System.out.println(moduleCode + ": first time;");
             //it is not S or U, since setting as S or U for first time will be treated as the module has not been setted an expected grade before
             if ((!this.newModuleGrade.equals("S")) && (!this.newModuleGrade.equals("U")) && (!this.newModuleGrade.equals("select"))) {
                 //update the expectedCap for first time for this module
@@ -466,37 +460,33 @@ public class StudyPlanBean {
                 //set the course's expected grade in hashmap
                 expectedCourseGrade.put(moduleCode, newModuleGrade);
             }
-        }
-        //not the first time set the expected grade
+        } //not the first time set the expected grade
         else {
             //if the last setted garde is S/U or select
             if (oldGrade.equals("S") || oldGrade.equals("U") || oldGrade.equals("select")) {
                 // if this time it is S/U or select again, do nothing
                 // if not, type 2 
-                if ((!this.newModuleGrade.equals("S"))&&(!this.newModuleGrade.equals("U"))&&(!this.newModuleGrade.equals("select"))) {
-                    System.out.println(moduleCode+": type 2;");
+                if ((!this.newModuleGrade.equals("S")) && (!this.newModuleGrade.equals("U")) && (!this.newModuleGrade.equals("select"))) {
+                    System.out.println(moduleCode + ": type 2;");
                     this.expectedCap = cpsbl.updateExpectedCapTwo(this.allCredits, this.expectedCap, newModuleCredit, newModuleGrade);
                     //update all the credits taken
                     this.allCredits += newModuleCredit;
                     //set the course's expected grade in hashmap
                     expectedCourseGrade.put(moduleCode, newModuleGrade);
+                } else {
+                    System.out.println(moduleCode + ": type 3;");
                 }
-                else {
-                    System.out.println(moduleCode+": type 3;");
-                }
-            }
-            //if the last setted garde is not S/U or select
+            } //if the last setted garde is not S/U or select
             else {
                 //if it is changed to S/U or select, type 1
                 if ((this.newModuleGrade.equals("S")) || (this.newModuleGrade.equals("U")) || (this.newModuleGrade.equals("select"))) {
-                    System.out.println(moduleCode+": type 1;");
+                    System.out.println(moduleCode + ": type 1;");
                     this.expectedCap = cpsbl.updateExpectedCapOne(this.allCredits, this.expectedCap, newModuleCredit, oldGrade);
                     this.allCredits -= newModuleCredit;
                     expectedCourseGrade.put(moduleCode, newModuleGrade);
-                }
-                // if it is not changed to S/U or select, type 4
+                } // if it is not changed to S/U or select, type 4
                 else {
-                    System.out.println(moduleCode+": type 4;");
+                    System.out.println(moduleCode + ": type 4;");
                     this.expectedCap = cpsbl.updateExpectedCapFour(this.allCredits, this.expectedCap, newModuleCredit, newModuleGrade, oldGrade);
                     expectedCourseGrade.put(moduleCode, newModuleGrade);
                 }
@@ -504,15 +494,15 @@ public class StudyPlanBean {
         }
         System.out.println("Expected cap change to " + expectedCap);
     }
-    
+
     public void updateCurrentExpectedCap(int newModuleCredit, String moduleCode) {
         String oldGrade = checkExpectedCourseGrade(moduleCode);
         //System.out.println("newCurrentModuleGrade" + newCurrentModuleGrade);
         //the first time set the expected grade 
         if (oldGrade.equals("none")) {
-            System.out.println(moduleCode+": first time;");
+            System.out.println(moduleCode + ": first time;");
             //it is not S/U, since setting as S or U for first time will be treated as the module has not been setted an expected grade before
-            if ((!this.newCurrentModuleGrade.equals("S")) && (!this.newCurrentModuleGrade.equals("U"))&& (!this.newCurrentModuleGrade.equals("select"))) {
+            if ((!this.newCurrentModuleGrade.equals("S")) && (!this.newCurrentModuleGrade.equals("U")) && (!this.newCurrentModuleGrade.equals("select"))) {
                 //update the expectedCap for first time for this module
                 this.expectedCap = cpsbl.updateExpectedCapTwo(this.allCredits, this.expectedCap, newModuleCredit, newCurrentModuleGrade);
                 //update all the credits taken
@@ -520,37 +510,33 @@ public class StudyPlanBean {
                 //set the course's expected grade in hashmap
                 expectedCourseGrade.put(moduleCode, newCurrentModuleGrade);
             }
-        }
-        //not the first time set the expected grade
+        } //not the first time set the expected grade
         else {
             //if the last setted garde is S/U or select
             if (oldGrade.equals("S") || oldGrade.equals("U") || oldGrade.equals("select")) {
                 // if this time it is S/U  or select again, do nothing
                 // if not, type 2 
-                if ((!this.newCurrentModuleGrade.equals("S"))&&(!this.newCurrentModuleGrade.equals("U"))&&(!this.newCurrentModuleGrade.equals("select"))) {
-                    System.out.println(moduleCode+": type 2;");
+                if ((!this.newCurrentModuleGrade.equals("S")) && (!this.newCurrentModuleGrade.equals("U")) && (!this.newCurrentModuleGrade.equals("select"))) {
+                    System.out.println(moduleCode + ": type 2;");
                     this.expectedCap = cpsbl.updateExpectedCapTwo(this.allCredits, this.expectedCap, newModuleCredit, newCurrentModuleGrade);
                     //update all the credits taken
                     this.allCredits += newModuleCredit;
                     //set the course's expected grade in hashmap
                     expectedCourseGrade.put(moduleCode, newCurrentModuleGrade);
+                } else {
+                    System.out.println(moduleCode + ": type 3;");
                 }
-                else {
-                    System.out.println(moduleCode+": type 3;");
-                }
-            }
-            //if the last setted garde is not S/U
+            } //if the last setted garde is not S/U
             else {
                 //if it is changed to S/U or select, type 1
                 if ((this.newCurrentModuleGrade.equals("S")) || (this.newCurrentModuleGrade.equals("U")) || (this.newCurrentModuleGrade.equals("select"))) {
-                    System.out.println(moduleCode+": type 1;");
+                    System.out.println(moduleCode + ": type 1;");
                     this.expectedCap = cpsbl.updateExpectedCapOne(this.allCredits, this.expectedCap, newModuleCredit, oldGrade);
                     this.allCredits -= newModuleCredit;
                     expectedCourseGrade.put(moduleCode, newCurrentModuleGrade);
-                }
-                // if it is not changed to S/U or select, type 4
+                } // if it is not changed to S/U or select, type 4
                 else {
-                    System.out.println(moduleCode+": type 4;");
+                    System.out.println(moduleCode + ": type 4;");
                     this.expectedCap = cpsbl.updateExpectedCapFour(this.allCredits, this.expectedCap, newModuleCredit, newCurrentModuleGrade, oldGrade);
                     expectedCourseGrade.put(moduleCode, newCurrentModuleGrade);
                 }
@@ -558,59 +544,54 @@ public class StudyPlanBean {
         }
         System.out.println("Expected cap change to " + expectedCap);
     }
-    
+
     //check this expected garde is updated for the first time (an expected garde has been set before)or not
     //if this is the first time, return none
     // if not the first time, return the expected grade set for this course last time
-    public String checkExpectedCourseGrade(String moduleCode){
+    public String checkExpectedCourseGrade(String moduleCode) {
         if (expectedCourseGrade.containsKey(moduleCode)) {
             return expectedCourseGrade.get(moduleCode);
-        }
-        else {
-            System.out.println("sp bean: checkExpectedCourseGrade: Error，" 
+        } else {
+            System.out.println("sp bean: checkExpectedCourseGrade: Error，"
                     + moduleCode + " is not found in expectedCourseGrade");
         }
         return "none";
     }
-    
+
     public void updateStudyPlan(String updateModuleCode) {
         try {
             if (checkUpdateStudyPlan(updateModuleCode)) {
-    //            System.out.println("Strat to update");
+                //            System.out.println("Strat to update");
                 cpsbl.updateStudyPlan(username, updateModuleCode, updatePickYear, updatePickSem);
                 studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
                 context = FacesContext.getCurrentInstance();
                 context.getExternalContext().redirect("studyPlan.xhtml");
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }
-    
+
     public boolean checkUpdateStudyPlan(String updateModuleCode) {
         System.out.println("find " + username + "'s study plan for " + updateModuleCode);
         StudyPlan updatedStudyPlan = cpsbl.findStudyPlan(username, updateModuleCode);
         FacesContext context = FacesContext.getCurrentInstance();
         FacesMessage fmsg = new FacesMessage();
         if (updatePickYear.equals(updatedStudyPlan.getPickYear()) && updatePickSem.equals(updatedStudyPlan.getPickSem())) {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-                    "The study plan for course" + updateModuleCode + "already in Year " + updatePickYear + " Sem " + updatePickSem
-                            , "Please change a semester");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "The study plan for course" + updateModuleCode + "already in Year " + updatePickYear + " Sem " + updatePickSem, "Please change a semester");
             context.addMessage(null, fmsg);
 //            System.out.println("update error message added");
             return false;
-        }
-        else {
+        } else {
             fmsg = null;
             return true;
         }
     }
-    
+
     //-------------------------------------------------------------------------
     //for test addStudyPlan, dont forget to create student and module before test
-   
 //    public void testAddStudyPlan(){
 //        if(csbl.checkNewUser("namename") == true){
 //            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
@@ -698,6 +679,4 @@ public class StudyPlanBean {
 //        
 //        //year = Integer.parseInt(student.getMatricYear());
 //    }
-    
-    
 }
