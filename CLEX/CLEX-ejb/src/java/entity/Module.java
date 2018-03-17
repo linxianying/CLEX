@@ -24,57 +24,56 @@ import javax.persistence.OneToOne;
  *
  * @author lin
  */
-@Entity(name="SchoolModule")
+@Entity(name = "SchoolModule")
 public class Module implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(length = 16, nullable = false)
     private String takenYear;
-    
+
     @Column(length = 16, nullable = false)
     private String takenSem;
-    
-    @Column(length=2048)
+
+    @Column(length = 2048)
     private String prerequisite;
-    
-    @Column(length=2048)
+
+    @Column(length = 2048)
     private String preclusions;
 
-    
-    @OneToOne(cascade={CascadeType.ALL})
+    @OneToOne(cascade = {CascadeType.ALL})
     private SuperGroup superGroup;
 
     @ManyToOne
     private Course course = new Course();
-    
-    @ManyToMany(cascade={CascadeType.PERSIST})
+
+    @ManyToMany(cascade = {CascadeType.PERSIST})
     private Collection<Student> students = new ArrayList<Student>();
 
-    @ManyToMany(cascade={CascadeType.PERSIST}, mappedBy="modules")
+    @ManyToMany(cascade = {CascadeType.PERSIST}, mappedBy = "modules")
     private Collection<Lecturer> lecturers = new ArrayList<Lecturer>();
-    
-    @OneToMany(cascade={CascadeType.ALL}, mappedBy="module")
+
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "module")
     private Collection<Lesson> lessons = new ArrayList<Lesson>();
-    
-    
-    @OneToMany(cascade={CascadeType.ALL})  
+
+    @OneToMany(cascade = {CascadeType.ALL})
     private Collection<Poll> polls = new ArrayList<Poll>();
-    
-    @OneToOne(cascade={CascadeType.ALL}) 
+
+    @OneToOne(cascade = {CascadeType.ALL})
     private PeerReviewQuestion peerReviewQuestion;
-    
-    public void createModule(String takenYear, 
-                String takenSem,String prerequisite, String preclusions, Course course){
+
+    public void createModule(String takenYear,
+            String takenSem, String prerequisite, String preclusions, Course course) {
         this.takenSem = takenSem;
         this.takenYear = takenYear;
         this.prerequisite = prerequisite;
         this.preclusions = preclusions;
         this.course = course;
     }
-    
+
     public SuperGroup getSuperGroup() {
         return superGroup;
     }
@@ -82,7 +81,7 @@ public class Module implements Serializable {
     public void setSuperGroup(SuperGroup superGroup) {
         this.superGroup = superGroup;
     }
-    
+
     public Collection<Student> getStudents() {
         return students;
     }
@@ -90,7 +89,7 @@ public class Module implements Serializable {
     public void setStudents(Collection<Student> students) {
         this.students = students;
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -106,8 +105,6 @@ public class Module implements Serializable {
     public void setPolls(Collection<Poll> polls) {
         this.polls = polls;
     }
-
-
 
     public Course getCourse() {
         return course;
@@ -132,7 +129,6 @@ public class Module implements Serializable {
     public void setLessons(Collection<Lesson> lessons) {
         this.lessons = lessons;
     }
-
 
     public String getTakenYear() {
         return takenYear;
@@ -174,9 +170,6 @@ public class Module implements Serializable {
         this.peerReviewQuestion = peerReviewQuestion;
     }
 
-
-
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -201,5 +194,5 @@ public class Module implements Serializable {
     public String toString() {
         return "entity.Module[ id=" + id + " ]";
     }
-    
+
 }

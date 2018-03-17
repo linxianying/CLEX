@@ -69,6 +69,9 @@ public interface CourseMgmtBeanLocal {
 
     public List getAllDays();
 
+    public List getAllSchools();
+
     public Collection<User> getLecturerName();
+
     public List getAllModularCredits();
 }

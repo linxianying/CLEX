@@ -6,12 +6,14 @@
 package managedbeans;
 
 import entity.Course;
+import entity.Lecturer;
 import entity.Lesson;
 import entity.Module;
 import entity.User;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -20,7 +22,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
-import org.primefaces.event.CellEditEvent;
+
+import org.primefaces.context.RequestContext;
 import session.CourseMgmtBeanLocal;
 
 /**
@@ -71,6 +74,7 @@ public class CourseBean implements Serializable {
 
     private List<String> timelist;
 
+    private List<String> schoollist;
     private ArrayList<User> lecturerlist;
     private ArrayList<Module> modulelist;
     private ArrayList<Course> courselist;
@@ -88,6 +92,7 @@ public class CourseBean implements Serializable {
     }
 
     public void refresh() {
+        schoollist = (List) cmbl.getAllSchools();
         courselist = (ArrayList<Course>) cmbl.getAllCourses();
         modulelist = (ArrayList<Module>) cmbl.getAllModules();
         timelist = (List) cmbl.getAllTimings();
@@ -97,21 +102,31 @@ public class CourseBean implements Serializable {
         modularCreditList = (List) cmbl.getAllModularCredits();
     }
 
+    public Collection<Lecturer> getAssignedLecturer(Module moduleEntity) {
+        List<Lecturer> users = new ArrayList<Lecturer>();
+        List<Lecturer> lecturers = (List) moduleEntity.getLecturers();
+        for (int i = 0; i < lecturers.size(); i++) {
+            users.add(lecturers.get(i));
+        }
+        return users;
+    }
+
     public void enterCourse() throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
+        RequestContext reqcontext = RequestContext.getCurrentInstance();
         if (cmbl.checkNewCourse(moduleCode) == true) {
             cmbl.createCourse(moduleCode, moduleName, moduleInfo, false, "", "", offeredSem, school, modularCredits, workload);
             fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, moduleCode + " has been created.", "");
             context.addMessage(null, fmsg);
-            context.getExternalContext().redirect("adminCourse.xhtml");
+            //context.getExternalContext().redirect("adminCourse.xhtml");
         } else {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Course '" + moduleCode + "' already exists.");
             context.addMessage(null, fmsg);
         }
     }
 
-    public void enterModule() throws IOException {
+    public void enterModule(String moduleCode) throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
         if (cmbl.checkNewModule(moduleCode, takenYear, takenSem) == true) {
@@ -143,6 +158,7 @@ public class CourseBean implements Serializable {
     public void editCourse(Course courseEntity) throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
+        RequestContext reqcontext = RequestContext.getCurrentInstance();
         String tempModCode = courseEntity.getModuleCode();
         String tempModName = courseEntity.getModuleName();
         String tempModInfo = courseEntity.getModuleInfo();
@@ -157,6 +173,7 @@ public class CourseBean implements Serializable {
             cmbl.editCourse(tempModCode, tempModName, tempModInfo, tempBool, tempYear, tempDisSem,
                     tempOffSem, tempSchool, tempModCredits, tempWorkload);
             fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, tempModCode + " has been edited.", "");
+            reqcontext.update("courselist");
             context.addMessage(null, fmsg);
         } else {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Course '" + tempModCode + "' does not exists.");
@@ -264,12 +281,14 @@ public class CourseBean implements Serializable {
     public void removeCourse() throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
+        RequestContext reqcontext = RequestContext.getCurrentInstance();
         String modCode = selectedCourse.getModuleCode();
         if (cmbl.checkExistingCourse(modCode) == true) {
             if (cmbl.deleteCourse(modCode) == true) {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, modCode + " has been deleted.", "Please refresh the page");
                 System.out.println("yes");
                 context.addMessage(null, fmsg);
+                reqcontext.update("courselist");
                 //context.getExternalContext().redirect("adminCourse.xhtml");
             } else {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to delete course.", "");
@@ -322,6 +341,7 @@ public class CourseBean implements Serializable {
             if (cmbl.deleteLesson(tempDay, tempTimeStart, tempTimeEnd, tempModCode, tempTakenYear, tempTakenSem) == true) {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Lesson has been deleted.", "Please refresh the page");
                 context.addMessage(null, fmsg);
+                RequestContext.getCurrentInstance().update("panel:courselist");
                 //context.getExternalContext().redirect("adminCourse.xhtml");
             } else {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to delete lesson.", "");
@@ -333,14 +353,19 @@ public class CourseBean implements Serializable {
         }
     }
 
-    public void assignLecturer() throws IOException {
+    public void assignLecturer(Module moduleEntity) throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
-        if (cmbl.checkExistingModule(moduleCode, takenYear, takenSem) == true) {
-            if (cmbl.linkLecturerToModule(moduleCode, takenYear, takenSem, lecturerUser) == true) {
+        System.out.println(lecturerUser);
+        System.out.println(moduleEntity.getCourse().getModuleCode());
+        String tempModCode = moduleEntity.getCourse().getModuleCode();
+        String tempTakenYear = moduleEntity.getTakenYear();
+        String tempTakenSem = moduleEntity.getTakenSem();
+        if (cmbl.checkExistingModule(tempModCode, tempTakenYear, tempTakenSem) == true) {
+            if (cmbl.linkLecturerToModule(tempModCode, tempTakenYear, tempTakenSem, lecturerUser) == true) {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Lecturer " + lecturerUser + " assigned to module.", "");
                 context.addMessage(null, fmsg);
-                context.getExternalContext().redirect("adminCourse.xhtml");
+                //context.getExternalContext().redirect("adminCourse.xhtml");
             } else {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error.", "Failed to assign lecturer.");
                 context.addMessage(null, fmsg);
@@ -605,5 +630,13 @@ public class CourseBean implements Serializable {
 
     public void setSelectedLesson(Lesson selectedLesson) {
         this.selectedLesson = selectedLesson;
+    }
+
+    public List<String> getSchoollist() {
+        return schoollist;
+    }
+
+    public void setSchoollist(List<String> schoollist) {
+        this.schoollist = schoollist;
     }
 }

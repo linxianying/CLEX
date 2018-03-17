@@ -69,28 +69,45 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
     }
 
     @Override
+    public List getAllSchools() {
+        List<String> schoollist = new ArrayList<String>();
+        schoollist.add(0, "NUS");
+        schoollist.add(1, "NTU");
+        schoollist.add(2, "SMU");
+        schoollist.add(3, "SUTD");
+        schoollist.add(4, "SUSS");
+        schoollist.add(5, "SIT");
+        schoollist.add(6, "NP");
+        schoollist.add(7, "NYP");
+        schoollist.add(8, "SP");
+        schoollist.add(9, "RP");
+        schoollist.add(10, "TP");
+        return schoollist;
+    }
+    @Override
     public List getAllModularCredits() {
         List<String> creditList = new ArrayList<String>();
-        creditList.add(0, "1");
-        creditList.add(1, "2");
-        creditList.add(2, "3");
-        creditList.add(3, "4");
-        creditList.add(4, "5");
-        creditList.add(5, "6");
-        creditList.add(6, "7");
-        creditList.add(7, "8");
-        creditList.add(8, "9");
-        creditList.add(9, "10");
-        creditList.add(10, "11");
-        creditList.add(11, "12");
-        creditList.add(12, "13");
-        creditList.add(13, "14");
-        creditList.add(14, "15");
-        creditList.add(15, "16");
-        creditList.add(16, "17");
-        creditList.add(17, "18");
-        creditList.add(18, "19");
-        creditList.add(19, "20");
+        creditList.add(0, "0");
+        creditList.add(1, "1");
+        creditList.add(2, "2");
+        creditList.add(3, "3");
+        creditList.add(4, "4");
+        creditList.add(5, "5");
+        creditList.add(6, "6");
+        creditList.add(7, "7");
+        creditList.add(8, "8");
+        creditList.add(9, "9");
+        creditList.add(10, "10");
+        creditList.add(11, "11");
+        creditList.add(12, "12");
+        creditList.add(13, "13");
+        creditList.add(14, "14");
+        creditList.add(15, "15");
+        creditList.add(16, "16");
+        creditList.add(17, "17");
+        creditList.add(18, "18");
+        creditList.add(19, "19");
+        creditList.add(20, "20");
         return creditList;
     }
 

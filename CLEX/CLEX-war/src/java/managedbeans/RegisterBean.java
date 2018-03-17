@@ -3,6 +3,7 @@ package managedbeans;
 import entity.User;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -10,12 +11,12 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import session.ClexSessionBeanLocal;
+import session.CourseMgmtBeanLocal;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -32,6 +33,8 @@ public class RegisterBean implements Serializable {
 
     @EJB
     private ClexSessionBeanLocal csbl;
+    @EJB
+    private CourseMgmtBeanLocal cmbl;
 
     private User userEntity;
     @NotNull
@@ -53,9 +56,15 @@ public class RegisterBean implements Serializable {
     private String currentYear;
     private double cap;
     private boolean agree = false;
+    private List<String> schoollist;
 
     public RegisterBean() {
 
+    }
+
+    @PostConstruct
+    public void init() {
+        schoollist = cmbl.getAllSchools();
     }
 
     public void doBack() throws IOException {
@@ -69,18 +78,13 @@ public class RegisterBean implements Serializable {
     public void register() throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
-
-        System.out.println("Agree (Before check):-------------------------" + this.agree);
         if (agree == false) {
-            System.out.println("Agree (If) :-------------------------" + this.agree);
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "You must agree to our Terms &amp; Conditions", "");
             context.addMessage(null, fmsg);
         } else {
-            System.out.println("Agree (Else):-------------------------" + this.agree);
             if (csbl.checkNewUser(username) == true) {
-                
                 if (password.length() >= 6 && !username.equals("") && !email.equals("")) {
-                    if(password.equals(password1)){
+                    if (password.equals(password1)) {
                         if (userType.equals("1")) { //Student
                             csbl.createStudent(username, password, name, email, school, contactNum, genSalt(),
                                     faculty, major, matricYear, matricSem, cap);
@@ -104,8 +108,7 @@ public class RegisterBean implements Serializable {
                         email = "";
                         school = "";
                         contactNum = null;
-                    }
-                    else{
+                    } else {
                         fmsg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "The password are inconsistent", "Please enter again.");
                         username = "";
                         context.addMessage(null, fmsg);
@@ -139,7 +142,7 @@ public class RegisterBean implements Serializable {
     public void testRegisterStudent() throws IOException {
         if (csbl.checkNewUser("namename") == true) {
             csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS", "2015", "1", 0.0);
-            FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
+            //FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "User 'namename' already exists.", ""));
         }
@@ -148,7 +151,7 @@ public class RegisterBean implements Serializable {
     public void testRegisterLecturer() throws IOException {
         if (csbl.checkNewUser("hsianghui") == true) {
             csbl.createLecturer("hsianghui", "123456", "LekHsiangHui", "email@email.com", "NUS", 12345678L, genSalt(), "soc");
-            FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
+            //FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "User 'hsianghui' already exists.", ""));
         }
@@ -157,7 +160,7 @@ public class RegisterBean implements Serializable {
     public void testRegisterGuest() throws IOException {
         if (csbl.checkNewUser("aguest") == true) {
             csbl.createGuest("aguest", "123456", "someguest", "email@email.com", "NUS", 12345678L, genSalt());
-            FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
+            //FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "User 'aguest' already exists.", ""));
         }
@@ -166,7 +169,7 @@ public class RegisterBean implements Serializable {
     public void registerAdmin() throws IOException {
         if (csbl.checkNewUser("theadmin") == true) {
             csbl.createAdmin("theadmin", "123", "admin", "admin", "NUS", 12345678L, genSalt());
-            FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
+            //FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "User 'admin' already exists.", ""));
         }
@@ -313,14 +316,6 @@ public class RegisterBean implements Serializable {
         this.agree = agree;
     }
 
-    public ClexSessionBeanLocal getCsbl() {
-        return csbl;
-    }
-
-    public void setCsbl(ClexSessionBeanLocal csbl) {
-        this.csbl = csbl;
-    }
-
     public String getPassword1() {
         return password1;
     }
@@ -328,5 +323,12 @@ public class RegisterBean implements Serializable {
     public void setPassword1(String password1) {
         this.password1 = password1;
     }
-    
+
+    public List<String> getSchoollist() {
+        return schoollist;
+    }
+
+    public void setSchoollist(List<String> schoollist) {
+        this.schoollist = schoollist;
+    }
 }

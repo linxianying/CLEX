@@ -71,15 +71,19 @@
                     </div>
                     <p:message for="contact" />
 
-                    <!-- School -->
+                    <!-- School --> 
+                    <!--if school is not listed, they will have to 
+                    wait for admin approval before they change to the correct name?-->
                     <div class="ui-g-12">
                         <label>
-                            <p:selectOneMenu style="padding: 0%" required="true" id="school" value="#{registerBean.school}" 
+                            <p:selectOneMenu style="padding: 0%; text-transform: uppercase;" 
+                                             required="true" title="Select school from list, choose Others if your school is not available in the list."
+                                             id="school" value="#{registerBean.school}" 
                                              editable="true" placeholder="School" requiredMessage="School Required">
-                                <f:selectItem itemLabel="NUS" itemValue="NUS" />
-                                <f:selectItem itemLabel="NTU" itemValue="NTU" />
-                                <f:selectItem itemLabel="SMU" itemValue="SMU" />
+                                <f:selectItems value="#{registerBean.schoollist}"/>
+                                <f:selectItem itemLabel="Others" itemValue="Others" />
                             </p:selectOneMenu>
+                            <p:tooltip id="toolTipFocus" for="school" showEvent="focus" hideEvent="blur" />
                         </label>
                     </div>
                     <p:message for="school" />
