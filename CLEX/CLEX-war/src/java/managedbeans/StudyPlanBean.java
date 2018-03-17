@@ -406,7 +406,7 @@ public class StudyPlanBean {
         //this course already in studyPlan
         else if (cpsbl.checkStudyPlan(username, addModuleCode.toUpperCase())) {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-                    "The study plan for course " + addModuleCode + " already in your study plan", "Please change a course");
+                    "The module " + addModuleCode + " already in your study plan", "Please change to another module");
             context.addMessage(null, fmsg);
             this.addButton = false;
         }
@@ -414,7 +414,7 @@ public class StudyPlanBean {
         else if (cpsbl.checkStudentModule(username, addModuleCode.toUpperCase())) {
 //            addErrorMsg = "You have already taken module - " + addModuleCode.toUpperCase();
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-                    "You have already taken the course " + addModuleCode , "Please change a course");
+                    "You have already taken " + addModuleCode , "Please change to another module");
             context.addMessage(null, fmsg);
             this.addButton = false;
         }
