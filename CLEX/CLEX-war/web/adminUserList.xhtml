@@ -15,19 +15,19 @@
         <h1 style="margin-top:0">User Management Page</h1>
         <h:form>
             <p:growl id="messages" showDetail="true" />
-            <p:panel collapsed="false" id="userlist" 
+            <p:panel collapsed="false" id="userlist"
                      header="VIEW ALL USERS" footer="Note: User must be rejected and/or not approved before deleting."
                      toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom: 20px">
                 <p:dataTable id="usertable" editable="false" selectionMode="single"
                              selection="#{accessControlBean.selectedUser}" rowKey="#{user.id}"
                              var="user" value="#{userListBean.users}" 
-                             widgetVar="usersTable" rows="10"
+                             widgetVar="usersTable" rows="5"
                              emptyMessage="No users found with given criteria." 
                              filteredValue="#{userListBean.filteredUsers}"
                              paginator="true"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="10,20,30">
-
+                             rowsPerPageTemplate="5,20,30">
+                    
                     <f:facet name="header">
                         <p:outputPanel>
                             <h:outputText value="Search all fields:" />
@@ -36,7 +36,7 @@
                     </f:facet>
                     <p:column style="width: 10%" filterBy="#{user.userType}" sortBy="#{user.userType}" headerText="User Type" filterMatchMode="in">
                         <f:facet name="filter">
-                            <p:selectCheckboxMenu label="All" onchange="PF('usersTable').filter()" panelStyle="width:125px" scrollHeight="150">
+                            <p:selectCheckboxMenu label="All" onchange="PF('usersTable').filter()" panelStyle="width:125px" >
                                 <f:selectItems value="#{userListBean.allUserTypes}" />
                             </p:selectCheckboxMenu>
                         </f:facet>
@@ -59,7 +59,7 @@
                     <p:column style="width: 10%" filterBy="#{user.school}" sortBy="#{user.school}" headerText="School" filterMatchMode="contains">
                         <h:outputText value="#{user.school}" />
                     </p:column>
-                    <p:column style="width: 20%" filterBy="#{user.approval}" sortBy="#{user.approval}" headerText="Approved?" filterMatchMode="equals">
+                    <p:column style="width: 30%" filterBy="#{user.approval}" sortBy="#{user.approval}" headerText="Approved?" filterMatchMode="equals">
                         <f:facet name="filter">
                             <p:selectOneButton onchange="PF('usersTable').filter()">
                                 <f:converter converterId="javax.faces.Boolean" />
@@ -74,14 +74,17 @@
                             <h:outputText rendered="#{user.approval eq true}" value="User has already been approved. No actions needed."/>
                             <p:splitButton rendered="#{user.approval eq false}" value="Options" icon="ui-icon-gear">
                                 <p:separator />
-                                <p:menuitem rendered="#{user.approval eq false}" value="Approve User" actionListener="#{accessControlBean.approveUser(user.username)}" update="messages" icon="ui-icon-check" >
+                                <p:menuitem rendered="#{user.approval eq false}" value="Approve User" 
+                                            actionListener="#{accessControlBean.approveUser(user.username)}" update="messages" icon="ui-icon-check" >
                                     <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
                                 </p:menuitem>
-                                <p:menuitem rendered="#{user.approval eq false}" value="Reject User" actionListener="#{accessControlBean.rejectUser(user)}" update="messages" icon="ui-icon-cancel" >
+                                <p:menuitem rendered="#{user.approval eq false}" value="Reject User" 
+                                            actionListener="#{accessControlBean.rejectUser(user)}" update="messages" icon="ui-icon-cancel" >
                                     <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
                                 </p:menuitem>
                                 <p:separator />
-                                <p:menuitem rendered="#{user.approval eq false}" value="Delete User" actionListener="#{accessControlBean.removeUser}" update="messages" icon="ui-icon-close" >
+                                <p:menuitem rendered="#{user.approval eq false}" value="Delete User" 
+                                            actionListener="#{accessControlBean.removeUser}" update="messages" icon="ui-icon-close" >
                                     <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
                                 </p:menuitem>
                             </p:splitButton>
@@ -95,5 +98,4 @@
             </p:panel>
         </h:form>
     </ui:define>
-
 </ui:composition>
