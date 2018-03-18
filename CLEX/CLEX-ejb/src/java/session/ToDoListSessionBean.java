@@ -16,6 +16,11 @@ import entity.SuperGroup;
 import entity.Task;
 import entity.Timeslot;
 import entity.User;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Iterator;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -286,5 +291,46 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
         }
         return studentEntity;
     }
+    
+    @Override
+    public int calculateTaskOverview(Student student){
+        double uncomplete = 0;
+        double total = 0;
+        studentEntity = student;
+        Collection<Task> tasks = studentEntity.getTasks();
+        Iterator itr = tasks.iterator();
+        while (itr.hasNext()) {
+          Task t = (Task) itr.next();
+          total++;
+          if(t.getStatus().equals("unfinished")){
+              uncomplete++;
+          }
+        }
+        System.out.println("The tasks overview is: " + (uncomplete/total));
+        return  (int)(uncomplete/total*100);
+    }
 
+    
+    @Override
+    public int calculateDailyTaskOverview(Student student){
+        double uncomplete = 0;
+        double total = 0;
+        studentEntity = student;
+        Collection<Task> tasks = studentEntity.getTasks();
+        Iterator itr = tasks.iterator();
+        Date date = Calendar.getInstance().getTime();
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+        //2018-01-17
+        while (itr.hasNext()) {
+          Task t = (Task) itr.next();
+          if(t.getDeadline().equals(fmt.format(date))){
+            total++;
+            if(t.getStatus().equals("unfinished")){
+                uncomplete++;
+            }
+          }
+        }
+        System.out.println("The tasks overview is: " + (uncomplete/total));
+        return  (int)(uncomplete/total*100);
+    }
 }

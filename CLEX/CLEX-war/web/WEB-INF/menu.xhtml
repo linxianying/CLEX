@@ -86,10 +86,10 @@
                     <div class="layout-menu-footer">
                         <span class="layout-menu-footer-title">Tasks Overview</span>
                         
-                        <p:progressBar value="30" labelTemplate="" displayOnly="true"/>
+                        <p:progressBar value="#{toDoTimelineBean.showDailyTaskOverview()}" labelTemplate="" displayOnly="true"/>
                         Today
                         
-                        <p:progressBar value="80" labelTemplate=""  displayOnly="true"/>
+                        <p:progressBar value="#{toDoTimelineBean.showTaskOverview()}" labelTemplate=""  displayOnly="true"/>
                         Overall
                     </div>
                     

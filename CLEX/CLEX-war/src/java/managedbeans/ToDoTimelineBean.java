@@ -56,6 +56,7 @@ public class ToDoTimelineBean {
     private boolean axisOnTop;
     private boolean showCurrentTime = true;
     private boolean showNavigation = false;
+    private int task;
     
     @EJB
     private ClexSessionBeanLocal csbl;
@@ -103,7 +104,17 @@ public class ToDoTimelineBean {
     }
  
     public void test(){
-        
+        //
+    }
+    
+    public int showTaskOverview(){
+        int index = tdsbl.calculateTaskOverview((Student) session.getAttribute("user"));
+        return 100-index;
+    }
+    
+    public int showDailyTaskOverview(){
+        int index = tdsbl.calculateDailyTaskOverview((Student) session.getAttribute("user"));
+        return 100-index;
     }
     
     public void onSelect(TimelineSelectEvent e) {
@@ -244,6 +255,14 @@ public class ToDoTimelineBean {
 
     public void setTasks(Collection<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    public int getTask() {
+        return task;
+    }
+
+    public void setTask(int task) {
+        this.task = task;
     }
     
     
