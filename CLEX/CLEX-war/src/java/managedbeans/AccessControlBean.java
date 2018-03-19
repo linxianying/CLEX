@@ -8,7 +8,9 @@ package managedbeans;
 import entity.User;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Properties;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -22,6 +24,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import org.primefaces.context.RequestContext;
 import session.ClexSessionBeanLocal;
 import session.UserAccessControlBeanLocal;
 
@@ -43,7 +46,21 @@ public class AccessControlBean implements Serializable {
     private User userEntity;
     private String username;
 
+    private List<User> users;
+    private List<User> filteredUsers;
+    private List<String> allUserTypes;
+
     public AccessControlBean() {
+    }
+
+    @PostConstruct
+    public void init() {
+        refresh();
+    }
+
+    public void refresh() {
+        users = uacbl.getAllUsers();
+        allUserTypes = uacbl.createUserTypes();
     }
 
     public User getUserEntity() {
@@ -66,13 +83,14 @@ public class AccessControlBean implements Serializable {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
         userEntity = csbl.findUser(username);
-
+        RequestContext reqcontext = RequestContext.getCurrentInstance();
         if (userEntity != null) {
             if (uacbl.approveUser(username) == true) {
                 approveEmail(username, userEntity.getEmail());
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success.", username + " has been approved.");
                 context.addMessage(null, fmsg);
-                context.getExternalContext().redirect("adminUserList.xhtml");
+                refresh();
+                reqcontext.update("userForm:userlist");
             } else {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", username + " has already been approved.");
                 context.addMessage(null, fmsg);
@@ -87,13 +105,14 @@ public class AccessControlBean implements Serializable {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
         userEntity = csbl.findUser(username);
-
+        RequestContext reqcontext = RequestContext.getCurrentInstance();
         if (userEntity != null) {
             if (uacbl.approveUser(username) == true) {
                 approveEmail(username, userEntity.getEmail());
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success.", username + " has been approved.");
                 context.addMessage(null, fmsg);
-                //context.getExternalContext().redirect("adminUserList.xhtml");
+                refresh();
+                reqcontext.update("userForm:userlist");
             } else {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", username + " has already been approved.");
                 context.addMessage(null, fmsg);
@@ -110,13 +129,14 @@ public class AccessControlBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         String tempUser = selectedUser.getUsername();
         userEntity = csbl.findUser(tempUser);
-
+        RequestContext reqcontext = RequestContext.getCurrentInstance();
         if (userEntity != null) {
             if (!userEntity.isApproval()) {
                 rejectEmail(tempUser, userEntity.getEmail());
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Rejection email sent.", "");
                 FacesContext.getCurrentInstance().addMessage(null, fmsg);
-                //context.getExternalContext().redirect("adminUserList.xhtml");
+                refresh();
+                reqcontext.update("userForm:userlist");
             } else {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", tempUser + " cannot be rejected.");
                 context.addMessage(null, fmsg);
@@ -200,11 +220,13 @@ public class AccessControlBean implements Serializable {
     public void removeUser() throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
-
+        RequestContext reqcontext = RequestContext.getCurrentInstance();
         if (uacbl.deleteUser(selectedUser.getUsername()) == true) {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, username + " has been deleted.", "");
             context.addMessage(null, fmsg);
-            context.getExternalContext().redirect("adminUserList.xhtml");
+            refresh();
+            reqcontext.execute("PF('usersTable').clearFilters()");
+            reqcontext.update("userForm:userlist");
         } else {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fail to delete " + selectedUser.getUsername() + ".", "");
             context.addMessage(null, fmsg);
@@ -214,11 +236,13 @@ public class AccessControlBean implements Serializable {
     public void removeUser(User user) throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
-
+        RequestContext reqcontext = RequestContext.getCurrentInstance();
         if (uacbl.deleteUser(user.getUsername()) == true) {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, username + " has been deleted.", "");
             context.addMessage(null, fmsg);
-            context.getExternalContext().redirect("adminUserList.xhtml");
+            refresh();
+            reqcontext.execute("PF('usersTable').clearFilters()");
+            reqcontext.update("userForm:userlist");
         } else {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fail to delete " + username + ".", "");
             context.addMessage(null, fmsg);
@@ -231,5 +255,29 @@ public class AccessControlBean implements Serializable {
 
     public void setSelectedUser(User selectedUser) {
         this.selectedUser = selectedUser;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    public List<User> getFilteredUsers() {
+        return filteredUsers;
+    }
+
+    public void setFilteredUsers(List<User> filteredUsers) {
+        this.filteredUsers = filteredUsers;
+    }
+
+    public List<String> getAllUserTypes() {
+        return allUserTypes;
+    }
+
+    public void setAllUserTypes(List<String> allUserTypes) {
+        this.allUserTypes = allUserTypes;
     }
 }

@@ -13,21 +13,20 @@
         </h:head>
 
         <h1 style="margin-top:0">User Management Page</h1>
-        <h:form>
+        <h:form id="userForm">
             <p:growl id="messages" showDetail="true" />
-            <p:panel collapsed="false" id="userlist"
-                     header="VIEW ALL USERS" footer="Note: User must be rejected and/or not approved before deleting."
-                     toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom: 20px">
+            <p:fieldset collapsed="false" id="userlist" legend="Note: User must be rejected and/or not approved before deleting." toggleable="false" toggleSpeed="500" >
+
                 <p:dataTable id="usertable" editable="false" selectionMode="single"
                              selection="#{accessControlBean.selectedUser}" rowKey="#{user.id}"
-                             var="user" value="#{userListBean.users}" 
-                             widgetVar="usersTable" rows="5"
+                             var="user" value="#{accessControlBean.users}" 
+                             widgetVar="usersTable" rows="10"
                              emptyMessage="No users found with given criteria." 
-                             filteredValue="#{userListBean.filteredUsers}"
+                             filteredValue="#{accessControlBean.filteredUsers}"
                              paginator="true"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="5,20,30">
-                    
+                             rowsPerPageTemplate="5,10,20">
+
                     <f:facet name="header">
                         <p:outputPanel>
                             <h:outputText value="Search all fields:" />
@@ -37,16 +36,16 @@
                     <p:column style="width: 10%" filterBy="#{user.userType}" sortBy="#{user.userType}" headerText="User Type" filterMatchMode="in">
                         <f:facet name="filter">
                             <p:selectCheckboxMenu label="All" onchange="PF('usersTable').filter()" panelStyle="width:125px" >
-                                <f:selectItems value="#{userListBean.allUserTypes}" />
+                                <f:selectItems value="#{accessControlBean.allUserTypes}" />
                             </p:selectCheckboxMenu>
                         </f:facet>
                         <h:outputText value="#{user.userType}" />
                     </p:column>
                     <p:column style="width: 10%" filterBy="#{user.username}" sortBy="#{user.username}" headerText="Username" filterMatchMode="contains">
-                            <h:outputText value="#{user.username}" />            
+                        <h:outputText value="#{user.username}" />            
                     </p:column>
                     <p:column style="width: 20%" filterBy="#{user.name}" sortBy="#{user.name}" headerText="Name" filterMatchMode="contains">
-                            <h:outputText value="#{user.name}"/>                            
+                        <h:outputText value="#{user.name}"/>                            
                     </p:column>
                     <p:column style="width: 15%" filterBy="#{user.email}" sortBy="#{user.email}" headerText="Email" filterMatchMode="contains">                           
                         <h:outputLink value="Mailto:#{user.email}">
@@ -69,22 +68,19 @@
                             </p:selectOneButton>
                         </f:facet>
                         <p:growl id="messages" showDetail="true" />
-                        <p:panelGrid columns="2">
+                        <p:panelGrid columns="2" >
                             <p:inputSwitch disabled="true" onLabel="Yes" offLabel="No" value="#{user.approval}" />
-                            <h:outputText rendered="#{user.approval eq true}" value="User has already been approved. No actions needed."/>
+                            <h:outputText rendered="#{user.approval eq true}" value="User has already been approved. No further actions required."/>
                             <p:splitButton rendered="#{user.approval eq false}" value="Options" icon="ui-icon-gear">
                                 <p:separator />
-                                <p:menuitem rendered="#{user.approval eq false}" value="Approve User" 
-                                            actionListener="#{accessControlBean.approveUser(user.username)}" update="messages" icon="ui-icon-check" >
+                                <p:menuitem rendered="#{user.approval eq false}" value="Approve User" actionListener="#{accessControlBean.approveUser(user.username)}" update="userForm:usertable, messages" icon="ui-icon-check" >
                                     <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
                                 </p:menuitem>
-                                <p:menuitem rendered="#{user.approval eq false}" value="Reject User" 
-                                            actionListener="#{accessControlBean.rejectUser(user)}" update="messages" icon="ui-icon-cancel" >
+                                <p:menuitem rendered="#{user.approval eq false}" value="Reject User" actionListener="#{accessControlBean.rejectUser(user)}" update="userForm:usertable, messages" icon="ui-icon-cancel" >
                                     <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
                                 </p:menuitem>
                                 <p:separator />
-                                <p:menuitem rendered="#{user.approval eq false}" value="Delete User" 
-                                            actionListener="#{accessControlBean.removeUser}" update="messages" icon="ui-icon-close" >
+                                <p:menuitem rendered="#{user.approval eq false}" value="Delete User" actionListener="#{accessControlBean.removeUser}" update="userForm:usertable, messages" icon="ui-icon-close" >
                                     <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
                                 </p:menuitem>
                             </p:splitButton>
@@ -95,7 +91,7 @@
                         </p:confirmDialog>
                     </p:column>
                 </p:dataTable>
-            </p:panel>
+            </p:fieldset>
         </h:form>
     </ui:define>
 </ui:composition>

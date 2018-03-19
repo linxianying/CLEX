@@ -15,6 +15,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
+import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import session.ClassroomSessionBeanLocal;
@@ -34,13 +35,13 @@ public class ModuleInfoBean {
      */
     @EJB
     CourseMgmtBeanLocal cmbl;
-    
+
     @EJB
     ClexSessionBeanLocal csbl;
-    
+
     @EJB
     ClassroomSessionBeanLocal crsbl;
-    
+
     FacesContext context;
     HttpSession session;
     private Lecturer lecturerEntity;
@@ -59,10 +60,16 @@ public class ModuleInfoBean {
     private Collection<ProjectGroup> projectGroups;
     private Collection<Student> students;
     private Collection<Student> groupMembers;
-    
+
+    private HtmlInputText codeInput = new HtmlInputText();
+    private HtmlInputText prereqInput = new HtmlInputText();
+    private HtmlInputText precluInput = new HtmlInputText();
+    private HtmlInputText yearInput = new HtmlInputText();
+    private HtmlInputText semInput = new HtmlInputText();
+
     public ModuleInfoBean() {
     }
-    
+
     @PostConstruct
     public void init() {
         context = FacesContext.getCurrentInstance();
@@ -82,10 +89,17 @@ public class ModuleInfoBean {
         prerequisite = module.getPrerequisite();
         preclusions = module.getPreclusions();
         superGroup = module.getSuperGroup();
-        if(superGroup!=null){
+        if (superGroup != null) {
             projectGroups = superGroup.getProjectGroups();
         }
         students = module.getStudents();
+
+        codeInput.setValue(moduleCode);
+        prereqInput.setValue(prerequisite);
+        precluInput.setValue(preclusions);
+        yearInput.setValue(pickYear);
+        semInput.setValue(pickSem);
+
     }
 
     public CourseMgmtBeanLocal getCmbl() {
@@ -119,8 +133,6 @@ public class ModuleInfoBean {
     public void setModule(Module module) {
         this.module = module;
     }
-
-
 
     public FacesContext getContext() {
         return context;
@@ -261,6 +273,44 @@ public class ModuleInfoBean {
     public Collection<Student> getGroupMembers() {
         return groupMembers;
     }
-    
-    
+
+    public HtmlInputText getCodeInput() {
+        return codeInput;
+    }
+
+    public void setCodeInput(HtmlInputText codeInput) {
+        this.codeInput = codeInput;
+    }
+
+    public HtmlInputText getPrereqInput() {
+        return prereqInput;
+    }
+
+    public void setPrereqInput(HtmlInputText prereqInput) {
+        this.prereqInput = prereqInput;
+    }
+
+    public HtmlInputText getPrecluInput() {
+        return precluInput;
+    }
+
+    public void setPrecluInput(HtmlInputText precluInput) {
+        this.precluInput = precluInput;
+    }
+
+    public HtmlInputText getYearInput() {
+        return yearInput;
+    }
+
+    public void setYearInput(HtmlInputText yearInput) {
+        this.yearInput = yearInput;
+    }
+
+    public HtmlInputText getSemInput() {
+        return semInput;
+    }
+
+    public void setSemInput(HtmlInputText semInput) {
+        this.semInput = semInput;
+    }
 }

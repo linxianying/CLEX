@@ -48,9 +48,18 @@ public class LecturerModuleListBean implements Serializable {
     private Module selectedModule;
 
     private String username;
+    private List<String> daylist;
+    private List<String> timelist;
+    private String lecturerUser;
 
     FacesContext context;
     HttpSession session;
+
+    private String prerequisite;
+    private String preclusions;
+    private String moduleCode;
+    private String takenYear;
+    private String takenSem;
 
     public LecturerModuleListBean() {
     }
@@ -61,11 +70,15 @@ public class LecturerModuleListBean implements Serializable {
         session = (HttpSession) context.getExternalContext().getSession(true);
         lecturerEntity = (Lecturer) session.getAttribute("user");
         username = lecturerEntity.getUsername();
+        refresh();
+    }
+
+    public void refresh() {
         modules = (List) cmbl.getModulesFromLecturer(username);
         lessons = (List) cmbl.getLessonsFromLecturer(username);
-
         moduleCodes = asbl.getModuleCodeByLecturer(username);
-
+        timelist = (List) cmbl.getAllTimings();
+        daylist = (List) cmbl.getAllDays();
     }
 
     public void viewModule(Module module) throws IOException {
@@ -81,13 +94,58 @@ public class LecturerModuleListBean implements Serializable {
         context.getExternalContext().redirect("lecturerModuleInfo.xhtml");
     }
 
-    //public void doRedirect() throws IOException {
-    //    FacesMessage fmsg = new FacesMessage();
-    //    fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "redirecting to module information", "");
-    //    FacesContext context = FacesContext.getCurrentInstance();
-    //    context.addMessage(null, fmsg);
-    //    context.getExternalContext().redirect("ModuleInfoBean.xhtml");
-    //}
+    public void lectEditModule() throws IOException {
+        FacesMessage fmsg = new FacesMessage();
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+        lecturerUser = (String) session.getAttribute("username");
+        System.out.println("Code: " + moduleCode + " Year: " + takenYear + " Sem: " + takenSem + " Prereq: " + prerequisite + " Preclu: " + preclusions);
+
+        if (cmbl.checkExistingModule(moduleCode, takenYear, takenSem) == true) {
+            if (cmbl.checkLectTeachModule(lecturerUser, moduleCode, takenYear, takenSem)) {
+                cmbl.editModule(takenYear, takenSem, prerequisite, preclusions, moduleCode);
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", moduleCode + " has been updated.");
+                context.addMessage(null, fmsg);
+                refresh();
+            } else {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Warning!", "You are not authorised to edit this module.");
+                context.addMessage(null, fmsg);
+            }
+        } else {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Module does not exist.");
+            context.addMessage(null, fmsg);
+        }
+    }
+
+    public void lectEditLesson(Lesson lessonEntity) throws IOException {
+        FacesMessage fmsg = new FacesMessage();
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+        lecturerUser = (String) session.getAttribute("username");
+        String tempModCode = lessonEntity.getModule().getCourse().getModuleCode();
+        String tempTakenYear = lessonEntity.getModule().getTakenYear();
+        String tempTakenSem = lessonEntity.getModule().getTakenSem();
+        String tempDay = lessonEntity.getDay();
+        String tempTimeStart = lessonEntity.getTimeFrom();
+        String tempTimeEnd = lessonEntity.getTimeEnd();
+        String tempType = lessonEntity.getType();
+        String tempVenue = lessonEntity.getVenue();
+        if (cmbl.checkExistingLesson(tempModCode, tempTakenYear, tempTakenSem, tempDay, tempTimeStart, tempTimeEnd) == true) {
+            if (cmbl.checkLectTeachModule(lecturerUser, tempModCode, tempTakenYear, tempTakenSem)) {
+                cmbl.editLesson(tempDay, tempTimeStart, tempTimeEnd, tempType, tempVenue, tempModCode, tempTakenYear, tempTakenSem);
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", tempModCode + " has been updated.");
+                context.addMessage(null, fmsg);
+                refresh();
+            } else {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Warning!", "You are not authorised to edit this lesson.");
+                context.addMessage(null, fmsg);
+            }
+        } else {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Lesson does not exist.");
+            context.addMessage(null, fmsg);
+        }
+    }
+
     public List<Module> getModules() {
         return modules;
     }
@@ -191,4 +249,69 @@ public class LecturerModuleListBean implements Serializable {
     public void setSelectedModule(Module selectedModule) {
         this.selectedModule = selectedModule;
     }
+
+    public List<String> getDaylist() {
+        return daylist;
+    }
+
+    public void setDaylist(List<String> daylist) {
+        this.daylist = daylist;
+    }
+
+    public List<String> getTimelist() {
+        return timelist;
+    }
+
+    public void setTimelist(List<String> timelist) {
+        this.timelist = timelist;
+    }
+
+    public String getLecturerUser() {
+        return lecturerUser;
+    }
+
+    public void setLecturerUser(String lecturerUser) {
+        this.lecturerUser = lecturerUser;
+    }
+
+    public String getPrerequisite() {
+        return prerequisite;
+    }
+
+    public void setPrerequisite(String prerequisite) {
+        this.prerequisite = prerequisite;
+    }
+
+    public String getPreclusions() {
+        return preclusions;
+    }
+
+    public void setPreclusions(String preclusions) {
+        this.preclusions = preclusions;
+    }
+
+    public String getModuleCode() {
+        return moduleCode;
+    }
+
+    public void setModuleCode(String moduleCode) {
+        this.moduleCode = moduleCode;
+    }
+
+    public String getTakenYear() {
+        return takenYear;
+    }
+
+    public void setTakenYear(String takenYear) {
+        this.takenYear = takenYear;
+    }
+
+    public String getTakenSem() {
+        return takenSem;
+    }
+
+    public void setTakenSem(String takenSem) {
+        this.takenSem = takenSem;
+    }
+
 }

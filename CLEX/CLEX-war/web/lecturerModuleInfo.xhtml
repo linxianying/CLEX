@@ -8,6 +8,7 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="content">
+        <p:growl id="messages" showDetail="true" />
         <h:head>
             <title>PRISM Lecturer Module Info Page</title>
         </h:head>
@@ -15,54 +16,67 @@
             <p:printer target="panel" />
         </p:commandButton>
         <h:form id="panel">
-            <p:panel  collapsed="false" styleClass="menuHeader" header="Module #{moduleInfoBean.moduleCode} #{moduleInfoBean.moduleTitle}" toggleable="false" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
+            <p:fieldset legend="#{moduleInfoBean.moduleCode} #{moduleInfoBean.moduleTitle} - Class size: #{moduleInfoBean.students.size()}" toggleable="false" collapsed="false">
                 <h:panelGrid columns="2" width="1000px">
 
                     <p:tab title="#{moduleInfoBean.moduleCode}">
                         <h:panelGrid>
+                            <p:panelGrid styleClass="ui-panelgrid-blank" columns="3">
+                                <h:outputText value="Modular Credits: #{moduleInfoBean.moduleCredit}" />
+                                <h:outputText value="Workload: #{moduleInfoBean.workload}" />
+                                <br></br>
+                                <h:outputText value="Prerequisite: " />
+                                <h:outputText value="Preclusions: " />
+                                <h:outputText value="Information: " />
+                                <h:inputTextarea id="prerequisiteOutput" value="#{lecturerModuleListBean.prerequisite}"
+                                                 binding="#{moduleInfoBean.prereqInput}" style="width: 96%;" rows="10" cols="150" readonly="false" >
+                                </h:inputTextarea>
+                                <h:inputTextarea id="preclusionsOutput" value="#{lecturerModuleListBean.preclusions}"
+                                                 binding="#{moduleInfoBean.precluInput}"  style="width: 96%;" rows="10" cols="150" readonly="false" >
+                                </h:inputTextarea>
+                                <h:inputTextarea id="moduleInfoOutput" value="#{moduleInfoBean.moduleInfo}" style="width: 96%;" rows="10" cols="200" readonly="true"/>
+                            </p:panelGrid>
 
-                            <h:outputText value="Modular Credits: " />
-                            <h:outputText value="#{moduleInfoBean.moduleCredit}" />
+                            <h:inputHidden id="yearOut" value="#{lecturerModuleListBean.takenYear}"
+                                           binding="#{moduleInfoBean.yearInput}" />
+                            <h:inputHidden id="semOut" value="#{lecturerModuleListBean.takenSem}"
+                                           binding="#{moduleInfoBean.semInput}" />
+                            <h:inputHidden id="codeOut" value="#{lecturerModuleListBean.moduleCode}"
+                                           binding="#{moduleInfoBean.codeInput}" />
                             <br />
-                            
-                            <h:outputText value="Information: " />
-                            <h:outputText value="#{moduleInfoBean.moduleInfo}" />
-                            <br/>
-                            
-                            <h:outputText value="Workload:" />
-                            <h:outputText value="#{moduleInfoBean.workload}" />
+                            <p:commandButton value="Update" 
+                                             actionListener="#{lecturerModuleListBean.lectEditModule}" update="messages">
+                                <p:confirm header="Update #{moduleInfoBean.moduleCode}" message="Ensure all details are correct" icon="ui-icon-alert" />
+                            </p:commandButton>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            </p:confirmDialog>
+
                             <br />
-                            
-                            <h:outputText value="Prerequisite: " />
-                            <h:outputText value="#{moduleInfoBean.prerequisite}" />
-                            <br />
-                            
-                            <h:outputText value="Preclusions: " />
-                            <h:outputText value="#{moduleInfoBean.preclusions}" />
+                            <h:outputText value="Students: #{moduleInfoBean.students.size()}"/>
+                            <p:dataGrid var="student" value="#{moduleInfoBean.students}" columns="6" layout="grid"
+                                        paginator="true" id="cars" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+                                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                        rowsPerPageTemplate="6,12,16">
+                                <p:fieldset toggleable="true" collapsed="false" legend="#{student.name}">
+                                    <h:panelGrid>
+                                        <h:outputLink value="Mailto:#{student.email}">
+                                            <h:outputText  style="color:black;font-weight:normal;" value="#{student.email}" />
+                                            <f:param name="subject" value="[PRISM]"/>
+                                            <f:param name="body" value="" />
+                                        </h:outputLink>
+
+                                        <h:outputText value="Faculty: #{student.faculty}" />
+                                        <h:outputText value="Major: #{student.major}" />
+                                    </h:panelGrid>
+                                </p:fieldset>
+
+                            </p:dataGrid>
+
                             <br />
 
-                            <h:outputText value="Students (#{moduleInfoBean.students.size()})" />
-                            
-                            <!-- loop for students of a module -->
-                            <p:dataList var="student" value="#{moduleInfoBean.students}">
-                                <p:accordionPanel multiple="true" activeIndex="1">
-                                    <p:tab title="#{student.name}">
-                                        <h:panelGrid>
-                                            <h:outputLink value="Mailto:#{student.email}">
-                                                <h:outputText  style="color:black;font-weight:normal;" value="#{student.email}" />
-                                                <f:param name="subject" value="[PRISM]"/>
-                                                <f:param name="body" value="" />
-                                            </h:outputLink>
 
-                                            <h:outputText value="Faculty: #{student.faculty}" />
-                                            <h:outputText value="Major: #{student.major}" />
-                                        </h:panelGrid>
-                                    </p:tab>
-                                </p:accordionPanel>
-                            </p:dataList>
-                            <br />
-                            
-                            
                             <h:outputText value="Project Groups (#{moduleInfoBean.superGroup.minStudentNum} to #{moduleInfoBean.superGroup.maxStudentNum} )" />
                             <!-- loop for students of a project group of a specific course -->
                             <p:dataList var="projectGroup" value="#{moduleInfoBean.projectGroups}">
@@ -83,12 +97,12 @@
                                     </p:tab>
                                 </p:accordionPanel>
                             </p:dataList>
-                            
+
                         </h:panelGrid>
                     </p:tab>
 
                 </h:panelGrid>
-            </p:panel>
+            </p:fieldset>
             <br />
         </h:form>
 
