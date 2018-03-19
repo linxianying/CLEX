@@ -7,9 +7,9 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
 
-    <ui:define name="title">PRISM Student Main Page</ui:define>
+    <ui:define name="title">PRISM Student Dashboard Page</ui:define>
 
-    <ui:define name="viewname">PRISM Student Main Page</ui:define>
+    <ui:define name="viewname">Dashboard</ui:define>
 
     <ui:define name="head">
            <script type="text/javascript">
@@ -52,7 +52,7 @@
         <div class="ui-g dashboard">   
             <div class="ui-g-12 ui-md-8">
             
-            <p:panel header="Your Timeline Of To-Do List" style="min-height:260px">
+            <p:panel header="Your Timeline Of To-Do List" style="min-height:320px">
 
                 <p:growl id="growl" showSummary="true" showDetail="true"></p:growl>
 
@@ -72,7 +72,7 @@
             </p:panel>
             </div>
                 <div class="ui-g-12 ui-md-4 task-list">
-                    <p:panel header="Tasks" style="min-height:260px">
+                    <p:panel header="Tasks" style="min-height:320px">
                         <ul>
                             <li>
                                 <p:selectBooleanCheckbox />

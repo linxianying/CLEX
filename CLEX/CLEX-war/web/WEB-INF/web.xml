@@ -13,7 +13,7 @@
     </context-param>
     <context-param>
         <param-name>primefaces.THEME</param-name>
-        <param-value>poseidon-turquoise</param-value>
+        <param-value>poseidon-#{guestPreferences.theme}</param-value>
     </context-param>
     <context-param>
         <param-name>primefaces.FONT_AWESOME</param-name>
