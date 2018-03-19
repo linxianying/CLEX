@@ -11,7 +11,7 @@
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
             <meta name="apple-mobile-web-app-capable" content="yes" />
-            <meta name="theme-color" content="#{guestPreferences.themeColors[turquoise]}" />
+            <meta name="theme-color" content="#{guestPreferences.themeColors[guestPreferences.theme]}" />
         </f:facet>
         <title><ui:insert name="title">PRISM</ui:insert></title>
         <h:outputScript name="js/nanoscroller.js" library="poseidon-layout" />
@@ -53,7 +53,7 @@
         
         <h:outputStylesheet name="css/nanoscroller.css" library="poseidon-layout" />
         <h:outputStylesheet name="css/animate.css" library="poseidon-layout" />
-        <h:outputStylesheet name="css/layout-turquoise.css" library="poseidon-layout" />
+        <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="poseidon-layout" />
     </h:body>
 
 </html>
