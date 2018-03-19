@@ -16,14 +16,14 @@
                     </div>
                     <pp:menu widgetVar="me">
                         <p:menuitem id="om_dashboard" value="Dashboard" icon="fa fa-fw fa-home" outcome="/studentMain"/>
-                        <p:menuitem id="om_rtl" value="Schedule" icon="fa fa-fw fa-list-alt" outcome="/schedule"/>
-                        <p:menuitem id="om_ltr" value="Study Plan" icon="fa fa-fw fa-table" outcome="/studyPlan"/>
-                        <p:submenu id="om_customization" label="Module" icon="fa fa-fw fa-bars">
-                            <p:menuitem id="om_file" value="Project" icon="fa fa-fw fa-list-alt" outcome="/project"/>
-                            <p:menuitem id="om_data" value="Peer Review" icon="fa fa-fw fa-table" outcome="404"/>
+                        <p:menuitem id="om_schedule" value="Schedule" icon="fa fa-fw fa-list-alt" outcome="/schedule"/>
+                        <p:menuitem id="om_studyPlan" value="Study Plan" icon="fa fa-fw fa-table" outcome="/studyPlan"/>
+                        <p:submenu id="om_module" label="Module" icon="fa fa-fw fa-bars">
+                            <p:menuitem id="om_project" value="Project" icon="fa fa-fw fa-list-alt" outcome="/project"/>
+                            <p:menuitem id="om_pr" value="Peer Review" icon="fa fa-fw fa-table" outcome="404"/>
                         </p:submenu>
-                        <p:menuitem id="om_forms" value="Community" icon="fa fa-fw fa-circle-o-notch" outcome="/community"/>
-                        <p:menuitem id="om_login" value="Polling" icon="fa fa-fw fa-sign-in" outcome="/polling" />
+                        <p:menuitem id="om_community" value="Community" icon="fa fa-fw fa-circle-o-notch" outcome="/community"/>
+                        <p:menuitem id="om_polling" value="Polling" icon="fa fa-fw fa-sign-in" outcome="/polling" />
                         
                         <!--
                          <p:submenu id="om_customization" label="Menu Modes" icon="fa fa-fw fa-bars">
@@ -40,13 +40,6 @@
                         <p:submenu id="om_components" label="Components" icon="fa fa-fw fa-sitemap">
                             <p:menuitem id="om_sample" value="Sample Page" icon="fa fa-fw fa-columns" outcome="/sample" />
                             <p:menuitem id="om_forms" value="Forms" icon="fa fa-fw fa-code" outcome="/forms" />
-                            <p:menuitem id="om_data" value="Data" icon="fa fa-fw fa-table" outcome="/data" />
-                            <p:menuitem id="om_panels" value="Panels" icon="fa fa-fw fa-list-alt" outcome="/panel" />
-                            <p:menuitem id="om_overlays" value="Overlays" icon="fa fa-fw fa-square" outcome="/overlay" />
-                            <p:menuitem id="om_menus" value="Menus" icon="fa fa-fw fa-minus-square-o" outcome="/menu" />
-                            <p:menuitem id="om_messages" value="Messages" icon="fa fa-fw fa-circle-o-notch" outcome="/messages" />
-                            <p:menuitem id="om_charts" value="Charts" icon="fa fa-fw fa-area-chart" outcome="/charts" />
-                            <p:menuitem id="om_file" value="File" icon="fa fa-fw fa-arrow-circle-o-up" outcome="/file" />
                             <p:menuitem id="om_misc" value="Misc" icon="fa fa-fw fa-user-secret" outcome="/misc" />
                         </p:submenu>
                         <p:menuitem id="om_db_landing" value="Landing" icon="fa fa-fw fa-certificate" outcome="/landing"/>
