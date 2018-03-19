@@ -20,11 +20,12 @@
                     <p:tabView id="tab">
                         <p:tab id="subtab" title="Academic Plans">
                             <h:form id="studyPlanForm">
-                                <h:outputText value="You do not have any Study Plans currently" rendered="#{empty studyPlanBean.studyPlansInOrer}"/>
-                                <p:panel id="studyPlan" header="Modules To Take" rendered="#{not empty studyPlanBean.studyPlansInOrer}">
-                                    <p:panelGrid columns="2" >
-                                        <p:dataGrid columns="2" layout="grid" var="studyPlans" value="#{studyPlanBean.studyPlansInOrer}" id="studyPlansList">
-                                            <p:dataTable id="spTable" var="sp" value="#{studyPlans}">
+                                <p:fieldset id="studyPlan" legend="Modules To Take" toggleable="false" collapsed="false">
+                                    <h:outputText value="You do not have any Study Plans currently" rendered="#{empty studyPlanBean.studyPlansInOrer}"/>
+                                    <h:panelGroup>
+                                        <p:dataGrid columns="2" layout="grid" var="studyPlans" 
+                                                    value="#{studyPlanBean.studyPlansInOrer}" id="studyPlansList" emptyMessage="Start a plan by adding a module!" >
+                                            <p:dataTable id="spTable" var="sp" value="#{studyPlans}" rendered="#{not empty studyPlanBean.studyPlansInOrer}">
                                                 <f:facet name="header">
                                                     <h:outputText value="YEAR: #{studyPlans.get(0).pickYear} " />
                                                     <h:outputText value="SEMESTER: #{studyPlans.get(0).pickSem}"/>
@@ -33,8 +34,7 @@
                                                     <p:commandLink action="studyPlan?faces-redirect=false" id="modulecode" >
                                                         <h:outputText value="#{sp.course.moduleCode}" />
                                                     </p:commandLink>
-                                                    <br />
-                                                    <p:commandButton value="Delete" id="deleteStudyPlan-button" >
+                                                    <p:commandButton icon="ui-icon-trash" style="background: grey; float: right" id="deleteStudyPlan-button" >
                                                         <p:ajax update="tab:studyPlanForm:studyPlansList, tab:studyPlanForm:addForm:addSPButton" listener="#{studyPlanBean.deleteStudyPlan(sp.course.moduleCode)}" />
                                                         <p:confirm header="Delete #{sp.course.moduleCode}" message="Are you sure?" icon="ui-icon-alert" />
                                                     </p:commandButton>
@@ -82,30 +82,45 @@
                                                 </p:column>
                                             </p:dataTable>
                                         </p:dataGrid>
-                                    </p:panelGrid>
-                                </p:panel>
+                                    </h:panelGroup>
+
+                                </p:fieldset>
                                 <h:form id="addForm">
-                                    <h3>Add a new study plan entry:</h3>
-                                    <p:panelGrid columns ="2">
-                                        <p:outputLabel id="viewLabel" for="moduleCode" value="Module Code:" >
-                                        </p:outputLabel>
+                                    <h3>Add a new study plan entry * :</h3>
+                                    <p:panelGrid columns="2" style="border: none">
+                                        <p:panelGrid columns="2">
+                                            <p:outputLabel id="viewLabel" for="moduleCode" value="Module Code:" >
+                                            </p:outputLabel>
 
-                                        <p:selectOneMenu id="moduleCode" value="#{studyPlanBean.addModuleCode}"  panelStyle="width:180px" effect="fade" 
-                                                         var="course" style="width:160px" filter="true" filterMatchMode="contains" appendTo="@this">
-                                            <p:ajax event="change" listener="#{studyPlanBean.checkStudyPlan}" update="tab:studyPlanForm:addForm:addSPButton, addErrorMsg"  />
-                                            <f:selectItem itemLabel="Select One" itemValue="select"/>
-                                            <f:selectItems value="#{studyPlanBean.courses}" var="course" itemLabel="#{course.moduleCode}" itemValue="#{course.moduleCode}" />
-                                        </p:selectOneMenu>
+                                            <p:selectOneMenu id="moduleCode" value="#{studyPlanBean.addModuleCode}"  panelStyle="width:180px" effect="fade" 
+                                                             var="course" style="width:160px" filter="true" filterMatchMode="contains" appendTo="@this">
+                                                <p:ajax event="change" listener="#{studyPlanBean.checkStudyPlan}" update="tab:studyPlanForm:addForm:addSPButton, tab:studyPlanForm:addForm:moduleInfoBox addErrorMsg"  />
+                                                <f:selectItem itemLabel="Select One" itemValue="select"/>
+                                                <f:selectItems value="#{studyPlanBean.courses}" var="course" itemLabel="#{course.moduleCode}" itemValue="#{course.moduleCode}" />
+                                            </p:selectOneMenu>
 
-                                        <h:outputLabel for="addPickYearLabel" value="Year: " />
+                                            <h:outputLabel for="addPickYearLabel" value="Year: " />
 
-                                        <p:inputText id="addPickYearLabel" value="#{studyPlanBean.addPickYear}" required="true"/>
+                                            <p:inputText id="addPickYearLabel" value="#{studyPlanBean.addPickYear}" required="true"/>
 
-                                        <p:outputLabel for="addPickSemLabel" value="Semester: " />
-                                        <p:selectOneButton id="addPickSemLabel" value="#{studyPlanBean.addPickSem}" required="true">
-                                            <f:selectItem itemLabel="1" itemValue="1" />
-                                            <f:selectItem itemLabel="2" itemValue="2" />
-                                        </p:selectOneButton>                                        
+                                            <p:outputLabel for="addPickSemLabel" value="Semester: " />
+                                            <p:selectOneButton id="addPickSemLabel" value="#{studyPlanBean.addPickSem}" required="true">
+                                                <f:selectItem itemLabel="1" itemValue="1" />
+                                                <f:selectItem itemLabel="2" itemValue="2" />
+                                            </p:selectOneButton>                                        
+                                        </p:panelGrid>
+                                        <h:panelGroup id="moduleInfoBox">
+                                            <p:panelGrid columns ="2">
+                                                <h:outputText value="Module Information:" />
+                                                <p:inputTextarea value="#{studyPlanBean.courseFront.moduleInfo}" style="width: 96%;" rows="3" cols="100" readonly="true" 
+                                                                 autoResize="false" >
+                                                </p:inputTextarea>
+                                                <h:outputText value="Credit Unit(s): "/>
+                                                <h:outputText value="#{studyPlanBean.courseFront.modularCredits}"/>
+                                                <h:outputText value="Workload: "/>
+                                                <h:outputText value="#{studyPlanBean.courseFront.workload}"/>
+                                            </p:panelGrid>
+                                        </h:panelGroup>
                                     </p:panelGrid>
                                     <h:panelGroup id="addSPButton">
                                         <p:commandButton value="Add" id="addStudyPlanButton" 
@@ -128,72 +143,80 @@
                                     <f:convertNumber pattern="#0.00" />
                                 </h:outputText>
                             </h3>
+                            <br />
+                            <br />
+                            <br />
+                            <h5>
+                                <p>* IMPORTANT: PRISM does not check for prerequisites and/or preclusion.</p>
+                                <p>Ensure that: </p>    
+                                <p>1. You meet the requirements before adding a module.</p>
+                                <p>2. The module is available in the semester added.</p>
+                            </h5>
+
                         </p:tab>
                         <p:tab title="Current">
                             <h:form id="modulesTakingForm">
-                                <h:outputText value="You are not taking any module currently" rendered="#{empty studyPlanBean.takingModules}"/>
-                                <p:panel id="modulesTaking" header="Modules Taking This Semester" rendered="#{not empty studyPlanBean.takingModules}">
+                                <p:fieldset id="modulesTaking" legend="Modules Taking This Semester" >
+                                    <h:outputText value="You are not taking any modules currently" rendered="#{empty studyPlanBean.takingModules}"/>
                                     <h:panelGrid columns="2" width="100%">
-                                        <p:panel>
-                                            <p:dataTable var="module" value="#{studyPlanBean.takingModules}">
-                                                <f:facet name="header">
-                                                    <h:outputText value="YEAR: #{studyPlanBean.takingModules.get(0).takenYear} " />
-                                                    <h:outputText value="SEMESTER: #{studyPlanBean.takingModules.get(0).takenSem}"/>
-                                                </f:facet>
-                                                <p:column style="width: 20%" headerText="Module Code">
-                                                    <p:commandLink action="studyPlan?faces-redirect=false" id="modulecode" >
-                                                        <h:outputText value="#{module.course.moduleCode}" />
-                                                    </p:commandLink>
-                                                    <p:overlayPanel for="modulecode" hideEffect="fade">
-                                                        <p:panel header="#{module.course.moduleCode} - #{module.course.moduleName}">
-                                                            <p:panelGrid columns="2" style="margin: auto">
-                                                                <h:outputText value="Module Info:" />
-                                                                <p:inputTextarea value="#{module.course.moduleInfo}" 
-                                                                                 rows="10" cols="50" readonly="true" autoResize="false"> 
-                                                                </p:inputTextarea>
-                                                                <h:outputText value="Workload:" />
-                                                                <h:outputText value="#{module.course.workload}" />
-                                                                <h:outputText value="Prerequisite(s):" />
-                                                                <p:inputTextarea value="#{module.prerequisite}" 
-                                                                                 rows="5" cols="50" readonly="true" autoResize="false"> 
-                                                                </p:inputTextarea>
-                                                                <h:outputText value="Preclusion(s):" />
-                                                                <p:inputTextarea value="#{module.preclusions}" 
-                                                                                 rows="5" cols="50" readonly="true" autoResize="false"> 
-                                                                </p:inputTextarea>
-                                                            </p:panelGrid>
-                                                        </p:panel>
-                                                    </p:overlayPanel>
-                                                </p:column>
-                                                <p:column headerText="Module Name">
-                                                    <h:outputText value="#{module.course.moduleName}" />
-                                                </p:column>
-                                                <p:column style="width: 20%" headerText="Credit Unit(s)">
-                                                    <h:outputText value="#{module.course.modularCredits}" />
-                                                </p:column>
-                                                <p:column style="width: 20%" headerText="Expected Grade">
-                                                    <p:selectOneMenu id="newCurrentGrade" value="#{studyPlanBean.newCurrentModuleGrade}">
-                                                        <f:selectItem itemLabel="Select One" itemValue="select" />  
-                                                        <f:selectItem itemLabel="A+" itemValue="A+" />
-                                                        <f:selectItem itemLabel="A" itemValue="A" />
-                                                        <f:selectItem itemLabel="A-" itemValue="A-" />
-                                                        <f:selectItem itemLabel="B+" itemValue="B+" />
-                                                        <f:selectItem itemLabel="B" itemValue="B" />
-                                                        <f:selectItem itemLabel="B-" itemValue="B-" />
-                                                        <f:selectItem itemLabel="C+" itemValue="C+" />
-                                                        <f:selectItem itemLabel="C" itemValue="C" />
-                                                        <f:selectItem itemLabel="D+" itemValue="D+" />
-                                                        <f:selectItem itemLabel="D" itemValue="D" />
-                                                        <f:selectItem itemLabel="F" itemValue="F" />
-                                                        <f:selectItem itemLabel="S" itemValue="S" />
-                                                        <f:selectItem itemLabel="U" itemValue="U" />
-                                                        <p:ajax process="@this" partialSubmit="true" event="change" update="tab:expectedCap, tab:expectedCap2" listener="#{studyPlanBean.updateCurrentExpectedCap(module.course.modularCredits, module.course.moduleCode)}" />
-                                                    </p:selectOneMenu>
-                                                </p:column>
-                                            </p:dataTable>
-                                        </p:panel>
+                                        <p:dataTable var="module" value="#{studyPlanBean.takingModules}" rendered="#{not empty studyPlanBean.takingModules}">
+                                            <f:facet name="header">
+                                                <h:outputText value="YEAR: #{studyPlanBean.takingModules.get(0).takenYear} " />
+                                                <h:outputText value="SEMESTER: #{studyPlanBean.takingModules.get(0).takenSem}"/>
+                                            </f:facet>
+                                            <p:column style="width: 20%" headerText="Module Code">
+                                                <p:commandLink action="studyPlan?faces-redirect=false" id="modulecode" >
+                                                    <h:outputText value="#{module.course.moduleCode}" />
+                                                </p:commandLink>
+                                                <p:overlayPanel for="modulecode" hideEffect="fade">
+                                                    <p:panel header="#{module.course.moduleCode} - #{module.course.moduleName}">
+                                                        <p:panelGrid columns="2" style="margin: auto">
+                                                            <h:outputText value="Module Info:" />
+                                                            <p:inputTextarea value="#{module.course.moduleInfo}" 
+                                                                             rows="10" cols="50" readonly="true" autoResize="false"> 
+                                                            </p:inputTextarea>
+                                                            <h:outputText value="Workload:" />
+                                                            <h:outputText value="#{module.course.workload}" />
+                                                            <h:outputText value="Prerequisite(s):" />
+                                                            <p:inputTextarea value="#{module.prerequisite}" 
+                                                                             rows="5" cols="50" readonly="true" autoResize="false"> 
+                                                            </p:inputTextarea>
+                                                            <h:outputText value="Preclusion(s):" />
+                                                            <p:inputTextarea value="#{module.preclusions}" 
+                                                                             rows="5" cols="50" readonly="true" autoResize="false"> 
+                                                            </p:inputTextarea>
+                                                        </p:panelGrid>
+                                                    </p:panel>
+                                                </p:overlayPanel>
+                                            </p:column>
+                                            <p:column headerText="Module Name">
+                                                <h:outputText value="#{module.course.moduleName}" />
+                                            </p:column>
+                                            <p:column style="width: 20%" headerText="Credit Unit(s)">
+                                                <h:outputText value="#{module.course.modularCredits}" />
+                                            </p:column>
+                                            <p:column style="width: 20%" headerText="Expected Grade">
+                                                <p:selectOneMenu id="newCurrentGrade" value="#{studyPlanBean.newCurrentModuleGrade}">
+                                                    <f:selectItem itemLabel="Select One" itemValue="select" />  
+                                                    <f:selectItem itemLabel="A+" itemValue="A+" />
+                                                    <f:selectItem itemLabel="A" itemValue="A" />
+                                                    <f:selectItem itemLabel="A-" itemValue="A-" />
+                                                    <f:selectItem itemLabel="B+" itemValue="B+" />
+                                                    <f:selectItem itemLabel="B" itemValue="B" />
+                                                    <f:selectItem itemLabel="B-" itemValue="B-" />
+                                                    <f:selectItem itemLabel="C+" itemValue="C+" />
+                                                    <f:selectItem itemLabel="C" itemValue="C" />
+                                                    <f:selectItem itemLabel="D+" itemValue="D+" />
+                                                    <f:selectItem itemLabel="D" itemValue="D" />
+                                                    <f:selectItem itemLabel="F" itemValue="F" />
+                                                    <f:selectItem itemLabel="S" itemValue="S" />
+                                                    <f:selectItem itemLabel="U" itemValue="U" />
+                                                    <p:ajax process="@this" partialSubmit="true" event="change" update="tab:expectedCap, tab:expectedCap2" listener="#{studyPlanBean.updateCurrentExpectedCap(module.course.modularCredits, module.course.moduleCode)}" />
+                                                </p:selectOneMenu>
+                                            </p:column>
+                                        </p:dataTable>
                                     </h:panelGrid>
-                                </p:panel> 
+                                </p:fieldset> 
                             </h:form>
                             <h3>
                                 Expected Cap: 
@@ -205,10 +228,11 @@
                             <!-- END: Panel for Modules Taking this semester -->
                         </p:tab>
                         <p:tab title="Modules Completed">
-                            <h:outputText value="You have not taken any module before" rendered="#{empty studyPlanBean.student.grades}"/>
-                            <p:panel id="modulesTaken" rendered="#{not empty studyPlanBean.student.grades}">
+
+                            <p:fieldset id="modulesTaken" >
+                                <h:outputText value="You have not taken any modules before" rendered="#{empty studyPlanBean.student.grades}"/>
                                 <h:panelGrid columns="2" width="100%">
-                                    <p:dataGrid var="grades" columns="2" layout="grid" value="#{studyPlanBean.gradesInOrder}">
+                                    <p:dataGrid var="grades" columns="2" layout="grid" value="#{studyPlanBean.gradesInOrder}" rendered="#{not empty studyPlanBean.student.grades}">
                                         <p:panel>
                                             <p:dataTable value="#{grades}" var="grade">
                                                 <f:facet name="header">
@@ -257,11 +281,13 @@
                                 <h3>
                                     <h:outputText value="Current Cap: #{studyPlanBean.cap}" />
                                 </h3>
-                            </p:panel> 
+                            </p:fieldset> 
                         </p:tab>      
                         <p:tab title="Overview">
-                            <h:outputText value="You have not taken any module before" rendered="#{empty studyPlanBean.student.grades}"/>
-                            <p:panel id="overview" rendered="#{not empty studyPlanBean.student.grades}">
+                            <h:outputText value="You have not taken any modules before" rendered="#{empty studyPlanBean.student.grades}"/>       
+                            <p:fieldset >
+
+                                <br></br>
                                 <h:outputText value="&#34;Disclaimer: This report is not an official transcript of your academic records." />
                                 <br></br>
                                 <h:outputText value="It is intended to give you an overview of your current academic progress to faciliate your academic plans.&#34;" />
@@ -286,7 +312,8 @@
                                 <br></br>
                                 <br></br>
 
-                                <!--<p:dataGrid style="width: 100%" columns="3" layout="grid" value="#{studyPlanBean.student.grades}">
+                                <!--<p:fieldset id="overview" rendered="#{not empty studyPlanBean.student.grades}">
+                                <p:dataGrid style="width: 100%" columns="3" layout="grid" value="#{studyPlanBean.student.grades}">
                                     <p:panel>
                                         <p:dataTable value="#{studyPlanBean.gradesInOrder}" var="grade">
                                             <f:facet name="header">
@@ -376,14 +403,14 @@
                                         </p:dataTable>
                                     </p:panel>
                                 </p:dataGrid>-->
-                            </p:panel>
+                            </p:fieldset>
                         </p:tab>   
                     </p:tabView>
                     <br />
                     <br />
-                    <!--<h:form id="initializePageDataForm">
+                    <h:form id="initializePageDataForm">
                         <p:remoteCommand name="initializePageDataCommand" autoRun="true" action="#{studyPlanBean.init()}" update="tab:studyPlanForm:studyPlan, tab:modulesTakingForm tab:expectedCap, tab:expectedCap2"/>
-                    </h:form>-->
+                    </h:form>
                     <br />
                 </div>
             </div>

@@ -5,6 +5,7 @@
  */
 package session;
 
+import entity.Course;
 import entity.Lesson;
 import entity.Module;
 import entity.User;
@@ -74,4 +75,7 @@ public interface CourseMgmtBeanLocal {
     public Collection<User> getLecturerName();
 
     public List getAllModularCredits();
+    public Course findCourse(String moduleCode);
+    public Module findModule(Course course, String takenYear, String takenSem);
+    public Lesson findLesson(Module module, String day, String timeFrom, String timeEnd);
 }

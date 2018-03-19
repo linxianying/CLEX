@@ -449,6 +449,7 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
         return lessons;
     }
 
+    @Override
     public Course findCourse(String moduleCode) {
         courseEntity = null;
         try {
@@ -463,6 +464,7 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
         return courseEntity;
     }
 
+    @Override
     public Module findModule(Course course, String takenYear, String takenSem) {
         moduleEntity = null;
         try {
@@ -479,6 +481,7 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
         return moduleEntity;
     }
 
+    @Override
     public Lesson findLesson(Module module, String day, String timeFrom, String timeEnd) {
         lessonEntity = null;
         try {

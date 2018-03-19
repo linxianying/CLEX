@@ -24,6 +24,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import session.CourseMgmtBeanLocal;
 
 /**
  *
@@ -37,6 +38,8 @@ public class StudyPlanBean {
     private StudyPlanSessionBeanLocal cpsbl;
     @EJB
     private ClexSessionBeanLocal csbl;
+    @EJB
+    CourseMgmtBeanLocal cmbl;
 
     FacesContext context;
     HttpSession session;
@@ -73,11 +76,21 @@ public class StudyPlanBean {
 
     private List<Course> courses;
 
+    private String moduleInfo; //for rendering the info after the student select the module
+    private String workload; //for rendering the info after the student select the module
+    private String preclusions; //for rendering the info after the student select the module
+    Module moduleFront; //for rendering the info after the student select the module
+    Course courseFront; //for rendering the info after the student select the module
+
     public StudyPlanBean() {
     }
 
     @PostConstruct
     public void init() {
+        refresh();
+    }
+
+    public void refresh() {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
 
@@ -116,287 +129,11 @@ public class StudyPlanBean {
         System.out.println("finish to render StudyPlanBean");
     }
 
-    public FacesContext getContext() {
-        return context;
-    }
-
-    public void setContext(FacesContext context) {
-        this.context = context;
-    }
-
-    public HttpSession getSession() {
-        return session;
-    }
-
-    public void setSession(HttpSession session) {
-        this.session = session;
-    }
-
-    public HashMap<String, String> getExpectedCourseGrade() {
-        return expectedCourseGrade;
-    }
-
-    public void setExpectedCourseGrade(HashMap<String, String> expectedCourseGrade) {
-        this.expectedCourseGrade = expectedCourseGrade;
-    }
-
-    public String getAddModuleCode() {
-        return addModuleCode;
-    }
-
-    public void setAddModuleCode(String addModuleCode) {
-        this.addModuleCode = addModuleCode.toUpperCase();
-    }
-
-    public String getAddPickYear() {
-        return addPickYear;
-    }
-
-    public ArrayList<Grade> getGrades() {
-        return grades;
-    }
-
-    public void setGrades(ArrayList<Grade> grades) {
-        this.grades = grades;
-    }
-
-    public double getCap() {
-        return cap;
-    }
-
-    public void setCap(double cap) {
-        this.cap = cap;
-    }
-
-    public String getNewCurrentModuleGrade() {
-        return newCurrentModuleGrade;
-    }
-
-    public void setNewCurrentModuleGrade(String newCurrentModuleGrade) {
-        this.newCurrentModuleGrade = newCurrentModuleGrade;
-    }
-
-    public ArrayList<ArrayList<Grade>> getGradesInOrder() {
-        return gradesInOrder;
-    }
-
-    public void setGradesInOrder(ArrayList<ArrayList<Grade>> gradesInOrder) {
-        this.gradesInOrder = gradesInOrder;
-    }
-
-    public void setAddPickYear(String addPickYear) {
-        this.addPickYear = addPickYear;
-    }
-
-    public String getNewModuleGrade() {
-        return newModuleGrade;
-    }
-
-    public void setNewModuleGrade(String newModuleGrade) {
-        this.newModuleGrade = newModuleGrade;
-    }
-
-    public String getAddPickSem() {
-        return addPickSem;
-    }
-
-    public void setAddPickSem(String addPickSem) {
-        this.addPickSem = addPickSem;
-    }
-
-    public int getAllCredits() {
-        return allCredits;
-    }
-
-    public void setAllCredits(int allCredits) {
-        this.allCredits = allCredits;
-    }
-
-    private String genSalt() {
-        Random rng = new Random();
-        Integer gen = rng.nextInt(13371337);
-        String salt = gen.toString();
-
-        return salt;
-    }
-
-    public void save() {
-        addMessage("Success", "Data saved");
-    }
-
-    public void update() {
-        addMessage("Success", "Data updated");
-    }
-
-    public void delete() {
-        addMessage("Success", "Data deleted");
-    }
-
-    public void addMessage(String summary, String detail) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
-
-    public StudyPlanSessionBeanLocal getCpsbl() {
-        return cpsbl;
-    }
-
-    public void setCpsbl(StudyPlanSessionBeanLocal cpsbl) {
-        this.cpsbl = cpsbl;
-    }
-
-    public ArrayList<Course> getTakenCourses() {
-        return takenCourses;
-    }
-
-    public void setTakenCourses(ArrayList<Course> takenCourses) {
-        this.takenCourses = takenCourses;
-    }
-
-    public Collection<StudyPlan> getStudyPlans() {
-        return studyPlans;
-    }
-
-    public void setStudyPlans(ArrayList<StudyPlan> studyPlans) {
-        this.studyPlans = studyPlans;
-    }
-
-    public ArrayList<ArrayList<StudyPlan>> getStudyPlansInOrer() {
-        return studyPlansInOrer;
-    }
-
-    public void setStudyPlansInOrer(ArrayList<ArrayList<StudyPlan>> studyPlansInOrer) {
-        this.studyPlansInOrer = studyPlansInOrer;
-    }
-
-    public Student getStudent() {
-        return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
-    }
-
-    public ClexSessionBeanLocal getCsbl() {
-        return csbl;
-    }
-
-    public ArrayList<Module> getTakingModules() {
-        return takingModules;
-    }
-
-    public void setTakingModules(ArrayList<Module> takingModules) {
-        this.takingModules = takingModules;
-    }
-
-    public void setCsbl(ClexSessionBeanLocal csbl) {
-        this.csbl = csbl;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getModuleCode() {
-        return moduleCode;
-    }
-
-    public void setModuleCode(String moduleCode) {
-        this.moduleCode = moduleCode;
-    }
-
-    public String getPickYear() {
-        return pickYear;
-    }
-
-    public void setPickYear(String pickYear) {
-        this.pickYear = pickYear;
-    }
-
-    public String getPickSem() {
-        return pickSem;
-    }
-
-    public void setPickSem(String pickSem) {
-        this.pickSem = pickSem;
-    }
-
-    public double getExpectedCap() {
-        return expectedCap;
-    }
-
-    public void setExpectedCap(double expectedCap) {
-        this.expectedCap = expectedCap;
-    }
-
-    public ArrayList<ArrayList<Course>> getTakenCoursesInOrder() {
-        return takenCoursesInOrder;
-    }
-
-    public void setTakenCoursesInOrder(ArrayList<ArrayList<Course>> takenCoursesInOrder) {
-        this.takenCoursesInOrder = takenCoursesInOrder;
-    }
-
-    public String getAddErrorMsg() {
-        return addErrorMsg;
-    }
-
-    public void setAddErrorMsg(String addErrorMsg) {
-        this.addErrorMsg = addErrorMsg;
-    }
-
-    public boolean isAddButton() {
-        return addButton;
-    }
-
-    public void setAddButton(boolean addButton) {
-        this.addButton = addButton;
-    }
-
-    public List<Course> getCourses() {
-        return courses;
-    }
-
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
-    }
-
-    public String getUpdateModuleCode() {
-        return updateModuleCode;
-    }
-
-    public void setUpdateModuleCode(String updateModuleCode) {
-        this.updateModuleCode = updateModuleCode;
-    }
-
-    public String getUpdatePickYear() {
-        return updatePickYear;
-    }
-
-    public void setUpdatePickYear(String updatePickYear) {
-        this.updatePickYear = updatePickYear;
-    }
-
-    public String getUpdatePickSem() {
-        return updatePickSem;
-    }
-
-    public void setUpdatePickSem(String updatePickSem) {
-        this.updatePickSem = updatePickSem;
-    }
-
     public void checkStudyPlan() {
-        //this course does not exist
-//        if (cpsbl.findCourse(addModuleCode.toUpperCase()) == null) {
-//            addErrorMsg = "Module " + addModuleCode.toUpperCase() + " does not exist";
-//            this.addButton = false;
-//        }
+
         context = FacesContext.getCurrentInstance();
         FacesMessage fmsg = new FacesMessage();
+        System.out.println(addPickYear + " " + addPickSem);
         if (addModuleCode.endsWith("select")) {
             this.addButton = false;
         } //this course already in studyPlan
@@ -404,17 +141,19 @@ public class StudyPlanBean {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "The module " + addModuleCode + " already in your study plan", "Please change to another module");
             context.addMessage(null, fmsg);
+            courseFront = null;
             this.addButton = false;
         } //this course already in takenCourses list
         else if (cpsbl.checkStudentModule(username, addModuleCode.toUpperCase())) {
-//            addErrorMsg = "You have already taken module - " + addModuleCode.toUpperCase();
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "You have already taken " + addModuleCode, "Please change to another module");
+                    "You have already taken " + addModuleCode.toUpperCase(), "Please change to another module");
             context.addMessage(null, fmsg);
+            courseFront = null;
+            moduleFront = null;
             this.addButton = false;
         } else {
             fmsg = null;
-//            addErrorMsg = null;
+            courseFront = cmbl.findCourse(addModuleCode);
             this.addButton = true;
         }
     }
@@ -423,7 +162,7 @@ public class StudyPlanBean {
         System.out.println("addModuleCode" + addModuleCode);
         System.out.println("addpickyear" + addPickYear);
         System.out.println("addpickSem" + addPickSem);
-        
+
         context = FacesContext.getCurrentInstance();
         System.out.println("username" + username);
         cpsbl.addStudyPlan(addPickYear, addPickSem, addModuleCode.toUpperCase(), username);
@@ -432,17 +171,13 @@ public class StudyPlanBean {
         addPickYear = null;
         addPickSem = null;
         this.addButton = false;
-        
+        refresh();
+
     }
 
     public void deleteStudyPlan(String moduleCode) {
         cpsbl.removeStudyPlan(username, moduleCode);
         studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
-        try {
-            context.getExternalContext().redirect("studyPlan.xhtml");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public void updateExpectedCap(int newModuleCredit, String moduleCode) {
@@ -679,4 +414,316 @@ public class StudyPlanBean {
 //        
 //        //year = Integer.parseInt(student.getMatricYear());
 //    }
+    public FacesContext getContext() {
+        return context;
+    }
+
+    public void setContext(FacesContext context) {
+        this.context = context;
+    }
+
+    public HttpSession getSession() {
+        return session;
+    }
+
+    public void setSession(HttpSession session) {
+        this.session = session;
+    }
+
+    public HashMap<String, String> getExpectedCourseGrade() {
+        return expectedCourseGrade;
+    }
+
+    public void setExpectedCourseGrade(HashMap<String, String> expectedCourseGrade) {
+        this.expectedCourseGrade = expectedCourseGrade;
+    }
+
+    public String getAddModuleCode() {
+        return addModuleCode;
+    }
+
+    public void setAddModuleCode(String addModuleCode) {
+        this.addModuleCode = addModuleCode.toUpperCase();
+    }
+
+    public String getAddPickYear() {
+        return addPickYear;
+    }
+
+    public ArrayList<Grade> getGrades() {
+        return grades;
+    }
+
+    public void setGrades(ArrayList<Grade> grades) {
+        this.grades = grades;
+    }
+
+    public double getCap() {
+        return cap;
+    }
+
+    public void setCap(double cap) {
+        this.cap = cap;
+    }
+
+    public String getNewCurrentModuleGrade() {
+        return newCurrentModuleGrade;
+    }
+
+    public void setNewCurrentModuleGrade(String newCurrentModuleGrade) {
+        this.newCurrentModuleGrade = newCurrentModuleGrade;
+    }
+
+    public ArrayList<ArrayList<Grade>> getGradesInOrder() {
+        return gradesInOrder;
+    }
+
+    public void setGradesInOrder(ArrayList<ArrayList<Grade>> gradesInOrder) {
+        this.gradesInOrder = gradesInOrder;
+    }
+
+    public void setAddPickYear(String addPickYear) {
+        this.addPickYear = addPickYear;
+    }
+
+    public String getNewModuleGrade() {
+        return newModuleGrade;
+    }
+
+    public void setNewModuleGrade(String newModuleGrade) {
+        this.newModuleGrade = newModuleGrade;
+    }
+
+    public String getAddPickSem() {
+        return addPickSem;
+    }
+
+    public void setAddPickSem(String addPickSem) {
+        this.addPickSem = addPickSem;
+    }
+
+    public int getAllCredits() {
+        return allCredits;
+    }
+
+    public void setAllCredits(int allCredits) {
+        this.allCredits = allCredits;
+    }
+
+    private String genSalt() {
+        Random rng = new Random();
+        Integer gen = rng.nextInt(13371337);
+        String salt = gen.toString();
+        return salt;
+    }
+
+    public void save() {
+        addMessage("Success", "Data saved");
+    }
+
+    public void update() {
+        addMessage("Success", "Data updated");
+    }
+
+    public void delete() {
+        addMessage("Success", "Data deleted");
+    }
+
+    public void addMessage(String summary, String detail) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+
+    public StudyPlanSessionBeanLocal getCpsbl() {
+        return cpsbl;
+    }
+
+    public void setCpsbl(StudyPlanSessionBeanLocal cpsbl) {
+        this.cpsbl = cpsbl;
+    }
+
+    public ArrayList<Course> getTakenCourses() {
+        return takenCourses;
+    }
+
+    public void setTakenCourses(ArrayList<Course> takenCourses) {
+        this.takenCourses = takenCourses;
+    }
+
+    public Collection<StudyPlan> getStudyPlans() {
+        return studyPlans;
+    }
+
+    public void setStudyPlans(ArrayList<StudyPlan> studyPlans) {
+        this.studyPlans = studyPlans;
+    }
+
+    public ArrayList<ArrayList<StudyPlan>> getStudyPlansInOrer() {
+        return studyPlansInOrer;
+    }
+
+    public void setStudyPlansInOrer(ArrayList<ArrayList<StudyPlan>> studyPlansInOrer) {
+        this.studyPlansInOrer = studyPlansInOrer;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public ClexSessionBeanLocal getCsbl() {
+        return csbl;
+    }
+
+    public ArrayList<Module> getTakingModules() {
+        return takingModules;
+    }
+
+    public void setTakingModules(ArrayList<Module> takingModules) {
+        this.takingModules = takingModules;
+    }
+
+    public void setCsbl(ClexSessionBeanLocal csbl) {
+        this.csbl = csbl;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getModuleCode() {
+        return moduleCode;
+    }
+
+    public void setModuleCode(String moduleCode) {
+        this.moduleCode = moduleCode;
+    }
+
+    public String getPickYear() {
+        return pickYear;
+    }
+
+    public void setPickYear(String pickYear) {
+        this.pickYear = pickYear;
+    }
+
+    public String getPickSem() {
+        return pickSem;
+    }
+
+    public void setPickSem(String pickSem) {
+        this.pickSem = pickSem;
+    }
+
+    public double getExpectedCap() {
+        return expectedCap;
+    }
+
+    public void setExpectedCap(double expectedCap) {
+        this.expectedCap = expectedCap;
+    }
+
+    public ArrayList<ArrayList<Course>> getTakenCoursesInOrder() {
+        return takenCoursesInOrder;
+    }
+
+    public void setTakenCoursesInOrder(ArrayList<ArrayList<Course>> takenCoursesInOrder) {
+        this.takenCoursesInOrder = takenCoursesInOrder;
+    }
+
+    public String getAddErrorMsg() {
+        return addErrorMsg;
+    }
+
+    public void setAddErrorMsg(String addErrorMsg) {
+        this.addErrorMsg = addErrorMsg;
+    }
+
+    public boolean isAddButton() {
+        return addButton;
+    }
+
+    public void setAddButton(boolean addButton) {
+        this.addButton = addButton;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
+
+    public String getUpdateModuleCode() {
+        return updateModuleCode;
+    }
+
+    public void setUpdateModuleCode(String updateModuleCode) {
+        this.updateModuleCode = updateModuleCode;
+    }
+
+    public String getUpdatePickYear() {
+        return updatePickYear;
+    }
+
+    public void setUpdatePickYear(String updatePickYear) {
+        this.updatePickYear = updatePickYear;
+    }
+
+    public String getUpdatePickSem() {
+        return updatePickSem;
+    }
+
+    public void setUpdatePickSem(String updatePickSem) {
+        this.updatePickSem = updatePickSem;
+    }
+
+    public String getModuleInfo() {
+        return moduleInfo;
+    }
+
+    public void setModuleInfo(String moduleInfo) {
+        this.moduleInfo = moduleInfo;
+    }
+
+    public String getWorkload() {
+        return workload;
+    }
+
+    public void setWorkload(String workload) {
+        this.workload = workload;
+    }
+
+    public String getPreclusions() {
+        return preclusions;
+    }
+
+    public void setPreclusions(String preclusions) {
+        this.preclusions = preclusions;
+    }
+
+    public Module getModuleFront() {
+        return moduleFront;
+    }
+
+    public void setModuleFront(Module moduleFront) {
+        this.moduleFront = moduleFront;
+    }
+
+    public Course getCourseFront() {
+        return courseFront;
+    }
+
+    public void setCourseFront(Course courseFront) {
+        this.courseFront = courseFront;
+    }
+
 }
