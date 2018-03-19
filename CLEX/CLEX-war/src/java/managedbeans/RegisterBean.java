@@ -11,10 +11,12 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.event.ActionEvent;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import org.primefaces.context.RequestContext;
 import session.ClexSessionBeanLocal;
 import session.CourseMgmtBeanLocal;
 
@@ -89,25 +91,23 @@ public class RegisterBean implements Serializable {
                             csbl.createStudent(username, password, name, email, school, contactNum, genSalt(),
                                     faculty, major, matricYear, matricSem, cap);
                             fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Student '" + username + "' successfully created.", "We hope you will like PRISM.");
-                            //context.getExternalContext().redirect("login.xhtml");
                         } else if (userType.equals("2")) { //Lecturer
                             csbl.createLecturer(username, password, name, email, school, contactNum, genSalt(),
                                     faculty);
                             fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Lecturer '" + username + "' successfully created.", "We hope you will like PRISM.");
-                            //context.getExternalContext().redirect("login.xhtml");
                         } else { //Guest
                             csbl.createGuest(username, password, name, email, school, contactNum, genSalt());
                             fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Guest '" + username + "' successfully created.", "We hope you will like PRISM.");
-                            //context.getExternalContext().redirect("login.xhtml");
                         }
-                        //context.getExternalContext().redirect("login.xhtml"); //redirect will not show success
                         context.addMessage(null, fmsg);
+                        context.getExternalContext().getFlash().setKeepMessages(true);
                         username = "";
                         password = "";
                         name = "";
                         email = "";
                         school = "";
                         contactNum = null;
+                        context.getExternalContext().redirect("login.xhtml"); //redirect will not show success
                     } else {
                         fmsg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "The password are inconsistent", "Please enter again.");
                         username = "";

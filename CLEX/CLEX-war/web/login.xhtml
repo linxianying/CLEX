@@ -17,50 +17,50 @@
 
     <h:body styleClass="login-body">
         <div class="login-panel ui-fluid">
-            
+
             <h:form>
-               <p:messages showDetail="true" autoUpdate="true" closable="true" />
-            <div class="ui-g">
-                <div class="ui-g-12 logo-container">
-                    <p:graphicImage name="images/login/login-logo.png" library="poseidon-layout" />
-                </div>
-                <div class="ui-g-12">
-                    <label>
+                <p:messages showDetail="true" autoUpdate="true" closable="true" />
+                <div class="ui-g">
+                    <p:focus context="panel"/>
+                    <p:panel id="panel" style="border: none">
+                        <div class="ui-g-12 logo-container">
+                            <p:graphicImage name="images/login/login-logo.png" library="poseidon-layout" />
+                        </div>
+                        <div class="ui-g-12">
                             <p:inputText styleClass="textInput" id="username" value="#{loginBean.username}" 
                                          required="true" requiredMessage="Please enter your username!" 
                                          placeholder="Username"
                                          validatorMessage="Invalid format. Username must be between 6-12 letters/numbers. Special characters are not allowed.">
                                 <f:validateRegex pattern="^[a-zA-Z0-9]{6,12}$" />
                             </p:inputText>
-                        </label>
-                </div>
-                <div class="ui-g-12">
-                   <label>
-                        <p:password styleClass="textInput" id="password" value="#{loginBean.password}" 
-                                    required="true" requiredMessage="Please enter your password!" 
-                                    placeholder="Password"/>
-                    </label>
-                </div>
-                <div class="ui-g-12 chkbox-container">
-                   <p:selectOneButton required="true" requiredMessage="Please select a user type!" styleClass="menuSelect" id="userType" value="#{loginBean.userType}">
-                        <f:selectItem itemValue="1" itemLabel="STU" />
-                        <f:selectItem itemValue="2" itemLabel="LEC" />
-                        <f:selectItem itemValue="3" itemLabel="ADM" />
-                        <f:selectItem itemValue="4" itemLabel="GUE" />
-                    </p:selectOneButton><br/>
-                </div>
-                
-                
-                <div class="ui-g-12 button-container">
-                    <p:commandButton  icon="fa fa-home" styleClass="loginBtn" value="Login" actionListener="#{loginBean.doLogin}" />
 
-                    <p:button outcome="/register" value="Sign Up" icon="fa fa-user" styleClass="pink-btn"/>
-                    <p:button outcome="/resetPassword" value="Forgot Password" icon="fa fa-key" styleClass="blue-btn" />
+                        </div>
+                        <div class="ui-g-12">
+                            <p:password styleClass="textInput" id="password" value="#{loginBean.password}" 
+                                        required="true" requiredMessage="Please enter your password!" 
+                                        placeholder="Password"/>
+                        </div>
+                        <div class="ui-g-12 chkbox-container">
+                            <p:selectOneButton required="true" requiredMessage="Please select a user type!" styleClass="menuSelect" id="userType" value="#{loginBean.userType}">
+                                <f:selectItem itemValue="1" itemLabel="STU" />
+                                <f:selectItem itemValue="2" itemLabel="LEC" />
+                                <f:selectItem itemValue="3" itemLabel="ADM" />
+                                <f:selectItem itemValue="4" itemLabel="GUE" />
+                            </p:selectOneButton><br/>
+                        </div>
+
+
+                        <div class="ui-g-12 button-container">
+                            <p:commandButton  icon="fa fa-home" styleClass="loginBtn" value="Login" actionListener="#{loginBean.doLogin}" />
+
+                            <p:button outcome="/register" value="Sign Up" icon="fa fa-user" styleClass="pink-btn"/>
+                            <p:button outcome="/resetPassword" value="Forgot Password" icon="fa fa-key" styleClass="blue-btn" />
+                        </div>
+                    </p:panel>
                 </div>
-            </div>
             </h:form>
         </div>
-        
+
         <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="poseidon-layout" />
     </h:body>
 

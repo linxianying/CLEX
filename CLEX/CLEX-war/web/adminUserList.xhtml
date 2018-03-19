@@ -68,7 +68,7 @@
                             </p:selectOneButton>
                         </f:facet>
                         <p:growl id="messages" showDetail="true" />
-                        <p:panelGrid columns="2" >
+                        <p:panelGrid columns="2" styleClass="ui-panelgrid-blank"  >
                             <p:inputSwitch disabled="true" onLabel="Yes" offLabel="No" value="#{user.approval}" />
                             <h:outputText rendered="#{user.approval eq true}" value="User has already been approved. No further actions required."/>
                             <p:splitButton rendered="#{user.approval eq false}" value="Options" icon="ui-icon-gear">

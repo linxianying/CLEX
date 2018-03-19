@@ -4,7 +4,6 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
-
     <h:head>
         <f:facet name="first">
             <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -13,25 +12,22 @@
             <meta name="apple-mobile-web-app-capable" content="yes" />
         </f:facet>
         <title>PRISM Register Page</title>
-
         <!-- TEST FAVICON -->
         <link rel="icon" 
               type="image/png" 
               href="https://cdn4.iconfinder.com/data/icons/new-google-logo-2015/400/new-google-favicon-128.png" />
     </h:head>
-
     <h:body styleClass="login-body" ondblclick="closeDialog();" >
         <div class="login-panel ui-fluid">
-
             <h:form>
-                <!--<p:messages showDetail="false" autoUpdate="true" closable="true" />-->
+                <p:focus context="panel"/>
                 <div class="ui-g">
-                    <div class="ui-g-12 logo-container">
-                        <p:graphicImage name="images/login/login-logo.png" library="poseidon-layout" />
-                    </div>
-                    <!-- Full Name -->
-                    <div class="ui-g-12">
-                        <label>
+                    <p:panel id="panel" style="border: none">
+                        <div class="ui-g-12 logo-container">
+                            <p:graphicImage name="images/login/login-logo.png" library="poseidon-layout" />
+                        </div>
+                        <div class="ui-g-12">
+                            <!-- Full Name -->
                             <p:inputText styleClass="textInput" 
                                          title="Please enter your full name"
                                          placeholder="Full Name"
@@ -39,13 +35,11 @@
                                          required="true" 
                                          requiredMessage="Full Name Required." >
                             </p:inputText> 
-                        </label>
-                    </div>
-                    <p:message for="name" />
+                        </div>
+                        <p:message for="name" />
 
-                    <!-- Email Address -->
-                    <div class="ui-g-12">
-                        <label>
+                        <!-- Email Address -->
+                        <div class="ui-g-12">
                             <p:inputText styleClass="textInput" 
                                          placeholder="Email Address" 
                                          title="Please enter your email address"
@@ -53,13 +47,12 @@
                                          requiredMessage="Email Required."                                     
                                          validatorMessage="Email format is invalid.">
                             </p:inputText>
-                        </label>
-                    </div>
-                    <p:message for="email" />
+                        </div>
+                        <p:message for="email" />
 
-                    <!-- Contact Number -->
-                    <div class="ui-g-12">
-                        <label>
+                        <!-- Contact Number -->
+                        <div class="ui-g-12">
+
                             <p:inputText styleClass="textInput" 
                                          title="Please enter your contact number"
                                          placeholder="Contact Number"
@@ -67,40 +60,39 @@
                                          required="true" requiredMessage="Contact Number Required." 
                                          validatorMessage="Invalid format. Contact number must be at least 8 digits">
                             </p:inputText>
-                        </label>
-                    </div>
-                    <p:message for="contact" />
 
-                    <!-- School --> 
-                    <!--if school is not listed, they will have to 
-                    wait for admin approval before they change to the correct name?-->
-                    <div class="ui-g-12">
-                        <label>
+                        </div>
+                        <p:message for="contact" />
+
+                        <!-- School --> 
+                        <!--if school is not listed, they will have to 
+                        wait for admin approval before they change to the correct name?-->
+                        <div class="ui-g-12">
                             <p:selectOneMenu style="padding: 0%; text-transform: uppercase;" 
                                              required="true" title="Select school from list, choose Others if your school is not available in the list."
                                              id="school" value="#{registerBean.school}" 
                                              editable="true" placeholder="School" requiredMessage="School Required">
-                                <f:selectItems value="#{registerBean.schoollist}"/>
-                                <f:selectItem itemLabel="Others" itemValue="Others" />
+                                <f:selectItems value="#{registerBean.schoollist}" />
+                                <f:selectItem itemLabel="Others" itemValue="Others"/>
+
                             </p:selectOneMenu>
                             <p:tooltip id="toolTipFocus" for="school" showEvent="focus" hideEvent="blur" />
-                        </label>
-                    </div>
-                    <p:message for="school" />
+                        </div>
+                        <p:message for="school" />
 
-                    <!-- User Type -->
-                    <div class="ui-g-12 chkbox-container">
-                        <p:selectOneButton required="true" requiredMessage="User Type Required" styleClass="menuSelect" id="userType" value="#{registerBean.userType}">
-                            <f:selectItem itemValue="1" itemLabel="STU" />
-                            <f:selectItem itemValue="2" itemLabel="LEC" />
-                            <f:selectItem itemValue="3" itemLabel="GUE" />
-                        </p:selectOneButton>
-                    </div>
-                    <p:message for="userType" />
+                        <!-- User Type -->
+                        <div class="ui-g-12 chkbox-container">
+                            <p:selectOneButton required="true" requiredMessage="User Type Required" styleClass="menuSelect" id="userType" value="#{registerBean.userType}">
+                                <f:selectItem itemValue="1" itemLabel="STU" />
+                                <f:selectItem itemValue="2" itemLabel="LEC" />
+                                <f:selectItem itemValue="3" itemLabel="GUE" />
+                            </p:selectOneButton>
+                        </div>
+                        <p:message for="userType" />
 
-                    <!-- Username -->
-                    <div class="ui-g-12">
-                        <label>
+                        <!-- Username -->
+                        <div class="ui-g-12">
+
                             <p:inputText styleClass="textInput" title="6-12 alphanumeric without special characters"
                                          placeholder="Username"
                                          id="username" value="#{registerBean.username}" 
@@ -108,82 +100,79 @@
                                          validatorMessage="Invalid format. Username must be between 6-12 letters/numbers. Special characters are not allowed.">
                                 <f:validateRegex pattern="^[a-zA-Z0-9]{6,12}$" /> 
                             </p:inputText>
-                        </label>
-                    </div>
-                    <p:message for="username" />
+                        </div>
+                        <p:message for="username" />
 
-                    <!-- Password -->
-                    <div class="ui-g-12">
+                        <!-- Password -->
+                        <div class="ui-g-12">
 
-                        <p:password styleClass="textInput" 
-                                    placeholder="Password"
-                                    title="6-12 characters"
-                                    id="password" value="#{registerBean.password}" 
-                                    feedback="true"
-                                    match="password1"
-                                    validatorMessage="Invalid format or inconsistent passwords. Please enter again."
-                                    required="true" requiredMessage="Password Required." />
+                            <p:password styleClass="textInput" 
+                                        placeholder="Password"
+                                        title="6-12 characters"
+                                        id="password" value="#{registerBean.password}" 
+                                        feedback="true"
+                                        match="password1"
+                                        validatorMessage="Invalid format or inconsistent passwords. Please enter again."
+                                        required="true" requiredMessage="Password Required." />
 
-                    </div>
-                    <p:message for="password"/>
+                        </div>
+                        <p:message for="password"/>
 
-                    <!-- Confirm Password -->
-                    <div class="ui-g-12">
+                        <!-- Confirm Password -->
+                        <div class="ui-g-12">
 
-                        <p:password styleClass="textInput" 
-                                    placeholder="Confirm Password"
-                                    title="Enter your password again"
-                                    id="password1" value="#{registerBean.password1}" 
-                                    feedback="true"
-                                    promptLabel="Ensure both passwords are the same"
-                                    validatorMessage="Passwords are inconsistent. Please enter again."
-                                    required="true" requiredMessage="Password required and must match." />
+                            <p:password styleClass="textInput" 
+                                        placeholder="Confirm Password"
+                                        title="Enter your password again"
+                                        id="password1" value="#{registerBean.password1}" 
+                                        feedback="true"
+                                        promptLabel="Ensure both passwords are the same"
+                                        validatorMessage="Passwords are inconsistent. Please enter again."
+                                        required="true" requiredMessage="Password required and must match." />
 
-                    </div>
-                    <p:message for="password1" />
+                        </div>
+                        <p:message for="password1" />
 
-                    <p:confirmDialog style="max-width: 40%; max-height:50%; overflow:auto"  
-                        widgetVar="termsdlg" global="true" showEffect="fade" hideEffect="fade" >
-                        <h:outputText value="1. Terms:"/>
-                        <br/>
-                        <h:outputText value="By accessing the website, you are agreeing to be bound by these terms of service, all applicable laws and regulations, and agree that you are responsible for compliance with any applicable local laws. If you do not agree with any of these terms, you are prohibited from using or accessing this site. The materials contained in this website are protected by applicable copyright and trademark law." />
-                        <br/><br/>
-                        <h:outputText value="2. Disclaimer:"/>
-                        <br/>
-                        <h:outputText value="The materials on PRISM's website are provided on an 'as is' basis. PRISM makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights."/>
-                        <br/><br/>
-                        <h:outputText value="3. Limitations"/>
-                        <br/>
-                        <h:outputText value="In no event shall PRISM or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on PRISM's website, even if PRISM or a PRISM authorized representative has been notified orally or in writing of the possibility of such damage. Because some jurisdictions do not allow limitations on implied warranties, or limitations of liability for consequential or incidental damages, these limitations may not apply to you."/>
-                        <br/><br/>
-                        <h:outputText value="4. Modifications"/>
-                        <br/>
-                        <h:outputText value="PRISM may revise these terms of service for its website at any time without notice. By using this website you are agreeing to be bound by the then current version of these terms of service."/>
-                        <br/><br/>
-                        <h:outputText value="5. Governing Law"/>
-                        <br/>
-                        <h:outputText value="These terms and conditions are governed by and construed in accordance with the laws of Singapore and you irrevocably submit to the exclusive jurisdiction of the courts in that State or location."/>
-                    </p:confirmDialog>
-                    <!-- T&C -->
-                    <div class="ui-g-12">
-                        <p:commandButton styleClass="termsBtn" ajax="false" value="Read Terms &amp; Conditions">
-                            <p:confirm  message="Terms &amp; Conditions" icon="ui-icon-alert" />
-                        </p:commandButton>
-                        <h:panelGrid styleClass="form-title-row" columns="2" style="margin: auto">
-                            <h:outputText value="I agree to the terms &amp; conditions"></h:outputText>
-                            <p:selectBooleanCheckbox value="#{registerBean.agree}" id="terms" required="true" requiredMessage="You must agree to our Terms &amp; Conditions" >
-                            </p:selectBooleanCheckbox>
-                        </h:panelGrid>
+                        <p:confirmDialog style="max-width: 40%; max-height:50%; overflow:auto"  
+                                         widgetVar="termsdlg" global="true" showEffect="fade" hideEffect="fade" >
+                            <h:outputText value="1. Terms:"/>
+                            <br/>
+                            <h:outputText value="By accessing the website, you are agreeing to be bound by these terms of service, all applicable laws and regulations, and agree that you are responsible for compliance with any applicable local laws. If you do not agree with any of these terms, you are prohibited from using or accessing this site. The materials contained in this website are protected by applicable copyright and trademark law." />
+                            <br/><br/>
+                            <h:outputText value="2. Disclaimer:"/>
+                            <br/>
+                            <h:outputText value="The materials on PRISM's website are provided on an 'as is' basis. PRISM makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights."/>
+                            <br/><br/>
+                            <h:outputText value="3. Limitations"/>
+                            <br/>
+                            <h:outputText value="In no event shall PRISM or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on PRISM's website, even if PRISM or a PRISM authorized representative has been notified orally or in writing of the possibility of such damage. Because some jurisdictions do not allow limitations on implied warranties, or limitations of liability for consequential or incidental damages, these limitations may not apply to you."/>
+                            <br/><br/>
+                            <h:outputText value="4. Modifications"/>
+                            <br/>
+                            <h:outputText value="PRISM may revise these terms of service for its website at any time without notice. By using this website you are agreeing to be bound by the then current version of these terms of service."/>
+                            <br/><br/>
+                            <h:outputText value="5. Governing Law"/>
+                            <br/>
+                            <h:outputText value="These terms and conditions are governed by and construed in accordance with the laws of Singapore and you irrevocably submit to the exclusive jurisdiction of the courts in that State or location."/>
+                        </p:confirmDialog>
+                        <!-- T&C -->
+                        <div class="ui-g-12">
+                            <p:commandButton styleClass="termsBtn" ajax="false" value="Read Terms &amp; Conditions">
+                                <p:confirm  message="Terms &amp; Conditions" icon="ui-icon-alert" />
+                            </p:commandButton>
+                            <h:panelGrid styleClass="form-title-row" columns="2" style="margin: auto">
+                                <h:outputText value="I agree to the terms &amp; conditions"></h:outputText>
+                                <p:selectBooleanCheckbox value="#{registerBean.agree}" id="terms" required="true" requiredMessage="You must agree to our Terms &amp; Conditions" >
+                                </p:selectBooleanCheckbox>
+                            </h:panelGrid>
 
-                        <p:message for="terms"/>
-                    </div>
+                            <p:message for="terms"/>
+                        </div>
 
-                    <div class="ui-g-12 button-container">
-                        <p:commandButton styleClass="pink-btn" icon="fa fa-user" update="@form" value="Sign Up" actionListener="#{registerBean.register}" action="login?faces-redirect=true" />
-                        <!--
-                        <p:button outcome="/resetPassword" value="Forgot Password" icon="fa fa-key" styleClass="blue-btn" />
-                        -->
-                    </div>
+                        <div class="ui-g-12 button-container">
+                            <p:commandButton styleClass="pink-btn" icon="fa fa-user" update="@form" value="Sign Up" actionListener="#{registerBean.register}" action="login?faces-redirect=true" />
+                        </div>
+                    </p:panel>
                 </div>
             </h:form>
         </div>
