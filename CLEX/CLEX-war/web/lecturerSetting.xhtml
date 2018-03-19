@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template_lecturer.xhtml">
+
+    <ui:define name="title">PRISM Student Settings Page</ui:define>
+
+    <ui:define name="viewname">Settings</ui:define>
+
+    <ui:define name="content">
+        <div class="ui-g dashboard">            
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+                <p:panel header="Menu Mode" style="min-height:160px" >
+                    <p:commandButton  value="Static Menu"  actionListener="#{guestPreferences.setMenuLayout('static')}"  action="lecturerSetting?faces-redirect=true"/>
+                    <br></br><br></br>
+                    <p:commandButton  value="Overlay Menu"  actionListener="#{guestPreferences.setMenuLayout('overlay')}" action="lecturerSetting?faces-redirect=true"/>
+                    <br></br><br></br>
+                    <p:commandButton  value="Horizontal Menu"  actionListener="#{guestPreferences.setMenuLayout('horizontal')}" action="lecturerSetting?faces-redirect=true"/>
+                </p:panel>
+            </div>
+            <div class="ui-g-12 ui-md-6 ui-lg-3">
+                <p:panel header="Change Theme" style="min-height:160px" >
+                    <p:commandButton  value="Turquoise Theme"  actionListener="#{guestPreferences.setTheme('turquoise')}"  action="lecturerSetting?faces-redirect=true"/>
+                    <br></br><br></br>
+                    <p:commandButton  value="Blue Theme"  actionListener="#{guestPreferences.setTheme('blue')}" action="lecturerSetting?faces-redirect=true"/>
+                    <br></br><br></br>
+                    <p:commandButton  value="Purple Theme"  actionListener="#{guestPreferences.setTheme('purple')}" action="lecturerSetting?faces-redirect=true"/>
+                    <br></br><br></br>
+                    <p:commandButton  value="Orange Theme"  actionListener="#{guestPreferences.setTheme('orange')}"  action="lecturerSetting?faces-redirect=true"/>
+                    <br></br><br></br>
+                    <p:commandButton  value="Pink Theme"  actionListener="#{guestPreferences.setTheme('pink')}" action="lecturerSetting?faces-redirect=true"/>
+                    <br></br><br></br>
+                    <p:commandButton  value="Light Blue Theme"  actionListener="#{guestPreferences.setTheme('light-blue')}" action="lecturerSetting?faces-redirect=true"/>
+                    <br></br><br></br>
+                    <p:commandButton  value="Green Theme"  actionListener="#{guestPreferences.setTheme('green')}" action="lecturerSetting?faces-redirect=true"/>
+                    <br></br><br></br>
+                    <p:commandButton  value="Deep Purple Theme"  actionListener="#{guestPreferences.setTheme('deep-purple')}" action="lecturerSetting?faces-redirect=true"/>
+                
+                </p:panel>
+            </div>
+        </div>
+        
+    </ui:define>
+</ui:composition>
+
