@@ -5,13 +5,15 @@
  */
 package javaClass;
 
+import java.io.Serializable;
+
 /**
  *
  * @author caoyu
  */
-public class Question {
+public class Question implements Serializable{
     private String question;
-    //type of question, can be open/ rating
+    //type of question, can be open/ rating/ ranking
     private String type;
     //if the question type is rating, levelOfrating decides how many levels in total, 1-5 or 1-7 etc
     private int levelOfRating;

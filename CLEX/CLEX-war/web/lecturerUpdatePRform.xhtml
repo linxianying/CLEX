@@ -1,12 +1,55 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Update Peer Review Form</title>
     </h:head>
     <h:body>
-        
+        <h:form id="PRForm">
+            <h:panelGroup id="individualQuestions">
+                <h3>Individual Question</h3>
+                <ui:repeat value="#{lecturerPRFormBean.individualQuestions}" var="indQuestion" varStatus="indIndex">
+                    <h:outputText value="Q#{indIndex.index+1}. "/>
+                    <h:outputText value="#{indQuestion.question}"/>
+                    <br/>
+                    <p:inputTextarea id="open" rows="5" cols="30" maxlength="20000" autoResize="false" rendered="#{indQuestion.type == 'open'}" value="#{lecturerPRFormBean.individualAnswer[indIndex.index]}" />
+                    <p:selectOneMenu id="rating"  panelStyle="width:180px" effect="fade" style="width:160px" rendered="#{indQuestion.type == 'rating'}" value="#{lecturerPRFormBean.individualAnswer[indIndex.index]}">
+                        <f:selectItem itemLabel="Select One" itemValue="select"/>
+                        <f:selectItems value="#{lecturerPRFormBean.getRating(indQuestion)}" var="rate" itemLabel="#{rate}" itemValue="#{rate}" />
+                    </p:selectOneMenu>
+                    <br/>
+                    <p:selectOneMenu id="ranking"  panelStyle="width:180px" effect="fade" style="width:160px" rendered="#{indQuestion.type == 'ranking'}" >
+                        <f:selectItem itemLabel="Select One" itemValue="select"/>
+                    </p:selectOneMenu>
+                    <br />
+                </ui:repeat>
+                <br/>
+            </h:panelGroup>
+            <h:panelGroup id="groupQuestions"> 
+                <h3>Group Question</h3>
+                <ui:repeat value="#{lecturerPRFormBean.groupQuestions}" var="grQuestion" varStatus="grIndex">
+                    <h:outputText value="Q#{grIndex.index+1}. "/>
+                    <h:outputText value="#{grQuestion.question}"/>
+                    <br/>
+                    <p:inputTextarea rows="5" cols="30" maxlength="20000" autoResize="false" rendered="#{grQuestion.type == 'open'}" value="#{lecturerPRFormBean.groupAnswer[grIndex.index]}"/>   
+                    <p:selectOneMenu id="rating"  panelStyle="width:180px" effect="fade" style="width:160px" rendered="#{grQuestion.type == 'rating'}" value="#{lecturerPRFormBean.groupAnswer[grIndex.index]}">
+                        <f:selectItem itemLabel="Select One" itemValue="select"/>
+                        <f:selectItems value="#{lecturerPRFormBean.getRating(grQuestion)}" var="rate" itemLabel="#{rate}" itemValue="#{rate}" />
+                    </p:selectOneMenu>
+                    <br />
+                    <p:selectOneMenu id="ranking"  panelStyle="width:180px" effect="fade" style="width:160px" rendered="#{grQuestion.type == 'ranking'}" >
+                        <f:selectItem itemLabel="Select One" itemValue="select"/>
+                    </p:selectOneMenu>
+                    <br/>
+                </ui:repeat>
+            </h:panelGroup>
+            <br/>
+            <p:commandButton value="submit" type="button" />
+        </h:form>
     </h:body>
 </html>
 

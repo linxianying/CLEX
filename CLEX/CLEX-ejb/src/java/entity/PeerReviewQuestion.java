@@ -49,6 +49,9 @@ public class PeerReviewQuestion implements Serializable {
         this.title = title;
         this.deadline = deadline;
         this.module = module;
+        individualQuestions = new ArrayList<Question>();
+        groupQuestions = new ArrayList<Question>();
+        System.out.print("create PRform finish");
         //pre settled question
         Question q = new Question("how do you rate this group member's cooperativeness", "rating");
         q.setLevelOfRating(5);
@@ -68,8 +71,11 @@ public class PeerReviewQuestion implements Serializable {
         individualQuestions.add(q);
         q = new Question("what do you think of this project", "open");
         groupQuestions.add(q);
-        q = new Question("ny other comment for this group", "open");
+        q = new Question("any other comment for this group", "open");
         groupQuestions.add(q);
+        q = new Question("please rank the group members according to contribution", "ranking");
+        groupQuestions.add(q);
+        System.out.print("create PRform finish");
     }
 
     public Long getId() {
