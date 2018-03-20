@@ -12,6 +12,8 @@ import entity.Module;
 import entity.User;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -270,6 +272,7 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
             courseEntity = (Course) o;
             courses.add(courseEntity);
         }
+        courses = sortCourseByModuleCode(courses);
         return courses;
     }
 
@@ -281,6 +284,7 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
             moduleEntity = (Module) o;
             modules.add(moduleEntity);
         }
+        modules = sortModuleByModuleCode(modules);
         return modules;
     }
 
@@ -395,6 +399,28 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
         return true;
     }
 
+    @Override
+    public boolean removeLecturerFromModule(String moduleCode, String takenYear, String takenSem, String username) {
+        courseEntity = findCourse(moduleCode.toUpperCase());
+        moduleEntity = findModule(courseEntity, takenYear, takenSem);
+        lecturerEntity = findLecturer(username);
+
+        if (lecturerEntity == null) {
+            return false;
+        }
+
+        if (!lecturerEntity.getModules().contains(moduleEntity)) {
+            return false;
+        }
+
+        moduleEntity.getLecturers().remove(lecturerEntity);
+        lecturerEntity.getModules().remove(moduleEntity);
+        em.merge(moduleEntity);
+        em.merge(lecturerEntity);
+        em.flush();
+        return true;
+    }
+    
     @Override
     public boolean checkLectTeachModule(String username, String moduleCode, String takenYear, String takenSem) {
         lecturerEntity = findLecturer(username);
@@ -513,4 +539,21 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
         return lecturerEntity;
     }
 
+    public List<Course> sortCourseByModuleCode(List<Course> courseList){
+        Collections.sort(courseList, new Comparator<Course>() {
+            public int compare(Course c1, Course c2) {
+                return c1.getModuleCode().compareTo(c2.getModuleCode());
+            }
+        });
+        return courseList;
+    }
+    
+    public List<Module> sortModuleByModuleCode(List<Module> moduleList){
+        Collections.sort(moduleList, new Comparator<Module>() {
+            public int compare(Module m1, Module m2) {
+                return m1.getCourse().getModuleCode().compareTo(m2.getCourse().getModuleCode());
+            }
+        });
+        return moduleList;
+    }
 }

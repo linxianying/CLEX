@@ -90,7 +90,31 @@ public class CourseBean implements Serializable {
             context.addMessage(null, fmsg);
         }
     }
-
+    
+    public void unassignLecturer(Module moduleEntity) throws IOException {
+        FacesMessage fmsg = new FacesMessage();
+        FacesContext context = FacesContext.getCurrentInstance();
+        String tempModuleCode = moduleEntity.getCourse().getModuleCode();
+        String temptakenYear = moduleEntity.getTakenYear();
+        String temptakenSem = moduleEntity.getTakenSem();
+        System.out.println("Unassigning " + lecturerUser + " from " + tempModuleCode);
+        RequestContext reqcontext = RequestContext.getCurrentInstance();
+        if (cmbl.checkExistingModule(tempModuleCode, temptakenYear, temptakenSem) == true) {
+            if (cmbl.removeLecturerFromModule(tempModuleCode, temptakenYear, temptakenSem, lecturerUser) == true) {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Lecturer " + lecturerUser + " unassigned fom " + tempModuleCode + ".");
+                context.addMessage(null, fmsg);
+                refresh();
+                reqcontext.update("panel1:moduletable");
+            } else {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error.", "Failed to unassign lecturer.");
+                context.addMessage(null, fmsg);
+            }
+        } else {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Module does not exists");
+            context.addMessage(null, fmsg);
+        }
+    }
+    
     public String getLecturerUser() {
         return lecturerUser;
     }
