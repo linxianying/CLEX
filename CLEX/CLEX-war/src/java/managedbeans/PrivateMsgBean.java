@@ -26,7 +26,7 @@ import session.MessageSessionBeanLocal;
  * @author eeren
  */
 @ManagedBean
-@ViewScoped
+@RequestScoped
 public class PrivateMsgBean {
 
     @EJB
