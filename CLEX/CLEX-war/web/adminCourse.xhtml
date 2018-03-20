@@ -15,8 +15,8 @@
             <p:printer target="panelForm" />
         </p:commandButton>
         <h:form id="panelForm">
-            <p:fieldset legend="VIEW" collapsed="true" toggleable="true" >
-                <p:tabView id="tabView1">
+            <p:fieldset legend="VIEW" collapsed="false" toggleable="true" >
+                <p:tabView id="tabView1">                    
                     <p:tab title="COURSES" >
                         <h:form id="panel">
                             <p:dataTable id="coursetable"
@@ -209,9 +209,9 @@
                                 </p:column>
                                 <p:column style="width: 10%" filterBy="#{module.course.moduleCode}" headerText="Module Code" sortBy="#{module.course.moduleCode}" filterMatchMode="contains">
                                     <h:outputText value="#{module.course.moduleCode}" />
-                                    <p:commandButton style="float: right; background: grey" icon="ui-icon-trash"
-                                                     update="messages" actionListener="#{adminCourseListBean.removeModule(module)}">
+                                    <p:commandButton style="float: right; background: grey" icon="ui-icon-trash" >
                                         <p:confirm header="Delete #{module.course.moduleCode}" message="Please ensure that no lessons/students/lecturers are linked to #{module.course.moduleCode}!" icon="ui-icon-alert" />
+                                        <p:ajax update="messages, panelForm:tabView1:assignform:modulelistbyschoolmenu, panelForm:tabView1:assignform:moduleNameLabelAssign" listener="#{adminCourseListBean.removeModule(module)}" />
                                     </p:commandButton>
                                 </p:column>
                                 <p:column style="width: 10%" filterBy="#{module.takenYear}" headerText="Taken Year" sortBy="#{module.takenYear}" filterMatchMode="contains">
@@ -255,13 +255,6 @@
                                         </f:facet>
                                     </p:cellEditor>
                                 </p:column>
-                                <!--<p:column headerText="Lecturer(s) assigned to #{module.course.moduleCode}" >
-                                    <p:panelGrid columns="1" >
-                                        <p:dataList id="lecdata" var="modlec" value="#{courseBean.getAssignedLecturer(module)}">
-                                            <h:outputText value="#{modlec.name} (#{modlec.school} - #{modlec.faculty})"/>
-                                        </p:dataList>
-                                    </p:panelGrid>
-                                </p:column>-->
                             </p:dataTable>   
                             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                                 <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
@@ -303,9 +296,9 @@
                                 </p:column>
                                 <p:column style="width: 10%" filterBy="#{lesson.module.course.moduleCode}" headerText="Module Code" sortBy="#{lesson.module.course.moduleCode}" filterMatchMode="contains">
                                     <h:outputText value="#{lesson.module.course.moduleCode}" />
-                                    <p:commandButton style="float: right; background: grey" icon="ui-icon-trash"
-                                                     update="messages" actionListener="#{adminCourseListBean.removeLesson(lesson)}">
+                                    <p:commandButton style="float: right; background: grey" icon="ui-icon-trash">
                                         <p:confirm header="Delete #{lesson.module.course.moduleCode}" message="Are you sure?" icon="ui-icon-alert" />
+                                        <p:ajax update="messages" listener="#{adminCourseListBean.removeLesson(lesson)}" />
                                     </p:commandButton>
                                 </p:column>
                                 <p:column style="width: 10%" filterBy="#{lesson.module.takenYear}" headerText="Offered Year" sortBy="#{lesson.module.takenYear}" filterMatchMode="contains">
@@ -374,10 +367,84 @@
                             </p:confirmDialog>
                         </h:form> 
                     </p:tab>
+                    <p:tab title="ASSIGNED LECTURERS">
+                        <h3>
+                            <p>View Lecturer(s)</p>
+                        </h3>
+                        <h:form id="assignform">
+                            <h:panelGrid columns="4">
+                                <h:outputLabel value="SELECT SCHOOL"/>
+                                <p:selectOneMenu id="selectSchool" value="#{adminCourseListBean.schoolname1}"
+                                                 title="Select a School" required="true">
+                                    <p:ajax event="change" listener="#{adminCourseListBean.onSchoolChange2}" 
+                                            update="assignform:lecturerlistbyschoolmenu,assignform:modulelistbyschoolmenu, messages" /> 
+                                    <f:selectItem itemLabel="Select a school" itemValue="" noSelectionOption="true"/>
+                                    <f:selectItems value="#{adminCourseListBean.schoollist1}"/>
+                                </p:selectOneMenu>
+                                <h:outputLabel value=""/>
+                                <h:outputLabel value=""/>
+                                <h:outputLabel value="SELECT MODULE"/>
+                                <p:selectOneMenu filter="true" filterMatchMode="contains"
+                                                 value="#{adminCourseListBean.bigString1}"
+                                                 editable="false" id="modulelistbyschoolmenu">
+                                    <p:ajax event="change" listener="#{adminCourseListBean.onModuleSelect}" 
+                                            update="assignform:lecassignlist, assignform:moduleNameLabelAssign, messages" /> 
+                                    <f:selectItem itemLabel="Select a module to view assigned lecturer(s)" itemValue="" noSelectionOption="true"/>
+                                    <f:selectItems value="#{adminCourseListBean.modulelistbyschool1}" var="ml" 
+                                                   itemLabel="#{ml.course.moduleCode} (#{ml.takenYear} - Semester: #{ml.takenSem})" itemValue="#{ml.takenYear},#{ml.takenSem},#{ml.course.moduleCode}" />
+                                </p:selectOneMenu>
+                                <h:outputLabel id="moduleNameLabelAssign" value="#{adminCourseListBean.moduleName1}"/>
+                                <h:outputLabel value=""/>
+                                <h:outputLabel value=""/>
+
+                                <p:dataList id="lecassignlist" var="modlec" value="#{adminCourseListBean.lecturerlist1}">
+                                    <h:panelGrid columns="2">
+                                        <h:outputText value="Lecturer: #{modlec.name} (#{modlec.school} - #{modlec.faculty})"/>
+                                        <p:commandButton icon="ui-icon-trash" style="background: grey; float: right;" >
+                                            <p:ajax update="panelForm:tabView1:assignform:lecassignlist,messages" listener="#{adminCourseListBean.unassignLecturer(modlec.username)}" />
+                                            <p:confirm header="Unassign #{modlec.name}" message="Are you sure?" icon="ui-icon-alert" />
+                                        </p:commandButton>
+                                    </h:panelGrid>
+                                </p:dataList>
+
+
+                                <h:outputLabel value=" "/>
+                                <h:outputLabel value=" "/>
+                                <h:outputLabel value=" "/>
+                                <h:outputLabel value=" "/>
+                                <h:outputLabel value=" "/>
+                                <h:outputLabel value=" "/>
+                                <h3>
+                                    <p>Assign Lecturer</p>
+                                </h3>
+                                <h:outputLabel value=""/>
+                                <h:outputLabel value=""/>
+                                <h:outputLabel value=""/>
+                                <h:outputLabel value="SELECT LECTURER"/>
+                                <p:selectOneMenu filter="true" filterMatchMode="contains"
+                                                 value="#{adminCourseListBean.lecturerUser1}"
+                                                 editable="false" id="lecturerlistbyschoolmenu">
+                                    <p:ajax event="change" listener="#{adminCourseListBean.onLecturerChange}" 
+                                            update="messages" /> 
+                                    <f:selectItem itemLabel="Select a lecturer to assign" itemValue="" noSelectionOption="true"/>
+                                    <f:selectItems value="#{adminCourseListBean.lecturerlistbyschool1}" var="ll" 
+                                                   itemLabel="#{ll.name} (#{ll.school} - #{ll.faculty})" itemValue="#{ll.username}" />
+                                </p:selectOneMenu>
+                                <p:commandButton icon="ui-icon-plusthick" >
+                                    <p:confirm header="Assign" message="Are you sure?" icon="ui-icon-alert" />
+                                    <p:ajax update="assignform:lecassignlist, messages" listener="#{adminCourseListBean.assignLecturer}" />
+                                </p:commandButton>
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </p:confirmDialog>
+                            </h:panelGrid>
+                        </h:form>
+                    </p:tab>
                 </p:tabView>
             </p:fieldset>
         </h:form>
-        <p:fieldset collapsed="false" legend="CREATE" id="createBox" toggleable="true" toggleSpeed="500" >
+        <p:fieldset collapsed="true" legend="CREATE" id="createBox" toggleable="true" toggleSpeed="500" >
             <p:tabView id="createTab">
                 <p:tab title="COURSE">
                     <h:form id="createCourseForm">
@@ -472,7 +539,8 @@
                             <p:inputTextarea rows="6" cols="33" id="preclusions" value="#{adminCourseListBean.preclusions}" required="true" />
                             <h:outputLabel value=""/>
                             <h:outputLabel value=""/>
-                            <p:commandButton value="Submit" actionListener="#{adminCourseListBean.enterModule}" update="createTab:createLessonForm, createTab:createLessonForm:moduleCodeForLesson, messages" />
+                            <p:commandButton value="Submit" actionListener="#{adminCourseListBean.enterModule}" 
+                                             update="createTab:createLessonForm, createTab:createLessonForm:moduleCodeForLesson,panelForm:tabView1:assignform:modulelistbyschoolmenu, messages" />
 
                         </h:panelGrid>
                     </h:form>
@@ -509,7 +577,7 @@
                             <h:outputLabel for= "day" value="DAY:"/>
                             <p:selectOneMenu required="true" id="day" value="#{adminCourseListBean.day}" 
                                              editable="false" title="Please select a day for the lesson">
-                                <f:selectItem itemLabel="Select a day for the lesson" itemValue=""/>
+                                <f:selectItem itemLabel="Select a day for the lesson" itemValue="" noSelectionOption="true"/>
                                 <f:selectItems value="#{adminCourseListBean.daylist}" />
                             </p:selectOneMenu>
                             <h:outputLabel for= "takenYearForLesson" value="MODULE YEAR:"/>
@@ -518,7 +586,7 @@
                             <p:selectOneMenu id="timeFrom" value="#{adminCourseListBean.timeFrom}" 
                                              editable="false"
                                              title="Select a start time" required="true">
-                                <f:selectItem itemLabel="Select a start time" itemValue=""/>
+                                <f:selectItem itemLabel="Select a start time" itemValue="" noSelectionOption="true"/>
                                 <f:selectItems value="#{adminCourseListBean.timelist}" />
                             </p:selectOneMenu>
                             <h:outputLabel for= "takenSemForLesson" value="MODULE SEM:"/>
@@ -531,7 +599,7 @@
                             <p:selectOneMenu id="timeEnd" value="#{adminCourseListBean.timeEnd}" 
                                              editable="false"
                                              title="Select an end time" required="true">
-                                <f:selectItem itemLabel="Select an end time" itemValue=""/>
+                                <f:selectItem itemLabel="Select an end time" itemValue="" noSelectionOption="true"/>
                                 <f:selectItems value="#{adminCourseListBean.timelist}" />
                             </p:selectOneMenu>
                             <h:outputLabel value=""/>
@@ -539,7 +607,7 @@
                             <h:outputLabel for= "type" value="LESSON TYPE:"/>
                             <p:selectOneMenu required="true" id="type" value="#{adminCourseListBean.type}" 
                                              editable="true" title="Please select a lesson type">
-                                <f:selectItem itemLabel="Please select a lesson type" itemValue=""/>
+                                <f:selectItem itemLabel="Please select a lesson type" itemValue="" noSelectionOption="true"/>
                                 <f:selectItem itemLabel="Lecture" itemValue="LECTURE" />
                                 <f:selectItem itemLabel="Tutorial" itemValue="TUTORIAL" />
                                 <f:selectItem itemLabel="Laboratory" itemValue="LABORATORY" />
@@ -554,24 +622,9 @@
                             <p:commandButton value="Submit" actionListener="#{adminCourseListBean.enterLesson}" update="messages" />
                         </h:panelGrid>
                     </h:form>
-                </p:tab>
+                </p:tab>                
             </p:tabView>    
         </p:fieldset>
     </ui:define>
 
 </ui:composition>
-<!--<p:panelGrid
-                                        <h:form id="assignform">
-                                            <p:selectOneMenu filter="true" filterMatchMode="contains"
-                                                             value="#{courseBean.lecturerUser}"
-                                                             editable="false" >
-                                                <f:selectItem itemLabel="Assign Lecturer(s) to #{module.course.moduleCode}" itemValue="" noSelectionOption="true"/>
-                                                <f:selectItems value="#{courseBean.lecturerlist}" var="lecturerlist" 
-                                                               itemLabel="#{lecturerlist.name} (#{lecturerlist.school})" itemValue="#{lecturerlist.username}" />
-                                            </p:selectOneMenu>
-                                            <p:commandButton style="float: right" icon="ui-icon-plusthick" 
-                                                             actionListener="#{courseBean.assignLecturer(module)}" update="messages" >
-                                                <p:confirm header="Assign #{courseBean.lecturerUser} to #{module.course.moduleCode}" message="Are you sure?" icon="ui-icon-alert" />
-                                            </p:commandButton>
-                                        </h:form>
-                                    </p:panelGrid>-->

@@ -310,6 +310,7 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
             lessonEntity = (Lesson) o;
             lessons.add(lessonEntity);
         }
+        lessons = sortLessonByModuleCode(lessons);
         return lessons;
     }
 
@@ -570,6 +571,15 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
         });
         return moduleList;
     }
+    
+    public List<Lesson> sortLessonByModuleCode(List<Lesson> lessonList) {
+        Collections.sort(lessonList, new Comparator<Lesson>() {
+            public int compare(Lesson l1, Lesson l2) {
+                return l1.getModule().getCourse().getModuleCode().compareTo(l2.getModule().getCourse().getModuleCode());
+            }
+        });
+        return lessonList;
+    }
 
     @Override
     public List getCoursesFromSchool(String school) {
@@ -599,5 +609,30 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
         }
         moduleList = sortModuleByModuleCode(moduleList);
         return moduleList;
+    }
+    
+    @Override
+    public List<Lecturer> getLecturerFromSchool(String school){
+        
+        List<Lecturer> lecturerList = new ArrayList<Lecturer>();
+        List<User> allLecturers = (List) getLecturerName();
+        sortLecturerByName(allLecturers);
+        
+        for(int i=0; i < allLecturers.size(); i++){
+            userEntity = allLecturers.get(i);
+            if(userEntity.getSchool().equals(school)){
+                lecturerList.add((Lecturer) userEntity);
+            }
+        }
+        return lecturerList;
+    }
+    
+    public List<User> sortLecturerByName(List<User> userList){
+        Collections.sort(userList, new Comparator<User>() {
+            public int compare(User user1, User user2) {
+                return user1.getName().compareTo(user2.getName());
+            }
+        });
+        return userList;
     }
 }

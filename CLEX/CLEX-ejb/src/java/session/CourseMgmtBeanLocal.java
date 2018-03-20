@@ -6,6 +6,7 @@
 package session;
 
 import entity.Course;
+import entity.Lecturer;
 import entity.Lesson;
 import entity.Module;
 import entity.User;
@@ -59,9 +60,9 @@ public interface CourseMgmtBeanLocal {
     public boolean checkExistingLesson(String moduleCode, String takenYear, String takenSem, String day, String timeFrom, String timeEnd);
 
     public boolean linkLecturerToModule(String moduleCode, String takenYear, String takenSem, String username);
-    
+
     public boolean removeLecturerFromModule(String moduleCode, String takenYear, String takenSem, String username);
-    
+
     public boolean checkLectTeachModule(String username, String moduleCode, String takenYear, String takenSem);
 
     public Collection<Module> getModulesFromLecturer(String username);
@@ -77,10 +78,18 @@ public interface CourseMgmtBeanLocal {
     public Collection<User> getLecturerName();
 
     public List getAllModularCredits();
+
     public Course findCourse(String moduleCode);
+
     public Module findModule(Course course, String takenYear, String takenSem);
+
     public Lesson findLesson(Module module, String day, String timeFrom, String timeEnd);
+
     public List getYearList();
+
     public List<Course> getCoursesFromSchool(String school);
+
     public List getModulesFromSchool(String school);
+
+    public List<Lecturer> getLecturerFromSchool(String school);
 }
