@@ -204,10 +204,7 @@
                             </p:fieldset>
                         </h:form>
                     </h:panelGroup>
-                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                        <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                    </p:confirmDialog>
+
                 </p:tab>            
 
 
@@ -325,10 +322,10 @@
                             </p:column>
                         </p:dataTable>   
                     </h:form>
-                    <br />
+                    <br />                     
                     <h:panelGroup >
-                        <h:form id="createModuleForm">
-                            <p:fieldset toggleable="true" collapsed="true" legend="CREATE A MODULE" toggleSpeed="500" widgetVar="createModulePanel" id="createModule">
+                        <p:fieldset toggleable="true" collapsed="true" legend="CREATE A MODULE" toggleSpeed="500" widgetVar="createModulePanel" id="createModule">
+                            <h:form id="createModuleForm">
                                 <p:panelGrid columns="4" >
                                     <h:outputLabel for= "moduleCodeForModule" value="MODULE CODE:"/>
                                     <p:selectOneMenu id="moduleCodeForModule" value="#{adminCourseListBean.moduleCode}" 
@@ -355,13 +352,10 @@
                                                  actionListener="#{adminCourseListBean.enterModule}" update="messages" >
                                     <p:confirm header="CREATE " message="Ensure all details are correct" icon="ui-icon-alert" />
                                 </p:commandButton>
-                            </p:fieldset>
-                        </h:form>
+
+                            </h:form>
+                        </p:fieldset>
                     </h:panelGroup>
-                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                        <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                    </p:confirmDialog>
                 </p:tab>
                 <p:tab title="VIEW ALL LESSONS">
                     <h:form id="panel2">
@@ -462,75 +456,74 @@
                                 </p:cellEditor>
                             </p:column>
                         </p:dataTable>
-                        <br />
-                        <h:panelGroup >
-                            <h:form id="createLessonForm">
-                                <p:fieldset toggleable="true" collapsed="true" legend="CREATE A LESSON" toggleSpeed="500" widgetVar="createModulePanel" id="createModule">
-                                    <p:panelGrid columns="4" >
-                                        <h:outputLabel for= "moduleCodeForLesson" value="MODULE CODE:"/>
-                                        <p:selectOneMenu id="moduleCodeForLesson" value="#{adminCourseListBean.moduleCode}" 
-                                                         editable="false" style="width: 300px;"
-                                                         title="Select a module" required="true">
-                                            <f:selectItem itemLabel="Select a module" itemValue=""/>
-                                            <f:selectItems value="#{adminCourseListBean.modulelist}" 
-                                                           var="modulelist"
-                                                           itemLabel="#{modulelist.course.moduleCode}" itemValue="#{modulelist.course.moduleCode}"/>
-                                        </p:selectOneMenu>
-                                        <h:outputLabel for= "takenYearForLesson" value="MODULE YEAR:"/>
-                                        <p:inputText id="takenYearForLesson" value="#{adminCourseListBean.takenYear}" required="true" />
-                                        <h:outputLabel for= "takenSemForLesson" value="MODULE SEM:"/>
-                                        <p:selectOneButton styleClass="textInput" required="true"
-                                                           id="takenSemForLesson" value="#{adminCourseListBean.takenSem}" >
-                                            <f:selectItem itemLabel="1" itemValue="1" />
-                                            <f:selectItem itemLabel="2" itemValue="2" />
-                                        </p:selectOneButton>
-                                        <h:outputLabel for= "day" value="DAY:"/>
-                                        <p:selectOneMenu style="width: 300px" required="true" id="day" value="#{adminCourseListBean.day}" 
-                                                         editable="false" title="Please select a day for the lesson">
-                                            <f:selectItem itemLabel="Select a day for the lesson" itemValue=""/>
-                                            <f:selectItems value="#{adminCourseListBean.daylist}" />
-                                        </p:selectOneMenu>
-                                        <h:outputLabel for= "timeFrom" value="TIME FROM:"/>
-                                        <p:selectOneMenu id="timeFrom" value="#{adminCourseListBean.timeFrom}" 
-                                                         editable="false" style="width: 300px"
-                                                         title="Select a start time" required="true">
-                                            <f:selectItem itemLabel="Select a start time" itemValue=""/>
-                                            <f:selectItems value="#{adminCourseListBean.timelist}" />
-                                        </p:selectOneMenu>
-                                        <h:outputLabel for= "timeEnd" value="TIME END:"/>
-                                        <p:selectOneMenu id="timeEnd" value="#{adminCourseListBean.timeEnd}" 
-                                                         editable="false" style="width: 300px"
-                                                         title="Select an end time" required="true">
-                                            <f:selectItem itemLabel="Select an end time" itemValue=""/>
-                                            <f:selectItems value="#{adminCourseListBean.timelist}" />
-                                        </p:selectOneMenu> 
-                                        <h:outputLabel for= "type" value="LESSON TYPE:"/>
-                                        <p:selectOneMenu style="width: 300px" required="true" id="type" value="#{adminCourseListBean.type}" 
-                                                         editable="true" title="Please select a lesson type">
-                                            <f:selectItem itemLabel="Please select a lesson type" itemValue=""/>
-                                            <f:selectItem itemLabel="Lecture" itemValue="LECTURE" />
-                                            <f:selectItem itemLabel="Tutorial" itemValue="TUTORIAL" />
-                                            <f:selectItem itemLabel="Laboratory" itemValue="LABORATORY" />
-                                            <f:selectItem itemLabel="Recitation" itemValue="RECITATION" />
-                                        </p:selectOneMenu>
-                                        <h:outputLabel for= "venue" value="VENUE:"/>
-                                        <p:inputText id="venue" value="#{adminCourseListBean.venue}" required="true" />            
-                                    </p:panelGrid>
-                                    <p:commandButton oncomplete="PF('createPanel').toggle()" value="Submit" 
-                                                     actionListener="#{adminCourseListBean.enterLesson}" update="messages" >
-                                        <p:confirm header="CREATE " message="Ensure all details are correct" icon="ui-icon-alert" />
-                                    </p:commandButton>
-                                </p:fieldset>
-                            </h:form>
-                        </h:panelGroup>
-                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                            <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                        </p:confirmDialog>
-                    </h:form> 
+                    </h:form>
+                    <br />
+                    <h:panelGroup >
+                        <h:form id="createLessonForm">
+                            <p:fieldset toggleable="true" collapsed="true" legend="CREATE A LESSON" toggleSpeed="500" widgetVar="createLessonPanel" id="createModule">
+                                <p:panelGrid columns="4" >
+                                    <h:outputLabel for= "moduleCodeForLesson" value="MODULE CODE:"/>
+                                    <p:selectOneMenu id="moduleCodeForLesson" value="#{adminCourseListBean.moduleCode}" 
+                                                     editable="false" style="width: 300px;"
+                                                     title="Select a module" required="true">
+                                        <f:selectItem itemLabel="Select a module" itemValue=""/>
+                                        <f:selectItems value="#{adminCourseListBean.modulelist}" 
+                                                       var="modulelist"
+                                                       itemLabel="#{modulelist.course.moduleCode}" itemValue="#{modulelist.course.moduleCode}"/>
+                                    </p:selectOneMenu>
+                                    <h:outputLabel for= "takenYearForLesson" value="MODULE YEAR:"/>
+                                    <p:inputText id="takenYearForLesson" value="#{adminCourseListBean.takenYear}" required="true" />
+                                    <h:outputLabel for= "takenSemForLesson" value="MODULE SEM:"/>
+                                    <p:selectOneButton styleClass="textInput" required="true"
+                                                       id="takenSemForLesson" value="#{adminCourseListBean.takenSem}" >
+                                        <f:selectItem itemLabel="1" itemValue="1" />
+                                        <f:selectItem itemLabel="2" itemValue="2" />
+                                    </p:selectOneButton>
+                                    <h:outputLabel for= "day" value="DAY:"/>
+                                    <p:selectOneMenu style="width: 300px" required="true" id="day" value="#{adminCourseListBean.day}" 
+                                                     editable="false" title="Please select a day for the lesson">
+                                        <f:selectItem itemLabel="Select a day for the lesson" itemValue=""/>
+                                        <f:selectItems value="#{adminCourseListBean.daylist}" />
+                                    </p:selectOneMenu>
+                                    <h:outputLabel for= "timeFrom" value="TIME FROM:"/>
+                                    <p:selectOneMenu id="timeFrom" value="#{adminCourseListBean.timeFrom}" 
+                                                     editable="false" style="width: 300px"
+                                                     title="Select a start time" required="true">
+                                        <f:selectItem itemLabel="Select a start time" itemValue=""/>
+                                        <f:selectItems value="#{adminCourseListBean.timelist}" />
+                                    </p:selectOneMenu>
+                                    <h:outputLabel for= "timeEnd" value="TIME END:"/>
+                                    <p:selectOneMenu id="timeEnd" value="#{adminCourseListBean.timeEnd}" 
+                                                     editable="false" style="width: 300px"
+                                                     title="Select an end time" required="true">
+                                        <f:selectItem itemLabel="Select an end time" itemValue=""/>
+                                        <f:selectItems value="#{adminCourseListBean.timelist}" />
+                                    </p:selectOneMenu> 
+                                    <h:outputLabel for= "type" value="LESSON TYPE:"/>
+                                    <p:selectOneMenu style="width: 300px" required="true" id="type" value="#{adminCourseListBean.type}" 
+                                                     editable="true" title="Please select a lesson type">
+                                        <f:selectItem itemLabel="Please select a lesson type" itemValue=""/>
+                                        <f:selectItem itemLabel="Lecture" itemValue="LECTURE" />
+                                        <f:selectItem itemLabel="Tutorial" itemValue="TUTORIAL" />
+                                        <f:selectItem itemLabel="Laboratory" itemValue="LABORATORY" />
+                                        <f:selectItem itemLabel="Recitation" itemValue="RECITATION" />
+                                    </p:selectOneMenu>
+                                    <h:outputLabel for= "venue" value="VENUE:"/>
+                                    <p:inputText id="venue" value="#{adminCourseListBean.venue}" required="true" />            
+                                </p:panelGrid>
+                                <p:commandButton oncomplete="PF('createPanel').toggle()" value="Submit" 
+                                                 actionListener="#{adminCourseListBean.enterLesson}" update="messages" >
+                                    <p:confirm header="CREATE " message="Ensure all details are correct" icon="ui-icon-alert" />
+                                </p:commandButton>
+                            </p:fieldset>
+                        </h:form>
+                    </h:panelGroup>
                 </p:tab>
-
             </p:tabView>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
         </h:form>
     </ui:define>
 
