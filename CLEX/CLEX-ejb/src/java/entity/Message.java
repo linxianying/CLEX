@@ -45,6 +45,11 @@ public class Message implements Serializable {
         this.dateTime = format.format(current);
     }
     
+    public void createMessage(String message, int sentUser){
+        this.message = message;
+        this.sentUser = sentUser;
+    }
+    
     public Long getId() {
         return id;
     }

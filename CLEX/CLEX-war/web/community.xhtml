@@ -90,6 +90,28 @@
                     <h:form>
                         <h:commandButton value="Test entity" actionListener="#{communityBean.test()}" />
                     </h:form>
+                    
+                    <br></br><!--PRIVATE MESSAGING FUNCTION TEST -->
+                    <h:form>
+                        <p:inputText title="Receiver" placeholder="Receiver" id="rUsername" value="#{privateMsgBean.rUsername}" > </p:inputText>   
+                        <p:inputText title="Content" placeholder="Content" id="content" value="#{privateMsgBean.content}" > </p:inputText> 
+                        <h:commandButton value="Start Convo" actionListener="#{privateMsgBean.sendNewMessage}" />
+                    </h:form>
+                    
+                    <h:form>
+                        <p:inputText title="ConvoId" placeholder="ConvoId" id="convoid" value="#{privateMsgBean.cId}" > </p:inputText>   
+                        <p:inputText title="Content" placeholder="Content" id="content" value="#{privateMsgBean.content}" > </p:inputText> 
+                        <h:commandButton value="Send Msg" actionListener="#{privateMsgBean.sendMessage}" />
+                    </h:form>
+                    
+                    <h:form>
+                        <p:inputText title="ConvoId" placeholder="ConvoId" id="convoid" value="#{privateMsgBean.cId}" > </p:inputText>   
+                        <h:commandButton value="Delete Convo" actionListener="#{privateMsgBean.deleteConversation}" />
+                    </h:form>
+                    
+                    <h:form>
+                        <h:commandButton value="Test entity" actionListener="#{privateMsgBean.test()}" />
+                    </h:form>
                     <!-- TEST CODE STOPS HERE -->
                 </div>
             </div>

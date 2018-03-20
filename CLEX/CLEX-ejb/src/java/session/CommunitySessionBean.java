@@ -76,6 +76,7 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         
         Thread thread = new Thread();
         
+        System.out.println("Id: " + thread.getId());
         thread.createThread(username, content, title, tag);
         thread.setUser(userEntity);
         userEntity.getThreads().add(thread);
@@ -404,7 +405,20 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         }
         return threadList;
     }
-        
+    
+    @Override
+    public List<Thread> searchThreadByContent(String searchContent){
+        List<Thread> threadList = new ArrayList<Thread>();
+        List<Thread> threads = getAllThreads();
+        for(int i=0; i < threads.size(); i++){
+            threadEntity = threads.get(i);
+            if(threadEntity.getContent().contains(searchContent)){
+                threadList.add(threads.get(i));
+            }
+        }
+        return threadList;
+    }      
+    
     @Override
     public List<Thread> getThreadsByTag(String tag){
         List<Thread> threadList = new ArrayList<Thread>();

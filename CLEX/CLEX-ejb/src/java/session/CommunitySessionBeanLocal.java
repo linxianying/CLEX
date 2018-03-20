@@ -45,6 +45,7 @@ public interface CommunitySessionBeanLocal {
     public List<Reply> getRepliesFromThread(Long threadId);
 
     public List<Thread> searchThreadByTitle(String searchTitle);
+    public List<Thread> searchThreadByContent(String searchContent);
     public List<Thread> getThreadsByTag(String tag);
 
     public List<VoteThread> getVotesFromThread(Long threadId);

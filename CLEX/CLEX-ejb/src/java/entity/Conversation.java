@@ -30,7 +30,7 @@ public class Conversation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    
     @Column(length = 64, nullable = false)
     private String startDateTime;
     
@@ -56,6 +56,13 @@ public class Conversation implements Serializable {
         Date current = new Date();
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         this.startDateTime = format.format(current);
+    }
+    
+    public void startConversation(){
+        this.sentMsgCount1 = 0;
+        this.readMsgCount1 = 0;
+        this.sentMsgCount2 = 0;
+        this.readMsgCount2 = 0;
     }
     
     public Long getId() {
