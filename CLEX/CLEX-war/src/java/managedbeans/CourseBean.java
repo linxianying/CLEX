@@ -6,7 +6,6 @@
 package managedbeans;
 
 import entity.Lecturer;
-import entity.Lesson;
 import entity.Module;
 import entity.User;
 import java.io.IOException;
@@ -21,9 +20,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
-
 import org.primefaces.context.RequestContext;
-import org.primefaces.model.DualListModel;
 import org.primefaces.poseidon.domain.Theme;
 import session.CourseMgmtBeanLocal;
 
@@ -90,7 +87,7 @@ public class CourseBean implements Serializable {
             context.addMessage(null, fmsg);
         }
     }
-    
+
     public void unassignLecturer(Module moduleEntity) throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
@@ -114,7 +111,7 @@ public class CourseBean implements Serializable {
             context.addMessage(null, fmsg);
         }
     }
-    
+
     public String getLecturerUser() {
         return lecturerUser;
     }

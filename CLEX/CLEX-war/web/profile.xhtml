@@ -18,7 +18,7 @@
                 <p:growl id="messages" showDetail="true" />
                 <h:form>
 
-                <!-- Left Side -->
+                    <!-- Left Side -->
                     <div class="card card-w-title">
                         <h1>Basic Profile</h1>
                         <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
@@ -36,30 +36,23 @@
                             <p:inputText id="newSchool" value="#{profileBean.school}" readonly="true"/>
                             <span>Faculty</span>
                             <p:selectOneMenu style="padding: 0%; width: 190px" required="true" id="newFaculty" value="#{profileBean.faculty}" 
-                                            editable="true" placeholder="Faculty">
-                               <f:selectItem itemLabel="School of computing" itemValue="School of computing" />
-                               <f:selectItem itemLabel="School of Business" itemValue="School of Business" />
-                               <f:selectItem itemLabel="School of Engineering" itemValue="School of Engineering" />
-                               <f:selectItem itemLabel="School of Science" itemValue="School of Science" />
-                               <f:selectItem itemLabel="School of Law" itemValue="School of Law" />
-                               <f:selectItem itemLabel="School of Social Sciences" itemValue="School of Social Sciences" />
-                           </p:selectOneMenu>
+                                             placeholder="Faculty">
+                                <f:selectItems value="#{profileBean.facultylist}" />
+                            </p:selectOneMenu>
                             <span>Matriculated Year</span>
                             <p:selectOneMenu style="padding: 0%; width: 190px" id="maticYear" value="#{profileBean.matricYear}" 
                                              editable="true" placeholder="Matriculated Year">
                                 <f:selectItem itemLabel="2014" itemValue="2014" />
                                 <f:selectItem itemLabel="2015" itemValue="2015" />
                                 <f:selectItem itemLabel="2016" itemValue="2016" />
-                                <f:selectItem itemLabel="2017" itemValue="2017" />
-                                <f:selectItem itemLabel="2018" itemValue="2018" />
+                                <f:selectItems value="#{profileBean.yearlist}" />
                             </p:selectOneMenu>
                             <span>Matriculated Semester</span>
-                            <p:selectOneMenu style="padding: 0%; width: 190px" id="maticSem" value="#{profileBean.matricSem}" 
-                                             editable="true" placeholder="Matriculated Semester">
+                            <p:selectOneButton style="padding: 0%; width: 190px" id="maticSem" value="#{profileBean.matricSem}">
                                 <f:selectItem itemLabel="1" itemValue="1" />
                                 <f:selectItem itemLabel="2" itemValue="2" />
-                            </p:selectOneMenu>
-                            
+                            </p:selectOneButton>
+
                         </p:panelGrid>
                         <p:commandButton value="Save Profile Details" actionListener="#{profileBean.editStudentProfile}" id="editBasicButton" update="messages">
                             <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
@@ -72,10 +65,10 @@
                     </div>
                 </h:form>
             </div>
-                
+
             <div class="ui-g-12 ui-lg-6">
                 <div class="card card-w-title">
-                <h1>Change Password</h1>
+                    <h1>Change Password</h1>
                     <h:form >
                         <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
                             <span>Current Password</span>

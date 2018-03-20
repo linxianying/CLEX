@@ -5,6 +5,7 @@
  */
 package session;
 
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -21,4 +22,5 @@ public interface ProfileSessionBeanLocal {
     
     public void changePassword(String username, String newPassword);
     public boolean checkPassword(String username, String password);
+    public List<String> getSchoolFaculty(String school);
 }

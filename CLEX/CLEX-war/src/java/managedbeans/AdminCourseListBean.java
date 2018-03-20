@@ -42,7 +42,8 @@ public class AdminCourseListBean implements Serializable {
     private List<Lesson> lessons;
     private List<Lesson> filteredLessons;
 
-    Course courseEntity;
+    private Course courseEntity;
+
     private Course selectedCourse;
     private Module selectedModule;
     private Lesson selectedLesson;
@@ -58,7 +59,7 @@ public class AdminCourseListBean implements Serializable {
     private String workload;
 
     //Module
-    Module moduleEntity;
+    private Module moduleEntity;
     private String takenYear;
     private String takenSem;
     private String prerequisite;
@@ -78,12 +79,35 @@ public class AdminCourseListBean implements Serializable {
     private List<String> timelist;
 
     private List<String> schoollist;
+    private List<String> yearlist;
+
     private ArrayList<User> lecturerlist;
     private ArrayList<Module> modulelist;
     private ArrayList<Course> courselist;
 
     private ArrayList<Lesson> lessonlist; //list of all lesson entity
     private List<String> daylist;
+
+    //for prepopulating
+    private String schoolname;
+    private String semesterText;
+    private String moduleNameText;
+    //For Module prepopulating
+    private ArrayList<Course> courselistbyschool;
+
+    private String moduleInfoText;
+    private String discontYearText;
+    private String discontSemText;
+    private String workloadText;
+    private String mcText;
+    private String discontText;
+
+    //For Lesson prepopulating
+    private ArrayList<Module> modulelistbyschool;
+    private String bigString;
+
+    private String moduleofferedyearforlesson;
+    private String moduleofferedsemforlesson;
 
     public AdminCourseListBean() {
     }
@@ -105,19 +129,108 @@ public class AdminCourseListBean implements Serializable {
         lecturerlist = (ArrayList<User>) cmbl.getLecturerName();
         lessonlist = (ArrayList<Lesson>) cmbl.getAllLessons();
         modularCreditList = (List) cmbl.getAllModularCredits();
+        yearlist = cmbl.getYearList();
+        System.out.println("refresh() end");
+    }
+
+    public void onSchoolChange() {
+        FacesMessage fmsg = new FacesMessage();
+        FacesContext context = FacesContext.getCurrentInstance();
+        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "", schoolname + " selected.");
+        context.addMessage(null, fmsg);
+        System.out.println("onSchool retrieving from " + schoolname);
+        takenSem = "";
+        moduleInfoText = "";
+        moduleNameText = "";
+        discontYearText = "";
+        discontSemText = "";
+        workloadText = "";
+        mcText = "";
+        moduleofferedyearforlesson = "";
+        moduleofferedsemforlesson = "";
+        discontText = "";
+        semesterText = "";
+        courselistbyschool = null;
+        courselistbyschool = (ArrayList<Course>) cmbl.getCoursesFromSchool(schoolname);
+        modulelistbyschool = null;
+        modulelistbyschool = (ArrayList<Module>) cmbl.getModulesFromSchool(schoolname);
+    }
+
+    public void onCourseChange() { //for creating module
+        FacesMessage fmsg = new FacesMessage();
+        FacesContext context = FacesContext.getCurrentInstance();
+        takenSem = cmbl.findCourse(moduleCode).getOfferedSem();
+        moduleInfoText = cmbl.findCourse(moduleCode).getModuleInfo();
+        moduleNameText = cmbl.findCourse(moduleCode).getModuleName();
+        discontYearText = cmbl.findCourse(moduleCode).getDiscountinuedYear();
+        discontSemText = cmbl.findCourse(moduleCode).getDiscountinuedSem();
+        workloadText = cmbl.findCourse(moduleCode).getWorkload();
+        mcText = cmbl.findCourse(moduleCode).getModularCredits();
+        String schoolname1 = cmbl.findCourse(moduleCode).getSchool();
+        boolean checkDiscontinued = cmbl.findCourse(moduleCode).isDiscontinuedBool();
+        if (checkDiscontinued == false) {
+            discontText = moduleCode + " is still offered.";
+        } else if (checkDiscontinued == true) {
+            discontText = moduleCode + " has been discontinued.";
+        } else {
+            discontText = schoolname1 + " has yet to decide if " + moduleCode + " would be discontinued.";
+        }
+
+        if (takenSem.equals("ALL")) {
+            takenSem = "";
+            semesterText = moduleCode + " is offered in both semesters.";
+        } else if (takenSem.equals("1")) {
+            takenSem = "1";
+            semesterText = moduleCode + " is only offered in semester 1.";
+        } else {
+            takenSem = "2";
+            semesterText = moduleCode + " is only offered in semester 2.";
+        }
+
+        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "", moduleCode + " selected.");
+        context.addMessage(null, fmsg);
+    }
+
+    public void onModuleChange() { //for creating lesson
+        FacesMessage fmsg = new FacesMessage();
+        FacesContext context = FacesContext.getCurrentInstance();
+        System.out.println(bigString.substring(0, 4)); //big year
+        System.out.println(bigString.substring(5, 6)); //big sem
+        System.out.println(bigString.substring(7)); //big code
+        String bigYear = bigString.substring(0, 4);
+        String bigSem = bigString.substring(5, 6);
+        String bigCode = bigString.substring(7);
+        courseEntity = cmbl.findCourse(bigCode);
+        moduleEntity = cmbl.findModule(courseEntity, bigYear, bigSem);
+        System.out.println("For finding - Year: " + bigYear + " Semester: " + bigSem);
+        moduleofferedyearforlesson = moduleEntity.getTakenYear();
+        moduleofferedsemforlesson = moduleEntity.getTakenSem();
+        System.out.println("For Rendering - Year: " + moduleofferedyearforlesson + " Semester: " + moduleofferedsemforlesson + " " + moduleEntity.getCourse().getModuleCode() + " selected");
+        moduleNameText = courseEntity.getModuleName();
+        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "", bigCode + " selected.");
+        context.addMessage(null, fmsg);
     }
 
     public void enterCourse() throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
+        System.out.println("enterCourse MC: " + moduleCode);
+        System.out.println("enterCourse MN: " + moduleName);
+        System.out.println("enterCourse MI: " + moduleInfo);
+        System.out.println("enterCourse OS: " + offeredSem);
+        System.out.println("enterCourse S: " + school);
+        System.out.println("enterCourse MCs: " + modularCredits);
+        System.out.println("enterCourse WL: " + workload);
+
         RequestContext reqcontext = RequestContext.getCurrentInstance();
         if (cmbl.checkNewCourse(moduleCode) == true) {
             cmbl.createCourse(moduleCode, moduleName, moduleInfo, false, "", "", offeredSem, school, modularCredits, workload);
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Course "+moduleCode.toUpperCase() + " has been created.");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Course " + moduleCode.toUpperCase() + " has been created.");
             context.addMessage(null, fmsg);
             refresh();
             reqcontext.execute("PF('coursesTable').clearFilters()");
-            reqcontext.update("panel:coursetable");
+            reqcontext.update("panel:coursetable, createTab:createModuleForm");
+            schoolname = "";
         } else {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Course '" + moduleCode + "' already exists.");
             context.addMessage(null, fmsg);
@@ -127,6 +240,7 @@ public class AdminCourseListBean implements Serializable {
     public void enterModule() throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
+
         RequestContext reqcontext = RequestContext.getCurrentInstance();
         if (cmbl.checkNewModule(moduleCode, takenYear, takenSem) == true) {
             cmbl.createModule(takenYear, takenSem, prerequisite, preclusions, moduleCode);
@@ -134,7 +248,8 @@ public class AdminCourseListBean implements Serializable {
             context.addMessage(null, fmsg);
             refresh();
             reqcontext.execute("PF('modulesTable').clearFilters()");
-            reqcontext.update("panel1:moduletable");
+            reqcontext.update("panel1:moduletable, createTab:createModuleForm, createTab:createLessonForm");
+            schoolname = "";
         } else {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Module already exists.");
             context.addMessage(null, fmsg);
@@ -147,11 +262,12 @@ public class AdminCourseListBean implements Serializable {
         RequestContext reqcontext = RequestContext.getCurrentInstance();
         if (cmbl.checkNewLesson(moduleCode, takenYear, takenSem, day, timeFrom, timeEnd) == true) {
             cmbl.createLesson(day, timeFrom, timeEnd, type, venue, moduleCode, takenYear, takenSem);
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Lesson "+ moduleCode.toUpperCase() +" has been created.");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Lesson " + moduleCode.toUpperCase() + " has been created.");
             context.addMessage(null, fmsg);
             refresh();
             reqcontext.execute("PF('lessonsTable').clearFilters()");
-            reqcontext.update("panel2:lessontable");
+            reqcontext.update("panel2:lessontable, createTab:createLessonForm");
+            schoolname ="";
         } else {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Lesson already exists.");
             context.addMessage(null, fmsg);
@@ -184,7 +300,6 @@ public class AdminCourseListBean implements Serializable {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Course " + tempModCode + " does not exists.");
             context.addMessage(null, fmsg);
         }
-
     }
 
     public void editModule(Module moduleEntity) throws IOException {
@@ -198,7 +313,7 @@ public class AdminCourseListBean implements Serializable {
         String tempPreclusions = moduleEntity.getPreclusions();
         if (cmbl.checkExistingModule(tempModCode, tempTakenYear, tempTakenSem) == true) {
             cmbl.editModule(tempTakenYear, tempTakenSem, tempPrerequisite, tempPreclusions, tempModCode);
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Module "+ tempModCode.toUpperCase() + " has been edited.");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Module " + tempModCode.toUpperCase() + " has been edited.");
             context.addMessage(null, fmsg);
             refresh();
             reqcontext.update("panel1:moduletable");
@@ -222,7 +337,7 @@ public class AdminCourseListBean implements Serializable {
         String tempVenue = lessonEntity.getVenue();
         if (cmbl.checkExistingLesson(tempModCode, tempTakenYear, tempTakenSem, tempDay, tempTimeStart, tempTimeEnd) == true) {
             cmbl.editLesson(tempDay, tempTimeStart, tempTimeEnd, tempType, tempVenue, tempModCode, tempTakenYear, tempTakenSem);
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Lesson "+ tempModCode.toUpperCase() + " has been edited.");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Lesson " + tempModCode.toUpperCase() + " has been edited.");
             context.addMessage(null, fmsg);
             refresh();
             reqcontext.update("panel2:lessontable");
@@ -604,5 +719,141 @@ public class AdminCourseListBean implements Serializable {
 
     public void setDaylist(List<String> daylist) {
         this.daylist = daylist;
+    }
+
+    public String getSemesterText() {
+        return semesterText;
+    }
+
+    public void setSemesterText(String semesterText) {
+        this.semesterText = semesterText;
+    }
+
+    public String getModuleInfoText() {
+        return moduleInfoText;
+    }
+
+    public void setModuleInfoText(String moduleInfoText) {
+        this.moduleInfoText = moduleInfoText;
+    }
+
+    public List<String> getYearlist() {
+        return yearlist;
+    }
+
+    public void setYearlist(List<String> yearlist) {
+        this.yearlist = yearlist;
+    }
+
+    public String getModuleNameText() {
+        return moduleNameText;
+    }
+
+    public void setModuleNameText(String moduleNameText) {
+        this.moduleNameText = moduleNameText;
+    }
+
+    public String getDiscontYearText() {
+        return discontYearText;
+    }
+
+    public void setDiscontYearText(String discontYearText) {
+        this.discontYearText = discontYearText;
+    }
+
+    public String getDiscontSemText() {
+        return discontSemText;
+    }
+
+    public void setDiscontSemText(String discontSemText) {
+        this.discontSemText = discontSemText;
+    }
+
+    public String getWorkloadText() {
+        return workloadText;
+    }
+
+    public void setWorkloadText(String workloadText) {
+        this.workloadText = workloadText;
+    }
+
+    public String getMcText() {
+        return mcText;
+    }
+
+    public void setMcText(String mcText) {
+        this.mcText = mcText;
+    }
+
+    public String getDiscontText() {
+        return discontText;
+    }
+
+    public void setDiscontText(String discontText) {
+        this.discontText = discontText;
+    }
+
+    public ArrayList<Course> getCourselistbyschool() {
+        return courselistbyschool;
+    }
+
+    public void setCourselistbyschool(ArrayList<Course> courselistbyschool) {
+        this.courselistbyschool = courselistbyschool;
+    }
+
+    public String getSchoolname() {
+        return schoolname;
+    }
+
+    public void setSchoolname(String schoolname) {
+        this.schoolname = schoolname;
+    }
+
+    public ArrayList<Module> getModulelistbyschool() {
+        return modulelistbyschool;
+    }
+
+    public void setModulelistbyschool(ArrayList<Module> modulelistbyschool) {
+        this.modulelistbyschool = modulelistbyschool;
+    }
+
+    public String getModuleofferedyearforlesson() {
+        return moduleofferedyearforlesson;
+    }
+
+    public void setModuleofferedyearforlesson(String moduleofferedyearforlesson) {
+        this.moduleofferedyearforlesson = moduleofferedyearforlesson;
+    }
+
+    public String getModuleofferedsemforlesson() {
+        return moduleofferedsemforlesson;
+    }
+
+    public void setModuleofferedsemforlesson(String moduleofferedsemforlesson) {
+        this.moduleofferedsemforlesson = moduleofferedsemforlesson;
+    }
+
+    public Course getCourseEntity() {
+        return courseEntity;
+    }
+
+    public void setCourseEntity(Course courseEntity) {
+        this.courseEntity = courseEntity;
+    }
+
+    public Module getModuleEntity() {
+        return moduleEntity;
+    }
+
+    public void setModuleEntity(Module moduleEntity) {
+        this.moduleEntity = moduleEntity;
+    }
+
+    public String getBigString() {
+        return bigString;
+    }
+
+    public void setBigString(String bigString) {
+        this.bigString = bigString;
     }
 }

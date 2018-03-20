@@ -83,7 +83,6 @@
                                             </p:dataTable>
                                         </p:dataGrid>
                                     </h:panelGroup>
-
                                 </p:fieldset>
                                 <h:form id="addForm">
                                     <h3>Add a new study plan entry * :</h3>
@@ -94,7 +93,7 @@
 
                                             <p:selectOneMenu id="moduleCode" value="#{studyPlanBean.addModuleCode}"  panelStyle="width:180px" effect="fade" 
                                                              var="course" style="width:160px" filter="true" filterMatchMode="contains" appendTo="@this">
-                                                <p:ajax event="change" listener="#{studyPlanBean.checkStudyPlan}" update="tab:studyPlanForm:addForm:addSPButton, tab:studyPlanForm:addForm:moduleInfoBox addErrorMsg"  />
+                                                <p:ajax event="change" listener="#{studyPlanBean.checkStudyPlan}" update="tab:studyPlanForm:addForm:addSPButton, tab:studyPlanForm:addForm:moduleInfoBox, tab:studyPlanForm:addForm:addPickSemLabel, addErrorMsg"  />
                                                 <f:selectItem itemLabel="Select One" itemValue="select"/>
                                                 <f:selectItems value="#{studyPlanBean.courses}" var="course" itemLabel="#{course.moduleCode}" itemValue="#{course.moduleCode}" />
                                             </p:selectOneMenu>
@@ -103,7 +102,7 @@
 
                                             <p:inputText id="addPickYearLabel" value="#{studyPlanBean.addPickYear}" required="true"/>
 
-                                            <p:outputLabel for="addPickSemLabel" value="Semester: " />
+                                            <p:outputLabel value="Semester **: " />
                                             <p:selectOneButton id="addPickSemLabel" value="#{studyPlanBean.addPickSem}" required="true">
                                                 <f:selectItem itemLabel="1" itemValue="1" />
                                                 <f:selectItem itemLabel="2" itemValue="2" />
@@ -135,7 +134,6 @@
                                         </p:confirmDialog>
                                     </h:panelGroup>
                                 </h:form>
-
                             </h:form>
                             <h3>
                                 Expected Cap: 
@@ -148,11 +146,14 @@
                             <br />
                             <h5>
                                 <p>* IMPORTANT: PRISM does not check for prerequisites and/or preclusion.</p>
-                                <p>Ensure that: </p>    
-                                <p>1. You meet the requirements before adding a module.</p>
-                                <p>2. The module is available in the semester added.</p>
+                                <p>It is YOUR responsibility to ensure that you meet the requirements before adding a module.</p>    
+                                <br />
+                                <p>** IMPORTANT: PRISM will automatically select the semester offered for the module.</p>
+                                <p>Nothing will be selected if no such information is available or if the module is offered in both semesters.</p>
+                                <p>It is YOUR responsibility to check if module is available in the semester and year you plan to add to.</p>
+                                <br />
+                                <p>PRISM will not be responsible for any lapses found in your academic plans.</p>
                             </h5>
-
                         </p:tab>
                         <p:tab title="Current">
                             <h:form id="modulesTakingForm">
