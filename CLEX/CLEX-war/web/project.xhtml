@@ -32,9 +32,10 @@
                                 <h:outputText value="This course doesn't have a group" escape="false" 
                                               rendered="#{empty m.superGroup}" />
                                 
-                                <h:outputText value="You havn't join a group" escape="false" 
+                                <h:outputText value="You have yet to join a group" escape="false" 
                                               rendered="#{not empty m.superGroup and 
                                                           !projectBean.hasProjectGroup(m.course.moduleCode)}" />
+                                <br />
                                 <br />
                                 <p:commandButton value="Group formation" 
                                                 rendered="#{not empty m.superGroup and 
