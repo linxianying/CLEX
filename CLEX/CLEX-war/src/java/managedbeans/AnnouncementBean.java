@@ -142,6 +142,7 @@ public class AnnouncementBean {
     public ArrayList<Announcement> getAnnouncementOneModule(String moduleCode) {
         ArrayList<Announcement> tempAllAnnouncements2 = new ArrayList<Announcement>();
         tempAllAnnouncements2 = (ArrayList<Announcement>) asbl.getAnncByModule(moduleCode);
+        System.out.println("temp size = " + tempAllAnnouncements2.size());
         return tempAllAnnouncements2;
     }
     
