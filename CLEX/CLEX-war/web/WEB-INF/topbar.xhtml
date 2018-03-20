@@ -128,18 +128,37 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="#" onclick="setViewCount()">
                         <i class="topbar-icon material-icons fa fa-fw fa-bell-o"></i>
-                        <span class="topbar-badge animated rubberBand">4</span>
+                        <p:outputPanel autoUpdate="true" class="topbar-badge animated rubberBand">#{announcementBean.latestCount}</p:outputPanel>
                         <span class="topbar-item-name">Notifications</span>
+                        <h:form>
+                            <p:remoteCommand name="setViewCount" actionListener="#{announcementBean.setAnncViewCount()}"/>
+                        </h:form>
                     </a>
                     <ul  style="overflow: auto; height: 500%; width: 700%">
                         <span style="color: #e33f3f">Notifications</span>
                         <br/>
-                        <p:button value="All" styleClass="secondary" />
-                        <p:button value="mod1" styleClass="secondary" />
-                        <p:button value="mod2" styleClass="secondary" />
-                        <p:dataList var="annc" value="#{announcementBean.getAllAnnouncements()}">
+
+                        <a href="#" onmouseover="PF('tooltip').show()">
+                            <i class="fa fa-fw fa-check-circle"></i>
+                            <span>Filter</span>
+                            <p:outputPanel id="filter"></p:outputPanel>
+           
+                            <p:tooltip for="filter" hideEvent="blur" widgetVar="tooltip" >
+                                <span onmouseleave="PF('tooltip').hide()">
+                                    <p:commandButton type="button" value="All" onclick="toggledisplay('allMods')">
+                                    </p:commandButton>
+                                    <ui:repeat var="module" value="#{announcementBean.takingModules}">
+                                        <p:commandButton type="button" value="#{module.getCourse().moduleCode}" onclick="toggledisplay('#{module.getCourse().moduleCode}')">
+                                        </p:commandButton>
+                                    </ui:repeat>
+                                </span>
+                            </p:tooltip>
+                        </a>
+
+                        <br/>
+                        <p:dataList id="allMods" var="annc" value="#{announcementBean.getLatestAnnouncementForAllModules()}">
                             <button type="button" disabled="disabled" class="anncBox">
                                 <h:outputText value="#{annc.type} posted a new announcement" />
                                 <br/>
@@ -152,6 +171,22 @@
                                 <br/>
                             </button>
                         </p:dataList>
+
+                        <p:dataList var="module" value="#{announcementBean.takingModules}"> 
+                            <p:dataList var="moduleAnnc" value="#{announcementBean.getAnnouncementOneModule(module.getCourse().moduleCode)}">    
+                                <button id="#{module.getCourse().moduleCode}" type="button" disabled="disabled" class="anncBox">
+                                    <h:outputText value="#{moduleAnnc.type} posted a new announcement" />
+                                    <br/>
+                                    <br/>
+                                    <h:outputText value="#{moduleAnnc.message}" />
+                                    <br/>
+                                    <h:outputText value="by: #{moduleAnnc.getUser().getName()}" />
+                                    <br/>
+                                    <h:outputText value="#{moduleAnnc.createdDate}" />
+                                    <br/>
+                                </button>
+                            </p:dataList>
+                        </p:dataList>
                     </ul>
                 </li>
             </ul>
@@ -159,6 +194,9 @@
     </div>
 
     <style type="text/css">
+        .list{
+            display:none;
+        }
         .ui-datalist-data{
             padding-left: 0;
             list-style-type: none;
@@ -175,5 +213,14 @@
             text-decoration: none;
         }
     </style>
+
+    <script>
+        function toggledisplay(elementID)
+        {
+            (function (style) {
+                style.display = style.display === 'none' ? '' : 'none';
+            })(document.getElementById(elementID).style);
+        }
+    </script>  
 
 </ui:composition>
