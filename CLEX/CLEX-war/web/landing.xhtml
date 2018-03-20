@@ -14,22 +14,22 @@
         </f:facet>
         <title>PRISM Official Website</title>
         <script type="text/javascript">
-        $(function() {
-            $('#menu-button').on('click', function(e) {
-                var menu = $('#menu');
-                if(menu.hasClass('lmenu-active')) {
-                    menu.addClass('fadeOutUp');
-                    
-                    setTimeout(function() {
-                        menu.removeClass('fadeOutUp fadeInDown lmenu-active');
-                    },500);
-                }
-                else {
-                    menu.addClass('lmenu-active fadeInDown');
-                }
-                e.preventDefault();
+            $(function () {
+                $('#menu-button').on('click', function (e) {
+                    var menu = $('#menu');
+                    if (menu.hasClass('lmenu-active')) {
+                        menu.addClass('fadeOutUp');
+
+                        setTimeout(function () {
+                            menu.removeClass('fadeOutUp fadeInDown lmenu-active');
+                        }, 500);
+                    }
+                    else {
+                        menu.addClass('lmenu-active fadeInDown');
+                    }
+                    e.preventDefault();
+                });
             });
-        });
         </script>
     </h:head>
 
@@ -38,21 +38,22 @@
             <div id="header">
                 <div class="header-top clearfix">
                     <span class="logo"></span>
-                    
+
                     <a id="menu-button" href="#">
-                       <span class="fa fa-bars"></span>
+                        <span class="fa fa-bars"></span>
                     </a>
                     <ul id="menu" class="animated">
-                       <li><a href="#"><span>Home</span></a></li>
-                       <li><a href="#features"><span>Features</span></a></li>
-                       <!--
-                       <li><a href="#promotion"><span>Promotion</span></a></li>
-                       <li><a href="#pricing"><span>Pricing</span></a></li>
-                       -->
-                       <li><a href="#video"><span>Video</span></a></li>
+                        <li><a href="#"><span>Home</span></a></li>
+                        <li><a href="#features"><span>Features</span></a></li>
+                        <!--
+                        <li><a href="#promotion"><span>Promotion</span></a></li>
+                        <li><a href="#contactUs"><span>Pricing</span></a></li>
+                        -->
+                        <li><a href="#video"><span>Video</span></a></li>
+                        <li><a href="#promotion"><span>Contact Us</span></a></li>
                     </ul>
                 </div>
-                
+
                 <div class="header-content clearfix">
                     <h1>PRISM</h1>
                     <h2>Project Integrated Student Management</h2>
@@ -60,15 +61,15 @@
                     <p:button outcome="/register" value="Sign Up" styleClass="secondary" style="width: 100px"/>
                 </div>
             </div>
-            
+
             <div id="features">
                 <div class="ui-g">
                     <div class="ui-g-12 ui-md-4">
                         <div class="feature-icon">
                             <p:graphicImage name="images/landing/landing-1.png" library="poseidon-layout" />
                         </div>
-                        <h3>Announcements</h3>
-                        <p>Lecturers can send out announcements to students within the portal</p>
+                        <h3>Mobile-Friendly</h3>
+                        <p>PRISM application readily available on the Apple App Store or Google Play Store</p>
                     </div>
                     <div class="ui-g-12 ui-md-4">
                         <div class="feature-icon">
@@ -84,7 +85,7 @@
                         <h3>Project</h3>
                         <p>Students can choose their respective project groups</p>
                     </div>
-                    
+
                     <div class="ui-g-12 ui-md-4">
                         <div class="feature-icon">
                             <p:graphicImage name="images/landing/landing-4.png" library="poseidon-layout" />
@@ -108,111 +109,127 @@
                     </div>
                 </div>
             </div>
- <!--
-            <div id="promotion" class="clearfix">
-                <div class="promotion-content">
-                    <h2>Adipisicing elit, sed do eiusm od tempor incididunt ut lab</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                        Ut enim ad minim veniam, quis nostrud exercitation ullamco irure dolor in reprehenderit</p>
-                        
-                    <p:graphicImage name="images/landing/landing-mobile.png" library="poseidon-layout" />
-                </div>
-            </div>
+            <!--
+                <div id="promotion" class="clearfix">
+                    <div class="promotion-content">
+                        <h2>Adipisicing elit, sed do eiusm od tempor incididunt ut lab</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                            Ut enim ad minim veniam, quis nostrud exercitation ullamco irure dolor in reprehenderit</p>
 
-            <div id="pricing">
-                <div class="pricing-content">
-                    <div class="ui-g">
-                        <div class="ui-g-12 ui-md-4">
-                            <div class="pricing-box pricing-basic">
-                                <div class="pricing-header">
-                                    <span class="pricing-name">Basic</span>
-                                    <span class="price">5$</span>
+                        <p:graphicImage name="images/landing/landing-mobile.png" library="poseidon-layout" />
+                    </div>
+                </div>
+            
+                <div id="pricing">
+                    <div class="pricing-content">
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-4">
+                                <div class="pricing-box pricing-basic">
+                                    <div class="pricing-header">
+                                        <span class="pricing-name">Basic</span>
+                                        <span class="price">5$</span>
+                                    </div>
+                                    <div class="pricing-features">
+                                        <ul>
+                                            <li><i class="fa fa-check"></i>Responsive</li>
+                                            <li><i class="fa fa-check"></i>Push Messages</li>
+                                        </ul>
+                                    </div>
+                                    <div class="pricing-buy">
+                                        <p:button outcome="/dashboard" value="Buy Now" styleClass="black-btn" />
+                                    </div>                                
                                 </div>
-                                <div class="pricing-features">
-                                    <ul>
-                                        <li><i class="fa fa-check"></i>Responsive</li>
-                                        <li><i class="fa fa-check"></i>Push Messages</li>
-                                    </ul>
-                                </div>
-                                <div class="pricing-buy">
-                                    <p:button outcome="/dashboard" value="Buy Now" styleClass="black-btn" />
-                                </div>                                
                             </div>
-                        </div>
-                        <div class="ui-g-12 ui-md-4">
-                            <div class="pricing-box pricing-standard">
-                                <div class="pricing-header">
-                                    <span class="pricing-name">Standard</span>
-                                    <span class="price">10$</span>
+                            <div class="ui-g-12 ui-md-4">
+                                <div class="pricing-box pricing-standard">
+                                    <div class="pricing-header">
+                                        <span class="pricing-name">Standard</span>
+                                        <span class="price">10$</span>
+                                    </div>
+                                    <div class="pricing-features">
+                                        <ul>
+                                            <li><i class="fa fa-check"></i>Responsive</li>
+                                            <li><i class="fa fa-check"></i>Push Messages</li>
+                                            <li><i class="fa fa-check"></i>7/24 Support</li>
+                                            <li><i class="fa fa-check"></i>Free Shipping</li>
+                                        </ul>
+                                    </div>
+                                    <div class="pricing-buy">
+                                        <p:button outcome="/dashboard" value="Buy Now" styleClass="black-btn" />
+                                    </div>  
                                 </div>
-                                <div class="pricing-features">
-                                    <ul>
-                                        <li><i class="fa fa-check"></i>Responsive</li>
-                                        <li><i class="fa fa-check"></i>Push Messages</li>
-                                        <li><i class="fa fa-check"></i>7/24 Support</li>
-                                        <li><i class="fa fa-check"></i>Free Shipping</li>
-                                    </ul>
-                                </div>
-                                <div class="pricing-buy">
-                                    <p:button outcome="/dashboard" value="Buy Now" styleClass="black-btn" />
-                                </div>  
                             </div>
-                        </div>
-                        <div class="ui-g-12 ui-md-4">
-                            <div class="pricing-box pricing-pro">
-                                <div class="pricing-header">
-                                    <span class="pricing-name">Premium</span>
-                                    <span class="price">20$</span>
+                            <div class="ui-g-12 ui-md-4">
+                                <div class="pricing-box pricing-pro">
+                                    <div class="pricing-header">
+                                        <span class="pricing-name">Premium</span>
+                                        <span class="price">20$</span>
+                                    </div>
+                                    <div class="pricing-features">
+                                        <ul>
+                                            <li><i class="fa fa-check"></i>Responsive</li>
+                                            <li><i class="fa fa-check"></i>Push Messages</li>
+                                            <li><i class="fa fa-check"></i>7/24 Support</li>
+                                            <li><i class="fa fa-check"></i>Free Shipping</li>
+                                            <li><i class="fa fa-check"></i>Unlimited Bandwidth</li>
+                                            <li><i class="fa fa-check"></i>Unlimited Storage</li>
+                                            <li><i class="fa fa-check"></i>Gift Card</li>
+                                        </ul>
+                                    </div>
+                                    <div class="pricing-buy">
+                                        <p:button outcome="/dashboard" value="Buy Now" styleClass="black-btn" />
+                                    </div>  
                                 </div>
-                                <div class="pricing-features">
-                                    <ul>
-                                        <li><i class="fa fa-check"></i>Responsive</li>
-                                        <li><i class="fa fa-check"></i>Push Messages</li>
-                                        <li><i class="fa fa-check"></i>7/24 Support</li>
-                                        <li><i class="fa fa-check"></i>Free Shipping</li>
-                                        <li><i class="fa fa-check"></i>Unlimited Bandwidth</li>
-                                        <li><i class="fa fa-check"></i>Unlimited Storage</li>
-                                        <li><i class="fa fa-check"></i>Gift Card</li>
-                                    </ul>
-                                </div>
-                                <div class="pricing-buy">
-                                    <p:button outcome="/dashboard" value="Buy Now" styleClass="black-btn" />
-                                </div>  
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
- -->
- 
+                                    
+            -->
+
             <div id="video">
-               <div class="video-content">
-                   <h2>SG Secure</h2>
-                   <p>Be Secure with SG Secure</p>
-                   <div class="video-container">
-                       <iframe src="https://www.youtube.com/embed/wEt1o5cYtvs?rel=0" frameborder="0" width="560" height="330"></iframe>
-                   </div>
-               </div>
-           </div>
-           
-           <div id="footer">
-               <div class="footer-content">
-                   <div class="ui-g">
+                <div class="video-content">
+                    <h2>SG Secure</h2>
+                    <p>Be Secure with SG Secure</p>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/wEt1o5cYtvs?rel=0" frameborder="0" width="560" height="330"></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div id="promotion" class="clearfix">
+                <div class="promotion-content">
+                    <h2>Contact Us</h2>
+
+                    <h:form>
+                        <h:outputLink value="mailto:prismeduc@gmail.com">
+                            <p:graphicImage name="images/landing/landing-mobile.png" library="poseidon-layout" />
+                        </h:outputLink>
+                    </h:form>
+                    
+                    
+                </div>
+            </div>
+
+            <div id="footer">
+                <div class="footer-content">
+                    <div class="ui-g">
                         <div class="ui-g-12 ui-md-6 footer-left clearfix">
                             <p:graphicImage name="images/logo-icon-white.png" library="poseidon-layout" width="50"/>
                             <span>PRISM - Project Integrated Student Management</span>
                             <span>All rights reserved.</span>
                         </div>
                         <div class="ui-g-12 ui-md-6 footer-right">
-                            <i class="fa fa-facebook-square"></i>
-                            <i class="fa fa-twitter-square"></i>
+                            <a href="https://www.facebook.com/PRISM-2033160623610370/?view_public_for=2033160623610370" target="_blank" title="PRISM Facebook" ><i class="fa fa-facebook-square" style="color: white"></i></a>
+                            <a href="https://twitter.com/PRISM87990939" target="_blank" title="PRISM Twitter"><i class="fa fa-twitter-square" style="color: white"></i></a>
+                            <a href="https://github.com/linxianying/CLEX" target="_blank" title="PRISM Github"><i class="fa fa-github" style="color: white"></i></a>
+                            <a href="mailto:prismeduc@gmail.com" title="Contact Us"><i class="fa fa-envelope-o" style="color: white"></i></a>
                         </div>
                     </div>
-               </div>
-           </div>
+                </div>
+            </div>
         </div>
-        
+
         <h:outputStylesheet name="css/animate.css" library="poseidon-layout" />
         <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="poseidon-layout" />
     </h:body>
