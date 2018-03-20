@@ -128,16 +128,18 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="#" onclick="setViewCount()">
                         <i class="topbar-icon material-icons fa fa-fw fa-bell-o"></i>
-                        <span class="topbar-badge animated rubberBand">4</span>
+                        <p:outputPanel autoUpdate="true" class="topbar-badge animated rubberBand">#{announcementBean.latestCount}</p:outputPanel>
                         <span class="topbar-item-name">Notifications</span>
+                        <h:form>
+                            <p:remoteCommand name="setViewCount" actionListener="#{announcementBean.setAnncViewCount()}"/>
+                        </h:form>
                     </a>
                     <ul  style="overflow: auto; height: 500%; width: 700%">
                         <span style="color: #e33f3f">Notifications</span>
                         <br/>
-                        <p:button value="All" styleClass="secondary" />
-                        <p:dataList var="annc" value="#{announcementBean.getAllAnnouncements()}">
+                        <p:dataList var="annc" value="#{announcementBean.announcements}">
                             <button type="button" disabled="disabled" class="anncBox">
                                 <h:outputText value="#{annc.type} posted a new announcement" />
                                 <br/>

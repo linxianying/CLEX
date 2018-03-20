@@ -80,14 +80,15 @@ public class AnnouncementBean {
             takingModules = spsbl.getCurrentModules(username);
             announcements = getAnnouncementByAdminForStudent();
             announcements2 = getLatestAnnouncementForAllModules();
+            announcements.addAll(announcements2);
+            announcements = (ArrayList<Announcement>) asbl.sortAnncByDate(announcements);
         } else if (userType == 2) {
             announcements = getAnnouncementsSelf(username);
             announcements2 = getAnnouncementByAdminForLecturer();
+            announcements.addAll(announcements2);
+            announcements = (ArrayList<Announcement>) asbl.sortAnncByDate(announcements);
         } else if (userType == 3) {
             announcements = getAnnouncementsSelf(username);
-            //get all announcements then remove those by admin
-            announcements2 = getAllAnnouncements();
-            announcements2.removeAll(announcements);
         } else if (userType == 4) {
             announcements = getAnnouncementByAdminForGuests();
         }
@@ -186,7 +187,6 @@ public class AnnouncementBean {
             tempAllAnnouncements1.add(tempAllAnnouncements3.get(i));
         }
         
-        tempAllAnnouncements1 = (ArrayList<Announcement>) asbl.sortAnncByDate(tempAllAnnouncements1);
         return tempAllAnnouncements1;
     }
     
@@ -217,7 +217,6 @@ public class AnnouncementBean {
             tempAllAnnouncements1.add(tempAllAnnouncements3.get(i));
         }
         
-        tempAllAnnouncements1 = (ArrayList<Announcement>) asbl.sortAnncByDate(tempAllAnnouncements1);
         return tempAllAnnouncements1;
     }
 
@@ -229,7 +228,6 @@ public class AnnouncementBean {
 
     public ArrayList<Announcement> getAllAnnouncements() {
         ArrayList<Announcement> tempAllAnnouncements5 = (ArrayList<Announcement>) asbl.getAllAnnc();
-        tempAllAnnouncements5 = (ArrayList<Announcement>) asbl.sortAnncByDate(tempAllAnnouncements5);
         return tempAllAnnouncements5;
     }
 
