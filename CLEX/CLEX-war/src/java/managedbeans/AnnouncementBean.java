@@ -77,20 +77,32 @@ public class AnnouncementBean {
         username = (String) session.getAttribute("username");
         userType = (int) session.getAttribute("userType");
         if (userType == 1) {
+            userEntity = asbl.findUser(username);
             takingModules = spsbl.getCurrentModules(username);
             announcements = getAnnouncementByAdminForStudent();
             announcements2 = getLatestAnnouncementForAllModules();
-            anncSize = announcements.size();
+            announcements.addAll(announcements2);
+            announcements = (ArrayList<Announcement>) asbl.sortAnncByDate(announcements);
+            setAnncSize(announcements.size());
+            setLatestCount(announcements.size() - userEntity.getViewAnncCount());
         } else if (userType == 2) {
+            userEntity = asbl.findUser(username);
             announcements = getAnnouncementsSelf(username);
             announcements2 = getAnnouncementByAdminForLecturer();
+            announcements.addAll(announcements2);
+            announcements = (ArrayList<Announcement>) asbl.sortAnncByDate(announcements);
+            setAnncSize(announcements.size());
+            setLatestCount(announcements.size() - userEntity.getViewAnncCount());
         } else if (userType == 3) {
+            userEntity = asbl.findUser(username);
             announcements = getAnnouncementsSelf(username);
-            //get all announcements then remove those by admin
-            announcements2 = getAllAnnouncements();
-            announcements2.removeAll(announcements);
+            setAnncSize(announcements.size());
+            setLatestCount(announcements.size() - userEntity.getViewAnncCount());
         } else if (userType == 4) {
+            userEntity = asbl.findUser(username);
             announcements = getAnnouncementByAdminForGuests();
+            setAnncSize(announcements.size());
+            setLatestCount(announcements.size() - userEntity.getViewAnncCount());
         }
     }
 
@@ -148,7 +160,6 @@ public class AnnouncementBean {
     }
     
     public ArrayList<Announcement> getLatestAnnouncementForAllModules(){
-        userEntity = asbl.findUser(username);
         ArrayList<Announcement> allAnncList = new ArrayList<Announcement>();
         ArrayList<Announcement> tempList = new ArrayList<Announcement>();
         
@@ -158,9 +169,6 @@ public class AnnouncementBean {
         }
         
         allAnncList = (ArrayList<Announcement>) asbl.sortAnncByDate(allAnncList);
-        setAnncSize(allAnncList.size());
-        
-        setLatestCount(allAnncList.size() - userEntity.getViewAnncCount());
         
         return allAnncList;
     }
@@ -168,7 +176,9 @@ public class AnnouncementBean {
     //updates the counter above the notification icon upon closing it
     public void setAnncViewCount(){
         System.out.println("annc size = "+ getAnncSize());
+        System.out.println("username = "+ username);
         asbl.setViewAnncCount(username, getAnncSize());
+        System.out.println("view count = "+ userEntity.getViewAnncCount());
         setLatestCount(anncSize - userEntity.getViewAnncCount());
     }
     
@@ -187,7 +197,6 @@ public class AnnouncementBean {
             tempAllAnnouncements1.add(tempAllAnnouncements3.get(i));
         }
         
-        tempAllAnnouncements1 = (ArrayList<Announcement>) asbl.sortAnncByDate(tempAllAnnouncements1);
         return tempAllAnnouncements1;
     }
     
@@ -218,7 +227,6 @@ public class AnnouncementBean {
             tempAllAnnouncements1.add(tempAllAnnouncements3.get(i));
         }
         
-        tempAllAnnouncements1 = (ArrayList<Announcement>) asbl.sortAnncByDate(tempAllAnnouncements1);
         return tempAllAnnouncements1;
     }
 
@@ -230,7 +238,6 @@ public class AnnouncementBean {
 
     public ArrayList<Announcement> getAllAnnouncements() {
         ArrayList<Announcement> tempAllAnnouncements5 = (ArrayList<Announcement>) asbl.getAllAnnc();
-        tempAllAnnouncements5 = (ArrayList<Announcement>) asbl.sortAnncByDate(tempAllAnnouncements5);
         return tempAllAnnouncements5;
     }
 
