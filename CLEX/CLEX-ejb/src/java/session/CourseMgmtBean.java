@@ -71,6 +71,19 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
     }
 
     @Override
+    public List getYearList() {
+        List<String> yearlist = new ArrayList<String>();
+        int x = 2016;
+        for (int i = 0; i < 84; i++) {
+            x++;
+            String year = Integer.toString(x);
+            yearlist.add(i, year);
+        }
+
+        return yearlist;
+    }
+
+    @Override
     public List getAllSchools() {
         List<String> schoollist = new ArrayList<String>();
         schoollist.add(0, "NUS");
@@ -86,6 +99,7 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
         schoollist.add(10, "TP");
         return schoollist;
     }
+
     @Override
     public List getAllModularCredits() {
         List<String> creditList = new ArrayList<String>();
@@ -296,6 +310,7 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
             lessonEntity = (Lesson) o;
             lessons.add(lessonEntity);
         }
+        lessons = sortLessonByModuleCode(lessons);
         return lessons;
     }
 
@@ -420,7 +435,7 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
         em.flush();
         return true;
     }
-    
+
     @Override
     public boolean checkLectTeachModule(String username, String moduleCode, String takenYear, String takenSem) {
         lecturerEntity = findLecturer(username);
@@ -539,7 +554,7 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
         return lecturerEntity;
     }
 
-    public List<Course> sortCourseByModuleCode(List<Course> courseList){
+    public List<Course> sortCourseByModuleCode(List<Course> courseList) {
         Collections.sort(courseList, new Comparator<Course>() {
             public int compare(Course c1, Course c2) {
                 return c1.getModuleCode().compareTo(c2.getModuleCode());
@@ -547,13 +562,77 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
         });
         return courseList;
     }
-    
-    public List<Module> sortModuleByModuleCode(List<Module> moduleList){
+
+    public List<Module> sortModuleByModuleCode(List<Module> moduleList) {
         Collections.sort(moduleList, new Comparator<Module>() {
             public int compare(Module m1, Module m2) {
                 return m1.getCourse().getModuleCode().compareTo(m2.getCourse().getModuleCode());
             }
         });
         return moduleList;
+    }
+    
+    public List<Lesson> sortLessonByModuleCode(List<Lesson> lessonList) {
+        Collections.sort(lessonList, new Comparator<Lesson>() {
+            public int compare(Lesson l1, Lesson l2) {
+                return l1.getModule().getCourse().getModuleCode().compareTo(l2.getModule().getCourse().getModuleCode());
+            }
+        });
+        return lessonList;
+    }
+
+    @Override
+    public List getCoursesFromSchool(String school) {
+        System.out.println("getCourses retrieving from " + school);
+        List<Course> courseList = new ArrayList<Course>();
+        List<Course> courses = getAllCourses();
+        for (int i = 0; i < courses.size(); i++) {
+            courseEntity = courses.get(i);
+            if (courseEntity.getSchool().equals(school)) {
+                courseList.add(courseEntity);
+            }
+        }
+        courseList = sortCourseByModuleCode(courseList);
+        return courseList;
+    }
+
+    @Override
+    public List getModulesFromSchool(String school) {
+        System.out.println("getModules retrieving from " + school);
+        List<Module> moduleList = new ArrayList<Module>();
+        List<Module> modules = getAllModules();
+        for (int i = 0; i < modules.size(); i++) {
+            moduleEntity = modules.get(i);
+            if (moduleEntity.getCourse().getSchool().equals(school)) {
+                moduleList.add(moduleEntity);
+            }
+        }
+        moduleList = sortModuleByModuleCode(moduleList);
+        return moduleList;
+    }
+    
+    @Override
+    public List<Lecturer> getLecturerFromSchool(String school){
+        
+        List<Lecturer> lecturerList = new ArrayList<Lecturer>();
+        List<User> allLecturers = (List) getLecturerName();
+        sortLecturerByName(allLecturers);
+        
+        for(int i=0; i < allLecturers.size(); i++){
+            userEntity = allLecturers.get(i);
+            if(userEntity.getSchool().equals(school)){
+                lecturerList.add((Lecturer) userEntity);
+            }
+        }
+        return lecturerList;
+    }
+    
+    public List<User> sortLecturerByName(List<User> userList){
+        Collections.sort(userList, new Comparator<User>() {
+            public int compare(User user1, User user2) {
+                return user1.getName().compareTo(user2.getName());
+            }
+        });
+        return userList;
     }
 }

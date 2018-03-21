@@ -65,21 +65,27 @@
                         <p:message for="contact" />
 
                         <!-- School --> 
-                        <!--if school is not listed, they will have to 
-                        wait for admin approval before they change to the correct name?-->
                         <div class="ui-g-12">
                             <p:selectOneMenu style="padding: 0%; text-transform: uppercase;" 
-                                             required="true" title="Select school from list, choose Others if your school is not available in the list."
+                                             required="true" title="Select your school from the list. If your school isn't available, send a request to your instituition to adopt PRISM."
                                              id="school" value="#{registerBean.school}" 
-                                             editable="true" placeholder="School" requiredMessage="School Required">
+                                             placeholder="School" requiredMessage="School Required">
                                 <f:selectItems value="#{registerBean.schoollist}" />
-                                <f:selectItem itemLabel="Others" itemValue="Others"/>
-
                             </p:selectOneMenu>
                             <p:tooltip id="toolTipFocus" for="school" showEvent="focus" hideEvent="blur" />
                         </div>
                         <p:message for="school" />
-
+                        <!-- School --> 
+                        <div class="ui-g-12">
+                            <p:selectOneMenu style="padding: 0%; text-transform: uppercase;" 
+                                             required="true" title="Select your school from the list. If your school isn't available, send a request to your instituition to adopt PRISM."
+                                             id="school" value="#{registerBean.school}" 
+                                             placeholder="School" requiredMessage="School Required">
+                                <f:selectItems value="#{registerBean.schoollist}" />
+                            </p:selectOneMenu>
+                            <p:tooltip id="toolTipFocus" for="school" showEvent="focus" hideEvent="blur" />
+                        </div>
+                        <p:message for="school" />
                         <!-- User Type -->
                         <div class="ui-g-12 chkbox-container">
                             <p:selectOneButton required="true" requiredMessage="User Type Required" styleClass="menuSelect" id="userType" value="#{registerBean.userType}">

@@ -76,10 +76,6 @@ public class StudyPlanBean {
 
     private List<Course> courses;
 
-    private String moduleInfo; //for rendering the info after the student select the module
-    private String workload; //for rendering the info after the student select the module
-    private String preclusions; //for rendering the info after the student select the module
-    Module moduleFront; //for rendering the info after the student select the module
     Course courseFront; //for rendering the info after the student select the module
 
     public StudyPlanBean() {
@@ -149,12 +145,12 @@ public class StudyPlanBean {
                     "You have already taken " + addModuleCode.toUpperCase(), "Please change to another module");
             context.addMessage(null, fmsg);
             courseFront = null;
-            moduleFront = null;
             this.addButton = false;
         } else {
             fmsg = null;
             courseFront = cmbl.findCourse(addModuleCode);
             this.addButton = true;
+            addPickSem = courseFront.getOfferedSem();
         }
     }
 
@@ -684,38 +680,6 @@ public class StudyPlanBean {
 
     public void setUpdatePickSem(String updatePickSem) {
         this.updatePickSem = updatePickSem;
-    }
-
-    public String getModuleInfo() {
-        return moduleInfo;
-    }
-
-    public void setModuleInfo(String moduleInfo) {
-        this.moduleInfo = moduleInfo;
-    }
-
-    public String getWorkload() {
-        return workload;
-    }
-
-    public void setWorkload(String workload) {
-        this.workload = workload;
-    }
-
-    public String getPreclusions() {
-        return preclusions;
-    }
-
-    public void setPreclusions(String preclusions) {
-        this.preclusions = preclusions;
-    }
-
-    public Module getModuleFront() {
-        return moduleFront;
-    }
-
-    public void setModuleFront(Module moduleFront) {
-        this.moduleFront = moduleFront;
     }
 
     public Course getCourseFront() {
