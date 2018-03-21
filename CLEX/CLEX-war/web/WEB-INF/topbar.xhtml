@@ -91,7 +91,7 @@
                 <li>
                     <a href="#">
                         <i class="topbar-icon material-icons animated swing fa fa-fw fa-envelope-o"></i>
-                        <span class="topbar-badge animated rubberBand">5</span>
+                        <span class="topbar-badge animated rubberBand">1</span>
                         <span class="topbar-item-name">Messages</span>
                     </a>
                     <ul class="poseidon-menu animated">
@@ -130,16 +130,16 @@
                 <li>
                     <a href="#" onclick="setViewCount()">
                         <i class="topbar-icon material-icons fa fa-fw fa-bell-o"></i>
-                        <p:outputPanel autoUpdate="true" class="topbar-badge animated rubberBand">#{announcementBean.latestCount}</p:outputPanel>
+                        <p:outputPanel autoUpdate="true" class="topbar-badge animated rubberBand">#{announcementBean.latestCount}</p:outputPanel>  
                         <span class="topbar-item-name">Notifications</span>
                         <h:form>
                             <p:remoteCommand name="setViewCount" actionListener="#{announcementBean.setAnncViewCount()}"/>
                         </h:form>
                     </a>
                     <ul  style="overflow: auto; height: 500%; width: 700%">
+                        <span class="topbar-badge animated rubberBand">#{announcementBean.anncSize}</span>
                         <span style="color: #e33f3f">Notifications</span>
                         <br/>
-
                         <a href="#" onmouseover="PF('tooltip').show()">
                             <i class="fa fa-fw fa-check-circle"></i>
                             <span>Filter</span>

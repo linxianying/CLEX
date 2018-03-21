@@ -80,6 +80,7 @@ public class AnnouncementBean {
             takingModules = spsbl.getCurrentModules(username);
             announcements = getAnnouncementByAdminForStudent();
             announcements2 = getLatestAnnouncementForAllModules();
+            anncSize = announcements.size();
         } else if (userType == 2) {
             announcements = getAnnouncementsSelf(username);
             announcements2 = getAnnouncementByAdminForLecturer();
