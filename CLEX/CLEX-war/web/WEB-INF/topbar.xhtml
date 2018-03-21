@@ -130,39 +130,16 @@
                 <li>
                     <a href="#" onclick="setViewCount()">
                         <i class="topbar-icon material-icons fa fa-fw fa-bell-o"></i>
-                        <p:outputPanel autoUpdate="true" class="topbar-badge animated rubberBand">#{announcementBean.latestCount}</p:outputPanel>  
+                        <p:outputPanel autoUpdate="true" class="topbar-badge animated rubberBand">#{announcementBean.latestCount}</p:outputPanel>
                         <span class="topbar-item-name">Notifications</span>
                         <h:form>
                             <p:remoteCommand name="setViewCount" actionListener="#{announcementBean.setAnncViewCount()}"/>
                         </h:form>
                     </a>
                     <ul  style="overflow: auto; height: 500%; width: 700%">
-                        <span class="topbar-badge animated rubberBand">#{announcementBean.anncSize}</span>
                         <span style="color: #e33f3f">Notifications</span>
                         <br/>
-<<<<<<< HEAD
-                        <a href="#" onmouseover="PF('tooltip').show()">
-                            <i class="fa fa-fw fa-check-circle"></i>
-                            <span>Filter</span>
-                            <p:outputPanel id="filter"></p:outputPanel>
-           
-                            <p:tooltip for="filter" hideEvent="blur" widgetVar="tooltip" >
-                                <span onmouseleave="PF('tooltip').hide()">
-                                    <p:commandButton type="button" value="All" onclick="toggledisplay('allMods')">
-                                    </p:commandButton>
-                                    <ui:repeat var="module" value="#{announcementBean.takingModules}">
-                                        <p:commandButton type="button" value="#{module.getCourse().moduleCode}" onclick="toggledisplay('#{module.getCourse().moduleCode}')">
-                                        </p:commandButton>
-                                    </ui:repeat>
-                                </span>
-                            </p:tooltip>
-                        </a>
-
-                        <br/>
-                        <p:dataList id="allMods" var="annc" value="#{announcementBean.getLatestAnnouncementForAllModules()}">
-=======
                         <p:dataList var="annc" value="#{announcementBean.announcements}">
->>>>>>> Wenjie_Announcement
                             <button type="button" disabled="disabled" class="anncBox">
                                 <h:outputText value="#{annc.type} posted a new announcement" />
                                 <br/>
