@@ -85,8 +85,6 @@ public interface CourseMgmtBeanLocal {
 
     public Lesson findLesson(Module module, String day, String timeFrom, String timeEnd);
 
-<<<<<<< HEAD
-=======
     public List getYearList();
 
     public List<Course> getCoursesFromSchool(String school);
@@ -94,5 +92,5 @@ public interface CourseMgmtBeanLocal {
     public List getModulesFromSchool(String school);
 
     public List<Lecturer> getLecturerFromSchool(String school);
->>>>>>> 056b9bff9bf73e91339b7a68d6929d81f7b86114
+
 }
