@@ -66,6 +66,7 @@ public class ClassroomBean {
     private String password;
     private String userType;
     private ArrayList<Poll> polls ;
+    private ArrayList<Poll> filteredPolls;
     private ArrayList<Module> modules;
     
     private String addPollType;
@@ -341,6 +342,14 @@ public class ClassroomBean {
 
     public void setAddButton(boolean addButton) {
         this.addButton = addButton;
+    }
+
+    public ArrayList<Poll> getFilteredPolls() {
+        return filteredPolls;
+    }
+
+    public void setFilteredPolls(ArrayList<Poll> filteredPolls) {
+        this.filteredPolls = filteredPolls;
     }
     
     

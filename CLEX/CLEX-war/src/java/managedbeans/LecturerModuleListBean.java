@@ -314,4 +314,12 @@ public class LecturerModuleListBean implements Serializable {
         this.takenSem = takenSem;
     }
 
+    public AnnouncementSessionBeanLocal getAsbl() {
+        return asbl;
+    }
+
+    public void setAsbl(AnnouncementSessionBeanLocal asbl) {
+        this.asbl = asbl;
+    }
+
 }

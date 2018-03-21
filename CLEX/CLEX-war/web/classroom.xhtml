@@ -55,7 +55,8 @@
                     <h:form id="panel">
                         <p:panel collapsed="false" styleClass="menuHeader"  header="All Polls of Lecturer" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
 
-                            <p:dataTable var="poll" value="#{classroomBean.polls}" 
+                            <p:dataTable var="poll" value="#{classroomBean.polls}"
+                                         filteredValue="#{classroomBean.filteredPolls}"
                                          id="tbl"
                                          widgetVar="pollsTable" 
                                          emptyMessage="No polls found with given criteria."

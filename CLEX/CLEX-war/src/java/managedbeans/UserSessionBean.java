@@ -7,6 +7,7 @@ package managedbeans;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -22,6 +23,7 @@ import org.brickred.socialauth.AuthProvider;
 import org.brickred.socialauth.Profile;
 import org.brickred.socialauth.SocialAuthConfig;
 import org.brickred.socialauth.SocialAuthManager;
+import org.brickred.socialauth.exception.SocialAuthException;
 import org.brickred.socialauth.util.AccessGrant;
 import org.brickred.socialauth.util.SocialAuthUtil;
 
@@ -70,7 +72,7 @@ public class UserSessionBean implements Serializable {
     }   
     
     
-    public void pullUserInfo() {
+    public void pullUserInfo() throws SocialAuthException {
         try {
             //HttpSession session = (HttpSession) request.getAttribute("jsessionid");
             
@@ -81,8 +83,20 @@ public class UserSessionBean implements Serializable {
             Map map = SocialAuthUtil.getRequestParametersMap(request);
             Map<String, String> paramsMap = SocialAuthUtil.getRequestParametersMap(request);
             manager = (SocialAuthManager) request.getSession().getAttribute("authManager");
+            Enumeration<String> e = request.getParameterNames();
+            for (e = e; e.hasMoreElements();)
+                System.out.println(e.nextElement());
+            AccessGrant a =  createAccessGrant(paramsMap);
+            request.setAttribute("code", "code");
             if (this.manager != null) {
+                System.out.println(paramsMap.size());
+                //paramsMap.put("code", "400");
                 AuthProvider provider = manager.connect(paramsMap);
+                //manager.getProvider(providerID);
+                //manager.getCurrentAuthProvider();
+                //manager.connect(a);
+                
+                
                 this.profile = provider.getUserProfile();
                 System.out.println(profile.getFullName());
                 FacesContext.getCurrentInstance().getExternalContext().redirect(originalURL);
@@ -97,6 +111,22 @@ public class UserSessionBean implements Serializable {
             System.out.println("UserSession - Exception: ");
             System.err.println(ex);
         } 
+    }
+    
+    private AccessGrant createAccessGrant(Map<String, String> params){
+	AccessGrant accessGrant= new AccessGrant();
+	if(params.get("access_token") != null)
+	{
+		String accessToken = params.get("access_token");
+		Integer expires = null;
+		if (params.get("expires") != null) {
+			expires = new Integer(params.get("expires"));
+		}
+		accessGrant.setKey(accessToken);
+		accessGrant.setAttribute("expires", expires);
+	}
+	accessGrant.setProviderId(providerID);
+	return accessGrant;
     }
     
     public void logOut() {
