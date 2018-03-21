@@ -80,4 +80,5 @@ public interface CourseMgmtBeanLocal {
     public Course findCourse(String moduleCode);
     public Module findModule(Course course, String takenYear, String takenSem);
     public Lesson findLesson(Module module, String day, String timeFrom, String timeEnd);
+
 }
