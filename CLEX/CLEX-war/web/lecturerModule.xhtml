@@ -35,24 +35,25 @@
                                     <h:outputText value="Search all fields:" />
                                     <p:inputText id="globalFilter" onkeyup="PF('modulesTable').filter()" style="width:150px" placeholder="Enter keyword"/>
                                 </p:outputPanel>
+                                <!--could add pageOnly="true" to make the exporter only export one page -->
                                 <h:commandLink>
                                     <p:graphicImage name="/demo/images/excel.png" width="24"/>
-                                    <p:dataExporter type="xls" target="modules" fileName="modules" pageOnly="true" />
+                                    <p:dataExporter type="xls" target="modules" fileName="modules"  />
                                 </h:commandLink>
 
                                 <h:commandLink>
                                     <p:graphicImage name="/demo/images/pdf.png" width="24"/>
-                                    <p:dataExporter type="pdf" target="modules" fileName="modules" pageOnly="true"/>
+                                    <p:dataExporter type="pdf" target="modules" fileName="modules" />
                                 </h:commandLink>
 
                                 <h:commandLink>
                                     <p:graphicImage name="/demo/images/csv.png" width="24"/>
-                                    <p:dataExporter type="csv" target="modules" fileName="modules" pageOnly="true" />
+                                    <p:dataExporter type="csv" target="modules" fileName="modules"  />
                                 </h:commandLink>
 
                                 <h:commandLink>
                                     <p:graphicImage name="/demo/images/xml.png" width="24"/>
-                                    <p:dataExporter type="xml" target="modules" fileName="modules" pageOnly="true" />
+                                    <p:dataExporter type="xml" target="modules" fileName="modules"/>
                                 </h:commandLink>
                             </f:facet>
                             <p:column style="width: 15%" filterBy="#{module.course.moduleCode}" sortBy="#{module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
@@ -103,7 +104,25 @@
                                     <h:outputText value="Search all fields:" />
                                     <p:inputText id="globalFilter" onkeyup="PF('lessonsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
                                 </p:outputPanel>
-                                
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                                    <p:dataExporter type="xls" target="les" fileName="lessons"  />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                                    <p:dataExporter type="pdf" target="les" fileName="lessons" />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                                    <p:dataExporter type="csv" target="les" fileName="lessons"  />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                                    <p:dataExporter type="xml" target="les" fileName="lessons" />
+                                </h:commandLink>
                             </f:facet>
                             <p:ajax event="cellEdit" listener="#{lecturerModuleListBean.lectEditLesson(lesson)}" update="messages"/>
                             <p:column filterBy="#{lesson.module.course.moduleCode}" sortBy="#{lesson.module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
