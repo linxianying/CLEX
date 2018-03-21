@@ -19,7 +19,7 @@
         <h:form id="panel">
             <p:tabView>
                 <p:tab title="VIEW MODULES">
-                    <h:form id="moduleTab">
+                    
                         
                         <p:dataTable var="module" value="#{lecturerModuleListBean.modules}" 
                                      widgetVar="modulesTable"
@@ -27,7 +27,7 @@
                                      filteredValue="#{lecturerModuleListBean.filteredModules}"
                                      paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
                                      rows="5" 
-                                     id="tbl1"
+                                     id="modules"
                                      paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                      rowsPerPageTemplate="5,10,20">
                             <f:facet name="header">
@@ -37,22 +37,22 @@
                                 </p:outputPanel>
                                 <h:commandLink>
                                     <p:graphicImage name="/demo/images/excel.png" width="24"/>
-                                    <p:dataExporter type="xls" target="tbl1" fileName="modules" />
+                                    <p:dataExporter type="xls" target="modules" fileName="modules" pageOnly="true" />
                                 </h:commandLink>
 
                                 <h:commandLink>
                                     <p:graphicImage name="/demo/images/pdf.png" width="24"/>
-                                    <p:dataExporter type="pdf" target="tbl1" fileName="modules"/>
+                                    <p:dataExporter type="pdf" target="modules" fileName="modules" pageOnly="true"/>
                                 </h:commandLink>
 
                                 <h:commandLink>
                                     <p:graphicImage name="/demo/images/csv.png" width="24"/>
-                                    <p:dataExporter type="csv" target="tbl1" fileName="modules" />
+                                    <p:dataExporter type="csv" target="modules" fileName="modules" pageOnly="true" />
                                 </h:commandLink>
 
                                 <h:commandLink>
                                     <p:graphicImage name="/demo/images/xml.png" width="24"/>
-                                    <p:dataExporter type="xml" target="tbl1" fileName="modules" />
+                                    <p:dataExporter type="xml" target="modules" fileName="modules" pageOnly="true" />
                                 </h:commandLink>
                             </f:facet>
                             <p:column style="width: 15%" filterBy="#{module.course.moduleCode}" sortBy="#{module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
@@ -85,10 +85,10 @@
                             </p:column>
                         </p:dataTable>
                         
-                    </h:form>
+                    <!--<h:form id="moduleTab"><h:form id="lessonTab"></h:form>-->
                 </p:tab>
                 <p:tab title="VIEW LESSONS">
-                    <h:form id="lessonTab">
+                    
                         <p:dataTable editable="true" editMode="cell" 
                                      var="lesson" value="#{lecturerModuleListBean.lessons}" 
                                      widgetVar="lessonsTable"
@@ -151,7 +151,9 @@
                             </p:column>
                             <p:column filterBy="#{lesson.type}" sortBy="#{lesson.type}" headerText="Type" filterMatchMode="contains">
                                 <p:cellEditor>
-                                    <f:facet name="output"><h:outputText value="#{lesson.type}" /></f:facet>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{lesson.type}" />
+                                    </f:facet>
                                     <f:facet name="input">
                                         <p:selectOneMenu required="true" value="#{lesson.type}" 
                                                          editable="true">
@@ -170,7 +172,7 @@
                                 </p:cellEditor>
                             </p:column>
                         </p:dataTable>
-                    </h:form>                
+                                   
                 </p:tab>
             </p:tabView>
         </h:form>
