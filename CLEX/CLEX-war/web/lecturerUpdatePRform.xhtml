@@ -9,15 +9,16 @@
         <title>Update Peer Review Form</title>
     </h:head>
     <h:body>
-        <h:form id="PRForm">
             <h:panelGroup id="individualQuestions">
                 <h3>Individual Question</h3>
+                <br />
+                <p>Question for each group member</p>
                 <ui:repeat value="#{lecturerPRFormBean.individualQuestions}" var="indQuestion" varStatus="indIndex">
                     <h:outputText value="Q#{indIndex.index+1}. "/>
                     <h:outputText value="#{indQuestion.question}"/>
                     <br/>
-                    <p:inputTextarea id="open" rows="5" cols="30" maxlength="20000" autoResize="false" rendered="#{indQuestion.type == 'open'}" value="#{lecturerPRFormBean.individualAnswer[indIndex.index]}" />
-                    <p:selectOneMenu id="rating"  panelStyle="width:180px" effect="fade" style="width:160px" rendered="#{indQuestion.type == 'rating'}" value="#{lecturerPRFormBean.individualAnswer[indIndex.index]}">
+                    <p:inputTextarea id="open" rows="5" cols="30" maxlength="20000" autoResize="false" rendered="#{indQuestion.type == 'open'}"  />
+                    <p:selectOneMenu id="rating"  panelStyle="width:180px" effect="fade" style="width:160px" rendered="#{indQuestion.type == 'rating'}" >
                         <f:selectItem itemLabel="Select One" itemValue="select"/>
                         <f:selectItems value="#{lecturerPRFormBean.getRating(indQuestion)}" var="rate" itemLabel="#{rate}" itemValue="#{rate}" />
                     </p:selectOneMenu>
@@ -31,12 +32,14 @@
             </h:panelGroup>
             <h:panelGroup id="groupQuestions"> 
                 <h3>Group Question</h3>
+                <br />
+                <p>Question for the whole group</p>
                 <ui:repeat value="#{lecturerPRFormBean.groupQuestions}" var="grQuestion" varStatus="grIndex">
                     <h:outputText value="Q#{grIndex.index+1}. "/>
                     <h:outputText value="#{grQuestion.question}"/>
                     <br/>
-                    <p:inputTextarea rows="5" cols="30" maxlength="20000" autoResize="false" rendered="#{grQuestion.type == 'open'}" value="#{lecturerPRFormBean.groupAnswer[grIndex.index]}"/>   
-                    <p:selectOneMenu id="rating"  panelStyle="width:180px" effect="fade" style="width:160px" rendered="#{grQuestion.type == 'rating'}" value="#{lecturerPRFormBean.groupAnswer[grIndex.index]}">
+                    <p:inputTextarea rows="5" cols="30" maxlength="20000" autoResize="false" rendered="#{grQuestion.type == 'open'}" />   
+                    <p:selectOneMenu id="rating"  panelStyle="width:180px" effect="fade" style="width:160px" rendered="#{grQuestion.type == 'rating'}" >
                         <f:selectItem itemLabel="Select One" itemValue="select"/>
                         <f:selectItems value="#{lecturerPRFormBean.getRating(grQuestion)}" var="rate" itemLabel="#{rate}" itemValue="#{rate}" />
                     </p:selectOneMenu>
@@ -48,7 +51,47 @@
                 </ui:repeat>
             </h:panelGroup>
             <br/>
-            <p:commandButton value="submit" type="button" />
+        <h:form id="newQuestion">
+            <h3>New Question</h3>
+            <h:outputText value="Enter the question:"/>
+            <br/>
+            <p:inputText  maxlength="2000" value="#{lecturerPRFormBean.addQuestion}" required="true" />
+            <br/>
+            <h:outputText value="Choose the type"/>
+            <br/>
+            <p:selectOneMenu value="#{lecturerPRFormBean.addType}" required="true">
+                <f:selectItem itemLabel="Individual Question" itemValue="indQuestion"/>
+                <f:selectItem itemLabel="Group Question" itemValue="grQuestion"/>
+            </p:selectOneMenu>
+            <br/>
+            <h:outputText value="Choose the question type" />
+            <br/>
+            <p:outputPanel>
+            <p:selectOneMenu value="#{lecturerPRFormBean.questionType}" required="true">
+                <f:selectItem itemLabel="Open ended question" itemValue="open"/>
+                <f:selectItem itemLabel="Rating question" itemValue="rating"/>
+                <f:selectItem itemLabel="Ranking question" itemValue="ranking"/>
+            <p:ajax process="@this" partialSubmit="true" event="change" update="level" />
+            </p:selectOneMenu>
+            </p:outputPanel>
+            <br/>
+            <p:outputPanel id="level">
+                <h:outputText value="Choose the level of rating (From 1 to ?)" rendered="#{lecturerPRFormBean.questionType == 'rating'}"/>
+                <br/>
+                <p:selectOneMenu value="#{lecturerPRFormBean.levelOfRating}" required="true" rendered="#{lecturerPRFormBean.questionType == 'rating'}">
+                    <f:selectItem itemLabel="3" itemValue="3"/>
+                    <f:selectItem itemLabel="4" itemValue="4"/>
+                    <f:selectItem itemLabel="5" itemValue="5"/>
+                    <f:selectItem itemLabel="6" itemValue="6"/>
+                    <f:selectItem itemLabel="7" itemValue="7"/>
+                    <f:selectItem itemLabel="8" itemValue="8"/>
+                    <f:selectItem itemLabel="9" itemValue="9"/>
+                    <f:selectItem itemLabel="10" itemValue="20"/>
+                </p:selectOneMenu>
+            </p:outputPanel>
+            <br/> 
+            <p:commandButton value="save" actionListener="#{lecturerPRFormBean.addQuestion()}" update="individualQuestions groupQuestions"/>
+            <br/>
         </h:form>
     </h:body>
 </html>

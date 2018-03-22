@@ -26,6 +26,8 @@ public class PRQuestionSessionBean implements PRQuestionSessionBeanLocal {
     EntityManager em;
     
     private PeerReviewQuestion question;
+    private ArrayList<Question> individualQuestions;
+    private ArrayList<Question> groupQuestions;
     
     @Override
     public void createPeerReviewQuestion(String title, Date deadline, Module module) {
@@ -60,6 +62,20 @@ public class PRQuestionSessionBean implements PRQuestionSessionBeanLocal {
             e.printStackTrace();
         }
         return question;
+    }
+    
+    @Override
+    public void addPRQuestion(PeerReviewQuestion question, Question newQuestion, String addType) {
+        if (addType.equals("indQuestion")) {
+            individualQuestions = question.getIndividualQuestions();
+            individualQuestions.add(newQuestion);
+        }
+        else if (addType.equals("grQuestion")) {
+            groupQuestions = question.getGroupQuestions();
+            groupQuestions.add(newQuestion);
+        }
+        em.merge(question);
+        em.flush();
     }
     
     public void testUpdatePRForm() {
