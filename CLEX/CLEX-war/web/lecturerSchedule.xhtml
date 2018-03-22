@@ -16,8 +16,16 @@
             <h:commandButton value="TEST" actionListener="#{scheduleBean.testAddEvents}" action="schedule?faces-redirect=true" />
         </h:form>
         -->
-        <p:commandButton value="Reset" actionListener="#{scheduleBean.reset()}" style="margin-bottom: 20px" action="lecturerSchedule?faces-redirect=true"/>
-            
+        <p:commandButton value="Reset" actionListener="#{scheduleBean.reset()}" style="margin-bottom: 20px" action="lecturerSchedule?faces-redirect=true">
+            <p:confirm header="Confirmation" 
+                       message="Are you sure you want to reset the schedule? This action will delete all your timeslots."
+                       icon="ui-icon-alert" />
+        </p:commandButton>
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
+        
         <h:form>
             <p:growl id="messages" showDetail="true" />
             
