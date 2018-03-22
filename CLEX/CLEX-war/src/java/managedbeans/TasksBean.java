@@ -20,9 +20,13 @@ import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DefaultScheduleEvent;
+import org.primefaces.model.ScheduleEvent;
 import session.ToDoListSessionBeanLocal;
 
 /**
@@ -30,7 +34,7 @@ import session.ToDoListSessionBeanLocal;
  * @author lin
  */
 @Named(value = "tasksBean")
-@Dependent
+@SessionScoped
 public class TasksBean {
 
     @EJB
@@ -47,6 +51,7 @@ public class TasksBean {
     private String urgency="";
     private String strDate="";
     private Task task;
+    private String ddl;
     
     private User studentEntity;
     private String username;
@@ -55,7 +60,7 @@ public class TasksBean {
     
     FacesContext context;
     HttpSession session;
-    SimpleDateFormat ft = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     
     public TasksBean() {
         
@@ -67,28 +72,33 @@ public class TasksBean {
         session = (HttpSession) context.getExternalContext().getSession(true);
         studentEntity = (Student) session.getAttribute("user");
         username = studentEntity.getUsername();
-
-        if(studentEntity!=null)
-            tasks = studentEntity.getTasks();
+        
+    }
+    
+    
+    
+    public void onDateSelect(SelectEvent event) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", 
+                ft.format(event.getObject())));
+        
+        setDdl(ft.format(event.getObject()));
+        System.out.println("onDateSelect: ddl is " + ddl);
         
     }
     
     public void addTask(){
-        String ddl="";
+
+        System.out.println("Add Task: ddl is " + ddl);
         if(deadline!=null)
-            ddl = ft.format(deadline);
-        System.out.println(ddl);
+            System.out.println("addTask: deadline is "+deadline);
+        //    ddl = ft.format(deadline);
         task = tsbl.createTask(username, ft.format(Calendar.getInstance().getTime()), ddl, title, details, "unfinished");
         if(task!=null)
             System.out.println("New task created in studentMain: with id " +  task.getId());
         else
             System.out.println("New task creation failed");
-    }
-    
-    public void onDateSelect(SelectEvent event) {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        
-        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", ft.format(event.getObject())));
     }
 
     public Date getDate() {
@@ -114,8 +124,6 @@ public class TasksBean {
     public void setDeadline(Date deadline) {
         this.deadline = deadline;
     }
-
-
 
     public String getTitle() {
         return title;
@@ -228,6 +236,15 @@ public class TasksBean {
     public void setFt(SimpleDateFormat ft) {
         this.ft = ft;
     }
+
+    public String getDdl() {
+        return ddl;
+    }
+
+    public void setDdl(String ddl) {
+        this.ddl = ddl;
+    }
+
     
     
 }
