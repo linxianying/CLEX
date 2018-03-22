@@ -19,6 +19,7 @@ import java.util.Map;
 import javaClass.StudentCost;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import session.ClexSessionBeanLocal;
@@ -28,7 +29,7 @@ import session.ProjectCostSessionBeanLocal;
  *
  * @author caoyu
  */
-@Named(value = "projectCostBean")
+@ManagedBean(name = "projectCostBean")
 @SessionScoped
 public class ProjectCostBean implements Serializable {
     @EJB

@@ -14,6 +14,7 @@ import javaClass.ComparableTransaction;
 import javaClass.StudentBalance;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
 import javax.inject.Named;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -25,7 +26,7 @@ import session.ProjectCostSessionBeanLocal;
  *
  * @author caoyu
  */
-@Named(value = "viewProjectCostBean")
+@ManagedBean(name = "viewProjectCostBean")
 @SessionScoped
 public class ViewProjectCostBean {
     @EJB
