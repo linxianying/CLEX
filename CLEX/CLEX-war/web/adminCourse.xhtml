@@ -375,7 +375,7 @@
                             <h:panelGrid columns="4">
                                 <h:outputLabel value="SELECT SCHOOL"/>
                                 <p:selectOneMenu id="selectSchool" value="#{adminCourseListBean.schoolname1}"
-                                                 title="Select a School" required="true">
+                                                 title="Select a School" >
                                     <p:ajax event="change" listener="#{adminCourseListBean.onSchoolChange2}" 
                                             update="assignform:lecturerlistbyschoolmenu,assignform:modulelistbyschoolmenu, messages" /> 
                                     <f:selectItem itemLabel="Select a school" itemValue="" noSelectionOption="true"/>
@@ -384,8 +384,8 @@
                                 <h:outputLabel value=""/>
                                 <h:outputLabel value=""/>
                                 <h:outputLabel value="SELECT MODULE"/>
-                                <p:selectOneMenu filter="true" filterMatchMode="contains"
-                                                 value="#{adminCourseListBean.bigString1}"
+                                <p:selectOneMenu filter="true" filterMatchMode="contains" requiredMessage="Module Code is required!"
+                                                 value="#{adminCourseListBean.bigString1}" required="true"
                                                  editable="false" id="modulelistbyschoolmenu">
                                     <p:ajax event="change" listener="#{adminCourseListBean.onModuleSelect}" 
                                             update="assignform:lecassignlist, assignform:moduleNameLabelAssign, messages" /> 
@@ -421,7 +421,7 @@
                                 <h:outputLabel value=""/>
                                 <h:outputLabel value=""/>
                                 <h:outputLabel value="SELECT LECTURER"/>
-                                <p:selectOneMenu filter="true" filterMatchMode="contains"
+                                <p:selectOneMenu filter="true" filterMatchMode="contains" required="true" requiredMessage="Lecturer is required!"
                                                  value="#{adminCourseListBean.lecturerUser1}"
                                                  editable="false" id="lecturerlistbyschoolmenu">
                                     <p:ajax event="change" listener="#{adminCourseListBean.onLecturerChange}" 
@@ -450,29 +450,41 @@
                     <h:form id="createCourseForm">
                         <h:panelGrid columns="2" cellpadding="5">
                             <h:outputLabel for= "moduleCode" value="MODULE CODE:"/>
-                            <p:inputText id="moduleCodeForCourse" value="#{adminCourseListBean.moduleCode}" required="true" style="text-transform: uppercase" />
+                            <p:inputText id="moduleCodeForCourse" value="#{adminCourseListBean.moduleCode}" 
+                                         requiredMessage="Module Code is required!"
+                                         required="true" style="text-transform: uppercase" />
                             <h:outputLabel for= "moduleName" value="MODULE NAME:"/>
-                            <p:inputText id="moduleName" value="#{adminCourseListBean.moduleName}" required="true" />
+                            <p:inputText id="moduleName" value="#{adminCourseListBean.moduleName}" 
+                                         requiredMessage="Module Name is required!" required="true" />
                             <h:outputLabel for= "moduleInfo" value="MODULE INFO:"/>
-                            <p:inputTextarea rows="6" cols="33" id="moduleInfo" value="#{adminCourseListBean.moduleInfo}" required="true" />
+                            <p:inputTextarea rows="6" cols="33" id="moduleInfo" value="#{adminCourseListBean.moduleInfo}" 
+                                             requiredMessage="Module Info is required!" required="true" />
                             <h:outputLabel for= "offeredSem" value="OFFERED SEMESTER:"/>
-                            <p:selectOneButton styleClass="textInput" required="true"
+                            <p:selectOneButton styleClass="textInput" required="true" requiredMessage="Offered Semester is required!"
                                                value="#{adminCourseListBean.offeredSem}" >
                                 <f:selectItem itemLabel="ALL" itemValue="ALL" />
                                 <f:selectItem itemLabel="1" itemValue="1" />
                                 <f:selectItem itemLabel="2" itemValue="2" />
                             </p:selectOneButton>
                             <h:outputLabel for= "school" value="SCHOOL:" />
-                            <p:selectOneMenu style="width: 300px; text-transform: uppercase;" 
+                            <p:selectOneMenu style="width: 300px; text-transform: uppercase;" requiredMessage="School is required!"
                                              required="true" id="school" value="#{adminCourseListBean.school}" 
                                              title="Please select a school from the list">
                                 <f:selectItems value="#{adminCourseListBean.schoollist}"/>
                             </p:selectOneMenu>
                             <h:outputLabel for= "workload" value="WORKLOAD:"/>
-                            <p:inputText id="workload" value="#{adminCourseListBean.workload}" required="true" />
-                            <h:outputLabel for= "modularCredits" value="MODULE CREDITS:"/>
-                            <p:inputText id="modularCredits" value="#{adminCourseListBean.modularCredits}" required="true" />
-                            <p:commandButton value="Submit" actionListener="#{adminCourseListBean.enterCourse}" update="createTab:createModuleForm, messages" />
+                            <p:inputText id="workload" value="#{adminCourseListBean.workload}" 
+                                         requiredMessage="Workload is required!" required="true" />
+                            <h:outputLabel for= "modularCredits" value="CREDIT UNIT(S):"/>
+                            <p:inputText id="modularCredits" value="#{adminCourseListBean.modularCredits}" 
+                                         requiredMessage="Credit Unit(s) is required!" required="true" />
+                            <p:commandButton value="Submit" actionListener="#{adminCourseListBean.enterCourse}" update="createTab:createModuleForm, messages" >
+                                <p:confirm header="Assign" message="Are you sure?" icon="ui-icon-alert" />
+                            </p:commandButton>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            </p:confirmDialog>
                         </h:panelGrid>
                     </h:form>
                 </p:tab>
@@ -484,7 +496,7 @@
                         <h:panelGrid columns="4" cellpadding="5" id="createModulePanel">
                             <h:outputLabel value="SELECT SCHOOL"/>
                             <p:selectOneMenu id="selectSchool" value="#{adminCourseListBean.schoolname}"
-                                             title="Select a School" required="true">
+                                             title="Select a School" >
                                 <p:ajax event="change" listener="#{adminCourseListBean.onSchoolChange}" 
                                         update="createTab:createModuleForm, messages" /> 
                                 <f:selectItem itemLabel="Select a school" itemValue="" noSelectionOption="true"/>
@@ -495,7 +507,7 @@
                             <h:outputLabel for= "moduleCodeForModule" value="MODULE CODE:"/>
                             <p:selectOneMenu id="moduleCodeForModule" value="#{adminCourseListBean.moduleCode}" 
                                              editable="false"
-                                             title="Select a module" required="true">
+                                             title="Select a module" required="true" requiredMessage="Module Code is required!">
                                 <p:ajax event="change" listener="#{adminCourseListBean.onCourseChange}" 
                                         update="createTab:createModuleForm" /> <!--:takenSem, createTab:createModuleForm:semesterTextLabel, createTab:createModuleForm:courseInfoLabel-->
                                 <f:selectItem itemLabel="Select a module" itemValue=""/>
@@ -532,16 +544,23 @@
                             <h:outputLabel for= "modularCreditsText" value="CREDIT UNIT(S):"/>
                             <h:outputLabel id="modularCreditsText" value="#{adminCourseListBean.mcText}"/> 
                             <h:outputLabel for= "prerequisite" value="PREREQUISITE:"/>
-                            <p:inputTextarea rows="6" cols="33" id="prerequisite" value="#{adminCourseListBean.prerequisite}" required="true" />
+                            <p:inputTextarea rows="6" cols="33" id="prerequisite" value="#{adminCourseListBean.prerequisite}" 
+                                             requiredMessage="Prerequisites is required!" required="true" />
                             <h:outputLabel for= "courseInfoLabel" value="MODULE INFORMATION:"/>
                             <h:outputLabel id="courseInfoLabel" value="#{adminCourseListBean.moduleInfoText}"/>
                             <h:outputLabel for= "preclusions" value="PRECLUSIONS:"/>
-                            <p:inputTextarea rows="6" cols="33" id="preclusions" value="#{adminCourseListBean.preclusions}" required="true" />
+                            <p:inputTextarea rows="6" cols="33" id="preclusions" value="#{adminCourseListBean.preclusions}" 
+                                             requiredMessage="Preclusions is required!" required="true" />
                             <h:outputLabel value=""/>
                             <h:outputLabel value=""/>
                             <p:commandButton value="Submit" actionListener="#{adminCourseListBean.enterModule}" 
-                                             update="createTab:createLessonForm, createTab:createLessonForm:moduleCodeForLesson,panelForm:tabView1:assignform:modulelistbyschoolmenu, messages" />
-
+                                             update="createTab:createLessonForm, createTab:createLessonForm:moduleCodeForLesson,panelForm:tabView1:assignform:modulelistbyschoolmenu, messages" >
+                                <p:confirm header="Assign" message="Are you sure?" icon="ui-icon-alert" />
+                            </p:commandButton>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            </p:confirmDialog>
                         </h:panelGrid>
                     </h:form>
                 </p:tab>
@@ -553,7 +572,7 @@
                         <h:panelGrid columns="4" cellpadding="5">
                             <h:outputLabel value="SELECT SCHOOL"/>
                             <p:selectOneMenu id="selectSchool2" value="#{adminCourseListBean.schoolname}"
-                                             title="Select a School" required="true">
+                                             title="Select a School" >
                                 <p:ajax event="change" listener="#{adminCourseListBean.onSchoolChange}" 
                                         update="createTab:createLessonForm, messages" /> 
                                 <f:selectItem itemLabel="Select a school" itemValue="" noSelectionOption="true"/>
@@ -564,7 +583,7 @@
                             <h:outputLabel for= "moduleCodeForLesson" value="MODULE CODE:"/>
                             <p:selectOneMenu id="moduleCodeForLesson" value="#{adminCourseListBean.bigString}" 
                                              editable="false" filter="true" filterMatchMode="contains" effect="fade"
-                                             title="Select a module" required="true">
+                                             title="Select a module" required="true" requiredMessage="Module Code is required!">
                                 <p:ajax event="change" listener="#{adminCourseListBean.onModuleChange()}" 
                                         update="createTab:createLessonForm, messages" /> 
                                 <f:selectItem itemLabel="Select a module" itemValue=""/>
@@ -575,29 +594,30 @@
                             <h:outputLabel for= "nameLabel2" value="MODULE NAME:"/>
                             <h:outputLabel id="nameLabel2" value="#{adminCourseListBean.moduleNameText}"/> 
                             <h:outputLabel for= "day" value="DAY:"/>
-                            <p:selectOneMenu required="true" id="day" value="#{adminCourseListBean.day}" 
+                            <p:selectOneMenu required="true" id="day" value="#{adminCourseListBean.day}"  requiredMessage="Day is required!"
                                              editable="false" title="Please select a day for the lesson">
                                 <f:selectItem itemLabel="Select a day for the lesson" itemValue="" noSelectionOption="true"/>
                                 <f:selectItems value="#{adminCourseListBean.daylist}" />
                             </p:selectOneMenu>
-                            <h:outputLabel for= "takenYearForLesson" value="MODULE YEAR:"/>
-                            <p:inputText readonly="true" id="takenYearForLesson" value="#{adminCourseListBean.moduleofferedyearforlesson}" required="true" />
-                            <h:outputLabel for= "timeFrom" value="TIME FROM:"/>
+                            <h:outputLabel for= "takenYearForLesson" value="OFFERED YEAR:"/>
+                            <p:inputText readonly="true" id="takenYearForLesson" value="#{adminCourseListBean.moduleofferedyearforlesson}" 
+                                         requiredMessage="Offered Year is required!" required="true" />
+                            <h:outputLabel for= "timeFrom" value="TIME START:"/>
                             <p:selectOneMenu id="timeFrom" value="#{adminCourseListBean.timeFrom}" 
-                                             editable="false"
+                                             editable="false" requiredMessage="Time Start is required!"
                                              title="Select a start time" required="true">
                                 <f:selectItem itemLabel="Select a start time" itemValue="" noSelectionOption="true"/>
                                 <f:selectItems value="#{adminCourseListBean.timelist}" />
                             </p:selectOneMenu>
-                            <h:outputLabel for= "takenSemForLesson" value="MODULE SEM:"/>
-                            <p:selectOneButton disabled="true" required="true"
+                            <h:outputLabel for= "takenSemForLesson" value="OFFERED SEM:"/>
+                            <p:selectOneButton disabled="true" required="true" requiredMessage="Offered Semester is required!"
                                                id="takenSemForLesson" value="#{adminCourseListBean.moduleofferedsemforlesson}" >
                                 <f:selectItem itemLabel="1" itemValue="1" />
                                 <f:selectItem itemLabel="2" itemValue="2" />
                             </p:selectOneButton>                                                       
                             <h:outputLabel for= "timeEnd" value="TIME END:"/>
                             <p:selectOneMenu id="timeEnd" value="#{adminCourseListBean.timeEnd}" 
-                                             editable="false"
+                                             editable="false" requiredMessage="Time End is required!"
                                              title="Select an end time" required="true">
                                 <f:selectItem itemLabel="Select an end time" itemValue="" noSelectionOption="true"/>
                                 <f:selectItems value="#{adminCourseListBean.timelist}" />
@@ -606,7 +626,8 @@
                             <h:outputLabel value=""/>
                             <h:outputLabel for= "type" value="LESSON TYPE:"/>
                             <p:selectOneMenu required="true" id="type" value="#{adminCourseListBean.type}" 
-                                             editable="true" title="Please select a lesson type">
+                                             editable="true" title="Please select a lesson type"
+                                             requiredMessage="Lesson Type is required!">
                                 <f:selectItem itemLabel="Please select a lesson type" itemValue="" noSelectionOption="true"/>
                                 <f:selectItem itemLabel="Lecture" itemValue="LECTURE" />
                                 <f:selectItem itemLabel="Tutorial" itemValue="TUTORIAL" />
@@ -619,7 +640,13 @@
                             <p:inputText id="venue" value="#{adminCourseListBean.venue}" required="true" /> 
                             <h:outputLabel value=""/>
                             <h:outputLabel value=""/>
-                            <p:commandButton value="Submit" actionListener="#{adminCourseListBean.enterLesson}" update="messages" />
+                            <p:commandButton value="Submit" actionListener="#{adminCourseListBean.enterLesson}" update="messages" >
+                                <p:confirm header="Assign" message="Are you sure?" icon="ui-icon-alert" />
+                            </p:commandButton>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            </p:confirmDialog>
                         </h:panelGrid>
                     </h:form>
                 </p:tab>                

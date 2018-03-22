@@ -268,7 +268,7 @@ public class AdminCourseListBean implements Serializable {
         RequestContext reqcontext = RequestContext.getCurrentInstance();
         if (cmbl.checkNewModule(moduleCode, takenYear, takenSem) == true) {
             cmbl.createModule(takenYear, takenSem, prerequisite, preclusions, moduleCode);
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Module" + moduleCode.toUpperCase() + " has been created.");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Module " + moduleCode.toUpperCase() + " has been created.");
             context.addMessage(null, fmsg);
             refresh();
             modulelistbyschool = (ArrayList<Module>) cmbl.getModulesFromSchool(schoolname);
