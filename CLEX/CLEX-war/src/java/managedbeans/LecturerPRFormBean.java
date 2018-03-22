@@ -75,7 +75,6 @@ public class LecturerPRFormBean implements Serializable{
         individualQuestions = question.getIndividualQuestions();
         groupQuestions = question.getGroupQuestions();
         title = question.getTitle();
-        test="chekc it";
         
         System.out.println("Finish init");
         
@@ -270,7 +269,14 @@ public class LecturerPRFormBean implements Serializable{
         prqsbl.editTitle(question, title);
     }
     
-    
+    public void reset() {
+        System.out.println("into reset");
+        prqsbl.createPeerReviewQuestion("Sample Peer Review Form", null, module);
+        question = module.getPeerReviewQuestion();
+        individualQuestions = question.getIndividualQuestions();
+        groupQuestions = question.getGroupQuestions();
+        title = question.getTitle();
+    }
     
     
     
@@ -283,6 +289,7 @@ public class LecturerPRFormBean implements Serializable{
     public void test() {
 //        this.questionType = 
         System.out.println("Question type= " + this.questionType);
+        
     }
     
 }

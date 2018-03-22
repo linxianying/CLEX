@@ -20,11 +20,15 @@
                 </p:inplace>
         </h:form>
         <br/>
+        
+        <h3>Individual Question</h3>
+        <br />
+        <p>Question for each group member</p>
+        <h:panelGroup id="indNullMsg">
+        <h:outputText value="No individual question created now" rendered="#{empty lecturerPRFormBean.individualQuestions}"/>
+        </h:panelGroup>
         <h:form id="individual">
             <h:panelGroup id="individualQuestions">
-                <h3>Individual Question</h3>
-                <br />
-                <p>Question for each group member</p>
                 <ui:repeat value="#{lecturerPRFormBean.individualQuestions}" var="indQuestion" varStatus="indIndex">
                     <h:outputText value="Q#{indIndex.index+1}. "/>
                     <p:inplace id="editableIndQuestion" editor="true">
@@ -42,18 +46,21 @@
                         <f:selectItem itemLabel="Select One" itemValue="select"/>
                     </p:selectOneMenu>
                     <br />
-                    <p:commandButton value="delete" actionListener="#{lecturerPRFormBean.deleteIndQuestion(indIndex.index)}" update="individual"/>
+                    <p:commandButton value="delete" actionListener="#{lecturerPRFormBean.deleteIndQuestion(indIndex.index)}" update="individual indNullMsg"/>
                     <br/>
                 </ui:repeat>
                 <br/>
             </h:panelGroup>
         </h:form>
         
+        <h3>Group Question</h3>
+        <br />
+        <p>Question for the whole group</p>
+        <h:panelGroup id="grNullMsg">
+            <h:outputText value="No group question created now" rendered="#{empty lecturerPRFormBean.groupQuestions}"/>
+        </h:panelGroup>
         <h:form id ="group">
             <h:panelGroup id="groupQuestions"> 
-                <h3>Group Question</h3>
-                <br />
-                <p>Question for the whole group</p>
                 <ui:repeat value="#{lecturerPRFormBean.groupQuestions}" var="grQuestion" varStatus="grIndex">
                     <h:outputText value="Q#{grIndex.index+1}. "/>
                     <p:inplace id="editableIndQuestion" editor="true">
@@ -71,7 +78,7 @@
                         <f:selectItem itemLabel="Select One" itemValue="select"/>
                     </p:selectOneMenu>
                     <br/>
-                    <p:commandButton value="delete" actionListener="#{lecturerPRFormBean.deleteGrQuestion(grIndex.index)}" update="group"/>
+                    <p:commandButton value="delete" actionListener="#{lecturerPRFormBean.deleteGrQuestion(grIndex.index)}" update="group grNullMsg"/>
                     <br/><br/>
                 </ui:repeat>
             </h:panelGroup>
@@ -117,10 +124,10 @@
                 </p:selectOneMenu>
             </p:outputPanel>
             <br/> 
-            <p:commandButton value="add" actionListener="#{lecturerPRFormBean.addQuestion()}" update="individual group"/>
+            <p:commandButton value="add" actionListener="#{lecturerPRFormBean.addQuestion()}" update="individual group grNullMsg indNullMsg"/>
             <br/>
         </h:form>
-        <!--<p:commandButton value="reset" actionListener="#{lecturerPRFormBean.reset()}" />-->
+        <p:commandButton value="reset" actionListener="#{lecturerPRFormBean.reset()}" update="title individual group grNullMsg indNullMsg"/>
     </h:body>
 </html>
 
