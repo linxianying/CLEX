@@ -53,6 +53,7 @@ public class LecturerPRFormBean implements Serializable{
     private String questionType;
     private int levelOfRating;
     
+    private String test;
     public LecturerPRFormBean() {
     }
     
@@ -61,18 +62,19 @@ public class LecturerPRFormBean implements Serializable{
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
         
-//        lecturer = (Lecturer) session.getAttribute("user");
-//        username = lecturer.getUsername();
-//        module = (Module) session.getAttribute("module");
+        lecturer = (Lecturer) session.getAttribute("user");
+        username = lecturer.getUsername();
+        module = (Module) session.getAttribute("module");
         
         //for test purpose only
-        module = csbl.findModule("PS2240", "2017", "2");
-        Date day = new Date();
-        prqsbl.createPeerReviewQuestion("test PR form", day, module);
+//        module = csbl.findModule("PS2240", "2017", "2");
+//        Date day = new Date();
+//        prqsbl.createPeerReviewQuestion("test PR form", day, module);
         question = module.getPeerReviewQuestion();
         individualQuestions = question.getIndividualQuestions();
         groupQuestions = question.getGroupQuestions();
 
+        test="chekc it";
         
         System.out.println("Finish init");
         
@@ -200,6 +202,14 @@ public class LecturerPRFormBean implements Serializable{
         this.newQuestion = newQuestion;
     }
 
+    public String getTest() {
+        return test;
+    }
+
+    public void setTest(String test) {
+        this.test = test;
+    }
+
 
     
     
@@ -222,6 +232,18 @@ public class LecturerPRFormBean implements Serializable{
         individualQuestions = question.getIndividualQuestions();
         groupQuestions = question.getGroupQuestions();
         System.out.println("group size = " + groupQuestions.size());
+    }
+    
+    public void editIndQuestion(int indIndex){
+        System.out.println("change question " + indIndex);
+        System.out.println(individualQuestions.get(0).getQuestion());
+        prqsbl.editIndQuestion(question, individualQuestions);
+    }
+    
+    public void editGrQuestion(int indIndex){
+        System.out.println("change question " + indIndex);
+        System.out.println(groupQuestions.get(0).getQuestion());
+        prqsbl.editGrQuestion(question, groupQuestions);
     }
     
     public void testUpdatePRForm() {

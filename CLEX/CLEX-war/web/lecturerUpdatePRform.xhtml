@@ -9,13 +9,18 @@
         <title>Update Peer Review Form</title>
     </h:head>
     <h:body>
+        <h:form id="individual">
             <h:panelGroup id="individualQuestions">
                 <h3>Individual Question</h3>
                 <br />
                 <p>Question for each group member</p>
                 <ui:repeat value="#{lecturerPRFormBean.individualQuestions}" var="indQuestion" varStatus="indIndex">
                     <h:outputText value="Q#{indIndex.index+1}. "/>
-                    <h:outputText value="#{indQuestion.question}"/>
+                    <p:inplace id="editableIndQuestion" editor="true">
+                        <p:inputText value="#{indQuestion.question}" required="true" label="text" />
+                        <p:ajax event="save" listener="#{lecturerPRFormBean.editIndQuestion(indIndex.index)}" update="individual" />
+                    </p:inplace>
+                    <!--<h:outputText value="#{indQuestion.question}"/>-->
                     <br/>
                     <p:inputTextarea id="open" rows="5" cols="30" maxlength="20000" autoResize="false" rendered="#{indQuestion.type == 'open'}"  />
                     <p:selectOneMenu id="rating"  panelStyle="width:180px" effect="fade" style="width:160px" rendered="#{indQuestion.type == 'rating'}" >
@@ -30,6 +35,9 @@
                 </ui:repeat>
                 <br/>
             </h:panelGroup>
+        </h:form>
+        
+        <h:form id ="group">
             <h:panelGroup id="groupQuestions"> 
                 <h3>Group Question</h3>
                 <br />
@@ -51,6 +59,8 @@
                 </ui:repeat>
             </h:panelGroup>
             <br/>
+        </h:form>
+        
         <h:form id="newQuestion">
             <h3>New Question</h3>
             <h:outputText value="Enter the question:"/>
@@ -90,7 +100,7 @@
                 </p:selectOneMenu>
             </p:outputPanel>
             <br/> 
-            <p:commandButton value="save" actionListener="#{lecturerPRFormBean.addQuestion()}" update="individualQuestions groupQuestions"/>
+            <p:commandButton value="save" actionListener="#{lecturerPRFormBean.addQuestion()}" update="individual group"/>
             <br/>
         </h:form>
     </h:body>

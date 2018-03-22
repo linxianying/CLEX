@@ -78,6 +78,21 @@ public class PRQuestionSessionBean implements PRQuestionSessionBeanLocal {
         em.flush();
     }
     
+    
+    @Override
+    public void editIndQuestion(PeerReviewQuestion question, ArrayList<Question> individualQuestions) {
+        question.setIndividualQuestions(individualQuestions);
+        em.merge(question);
+        em.flush();
+    }
+    
+    @Override
+    public void editGrQuestion(PeerReviewQuestion question, ArrayList<Question> groupQuestions) {
+        question.setGroupQuestions(groupQuestions);
+        em.merge(question);
+        em.flush();
+    }
+    
     public void testUpdatePRForm() {
         
     }
