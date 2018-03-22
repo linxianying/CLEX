@@ -41,8 +41,6 @@ public class AccessControlBean implements Serializable {
     @EJB
     private ClexSessionBeanLocal csbl;
 
-    private User selectedUser;
-
     private User userEntity;
     private String username;
 
@@ -217,44 +215,20 @@ public class AccessControlBean implements Serializable {
         }
     }
 
-    public void removeUser() throws IOException {
-        FacesMessage fmsg = new FacesMessage();
-        FacesContext context = FacesContext.getCurrentInstance();
-        RequestContext reqcontext = RequestContext.getCurrentInstance();
-        if (uacbl.deleteUser(selectedUser.getUsername()) == true) {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, username + " has been deleted.", "");
-            context.addMessage(null, fmsg);
-            refresh();
-            reqcontext.execute("PF('usersTable').clearFilters()");
-            reqcontext.update("userForm:userlist");
-        } else {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fail to delete " + selectedUser.getUsername() + ".", "");
-            context.addMessage(null, fmsg);
-        }
-    }
-
     public void removeUser(User user) throws IOException {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
         RequestContext reqcontext = RequestContext.getCurrentInstance();
         if (uacbl.deleteUser(user.getUsername()) == true) {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, username + " has been deleted.", "");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, user.getUsername() + " has been deleted.", "");
             context.addMessage(null, fmsg);
             refresh();
             reqcontext.execute("PF('usersTable').clearFilters()");
             reqcontext.update("userForm:userlist");
-        } else {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fail to delete " + username + ".", "");
+        } else if (uacbl.deleteUser(user.getUsername()) == false){
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fail to delete " + user.getUsername() + ".", "");
             context.addMessage(null, fmsg);
         }
-    }
-
-    public User getSelectedUser() {
-        return selectedUser;
-    }
-
-    public void setSelectedUser(User selectedUser) {
-        this.selectedUser = selectedUser;
     }
 
     public List<User> getUsers() {

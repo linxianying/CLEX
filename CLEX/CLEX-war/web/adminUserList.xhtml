@@ -9,16 +9,13 @@
     <ui:define name="title">PRISM Administrator User List Page</ui:define>
 
     <ui:define name="viewname">Users</ui:define>
-    
+
     <ui:define name="content">
 
         <h1 style="margin-top:0">User Management Page</h1>
         <h:form id="userForm">
-            <p:growl id="messages" showDetail="true" />
             <p:fieldset collapsed="false" id="userlist" legend="Note: User must be rejected and/or not approved before deleting." toggleable="false" toggleSpeed="500" >
-
-                <p:dataTable id="usertable" editable="false" selectionMode="single"
-                             selection="#{accessControlBean.selectedUser}" rowKey="#{user.id}"
+                <p:dataTable id="usertable" editable="false" 
                              var="user" value="#{accessControlBean.users}" 
                              widgetVar="usersTable" rows="10"
                              emptyMessage="No users found with given criteria." 
@@ -80,7 +77,7 @@
                                     <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
                                 </p:menuitem>
                                 <p:separator />
-                                <p:menuitem rendered="#{user.approval eq false}" value="Delete User" actionListener="#{accessControlBean.removeUser}" update="userForm:usertable, messages" icon="ui-icon-close" >
+                                <p:menuitem rendered="#{user.approval eq false}" value="Delete User" actionListener="#{accessControlBean.removeUser(user)}" update="userForm:usertable, messages" icon="ui-icon-close" >
                                     <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
                                 </p:menuitem>
                             </p:splitButton>
