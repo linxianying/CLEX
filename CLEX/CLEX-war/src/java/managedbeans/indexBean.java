@@ -6,6 +6,7 @@
 package managedbeans;
 
 import entity.Transaction;
+import java.util.Date;
 import java.util.Random;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -13,6 +14,7 @@ import javax.enterprise.context.Dependent;
 import session.AnnouncementSessionBeanLocal;
 import session.ClassroomSessionBeanLocal;
 import session.ClexSessionBeanLocal;
+import session.PRQuestionSessionBeanLocal;
 import session.ScheduleSessionBeanLocal;
 import session.StudyPlanSessionBeanLocal;
 import session.ToDoListSessionBeanLocal;
@@ -36,7 +38,8 @@ public class indexBean {
     private AnnouncementSessionBeanLocal asbl;
     @EJB
     private ToDoListSessionBeanLocal tdsbl;
-   
+    @EJB
+    private PRQuestionSessionBeanLocal prqsbl;
     
     public indexBean() {
         
@@ -169,6 +172,14 @@ public class indexBean {
         //csbl.createModule("2018", "1", "none", "none", csbl.findCourse("CM1501"));
         //csbl.createModule("2018", "1", "none", "none", csbl.findCourse("EE4101"));
         //csbl.createModule("2018", "1", "none", "none", csbl.findCourse("IT1007"));
+        
+        //set peer review form for hsianghui2 PC2193 TEST
+        Date day = new Date();
+        prqsbl.createPeerReviewQuestion("test PR form", day, csbl.findModule("PC2193", "2017", "2"));
+        
+        
+        
+        
         
         //create lesson based on 2018 sem 1 courses
         csbl.createLesson("Monday", "12:00", "14:00", "LEC [1]", "COM1-0216",csbl.findModule("PS2240", "2017", "2"));
