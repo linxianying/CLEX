@@ -7,10 +7,12 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
+    <ui:define name="title">PRISM Student Schedule page</ui:define>
+
+    <ui:define name="viewname">Schedule</ui:define>
+    
     <ui:define name="content">
-        <h:head>
-            <title>PRISM Student Schedule Page</title>
-        </h:head>
+        
         <h:form>
             <p:growl id="messages" showDetail="true" />
             <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">

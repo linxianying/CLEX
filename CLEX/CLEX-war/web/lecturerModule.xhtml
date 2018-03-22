@@ -6,11 +6,12 @@
                 template="/WEB-INF/template_lecturer.xhtml" 
                 xmlns:p="http://primefaces.org/ui" 
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="title">PRISM Lecturer Module Page</ui:define>
 
+    <ui:define name="viewname">Module</ui:define>
+    
     <ui:define name="content">
-        <h:head>
-            <title>PRISM Lecturer Module Page</title>
-        </h:head>
+        
         <p:growl id="messages" showDetail="true" />
         <h1 style="margin-top:0">Module Management Page</h1>
         <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
