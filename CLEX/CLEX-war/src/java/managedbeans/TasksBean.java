@@ -20,6 +20,7 @@ import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -33,7 +34,7 @@ import session.ToDoListSessionBeanLocal;
  *
  * @author lin
  */
-@Named(value = "tasksBean")
+@ManagedBean(name = "tasksBean")
 @SessionScoped
 public class TasksBean {
 
@@ -73,6 +74,7 @@ public class TasksBean {
         studentEntity = (Student) session.getAttribute("user");
         username = studentEntity.getUsername();
         
+        System.out.println("finish intialization");
     }
     
     
