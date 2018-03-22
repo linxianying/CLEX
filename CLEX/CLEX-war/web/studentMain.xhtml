@@ -49,70 +49,126 @@
        </ui:define>
     <ui:define name="content">
         <h:outputText value="Welcome to PRISM, #{loginBean.userEntity.name}" /><br></br>
-        <div class="ui-g dashboard">   
-            <div class="ui-g-12 ui-md-8">
-            
-            <p:panel header="Your Timeline Of To-Do List" style="min-height:320px">
+        <p:tabView>
+            <p:tab title="VIEW TASKS">
+                <div class="ui-g dashboard">   
+                    <div class="ui-g-12 ui-md-8">
 
-                <p:growl id="growl" showSummary="true" showDetail="true"></p:growl>
+                    <p:panel header="Your Timeline Of To-Do List" style="min-height:320px">
 
-                <p:timeline id="timeline" value="#{toDoTimelineBean.model}" height="250px"
-                        selectable="#{toDoTimelineBean.selectable}"
-                        zoomable="#{toDoTimelineBean.zoomable}"
-                        moveable="#{toDoTimelineBean.moveable}"
-                        stackEvents="#{toDoTimelineBean.stackEvents}"
-                        axisOnTop="#{toDoTimelineBean.axisOnTop}"
-                        eventStyle="#{toDoTimelineBean.eventStyle}"
-                        showCurrentTime="#{toDoTimelineBean.showCurrentTime}"
-                        showNavigation="#{toDoTimelineBean.showNavigation}">
+                        <p:growl id="growl" showSummary="true" showDetail="true"></p:growl>
 
-                    <p:ajax event="select" listener="#{toDoTimelineBean.onSelect}"/>
+                        <p:timeline id="timeline" value="#{toDoTimelineBean.model}" height="250px"
+                                selectable="#{toDoTimelineBean.selectable}"
+                                zoomable="#{toDoTimelineBean.zoomable}"
+                                moveable="#{toDoTimelineBean.moveable}"
+                                stackEvents="#{toDoTimelineBean.stackEvents}"
+                                axisOnTop="#{toDoTimelineBean.axisOnTop}"
+                                eventStyle="#{toDoTimelineBean.eventStyle}"
+                                showCurrentTime="#{toDoTimelineBean.showCurrentTime}"
+                                showNavigation="#{toDoTimelineBean.showNavigation}">
 
-                </p:timeline>
-            </p:panel>
-            </div>
-                <div class="ui-g-12 ui-md-4 task-list">
-                    <p:panel header="Tasks" style="min-height:320px">
-                        <ul>
-                            <li>
-                                <p:selectBooleanCheckbox />
-                                <span class="task-name">Sales Reports</span>
-                                <i class="fa fa-briefcase"></i>
-                            </li>
-                            <li>
-                                <p:selectBooleanCheckbox />
-                                <span class="task-name">Pay Invoices</span>
-                                <i class="fa fa-credit-card"></i>
-                            </li>
-                            <li>
-                                <p:selectBooleanCheckbox />
-                                <span class="task-name">Dinner with Tony</span>
-                                <i class="fa fa-cutlery"></i>
-                            </li>
-                            <li>
-                                <p:selectBooleanCheckbox />
-                                <span class="task-name">Client Meeting</span>
-                                <i class="fa fa-user"></i>
-                            </li>
-                            <li>
-                                <p:selectBooleanCheckbox />
-                                <span class="task-name">New Theme</span>
-                                <i class="fa fa-paint-brush"></i>
-                            </li>
-                            <li>
-                                <p:selectBooleanCheckbox />
-                                <span class="task-name">Flight Ticket</span>
-                                <i class="fa fa-fighter-jet"></i>
-                            </li>
-                            <li>
-                                <p:selectBooleanCheckbox />
-                                <span class="task-name">Generate Charts</span>
-                                <i class="fa fa-area-chart"></i>
-                            </li>
-                        </ul>
+                            <p:ajax event="select" listener="#{toDoTimelineBean.onSelect}"/>
+
+                        </p:timeline>
                     </p:panel>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 task-list">
+                        <p:panel header="Tasks" style="min-height:320px">
+                            <ul>
+                                <li>
+                                    <p:selectBooleanCheckbox />
+                                    <span class="task-name">Sales Reports</span>
+                                    <i class="fa fa-briefcase"></i>
+                                </li>
+                                <li>
+                                    <p:selectBooleanCheckbox />
+                                    <span class="task-name">Pay Invoices</span>
+                                    <i class="fa fa-credit-card"></i>
+                                </li>
+                                <li>
+                                    <p:selectBooleanCheckbox />
+                                    <span class="task-name">Dinner with Tony</span>
+                                    <i class="fa fa-cutlery"></i>
+                                </li>
+                                <li>
+                                    <p:selectBooleanCheckbox />
+                                    <span class="task-name">Client Meeting</span>
+                                    <i class="fa fa-user"></i>
+                                </li>
+                                <li>
+                                    <p:selectBooleanCheckbox />
+                                    <span class="task-name">New Theme</span>
+                                    <i class="fa fa-paint-brush"></i>
+                                </li>
+                                <li>
+                                    <p:selectBooleanCheckbox />
+                                    <span class="task-name">Flight Ticket</span>
+                                    <i class="fa fa-fighter-jet"></i>
+                                </li>
+                                <li>
+                                    <p:selectBooleanCheckbox />
+                                    <span class="task-name">Generate Charts</span>
+                                    <i class="fa fa-area-chart"></i>
+                                </li>
+                            </ul>
+                        </p:panel>
+                    </div>
                 </div>
-            </div>
+            </p:tab>
+            <p:tab title="ADD TASKS">
+                <div class="ui-g dashboard">   
+                    <div class="ui-g-12 ui-md-8">
+                         <h:form id="addForm">
+                            <p:growl id="msgs" showDetail="true" />
+                            <p:panel collapsed="false" styleClass="menuHeader"  header="Add New Poll" 
+                                     toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
+
+                                <table>
+                                    <tr>
+                                        <td>
+                                            Deadline:
+                                        </td>
+                                        <td>
+                                            <p:outputLabel/>
+                                            <p:calendar id="datetime" value="#{tasksBean.deadline}" timeZone="GMT+8" pattern="yyyy/MM/dd HH:mm:ss">
+                                                <p:ajax event="dateSelect" listener="#{tasksBean.onDateSelect}" update="msgs" />
+                                            </p:calendar>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Title:
+
+                                        </td>
+                                        <td>
+                                            <p:inputText value="#{tasksBean.title}" required="true" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Details:
+
+                                        </td>
+                                        <td>
+                                            <p:inputText value="#{tasksBean.details}" required="true" />
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td>
+                                            <p:commandButton value="Add" action="#{tasksBean.addTask()}" update="msgs"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </h:form>
+                        <!-- END: Add New Poll -->
+                    </div>
+                </div>
+            </p:tab>
+        </p:tabView>
     </ui:define>
 
 </ui:composition>
