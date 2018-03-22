@@ -9,13 +9,15 @@
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 >
 
+    <ui:define name="title">PRISM Student Project page</ui:define>
+
+    <ui:define name="viewname">Project</ui:define>
+    
     <ui:define name="content">
-        <h:head>
-            <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-            <h:outputStylesheet name="./css/default.css" />
-            <h:outputStylesheet name="./css/cssLayout.css" />
-            <title>PRISM Student Project page</title>
-        </h:head>
+        
+        <h:outputStylesheet name="./css/default.css" />
+        <h:outputStylesheet name="./css/cssLayout.css" />
+            
         <h:body>
             
             <p:growl id="messages" showDetail="true" />

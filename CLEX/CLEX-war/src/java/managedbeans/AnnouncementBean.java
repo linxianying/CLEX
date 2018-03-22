@@ -29,6 +29,12 @@ import session.AnnouncementSessionBeanLocal;
 import session.CourseMgmtBeanLocal;
 import session.StudyPlanSessionBeanLocal;
 
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.conf.ConfigurationBuilder;
+
 /**
  *
  * @author eeren
@@ -57,7 +63,7 @@ public class AnnouncementBean {
     private String audience; //Input "1": all, "2": students only, "3": lecturers only, "4": guests only, "5": 2&3 (admin can use any, lecturer's default use 2)
     private int anncSize;
     private int latestCount;
-    
+
     private ArrayList<Announcement> announcements;
     private ArrayList<Announcement> announcements2;
 
@@ -106,7 +112,7 @@ public class AnnouncementBean {
         }
     }
 
-    public void enterAnnouncement() throws IOException {
+    public void enterAnnouncement() throws IOException, TwitterException {
         FacesMessage fmsg = new FacesMessage();
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
@@ -140,6 +146,10 @@ public class AnnouncementBean {
             } else {
                 asbl.createAdminAnnc(username, title, message, audience);
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Announcement created.", "");
+                System.out.println("Audience == " + audience);
+                if (audience.equals("1")){
+                    postToTwitter(title,message);
+                }
                 //context.getExternalContext().redirect("adminMain.xhtml"); //redirect will not show success message
                 title = "";
                 message = "";
@@ -158,30 +168,30 @@ public class AnnouncementBean {
         System.out.println("temp size = " + tempAllAnnouncements2.size());
         return tempAllAnnouncements2;
     }
-    
-    public ArrayList<Announcement> getLatestAnnouncementForAllModules(){
+
+    public ArrayList<Announcement> getLatestAnnouncementForAllModules() {
         ArrayList<Announcement> allAnncList = new ArrayList<Announcement>();
         ArrayList<Announcement> tempList = new ArrayList<Announcement>();
-        
-        for(int i=0; i<takingModules.size(); i++){
+
+        for (int i = 0; i < takingModules.size(); i++) {
             tempList = (ArrayList<Announcement>) asbl.getAnncByModule(takingModules.get(i).getCourse().getModuleCode());
             allAnncList.addAll(tempList);
         }
-        
+
         allAnncList = (ArrayList<Announcement>) asbl.sortAnncByDate(allAnncList);
-        
+
         return allAnncList;
     }
-    
+
     //updates the counter above the notification icon upon closing it
-    public void setAnncViewCount(){
-        System.out.println("annc size = "+ getAnncSize());
-        System.out.println("username = "+ username);
+    public void setAnncViewCount() {
+        System.out.println("annc size = " + getAnncSize());
+        System.out.println("username = " + username);
         asbl.setViewAnncCount(username, getAnncSize());
-        System.out.println("view count = "+ userEntity.getViewAnncCount());
+        System.out.println("view count = " + userEntity.getViewAnncCount());
         setLatestCount(anncSize - userEntity.getViewAnncCount());
     }
-    
+
     //Input "1": all, "2": students only, "3": lecturers only, "4": guests only, "5" Lecturer and Student)
     public ArrayList<Announcement> getAnnouncementByAdminForStudent() {
         ArrayList<Announcement> tempAllAnnouncements1;
@@ -196,11 +206,11 @@ public class AnnouncementBean {
         for (int i = 0; i < tempAllAnnouncements3.size(); i++) {
             tempAllAnnouncements1.add(tempAllAnnouncements3.get(i));
         }
-        
+
         return tempAllAnnouncements1;
     }
-    
-        public ArrayList<Announcement> getAnnouncementByAdminForGuests() {
+
+    public ArrayList<Announcement> getAnnouncementByAdminForGuests() {
         ArrayList<Announcement> tempAllAnnouncements1;
         ArrayList<Announcement> tempAllAnnouncements2;
         tempAllAnnouncements1 = (ArrayList<Announcement>) asbl.getAnncByAudience("1");
@@ -208,7 +218,7 @@ public class AnnouncementBean {
         for (int i = 0; i < tempAllAnnouncements2.size(); i++) {
             tempAllAnnouncements1.add(tempAllAnnouncements2.get(i));
         }
-        
+
         tempAllAnnouncements1 = (ArrayList<Announcement>) asbl.sortAnncByDate(tempAllAnnouncements1);
         return tempAllAnnouncements1;
     }
@@ -226,7 +236,7 @@ public class AnnouncementBean {
         for (int i = 0; i < tempAllAnnouncements3.size(); i++) {
             tempAllAnnouncements1.add(tempAllAnnouncements3.get(i));
         }
-        
+
         return tempAllAnnouncements1;
     }
 
@@ -249,48 +259,63 @@ public class AnnouncementBean {
         Announcement tempAnnc = asbl.findAnnc(id);
         asbl.deleteAnnc(username, id);
         //If admin delete lecturer only
-        if(asbl.findUser(username).getUserType().equals("Lecturer") && userType == 3){
+        if (asbl.findUser(username).getUserType().equals("Lecturer") && userType == 3) {
             deleteNotify(username, asbl.findUser(username).getEmail(), tempAnnc);
         }
     }
-    
-    public void deleteNotify(String username, String email, Announcement tempAnnc){
+
+    public void deleteNotify(String username, String email, Announcement tempAnnc) {
         String to = email;
         String from = "iamprism@gmail.com";
 
         Properties props = System.getProperties();
 
         props.put("mail.smtp.auth", "true");
-	props.put("mail.smtp.starttls.enable", "true");
-	props.put("mail.smtp.host", "smtp.gmail.com");
-	props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
         props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
-        
-        Session session = Session.getInstance(props,
-		  new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication("prismeduc@gmail.com", "fvgbhnjm"); //don't change this
-			}
-		  });
 
-        try{
+        Session session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication("prismeduc@gmail.com", "fvgbhnjm"); //don't change this
+                    }
+                });
+
+        try {
             MimeMessage message = new MimeMessage(session);
 
             message.setFrom(new InternetAddress(from));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
             message.setSubject("[PRISM] Notification for Deletion of Announcement");
-            message.setText("The following announcement (ID: " + tempAnnc.getId() + ") has been deleted by the admin.\n\nTitle: " + tempAnnc.getTitle() + 
-                    "\n\nMessage: "+ tempAnnc.getMessage());
+            message.setText("The following announcement (ID: " + tempAnnc.getId() + ") has been deleted by the admin.\n\nTitle: " + tempAnnc.getTitle()
+                    + "\n\nMessage: " + tempAnnc.getMessage());
 
             Transport.send(message);
             System.out.println("Notification email sent.");
-        }
-        catch (MessagingException mex) {
-             mex.printStackTrace();
+        } catch (MessagingException mex) {
+            mex.printStackTrace();
         }
     }
-    
+
+    public void postToTwitter(String title, String message) throws TwitterException {
+        ConfigurationBuilder cb = new ConfigurationBuilder();
+        cb.setDebugEnabled(true)
+                .setOAuthConsumerKey("e8esm6lm48ESJjZGbPIz7y6oo")
+                .setOAuthConsumerSecret("4fNFt2CUQPYGHDy5yRh7v14HwBJ43Q5yKHwPye3m9uEsvuF4qH")
+                .setOAuthAccessToken("975955155492335616-0sJTAKwjK4CKgDpW8b9eZ61r7uXbE5N")
+                .setOAuthAccessTokenSecret("RrKBCgq7dJzIsI6SP1jpanqKM41Gc9m8E7MFx9fFmAcmT");
+        TwitterFactory tf = new TwitterFactory(cb.build());
+        Twitter twitter = tf.getInstance();
+
+        String messages = title + "\n\n" + message;
+        Status status = twitter.updateStatus(messages);
+
+        System.out.println("Updated status to " + status.getText());
+    }
+
     public User getUserEntity() {
         return userEntity;
     }

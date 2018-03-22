@@ -112,11 +112,12 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
     }
     
     @Override
-    public void createTask(String username, String date, String deadline, String title,String details, String status){
+    public Task createTask(String username, String date, String deadline, String title,String details, String status){
         
         studentEntity = findStudent(username);
         if(studentEntity==null){
             System.out.println("Student " + username + " does not exist. Create Task failed.");
+            taskEntity = null;
         }else{
             taskEntity = new Task();
             taskEntity.createTask(date, deadline, title, details, status);
@@ -125,8 +126,9 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
             em.persist(taskEntity);
             em.merge(studentEntity);
             em.flush();
+            
         }
-    
+        return taskEntity;
     }
     
     public void linkIndividualTaskStudent(IndividualGroupTask indGroupTaskEntity, String username) {

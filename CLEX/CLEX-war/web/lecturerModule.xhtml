@@ -6,13 +6,14 @@
                 template="/WEB-INF/template_lecturer.xhtml" 
                 xmlns:p="http://primefaces.org/ui" 
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="title">PRISM Lecturer Module Page</ui:define>
 
+    <ui:define name="viewname">Module</ui:define>
+    
     <ui:define name="content">
-        <h:head>
-            <title>PRISM Lecturer Module Page</title>
-        </h:head>
+        
         <p:growl id="messages" showDetail="true" />
-        <h1 style="margin-top:0">Module Management Page</h1>
+        
         <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
             <p:printer target="panel" />
         </p:commandButton>
@@ -93,6 +94,7 @@
                         <p:dataTable editable="true" editMode="cell" 
                                      var="lesson" value="#{lecturerModuleListBean.lessons}" 
                                      widgetVar="lessonsTable"
+                                     filteredValue="#{lecturerModuleListBean.filteredLessons}"
                                      emptyMessage="No modules found with given criteria." 
                                      paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
                                      rows="5"
@@ -104,6 +106,7 @@
                                     <h:outputText value="Search all fields:" />
                                     <p:inputText id="globalFilter" onkeyup="PF('lessonsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
                                 </p:outputPanel>
+                                
                                 <h:commandLink>
                                     <p:graphicImage name="/demo/images/excel.png" width="24"/>
                                     <p:dataExporter type="xls" target="les" fileName="lessons"  />

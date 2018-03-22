@@ -88,6 +88,7 @@ public class LecturerModuleListBean implements Serializable {
 
         session.setAttribute("user", lecturerEntity);
         session.setAttribute("username", username);
+        session.setAttribute("module", module);
         session.setAttribute("moduleCode", module.getCourse().getModuleCode());
         session.setAttribute("pickSem", module.getTakenSem());
         session.setAttribute("pickYear", module.getTakenYear());

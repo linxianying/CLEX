@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -116,6 +117,25 @@ public class ScheduleBean implements Serializable {
             System.err.println(e);
         }
         return t.getTime();
+    }
+    
+    public void reset(){
+        System.out.println("Reset function begin" + timeslots.size());
+        //timeslots = sbl.getAllTimeslots(userEntity);
+        if(timeslots.size()!=0){
+            for (Timeslot timeslot : timeslots) {
+                System.out.println(timeslot.getTitle());
+                sbl.deleteTimeslot(timeslot.getId(), userEntity);
+
+            }
+        }
+        eventModel.clear();
+        //List<ScheduleEvent> events = eventModel.getEvents();
+        //if(!events.isEmpty()){
+        //    for (ScheduleEvent s: events){
+        //        eventModel.deleteEvent(s);
+        //   }
+        //}
     }
 
     public Date getInitialDate() {

@@ -5,23 +5,36 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 template="/WEB-INF/template_lecturer.xhtml"
                 xmlns:p="http://primefaces.org/ui">
+    <ui:define name="title">PRISM Lecturer Schedule Page</ui:define>
 
+    <ui:define name="viewname">Schedule</ui:define>
+    
     <ui:define name="content">
-        <h:head>
-            <title>PRISM Lecturer Schedule Page</title>
-        </h:head>
+        
         <!--
         <h:form>
             <h:commandButton value="TEST" actionListener="#{scheduleBean.testAddEvents}" action="schedule?faces-redirect=true" />
         </h:form>
         -->
+        <p:commandButton value="Reset" actionListener="#{scheduleBean.reset()}" style="margin-bottom: 20px" action="lecturerSchedule?faces-redirect=true">
+            <p:confirm header="Confirmation" 
+                       message="Are you sure you want to reset the schedule? This action will delete all your timeslots."
+                       icon="ui-icon-alert" />
+        </p:commandButton>
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
+        
         <h:form>
             <p:growl id="messages" showDetail="true" />
+            
             <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
                 <p:printer target="cal" />
             </p:commandButton>
+            
             <h:panelGrid id="cal" columnClasses="value">
-                <h3 style="margin-top: 0">My Schedule</h3>
+                <h3 style="margin-top: 0">Schedule</h3>
 
                 <p:schedule id="schedule" value="#{scheduleBean.eventModel}" widgetVar="myschedule" timeZone="GMT+8">
                     <p:ajax event="dateSelect" listener="#{scheduleBean.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />

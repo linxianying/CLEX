@@ -26,6 +26,8 @@ public class PRQuestionSessionBean implements PRQuestionSessionBeanLocal {
     EntityManager em;
     
     private PeerReviewQuestion question;
+    private ArrayList<Question> individualQuestions;
+    private ArrayList<Question> groupQuestions;
     
     @Override
     public void createPeerReviewQuestion(String title, Date deadline, Module module) {
@@ -60,6 +62,86 @@ public class PRQuestionSessionBean implements PRQuestionSessionBeanLocal {
             e.printStackTrace();
         }
         return question;
+    }
+    
+    @Override
+    public void addPRQuestion(PeerReviewQuestion question, Question newQuestion, String addType) {
+        if (addType.equals("indQuestion")) {
+            individualQuestions = question.getIndividualQuestions();
+            individualQuestions.add(newQuestion);
+        }
+        else if (addType.equals("grQuestion")) {
+            groupQuestions = question.getGroupQuestions();
+            groupQuestions.add(newQuestion);
+        }
+        em.merge(question);
+        em.flush();
+    }
+    
+    
+    @Override
+    public void editIndQuestion(PeerReviewQuestion question, ArrayList<Question> individualQuestions) {
+        question.setIndividualQuestions(individualQuestions);
+        em.merge(question);
+        em.flush();
+    }
+    
+    @Override
+    public void editGrQuestion(PeerReviewQuestion question, ArrayList<Question> groupQuestions) {
+        question.setGroupQuestions(groupQuestions);
+        em.merge(question);
+        em.flush();
+    }
+    
+    @Override
+    public void deleteIndQuestion(PeerReviewQuestion question, int indIndex) {
+        question.getIndividualQuestions().remove(indIndex);
+        em.merge(question);
+        em.flush();
+    }
+    
+    @Override
+    public void deleteGrQuestion(PeerReviewQuestion question, int indIndex) {
+        question.getGroupQuestions().remove(indIndex);
+        em.merge(question);
+        em.flush();
+    }
+    
+    @Override
+    public void editTitle(PeerReviewQuestion question, String title){
+        question.setTitle(title);
+        em.merge(question);
+        em.flush();
+    }
+    
+    @Override
+    public void reorederIndQuestion(int fromIndex, int toIndex, PeerReviewQuestion question){
+        individualQuestions = question.getIndividualQuestions();
+        individualQuestions.add(toIndex, individualQuestions.remove(fromIndex));
+        em.merge(question);
+        em.flush();
+    }
+    
+    @Override
+    public void reorederGrQuestion(int fromIndex, int toIndex, PeerReviewQuestion question){
+        groupQuestions = question.getGroupQuestions();
+        groupQuestions.add(toIndex, groupQuestions.remove(fromIndex));
+        em.merge(question);
+        em.flush();
+    }
+    
+    @Override
+    public void setGrQuestion(PeerReviewQuestion question, ArrayList<Question> groupQuestions) {
+        question.setGroupQuestions(groupQuestions);
+        em.merge(question);
+        em.flush();
+    }
+    
+    @Override
+    public void setIndQuestion(PeerReviewQuestion question, ArrayList<Question> individualQuestions) {
+        question.setIndividualQuestions(individualQuestions);
+        em.merge(question);
+        em.flush();
     }
     
     public void testUpdatePRForm() {
