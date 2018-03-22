@@ -120,8 +120,9 @@
                 <div class="ui-g dashboard">   
                     <div class="ui-g-12 ui-md-8">
                          <h:form>
+                            <p:messages showDetail="true" autoUpdate="true" closable="true" />
                             <p:growl id="msgs" showDetail="true" />
-                            <p:panel collapsed="false" styleClass="menuHeader"  header="Add New Poll" 
+                            <p:panel collapsed="false" styleClass="menuHeader"  
                                      toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
 
                                 <table>
@@ -143,7 +144,8 @@
 
                                         </td>
                                         <td>
-                                            <p:inputText id="title" value="#{tasksBean.title}" required="true" />
+                                            <p:inputText id="title" value="#{tasksBean.title}" required="true" 
+                                                         requiredMessage="Please enter the title of the task!" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -152,7 +154,8 @@
 
                                         </td>
                                         <td>
-                                            <p:inputText id="details" value="#{tasksBean.details}" required="true" />
+                                            <p:inputText id="details" value="#{tasksBean.details}" required="true"
+                                                         requiredMessage="Please enter details!" />
                                         </td>
                                     </tr>
                                     

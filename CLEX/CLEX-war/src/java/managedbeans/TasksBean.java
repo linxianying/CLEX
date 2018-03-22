@@ -60,6 +60,7 @@ public class TasksBean {
     
     FacesContext context;
     HttpSession session;
+    FacesMessage fmsg;
     SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     
     public TasksBean() {
@@ -90,16 +91,27 @@ public class TasksBean {
     }
     
     public void addTask(){
-
+        fmsg = new FacesMessage();
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+        
+        
         System.out.println("Add Task: ddl is " + ddl);
         if(deadline!=null)
             System.out.println("addTask: deadline is "+deadline);
         //    ddl = ft.format(deadline);
         task = tsbl.createTask(username, ft.format(Calendar.getInstance().getTime()), ddl, title, details, "unfinished");
-        if(task!=null)
+        if(task!=null){
             System.out.println("New task created in studentMain: with id " +  task.getId());
-        else
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Task with id '" + task.getId() + "' is created.", "Successfuly");
+            context.addMessage(null, fmsg);
+                
+        }
+        else{
             System.out.println("New task creation failed");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Task creation failed.", "Unsuccessfuly");
+            context.addMessage(null, fmsg);
+        }
     }
 
     public Date getDate() {
