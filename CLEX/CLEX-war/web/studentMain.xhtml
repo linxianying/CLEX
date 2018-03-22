@@ -119,7 +119,7 @@
             <p:tab title="ADD TASKS">
                 <div class="ui-g dashboard">   
                     <div class="ui-g-12 ui-md-8">
-                         <h:form id="addForm">
+                         <h:form>
                             <p:growl id="msgs" showDetail="true" />
                             <p:panel collapsed="false" styleClass="menuHeader"  header="Add New Poll" 
                                      toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
@@ -131,7 +131,7 @@
                                         </td>
                                         <td>
                                             <p:outputLabel/>
-                                            <p:calendar id="datetime" value="#{tasksBean.deadline}" timeZone="GMT+8" pattern="yyyy/MM/dd HH:mm:ss">
+                                            <p:calendar id="datetime" value="#{tasksBean.deadline}" timeZone="GMT+8" pattern="yyyy-MM-dd HH:mm">
                                                 <p:ajax event="dateSelect" listener="#{tasksBean.onDateSelect}" update="msgs" />
                                             </p:calendar>
 
@@ -143,7 +143,7 @@
 
                                         </td>
                                         <td>
-                                            <p:inputText value="#{tasksBean.title}" required="true" />
+                                            <p:inputText id="title" value="#{tasksBean.title}" required="true" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -152,13 +152,15 @@
 
                                         </td>
                                         <td>
-                                            <p:inputText value="#{tasksBean.details}" required="true" />
+                                            <p:inputText id="details" value="#{tasksBean.details}" required="true" />
                                         </td>
                                     </tr>
                                     
                                     <tr>
                                         <td>
-                                            <p:commandButton value="Add" action="#{tasksBean.addTask()}" update="msgs"/>
+                                            <p:commandButton value="Add" actionListener="#{tasksBean.addTask}" />
+                                            <p:commandButton style="float: right" value="Save" actionListener="#{tasksBean.addTask}" />
+                    
                                         </td>
                                     </tr>
                                 </table>
