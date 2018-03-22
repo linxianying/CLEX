@@ -30,5 +30,12 @@ public interface PRQuestionSessionBeanLocal {
     public void editIndQuestion(PeerReviewQuestion question, ArrayList<Question> individualQuestions);
 
     public void editGrQuestion(PeerReviewQuestion question, ArrayList<Question> groupQuestions);
+
+    public void deleteIndQuestion(PeerReviewQuestion question, int indIndex);
+
+    public void deleteGrQuestion(PeerReviewQuestion question, int indIndex);
+
+    public void editTitle(PeerReviewQuestion question, String title);
+
     
 }

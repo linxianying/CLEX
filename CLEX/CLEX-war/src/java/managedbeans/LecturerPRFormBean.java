@@ -44,6 +44,7 @@ public class LecturerPRFormBean implements Serializable{
     
     private ArrayList<Question> individualQuestions;
     private ArrayList<Question> groupQuestions;
+    private String title;
     
     private Question newQuestion;
     private String addQuestion;
@@ -73,7 +74,7 @@ public class LecturerPRFormBean implements Serializable{
         question = module.getPeerReviewQuestion();
         individualQuestions = question.getIndividualQuestions();
         groupQuestions = question.getGroupQuestions();
-
+        title = question.getTitle();
         test="chekc it";
         
         System.out.println("Finish init");
@@ -210,6 +211,14 @@ public class LecturerPRFormBean implements Serializable{
         this.test = test;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
 
     
     
@@ -221,7 +230,6 @@ public class LecturerPRFormBean implements Serializable{
     }
     
     public void addQuestion() {
-        System.out.println("into add question");
         newQuestion = new Question(addQuestion, questionType);
         if (questionType.equals("rating")) {
             newQuestion.setLevelOfRating(levelOfRating);
@@ -235,16 +243,37 @@ public class LecturerPRFormBean implements Serializable{
     }
     
     public void editIndQuestion(int indIndex){
-        System.out.println("change question " + indIndex);
-        System.out.println(individualQuestions.get(0).getQuestion());
+//        System.out.println("change question " + indIndex);
+//        System.out.println(individualQuestions.get(0).getQuestion());
         prqsbl.editIndQuestion(question, individualQuestions);
     }
     
     public void editGrQuestion(int indIndex){
-        System.out.println("change question " + indIndex);
-        System.out.println(groupQuestions.get(0).getQuestion());
+//        System.out.println("change question " + indIndex);
+//        System.out.println(groupQuestions.get(0).getQuestion());
         prqsbl.editGrQuestion(question, groupQuestions);
     }
+    
+    public void deleteIndQuestion(int indIndex) {
+        prqsbl.deleteIndQuestion(question, indIndex);
+//        individualQuestions.remove(indIndex);
+    }
+    
+    public void deleteGrQuestion(int grIndex) {
+        System.out.println("index=" + grIndex);
+        System.out.println("question number is " + groupQuestions.get(grIndex).getQuestion());
+        prqsbl.deleteGrQuestion(question, grIndex);
+//        groupQuestions.remove(indIndex);
+    }
+    
+    public void editTitle(){
+        prqsbl.editTitle(question, title);
+    }
+    
+    
+    
+    
+    
     
     public void testUpdatePRForm() {
         System.out.println("Strat to update");
