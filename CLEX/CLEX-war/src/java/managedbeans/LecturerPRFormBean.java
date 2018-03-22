@@ -217,7 +217,7 @@ public class LecturerPRFormBean implements Serializable{
         int[] rating = new int[q.getLevelOfRating()];
         for (int index=1; index <= q.getLevelOfRating(); index++)
             rating[index-1] = index;
-        return rating;
+        return rating; 
     }
     
     public void addQuestion() {

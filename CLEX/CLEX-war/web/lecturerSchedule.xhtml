@@ -22,7 +22,7 @@
                 <p:printer target="cal" />
             </p:commandButton>
             <h:panelGrid id="cal" columnClasses="value">
-                <h3 style="margin-top: 0">My Schedule</h3>
+                <h3 style="margin-top: 0">Schedule</h3>
 
                 <p:schedule id="schedule" value="#{scheduleBean.eventModel}" widgetVar="myschedule" timeZone="GMT+8">
                     <p:ajax event="dateSelect" listener="#{scheduleBean.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
