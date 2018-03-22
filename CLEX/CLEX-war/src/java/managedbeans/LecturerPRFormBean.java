@@ -18,6 +18,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import org.primefaces.event.ReorderEvent;
 import session.ClexSessionBeanLocal;
 import session.PRQuestionSessionBeanLocal;
 
@@ -278,8 +279,13 @@ public class LecturerPRFormBean implements Serializable{
         title = question.getTitle();
     }
     
+    public void onIndRowReorder(ReorderEvent event) {
+        prqsbl.setIndQuestion(question, individualQuestions);
+    }
     
-    
+    public void onGrRowReorder(ReorderEvent event) {
+        prqsbl.setGrQuestion(question, groupQuestions);
+    }
     
     public void testUpdatePRForm() {
         System.out.println("Strat to update");

@@ -114,10 +114,35 @@ public class PRQuestionSessionBean implements PRQuestionSessionBeanLocal {
         em.flush();
     }
     
+    @Override
+    public void reorederIndQuestion(int fromIndex, int toIndex, PeerReviewQuestion question){
+        individualQuestions = question.getIndividualQuestions();
+        individualQuestions.add(toIndex, individualQuestions.remove(fromIndex));
+        em.merge(question);
+        em.flush();
+    }
     
+    @Override
+    public void reorederGrQuestion(int fromIndex, int toIndex, PeerReviewQuestion question){
+        groupQuestions = question.getGroupQuestions();
+        groupQuestions.add(toIndex, groupQuestions.remove(fromIndex));
+        em.merge(question);
+        em.flush();
+    }
     
+    @Override
+    public void setGrQuestion(PeerReviewQuestion question, ArrayList<Question> groupQuestions) {
+        question.setGroupQuestions(groupQuestions);
+        em.merge(question);
+        em.flush();
+    }
     
-    
+    @Override
+    public void setIndQuestion(PeerReviewQuestion question, ArrayList<Question> individualQuestions) {
+        question.setIndividualQuestions(individualQuestions);
+        em.merge(question);
+        em.flush();
+    }
     
     public void testUpdatePRForm() {
         

@@ -37,5 +37,13 @@ public interface PRQuestionSessionBeanLocal {
 
     public void editTitle(PeerReviewQuestion question, String title);
 
+    public void reorederIndQuestion(int fromIndex, int toIndex, PeerReviewQuestion question);
+
+    public void reorederGrQuestion(int fromIndex, int toIndex, PeerReviewQuestion question);
+
+    public void setGrQuestion(PeerReviewQuestion question, ArrayList<Question> groupQuestions);
+
+    public void setIndQuestion(PeerReviewQuestion question, ArrayList<Question> individualQuestions);
+
     
 }
