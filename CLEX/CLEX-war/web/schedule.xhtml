@@ -12,6 +12,7 @@
     <ui:define name="viewname">Schedule</ui:define>
     
     <ui:define name="content">
+        <p:commandButton value="Reset" actionListener="#{scheduleBean.reset()}" style="margin-bottom: 20px" action="schedule?faces-redirect=true"/>
         
         <h:form>
             <p:growl id="messages" showDetail="true" />
