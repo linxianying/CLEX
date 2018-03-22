@@ -8,14 +8,13 @@ package managedbeans;
 import entity.Lecturer;
 import entity.Module;
 import entity.PeerReviewQuestion;
-import entity.Student;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import javaClass.Question;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.inject.Named;
-import javax.enterprise.context.Dependent;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
@@ -26,10 +25,10 @@ import session.PRQuestionSessionBeanLocal;
  *
  * @author caoyu
  */
-@Named(value = "lecturerPRFormBean")
+@ManagedBean(name = "lecturerPRFormBean")
 @SessionScoped
 
-public class LecturerPRFormBean {
+public class LecturerPRFormBean implements Serializable{
     @EJB
     private ClexSessionBeanLocal csbl;
     @EJB
@@ -44,9 +43,15 @@ public class LecturerPRFormBean {
     private PeerReviewQuestion question;
     
     private ArrayList<Question> individualQuestions;
-    private String[] individualAnswer;
     private ArrayList<Question> groupQuestions;
-    private String[] groupAnswer;
+    
+    private Question newQuestion;
+    private String addQuestion;
+    //indQuestion or grQuestion
+    private String addType;
+    //rating/ ranking/ open
+    private String questionType;
+    private int levelOfRating;
     
     public LecturerPRFormBean() {
     }
@@ -60,17 +65,17 @@ public class LecturerPRFormBean {
 //        username = lecturer.getUsername();
 //        module = (Module) session.getAttribute("module");
         
-        System.out.println("start init");
         //for test purpose only
         module = csbl.findModule("PS2240", "2017", "2");
         Date day = new Date();
         prqsbl.createPeerReviewQuestion("test PR form", day, module);
         question = module.getPeerReviewQuestion();
         individualQuestions = question.getIndividualQuestions();
-        individualAnswer = new String[individualQuestions.size()];
         groupQuestions = question.getGroupQuestions();
-        groupAnswer = new String[groupQuestions.size()];
 
+        
+        System.out.println("Finish init");
+        
     }
 
     
@@ -154,21 +159,48 @@ public class LecturerPRFormBean {
         this.question = question;
     }
 
-    public String[] getIndividualAnswer() {
-        return individualAnswer;
+    public String getAddQuestion() {
+        return addQuestion;
     }
 
-    public void setIndividualAnswer(String[] individualAnswer) {
-        this.individualAnswer = individualAnswer;
+    public void setAddQuestion(String addQuestion) {
+        this.addQuestion = addQuestion;
     }
 
-    public String[] getGroupAnswer() {
-        return groupAnswer;
+    public String getAddType() {
+        return addType;
     }
 
-    public void setGroupAnswer(String[] groupAnswer) {
-        this.groupAnswer = groupAnswer;
+    public void setAddType(String addType) {
+        this.addType = addType;
     }
+
+    public String getQuestionType() {
+        return questionType;
+    }
+
+    public void setQuestionType(String questionType) {
+        System.out.println("set questionTyep to " + questionType);
+        this.questionType = questionType;
+    }
+
+    public int getLevelOfRating() {
+        return levelOfRating;
+    }
+
+    public void setLevelOfRating(int levelOfRating) {
+        this.levelOfRating = levelOfRating;
+    }
+
+    public Question getNewQuestion() {
+        return newQuestion;
+    }
+
+    public void setNewQuestion(Question newQuestion) {
+        this.newQuestion = newQuestion;
+    }
+
+
     
     
     public int[] getRating(Question q) {
@@ -178,10 +210,28 @@ public class LecturerPRFormBean {
         return rating;
     }
     
+    public void addQuestion() {
+        System.out.println("into add question");
+        newQuestion = new Question(addQuestion, questionType);
+        if (questionType.equals("rating")) {
+            newQuestion.setLevelOfRating(levelOfRating);
+        }
+        prqsbl.addPRQuestion(question, newQuestion, addType);
+        
+        question = module.getPeerReviewQuestion();
+        individualQuestions = question.getIndividualQuestions();
+        groupQuestions = question.getGroupQuestions();
+        System.out.println("group size = " + groupQuestions.size());
+    }
     
     public void testUpdatePRForm() {
         System.out.println("Strat to update");
         
+    }
+    
+    public void test() {
+//        this.questionType = 
+        System.out.println("Question type= " + this.questionType);
     }
     
 }

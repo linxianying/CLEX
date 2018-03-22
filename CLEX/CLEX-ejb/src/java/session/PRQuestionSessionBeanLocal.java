@@ -24,5 +24,7 @@ public interface PRQuestionSessionBeanLocal {
     public void createPeerReviewQuestion(String title, Date deadline, Module module);
 
     public void updatePRForm(PeerReviewQuestion question, ArrayList<Question> individualQuestions, ArrayList<Question> groupQuestions);
+
+    public void addPRQuestion(PeerReviewQuestion question, Question newQuestion, String addType);
     
 }

@@ -74,18 +74,7 @@
                             </p:selectOneMenu>
                             <p:tooltip id="toolTipFocus" for="school" showEvent="focus" hideEvent="blur" />
                         </div>
-                        <p:message for="school" />
-                        <!-- School --> 
-                        <div class="ui-g-12">
-                            <p:selectOneMenu style="padding: 0%; text-transform: uppercase;" 
-                                             required="true" title="Select your school from the list. If your school isn't available, send a request to your instituition to adopt PRISM."
-                                             id="school" value="#{registerBean.school}" 
-                                             placeholder="School" requiredMessage="School Required">
-                                <f:selectItems value="#{registerBean.schoollist}" />
-                            </p:selectOneMenu>
-                            <p:tooltip id="toolTipFocus" for="school" showEvent="focus" hideEvent="blur" />
-                        </div>
-                        <p:message for="school" />
+                        <p:message for="school" />                        
                         <!-- User Type -->
                         <div class="ui-g-12 chkbox-container">
                             <p:selectOneButton required="true" requiredMessage="User Type Required" styleClass="menuSelect" id="userType" value="#{registerBean.userType}">

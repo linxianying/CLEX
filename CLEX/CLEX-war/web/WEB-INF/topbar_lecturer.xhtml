@@ -10,12 +10,12 @@
         <div class="topbar-left">            
             <div class="logo"></div>
         </div>
-        
+
         <div class="topbar-right">
             <a id="menu-button" href="#">
                 <i class="fa fa-angle-left"></i>
             </a>
-            
+
             <a id="topbar-menu-button" href="#">
                 <i class="fa fa-bars"></i>
             </a>
@@ -25,7 +25,7 @@
                         <div class="profile-image"></div>
                         <span class="topbar-item-name">Jane Williams</span>
                     </a>
-                    
+
                     <ul class="poseidon-menu animated">
                         <li role="menuitem">
                             <a href="lecturerProfile.xhtml">
@@ -127,7 +127,7 @@
                         </li>
                     </ul>
                 </li>
-                                <li>
+                <li>
                     <a href="#" onclick="setViewCount()">
                         <i class="topbar-icon material-icons fa fa-fw fa-bell-o"></i>
                         <p:outputPanel autoUpdate="true" class="topbar-badge animated rubberBand">#{announcementBean.latestCount}</p:outputPanel>
@@ -139,7 +139,7 @@
                     <ul  style="overflow: auto; height: 500%; width: 700%">
                         <span style="color: #e33f3f">Notifications</span>
                         <br/>
-                        <p:dataList var="annc" value="#{announcementBean.getAnnouncementByAdminForLecturer()}">
+                        <p:dataList var="annc" value="#{announcementBean.announcements}">
                             <button type="button" disabled="disabled" class="anncBox">
                                 <h:outputText value="#{annc.type} posted a new announcement" />
                                 <br/>
@@ -157,5 +157,23 @@
             </ul>
         </div>
     </div>
+
+    <style type="text/css">
+        .ui-datalist-data{
+            padding-left: 0;
+            list-style-type: none;
+        }
+        .anncBox{
+            background: #e8eaef;
+            width:100%;
+            text-align: left;
+            border: none;
+            margin-bottom: 5px;
+        }    
+        .anncBox:hover {
+            background: #efefef;
+            text-decoration: none;
+        }
+    </style>
 
 </ui:composition>
