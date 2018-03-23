@@ -161,9 +161,17 @@
                                     
                                     <tr>
                                         <td>
+                                            Urgency:
+
+                                        </td>
+                                        <td>
+                                            <p:rating id="urgency" value="#{tasksBean.urgencyInt}" />
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td>
                                             <p:commandButton value="Add" actionListener="#{tasksBean.addTask}" />
-                                            <p:commandButton style="float: right" value="Save" actionListener="#{tasksBean.addTask}" />
-                    
                                         </td>
                                     </tr>
                                 </table>

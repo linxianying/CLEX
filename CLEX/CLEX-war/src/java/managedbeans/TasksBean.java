@@ -52,6 +52,8 @@ public class TasksBean {
     private String strDate="";
     private Task task;
     private String ddl;
+    private Integer urgencyInt;
+    
     
     private User studentEntity;
     private String username;
@@ -97,15 +99,29 @@ public class TasksBean {
         
         
         System.out.println("Add Task: ddl is " + ddl);
-        if(deadline!=null)
-            System.out.println("addTask: deadline is "+deadline);
+        //if(deadline!=null)
+        //    System.out.println("addTask: deadline is "+deadline);
         //    ddl = ft.format(deadline);
         task = tsbl.createTask(username, ft.format(Calendar.getInstance().getTime()), ddl, title, details, "unfinished");
-        if(task!=null){
+        if(urgencyInt!=null){
+            urgency = urgencyInt+"";
+            task.setUrgency(urgency);
+            
+        }
+        else{
+            System.out.println("task with id " + task.getId() + " does not set urgency");
+        }
+        if(task!=null&&task.getUrgency()!=null){
             System.out.println("New task created in studentMain: with id " +  task.getId());
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Task with id '" + task.getId() + "' is created.", "Successfuly");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Task '" + task.getTitle() + "' with urgency " +
+                    task.getUrgency() +  " is created.", "Successfuly");
             context.addMessage(null, fmsg);
                 
+        }
+        else if(task!=null){
+            System.out.println("New task created in studentMain: with id " +  task.getId());
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Task '" + task.getTitle() + " is created.", "Successfuly");
+            context.addMessage(null, fmsg);
         }
         else{
             System.out.println("New task creation failed");
@@ -256,6 +272,22 @@ public class TasksBean {
 
     public void setDdl(String ddl) {
         this.ddl = ddl;
+    }
+
+    public Integer getUrgencyInt() {
+        return urgencyInt;
+    }
+
+    public void setUrgencyInt(Integer urgencyInt) {
+        this.urgencyInt = urgencyInt;
+    }
+
+    public FacesMessage getFmsg() {
+        return fmsg;
+    }
+
+    public void setFmsg(FacesMessage fmsg) {
+        this.fmsg = fmsg;
     }
 
     
