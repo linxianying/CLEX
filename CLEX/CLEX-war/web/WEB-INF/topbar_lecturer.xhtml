@@ -5,7 +5,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui"
     xmlns:po="http://primefaces.org/poseidon">
-    
+
     <!-- FAVICON -->
     <link rel="icon" 
           type="image/png" 
@@ -45,12 +45,6 @@
                             </a>
                         </li>
                         <li role="menuitem">
-                            <a href="lecturerSetting.xhtml">
-                                <i class="fa fa-fw fa-cog"></i>
-                                <span>Settings</span>
-                            </a>
-                        </li>
-                        <li role="menuitem">
                             <h:form>
                                 <a href="#" onclick="logout()">
                                     <i class="fa fa-fw fa-sign-out"></i>
@@ -68,27 +62,18 @@
                     </a>
                     <ul class="poseidon-menu animated">
                         <li role="menuitem">
-                            <a href="#">
+                            <a href="lecturerSetting.xhtml">
                                 <i class="fa fa-fw fa-paint-brush"></i>
                                 <span>Change Theme</span>
                             </a>
                         </li>
                         <li role="menuitem">
                             <a href="#">
-                                <i class="fa fa-fw fa-star-o"></i>
-                                <span>Favorites</span>
-                            </a>
-                        </li>
-                        <li role="menuitem">
-                            <a href="#">
                                 <i class="fa fa-fw fa-lock"></i>
                                 <span>Lock Screen</span>
-                            </a>
-                        </li>
-                        <li role="menuitem">
-                            <a href="#">
-                                <i class="fa fa-fw fa-picture-o"></i>
-                                <span>Wallpaper</span>
+                                <p:confirmDialog message="Your Screen is now locked." widgetVar="dlg1" global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="Unlock" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-unlocked" />
+                                </p:confirmDialog>
                             </a>
                         </li>
                     </ul>
@@ -179,6 +164,9 @@
         .anncBox:hover {
             background: #efefef;
             text-decoration: none;
+        }
+        .ui-dialog-titlebar-close {
+            visibility: hidden;
         }
     </style>
 

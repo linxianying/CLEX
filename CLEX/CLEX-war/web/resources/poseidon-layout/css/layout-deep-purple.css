@@ -398,7 +398,7 @@ body.exception-body.notfound-page {
       vertical-align: middle;
       width: 175px;
       height: 49px;
-      background: url("#{resource['poseidon-layout:images/logo-white.png']}") top left no-repeat;
+      background: url("#{resource['poseidon-layout:images/logo-prism-white.png']}") top left no-repeat;
       background-size: 175px 49px; }
     .landing-wrapper #header .header-top #menu {
       float: right;
@@ -688,7 +688,7 @@ body {
     vertical-align: middle;
     width: 175px;
     height: 49px;
-    background: url("#{resource['poseidon-layout:images/logo-white.png']}") top left no-repeat;
+    background: url("#{resource['poseidon-layout:images/logo-prism-white.png']}") top left no-repeat;
     background-size: 175px 49px; }
   .layout-wrapper .topbar .topbar-left {
     box-sizing: border-box;
@@ -830,13 +830,13 @@ body {
 .layout-wrapper.menu-layout-overlay.layout-menu-overlay-active .topbar .topbar-left {
   background-color: #7e57c2; }
   .layout-wrapper.menu-layout-overlay.layout-menu-overlay-active .topbar .topbar-left .logo {
-    background-image: url("#{resource['poseidon-layout:images/logo-white.png']}"); }
+    background-image: url("#{resource['poseidon-layout:images/logo-prism-white.png']}"); }
 .layout-wrapper.menu-layout-overlay .topbar {
   z-index: 999999998; }
   .layout-wrapper.menu-layout-overlay .topbar .topbar-left {
     background-color: #f0f3f5; }
     .layout-wrapper.menu-layout-overlay .topbar .topbar-left .logo {
-      background-image: url("#{resource['poseidon-layout:images/logo-black.png']}"); }
+      background-image: url("#{resource['poseidon-layout:images/logo-prism-black.png']}"); }
   .layout-wrapper.menu-layout-overlay .topbar .topbar-right #menu-button i {
     -webkit-transform: rotate(180deg);
     -moz-transform: rotate(180deg);
@@ -1275,7 +1275,7 @@ body {
   .layout-wrapper.menu-layout-static.layout-menu-static-inactive .topbar .topbar-left {
     background-color: #f0f3f5; }
     .layout-wrapper.menu-layout-static.layout-menu-static-inactive .topbar .topbar-left .logo {
-      background-image: url("#{resource['poseidon-layout:images/logo-black.png']}"); }
+      background-image: url("#{resource['poseidon-layout:images/logo-prism-black.png']}"); }
   .layout-wrapper.menu-layout-static.layout-menu-static-inactive .topbar .topbar-right #menu-button.menu-button-rotate i {
     -webkit-transform: rotate(180deg);
     -moz-transform: rotate(180deg);
@@ -1298,7 +1298,7 @@ body {
       -moz-box-shadow: none;
       background-color: #ffffff; }
       .layout-wrapper.menu-layout-horizontal .topbar .topbar-left .logo {
-        background-image: url("#{resource['poseidon-layout:images/logo-black.png']}"); }
+        background-image: url("#{resource['poseidon-layout:images/logo-prism-black.png']}"); }
     .layout-wrapper.menu-layout-horizontal .topbar .topbar-right #menu-button {
       display: none; }
   .layout-wrapper.menu-layout-horizontal .layout-menu-container {
@@ -1389,7 +1389,7 @@ body {
   .layout-wrapper.menu-layout-static .topbar .topbar-left {
     background-color: #f0f3f5; }
     .layout-wrapper.menu-layout-static .topbar .topbar-left .logo {
-      background-image: url("#{resource['poseidon-layout:images/logo-black.png']}"); }
+      background-image: url("#{resource['poseidon-layout:images/logo-prism-black.png']}"); }
   .layout-wrapper.menu-layout-static .topbar .topbar-right #menu-button i {
     -webkit-transform: rotate(180deg);
     -moz-transform: rotate(180deg);
@@ -1554,7 +1554,7 @@ body {
     .layout-wrapper.menu-layout-static .topbar .topbar-left .logo,
     .layout-wrapper.menu-layout-overlay .topbar .topbar-left .logo,
     .layout-wrapper.menu-layout-overlay.layout-menu-overlay-active .topbar .topbar-left .logo {
-      background-image: url("#{resource['poseidon-layout:images/logo-black.png']}"); }
+      background-image: url("#{resource['poseidon-layout:images/logo-prism-black.png']}"); }
   .layout-wrapper.menu-layout-static .topbar .topbar-right,
   .layout-wrapper.menu-layout-overlay .topbar .topbar-right,
   .layout-wrapper.menu-layout-overlay.layout-menu-overlay-active .topbar .topbar-right {
