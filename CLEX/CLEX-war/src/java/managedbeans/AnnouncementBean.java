@@ -35,6 +35,18 @@ import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
+import facebook4j.Comment;
+import facebook4j.Facebook;
+import facebook4j.FacebookException;
+import facebook4j.FacebookFactory;
+import facebook4j.PagableList;
+import facebook4j.Post;
+import facebook4j.Reading;
+import facebook4j.ResponseList;
+import facebook4j.auth.AccessToken;
+import facebook4j.conf.Configuration;
+//import facebook4j.conf.ConfigurationBuilder;
+
 /**
  *
  * @author eeren
@@ -112,7 +124,7 @@ public class AnnouncementBean {
         }
     }
 
-    public void enterAnnouncement() throws IOException, TwitterException {
+    public void enterAnnouncement() throws IOException, TwitterException, FacebookException {
         FacesMessage fmsg = new FacesMessage();
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
@@ -147,8 +159,10 @@ public class AnnouncementBean {
                 asbl.createAdminAnnc(username, title, message, audience);
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Announcement created.", "");
                 System.out.println("Audience == " + audience);
-                if (audience.equals("1")){
-                    postToTwitter(title,message);
+                
+                if (audience.equals("1")) {
+                    postToTwitter(title, message);
+                    postToFacebook(title,message);
                 }
                 //context.getExternalContext().redirect("adminMain.xhtml"); //redirect will not show success message
                 title = "";
@@ -313,7 +327,29 @@ public class AnnouncementBean {
         String messages = title + "\n\n" + message;
         Status status = twitter.updateStatus(messages);
 
-        System.out.println("Updated status to " + status.getText());
+        System.out.println("Updated Twitter status to " + status.getText());
+    }
+
+    public void postToFacebook(String title, String message) throws FacebookException {
+        //ConfigurationBuilder cb = new ConfigurationBuilder();
+        
+        //FacebookFactory ff = new FacebookFactory((Configuration) cb.build());
+        
+        
+        facebook4j.conf.ConfigurationBuilder fac = new facebook4j.conf.ConfigurationBuilder();
+        FacebookFactory ff = new FacebookFactory(fac.build());
+        Facebook facebook = ff.getInstance();
+        String accessTokenString = "EAACEdEose0cBAONR4wnoJwBJq342hZA5bp3iNZACmzd7iVI06zpwzySQqdQcNXUxR7ahFErQ2pcZCjyMexh0MQGtmMmWj8lJaZBZAUdTnKPmN03dqWbdKKByyWwwk2j4E6AkLZCvLBFdaT6kddsxR2FIR37t02pdqmw3YXIzXEsXHU01Tc2eTj9x3vFmEO36xZBVb6c10UROTZBegVmtBmUc";
+        AccessToken at = new AccessToken(accessTokenString);
+
+        facebook.setOAuthAppId("157056298269296", "a48488cd453b77ff317270433fbd16b2");
+        facebook.setOAuthAccessToken(at);
+        facebook.setOAuthPermissions("email,publish_stream,publish_actions,manage_pages,publish_pages");
+
+        String messages = title + "\n\n" + message;
+        facebook.postStatusMessage(messages);
+
+        System.out.println("Updated Facebook status to " + messages);
     }
 
     public User getUserEntity() {
