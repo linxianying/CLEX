@@ -30,7 +30,7 @@
                         <p:ajax event="eventMove" listener="#{scheduleBean.onEventMove}" update="messages" />
                         <p:ajax event="eventResize" listener="#{scheduleBean.onEventResize}" update="messages" />
                     </p:schedule>
-                    
+
                     <p:commandButton value="Print" type="button" icon="ui-icon-print" style="margin-bottom: 20px; float: right">
                         <p:printer target="cal" />
                     </p:commandButton>
@@ -47,15 +47,12 @@
 
                     <div class="task-list">
                         <p:panel header="To Do" style="float: right; width: 24%; min-height:320px;">
-                            <p:dataList  var="todo" value="#{scheduleBean.timeslots}">
-                                <p:outputPanel autoUpdate="true">
+                                <p:dataList id="toDoList" var="todo" value="#{scheduleBean.timeslots}">
                                     <p:selectBooleanCheckbox>
-                                        <p:ajax event="change" />
-                                    </p:selectBooleanCheckbox> 
-                                    <span>#{todo.title}</span>
-                                </p:outputPanel>
-
-                            </p:dataList>
+                                        <p:ajax event="change" update="toDoList" listener="#{scheduleBean.timeslots}" />
+                                    </p:selectBooleanCheckbox>
+                                    <span id="toDo">#{todo.title}</span>                    
+                                </p:dataList>
                         </p:panel>
                     </div>
                 </p:outputPanel>

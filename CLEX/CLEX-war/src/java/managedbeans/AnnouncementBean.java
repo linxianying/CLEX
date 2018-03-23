@@ -25,6 +25,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
+import org.primefaces.context.RequestContext;
 import session.AnnouncementSessionBeanLocal;
 import session.CourseMgmtBeanLocal;
 import session.StudyPlanSessionBeanLocal;
@@ -186,9 +187,9 @@ public class AnnouncementBean {
     //updates the counter above the notification icon upon closing it
     public void setAnncViewCount() {
         System.out.println("annc size = " + getAnncSize());
-        System.out.println("username = " + username);
-        asbl.setViewAnncCount(username, getAnncSize());
-        System.out.println("view count = " + userEntity.getViewAnncCount());
+        asbl.setViewAnncCount(userEntity.getUsername(), getAnncSize());
+        userEntity.setViewAnncCount(getAnncSize());
+        System.out.println("view Count= " + userEntity.getViewAnncCount());
         setLatestCount(anncSize - userEntity.getViewAnncCount());
     }
 

@@ -13,37 +13,47 @@
 
     <ui:define name="content">
         <div class="ui-g dashboard">            
-            <div class="ui-g-12 ui-md-6 ui-lg-3">
-                <p:panel header="Menu Mode" style="min-height:160px" >
-                    <p:commandButton  value="Static Menu"  actionListener="#{guestPreferences.setMenuLayout('static')}"  action="setting?faces-redirect=true"/>
-                    <br></br><br></br>
-                    <p:commandButton  value="Overlay Menu"  actionListener="#{guestPreferences.setMenuLayout('overlay')}" action="setting?faces-redirect=true"/>
-                    <br></br><br></br>
-                    <p:commandButton  value="Horizontal Menu"  actionListener="#{guestPreferences.setMenuLayout('horizontal')}" action="setting?faces-redirect=true"/>
+            <div class="ui-g-12 ui-md-6" style="width: 35%" >
+                <p:panel header="Menu Mode" style="min-height:150px" >
+                    <h:panelGrid columns="3">
+                        <p:commandButton  value="Static"  actionListener="#{guestPreferences.setMenuLayout('static')}"  action="setting?faces-redirect=true"/>
+
+                        <p:commandButton  value="Overlay"  actionListener="#{guestPreferences.setMenuLayout('overlay')}" action="setting?faces-redirect=true"/>
+
+                        <p:commandButton  value="Horizontal"  actionListener="#{guestPreferences.setMenuLayout('horizontal')}" action="setting?faces-redirect=true"/>
+                    </h:panelGrid>
                 </p:panel>
             </div>
-            <div class="ui-g-12 ui-md-6 ui-lg-3">
-                <p:panel header="Change Theme" style="min-height:160px" >
-                    <p:commandButton value="Turquoise Theme"  actionListener="#{guestPreferences.setTheme('turquoise')}" styleClass="turquoise-btn raised-btn" action="setting?faces-redirect=true"/>
-                    <br></br><br></br>
-                    <p:commandButton value="Blue Theme"  actionListener="#{guestPreferences.setTheme('blue')}" styleClass="blue-btn raised-btn" action="setting?faces-redirect=true"/>
-                    <br></br><br></br>
-                    <p:commandButton value="Purple Theme"  actionListener="#{guestPreferences.setTheme('purple')}" styleClass="purple-btn raised-btn" action="setting?faces-redirect=true"/>
-                    <br></br><br></br>
-                    <p:commandButton value="Orange Theme"  actionListener="#{guestPreferences.setTheme('orange')}"  styleClass="orange-btn raised-btn" action="setting?faces-redirect=true"/>
-                    <br></br><br></br>
-                    <p:commandButton value="Pink Theme"  actionListener="#{guestPreferences.setTheme('pink')}" styleClass="pink-btn raised-btn"  action="setting?faces-redirect=true"/>
-                    <br></br><br></br>
-                    <p:commandButton value="Light Blue Theme"  actionListener="#{guestPreferences.setTheme('light-blue')}" styleClass="light-blue-btn raised-btn" action="setting?faces-redirect=true"/>
-                    <br></br><br></br>
-                    <p:commandButton value="Green Theme"  actionListener="#{guestPreferences.setTheme('green')}" styleClass="green-btn raised-btn" action="setting?faces-redirect=true"/>
-                    <br></br><br></br>
-                    <p:commandButton value="Deep Purple Theme"  actionListener="#{guestPreferences.setTheme('deep-purple')}" styleClass="deep-purple-btn raised-btn" action="setting?faces-redirect=true"/>
-                
+            <div class="ui-g-12 ui-md-6" style="width: 45%">
+                <p:panel header="Change Theme" style="min-height:150px" >
+                    <h:panelGrid columns="4">
+                        <p:commandButton value="Turquoise"  actionListener="#{guestPreferences.setTheme('turquoise')}" styleClass="turquoise-btn raised-btn" action="setting?faces-redirect=true"/>
+
+                        <p:commandButton value="Blue"  actionListener="#{guestPreferences.setTheme('blue')}" styleClass="blue-btn raised-btn" action="setting?faces-redirect=true"/>
+
+                        <p:commandButton value="Purple"  actionListener="#{guestPreferences.setTheme('purple')}" styleClass="purple-btn raised-btn" action="setting?faces-redirect=true"/>
+
+                        <p:commandButton value="Orange"  actionListener="#{guestPreferences.setTheme('orange')}"  styleClass="orange-btn raised-btn" action="setting?faces-redirect=true"/>
+
+                        <p:commandButton value="Pink"  actionListener="#{guestPreferences.setTheme('pink')}" styleClass="pink-btn raised-btn"  action="setting?faces-redirect=true"/>
+
+                        <p:commandButton value="Indigo"  actionListener="#{guestPreferences.setTheme('light-blue')}" styleClass="light-blue-btn raised-btn" action="setting?faces-redirect=true"/>
+
+                        <p:commandButton value="Green"  actionListener="#{guestPreferences.setTheme('green')}" styleClass="green-btn raised-btn" action="setting?faces-redirect=true"/>
+
+                        <p:commandButton value="Violet"  actionListener="#{guestPreferences.setTheme('deep-purple')}" styleClass="deep-purple-btn raised-btn" action="setting?faces-redirect=true"/>
+                    </h:panelGrid>
                 </p:panel>
             </div>
         </div>
-        
+
+        <style type="text/css">
+            .ui-button{
+                width: 100px;
+                margin: 10px 5px 0px 3px;
+            }
+        </style>
+
     </ui:define>
 </ui:composition>
 
