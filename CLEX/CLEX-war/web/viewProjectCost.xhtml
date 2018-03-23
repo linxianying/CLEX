@@ -37,8 +37,9 @@
                                                 <f:convertNumber pattern="#0.00" />
                                             </h:outputText>
                                             <h:outputText value=" dollars " rendered="#{l.ascCost != 0.0}"/>
-                                            <br />
+                                            <br /><br/>
                                         </ui:repeat>
+                                        <p:commandButton id="deleteButton"  value="delete" actionListener="#{viewProjectCostBean.deleteTransaction(transaction.id)}" update="@all" process="@this"/>
                                     </h:panelGrid>
                                 </p:tab>
                             </p:accordionPanel>
@@ -143,7 +144,7 @@
                         </ui:repeat>
                     </h:panelGroup>
         
-                    <p:commandButton id ="addtransactionButton" value="Add this Transaction" action="#{viewProjectCostBean.addTransaction()}" update="projectCostForm:transactions projectCostForm:balance projectCostForm:addtransaction"/> 
+                    <p:commandButton id ="addtransactionButton" value="Add this Transaction" action="#{viewProjectCostBean.addTransaction()}" update="@all"/> 
                 </h:form>
             </p:panel>
         </h:form>
