@@ -22,12 +22,13 @@
             
             <p:growl id="messages" showDetail="true" />
             <div id="top" class="top">
-                <ui:insert name="top">Project Page</ui:insert>
+                <h3><ui:insert name="top">My Projects</ui:insert></h3>
             </div>
             <br />
             <div>
                 <div id="content" class="left_content">
   
+                    
                     <ui:repeat var="m" value="#{projectBean.takingModules}">
                         <p:column>
                             <p:panel header="#{m.course.moduleCode}">

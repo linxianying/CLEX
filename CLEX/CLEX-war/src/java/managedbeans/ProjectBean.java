@@ -63,15 +63,16 @@ public class ProjectBean {
         //for test purpose only
         //this.username="namename";
         //this.student = csbl.findStudent(username);
-        
+        System.out.println("ProjectBean start initialization");
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
         
         student = (Student) session.getAttribute("user");
         username = student.getUsername();
         
-        takingModules = psbl.getTakingModules(username);
+        takingModules = psbl.getTakingModules(student);
         this.setCurrentYearSem();
+        System.out.println("ProjectBean Finish initialization");
     }  
 
     
@@ -194,7 +195,7 @@ public class ProjectBean {
             currentSem = "1";
         }
         currentYear = Integer.toString(year);
-        System.out.println("projectBean: Current Year:" + currentYear + ", current sem:" + currentSem);
+        //System.out.println("projectBean: Current Year:" + currentYear + ", current sem:" + currentSem);
     }
     
     public boolean hasProjectGroup(String moduleCode) {

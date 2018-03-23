@@ -10,7 +10,7 @@
         <title>PRISM Project Cost</title>
     </h:head>
      <ui:define name="content">
-        <h:form>
+        <h:form id="projectCostForm">
             <h:outputText value="You group has no transactions yet" rendered="#{empty viewProjectCostBean.sortedTransactions}"/>
             <p:panel collapsed="false" styleClass="menuHeader" id="transactions" header="Transactions" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px" rendered="#{not empty viewProjectCostBean.sortedTransactions}">
                 <h:panelGrid columns="1" width="1000px">
@@ -79,6 +79,77 @@
                     </p:column>
                 </h:panelGrid>
             </p:panel>
+            
+            <p:panel collapsed="false" styleClass="menuHeader" id="addtransaction" header="Add new transaction" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
+                <!--<p:commandButton value="add new transaction"  action="projectCost?faces-redirect=true"/>-->
+                <h:form id="addTrsanctionForm">
+                    Add an transaction: <br />
+                    <h:outputText value="Activity: " /> 
+                    <p:inputText id="activity" value="#{viewProjectCostBean.activity}" required="true"/>
+                    <br />
+                    <h:outputText value="Total Cost: " /> 
+                    <p:inputText id="totalCost" value="#{viewProjectCostBean.totalCost}" required="true"/>
+                    <br />
+
+                    <h:outputText value="Paid by " /> 
+                    <p:selectOneMenu id="paidBy" value="#{viewProjectCostBean.paidBy}" >
+                        <p:ajax event="change" update="individualPayer multiplePayers"  />
+                        <f:selectItem itemLabel="Individual" itemValue="Individual"/>
+                        <f:selectItem itemLabel="Multiple People" itemValue="Multiple People"/>
+                    </p:selectOneMenu>
+                    <br />
+                    <h:panelGroup id="individualPayer">
+                    <p:selectOneMenu value="#{viewProjectCostBean.individualPayerId}" rendered="#{viewProjectCostBean.paidBy == 'Individual'}" >
+                        <f:selectItems value="#{viewProjectCostBean.groupMembers}" var="student" itemLabel="#{student}" itemValue="#{student.id}"/> 
+                    </p:selectOneMenu>
+                    </h:panelGroup>
+
+                    <h:panelGroup id="multiplePayers" >
+                        <h:outputText value="Enter amount each member paid" rendered="#{viewProjectCostBean.paidBy == 'Multiple People'}"/>
+                        <br />
+                        <ui:repeat value="#{viewProjectCostBean.all}" var="payer" rendered="#{viewProjectCostBean.paidBy == 'Multiple People'}"> 
+                            <h:outputText value="#{payer.student}"/>
+                            <p:inputText value="#{payer.pay}"/>
+                            <br />
+                        </ui:repeat>
+                    </h:panelGroup>
+                    <br />
+                    <h:outputText value="Split by " /> 
+                    <p:selectOneMenu id="splitBy" value="#{viewProjectCostBean.splitBy}" >
+                        <p:ajax event="change" update="exactAmount percentage"  />
+                        <f:selectItem itemLabel="Equally" itemValue="Equally"/>
+                        <f:selectItem itemLabel="Exact Amount" itemValue="Exact Amount"/>
+                        <f:selectItem itemLabel="Percentage" itemValue="Percentage"/>
+                    </p:selectOneMenu>
+                    <br />
+                    <h:panelGroup id="exactAmount">
+                        <h:outputText value="Enter the eact amount each member paid" rendered="#{viewProjectCostBean.splitBy == 'Exact Amount'}"/>
+                        <br />
+                        <ui:repeat value="#{viewProjectCostBean.all}" var="payee" rendered="#{viewProjectCostBean.splitBy == 'Exact Amount'}"> 
+                            <h:outputText value="#{payee.student}"/>
+                            <p:inputText value="#{payee.cost}"/>
+                            <br />
+                        </ui:repeat>
+                    </h:panelGroup>
+
+                    <h:panelGroup id="percentage" >
+                        <h:outputText value="Enter the percentage each member paid" rendered="#{viewProjectCostBean.splitBy == 'Percentage'}"/>
+                        <br />
+                        <ui:repeat value="#{viewProjectCostBean.all}" var="payee" rendered="#{viewProjectCostBean.splitBy == 'Percentage'}"> 
+                            <h:outputText value="#{payee.student}"/>
+                            <p:inputText value="#{payee.cost}" />
+                            <h:outputText value="%"/>
+                            <br />
+                        </ui:repeat>
+                    </h:panelGroup>
+        
+                    <p:commandButton id ="addtransactionButton" value="Add this Transaction" action="#{viewProjectCostBean.addTransaction()}" update="projectCostForm:transactions projectCostForm:balance projectCostForm:addtransaction"/> 
+                </h:form>
+            </p:panel>
+        </h:form>
+         
+         <h:form id="initializePageDataForm">
+            <p:remoteCommand name="initializePageDataCommand" autoRun="true" action="#{viewProjectCostBean.init()}" update="projectCostForm"/>
         </h:form>
     </ui:define>
 </ui:composition>
