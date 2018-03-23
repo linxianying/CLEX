@@ -68,11 +68,11 @@
                             </a>
                         </li>
                         <li role="menuitem">
-                            <a href="#" onclick="PF('dlg1').show();">
+                            <a href="#" onclick="PF('unlockDlg').show();">
                                 <i class="fa fa-fw fa-lock"></i>
                                 <span>Lock Screen</span>
-                                <p:confirmDialog message="Your Screen is now locked." widgetVar="dlg1" global="true" showEffect="fade" hideEffect="fade">
-                                    <p:commandButton value="Unlock" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-unlocked" />
+                                <p:confirmDialog message="Your Screen is now locked." widgetVar="unlockDlg" global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="Unlock" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-unlocked" onclick="PF('unlockDlg').hide();"/>
                                 </p:confirmDialog>
                             </a>
                         </li>
