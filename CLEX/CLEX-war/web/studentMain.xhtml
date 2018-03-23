@@ -77,40 +77,14 @@
                         <p:panel header="Tasks" style="min-height:320px">
                             <ul>
                                 <li>
-                                    <p:selectBooleanCheckbox />
-                                    <span class="task-name">Sales Reports</span>
-                                    <i class="fa fa-briefcase"></i>
-                                </li>
-                                <li>
-                                    <p:selectBooleanCheckbox />
-                                    <span class="task-name">Pay Invoices</span>
-                                    <i class="fa fa-credit-card"></i>
-                                </li>
-                                <li>
-                                    <p:selectBooleanCheckbox />
-                                    <span class="task-name">Dinner with Tony</span>
-                                    <i class="fa fa-cutlery"></i>
-                                </li>
-                                <li>
-                                    <p:selectBooleanCheckbox />
-                                    <span class="task-name">Client Meeting</span>
-                                    <i class="fa fa-user"></i>
-                                </li>
-                                <li>
-                                    <p:selectBooleanCheckbox />
-                                    <span class="task-name">New Theme</span>
-                                    <i class="fa fa-paint-brush"></i>
-                                </li>
-                                <li>
-                                    <p:selectBooleanCheckbox />
-                                    <span class="task-name">Flight Ticket</span>
-                                    <i class="fa fa-fighter-jet"></i>
-                                </li>
-                                <li>
-                                    <p:selectBooleanCheckbox />
-                                    <span class="task-name">Generate Charts</span>
-                                    <i class="fa fa-area-chart"></i>
-                                </li>
+                                    <p:dataList var="todo" value="#{scheduleBean.timeslots}">
+                                        <p:selectBooleanCheckbox>
+                                            <p:ajax event="change"  listener="#{scheduleBean.timeslots}" />
+                                        </p:selectBooleanCheckbox>
+                                        <span class="task-name">#{todo.title}</span>
+                                        <i class="fa fa-briefcase"></i>
+                                    </p:dataList>    
+                                 </li>
                             </ul>
                         </p:panel>
                     </div>
