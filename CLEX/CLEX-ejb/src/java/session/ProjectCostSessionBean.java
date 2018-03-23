@@ -67,6 +67,8 @@ public class ProjectCostSessionBean implements ProjectCostSessionBeanLocal {
         transaction = new Transaction();
         transaction.createTransaction(totalCost, date, activity, group);
         em.persist(transaction);
+        group.getTransactions().add(transaction);
+        em.merge(group);
         em.flush();
         //System.out.println("pc session bean: addTransaction");
         for(StudentCost sc: all) {
@@ -107,8 +109,8 @@ public class ProjectCostSessionBean implements ProjectCostSessionBeanLocal {
                 sortedTransactions.add(comTransaction);
             }
             Collections.sort(sortedTransactions);
-            System.out.println(sortedTransactions.size());
-            System.out.println(sortedTransactions);
+            //System.out.println(sortedTransactions.size());
+            //System.out.println(sortedTransactions);
         }
         catch(Exception e) {
             e.printStackTrace();
@@ -133,9 +135,9 @@ public class ProjectCostSessionBean implements ProjectCostSessionBeanLocal {
             assCost = 0;
             for (Ledger l: all) {
                 assCost += (l.getPay()-l.getAscCost());
-                System.out.println("For " + student.getName() + " pay " + l.getPay() + ", spend " + l.getAscCost());
+                //System.out.println("For " + student.getName() + " pay " + l.getPay() + ", spend " + l.getAscCost());
             }
-            System.out.println("balance for " + student.getName() + " in group " + group.getName() + " is " + assCost);
+            //System.out.println("balance for " + student.getName() + " in group " + group.getName() + " is " + assCost);
         }
         catch(NoResultException e){
             System.out.println("pc session bean: calculateAssCost: no ledger for " + student.getName() + " in group " + group.getName());
@@ -164,9 +166,9 @@ public class ProjectCostSessionBean implements ProjectCostSessionBeanLocal {
         
         //sort the studentBalance by totalAmount
         Collections.sort(balances);
-        System.out.println("balances: " + balances.size());
-        System.out.println(balances);
-        
+//        System.out.println("balances: " + balances.size());
+//        System.out.println(balances);
+//        
         if (!balances.isEmpty()){
         //set each student's balance
         int payerIndex = 0;
@@ -193,8 +195,8 @@ public class ProjectCostSessionBean implements ProjectCostSessionBeanLocal {
                 //set StudentBalance of the payee
                 student = payerStudentBalance.getStudent();
                 payeeStudentBalance.getPayees().put(student, amountPaid);
-                System.out.println(payerStudentBalance.getStudent().getName() + 
-                        " pays $" + amountPaid + " to " + payeeStudentBalance.getStudent().getName());
+//                System.out.println(payerStudentBalance.getStudent().getName() + 
+//                        " pays $" + amountPaid + " to " + payeeStudentBalance.getStudent().getName());
             }
             // if the payer owes money more than the payee lends, let the payer pays all the amount the payee lends to the payee
             else {
@@ -207,8 +209,8 @@ public class ProjectCostSessionBean implements ProjectCostSessionBeanLocal {
                 //set StudentBalance of the payee
                 student = payerStudentBalance.getStudent();
                 payeeStudentBalance.getPayees().put(student, amountPaid);
-                System.out.println(payerStudentBalance.getStudent().getName() + 
-                        " pays $" + amountPaid + " to " + payeeStudentBalance.getStudent().getName());
+//                System.out.println(payerStudentBalance.getStudent().getName() + 
+//                        " pays $" + amountPaid + " to " + payeeStudentBalance.getStudent().getName());
             }
             //move the iterator if the balance is zero
             if (payerBalance == 0.0)
@@ -230,15 +232,15 @@ public class ProjectCostSessionBean implements ProjectCostSessionBeanLocal {
         }
             
             //test print out
-            for (StudentBalance sb: balances) {
-                System.out.println("------------For " + sb.getStudent().getName() + "------------");
-                HashMap<Student, Double> all = sb.getPayees();
-                for (Student s: all.keySet()){
-                    String key = s.getName();
-                    String value = Double.toString(all.get(s));  
-                    System.out.println(key + " " + value);  
-                } 
-            }
+//            for (StudentBalance sb: balances) {
+//                System.out.println("------------For " + sb.getStudent().getName() + "------------");
+//                HashMap<Student, Double> all = sb.getPayees();
+//                for (Student s: all.keySet()){
+//                    String key = s.getName();
+//                    String value = Double.toString(all.get(s));  
+//                    System.out.println(key + " " + value);  
+//                } 
+//            }
         }
         
         //add the zeroBalances arraylist (zeroBalances, payees is empty)

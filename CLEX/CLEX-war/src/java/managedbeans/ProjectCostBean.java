@@ -72,19 +72,19 @@ public class ProjectCostBean implements Serializable {
         //group = csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2"));
         //groupMembers = group.getGroupMembers();
         
-        
+        System.out.println("ProjectCostBean start initialization");
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
         group = (ProjectGroup) session.getAttribute("projectGroup");
         groupMembers = group.getGroupMembers();
         //testGroupMembers = new ArrayList<Student>();
         //testGroupMembersName = new ArrayList<String>();
-        this.setOriStudentCost();
+//        this.setOriStudentCost();
         module = (Module) session.getAttribute("module");
         paidBy = "Individual";
         splitBy = "Equally";
         this.setOriStudentCost();
-        System.out.println("Finish initialization");
+        System.out.println(" ProjectCostBean Finish initialization");
     }
 
     public FacesContext getContext() {
@@ -282,7 +282,12 @@ public class ProjectCostBean implements Serializable {
             sc.setPay(0.0);
             sc.setCost(0.0);
         }
-        
+        try {
+            context.getExternalContext().redirect("viewProjectCost.xhtml");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
     }
     
     //for test purpose

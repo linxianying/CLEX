@@ -33,20 +33,17 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
     private ProjectGroup projectGroup;
     
     @Override
-    public ArrayList<Module> getTakingModules(String username) {
+    public ArrayList<Module> getTakingModules(Student student) {
         Collection<Module> all = new ArrayList<Module>();
         takingModules = new ArrayList<Module>();
-        this.student = findStudent(username);
-        all = this.student.getModules();
+        all = student.getModules();
         int currentSem = 0;
         int numOfSemTaken = 0;
         //get current year and sem
         Calendar now = Calendar.getInstance();
         int currentYear = now.get(Calendar.YEAR);
-        System.out.println("Current Year is : " + currentYear);
         // month starts from 0 to 11
         int currentMonth = now.get(Calendar.MONTH);
-        System.out.println("Current Month is : " + now.get(Calendar.MONTH));
         if (currentMonth < 6) {
             currentSem = 2;
             currentYear--;
@@ -63,29 +60,9 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
                 }
             }
         }
-        System.out.println("StudyPlanSessionbean: getTakenModules: student:" 
-                + username + "'s takingModules:" + takingModules.size());
         return takingModules;
     }
     
-    @Override
-    public Student findStudent(String username) {
-        Student u = new Student();
-        u = null;
-        try{
-            Query q = em.createQuery("SELECT u FROM Student u WHERE u.username=:username");
-            q.setParameter("username", username);
-            u = (Student) q.getSingleResult();
-            System.out.println("Student " + username + " found.");
-        }
-        catch(NoResultException e){
-            System.out.println("Student " + username + " does not exist.");
-            u = null;
-        }
-        this.username = username;
-        this.student = u;
-        return student;
-    }
     
     //check the status of a student's module group
     //return a type to indicate the status of the group 

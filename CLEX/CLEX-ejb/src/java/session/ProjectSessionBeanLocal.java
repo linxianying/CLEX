@@ -18,15 +18,21 @@ import javax.ejb.Local;
 @Local
 public interface ProjectSessionBeanLocal {
 
-    public ArrayList<Module> getTakingModules(String username);
-
-    public Student findStudent(String username);
+    /**
+     *
+     * @param student
+     * @return
+     */
+    
 
     public String checkModuleGroup(Student student, Module module);
 
     public boolean checkStudentProjectGroup(Student student, Module module);
 
     public ProjectGroup getStudentProjectGroup(Student student, Module module);
+
+    public ArrayList<Module> getTakingModules(Student student);
+
 
     
 }
