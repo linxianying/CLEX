@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -68,6 +69,7 @@ public class ToDoTimelineBean {
     private String username;
     private String userType;
     private Collection<Task> tasks;
+    private List<Task> ta = new ArrayList<Task>();
     
     FacesContext context;
     HttpSession session;
@@ -78,6 +80,7 @@ public class ToDoTimelineBean {
         session = (HttpSession) context.getExternalContext().getSession(true);
         studentEntity = (Student) session.getAttribute("user");
         username = studentEntity.getUsername();
+        
         
         model = new TimelineModel();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -94,6 +97,8 @@ public class ToDoTimelineBean {
                 Iterator<Task> itr = tasks.iterator();
                 while(itr.hasNext()){
                     Task t = itr.next();
+                    if(t.getStatus().equals("unfinished"))
+                        ta.add(t);
                     model.add(new TimelineEvent(t.getTitle(), df.parse(t.getDeadline())));
                     //System.out.println("Timeline: " + t.getTitle() + " " + t.getDeadline());
                 }
@@ -263,6 +268,14 @@ public class ToDoTimelineBean {
 
     public void setTask(int task) {
         this.task = task;
+    }
+
+    public List<Task> getTa() {
+        return ta;
+    }
+
+    public void setTa(List<Task> ta) {
+        this.ta = ta;
     }
     
     

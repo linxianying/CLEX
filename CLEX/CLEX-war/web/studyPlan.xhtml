@@ -8,13 +8,13 @@
                 xmlns:p="http://primefaces.org/ui" 
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-    
+
     <ui:define name="title">PRISM Student Study Plan Page</ui:define>
 
     <ui:define name="viewname">Study Plan</ui:define>
-    
+
     <ui:define name="content">
-        
+
         <h:body>
             <p:growl id="updateErrorMsg" showDetail="true" />
             <p:growl id="addErrorMsg" showDetail="true" />
@@ -89,7 +89,9 @@
                                     </h:panelGroup>
                                 </p:fieldset>
                                 <h:form id="addForm">
-                                    <h3>Add a new study plan entry * :</h3>
+                                    <br/>
+                                    <p:commandLink value="Add a new study plan entry * :" onclick="PF('disclaim').show()" style="font-size: 1.2em"/>
+
                                     <p:panelGrid columns="2" style="border: none">
                                         <p:panelGrid columns="2">
                                             <p:outputLabel id="viewLabel" for="moduleCode" value="Module Code:" >
@@ -106,7 +108,7 @@
 
                                             <p:inputText id="addPickYearLabel" value="#{studyPlanBean.addPickYear}" required="true"/>
 
-                                            <p:outputLabel value="Semester **: " />
+                                            <p>Semester<sup>+</sup>:</p>
                                             <p:selectOneButton id="addPickSemLabel" value="#{studyPlanBean.addPickSem}" required="true">
                                                 <f:selectItem itemLabel="1" itemValue="1" />
                                                 <f:selectItem itemLabel="2" itemValue="2" />
@@ -148,16 +150,23 @@
                             <br />
                             <br />
                             <br />
-                            <h5>
-                                <p>* IMPORTANT: PRISM does not check for prerequisites and/or preclusion.</p>
-                                <p>It is YOUR responsibility to ensure that you meet the requirements before adding a module.</p>    
-                                <br />
-                                <p>** IMPORTANT: PRISM will automatically select the semester offered for the module.</p>
-                                <p>Nothing will be selected if no such information is available or if the module is offered in both semesters.</p>
-                                <p>It is YOUR responsibility to check if module is available in the semester and year you plan to add to.</p>
-                                <br />
-                                <p>PRISM will not be responsible for any lapses found in your academic plans.</p>
-                            </h5>
+
+                            <p:dialog header="DISCLAIMER" widgetVar="disclaim" modal="true" minHeight="40" draggable="false">
+                                <h:outputText value="* IMPORTANT: PRISM does not check for prerequisites and/or preclusion."/>
+                                <br/><br/>
+                                <h:outputText value="It is YOUR responsibility to ensure that you meet the requirements before adding a module."/>
+                                <br/><br/><br/>
+                                <h:outputText value="+ IMPORTANT: PRISM will automatically select the semester offered for the module."/> 
+                                <br/><br/>
+                                <h:outputText value="Nothing will be selected if no such information is available or if the module is offered in both semesters."/>
+                                <br/><br/>
+                                <h:outputText value="It is YOUR responsibility to check if module is available in the semester and year you plan to add to."/>
+                                <br/><br/><br/>
+                                <h:outputText value="PRISM will not be responsible for any lapses found in your academic plans."/>
+                                <br/><br/><hr/>
+                                <p:commandButton style="float:right;" value="Ok, I got it" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-check" onclick="PF('disclaim').hide()"/>
+                            </p:dialog>
+
                         </p:tab>
                         <p:tab title="Current">
                             <h:form id="modulesTakingForm">
@@ -291,7 +300,6 @@
                         <p:tab title="Overview">
                             <h:outputText value="You have not taken any modules before" rendered="#{empty studyPlanBean.student.grades}"/>       
                             <p:fieldset >
-
                                 <br></br>
                                 <h:outputText value="&#34;Disclaimer: This report is not an official transcript of your academic records." />
                                 <br></br>
@@ -420,5 +428,6 @@
                 </div>
             </div>
         </h:body>
+
     </ui:define>
 </ui:composition>
