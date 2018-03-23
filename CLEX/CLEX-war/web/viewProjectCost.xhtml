@@ -24,7 +24,7 @@
                                             <h:outputText value="#{transaction.date}">
                                                 <f:convertDateTime pattern="dd-MM-yyyy" />
                                             </h:outputText>
-<<<<<<< HEAD
+<!--<<<<<<< HEAD
                                             <h:outputText value=" dollars " rendered="#{l.pay != 0.0}"/>
                                             <h:outputText value="  and  " rendered="#{l.pay != 0.0 and l.ascCost != 0.0}"/>
                                             <h:outputText value=" owes " rendered="#{l.ascCost != 0.0}"/>
@@ -64,8 +64,8 @@
                                 <h:outputText value=" to #{balance.student.name}" rendered="#{balance.totalAmount gt 0}"/>
                                 
                                 <h:outputText value="#{balance.student.name} owes $" rendered="#{balance.totalAmount lt 0}"/>
-                                <h:outputText value="#{payee.value}" rendered="#{balance.totalAmount lt 0}">
-=======
+                                <h:outputText value="#{payee.value}" rendered="#{balance.totalAmount lt 0}">-->
+<!--=======-->
                                             <br />
                                             <ui:repeat var="l" value="#{transaction.ledgers}">
                                                 <h:outputText value="#{l.student.name}" />
@@ -98,7 +98,7 @@
                                 <h:outputText value="owes $" rendered="#{balance.totalAmount lt 0}"/>
                                 <h:outputText value="gets back $" rendered="#{balance.totalAmount gt 0}"/>
                                 <h:outputText value="#{(balance.totalAmount lt 0) ? -balance.totalAmount : balance.totalAmount}" rendered="#{balance.totalAmount ne 0}">
->>>>>>> 702334bbc249d9e9e89a0d511bf6c086070dd860
+<!-->>>>>>> 702334bbc249d9e9e89a0d511bf6c086070dd860-->
                                     <f:convertNumber pattern="#0.00" />
                                 </h:outputText>
                                 <h:outputText value=" in total" rendered="#{balance.totalAmount ne 0}"/>
@@ -177,14 +177,14 @@
                         <h:panelGroup id="percentage" >
                             <h:outputText value="Enter the percentage each member paid" rendered="#{viewProjectCostBean.splitBy == 'Percentage'}"/>
                             <br />
-<<<<<<< HEAD
-                        </ui:repeat>
+<!--<<<<<<< HEAD-->
+<!--                        </ui:repeat>
                     </h:panelGroup>
         
                     <p:commandButton id ="addtransactionButton" value="Add this Transaction" action="#{viewProjectCostBean.addTransaction()}" update="@all"/> 
                 </h:form>
-            </p:panel>
-=======
+            </p:panel>-->
+<!--=======-->
                             <ui:repeat value="#{viewProjectCostBean.all}" var="payee" rendered="#{viewProjectCostBean.splitBy == 'Percentage'}"> 
                                 <h:outputText value="#{payee.student}"/>
                                 <p:inputText value="#{payee.cost}" />
@@ -197,7 +197,7 @@
                     </h:form>
                 </p:fieldset>
             </p:outputPanel>
->>>>>>> 702334bbc249d9e9e89a0d511bf6c086070dd860
+<!-->>>>>>> 702334bbc249d9e9e89a0d511bf6c086070dd860-->
         </h:form>
         <h:form id="initializePageDataForm">
             <p:remoteCommand name="initializePageDataCommand" autoRun="true" action="#{viewProjectCostBean.init()}" update="projectCostForm"/>
