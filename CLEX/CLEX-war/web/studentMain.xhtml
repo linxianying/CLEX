@@ -74,14 +74,14 @@
                     </p:panel>
                     </div>
                     <div class="ui-g-12 ui-md-4 task-list">
-                        <p:panel header="Tasks" style="min-height:320px">
+                        <p:panel header="Unfinished Tasks" style="min-height:320px">
                             <ul>
                                 <li>
-                                    <p:dataList var="todo" value="#{scheduleBean.timeslots}">
+                                    <p:dataList var="task" value="#{toDoTimelineBean.ta}">
                                         <p:selectBooleanCheckbox>
-                                            <p:ajax event="change"  listener="#{scheduleBean.timeslots}" />
+                                            <p:ajax event="change"  listener="#{toDoTimelineBean.ta}" />
                                         </p:selectBooleanCheckbox>
-                                        <span class="task-name">#{todo.title}</span>
+                                        <span class="task-name">#{task.title}</span>
                                         <i class="fa fa-briefcase"></i>
                                     </p:dataList>    
                                  </li>

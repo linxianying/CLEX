@@ -60,6 +60,7 @@ public class TasksBean {
     private String userType;
     private Collection<Task> tasks;
     
+    
     FacesContext context;
     HttpSession session;
     FacesMessage fmsg;
