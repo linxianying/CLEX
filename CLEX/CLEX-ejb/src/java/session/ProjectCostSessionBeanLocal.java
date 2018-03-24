@@ -9,6 +9,8 @@ import entity.Ledger;
 import entity.ProjectGroup;
 import entity.Transaction;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import javaClass.ComparableTransaction;
 import javaClass.StudentBalance;
 import javaClass.StudentCost;
@@ -24,7 +26,6 @@ public interface ProjectCostSessionBeanLocal {
     public void addTransaction(ArrayList<StudentCost> all, String activity, double totalCost, ProjectGroup group);
 
     public ArrayList<ComparableTransaction> getSortedTransactions(ProjectGroup group);
-    
 
     public ArrayList<StudentBalance> getAllStudentBalance(ProjectGroup group);
 
@@ -34,5 +35,8 @@ public interface ProjectCostSessionBeanLocal {
 
     public Ledger findLedgerById(Long id);
 
-    
+    public List<Transaction> getAllTransactions(ProjectGroup group);
+
+    public List<Transaction> sortTransByDate(List<Transaction> transactions);
+
 }

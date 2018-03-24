@@ -6,7 +6,7 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 template="/WEB-INF/template.xhtml">
-<h:head>
+    <h:head>
         <title>PRISM Project Cost</title>
     </h:head>
     <ui:define name="content">
@@ -15,37 +15,55 @@
             <p:outputPanel style="float: left; width: 75%;min-height: 200%" id="transactions">
                 <h:outputText value="You group has no transactions yet" rendered="#{empty viewProjectCostBean.sortedTransactions}"/>
                 <p:fieldset legend="#{viewProjectCostBean.module.course.moduleCode} Group #{viewProjectCostBean.group.name} - Transactions" toggleable="true" collapsed="false">
-                    <h:panelGrid columns="1" width="60%">
-                        <p:column>
-                            <p:dataList value="#{viewProjectCostBean.sortedTransactions}" var="transaction">
-                                <p:tab  title="#{transaction.activity}">
-                                    <h:panelGrid>
-                                        <h:outputText value="Date: "/>
-                                        <h:outputText value="#{transaction.date}">
-                                            <f:convertDateTime pattern="dd-MM-yyyy" />
-                                        </h:outputText>
-                                        <br />
-                                        <ui:repeat var="l" value="#{transaction.ledgers}">
-                                            <h:outputText value="#{l.student.name}" />
-                                            <h:outputText value=" paid " rendered="#{l.pay != 0.0}"/>
-                                            <h:outputText value="#{l.pay}" rendered="#{l.pay != 0.0}">
-                                                <f:convertNumber pattern="#0.00" />
-                                            </h:outputText>
-                                            <h:outputText value=" dollars " rendered="#{l.pay != 0.0}"/>
-                                            <h:outputText value="  and  " rendered="#{l.pay != 0.0 and l.ascCost != 0.0}"/>
-                                            <h:outputText value=" owes " rendered="#{l.ascCost != 0.0}"/>
-                                            <h:outputText value="#{l.ascCost}" rendered="#{l.ascCost != 0.0}">
-                                                <f:convertNumber pattern="#0.00" />
-                                            </h:outputText>
-                                            <h:outputText value=" dollars " rendered="#{l.ascCost != 0.0}"/>
-                                            <br />
-                                        </ui:repeat>
-                                        <p:commandButton id="deleteButton"  value="delete" actionListener="#{viewProjectCostBean.deleteTransaction(transaction.id)}" update="@all" process="@this"/>
-                                    </h:panelGrid>
-                                </p:tab>
+                    <h:panelGrid columns="2" width="60%">
 
-                            </p:dataList>
-                        </p:column>
+                        <p:dataTable selectionMode="single" selection="#{viewProjectCostBean.selectedTransaction}" rowKey="#{transaction.id}"
+                                     id="transactiontable"
+                                     editable="true" editMode="cell" 
+                                     emptyMessage="No transactions found."                                          
+                                     paginator="true" paginatorAlwaysVisible="false"
+                                     rows="10" style="width: 50%"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,20,30" 
+                                     value="#{viewProjectCostBean.transactions}" var="transaction">
+                            
+                            <p:column style="border: none !important;">
+                                <h:outputLabel value="#{transaction.activity}" />
+                                <h:outputLabel value=" - #{transaction.date}" >
+                                    <f:convertDateTime pattern="dd-MM-yyyy" />
+                                </h:outputLabel>
+                            </p:column>
+
+                        </p:dataTable>
+                        <p:commandButton actionListener="#{viewProjectCostBean.printOut}" value="printout backend for render test"/>
+                        <h:outputText value="Here: #{viewProjectCostBean.selectedTransaction.cost}"/>
+
+<!--<p:tab  title="#{transaction.activity}">
+        <h:panelGrid>
+            <h:outputText value="Date: "/>
+            <h:outputText value="#{transaction.date}">
+                <f:convertDateTime pattern="dd-MM-yyyy" />
+            </h:outputText>
+            <br />
+            <ui:repeat var="l" value="#{transaction.ledgers}">
+                <h:outputText value="#{l.student.name}" />
+                <h:outputText value=" paid " rendered="#{l.pay != 0.0}"/>
+                <h:outputText value="#{l.pay}" rendered="#{l.pay != 0.0}">
+                    <f:convertNumber pattern="#0.00" />
+                </h:outputText>
+                <h:outputText value=" dollars " rendered="#{l.pay != 0.0}"/>
+                <h:outputText value="  and  " rendered="#{l.pay != 0.0 and l.ascCost != 0.0}"/>
+                <h:outputText value=" owes " rendered="#{l.ascCost != 0.0}"/>
+                <h:outputText value="#{l.ascCost}" rendered="#{l.ascCost != 0.0}">
+                    <f:convertNumber pattern="#0.00" />
+                </h:outputText>
+                <h:outputText value=" dollars " rendered="#{l.ascCost != 0.0}"/>
+                <br />
+            </ui:repeat>
+            <p:commandButton id="deleteButton"  value="delete" actionListener="#{viewProjectCostBean.deleteTransaction(transaction.id)}" update="@all" process="@this"/>
+        </h:panelGrid>
+    </p:tab>-->
+
                     </h:panelGrid>
                 </p:fieldset>
             </p:outputPanel>
