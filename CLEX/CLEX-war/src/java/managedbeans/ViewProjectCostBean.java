@@ -16,6 +16,7 @@ import javaClass.StudentBalance;
 import javaClass.StudentCost;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -271,59 +272,58 @@ public class ViewProjectCostBean {
     
     
     public void addTransaction() {
-        System.out.println("Strat to add transaction");
-        System.out.println("activity=" + this.activity);
-        System.out.println("totalcost=" + this.totalCost);
-        System.out.println("individual payer ID = " + individualPayerId);
-
-        for (StudentCost sc: all) {
-            System.out.println(sc.toString());
-            System.out.println(" ");
-        }
-        //if paid by individual
-        if (paidBy.equals("Individual")) {
-            // find the individualPayer in the payer arrayList and assign total cost to it
-            System.out.println("It is paid by individual");
-            for (StudentCost sc: all) {
-                if (sc.getStudent().getId().equals(individualPayerId)) {
-                    System.out.println(sc.getStudent().getName() + "find");
-                    sc.setPay(totalCost);
+//        System.out.println("Strat to add transaction");
+//        System.out.println("activity=" + this.activity);
+//        System.out.println("totalcost=" + this.totalCost);
+//        System.out.println("individual payer ID = " + individualPayerId);
+//
+//        for (StudentCost sc: all) {
+//            System.out.println(sc.toString());
+//            System.out.println(" ");
+//        }
+        if (addTransactionValidator()) {
+            //if paid by individual
+            if (paidBy.equals("Individual")) {
+                // find the individualPayer in the payer arrayList and assign total cost to it
+                System.out.println("It is paid by individual");
+                for (StudentCost sc: all) {
+                    if (sc.getStudent().getId().equals(individualPayerId)) {
+                        System.out.println(sc.getStudent().getName() + "find");
+                        sc.setPay(totalCost);
+                    }
                 }
             }
-        }
-        // no need to set anything if paid by multiple people
-        //if split equally 
-        if (splitBy.equals("Equally")) {
-            cost = totalCost/getGroupMembers().size();
-            for (StudentCost sc: all) 
-                sc.setCost(cost);
-        }
-        //if split by percentage 
-        else if (splitBy.equals("Percentage")) {
-            for (StudentCost sc: all) {
-                cost = totalCost*sc.getCost()/100;
-                sc.setCost(cost);
+            // no need to set anything if paid by multiple people
+            //if split equally 
+            if (splitBy.equals("Equally")) {
+                cost = totalCost/getGroupMembers().size();
+                for (StudentCost sc: all) 
+                    sc.setCost(cost);
             }
+            //if split by percentage 
+            else if (splitBy.equals("Percentage")) {
+                for (StudentCost sc: all) {
+                    cost = totalCost*sc.getCost()/100;
+                    sc.setCost(cost);
+                }
+            }
+            System.out.println("activity=" + this.activity);
+            System.out.println("totalcost=" + this.totalCost);
+            System.out.println("all=" + this.all.toString());
+            pcsbl.addTransaction(all, activity, totalCost, group);
+
+            sortedTransactions = pcsbl.getSortedTransactions(group);
+            //System.out.println("After add transaction: sortedTransactions size: " + sortedTransactions.size());
+            balances = pcsbl.getAllStudentBalance(group);
+            this.setOriStudentCost();
+            activity = null;
+            totalCost = 0.0;
+            paidBy = "Individual";
+            splitBy = "Equally";
         }
-        System.out.println("activity=" + this.activity);
-        System.out.println("totalcost=" + this.totalCost);
-        System.out.println("all=" + this.all.toString());
-        pcsbl.addTransaction(all, activity, totalCost, group);
-        
-        //initialize 
-        for (StudentCost sc: all) {
-            sc.setPay(0.0);
-            sc.setCost(0.0);
+        else {
+            System.out.println("Msg posted");
         }
-        
-        sortedTransactions = pcsbl.getSortedTransactions(group);
-        //System.out.println("After add transaction: sortedTransactions size: " + sortedTransactions.size());
-        balances = pcsbl.getAllStudentBalance(group);
-        this.setOriStudentCost();
-        activity = null;
-        totalCost = 0.0;
-        paidBy = "Individual";
-        splitBy = "Equally";
     }
     
     public void deleteTransaction(Long deletedTransactionId) {
@@ -339,6 +339,73 @@ public class ViewProjectCostBean {
         totalCost = 0.0;
         paidBy = "Individual";
         splitBy = "Equally";
+    }
+    
+    public boolean addTransactionValidator() {
+        context = FacesContext.getCurrentInstance();
+        FacesMessage fmsg = new FacesMessage();
+        
+        double totalPaidBy = 0;
+        double totalCostBy = 0;
+        double difference = 0;
+        double totalPercentage = 0;
+        
+        for (StudentCost sc: all) {
+                totalPaidBy += sc.getPay();
+                totalCostBy += sc.getCost();
+            }
+        
+        if (paidBy.equals("Multiple People")) {
+            if (totalPaidBy > totalCost) {
+                difference = totalPaidBy - totalCost;
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wrong input", "The total amount paid is "
+                        + difference +" dollars more than the total cost!");
+                context.addMessage(null, fmsg);
+                return false;
+            }
+            else {
+                difference = totalCost - totalPaidBy;
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wrong input", "The total amount paid is "
+                        + difference +" dollars less than the total cost!");
+                context.addMessage(null, fmsg);
+                return false;
+            }
+        }
+        
+        if (splitBy.equals("Percentage")&&(totalCostBy != 100.00)) {
+            if (totalCostBy > 100) {
+                difference = totalCostBy-100;
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wrong input", "The total amount percentage cost is "
+                        + difference +" % more than 100%!");
+                context.addMessage(null, fmsg);
+                return false;
+            }
+            else if (totalCostBy < 100){
+                difference = 100-totalCostBy;
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wrong input", "The total amount percentage cost is "
+                        + difference +" % less than 100%!");
+                context.addMessage(null, fmsg);
+                return false;
+            }
+        }
+        else if (splitBy.equals("Exact Amount")) {
+            if (totalCostBy > totalCost) {
+                difference = totalCostBy-totalCost;
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wrong input", "The total amount cost by members is "
+                        + difference +" dollars more than total cost!");
+                context.addMessage(null, fmsg);
+                return false;
+            }
+            else if (totalCostBy < totalCost) {
+                difference = totalCost-totalCostBy;
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wrong input", "The total amount cost by members is "
+                        + difference +" dollars less than total cost!");
+                context.addMessage(null, fmsg);
+                return false;
+            }
+        }
+        
+        return true;
     }
     
 }

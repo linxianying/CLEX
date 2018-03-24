@@ -10,6 +10,7 @@
         <title>PRISM Project Cost</title>
     </h:head>
     <ui:define name="content">
+        <p:growl id="addErrorMsg" showDetail="true" />
         <h:form id="projectCostForm">
             <p:outputPanel style="float: left; width: 75%;min-height: 200%" id="transactions">
                 <h:outputText value="You group has no transactions yet" rendered="#{empty viewProjectCostBean.sortedTransactions}"/>
@@ -82,14 +83,13 @@
                     </h:panelGrid>
                 </p:fieldset>
                 <p:fieldset collapsed="false" style="float: right; width: 24%" styleClass="menuHeader" id="addtransaction" legend="Add new transaction" toggleable="false" toggleSpeed="500" rendered="#{not empty viewProjectCostBean.sortedTransactions}">
-                    <!--<p:commandButton value="add new transaction"  action="projectCost?faces-redirect=true"/>-->
                     <h:form id="addTrsanctionForm">
                         Add an transaction: <br />
                         <h:outputText value="Activity: " /> 
                         <p:inputText id="activity" value="#{viewProjectCostBean.activity}" required="true"/>
                         <br />
                         <h:outputText value="Total Cost: " /> 
-                        <p:inputText id="totalCost" value="#{viewProjectCostBean.totalCost}" required="true"/>
+                        <p:inputNumber id="totalCost" value="#{viewProjectCostBean.totalCost}" minValue="0.01" required="true"/>
                         <br />
 
                         <h:outputText value="Paid by " /> 
@@ -110,7 +110,7 @@
                             <br />
                             <ui:repeat value="#{viewProjectCostBean.all}" var="payer" rendered="#{viewProjectCostBean.paidBy == 'Multiple People'}"> 
                                 <h:outputText value="#{payer.student}"/>
-                                <p:inputText value="#{payer.pay}"/>
+                                <p:inputNumber value="#{payer.pay}" minValue="0.00"/>
                                 <br />
                             </ui:repeat>
                         </h:panelGroup>
@@ -128,7 +128,7 @@
                             <br />
                             <ui:repeat value="#{viewProjectCostBean.all}" var="payee" rendered="#{viewProjectCostBean.splitBy == 'Exact Amount'}"> 
                                 <h:outputText value="#{payee.student}"/>
-                                <p:inputText value="#{payee.cost}"/>
+                                <p:inputNumber value="#{payee.cost}" minValue="0.00"/>
                                 <br />
                             </ui:repeat>
                         </h:panelGroup>
@@ -138,8 +138,8 @@
                             <br />
                             <ui:repeat value="#{viewProjectCostBean.all}" var="payee" rendered="#{viewProjectCostBean.splitBy == 'Percentage'}"> 
                                 <h:outputText value="#{payee.student}"/>
-                                <p:inputText value="#{payee.cost}" />
-                                <h:outputText value="%"/>
+                                <p:inputNumber value="#{payee.cost}" symbol="%" symbolPosition="s" emptyValue="zero" minValue="0.00"/>
+                                <!--<h:outputText value="%"/>-->
                                 <br />
                             </ui:repeat>
                         </h:panelGroup>
