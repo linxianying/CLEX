@@ -244,6 +244,23 @@ public class ScheduleSessionBean implements ScheduleSessionBeanLocal {
     }
     
     @Override
+    public void updateGroupTimeslot(Long id, String title, String startDate, String endDate, 
+            String details, String venue) {
+        groupTimeslotEntity = findGroupTimeslot(id);
+        if(groupTimeslotEntity != null){
+            groupTimeslotEntity.setDetails(details);
+            groupTimeslotEntity.setTimeFrom(startDate);
+            groupTimeslotEntity.setTimeEnd(endDate);
+            groupTimeslotEntity.setTitle(title);
+            groupTimeslotEntity.setVenue(venue);
+            em.merge(groupTimeslotEntity);
+            em.flush();
+        }else{
+            System.out.println("Group Timeslot "+ id +" not found");
+        }
+    }
+    
+    @Override
     public Timeslot findTimeslot(Long id){
         timeslotEntity = null;
         try{

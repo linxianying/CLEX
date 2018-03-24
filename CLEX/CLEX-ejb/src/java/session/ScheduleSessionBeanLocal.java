@@ -25,6 +25,7 @@ public interface ScheduleSessionBeanLocal {
     public DefaultScheduleEvent loadIcsFile(String path); 
     
     void updateTimeslot(Long id, String title, String startDate, String endDate, String details, String venue);
+    void updateGroupTimeslot(Long id, String title, String startDate, String endDate, String details, String venue);
 
     public Timeslot createTimeslot(String username, String title, String startDate, 
             String endDate, String details, String venue);
