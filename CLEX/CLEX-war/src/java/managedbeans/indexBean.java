@@ -173,6 +173,138 @@ public class indexBean {
         //csbl.createModule("2018", "1", "none", "none", csbl.findCourse("EE4101"));
         //csbl.createModule("2018", "1", "none", "none", csbl.findCourse("IT1007"));
         
+        
+        //set each course a module for each semester, from year 2015-1 to 2017-2
+        csbl.createModule("2015", "2", "none", "none", csbl.findCourse("CP3109"));
+        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("CP3109"));
+        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("CP3109"));
+        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("CP3109"));
+        
+        csbl.createModule("2015", "2", "none", "none", csbl.findCourse("YIR3312"));
+        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("YIR3312"));
+        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("YIR3312"));
+        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("YIR3312"));
+        
+        csbl.createModule("2015", "2", "none", "none", csbl.findCourse("LAG2201"));
+        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("LAG2201"));
+        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("LAG2201"));
+        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("LAG2201"));
+        
+        csbl.createModule("2015", "2", "none", "none", csbl.findCourse("ES1102"));
+        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("ES1102"));
+        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("ES1102"));
+        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("ES1102"));
+        
+        csbl.createModule("2015", "2", "none", "none", csbl.findCourse("CL2280"));
+        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("CL2280"));
+        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("CL2280"));
+        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("CL2280"));
+        
+        
+        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("IS3106"));
+        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("IS3106"));
+        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("IS3106"));
+        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("IS3106"));
+        
+        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("CL2281"));
+        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("CL2281"));
+        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("CL2281"));
+        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("CL2281"));
+        
+        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("PL1101E"));
+        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("PL1101E"));
+        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("PL1101E"));
+        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("PL1101E"));
+        
+        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("CM4254"));
+        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("CM4254"));
+        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("CM4254"));
+        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("CM4254"));
+        
+        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("YHU1210"));
+        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("YHU1210"));
+        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("YHU1210"));
+        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("YHU1210"));
+        
+        
+        csbl.createModule("2015", "2", "none", "none", csbl.findCourse("CS1020"));
+        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("CS1020"));
+        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("CS1020"));
+        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("CS1020"));
+        
+        csbl.createModule("2015", "2", "none", "none", csbl.findCourse("EC3551"));
+        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("EC3551"));
+        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("EC3551"));
+        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("EC3551"));
+        
+        csbl.createModule("2015", "2", "none", "none", csbl.findCourse("FIN3103A"));
+        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("FIN3103A"));
+        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("FIN3103A"));
+        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("FIN3103A"));
+        
+        csbl.createModule("2015", "2", "none", "none", csbl.findCourse("ACC1701X"));
+        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("ACC1701X"));
+        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("ACC1701X"));
+        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("ACC1701X"));
+        
+        csbl.createModule("2015", "2", "none", "none", csbl.findCourse("MS3212"));
+        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("MS3212"));
+        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("MS3212"));
+        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("MS3212"));
+        
+        
+        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("CS2100"));
+        csbl.createModule("2015", "2", "none", "none", csbl.findCourse("CS2100"));
+        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("CS2100"));
+        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("CS2100"));
+        
+        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("IE1111"));
+        csbl.createModule("2015", "2", "none", "none", csbl.findCourse("IE1111"));
+        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("IE1111"));
+        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("IE1111"));
+        
+        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("PF3302"));
+        csbl.createModule("2015", "2", "none", "none", csbl.findCourse("PF3302"));
+        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("PF3302"));
+        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("PF3302"));
+        
+        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("MA2101"));
+        csbl.createModule("2015", "2", "none", "none", csbl.findCourse("MA2101"));
+        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("MA2101"));
+        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("MA2101"));
+        
+        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("CL3551"));
+        csbl.createModule("2015", "2", "none", "none", csbl.findCourse("CL3551"));
+        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("CL3551"));
+        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("CL3551"));
+        
+        
+        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("PS2240"));
+        csbl.createModule("2015", "2", "none", "none", csbl.findCourse("PS2240"));
+        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("PS2240"));
+        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("PS2240"));
+        
+        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("PC2193"));
+        csbl.createModule("2015", "2", "none", "none", csbl.findCourse("PC2193"));
+        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("PC2193"));
+        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("PC2193"));
+        
+        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("SC3101"));
+        csbl.createModule("2015", "2", "none", "none", csbl.findCourse("SC3101"));
+        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("SC3101"));
+        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("SC3101"));
+        
+        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("LAM3201"));
+        csbl.createModule("2015", "2", "none", "none", csbl.findCourse("LAM3201"));
+        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("LAM3201"));
+        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("LAM3201"));
+        
+        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("TIE2010"));
+        csbl.createModule("2015", "2", "none", "none", csbl.findCourse("TIE2010"));
+        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("TIE2010"));
+        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("TIE2010"));
+        
+        
         //set peer review form for hsianghui2 PC2193 TEST
         Date day = new Date();
         prqsbl.createPeerReviewQuestion("test PR form", day, csbl.findModule("PC2193", "2017", "2"));
