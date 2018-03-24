@@ -5,6 +5,8 @@
  */
 package managedbeans;
 
+import entity.GroupTimeslot;
+import entity.Student;
 import entity.Timeslot;
 import entity.User;
 import java.io.File;
@@ -76,7 +78,9 @@ public class ScheduleBean implements Serializable {
     private String userType;
     private String details="";
     private String venue="";
+    private Student student;
     private ArrayList<Timeslot> timeslots;
+    private List<GroupTimeslot> groupTimeslots;
     private ScheduleModel eventModel = new DefaultScheduleModel();
     private ScheduleEvent event = new DefaultScheduleEvent();
     private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
@@ -96,6 +100,7 @@ public class ScheduleBean implements Serializable {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
         userEntity = (User) session.getAttribute("user");
+        userType = session.getAttribute("userType")+"";
         username = userEntity.getUsername();
         userEntity = csbl.findUser(username);
         timeslots = sbl.getAllTimeslots(userEntity);
@@ -107,6 +112,22 @@ public class ScheduleBean implements Serializable {
             //System.out.println(t.getDetails());
             eventModel.addEvent(dse);
         }
+        if(userType.equals("1")){ //student
+            student = (Student) userEntity;
+            groupTimeslots = (List<GroupTimeslot>) student.getGroupTimeslots();
+            GroupTimeslot g;
+            for(GroupTimeslot group : groupTimeslots){
+                g = group;
+                DefaultScheduleEvent dse = new DefaultScheduleEvent(g.getTitle(), toCalendar(g.getTimeFrom()), toCalendar(g.getTimeEnd()), g);
+                dse.setDescription(g.getDetails());
+                System.out.println(g.getDetails());
+                eventModel.addEvent(dse);
+           }
+        }
+        csbl.createProjectGroupTimeslot("", "2018-02-28 06:00", "2018-02-28 07:00", "Group Meeting", 
+                "First System Release", "Biz Lib", csbl.findProjectgroup("N1", csbl.findModule("CS2100", "2016", "2")));
+        
+        
     }
     
     

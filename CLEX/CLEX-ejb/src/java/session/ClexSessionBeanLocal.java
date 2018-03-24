@@ -15,6 +15,7 @@ import entity.ProjectGroup;
 import entity.Student;
 import entity.SuperGroup;
 import entity.Task;
+import entity.Timeslot;
 import entity.Transaction;
 import entity.User;
 import java.util.Date;
@@ -51,6 +52,9 @@ public interface ClexSessionBeanLocal {
 
     public void createProjectGroup(SuperGroup superGroup, String name, double cost);
 
+    public void createProjectGroupTimeslot(String date, String timeFrom, String timeEnd, 
+                String title, String details, String venue, ProjectGroup projectGroup);
+    
     public void createModule(String takenYear, String takenSem, String prerequisite,
             String preclusions, Course course);
 
@@ -59,7 +63,7 @@ public interface ClexSessionBeanLocal {
     public void createLesson(String day, String timeFrom, String timeEnd,
             String type, String venue, Module module);
 
-    public void createTimeslot(String title, String startDate, String endDate,
+    public Timeslot createTimeslot(String title, String startDate, String endDate,
             String details, String venue);
 
     public void createGrade(String moduleGrade, Module module, Student student);
