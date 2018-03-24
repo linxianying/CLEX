@@ -44,15 +44,10 @@ public class ViewProjectCostBean {
     private Module module;
     private ProjectGroup group;
     private Student student;
-<<<<<<< HEAD
     private ArrayList<Transaction> transactions;
     private ArrayList<Transaction> sortedTransactions;
-    
-=======
-    private List<Transaction> transactions;
-    private ArrayList<ComparableTransaction> sortedTransactions;
-
->>>>>>> af70447051808d9131f6d242fea33ea5ad6709b1
+    //private List<Transaction> transactions;
+    //private ArrayList<ComparableTransaction> sortedTransactions;
     private ArrayList<StudentBalance> balances;
 
     //for adding transactions
@@ -95,19 +90,13 @@ public class ViewProjectCostBean {
         group = (ProjectGroup) session.getAttribute("projectGroup");
         student = (Student) session.getAttribute("user");
         groupMembers = group.getGroupMembers();
-<<<<<<< HEAD
         sortedTransactions = pcsbl.getALLSortedTransactions(group);
-=======
-        //sortedTransactions = pcsbl.getSortedTransactions(group);
->>>>>>> af70447051808d9131f6d242fea33ea5ad6709b1
         //System.out.println("sortedTransactions size: " + sortedTransactions.size());
         balances = pcsbl.getAllStudentBalance(group);
         paidBy = "Individual";
         splitBy = "Equally";
         this.setOriStudentCost();
         System.out.println("ViewProjectCostBean Finish initialization");
-        transactions = pcsbl.getAllTransactions(group);
-        transactions = pcsbl.sortTransByDate(transactions);
         
     }
     public void printOut() {
@@ -168,14 +157,6 @@ public class ViewProjectCostBean {
 
     public void setStudent(Student student) {
         this.student = student;
-    }
-
-    public List<Transaction> getTransactions() {
-        return transactions;
-    }
-
-    public void setTransactions(List<Transaction> transactions) {
-        this.transactions = transactions;
     }
 
     public ArrayList<Transaction> getSortedTransactions() {
@@ -357,13 +338,7 @@ public class ViewProjectCostBean {
         //System.out.println("into delete");
         Transaction t = pcsbl.findTransactionById(deletedTransactionId);
         pcsbl.deleteTransaction(deletedTransactionId, group, t);
-<<<<<<< HEAD
-        
         sortedTransactions = pcsbl.getALLSortedTransactions(group);
-=======
-
-        sortedTransactions = pcsbl.getSortedTransactions(group);
->>>>>>> af70447051808d9131f6d242fea33ea5ad6709b1
         //System.out.println("After add transaction: sortedTransactions size: " + sortedTransactions.size());
         balances = pcsbl.getAllStudentBalance(group);
         this.setOriStudentCost();

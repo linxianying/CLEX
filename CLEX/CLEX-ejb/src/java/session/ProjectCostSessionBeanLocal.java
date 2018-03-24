@@ -25,11 +25,7 @@ public interface ProjectCostSessionBeanLocal {
 
     public void addTransaction(ArrayList<StudentCost> all, String activity, double totalCost, ProjectGroup group);
 
-<<<<<<< HEAD
-    
-=======
-    public ArrayList<ComparableTransaction> getSortedTransactions(ProjectGroup group);
->>>>>>> af70447051808d9131f6d242fea33ea5ad6709b1
+//    public ArrayList<ComparableTransaction> getSortedTransactions(ProjectGroup group);
 
     public ArrayList<StudentBalance> getAllStudentBalance(ProjectGroup group);
 
@@ -39,14 +35,6 @@ public interface ProjectCostSessionBeanLocal {
 
     public Ledger findLedgerById(Long id);
 
-<<<<<<< HEAD
     public ArrayList<Transaction> getALLSortedTransactions(ProjectGroup group);
 
-    
-=======
-    public List<Transaction> getAllTransactions(ProjectGroup group);
-
-    public List<Transaction> sortTransByDate(List<Transaction> transactions);
-
->>>>>>> af70447051808d9131f6d242fea33ea5ad6709b1
 }

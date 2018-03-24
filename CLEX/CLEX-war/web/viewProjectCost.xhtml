@@ -25,7 +25,7 @@
                                      rows="10" style="width: 50%"
                                      paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                      rowsPerPageTemplate="10,20,30" 
-                                     value="#{viewProjectCostBean.transactions}" var="transaction">
+                                     value="#{viewProjectCostBean.sortedTransactions}" var="transaction">
                             
                             <p:column style="border: none !important;">
                                 <h:outputLabel value="#{transaction.activity}" />

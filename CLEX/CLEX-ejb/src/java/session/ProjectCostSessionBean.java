@@ -127,89 +127,35 @@ public class ProjectCostSessionBean implements ProjectCostSessionBeanLocal {
         em.merge(transaction);
         em.flush();
     }
-<<<<<<< HEAD
     
 //    //sort all transactions of a group according to date
 //    @Override
 //    public ArrayList<ComparableTransaction> getSortedTransactions(ProjectGroup group) {
-//        try{    
-//            if (group.getTransactions().isEmpty())
+//        try {
+//            if (group.getTransactions().isEmpty()) {
 //                return null;
+//            }
 //            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-//            sortedTransactions = new ArrayList<ComparableTransaction>();
+//            sortedTransactions = new ArrayList<>();
 //            transactions = new ArrayList<Transaction>();
 //            Collection<Transaction> all = group.getTransactions();
-//            for(Transaction t: all){
+//            for (Transaction t : all) {
 //                transactions.add(t);
 //            }
-//            for (Transaction t: transactions) {
-//                comTransaction = new ComparableTransaction(t.getId(), t.getCost(), formatter.parse(t.getDate()), 
-//                t.getActivity(), t.getProjectGroup(), t.getLedgers());
+//            for (Transaction t : transactions) {
+//                comTransaction = new ComparableTransaction(t.getId(), t.getCost(), formatter.parse(t.getDate()),
+//                        t.getActivity(), t.getProjectGroup(), t.getLedgers());
 //                sortedTransactions.add(comTransaction);
 //            }
 //            Collections.sort(sortedTransactions);
 //            //System.out.println(sortedTransactions.size());
 //            //System.out.println(sortedTransactions);
-//        }
-//        catch(Exception e) {
+//        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
 //        return sortedTransactions;
 //    }
-    
-=======
 
-    //sort all transactions of a group according to date
-    @Override
-    public ArrayList<ComparableTransaction> getSortedTransactions(ProjectGroup group) {
-        try {
-            if (group.getTransactions().isEmpty()) {
-                return null;
-            }
-            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-            sortedTransactions = new ArrayList<ComparableTransaction>();
-            transactions = new ArrayList<Transaction>();
-            Collection<Transaction> all = group.getTransactions();
-            for (Transaction t : all) {
-                transactions.add(t);
-            }
-            for (Transaction t : transactions) {
-                comTransaction = new ComparableTransaction(t.getId(), t.getCost(), formatter.parse(t.getDate()),
-                        t.getActivity(), t.getProjectGroup(), t.getLedgers());
-                sortedTransactions.add(comTransaction);
-            }
-            Collections.sort(sortedTransactions);
-            //System.out.println(sortedTransactions.size());
-            //System.out.println(sortedTransactions);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return sortedTransactions;
-    }
-
-    @Override
-    public List<Transaction> getAllTransactions(ProjectGroup group) {
-        transactions = new ArrayList<Transaction>();
-        Collection<Transaction> all = group.getTransactions();
-        for (Transaction t : all) {
-            transactions.add(t);
-        }
-        return transactions;
-    }
-
-    @Override
-    public List<Transaction> sortTransByDate(List<Transaction> transactions) {
-        //Descending order (Latest to oldest)
-        
-        Collections.sort(transactions, new Comparator<Transaction>() {
-            public int compare(Transaction t1, Transaction t2) {
-                return t2.getDate().compareTo(t1.getDate());
-            }
-        });
-        return transactions;
-    }
-
->>>>>>> af70447051808d9131f6d242fea33ea5ad6709b1
     //caculated the asscociated cost of a Student's all ledgers in all Transactions of the projectGroup
     //which means in total, th student needs to get how much back (if assCost>0) or owes how much (if assCost<0)
     private double calculateAssCost(Student student, ProjectGroup group) {
@@ -380,7 +326,6 @@ public class ProjectCostSessionBean implements ProjectCostSessionBeanLocal {
         em.remove(deletetransaction);
         em.flush();
     }
-<<<<<<< HEAD
     
     /**
      *
@@ -419,7 +364,4 @@ public class ProjectCostSessionBean implements ProjectCostSessionBeanLocal {
         }
         return sortedTransactions;
     }
-=======
-
->>>>>>> af70447051808d9131f6d242fea33ea5ad6709b1
 }
