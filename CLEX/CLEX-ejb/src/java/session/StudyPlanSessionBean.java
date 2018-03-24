@@ -105,7 +105,7 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
             Query q = em.createQuery("SELECT c FROM Course c WHERE c.moduleCode=:moduleCode");
             q.setParameter("moduleCode", moduleCode);
             c = (Course) q.getSingleResult();
-            System.out.println("Course " + moduleCode + " found.");
+            //System.out.println("Course " + moduleCode + " found.");
         } catch (NoResultException e) {
             System.out.println("Course " + moduleCode + " does not exist.");
             c = null;
@@ -181,10 +181,10 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         //get current year and sem
         Calendar now = Calendar.getInstance();
         int currentYear = now.get(Calendar.YEAR);
-        System.out.println("Current Year is : " + currentYear);
+        //System.out.println("spsb:getCurrentModules:Current Year is : " + currentYear);
         // month starts from 0 to 11
         int currentMonth = now.get(Calendar.MONTH);
-        System.out.println("Current Month is : " + now.get(Calendar.MONTH));
+        //System.out.println("Current Month is : " + now.get(Calendar.MONTH));
         if (currentMonth < 6) {
             currentSem = 2;
             currentYear--;
@@ -717,10 +717,10 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         numOfSemTaken = 1;
         Calendar now = Calendar.getInstance();
         int currentYear = now.get(Calendar.YEAR);
-        System.out.println("Current Year is : " + currentYear);
+        System.out.println("spsb:checkNumOfSemTaken:Current Year is : " + currentYear);
         // month starts from 0 to 11
         int currentMonth = now.get(Calendar.MONTH);
-        System.out.println("Current Month is : " + now.get(Calendar.MONTH));
+        System.out.println("spsb:checkNumOfSemTaken:Current Month is : " + now.get(Calendar.MONTH));
         if (currentMonth < 6) {
             currentSem = 2;
             currentYear--;
@@ -788,5 +788,67 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         this.getTakenModules(username);
         this.getAllStudyPlans(username);
     }
+    
+    
+    
+    //--------------------------------------------------For new study plan page---------------------------------------------------------------------------
 
+    @Override
+    public ArrayList<Grade> getAllGrades(Student s) {
+        Collection<Grade> all = new ArrayList<Grade>();
+        grades = new ArrayList<Grade>();
+        all = s.getGrades();
+        for (Grade g : all) {
+            grades.add(g);
+        }
+        System.out.println("StudyPlanSessionbean: getAllGrades: student:" + s.getName() + "'s gardes:" + grades.size());
+        return grades;
+    }
+    
+    @Override
+    public ArrayList<Module> getCurrentModules(Student s) {
+        Collection<Module> all = new ArrayList<Module>();
+        takingModules = new ArrayList<Module>();
+        all = s.getModules();
+        
+        //get current year and sem
+        Calendar now = Calendar.getInstance();
+        int currentYear = now.get(Calendar.YEAR);
+        // month starts from 0 to 11
+        int currentMonth = now.get(Calendar.MONTH);
+        if (currentMonth < 6) {
+            currentSem = 2;
+            currentYear--;
+            numOfSemTaken++;
+        } else {
+            currentSem = 1;
+        }
+        
+        //add modules for this semster to takingModules
+        for (Module m : all) {
+            if (Integer.parseInt(m.getTakenYear()) == currentYear) {
+                if (Integer.parseInt(m.getTakenSem()) == currentSem) {
+                    takingModules.add(m);
+                }
+            }
+        }
+        return takingModules;
+    }
+    
+    @Override
+    public ArrayList<StudyPlan> getAllStudyPlans(Student student) {
+        Collection<StudyPlan> all = new ArrayList<StudyPlan>();
+        studyPlans = new ArrayList<StudyPlan>();
+        all = student.getStudyPlan();
+        for (StudyPlan s : all) {
+            studyPlans.add(s);
+        }
+        return studyPlans;
+    }
+    
+    
+    
+    
+    
+    
 }

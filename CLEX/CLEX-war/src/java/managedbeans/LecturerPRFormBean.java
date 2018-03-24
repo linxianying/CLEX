@@ -242,6 +242,7 @@ public class LecturerPRFormBean implements Serializable{
         System.out.println("group size = " + groupQuestions.size());
     }
     
+    //the value will be changed automatically
     public void editIndQuestion(int indIndex){
 //        System.out.println("change question " + indIndex);
 //        System.out.println(individualQuestions.get(0).getQuestion());
