@@ -11,161 +11,164 @@
     </h:head>
     <ui:define name="content">
         <p:growl id="addErrorMsg" showDetail="true" />
-        <h:form id="projectCostForm">
-            <p:outputPanel style="float: left; width: 75%;min-height: 200%" id="transactions">
-                <h:outputText value="You group has no transactions yet" rendered="#{empty viewProjectCostBean.sortedTransactions}"/>
-                <p:fieldset legend="#{viewProjectCostBean.module.course.moduleCode} Group #{viewProjectCostBean.group.name} - Transactions" toggleable="true" collapsed="false">
-                    <h:panelGrid columns="2" width="60%">
+        <p:panelGrid columns="2" layout="grid">
 
+            <h:form id="projectCostForm">
+                <p:fieldset legend="#{viewProjectCostBean.module.course.moduleCode} Group #{viewProjectCostBean.group.name} - Transactions" toggleable="false" collapsed="false">
+                    <h:outputText id="emptyLabel" value="Your group yet to add any transactions!" rendered="#{empty viewProjectCostBean.sortedTransactions}"/>
+                    <p:panelGrid columns="2" layout="grid" rendered="#{not empty viewProjectCostBean.sortedTransactions}">
                         <p:dataTable selectionMode="single" selection="#{viewProjectCostBean.selectedTransaction}" rowKey="#{transaction.id}"
-                                     id="transactiontable"
+                                     id="transactiontable" rendered="#{not empty viewProjectCostBean.sortedTransactions}"
                                      editable="true" editMode="cell" 
                                      emptyMessage="No transactions found."                                          
-                                     paginator="true" paginatorAlwaysVisible="false"
-                                     rows="10" style="width: 50%"
+                                     paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom"
+                                     rows="10" 
                                      paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                      rowsPerPageTemplate="10,20,30" 
-                                     value="#{viewProjectCostBean.sortedTransactions}" var="transaction">
-                            
-                            <p:column style="border: none !important;">
+                                     value="#{viewProjectCostBean.sortedTransactions}" var="transaction"
+                                     scrollable="true" scrollWidth="auto"
+                                     tableStyle="white-space: nowrap;">
+                            <p:ajax event="rowSelect" listener="#{viewProjectCostBean.onRowSelect}" update="addErrorMsg, projectCostForm:transactionInfoBox" />
+                            <f:facet name="header">
+                                Activity
+                            </f:facet>
+                            <p:column>
                                 <h:outputLabel value="#{transaction.activity}" />
                                 <h:outputLabel value=" - #{transaction.date}" >
                                     <f:convertDateTime pattern="dd-MM-yyyy" />
                                 </h:outputLabel>
                             </p:column>
-
                         </p:dataTable>
-                        <p:commandButton actionListener="#{viewProjectCostBean.printOut}" value="printout backend for render test"/>
-                        <h:outputText value="Here: #{viewProjectCostBean.selectedTransaction.cost}"/>
-
-<!--<p:tab  title="#{transaction.activity}">
-        <h:panelGrid>
-            <h:outputText value="Date: "/>
-            <h:outputText value="#{transaction.date}">
-                <f:convertDateTime pattern="dd-MM-yyyy" />
-            </h:outputText>
-            <br />
-            <ui:repeat var="l" value="#{transaction.ledgers}">
-                <h:outputText value="#{l.student.name}" />
-                <h:outputText value=" paid " rendered="#{l.pay != 0.0}"/>
-                <h:outputText value="#{l.pay}" rendered="#{l.pay != 0.0}">
-                    <f:convertNumber pattern="#0.00" />
-                </h:outputText>
-                <h:outputText value=" dollars " rendered="#{l.pay != 0.0}"/>
-                <h:outputText value="  and  " rendered="#{l.pay != 0.0 and l.ascCost != 0.0}"/>
-                <h:outputText value=" owes " rendered="#{l.ascCost != 0.0}"/>
-                <h:outputText value="#{l.ascCost}" rendered="#{l.ascCost != 0.0}">
-                    <f:convertNumber pattern="#0.00" />
-                </h:outputText>
-                <h:outputText value=" dollars " rendered="#{l.ascCost != 0.0}"/>
-                <br />
-            </ui:repeat>
-            <p:commandButton id="deleteButton"  value="delete" actionListener="#{viewProjectCostBean.deleteTransaction(transaction.id)}" update="@all" process="@this"/>
-        </h:panelGrid>
-    </p:tab>-->
-
-                    </h:panelGrid>
-                </p:fieldset>
-            </p:outputPanel>
-            <p:outputPanel style="float: right; width: 24%;">
-                <p:fieldset collapsed="false" styleClass="menuHeader" id="balance" legend="Summary" toggleable="false" toggleSpeed="500" rendered="#{not empty viewProjectCostBean.sortedTransactions}">
-                    <h:panelGrid columns="1" >
-                        <p:column>
-                            <p:dataList value="#{viewProjectCostBean.balances}" var="balance">
-                                <h:outputText value="#{balance.student.name}: "/>
-                                <h:outputText value="has a zero balance" rendered="#{balance.totalAmount eq 0}"/>
-                                <h:outputText value="owes $" rendered="#{balance.totalAmount lt 0}"/>
-                                <h:outputText value="gets back $" rendered="#{balance.totalAmount gt 0}"/>
-                                <h:outputText value="#{(balance.totalAmount lt 0) ? -balance.totalAmount : balance.totalAmount}" rendered="#{balance.totalAmount ne 0}">
+                        <h:panelGroup id="transactionInfoBox">
+                            <h4><h:outputText value="#{viewProjectCostBean.selectedTransaction.date}">
+                                    <f:convertDateTime pattern="dd-MM-yyyy" />
+                                </h:outputText>
+                            </h4>
+                            <ui:repeat var="l" value="#{viewProjectCostBean.selectedTransaction.ledgers}">
+                                <h:outputText value="#{l.student.name}" />
+                                <h:outputText value=" paid " rendered="#{l.pay != 0.0}"/>
+                                <h:outputText value="#{l.pay}" rendered="#{l.pay != 0.0}">
                                     <f:convertNumber pattern="#0.00" />
                                 </h:outputText>
-                                <h:outputText value=" in total" rendered="#{balance.totalAmount ne 0}"/>
-                                <br />
-                                <ui:repeat value="#{balance.getBalances()}" var="payee">
-                                    <h:outputText value="#{payee.key.name} owes $" rendered="#{balance.totalAmount gt 0}"/>
-                                    <h:outputText value="#{payee.value}" rendered="#{balance.totalAmount gt 0}">
-                                        <f:convertNumber pattern="#0.00" />
-                                    </h:outputText>
-                                    <h:outputText value=" to #{balance.student.name}" rendered="#{balance.totalAmount gt 0}"/>
-
-                                    <h:outputText value="#{balance.student.name} owes $" rendered="#{balance.totalAmount lt 0}"/>
-                                    <h:outputText value="#{payee.value}" rendered="#{balance.totalAmount lt 0}">
-                                        <f:convertNumber pattern="#0.00" />
-                                    </h:outputText>
-                                    <h:outputText value=" to #{payee.key.name}" rendered="#{balance.totalAmount lt 0}"/>
-                                    <br/>
-                                </ui:repeat>
+                                <h:outputText value=" dollars " rendered="#{l.pay != 0.0}"/>
+                                <h:outputText value="  and  " rendered="#{l.pay != 0.0 and l.ascCost != 0.0}"/>
+                                <h:outputText value=" owes " rendered="#{l.ascCost != 0.0}"/>
+                                <h:outputText value="#{l.ascCost}" rendered="#{l.ascCost != 0.0}">
+                                    <f:convertNumber pattern="#0.00" />
+                                </h:outputText>
+                                <h:outputText value=" dollars " rendered="#{l.ascCost != 0.0}"/>
+                                <h:outputText value=" does not need to pay anything" rendered="#{l.ascCost == 0.0}"/>
                                 <br/>
-                            </p:dataList>
-                        </p:column>
-                    </h:panelGrid>
-                </p:fieldset>
-                <p:fieldset collapsed="false" style="float: right; width: 24%" styleClass="menuHeader" id="addtransaction" legend="Add new transaction" toggleable="false" toggleSpeed="500" rendered="#{not empty viewProjectCostBean.sortedTransactions}">
-                    <h:form id="addTrsanctionForm">
-                        Add an transaction: <br />
-                        <h:outputText value="Activity: " /> 
-                        <p:inputText id="activity" value="#{viewProjectCostBean.activity}" required="true"/>
-                        <br />
-                        <h:outputText value="Total Cost: " /> 
-                        <p:inputNumber id="totalCost" value="#{viewProjectCostBean.totalCost}" minValue="0.01" required="true"/>
-                        <br />
-
-                        <h:outputText value="Paid by " /> 
-                        <p:selectOneMenu id="paidBy" value="#{viewProjectCostBean.paidBy}" >
-                            <p:ajax event="change" update="individualPayer multiplePayers"  />
-                            <f:selectItem itemLabel="Individual" itemValue="Individual"/>
-                            <f:selectItem itemLabel="Multiple People" itemValue="Multiple People"/>
-                        </p:selectOneMenu>
-                        <br />
-                        <h:panelGroup id="individualPayer">
-                            <p:selectOneMenu value="#{viewProjectCostBean.individualPayerId}" rendered="#{viewProjectCostBean.paidBy == 'Individual'}" >
-                                <f:selectItems value="#{viewProjectCostBean.groupMembers}" var="student" itemLabel="#{student}" itemValue="#{student.id}"/> 
-                            </p:selectOneMenu>
+                            </ui:repeat>
+                            <p:commandButton rendered="#{viewProjectCostBean.selectedTransaction != null}" id="deleteButton" icon="ui-icon-trash" actionListener="#{viewProjectCostBean.deleteTransaction()}" update="projectCostForm, addErrorMsg, summaryForm"/>
                         </h:panelGroup>
 
-                        <h:panelGroup id="multiplePayers" >
-                            <h:outputText value="Enter amount each member paid" rendered="#{viewProjectCostBean.paidBy == 'Multiple People'}"/>
+                    </p:panelGrid>
+                </p:fieldset>
+            </h:form>
+            <h:panelGrid columns="1">
+                <h:form id="summaryForm">
+                    <p:fieldset collapsed="false" styleClass="menuHeader" id="balance" legend="Summary" toggleable="false" toggleSpeed="500" >
+                        <h:outputText id="emptyLabel" value="No member in your group owes anyone anything! Hooray!" rendered="#{empty viewProjectCostBean.sortedTransactions}"/>
+                        <p:dataList value="#{viewProjectCostBean.balances}" var="balance" rendered="#{not empty viewProjectCostBean.sortedTransactions}">
+                            <h4>
+                                <h:outputText value="#{balance.student.name}"/>
+                            </h4>
+                            <p:separator />
+                            <h:outputText value="#{balance.student.name}: "/>
+                            <h:outputText value="has zero balance" rendered="#{balance.totalAmount eq 0}"/>
+                            <h:outputText value="owes $" rendered="#{balance.totalAmount lt 0}"/>
+                            <h:outputText value="gets back $" rendered="#{balance.totalAmount gt 0}"/>
+                            <h:outputText value="#{(balance.totalAmount lt 0) ? -balance.totalAmount : balance.totalAmount}" rendered="#{balance.totalAmount ne 0}">
+                                <f:convertNumber pattern="#0.00" />
+                            </h:outputText>
+                            <h:outputText value=" in total" rendered="#{balance.totalAmount ne 0}"/>
                             <br />
-                            <ui:repeat value="#{viewProjectCostBean.all}" var="payer" rendered="#{viewProjectCostBean.paidBy == 'Multiple People'}"> 
-                                <h:outputText value="#{payer.student}"/>
-                                <p:inputNumber value="#{payer.pay}" minValue="0.00"/>
+                            <ui:repeat value="#{balance.getBalances()}" var="payee">
+                                <h:outputText value="#{balance.student.name} should receive $" rendered="#{balance.totalAmount gt 0}"/>
+                                <h:outputText value="#{payee.value}" rendered="#{balance.totalAmount gt 0}">
+                                    <f:convertNumber pattern="#0.00" />
+                                </h:outputText>
+                                <h:outputText value=" from #{payee.key.name}" rendered="#{balance.totalAmount gt 0}"/>
+                                <h:outputText value="#{balance.student.name} owes $" rendered="#{balance.totalAmount lt 0}"/>
+                                <h:outputText value="#{payee.value}" rendered="#{balance.totalAmount lt 0}">
+                                    <f:convertNumber pattern="#0.00" />
+                                </h:outputText>
+                                <h:outputText value=" to #{payee.key.name}" rendered="#{balance.totalAmount lt 0}"/>
                                 <br />
                             </ui:repeat>
-                        </h:panelGroup>
+                            <br/>
+                        </p:dataList>
+                    </p:fieldset>
+                </h:form>
+
+                <p:fieldset collapsed="false" styleClass="menuHeader" id="addtransaction" legend="Add new transaction" toggleable="false" toggleSpeed="500">
+                    <h:form id="addTransactionForm">
+                        <h:panelGrid columns="2" >
+                            <h:panelGrid columns="2">
+                                <h:outputLabel for="activity" value="Activity: " /> 
+                                <p:inputText id="activity" value="#{viewProjectCostBean.activity}" required="true"/>
+                                <h:outputLabel for="totalCost" value="Total Cost: " /> 
+                                <p:inputNumber id="totalCost" value="#{viewProjectCostBean.totalCost}" symbol="$" symbolPosition="p" minValue="0.00" />
+                            </h:panelGrid>
+                            <h:panelGrid columns="2">
+                                <h:outputLabel for="paidBy" value="Paid by: " /> 
+                                <p:selectOneMenu id="paidBy" value="#{viewProjectCostBean.paidBy}" >
+                                    <p:ajax event="change" update="addTransactionForm"  />
+                                    <f:selectItem itemLabel="Individual" itemValue="Individual"/>
+                                    <f:selectItem itemLabel="Multiple People" itemValue="Multiple People"/>
+                                </p:selectOneMenu>
+                                <h:outputText id="individualPayerLabel" value="Payer: " rendered="#{viewProjectCostBean.paidBy == 'Individual'}"/>
+                                <p:selectOneMenu id="individualPayer" value="#{viewProjectCostBean.individualPayerId}" rendered="#{viewProjectCostBean.paidBy == 'Individual'}" >
+                                    <f:selectItems value="#{viewProjectCostBean.groupMembers}" var="student" itemLabel="#{student.name}" itemValue="#{student.id}"/> 
+                                </p:selectOneMenu>
+                            </h:panelGrid>
+                            <h:panelGroup id="multiplePayers" >
+                                <h:outputText value="Enter the amount each member has paid" rendered="#{viewProjectCostBean.paidBy == 'Multiple People'}"/>
+                                <br />
+                                <ui:repeat value="#{viewProjectCostBean.all}" var="payer" rendered="#{viewProjectCostBean.paidBy == 'Multiple People'}"> 
+                                    <h:outputText value="#{payer.student.name}"/>
+                                    <p:inputNumber value="#{payer.pay}" minValue="0.00" symbol="$" symbolPosition="p" >
+                                        <p:ajax event="keyup" update="addTransactionForm:totalCost" listener="#{viewProjectCostBean.totalCostAdd}"/>
+                                    </p:inputNumber>
+                                    <br />
+                                </ui:repeat>
+                            </h:panelGroup>
+                        </h:panelGrid>
                         <br />
-                        <h:outputText value="Split by " /> 
-                        <p:selectOneMenu id="splitBy" value="#{viewProjectCostBean.splitBy}" >
-                            <p:ajax event="change" update="exactAmount percentage"  />
-                            <f:selectItem itemLabel="Equally" itemValue="Equally"/>
-                            <f:selectItem itemLabel="Exact Amount" itemValue="Exact Amount"/>
-                            <f:selectItem itemLabel="Percentage" itemValue="Percentage"/>
-                        </p:selectOneMenu>
-                        <br />
-                        <h:panelGroup id="exactAmount">
-                            <h:outputText value="Enter the eact amount each member paid" rendered="#{viewProjectCostBean.splitBy == 'Exact Amount'}"/>
+                        <h:panelGrid columns="2">
+                            <h:outputLabel for="splitBy" value="Split by: " /> 
+                            <p:selectOneMenu id="splitBy" value="#{viewProjectCostBean.splitBy}" >
+                                <p:ajax event="change" update="addTransactionForm"  />
+                                <f:selectItem itemLabel="Equally" itemValue="Equally"/>
+                                <f:selectItem itemLabel="Exact Amount" itemValue="Exact Amount"/>
+                                <f:selectItem itemLabel="Percentage" itemValue="Percentage"/>
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                        <h:panelGrid columns="2">
+                            <h:outputText value="Enter the eact amount each member must pay" rendered="#{viewProjectCostBean.splitBy == 'Exact Amount'}"/>
                             <br />
                             <ui:repeat value="#{viewProjectCostBean.all}" var="payee" rendered="#{viewProjectCostBean.splitBy == 'Exact Amount'}"> 
-                                <h:outputText value="#{payee.student}"/>
-                                <p:inputNumber value="#{payee.cost}" minValue="0.00"/>
+                                <h:outputLabel  for="inputCost" value="#{payee.student.name}: "/>
+                                <p:inputNumber id="inputCost" value="#{payee.cost}" symbol="$" symbolPosition="p" minValue="0.00"/>
                                 <br />
                             </ui:repeat>
-                        </h:panelGroup>
+                        </h:panelGrid>
+                        <h:panelGrid columns="2">
 
-                        <h:panelGroup id="percentage" >
-                            <h:outputText value="Enter the percentage each member paid" rendered="#{viewProjectCostBean.splitBy == 'Percentage'}"/>
+                            <h:outputText value="Enter the percentage each member must pay" rendered="#{viewProjectCostBean.splitBy == 'Percentage'}"/>
                             <br />
                             <ui:repeat value="#{viewProjectCostBean.all}" var="payee" rendered="#{viewProjectCostBean.splitBy == 'Percentage'}"> 
-                                <h:outputText value="#{payee.student}"/>
+                                <h:outputText value="#{payee.student.name}"/>
                                 <p:inputNumber value="#{payee.cost}" symbol="%" symbolPosition="s" emptyValue="zero" minValue="0.00"/>
-                                <!--<h:outputText value="%"/>-->
                                 <br />
                             </ui:repeat>
-                        </h:panelGroup>
-                        <p:commandButton id ="addtransactionButton" value="Add this Transaction" action="#{viewProjectCostBean.addTransaction()}" update="@all"/> 
+                        </h:panelGrid>
+                        <p:commandButton id ="addtransactionButton" value="Add Transaction" action="#{viewProjectCostBean.addTransaction()}" update="projectCostForm, addErrorMsg, summaryForm, addTransactionForm"/> 
                     </h:form>
                 </p:fieldset>
-            </p:outputPanel>
-        </h:form>
+            </h:panelGrid>
+        </p:panelGrid>
         <h:form id="initializePageDataForm">
             <p:remoteCommand name="initializePageDataCommand" autoRun="true" action="#{viewProjectCostBean.init()}" update="projectCostForm"/>
         </h:form>
