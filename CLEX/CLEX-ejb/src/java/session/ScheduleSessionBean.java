@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import javaClass.IcsReader;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
@@ -162,6 +163,40 @@ public class ScheduleSessionBean implements ScheduleSessionBeanLocal {
         }else{
             System.out.println("timeslot not found or user not found");
         }
+    }
+    
+    @Override
+    public void deleteGroupTimeslot(Long id, Student student) {
+        
+        groupTimeslotEntity = findGroupTimeslot(id);
+        studentEntity = student;
+        if(groupTimeslotEntity!=null&&studentEntity!=null){
+            studentEntity.getGroupTimeslots().remove(groupTimeslotEntity);
+            em.merge(studentEntity);
+            projectGroupEntity = findProjectGroupViaTimeslot(groupTimeslotEntity);
+            projectGroupEntity.getGroupTimeslots().remove(groupTimeslotEntity);
+            em.merge(projectGroupEntity);
+            em.remove(groupTimeslotEntity);
+            em.flush();
+        }else{
+            System.out.println("GroupTimeslot not found or user not found");
+        }
+    }
+    
+    public ProjectGroup findProjectGroupViaTimeslot(GroupTimeslot groupTimeslot){
+        Query query = em.createQuery("SELECT s FROM ProjectGroup s");
+        List<ProjectGroup> g =  (List<ProjectGroup>) query.getResultList();
+        
+        Iterator<ProjectGroup> itr = g.iterator();
+        while(itr.hasNext()){
+            ProjectGroup p = itr.next();
+            if(p.getGroupTimeslots().contains(groupTimeslot)){
+                
+                System.out.println("Group Timeslot of the project Group found");
+                return p;
+            }
+        }
+        return null;
     }
     
     public void deleteTimeslot(Long id) {

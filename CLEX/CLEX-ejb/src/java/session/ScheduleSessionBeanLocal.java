@@ -7,6 +7,7 @@ package session;
 
 import entity.GroupTimeslot;
 import entity.ProjectGroup;
+import entity.Student;
 import entity.Timeslot;
 import entity.User;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public interface ScheduleSessionBeanLocal {
     public Timeslot findTimeslot(Long id);
     public void deleteTimeslot(Long id);
     public void deleteTimeslot(Long id, User user);
+    public void deleteGroupTimeslot(Long id, Student student);
     
     public ArrayList<Timeslot> getAllTimeslots(User userentitity);
     

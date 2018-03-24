@@ -411,6 +411,14 @@ public class indexBean {
         csbl.linkStudentGroup(csbl.findStudent("XiaoLv"), csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")));
         csbl.linkStudentGroup(csbl.findStudent("XiaoLv"), csbl.findProjectgroup("N1", csbl.findModule("PC2193", "2017", "2")));
 
+        csbl.createProjectGroupTimeslot("", "2018-04-18 06:00", "2018-04-18 07:00", "Report", "Second System Release", "Cen Lib", csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")));
+        csbl.createProjectGroupTimeslot("", "2018-03-28 16:00", "2018-03-28 17:00", "Project", "First System Release", "Biz Lib", csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")));
+        csbl.createProjectGroupTimeslot("", "2018-03-28 12:00", "2018-03-28 13:00", "Group Meeting", "Discuss topic of project", "PGP", csbl.findProjectgroup("N2", csbl.findModule("PC2193", "2017", "2")));
+        csbl.createProjectGroupTimeslot("", "2018-03-28 20:00", "2018-03-28 22:00", "Group Project", "Lab", "COM2", csbl.findProjectgroup("N2", csbl.findModule("PC2193", "2017", "2")));
+        csbl.createProjectGroupTimeslot("", "2018-03-28 06:00", "2018-03-28 07:00", "Group Meeting", "Discussion", "Cen Lib", csbl.findProjectgroup("N2", csbl.findModule("PC2193", "2017", "2")));
+        
+        // date,  timeFrom,  timeEnd, title,  details,  venue,  projectGroup
+        
         //create Transaction and ledger for PS2240 N1 group
         //date is of format dd-MM-yyyy
         Transaction t = new Transaction();
