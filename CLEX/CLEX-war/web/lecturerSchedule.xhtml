@@ -47,13 +47,20 @@
                         <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                     </p:confirmDialog>
                     <div class="task-list">
-                        <p:panel header="To Do" style="float: right; width: 24%; min-height:320px;">
-                                <p:dataList id="toDoList" var="todo" value="#{scheduleBean.timeslots}">
-                                    <p:selectBooleanCheckbox>
-                                        <p:ajax event="change" update="toDoList" listener="#{scheduleBean.timeslots}" />
-                                    </p:selectBooleanCheckbox>
-                                    <span id="toDo">#{todo.title}</span>                    
-                                </p:dataList>
+                        <p:panel header="Coming Events" style="float: right; width: 24%; min-height:150px;">
+                            
+                            <p:dataList id="toDoList" var="todo" value="#{scheduleBean.timeslots}">
+                                <ul>
+                                    <li>
+
+                                        <p:selectBooleanCheckbox>
+                                            <p:ajax event="change" update="toDoList" listener="#{scheduleBean.timeslots}" />
+                                        </p:selectBooleanCheckbox>
+                                        <span id="toDo">#{todo.title}</span>    
+                                    </li>
+                                </ul>
+                            </p:dataList>
+                            
                         </p:panel>
                     </div>
                 </p:outputPanel>
