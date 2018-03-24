@@ -16,33 +16,47 @@
             <h:commandButton value="TEST" actionListener="#{scheduleBean.testAddEvents}" action="schedule?faces-redirect=true" />
         </h:form>
         -->
-        <p:commandButton value="Reset" actionListener="#{scheduleBean.reset()}" style="margin-bottom: 20px" action="lecturerSchedule?faces-redirect=true">
-            <p:confirm header="Confirmation" 
-                       message="Are you sure you want to reset the schedule? This action will delete all your timeslots."
-                       icon="ui-icon-alert" />
-        </p:commandButton>
-        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-        </p:confirmDialog>
+        
         
         <h:form>
             <p:growl id="messages" showDetail="true" />
             
-            <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
-                <p:printer target="cal" />
-            </p:commandButton>
+            
             
             <h:panelGrid id="cal" columnClasses="value">
                 <h3 style="margin-top: 0">Schedule</h3>
-
-                <p:schedule id="schedule" value="#{scheduleBean.eventModel}" widgetVar="myschedule" timeZone="GMT+8">
-                    <p:ajax event="dateSelect" listener="#{scheduleBean.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
-                    <p:ajax event="eventSelect" listener="#{scheduleBean.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
-                    <p:ajax event="eventMove" listener="#{scheduleBean.onEventMove}" update="messages" />
-                    <p:ajax event="eventResize" listener="#{scheduleBean.onEventResize}" update="messages" />
-                </p:schedule>
-
+                <p:outputPanel style=" margin-bottom: 20px;">
+                    <p:schedule style="float: left; width: 75%" id="schedule" value="#{scheduleBean.eventModel}" widgetVar="myschedule" timeZone="GMT+8">
+                        <p:ajax event="dateSelect" listener="#{scheduleBean.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
+                        <p:ajax event="eventSelect" listener="#{scheduleBean.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
+                        <p:ajax event="eventMove" listener="#{scheduleBean.onEventMove}" update="messages" />
+                        <p:ajax event="eventResize" listener="#{scheduleBean.onEventResize}" update="messages" />
+                    </p:schedule>
+                    
+                    <p:commandButton value="Print" type="button" icon="ui-icon-print" style="margin-bottom: 20px; float: right">
+                        <p:printer target="cal" />
+                    </p:commandButton>
+                    
+                    <p:commandButton value="Reset" actionListener="#{scheduleBean.reset()}" style="margin-left:10px; float: left" action="lecturerSchedule?faces-redirect=true">
+                        <p:confirm header="Confirmation" 
+                                   message="Are you sure you want to reset the schedule? This action will delete all your timeslots."
+                                   icon="ui-icon-alert" />
+                    </p:commandButton>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                    <div class="task-list">
+                        <p:panel header="To Do" style="float: right; width: 24%; min-height:320px;">
+                                <p:dataList id="toDoList" var="todo" value="#{scheduleBean.timeslots}">
+                                    <p:selectBooleanCheckbox>
+                                        <p:ajax event="change" update="toDoList" listener="#{scheduleBean.timeslots}" />
+                                    </p:selectBooleanCheckbox>
+                                    <span id="toDo">#{todo.title}</span>                    
+                                </p:dataList>
+                        </p:panel>
+                    </div>
+                </p:outputPanel>
             </h:panelGrid>
 
             <p:dialog widgetVar="eventDialog" header="Event Details" showEffect="clip" hideEffect="clip">
@@ -67,6 +81,7 @@
                     
                 </h:panelGrid>
             </p:dialog>
+            
         </h:form>
         <h:form id="formFileUpload" enctype="multipart/form-data">
 
