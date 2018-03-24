@@ -23,7 +23,6 @@ public interface ProjectCostSessionBeanLocal {
 
     public void addTransaction(ArrayList<StudentCost> all, String activity, double totalCost, ProjectGroup group);
 
-    public ArrayList<ComparableTransaction> getSortedTransactions(ProjectGroup group);
     
 
     public ArrayList<StudentBalance> getAllStudentBalance(ProjectGroup group);
@@ -33,6 +32,8 @@ public interface ProjectCostSessionBeanLocal {
     public void deleteTransaction(Long deletedTransactionId, ProjectGroup group, Transaction t);
 
     public Ledger findLedgerById(Long id);
+
+    public ArrayList<Transaction> getALLSortedTransactions(ProjectGroup group);
 
     
 }

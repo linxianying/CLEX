@@ -43,7 +43,7 @@ public class ViewProjectCostBean {
     private ProjectGroup group;
     private Student student;
     private ArrayList<Transaction> transactions;
-    private ArrayList<ComparableTransaction> sortedTransactions;
+    private ArrayList<Transaction> sortedTransactions;
     
     private ArrayList<StudentBalance> balances;
     
@@ -76,7 +76,7 @@ public class ViewProjectCostBean {
         group = (ProjectGroup) session.getAttribute("projectGroup");
         student = (Student) session.getAttribute("user");
         groupMembers = group.getGroupMembers();
-        sortedTransactions = pcsbl.getSortedTransactions(group);
+        sortedTransactions = pcsbl.getALLSortedTransactions(group);
         //System.out.println("sortedTransactions size: " + sortedTransactions.size());
         balances = pcsbl.getAllStudentBalance(group);
         paidBy = "Individual";
@@ -149,11 +149,11 @@ public class ViewProjectCostBean {
         this.transactions = transactions;
     }
 
-    public ArrayList<ComparableTransaction> getSortedTransactions() {
+    public ArrayList<Transaction> getSortedTransactions() {
         return sortedTransactions;
     }
 
-    public void setSortedTransactions(ArrayList<ComparableTransaction> sortedTransactions) {
+    public void setSortedTransactions(ArrayList<Transaction> sortedTransactions) {
         this.sortedTransactions = sortedTransactions;
     }
 
@@ -312,7 +312,7 @@ public class ViewProjectCostBean {
             System.out.println("all=" + this.all.toString());
             pcsbl.addTransaction(all, activity, totalCost, group);
 
-            sortedTransactions = pcsbl.getSortedTransactions(group);
+            sortedTransactions = pcsbl.getALLSortedTransactions(group);
             //System.out.println("After add transaction: sortedTransactions size: " + sortedTransactions.size());
             balances = pcsbl.getAllStudentBalance(group);
             this.setOriStudentCost();
@@ -331,7 +331,7 @@ public class ViewProjectCostBean {
         Transaction t = pcsbl.findTransactionById(deletedTransactionId);
         pcsbl.deleteTransaction(deletedTransactionId, group, t);
         
-        sortedTransactions = pcsbl.getSortedTransactions(group);
+        sortedTransactions = pcsbl.getALLSortedTransactions(group);
         //System.out.println("After add transaction: sortedTransactions size: " + sortedTransactions.size());
         balances = pcsbl.getAllStudentBalance(group);
         this.setOriStudentCost();
