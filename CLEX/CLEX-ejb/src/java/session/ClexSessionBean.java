@@ -118,7 +118,7 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
             //timeslotEntity = createTimeslot(title, timeFrom, timeEnd,details, venue);
             studentEntity.getGroupTimeslots().add(groupTimeslot);
             em.merge(studentEntity);
-            
+            System.out.println("Size: "+studentEntity.getGroupTimeslots().size());
         }
         projectGroup.getGroupTimeslots().add(groupTimeslot);
         em.merge(projectGroup);

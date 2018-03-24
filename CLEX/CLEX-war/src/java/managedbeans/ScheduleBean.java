@@ -10,9 +10,6 @@ import entity.Student;
 import entity.Timeslot;
 import entity.User;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import javax.ejb.EJB;
 import session.ClexSessionBeanLocal;
@@ -22,15 +19,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -113,6 +107,7 @@ public class ScheduleBean implements Serializable {
             eventModel.addEvent(dse);
         }
         if(userType.equals("1")){ //student
+            System.out.println("this is a student");
             student = (Student) userEntity;
             groupTimeslots = (List<GroupTimeslot>) student.getGroupTimeslots();
             GroupTimeslot g;
@@ -124,8 +119,8 @@ public class ScheduleBean implements Serializable {
                 eventModel.addEvent(dse);
            }
         }
-        csbl.createProjectGroupTimeslot("", "2018-02-28 06:00", "2018-02-28 07:00", "Group Meeting", 
-                "First System Release", "Biz Lib", csbl.findProjectgroup("N1", csbl.findModule("CS2100", "2016", "2")));
+        //csbl.createProjectGroupTimeslot("", "2018-02-28 06:00", "2018-02-28 07:00", "Group Meeting", 
+        //        "First System Release", "Biz Lib", csbl.findProjectgroup("N1", csbl.findModule("CS2100", "2016", "2")));
         
         
     }
@@ -252,17 +247,34 @@ public class ScheduleBean implements Serializable {
             Timeslot timeslot = sbl.createTimeslot(username, event.getTitle(), df.format(event.getStartDate()), df.format(event.getEndDate()), details, venue);
             eventModel.addEvent(new DefaultScheduleEvent(timeslot.getTitle(), toCalendar(timeslot.getStartDate()), toCalendar(timeslot.getEndDate()), timeslot));
         } else {
-            Timeslot timeslot = (Timeslot) event.getData();
-            sbl.updateTimeslot(timeslot.getId(), event.getTitle(), df.format(event.getStartDate()), df.format(event.getEndDate()), details, venue);
-            eventModel.updateEvent(new DefaultScheduleEvent(timeslot.getTitle(), toCalendar(timeslot.getStartDate()), toCalendar(timeslot.getEndDate()), timeslot));
+            try{
+                Timeslot timeslot = (Timeslot) event.getData();
+                sbl.updateTimeslot(timeslot.getId(), event.getTitle(), 
+                        df.format(event.getStartDate()), df.format(event.getEndDate()), details, venue);
+                eventModel.updateEvent(new DefaultScheduleEvent(timeslot.getTitle(), 
+                        toCalendar(timeslot.getStartDate()), toCalendar(timeslot.getEndDate()), timeslot));
+            }catch(ClassCastException e){
+                GroupTimeslot t = (GroupTimeslot) event.getData();
+                sbl.updateTimeslot(t.getId(), event.getTitle(), 
+                        df.format(event.getStartDate()), df.format(event.getEndDate()), details, venue);
+                eventModel.updateEvent(new DefaultScheduleEvent(t.getTitle(), 
+                        toCalendar(t.getTimeFrom()), toCalendar(t.getTimeEnd()), t));
+            }
         }
         event = new DefaultScheduleEvent();
     }
 
     public void deleteEvent(ActionEvent actionEvent) {
-        Timeslot timeslot = (Timeslot) event.getData();
-        sbl.deleteTimeslot(timeslot.getId(), userEntity);
-        eventModel.deleteEvent(event);
+        try{
+            Timeslot timeslot = (Timeslot) event.getData();
+            sbl.deleteTimeslot(timeslot.getId(), userEntity);
+            eventModel.deleteEvent(event);
+        }catch(ClassCastException e){
+            GroupTimeslot t = (GroupTimeslot) event.getData();
+            sbl.deleteGroupTimeslot(t.getId(), student);
+            eventModel.deleteEvent(event);
+        }
+        
     }
 
     public void onEventSelect(SelectEvent selectEvent) {
@@ -276,9 +288,15 @@ public class ScheduleBean implements Serializable {
     public void onEventMove(ScheduleEntryMoveEvent event) {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         ScheduleEvent tempEvent = event.getScheduleEvent();
-        Timeslot timeslot = (Timeslot) tempEvent.getData();
-        sbl.updateTimeslot(timeslot.getId(), tempEvent.getTitle(), df.format(tempEvent.getStartDate()), df.format(tempEvent.getEndDate()), details, venue);
-        eventModel.updateEvent(new DefaultScheduleEvent(timeslot.getTitle(), toCalendar(timeslot.getStartDate()), toCalendar(timeslot.getEndDate()), timeslot));
+        try{
+            Timeslot timeslot = (Timeslot) tempEvent.getData();
+            sbl.updateTimeslot(timeslot.getId(), tempEvent.getTitle(), df.format(tempEvent.getStartDate()), df.format(tempEvent.getEndDate()), details, venue);
+            eventModel.updateEvent(new DefaultScheduleEvent(timeslot.getTitle(), toCalendar(timeslot.getStartDate()), toCalendar(timeslot.getEndDate()), timeslot));
+        } catch(ClassCastException e){
+            GroupTimeslot t = (GroupTimeslot) tempEvent.getData();
+            sbl.updateGroupTimeslot(t.getId(), tempEvent.getTitle(), df.format(tempEvent.getStartDate()), df.format(tempEvent.getEndDate()), details, venue);
+            eventModel.updateEvent(new DefaultScheduleEvent(t.getTitle(), toCalendar(t.getTimeFrom()), toCalendar(t.getTimeEnd()), t));
+        }
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event updated", "Change in Days:" + event.getDayDelta() + ", Change in Minutes:" + event.getMinuteDelta());
         addMessage(message);
     }
@@ -286,9 +304,15 @@ public class ScheduleBean implements Serializable {
     public void onEventResize(ScheduleEntryResizeEvent event) {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         ScheduleEvent tempEvent = event.getScheduleEvent();
-        Timeslot timeslot = (Timeslot) tempEvent.getData();
-        sbl.updateTimeslot(timeslot.getId(), tempEvent.getTitle(), df.format(tempEvent.getStartDate()), df.format(tempEvent.getEndDate()), details, venue);
-        eventModel.updateEvent(new DefaultScheduleEvent(timeslot.getTitle(), toCalendar(timeslot.getStartDate()), toCalendar(timeslot.getEndDate()), timeslot));
+        try{
+            Timeslot timeslot = (Timeslot) tempEvent.getData();
+            sbl.updateTimeslot(timeslot.getId(), tempEvent.getTitle(), df.format(tempEvent.getStartDate()), df.format(tempEvent.getEndDate()), details, venue);
+            eventModel.updateEvent(new DefaultScheduleEvent(timeslot.getTitle(), toCalendar(timeslot.getStartDate()), toCalendar(timeslot.getEndDate()), timeslot));
+        } catch(ClassCastException e){
+            GroupTimeslot t = (GroupTimeslot) tempEvent.getData();
+            sbl.updateGroupTimeslot(t.getId(), tempEvent.getTitle(), df.format(tempEvent.getStartDate()), df.format(tempEvent.getEndDate()), details, venue);
+            eventModel.updateEvent(new DefaultScheduleEvent(t.getTitle(), toCalendar(t.getTimeFrom()), toCalendar(t.getTimeEnd()), t));
+        }
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event resized", "Day delta:" + event.getDayDelta() + ", Minute delta:" + event.getMinuteDelta());
         addMessage(message);
     }
@@ -399,6 +423,22 @@ public class ScheduleBean implements Serializable {
 
     public void setUploadedFile(UploadedFile uploadedFile) {
         this.uploadedFile = uploadedFile;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public List<GroupTimeslot> getGroupTimeslots() {
+        return groupTimeslots;
+    }
+
+    public void setGroupTimeslots(List<GroupTimeslot> groupTimeslots) {
+        this.groupTimeslots = groupTimeslots;
     }
     
 
