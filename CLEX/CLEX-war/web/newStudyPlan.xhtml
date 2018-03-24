@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+                xmlns:h="http://xmlns.jcp.org/jsf/html" 
+                template="/WEB-INF/template.xhtml"
+                xmlns:p="http://primefaces.org/ui" 
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    
+    <ui:define name="title">PRISM Student Study Plan Page</ui:define>
+
+    <ui:define name="viewname">Study Plan</ui:define>
+    
+    <ui:define name="content">
+    <h:head>
+        <title>PRISM Student Study Plan Page</title>
+    </h:head>
+    <h:body>
+        <p:growl id="updateErrorMsg" showDetail="true" />
+        <p:growl id="addErrorMsg" showDetail="true" />
+        <p:growl id="msgs" showDetail="true" />
+        <div>
+            <div id="content" class="left_content">
+                <h3><h:outputText value="My Study Plan" /></h3><br></br>
+                <h:form>
+                    <p:fieldset id="studyPlan">
+                    <p:dashboard id="spDashboard" binding="#{newStudyPlanBean.dashboard}" >
+                        <p:ajax event="reorder" listener="#{newStudyPlanBean.handleReorder}" update="msgs" />
+                        <p:panel id="y11" style="width:138px;">
+                            <h:outputText value="Year1 Sem1" />
+                        </p:panel>
+                        
+                        <p:panel id="y12" style="width:138px;">
+                            <h:outputText value="Year1 Sem2" />
+                        </p:panel>
+                        
+                        <p:panel id="y21" style="width:138px;">
+                            <h:outputText value="Year2 Sem1"  />
+                        </p:panel>
+
+                        <p:panel id="y22" style="width:138px;">
+                            <h:outputText value="Year2 Sem2" />
+                        </p:panel>
+
+                        <p:panel id="y31" style="width:138px;">
+                            <h:outputText value="Year3 Sem1" />
+                        </p:panel>
+
+                        <p:panel id="y32" style="width:138px;">
+                            <h:outputText value="Year3 Sem2" />
+                        </p:panel>
+
+                        <p:panel id="y41" style="width:138px;">
+                            <h:outputText value="Year4 Sem1" />
+                        </p:panel>
+
+                        <p:panel id="y42" style="width:138px;">
+                            <h:outputText value="Year4 Sem2" />
+                        </p:panel>
+    <!--                    <ui:repeat value="#{newStudyPlanBean.grades}" var="grade" rendered="#{not empty newStudyPlanBean.grades}">
+                            <p:panel>
+                                <h:outputText value="Taken Modules"/>
+                                <h:outputText value="#{grade.module.course.moduleCode}"/>
+                            </p:panel>
+                        </ui:repeat>
+
+                        <ui:repeat value="#{newStudyPlanBean.takingModules}" var="module" rendered="#{not empty newStudyPlanBean.takingModules}">
+                            <p:panel id="#{module.course.moduleCode}">
+                                <h:outputText value="Taking Modules"/>
+                            </p:panel>
+                        </ui:repeat>
+
+                        <ui:repeat value="#{newStudyPlanBean.studyPlans}" var="sp" rendered="#{not empty newStudyPlanBean.studyPlans}">
+                            <p:panel id="#{sp.course.moduleCode}">
+                                <h:outputText value="Study Plan"/>
+                            </p:panel>
+                        </ui:repeat>-->
+                    </p:dashboard>
+                    </p:fieldset>
+                </h:form>
+            </div>
+        </div>
+        
+        
+    </h:body>
+    </ui:define>
+</ui:composition>

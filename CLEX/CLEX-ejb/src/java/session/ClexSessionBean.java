@@ -11,6 +11,7 @@ import entity.Module;
 import entity.Course;
 import entity.Grade;
 import entity.GroupTask;
+import entity.GroupTimeslot;
 import entity.Guest;
 import entity.Lecturer;
 import entity.Ledger;
@@ -26,6 +27,8 @@ import java.security.MessageDigest;
 import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 import javaClass.JsonReader;
 import javax.ejb.Stateless;
@@ -59,6 +62,7 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     private Lesson lessonEntity;
     private Transaction transactionEntity;
     private Ledger ledgerEntity;
+    private GroupTimeslot groupTimeslot;
     
     private DecimalFormat df = new DecimalFormat("#.##");
 
@@ -73,12 +77,13 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     }
     
     @Override
-    public void createTimeslot(String title, String startDate, String endDate,
+    public Timeslot createTimeslot(String title, String startDate, String endDate,
             String details, String venue){
         timeslotEntity = new Timeslot();
         timeslotEntity.createTimeslot(title, startDate, endDate, details, venue);
         em.persist(timeslotEntity);
         em.flush();
+        return timeslotEntity;
     }
     
     
@@ -99,6 +104,29 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         em.persist(projectGroupEntity);
         em.flush();
     }
+    
+    @Override
+    public void createProjectGroupTimeslot(String date, String timeFrom, String timeEnd, 
+                String title, String details, String venue, ProjectGroup projectGroup){
+        groupTimeslot = new GroupTimeslot();
+        groupTimeslot.createGroupTimeslot(date, timeFrom, timeEnd, title, details, venue, projectGroup);
+        List<Student> students = (List<Student>) projectGroup.getGroupMembers();
+        
+        Iterator itr = students.iterator();
+        while(itr.hasNext()){
+            studentEntity = (Student) itr.next();
+            //timeslotEntity = createTimeslot(title, timeFrom, timeEnd,details, venue);
+            studentEntity.getGroupTimeslots().add(groupTimeslot);
+            em.merge(studentEntity);
+            System.out.println("Size: "+studentEntity.getGroupTimeslots().size());
+        }
+        projectGroup.getGroupTimeslots().add(groupTimeslot);
+        em.merge(projectGroup);
+        em.persist(groupTimeslot);
+        em.flush();
+    }
+    
+    
     
     @Override
     public void createStudyPlan(String pickYear, String pickSem, Course course, Student student){
@@ -670,6 +698,8 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         }
         return projectGroupEntity;
     }
+    
+    
     
     //date is of format dd-MM-yyyy
     @Override

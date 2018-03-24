@@ -90,6 +90,12 @@ public interface StudyPlanSessionBeanLocal {
     public HashMap<String, String> getExpectedCourseGrade(String username);
 
     public List<Course> getAllCourses();
+
+    public ArrayList<Grade> getAllGrades(Student s);
+
+    public ArrayList<Module> getCurrentModules(Student s);
+
+    public ArrayList<StudyPlan> getAllStudyPlans(Student student);
     
     
 }

@@ -129,7 +129,7 @@ public class StudyPlanBean {
 
         context = FacesContext.getCurrentInstance();
         FacesMessage fmsg = new FacesMessage();
-        System.out.println(addPickYear + " " + addPickSem);
+        //System.out.println(addPickYear + " " + addPickSem);
         if (addModuleCode.endsWith("select")) {
             this.addButton = false;
         } //this course already in studyPlan
