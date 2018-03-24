@@ -96,6 +96,14 @@ public interface StudyPlanSessionBeanLocal {
     public ArrayList<Module> getCurrentModules(Student s);
 
     public ArrayList<StudyPlan> getAllStudyPlans(Student student);
+
+    public Grade findGrade(Long id);
+
+    public Module findModuleById(Long id);
+
+    public StudyPlan findStudyPlanById(Long id);
+
+    public void updateGradeYearSem(Long id, String moduleCode, int newYear, int newSem);
     
     
 }

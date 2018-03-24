@@ -63,9 +63,14 @@ public class NewStudyPlanBean implements Serializable {
     private ArrayList<StudyPlan> studyPlans;
     private int currentYear;
     private int currentSem;
+    // the column index of current semester
+    private int currentColumnIndex;
     private int matricYear;
     private int matricSem;
     
+    private int newYear;
+    private int newSem;
+
     private Dashboard dashboard;
     Application application;
     private DashboardModel model;
@@ -163,10 +168,12 @@ public class NewStudyPlanBean implements Serializable {
                     break;
             }
             HtmlOutputText text = new HtmlOutputText();
-            text.setId("gt"+g.getId());
-            text.setValue("Taken Module");
-
+            //text.setId("gt"+g.getId());
+            text.setValue("Taken Module\n");
             panel.getChildren().add(text);
+            HtmlOutputText t1 = new HtmlOutputText();
+            t1.setValue("Grade " + g.getModuleGrade());
+            panel.getChildren().add(t1);
         }
         
         for (Module m : takingModules) {
@@ -210,10 +217,11 @@ public class NewStudyPlanBean implements Serializable {
                     break;
             }
             HtmlOutputText text = new HtmlOutputText();
-            text.setId("mt"+m.getId());
-            text.setValue("Taking Module");
-
+            text.setValue("Taking Module\n");
             panel.getChildren().add(text);
+            HtmlOutputText t1 = new HtmlOutputText();
+            t1.setValue("Grade" );
+            panel.getChildren().add(t1);
         }
         
         for (StudyPlan sp : studyPlans) {
@@ -258,9 +266,11 @@ public class NewStudyPlanBean implements Serializable {
             }
             HtmlOutputText text = new HtmlOutputText();
             text.setId("spt"+sp.getId());
-            text.setValue("Study Plan");
-
+            text.setValue("Study Plan\n");
             panel.getChildren().add(text);
+            HtmlOutputText t1 = new HtmlOutputText();
+            t1.setValue("Grade" );
+            panel.getChildren().add(t1);
         }
         
         System.out.println("newStudyPlanBean finish ");
@@ -410,6 +420,30 @@ public class NewStudyPlanBean implements Serializable {
         this.application = application;
     }
 
+    public int getCurrentColumnIndex() {
+        return currentColumnIndex;
+    }
+
+    public void setCurrentColumnIndex(int currentColumnIndex) {
+        this.currentColumnIndex = currentColumnIndex;
+    }
+
+    public int getNewYear() {
+        return newYear;
+    }
+
+    public void setNewYear(int newYear) {
+        this.newYear = newYear;
+    }
+
+    public int getNewSem() {
+        return newSem;
+    }
+
+    public void setNewSem(int newSem) {
+        this.newSem = newSem;
+    }
+
     
     
   
@@ -427,17 +461,39 @@ public class NewStudyPlanBean implements Serializable {
         }
         matricYear = Integer.parseInt(student.getMatricYear());
         //for test purpose
-        matricYear = 2015;
+        //matricYear = 2015;
+        currentColumnIndex = (currentYear-matricYear)*2+currentSem - 1;
+        
     }
     
     
     public void handleReorder(DashboardReorderEvent event) {
         FacesMessage message = new FacesMessage();
         message.setSeverity(FacesMessage.SEVERITY_INFO);
-        message.setSummary("Reordered: " + event.getWidgetId());
-        message.setDetail("Item index: " + event.getItemIndex() + ", Column index: " + event.getColumnIndex() + ", Sender index: " + event.getSenderColumnIndex());
-         
+        //message.setSummary("Reordered: " + event.getWidgetId());
+        message.setDetail("Reordered: " + event.getWidgetId() + ", Column index: " + event.getColumnIndex() + ", Sender index: " + event.getSenderColumnIndex());
         addMessage(message);
+        String moduleCode;
+        if (event.getSenderColumnIndex() != null) {
+            String id = event.getWidgetId();
+            this.setNewYearSem(event.getColumnIndex());
+            Long updateId;
+            if (id.startsWith("g")) {
+                updateId = Long.parseLong(id.substring(1));
+                this.reorderGrade(updateId);
+            }
+            else if (id.startsWith("m")) {
+                //cannot reorder taking module must be this sem
+//                id = id.substring(1);
+//                updateId = Long.parseLong(id);
+//                this.reorderModule();
+            }
+            else if (id.startsWith("sp")) {
+                id = id.substring(2);
+                updateId = Long.parseLong(id);
+                this.reorderStudyPlan();
+            }
+        }
     }
      
     public void handleClose(CloseEvent event) {
@@ -456,8 +512,27 @@ public class NewStudyPlanBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
+    public void setNewYearSem(int sendeeColumnIndex) {
+        newSem = sendeeColumnIndex % 2 + 1;
+        if (newSem == 1)
+            newYear = sendeeColumnIndex/2 + matricYear;
+        else if (newSem == 2)
+            newYear = (sendeeColumnIndex-1)/2 + matricYear;
+        System.out.println("newSPbean: setNewYearSem: change to year " + newYear + ",sem " + newSem);
+    }
     
+    public void reorderGrade(Long id) {
+        Module m = spsbl.findGrade(id).getModule();
+        spsbl.updateGradeYearSem(id, m.getCourse().getModuleCode(), newYear, newSem);
+    }
     
+    public void reorderModule() {
+        
+    }
+    
+    public void reorderStudyPlan() {
+        
+    }
     
     
     

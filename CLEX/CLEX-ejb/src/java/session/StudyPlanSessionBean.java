@@ -791,6 +791,49 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     
     
     
+    @Override
+    public Grade findGrade(Long id) {
+        Grade g = new Grade();
+        g = null;
+        try {
+            Query q = em.createQuery("SELECT g FROM Grade g WHERE g.id=:id");
+            q.setParameter("id", id);
+            g = (Grade) q.getSingleResult();
+        } catch (NoResultException e) {
+            e.printStackTrace();
+        }
+        return g;
+    }
+    
+    @Override
+    public Module findModuleById(Long id) {
+        Module m = new Module();
+        m = null;
+        try {
+            Query q = em.createQuery("SELECT m FROM Module m WHERE m.id=:id");
+            q.setParameter("id", id);
+            m = (Module) q.getSingleResult();
+            //System.out.println("Course " + moduleCode + " found.");
+        } catch (NoResultException e) {
+            e.printStackTrace();
+        }
+        return m;
+    }
+    
+    @Override
+    public StudyPlan findStudyPlanById(Long id) {
+        StudyPlan sp = new StudyPlan();
+        sp = null;
+        try {
+            Query q = em.createQuery("SELECT sp FROM StudyPlan sp WHERE sp.id=:id");
+            q.setParameter("id", id);
+            sp = (StudyPlan) q.getSingleResult();
+            //System.out.println("Course " + moduleCode + " found.");
+        } catch (NoResultException e) {
+            e.printStackTrace();
+        }
+        return sp;
+    }
     //--------------------------------------------------For new study plan page---------------------------------------------------------------------------
 
     @Override
@@ -847,6 +890,13 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     }
     
     
+    @Override
+    public void updateGradeYearSem(Long id, String moduleCode, int newYear, int newSem) {
+        Grade g = this.findGrade(id);
+        g.setModule(this.findModule(Integer.toString(newYear), Integer.toString(newSem), moduleCode));
+        em.merge(g);
+        em.flush();
+    }
     
     
     
