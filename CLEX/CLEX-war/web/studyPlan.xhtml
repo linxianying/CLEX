@@ -424,6 +424,8 @@
                     <h:form id="initializePageDataForm">
                         <p:remoteCommand name="initializePageDataCommand" autoRun="true" action="#{studyPlanBean.init()}" update="tab:studyPlanForm:studyPlan, tab:modulesTakingForm tab:expectedCap, tab:expectedCap2"/>
                     </h:form>
+                    
+                    <p:commandButton value="newStudyPlanPage" action="newStudyPlan?faces-redirect=true"/>
                     <br />
                 </div>
             </div>

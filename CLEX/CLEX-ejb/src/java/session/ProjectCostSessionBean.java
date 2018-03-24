@@ -59,6 +59,45 @@ public class ProjectCostSessionBean implements ProjectCostSessionBeanLocal {
         return transactions;
     }
     
+    @Override
+    public Ledger findLedgerById(Long id){
+        Ledger l = null;
+        try {
+            Query q = em.createQuery("Select l From Ledger l Where l.id=:id");
+            q.setParameter("id", id);
+            l = (Ledger) q.getSingleResult();
+        }
+        catch (NoResultException e){
+            System.out.println("pcsb: findLedgerById: no ledger found");
+            return null;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        
+        return l;
+    }
+    
+    @Override
+    public Transaction findTransactionById(Long id){
+        Transaction t = null;
+        try {
+            Query q = em.createQuery("Select t From GroupTransaction t Where t.id=:id");
+            q.setParameter("id", id);
+            t = (Transaction) q.getSingleResult();
+        }
+        catch (NoResultException e){
+            System.out.println("pcsb: findTransactionById: no transaction found");
+            return null;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        
+        return t;
+    }
 
     @Override
     public void addTransaction(ArrayList<StudentCost> all, String activity, double totalCost, ProjectGroup group) {
@@ -70,7 +109,7 @@ public class ProjectCostSessionBean implements ProjectCostSessionBeanLocal {
         group.getTransactions().add(transaction);
         em.merge(group);
         em.flush();
-        //System.out.println("pc session bean: addTransaction");
+        System.out.println("pc session bean: addTransaction: New Transaction " + transaction.getId());
         for(StudentCost sc: all) {
             student = sc.getStudent();
             cost = sc.getCost();
@@ -104,7 +143,7 @@ public class ProjectCostSessionBean implements ProjectCostSessionBeanLocal {
                 transactions.add(t);
             }
             for (Transaction t: transactions) {
-                comTransaction = new ComparableTransaction(t.getCost(), formatter.parse(t.getDate()), 
+                comTransaction = new ComparableTransaction(t.getId(), t.getCost(), formatter.parse(t.getDate()), 
                 t.getActivity(), t.getProjectGroup(), t.getLedgers());
                 sortedTransactions.add(comTransaction);
             }
@@ -246,6 +285,49 @@ public class ProjectCostSessionBean implements ProjectCostSessionBeanLocal {
         //add the zeroBalances arraylist (zeroBalances, payees is empty)
         balances.addAll(zeroBalances); 
         return balances;
+    }
+    
+    //called by deleteTransaction method, delete a ledger and its relationship with student
+    private void deleteLedger(Long ledgerId, Student student, Transaction deletetransaction) {
+//        student.getLedgers().remove(ledger);
+//        em.merge(student);
+        //deletetransaction.getLedgers().remove(ledger);
+//        em.remove(ledger);
+//        System.out.println("remove Ledger");
+//        System.out.println("Check inside student still have or not: " + student.getLedgers().contains(ledger));
+//        em.merge(student);
+//        em.flush();
+        Ledger deleteLedger = this.findLedgerById(ledgerId);
+        deletetransaction.getLedgers().remove(ledger);
+//        em.merge(deletetransaction);
+        student.getLedgers().remove(ledger);
+        em.merge(student);
+        em.remove(deleteLedger); 
+        em.flush();
+        System.out.println("remove Ledger");
+    }
+    
+    
+    //delete a transaction need to delete it in databse, projectGroup, delete all ledger 
+
+    /**
+     *
+     * @param deletedTransactionId
+     * @param group
+     */
+        @Override
+    public void deleteTransaction(Long deletedTransactionId, ProjectGroup group, Transaction t) {
+        Transaction deletetransaction = this.findTransactionById(deletedTransactionId);
+//        group.getTransactions().remove(deletetransaction);
+//        em.merge(group);
+        for (Ledger l: t.getLedgers()) {
+            this.deleteLedger(l.getId(), l.getStudent(), deletetransaction);
+        }
+        group.getTransactions().remove(deletetransaction);
+        em.merge(group);
+        //em.merge(deletetransaction);
+        em.remove(deletetransaction);
+        em.flush();
     }
     
 }

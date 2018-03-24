@@ -17,18 +17,28 @@ import java.util.Date;
  * @author caoyu
  */
 public class ComparableTransaction implements Comparable<ComparableTransaction>{
+    private Long id;
     private double cost;
     private Date date;
     private String activity;
     private ProjectGroup projectGroup;
     private Collection<Ledger> ledgers;
 
-    public ComparableTransaction(double cost, Date date, String activity, ProjectGroup projectGroup, Collection<Ledger> ledgers) {
+    public ComparableTransaction(Long id, double cost, Date date, String activity, ProjectGroup projectGroup, Collection<Ledger> ledgers) {
+        this.id = id;
         this.cost = cost;
         this.date = date;
         this.activity = activity;
         this.projectGroup = projectGroup;
         this.ledgers = ledgers;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public double getCost() {

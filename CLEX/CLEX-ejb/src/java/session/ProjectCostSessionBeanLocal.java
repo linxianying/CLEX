@@ -5,7 +5,9 @@
  */
 package session;
 
+import entity.Ledger;
 import entity.ProjectGroup;
+import entity.Transaction;
 import java.util.ArrayList;
 import javaClass.ComparableTransaction;
 import javaClass.StudentBalance;
@@ -25,6 +27,12 @@ public interface ProjectCostSessionBeanLocal {
     
 
     public ArrayList<StudentBalance> getAllStudentBalance(ProjectGroup group);
+
+    public Transaction findTransactionById(Long id);
+
+    public void deleteTransaction(Long deletedTransactionId, ProjectGroup group, Transaction t);
+
+    public Ledger findLedgerById(Long id);
 
     
 }

@@ -317,7 +317,22 @@ public class ViewProjectCostBean {
         }
         
         sortedTransactions = pcsbl.getSortedTransactions(group);
-        System.out.println("After add transaction: sortedTransactions size: " + sortedTransactions.size());
+        //System.out.println("After add transaction: sortedTransactions size: " + sortedTransactions.size());
+        balances = pcsbl.getAllStudentBalance(group);
+        this.setOriStudentCost();
+        activity = null;
+        totalCost = 0.0;
+        paidBy = "Individual";
+        splitBy = "Equally";
+    }
+    
+    public void deleteTransaction(Long deletedTransactionId) {
+        //System.out.println("into delete");
+        Transaction t = pcsbl.findTransactionById(deletedTransactionId);
+        pcsbl.deleteTransaction(deletedTransactionId, group, t);
+        
+        sortedTransactions = pcsbl.getSortedTransactions(group);
+        //System.out.println("After add transaction: sortedTransactions size: " + sortedTransactions.size());
         balances = pcsbl.getAllStudentBalance(group);
         this.setOriStudentCost();
         activity = null;

@@ -49,8 +49,8 @@ public class ProjectCostBean implements Serializable {
     private double cost;
     //private Map<Long, Student> groupMembers;
     private Collection<Student> groupMembers;
-    private ArrayList<Student> testGroupMembers;
-    private ArrayList<String> testGroupMembersName;
+//    private ArrayList<Student> testGroupMembers;
+//    private ArrayList<String> testGroupMembersName;
     private Student individualPayer;
     private String individualPayerUsername;
     private Long individualPayerId;
@@ -282,12 +282,12 @@ public class ProjectCostBean implements Serializable {
             sc.setPay(0.0);
             sc.setCost(0.0);
         }
-        try {
-            context.getExternalContext().redirect("viewProjectCost.xhtml");
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
+//        try {
+//            context.getExternalContext().redirect("viewProjectCost.xhtml");
+//        }
+//        catch(Exception e){
+//            e.printStackTrace();
+//        }
     }
     
     //for test purpose
@@ -319,21 +319,7 @@ public class ProjectCostBean implements Serializable {
         this.individualPayerUsername = individualPayerUsername;
     }
 
-    public ArrayList<Student> getTestGroupMembers() {
-        return testGroupMembers;
-    }
 
-    public void setTestGroupMembers(ArrayList<Student> testGroupMembers) {
-        this.testGroupMembers = testGroupMembers;
-    }
-
-    public ArrayList<String> getTestGroupMembersName() {
-        return testGroupMembersName;
-    }
-
-    public void setTestGroupMembersName(ArrayList<String> testGroupMembersName) {
-        this.testGroupMembersName = testGroupMembersName;
-    }
 
     public Long getIndividualPayerId() {
         return individualPayerId;
