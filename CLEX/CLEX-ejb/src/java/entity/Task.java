@@ -40,9 +40,10 @@ public class Task implements Serializable {
     private String status;
     
     private String urgency;
+
     
     @ManyToOne
-    private Student student = new Student();
+    private User user;
 
     public void createTask(String date, String deadline, String title,String details, String status){
         this.deadline = deadline;
@@ -108,13 +109,15 @@ public class Task implements Serializable {
         this.status = status;
     }
 
-    public Student getStudent() {
-        return student;
+    public User getUser() {
+        return user;
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setUser(User user) {
+        this.user = user;
     }
+
+
 
     @Override
     public int hashCode() {

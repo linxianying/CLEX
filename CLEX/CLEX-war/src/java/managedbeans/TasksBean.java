@@ -99,20 +99,22 @@ public class TasksBean {
         session = (HttpSession) context.getExternalContext().getSession(true);
         
         
-        System.out.println("Add Task: ddl is " + ddl);
+        
         //if(deadline!=null)
         //    System.out.println("addTask: deadline is "+deadline);
         //    ddl = ft.format(deadline);
         task = tsbl.createTask(username, ft.format(Calendar.getInstance().getTime()), ddl, title, details, "unfinished");
+        
         if(urgencyInt!=null){
             urgency = urgencyInt+"";
             task.setUrgency(urgency);
-            
+            System.out.println("Add Task: urgency is " + urgency);
         }
         else{
             System.out.println("task with id " + task.getId() + " does not set urgency");
         }
         if(task!=null&&task.getUrgency()!=null){
+            tsbl.linkTaskStudent(task.getId(), username);
             System.out.println("New task created in studentMain: with id " +  task.getId());
             fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Task '" + task.getTitle() + "' with urgency " +
                     task.getUrgency() +  " is created.", "Successfuly");
@@ -120,6 +122,7 @@ public class TasksBean {
                 
         }
         else if(task!=null){
+            tsbl.linkTaskStudent(task.getId(), username);
             System.out.println("New task created in studentMain: with id " +  task.getId());
             fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Task '" + task.getTitle() + " is created.", "Successfuly");
             context.addMessage(null, fmsg);

@@ -121,10 +121,10 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
         }else{
             taskEntity = new Task();
             taskEntity.createTask(date, deadline, title, details, status);
-            taskEntity.setStudent(studentEntity);
+            taskEntity.setUser(studentEntity);
             studentEntity.getTasks().add(taskEntity);
-            em.persist(taskEntity);
             em.merge(studentEntity);
+            em.persist(taskEntity);
             em.flush();
             
         }
@@ -270,7 +270,7 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
         }else if(taskEntity==null){
             System.out.println("Task " + taskId + " does not exist.");
         }else{
-            taskEntity.setStudent(studentEntity);
+            taskEntity.setUser(studentEntity);
             studentEntity.getTasks().add(taskEntity);
             em.merge(taskEntity);
             em.merge(studentEntity);
