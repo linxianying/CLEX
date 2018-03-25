@@ -30,13 +30,38 @@
                                          filteredValue="#{adminCourseListBean.filteredCourses}"
                                          paginator="true" paginatorAlwaysVisible="false"
                                          rows="10"
-                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks}
+                                         {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
                                          rowsPerPageTemplate="10,20,50">
                                 <f:facet name="header">
                                     <p:outputPanel>
                                         <h:outputText value="Search all fields:" />
                                         <p:inputText id="globalFilter" onkeyup="PF('coursesTable').filter()" style="width:150px" placeholder="Enter keyword"/>
                                     </p:outputPanel>
+                                </f:facet>  
+                                <f:facet name="{Exporters}">
+                                    <div style="float:right;">
+                                        <!--could add pageOnly="true" to make the exporter only export one page -->
+                                        <h:commandLink>
+                                            <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                                            <p:dataExporter type="xls" target="coursetable" fileName="course"  pageOnly="true" />
+                                        </h:commandLink>
+
+                                        <h:commandLink>
+                                            <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                                            <p:dataExporter type="pdf" target="coursetable" fileName="course" pageOnly="true" />
+                                        </h:commandLink>
+
+                                        <h:commandLink>
+                                            <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                                            <p:dataExporter type="csv" target="coursetable" fileName="course"  pageOnly="true" />
+                                        </h:commandLink>
+
+                                        <h:commandLink>
+                                            <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                                            <p:dataExporter type="xml" target="coursetable" fileName="course" pageOnly="true" />
+                                        </h:commandLink>
+                                    </div>
                                 </f:facet>
 
                                 <p:ajax event="cellEdit" listener="#{adminCourseListBean.editCourse(course)}" update="messages"/>
