@@ -110,6 +110,8 @@
                                 <p:inputText id="activity" value="#{viewProjectCostBean.activity}" required="true"/>
                                 <h:outputLabel for="totalCost" value="Total Cost: " /> 
                                 <p:inputNumber id="totalCost" value="#{viewProjectCostBean.totalCost}" symbol="$" symbolPosition="p" minValue="0.00" />
+                                <p:outputLabel for="addDate" value="Date:"/>
+                                <p:calendar id="addDate" value="#{viewProjectCostBean.date}"/>
                             </h:panelGrid>
                             <h:panelGrid columns="2">
                                 <h:outputLabel for="paidBy" value="Paid by: " /> 

@@ -275,7 +275,7 @@ public class ProjectCostBean implements Serializable {
         System.out.println("activity=" + this.activity);
         System.out.println("totalcost=" + this.totalCost);
         System.out.println("all=" + this.all.toString());
-        pcsbl.addTransaction(all, activity, totalCost, group);
+        //pcsbl.addTransaction(all, activity, totalCost, group, date);
         
         //initialize 
         for (StudentCost sc: all) {

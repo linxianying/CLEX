@@ -99,8 +99,8 @@ public class ProjectCostSessionBean implements ProjectCostSessionBeanLocal {
     }
 
     @Override
-    public void addTransaction(ArrayList<StudentCost> all, String activity, double totalCost, ProjectGroup group) {
-        String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+    public void addTransaction(ArrayList<StudentCost> all, String activity, double totalCost, ProjectGroup group, Date addDate ) {
+        String date = new SimpleDateFormat("dd-MM-yyyy").format(addDate);
         //first create the transaction
         transaction = new Transaction();
         transaction.createTransaction(totalCost, date, activity, group);
@@ -108,7 +108,7 @@ public class ProjectCostSessionBean implements ProjectCostSessionBeanLocal {
         group.getTransactions().add(transaction);
         em.merge(group);
         em.flush();
-        System.out.println("pc session bean: addTransaction: New Transaction " + transaction.getId());
+        //System.out.println("pc session bean: addTransaction: New Transaction " + transaction.getId());
         for (StudentCost sc : all) {
             student = sc.getStudent();
             cost = sc.getCost();

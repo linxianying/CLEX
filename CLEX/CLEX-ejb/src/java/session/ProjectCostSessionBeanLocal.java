@@ -10,6 +10,7 @@ import entity.ProjectGroup;
 import entity.Transaction;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import javaClass.ComparableTransaction;
 import javaClass.StudentBalance;
@@ -23,7 +24,7 @@ import javax.ejb.Local;
 @Local
 public interface ProjectCostSessionBeanLocal {
 
-    public void addTransaction(ArrayList<StudentCost> all, String activity, double totalCost, ProjectGroup group);
+    public void addTransaction(ArrayList<StudentCost> all, String activity, double totalCost, ProjectGroup group, Date date);
 
 //    public ArrayList<ComparableTransaction> getSortedTransactions(ProjectGroup group);
 

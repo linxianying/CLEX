@@ -11,6 +11,7 @@ import entity.Student;
 import entity.Transaction;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import javaClass.StudentBalance;
 import javaClass.StudentCost;
 import javax.annotation.PostConstruct;
@@ -53,6 +54,7 @@ public class ViewProjectCostBean {
     private String activity;
     private double totalCost;
     private double cost;
+    private Date date;
     //private Map<Long, Student> groupMembers;
     private Collection<Student> groupMembers;
     private Student individualPayer;
@@ -128,7 +130,6 @@ public class ViewProjectCostBean {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
         if (addTransactionValidator()) {
-
             //if paid by individual
             if (paidBy.equals("Individual")) {
                 // find the individualPayer in the payer arrayList and assign total cost to it
@@ -157,7 +158,7 @@ public class ViewProjectCostBean {
             System.out.println("activity=" + this.activity);
             System.out.println("totalcost=" + this.totalCost);
             System.out.println("all=" + this.all.toString());
-            pcsbl.addTransaction(all, activity, totalCost, group);
+            pcsbl.addTransaction(all, activity, totalCost, group, date);
 
             sortedTransactions = pcsbl.getALLSortedTransactions(group);
             //System.out.println("After add transaction: sortedTransactions size: " + sortedTransactions.size());
@@ -169,6 +170,7 @@ public class ViewProjectCostBean {
             totalCost = 0.0;
             paidBy = "Individual";
             splitBy = "Equally";
+            date = null;
         } else {
             System.out.println("Msg posted");
         }
@@ -440,4 +442,22 @@ public class ViewProjectCostBean {
     public void setSelectedTransaction(Transaction selectedTransaction) {
         this.selectedTransaction = selectedTransaction;
     }
+
+    public ArrayList<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(ArrayList<Transaction> transactions) {
+        this.transactions = transactions;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+    
+    
 }
