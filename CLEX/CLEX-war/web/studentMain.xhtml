@@ -77,7 +77,14 @@
                         <p:panel header="Unfinished Tasks" style="min-height:320px">
                             <ul>
                                 <li>
-                                    <p:dataList var="task" value="#{toDoTimelineBean.ta}">
+                                    <p:dataList var="task" id="tasklist" value="#{toDoTimelineBean.ta}"
+                                                widgetVar="tasksTable"
+                                                paginator="true"
+                                                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                rowsPerPageTemplate="5,10,20"
+                                                rows="5"
+                                                emptyMessage="No users found with given criteria." >
+                                        
                                         <p:selectBooleanCheckbox>
                                             <p:ajax event="change"  listener="#{toDoTimelineBean.ta}" />
                                         </p:selectBooleanCheckbox>
