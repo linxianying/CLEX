@@ -104,19 +104,19 @@
 
                 <p:fieldset collapsed="false" styleClass="menuHeader" id="addtransaction" legend="Add new transaction" toggleable="false" toggleSpeed="500">
                     <h:form id="addTransactionForm">
-                        <h:panelGrid columns="2" >
-                            <h:panelGrid columns="2">
+                        <h:panelGrid columns="2">
+                            <h:panelGrid columns="2" id="addBasicInfo">
                                 <h:outputLabel for="activity" value="Activity: " /> 
                                 <p:inputText id="activity" value="#{viewProjectCostBean.activity}" required="true"/>
                                 <h:outputLabel for="totalCost" value="Total Cost: " /> 
                                 <p:inputNumber id="totalCost" value="#{viewProjectCostBean.totalCost}" symbol="$" symbolPosition="p" minValue="0.00" />
                                 <p:outputLabel for="addDate" value="Date:"/>
-                                <p:calendar id="addDate" value="#{viewProjectCostBean.date}"/>
+                                <p:calendar id="addDate" value="#{viewProjectCostBean.date}" placeholder="Today"/>
                             </h:panelGrid>
-                            <h:panelGrid columns="2">
+                            <h:panelGrid columns="2" id="indPayer">
                                 <h:outputLabel for="paidBy" value="Paid by: " /> 
                                 <p:selectOneMenu id="paidBy" value="#{viewProjectCostBean.paidBy}" >
-                                    <p:ajax event="change" update="addTransactionForm"  />
+                                    <p:ajax event="change" update="addTransactionForm:indPayer, addTransactionForm:multiplePayers" />
                                     <f:selectItem itemLabel="Individual" itemValue="Individual"/>
                                     <f:selectItem itemLabel="Multiple People" itemValue="Multiple People"/>
                                 </p:selectOneMenu>
@@ -125,7 +125,7 @@
                                     <f:selectItems value="#{viewProjectCostBean.groupMembers}" var="student" itemLabel="#{student.name}" itemValue="#{student.id}"/> 
                                 </p:selectOneMenu>
                             </h:panelGrid>
-                            <h:panelGroup id="multiplePayers" >
+                            <h:panelGrid id="multiplePayers" >
                                 <h:outputText value="Enter the amount each member has paid" rendered="#{viewProjectCostBean.paidBy == 'Multiple People'}"/>
                                 <br />
                                 <ui:repeat value="#{viewProjectCostBean.all}" var="payer" rendered="#{viewProjectCostBean.paidBy == 'Multiple People'}"> 
@@ -135,19 +135,19 @@
                                     </p:inputNumber>
                                     <br />
                                 </ui:repeat>
-                            </h:panelGroup>
+                            </h:panelGrid>
                         </h:panelGrid>
                         <br />
                         <h:panelGrid columns="2">
                             <h:outputLabel for="splitBy" value="Split by: " /> 
                             <p:selectOneMenu id="splitBy" value="#{viewProjectCostBean.splitBy}" >
-                                <p:ajax event="change" update="addTransactionForm"  />
+                                <p:ajax event="change" update="addTransactionForm:splitAmount, addTransactionForm:splitpercentage,"  />
                                 <f:selectItem itemLabel="Equally" itemValue="Equally"/>
                                 <f:selectItem itemLabel="Exact Amount" itemValue="Exact Amount"/>
                                 <f:selectItem itemLabel="Percentage" itemValue="Percentage"/>
                             </p:selectOneMenu>
                         </h:panelGrid>
-                        <h:panelGrid columns="2">
+                        <h:panelGrid columns="2" id="splitAmount">
                             <h:outputText value="Enter the eact amount each member must pay" rendered="#{viewProjectCostBean.splitBy == 'Exact Amount'}"/>
                             <br />
                             <ui:repeat value="#{viewProjectCostBean.all}" var="payee" rendered="#{viewProjectCostBean.splitBy == 'Exact Amount'}"> 
@@ -156,8 +156,7 @@
                                 <br />
                             </ui:repeat>
                         </h:panelGrid>
-                        <h:panelGrid columns="2">
-
+                        <h:panelGrid columns="2" id="splitpercentage">
                             <h:outputText value="Enter the percentage each member must pay" rendered="#{viewProjectCostBean.splitBy == 'Percentage'}"/>
                             <br />
                             <ui:repeat value="#{viewProjectCostBean.all}" var="payee" rendered="#{viewProjectCostBean.splitBy == 'Percentage'}"> 

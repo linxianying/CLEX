@@ -127,6 +127,8 @@ public class ViewProjectCostBean {
 //            System.out.println(sc.toString());
 //            System.out.println(" ");
 //        }
+        if (date == null)
+            date = new Date();
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
         if (addTransactionValidator()) {
