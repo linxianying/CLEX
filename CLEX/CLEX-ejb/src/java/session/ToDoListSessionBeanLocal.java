@@ -43,7 +43,7 @@ public interface ToDoListSessionBeanLocal {
     public void finishGroupTask(Long taskId);
     public Student findStudent(String username);
     
-    public String removeTask(Long taskId, User user);
+    public boolean removeTask(Long taskId, User user);
     public String removeGroupTask(Long taskId, ProjectGroup projectGroup) ;
     
     public int calculateTaskOverview(Student student);

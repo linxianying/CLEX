@@ -70,6 +70,7 @@ public class ToDoTimelineBean {
     private String userType;
     private Collection<Task> tasks;
     private List<Task> ta = new ArrayList<Task>();
+    private List<Task> filteredTa = new ArrayList<Task>();
     
     FacesContext context;
     HttpSession session;
@@ -276,6 +277,14 @@ public class ToDoTimelineBean {
 
     public void setTa(List<Task> ta) {
         this.ta = ta;
+    }
+
+    public List<Task> getFilteredTa() {
+        return filteredTa;
+    }
+
+    public void setFilteredTa(List<Task> filteredTa) {
+        this.filteredTa = filteredTa;
     }
     
     

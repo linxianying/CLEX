@@ -78,10 +78,10 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
     }
     
     @Override
-    public String removeTask(Long taskId, User user) {
+    public boolean removeTask(Long taskId, User user) {
         Task task = findTask(taskId);
         if (task==null||user==null) {
-            return "Task not found or user not found!\n";
+            return false;
         }
         else{
             //task = em.find(Task.class, taskId);
@@ -91,7 +91,7 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
             em.flush();
 
         }
-        return "Task is sucessfully deleted!\n";
+        return true;
     }
     
     @Override

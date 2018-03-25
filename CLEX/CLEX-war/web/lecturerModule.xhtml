@@ -30,7 +30,8 @@
                                      paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
                                      rows="5" 
                                      id="modules"
-                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
+                                     {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
                                      rowsPerPageTemplate="5,10,20">
                             
                             <f:facet name="header">
@@ -38,7 +39,10 @@
                                         <h:outputText value="Search all fields:" />
                                         <p:inputText id="globalFilter" onkeyup="PF('modulesTable').filter()" style="width:150px" placeholder="Enter keyword"/>
                                     </p:outputPanel>
-                                
+                            
+                            </f:facet>  
+                            <f:facet name="{Exporters}">
+                                <div style="float:right;">
                                     <!--could add pageOnly="true" to make the exporter only export one page -->
                                     <h:commandLink>
                                         <p:graphicImage name="/demo/images/excel.png" width="24"/>
@@ -59,6 +63,7 @@
                                         <p:graphicImage name="/demo/images/xml.png" width="24"/>
                                         <p:dataExporter type="xml" target="modules" fileName="modules"/>
                                     </h:commandLink>
+                                </div>
                             </f:facet>
                             <p:column style="width: 15%" filterBy="#{module.course.moduleCode}" sortBy="#{module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
                                 <h:outputText value="#{module.course.moduleCode} " >
@@ -102,8 +107,10 @@
                                      paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
                                      rows="5"
                                      id="les"
-                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                     rowsPerPageTemplate="5,10,20">
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} 
+                                     {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+                                     rowsPerPageTemplate="5,10,20"
+                                     >
                             <f:facet name="header">
                                 <p:outputPanel>
                                     <h:outputText value="Search all fields:" />
@@ -129,6 +136,7 @@
                                     <p:graphicImage name="/demo/images/xml.png" width="24"/>
                                     <p:dataExporter type="xml" target="les" fileName="lessons" />
                                 </h:commandLink>
+                                
                             </f:facet>
                             <p:ajax event="cellEdit" listener="#{lecturerModuleListBean.lectEditLesson(lesson)}" update="messages"/>
                             <p:column filterBy="#{lesson.module.course.moduleCode}" sortBy="#{lesson.module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
