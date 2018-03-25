@@ -24,6 +24,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.ScheduleEvent;
@@ -132,6 +133,25 @@ public class TasksBean {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Task creation failed.", "Unsuccessfuly");
             context.addMessage(null, fmsg);
         }
+        
+    }
+    
+    
+    public void deleteTask(Task task){
+        FacesMessage fmsg = new FacesMessage();
+        FacesContext context = FacesContext.getCurrentInstance();
+        RequestContext reqcontext = RequestContext.getCurrentInstance();
+        if (tsbl.removeTask(task.getId(), studentEntity)==true) {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Task with id "+task.getId() + " has been deleted.", "");
+            context.addMessage(null, fmsg);
+            reqcontext.execute("PF('usersTable').clearFilters()");
+            reqcontext.update("userForm:userlist");
+        } else {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fail to delete task", "");
+            context.addMessage(null, fmsg);
+        }
+        
+    
     }
 
     public Date getDate() {

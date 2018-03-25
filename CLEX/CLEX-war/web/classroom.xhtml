@@ -65,33 +65,38 @@
                                          paginator="true"
                                          paginatorPosition="bottom"
                                          rows="10"
-                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
+                                         {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
                                          rowsPerPageTemplate="10,20,50">
                                 <f:facet name="header">
                                     <p:outputPanel>
                                         <h:outputText value="Search all fields:" />
                                         <p:inputText id="globalFilter" onkeyup="PF('pollsTable').filter()" style="width:150px" placeholder="Enter keyword" />
                                     </p:outputPanel>
-                                    <h:commandLink>
-                                        <p:graphicImage name="/demo/images/excel.png" width="24"/>
-                                        <p:dataExporter type="xls" target="tbl" fileName="polls" />
-                                    </h:commandLink>
+                                </f:facet>  
+                                <f:facet name="{Exporters}">
+                                    <div style="float:right;">
+                                        <!--could add pageOnly="true" to make the exporter only export one page -->
+                                        <h:commandLink>
+                                            <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                                            <p:dataExporter type="xls" target="tbl" fileName="polls"  />
+                                        </h:commandLink>
 
-                                    <h:commandLink>
-                                        <p:graphicImage name="/demo/images/pdf.png" width="24"/>
-                                        <p:dataExporter type="pdf" target="tbl" fileName="polls"/>
-                                    </h:commandLink>
+                                        <h:commandLink>
+                                            <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                                            <p:dataExporter type="pdf" target="tbl" fileName="polls" />
+                                        </h:commandLink>
 
-                                    <h:commandLink>
-                                        <p:graphicImage name="/demo/images/csv.png" width="24"/>
-                                        <p:dataExporter type="csv" target="tbl" fileName="polls" />
-                                    </h:commandLink>
+                                        <h:commandLink>
+                                            <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                                            <p:dataExporter type="csv" target="tbl" fileName="polls"  />
+                                        </h:commandLink>
 
-                                    <h:commandLink>
-                                        <p:graphicImage name="/demo/images/xml.png" width="24"/>
-                                        <p:dataExporter type="xml" target="tbl" fileName="polls" />
-                                    </h:commandLink>
-                                    
+                                        <h:commandLink>
+                                            <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                                            <p:dataExporter type="xml" target="tbl" fileName="polls"/>
+                                        </h:commandLink>
+                                    </div>
                                 </f:facet>
                                 
 

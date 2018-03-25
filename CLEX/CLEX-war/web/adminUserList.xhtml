@@ -21,7 +21,8 @@
                              emptyMessage="No users found with given criteria." 
                              filteredValue="#{accessControlBean.filteredUsers}"
                              paginator="true"
-                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
+                             {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
                              rowsPerPageTemplate="5,10,20">
 
                     <f:facet name="header">
@@ -29,6 +30,30 @@
                             <h:outputText value="Search all fields:" />
                             <p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()" style="width:150px" placeholder="Enter keyword"/>
                         </p:outputPanel>
+                    </f:facet>  
+                    <f:facet name="{Exporters}">
+                        <div style="float:right;">
+                            <!--could add pageOnly="true" to make the exporter only export one page -->
+                            <h:commandLink>
+                                <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                                <p:dataExporter type="xls" target="usertable" fileName="userlist"  />
+                            </h:commandLink>
+
+                            <h:commandLink>
+                                <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                                <p:dataExporter type="pdf" target="usertable" fileName="userlist" />
+                            </h:commandLink>
+
+                            <h:commandLink>
+                                <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                                <p:dataExporter type="csv" target="usertable" fileName="userlist"  />
+                            </h:commandLink>
+
+                            <h:commandLink>
+                                <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                                <p:dataExporter type="xml" target="usertable" fileName="userlist"/>
+                            </h:commandLink>
+                        </div>
                     </f:facet>
                     <p:column style="width: 10%" filterBy="#{user.userType}" sortBy="#{user.userType}" headerText="User Type" filterMatchMode="in">
                         <f:facet name="filter">
