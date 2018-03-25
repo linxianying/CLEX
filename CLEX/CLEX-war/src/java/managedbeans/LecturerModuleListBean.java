@@ -12,6 +12,7 @@ import entity.Student;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -41,6 +42,13 @@ public class LecturerModuleListBean implements Serializable {
     private List<Lesson> lessons;
     private List<Lesson> filteredLessons;
 
+    private ArrayList<Module> currentModules;
+    private int currentYear;
+    private int currentSem;
+    private int numOfGroups;
+    private int minStudentNum;
+    private int maxStudentNum;
+    
     private Lecturer lecturerEntity;
     private ArrayList<Student> students;
     private List<String> moduleCodes;
@@ -70,6 +78,7 @@ public class LecturerModuleListBean implements Serializable {
         session = (HttpSession) context.getExternalContext().getSession(true);
         lecturerEntity = (Lecturer) session.getAttribute("user");
         username = lecturerEntity.getUsername();
+        this.setCurrentYearSem();
         refresh();
     }
 
@@ -79,8 +88,22 @@ public class LecturerModuleListBean implements Serializable {
         moduleCodes = asbl.getModuleCodeByLecturer(username);
         timelist = (List) cmbl.getAllTimings();
         daylist = (List) cmbl.getAllDays();
+        currentModules = cmbl.getCurrentModulesFromLecturer(username, Integer.toString(currentYear), Integer.toString(currentSem));
     }
 
+    public void setCurrentYearSem(){
+        Calendar now = Calendar.getInstance();
+        currentYear = now.get(Calendar.YEAR);
+        // month starts from 0 to 11
+        int currentMonth = now.get(Calendar.MONTH);
+        if (currentMonth < 6) {
+            currentSem = 2;
+            currentYear--;
+        } else {
+            currentSem = 1;
+        }
+    }
+    
     public void viewModule(Module module) throws IOException {
         FacesMessage fmsg = new FacesMessage();
         context = FacesContext.getCurrentInstance();
@@ -145,6 +168,11 @@ public class LecturerModuleListBean implements Serializable {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Lesson does not exist.");
             context.addMessage(null, fmsg);
         }
+    }
+    
+            
+    public void formGroup(Module module){
+        System.out.println("Form group "+module.getCourse().getModuleCode()+": # of groups:"+numOfGroups+", max:"+maxStudentNum + ", min:" +minStudentNum);
     }
 
     public List<Module> getModules() {
@@ -321,6 +349,54 @@ public class LecturerModuleListBean implements Serializable {
 
     public void setAsbl(AnnouncementSessionBeanLocal asbl) {
         this.asbl = asbl;
+    }
+
+    public ArrayList<Module> getCurrentModules() {
+        return currentModules;
+    }
+
+    public void setCurrentModules(ArrayList<Module> currentModules) {
+        this.currentModules = currentModules;
+    }
+
+    public int getCurrentYear() {
+        return currentYear;
+    }
+
+    public void setCurrentYear(int currentYear) {
+        this.currentYear = currentYear;
+    }
+
+    public int getCurrentSem() {
+        return currentSem;
+    }
+
+    public void setCurrentSem(int currentSem) {
+        this.currentSem = currentSem;
+    }
+
+    public int getNumOfGroups() {
+        return numOfGroups;
+    }
+
+    public void setNumOfGroups(int numOfGroups) {
+        this.numOfGroups = numOfGroups;
+    }
+
+    public int getMinStudentNum() {
+        return minStudentNum;
+    }
+
+    public void setMinStudentNum(int minStudentNum) {
+        this.minStudentNum = minStudentNum;
+    }
+
+    public int getMaxStudentNum() {
+        return maxStudentNum;
+    }
+
+    public void setMaxStudentNum(int maxStudentNum) {
+        this.maxStudentNum = maxStudentNum;
     }
 
 }

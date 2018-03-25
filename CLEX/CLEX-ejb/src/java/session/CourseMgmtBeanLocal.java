@@ -10,6 +10,7 @@ import entity.Lecturer;
 import entity.Lesson;
 import entity.Module;
 import entity.User;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.ejb.Local;
@@ -66,7 +67,9 @@ public interface CourseMgmtBeanLocal {
     public boolean checkLectTeachModule(String username, String moduleCode, String takenYear, String takenSem);
 
     public Collection<Module> getModulesFromLecturer(String username);
-
+    
+    public ArrayList<Module> getCurrentModulesFromLecturer(String username, String currentYear, String currentSem);
+            
     public Collection<Lesson> getLessonsFromLecturer(String username);
 
     public List getAllTimings();

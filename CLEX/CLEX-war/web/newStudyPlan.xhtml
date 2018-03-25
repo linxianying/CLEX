@@ -23,7 +23,7 @@
         <div>
             <div id="content" class="left_content">
                 <h3><h:outputText value="My Study Plan" /></h3><br></br>
-                <h:form>
+                <h:form id="studyPlanForm">
                     <p:fieldset id="studyPlan">
                     <p:dashboard id="spDashboard" binding="#{newStudyPlanBean.dashboard}" >
                         <p:ajax event="reorder" listener="#{newStudyPlanBean.handleReorder}" update="msgs" />
@@ -78,6 +78,9 @@
                         </ui:repeat>-->
                     </p:dashboard>
                     </p:fieldset>
+                </h:form>
+                <h:form id="initializePageDataForm">
+                    <p:remoteCommand name="initializePageDataCommand" autoRun="true" action="#{newStudyPlanBean.check()}" update="studyPlanForm:studyPlan"/>
                 </h:form>
             </div>
         </div>

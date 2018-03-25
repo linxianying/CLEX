@@ -7,208 +7,278 @@
                 xmlns:p="http://primefaces.org/ui" 
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="title">PRISM Lecturer Module Page</ui:define>
-
+        
     <ui:define name="viewname">Module</ui:define>
-    
+        
     <ui:define name="content">
         
         <p:growl id="messages" showDetail="true" />
-        
+            
         <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
             <p:printer target="panel" />
         </p:commandButton>
         <h:form id="panel">
             <h3><h:outputText value="Modules" /></h3>
-            <p:tabView>
+            <p:tabView id="lecturerModule">
+                <p:tab title="MANAGE CURRENT MODULE">
+                    <p:dataTable var="module" value="#{lecturerModuleListBean.currentModules}" id="currentModules" rows="5"
+                                 emptyMessage="No modules found with given criteria." 
+                                 paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+                                 rowsPerPageTemplate="5,10,20">
+                                     
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Search all fields:" />
+                                <p:inputText id="globalFilter" onkeyup="PF('modulesTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                            </p:outputPanel>
+                        </f:facet>  
+                        <f:facet name="{Exporters}">
+                            <div style="float:right;">
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                                    <p:dataExporter type="xls" target="modules" fileName="modules"  />
+                                </h:commandLink>
+                                    
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                                    <p:dataExporter type="pdf" target="modules" fileName="modules" />
+                                </h:commandLink>
+                                    
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                                    <p:dataExporter type="csv" target="modules" fileName="modules"  />
+                                </h:commandLink>
+                                    
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                                    <p:dataExporter type="xml" target="modules" fileName="modules"/>
+                                </h:commandLink>
+                            </div>
+                        </f:facet>
+                        <p:column style="width: 15%" filterBy="#{module.course.moduleCode}" sortBy="#{module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
+                            <h:outputText value="#{module.course.moduleCode} " />
+                            <!--<p:commandButton style="float: right" icon="ui-icon-search" actionListener="#{lecturerModuleListBean.viewModule(module)}" />-->
+                        </p:column>
+                        <p:column style="width: 30%" filterBy="#{module.course.moduleName}" sortBy="#{module.course.moduleName}" headerText="Title" filterMatchMode="contains">
+                            <h:outputText value="#{module.course.moduleName}" />
+                        </p:column>
+                        <p:column style="width: 20%" headerText="Students" >
+                            <h:outputText value="Students:#{module.students.size()} " />
+                            <br />
+                            <h:outputText value="Polls:#{module.polls.size()}" />
+                        </p:column>
+                        <p:column style="width: 20%" headerText="Groups" >
+                            <h:outputText value="No groups" rendered="#{empty module.superGroup}"/>
+                            <p:commandButton value="Start group formation" oncomplete="PF('dlg1').show();" update=":panel:lecturerModule:currentModules:groupDialog" />
+                            <!--<p:commandButton value="Start group formation" oncomplete="PF('dlg1').show();" update=":panel:currentModules:groupDialog" />-->
+                            <!--<p:commandButton value="Start group formation" actionListener=#{lecturerModuleListBean.formGroup(module)}"" rendered="#{empty module.superGroup}"/>-->
+                            <br />
+                            <h:outputText value="Polls:#{module.polls.size()}" />
+                        </p:column>
+                        <p:dialog header="Start group Formation" widgetVar="dlg1" id="groupDialog">
+                            <h:form id="formGroupForm">
+                                <p:outputLabel for="numOfGroups" value="Max numbers of groups in total"/>
+                                <p:inputText id="numOfGroups" value="#{lecturerModuleListBean.numOfGroups}"/>
+                                <br/>
+                                <p:outputLabel for="minStudentNum" value="Min numbers of students in a group"/>
+                                <p:inputText id="minStudentNum" value="#{lecturerModuleListBean.minStudentNum}"/>
+                                <br/>
+                                <p:outputLabel for="maxStudentNum" value="Max numbers of students in a group"/>
+                                <p:inputText id="maxStudentNum" value="#{lecturerModuleListBean.maxStudentNum}"/>
+                                <br/>
+                                <p:commandButton value="submit" actionListener="#{lecturerModuleListBean.formGroup(module)}" update=":panel:currentModules"/>
+                            </h:form>
+                        </p:dialog>
+                    </p:dataTable>
+                </p:tab>
                 <p:tab title="VIEW MODULES">
-                    
-                        
-                        <p:dataTable var="module" value="#{lecturerModuleListBean.modules}" 
-                                     widgetVar="modulesTable"
-                                     emptyMessage="No modules found with given criteria." 
-                                     filteredValue="#{lecturerModuleListBean.filteredModules}"
-                                     paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
-                                     rows="5" 
-                                     id="modules"
-                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
-                                     {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
-                                     rowsPerPageTemplate="5,10,20">
-                            
-                            <f:facet name="header">
-                                    <p:outputPanel>
-                                        <h:outputText value="Search all fields:" />
-                                        <p:inputText id="globalFilter" onkeyup="PF('modulesTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-                                    </p:outputPanel>
-                            
-                            </f:facet>  
-                            <f:facet name="{Exporters}">
-                                <div style="float:right;">
-                                    <!--could add pageOnly="true" to make the exporter only export one page -->
-                                    <h:commandLink>
-                                        <p:graphicImage name="/demo/images/excel.png" width="24"/>
-                                        <p:dataExporter type="xls" target="modules" fileName="modules"  />
-                                    </h:commandLink>
-
-                                    <h:commandLink>
-                                        <p:graphicImage name="/demo/images/pdf.png" width="24"/>
-                                        <p:dataExporter type="pdf" target="modules" fileName="modules" />
-                                    </h:commandLink>
-
-                                    <h:commandLink>
-                                        <p:graphicImage name="/demo/images/csv.png" width="24"/>
-                                        <p:dataExporter type="csv" target="modules" fileName="modules"  />
-                                    </h:commandLink>
-
-                                    <h:commandLink>
-                                        <p:graphicImage name="/demo/images/xml.png" width="24"/>
-                                        <p:dataExporter type="xml" target="modules" fileName="modules"/>
-                                    </h:commandLink>
-                                </div>
+                    <p:dataTable var="module" value="#{lecturerModuleListBean.modules}" 
+                                 widgetVar="modulesTable"
+                                 emptyMessage="No modules found with given criteria." 
+                                 filteredValue="#{lecturerModuleListBean.filteredModules}"
+                                 paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+                                 rows="5" 
+                                 id="modules"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
+                                 {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+                                 rowsPerPageTemplate="5,10,20">
+                                     
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Search all fields:" />
+                                <p:inputText id="globalFilter" onkeyup="PF('modulesTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                            </p:outputPanel>
+                                
+                        </f:facet>  
+                        <f:facet name="{Exporters}">
+                            <div style="float:right;">
+                                <!--could add pageOnly="true" to make the exporter only export one page -->
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                                    <p:dataExporter type="xls" target="modules" fileName="modules"  />
+                                </h:commandLink>
+                                    
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                                    <p:dataExporter type="pdf" target="modules" fileName="modules" />
+                                </h:commandLink>
+                                    
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                                    <p:dataExporter type="csv" target="modules" fileName="modules"  />
+                                </h:commandLink>
+                                    
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                                    <p:dataExporter type="xml" target="modules" fileName="modules"/>
+                                </h:commandLink>
+                            </div>
+                        </f:facet>
+                        <p:column style="width: 15%" filterBy="#{module.course.moduleCode}" sortBy="#{module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
+                            <h:outputText value="#{module.course.moduleCode} " >
+                                
+                            </h:outputText>
+                            <p:commandButton style="float: right" icon="ui-icon-search" actionListener="#{lecturerModuleListBean.viewModule(module)}" />
+                                
+                        </p:column>
+                        <p:column style="width: 30%" filterBy="#{module.course.moduleName}" sortBy="#{module.course.moduleName}" headerText="Title" filterMatchMode="contains">
+                            <h:outputText value="#{module.course.moduleName}" />
+                        </p:column>
+                        <p:column style="width: 20%" headerText="Students" >
+                            <h:outputText value="Students:#{module.students.size()} " />
+                            <br />
+                            <h:outputText value="Polls:#{module.polls.size()}" />
+                        </p:column>
+                        <p:column style="width: 15%" filterBy="#{module.takenYear}" sortBy="#{module.takenYear}" headerText="Teaching Year" filterMatchMode="contains">
+                            <h:outputText value="#{module.takenYear}" />
+                        </p:column>
+                        <p:column style="width: 15%" filterBy="#{module.takenSem}" sortBy="#{module.takenSem}" headerText="Teaching Sem" filterMatchMode="contains">
+                            <f:facet name="filter">
+                                <p:selectOneButton onchange="PF('modulesTable').filter()">
+                                    <f:selectItem itemLabel="All" itemValue="" />
+                                    <f:selectItem itemLabel="1" itemValue="1" />
+                                    <f:selectItem itemLabel="2" itemValue="2" />                             
+                                </p:selectOneButton>
                             </f:facet>
-                            <p:column style="width: 15%" filterBy="#{module.course.moduleCode}" sortBy="#{module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
-                                <h:outputText value="#{module.course.moduleCode} " >
-
-                                </h:outputText>
-                                <p:commandButton style="float: right" icon="ui-icon-search" actionListener="#{lecturerModuleListBean.viewModule(module)}" />
-
-                            </p:column>
-                            <p:column style="width: 30%" filterBy="#{module.course.moduleName}" sortBy="#{module.course.moduleName}" headerText="Title" filterMatchMode="contains">
-                                <h:outputText value="#{module.course.moduleName}" />
-                            </p:column>
-                            <p:column style="width: 20%" headerText="Students" >
-                                <h:outputText value="Students:#{module.students.size()} " />
-                                <br />
-                                <h:outputText value="Polls:#{module.polls.size()}" />
-                            </p:column>
-                            <p:column style="width: 15%" filterBy="#{module.takenYear}" sortBy="#{module.takenYear}" headerText="Teaching Year" filterMatchMode="contains">
-                                <h:outputText value="#{module.takenYear}" />
-                            </p:column>
-                            <p:column style="width: 15%" filterBy="#{module.takenSem}" sortBy="#{module.takenSem}" headerText="Teaching Sem" filterMatchMode="contains">
-                                <f:facet name="filter">
-                                    <p:selectOneButton onchange="PF('modulesTable').filter()">
-                                        <f:selectItem itemLabel="All" itemValue="" />
-                                        <f:selectItem itemLabel="1" itemValue="1" />
-                                        <f:selectItem itemLabel="2" itemValue="2" />                             
-                                    </p:selectOneButton>
-                                </f:facet>
-                                <h:outputText value="#{module.takenSem}" />
-                            </p:column>
-                        </p:dataTable>
+                            <h:outputText value="#{module.takenSem}" />
+                        </p:column>
+                    </p:dataTable>
                         
                     <!--<h:form id="moduleTab"><h:form id="lessonTab"></h:form>-->
                 </p:tab>
                 <p:tab title="VIEW LESSONS">
                     
-                        <p:dataTable editable="true" editMode="cell" 
-                                     var="lesson" value="#{lecturerModuleListBean.lessons}" 
-                                     widgetVar="lessonsTable"
-                                     filteredValue="#{lecturerModuleListBean.filteredLessons}"
-                                     emptyMessage="No modules found with given criteria." 
-                                     paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
-                                     rows="5"
-                                     id="les"
-                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} 
-                                     {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
-                                     rowsPerPageTemplate="5,10,20"
-                                     >
-                            <f:facet name="header">
-                                <p:outputPanel>
-                                    <h:outputText value="Search all fields:" />
-                                    <p:inputText id="globalFilter" onkeyup="PF('lessonsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-                                </p:outputPanel>
+                    <p:dataTable editable="true" editMode="cell" 
+                                 var="lesson" value="#{lecturerModuleListBean.lessons}" 
+                                 widgetVar="lessonsTable"
+                                 filteredValue="#{lecturerModuleListBean.filteredLessons}"
+                                 emptyMessage="No modules found with given criteria." 
+                                 paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+                                 rows="5"
+                                 id="les"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} 
+                                 {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+                                 rowsPerPageTemplate="5,10,20"
+                                 >
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Search all fields:" />
+                                <p:inputText id="globalFilter" onkeyup="PF('lessonsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                            </p:outputPanel>
                                 
-                                <h:commandLink>
-                                    <p:graphicImage name="/demo/images/excel.png" width="24"/>
-                                    <p:dataExporter type="xls" target="les" fileName="lessons"  />
-                                </h:commandLink>
-
-                                <h:commandLink>
-                                    <p:graphicImage name="/demo/images/pdf.png" width="24"/>
-                                    <p:dataExporter type="pdf" target="les" fileName="lessons" />
-                                </h:commandLink>
-
-                                <h:commandLink>
-                                    <p:graphicImage name="/demo/images/csv.png" width="24"/>
-                                    <p:dataExporter type="csv" target="les" fileName="lessons"  />
-                                </h:commandLink>
-
-                                <h:commandLink>
-                                    <p:graphicImage name="/demo/images/xml.png" width="24"/>
-                                    <p:dataExporter type="xml" target="les" fileName="lessons" />
-                                </h:commandLink>
+                            <h:commandLink>
+                                <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                                <p:dataExporter type="xls" target="les" fileName="lessons"  />
+                            </h:commandLink>
                                 
+                            <h:commandLink>
+                                <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                                <p:dataExporter type="pdf" target="les" fileName="lessons" />
+                            </h:commandLink>
+                                
+                            <h:commandLink>
+                                <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                                <p:dataExporter type="csv" target="les" fileName="lessons"  />
+                            </h:commandLink>
+                                
+                            <h:commandLink>
+                                <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                                <p:dataExporter type="xml" target="les" fileName="lessons" />
+                            </h:commandLink>
+                                
+                        </f:facet>
+                        <p:ajax event="cellEdit" listener="#{lecturerModuleListBean.lectEditLesson(lesson)}" update="messages"/>
+                        <p:column filterBy="#{lesson.module.course.moduleCode}" sortBy="#{lesson.module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
+                            <h:outputText value="#{lesson.module.course.moduleCode}" />
+                        </p:column>
+                        <p:column filterBy="#{lesson.module.takenYear}" sortBy="#{lesson.module.takenYear}" headerText="Teaching Year" filterMatchMode="contains">
+                            <h:outputText value="#{lesson.module.takenYear}" />
+                        </p:column>
+                        <p:column filterBy="#{lesson.module.takenSem}" sortBy="#{lesson.module.takenSem}" headerText="Teaching Sem" filterMatchMode="contains">
+                            <f:facet name="filter">
+                                <p:selectOneButton onchange="PF('lessonsTable').filter()">
+                                    <f:selectItem itemLabel="All" itemValue="" />
+                                    <f:selectItem itemLabel="1" itemValue="1" />
+                                    <f:selectItem itemLabel="2" itemValue="2" />                             
+                                </p:selectOneButton>
                             </f:facet>
-                            <p:ajax event="cellEdit" listener="#{lecturerModuleListBean.lectEditLesson(lesson)}" update="messages"/>
-                            <p:column filterBy="#{lesson.module.course.moduleCode}" sortBy="#{lesson.module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
-                                <h:outputText value="#{lesson.module.course.moduleCode}" />
-                            </p:column>
-                            <p:column filterBy="#{lesson.module.takenYear}" sortBy="#{lesson.module.takenYear}" headerText="Teaching Year" filterMatchMode="contains">
-                                <h:outputText value="#{lesson.module.takenYear}" />
-                            </p:column>
-                            <p:column filterBy="#{lesson.module.takenSem}" sortBy="#{lesson.module.takenSem}" headerText="Teaching Sem" filterMatchMode="contains">
-                                <f:facet name="filter">
-                                    <p:selectOneButton onchange="PF('lessonsTable').filter()">
-                                        <f:selectItem itemLabel="All" itemValue="" />
-                                        <f:selectItem itemLabel="1" itemValue="1" />
-                                        <f:selectItem itemLabel="2" itemValue="2" />                             
-                                    </p:selectOneButton>
+                            <h:outputText style="text-align: center !important;" value="#{lesson.module.takenSem}" />
+                        </p:column>
+                        <p:column filterBy="#{lesson.day}" sortBy="#{lesson.day}" headerText="Day" filterMatchMode="contains">
+                            <f:facet name="filter">
+                                <p:selectOneMenu onchange="PF('lessonsTable').filter()">
+                                    <f:selectItem itemLabel="All" itemValue="" />
+                                    <f:selectItems value="#{lectuerModuleListBean.daylist}" />                           
+                                </p:selectOneMenu>
+                            </f:facet>
+                            <h:outputText value="#{lesson.day}" />
+                        </p:column>
+                        <p:column filterBy="#{lesson.timeFrom}" sortBy="#{lesson.timeFrom}" headerText="Time Start" filterMatchMode="contains">
+                            <f:facet name="filter">
+                                <p:selectOneMenu onchange="PF('lessonsTable').filter()">
+                                    <f:selectItem itemLabel="All" itemValue="" />
+                                    <f:selectItems value="#{lectuerModuleListBean.timelist}" />                           
+                                </p:selectOneMenu>
+                            </f:facet>
+                            <h:outputText value="#{lesson.timeFrom}" />
+                        </p:column>
+                        <p:column filterBy="#{lesson.timeEnd}" sortBy="#{lesson.timeEnd}" headerText="Time End" filterMatchMode="contains">
+                            <f:facet name="filter">
+                                <p:selectOneMenu onchange="PF('lessonsTable').filter()">
+                                    <f:selectItem itemLabel="All" itemValue="" />
+                                    <f:selectItems value="#{lectuerModuleListBean.timelist}" />                           
+                                </p:selectOneMenu>
+                            </f:facet>
+                            <h:outputText value="#{lesson.timeEnd}" />
+                        </p:column>
+                        <p:column filterBy="#{lesson.type}" sortBy="#{lesson.type}" headerText="Type" filterMatchMode="contains">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{lesson.type}" />
                                 </f:facet>
-                                <h:outputText style="text-align: center !important;" value="#{lesson.module.takenSem}" />
-                            </p:column>
-                            <p:column filterBy="#{lesson.day}" sortBy="#{lesson.day}" headerText="Day" filterMatchMode="contains">
-                                <f:facet name="filter">
-                                    <p:selectOneMenu onchange="PF('lessonsTable').filter()">
-                                        <f:selectItem itemLabel="All" itemValue="" />
-                                        <f:selectItems value="#{lectuerModuleListBean.daylist}" />                           
-                                    </p:selectOneMenu>
-                                </f:facet>
-                                <h:outputText value="#{lesson.day}" />
-                            </p:column>
-                            <p:column filterBy="#{lesson.timeFrom}" sortBy="#{lesson.timeFrom}" headerText="Time Start" filterMatchMode="contains">
-                                <f:facet name="filter">
-                                    <p:selectOneMenu onchange="PF('lessonsTable').filter()">
-                                        <f:selectItem itemLabel="All" itemValue="" />
-                                        <f:selectItems value="#{lectuerModuleListBean.timelist}" />                           
-                                    </p:selectOneMenu>
-                                </f:facet>
-                                <h:outputText value="#{lesson.timeFrom}" />
-                            </p:column>
-                            <p:column filterBy="#{lesson.timeEnd}" sortBy="#{lesson.timeEnd}" headerText="Time End" filterMatchMode="contains">
-                                <f:facet name="filter">
-                                    <p:selectOneMenu onchange="PF('lessonsTable').filter()">
-                                        <f:selectItem itemLabel="All" itemValue="" />
-                                        <f:selectItems value="#{lectuerModuleListBean.timelist}" />                           
-                                    </p:selectOneMenu>
-                                </f:facet>
-                                <h:outputText value="#{lesson.timeEnd}" />
-                            </p:column>
-                            <p:column filterBy="#{lesson.type}" sortBy="#{lesson.type}" headerText="Type" filterMatchMode="contains">
-                                <p:cellEditor>
-                                    <f:facet name="output">
-                                        <h:outputText value="#{lesson.type}" />
-                                    </f:facet>
-                                    <f:facet name="input">
-                                        <p:selectOneMenu required="true" value="#{lesson.type}" 
-                                                         editable="true">
-                                            <f:selectItem itemLabel="Enter or select a lesson type" itemValue=""/>
-                                            <f:selectItem itemLabel="Lecture" itemValue="LECTURE" />
-                                            <f:selectItem itemLabel="Tutorial" itemValue="TUTORIAL" />
-                                            <f:selectItem itemLabel="Laboratory" itemValue="LABORATORY" />
-                                            <f:selectItem itemLabel="Recitation" itemValue="RECITATION" />
-                                        </p:selectOneMenu></f:facet>
-                                </p:cellEditor>
-                            </p:column>
-                            <p:column filterBy="#{lesson.venue}" sortBy="#{lesson.venue}" headerText="Venue" filterMatchMode="contains">
-                                <p:cellEditor>
-                                    <f:facet name="output"><h:outputText value="#{lesson.venue}" /></f:facet>
-                                    <f:facet name="input"><p:inputText id="venueInput" value="#{lesson.venue}" style="width:96%"/></f:facet>
-                                </p:cellEditor>
-                            </p:column>
-                        </p:dataTable>
-                                   
+                                <f:facet name="input">
+                                    <p:selectOneMenu required="true" value="#{lesson.type}" 
+                                                     editable="true">
+                                        <f:selectItem itemLabel="Enter or select a lesson type" itemValue=""/>
+                                        <f:selectItem itemLabel="Lecture" itemValue="LECTURE" />
+                                        <f:selectItem itemLabel="Tutorial" itemValue="TUTORIAL" />
+                                        <f:selectItem itemLabel="Laboratory" itemValue="LABORATORY" />
+                                        <f:selectItem itemLabel="Recitation" itemValue="RECITATION" />
+                                    </p:selectOneMenu></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column filterBy="#{lesson.venue}" sortBy="#{lesson.venue}" headerText="Venue" filterMatchMode="contains">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{lesson.venue}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="venueInput" value="#{lesson.venue}" style="width:96%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                    </p:dataTable>
+                        
                 </p:tab>
             </p:tabView>
         </h:form>
-
+            
     </ui:define>
 </ui:composition>

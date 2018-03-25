@@ -36,6 +36,9 @@ public class SuperGroup implements Serializable {
     @Column(length = 32, nullable = false)
     private int maxStudentNum;
     
+    //if the group formation ended, the lecturer can close the group formation and confirm=true;
+    private boolean confirm;
+    
     @OneToOne(mappedBy="superGroup")
     private Module module;
     
@@ -47,6 +50,7 @@ public class SuperGroup implements Serializable {
         this.minStudentNum = minStudentNum;
         this.maxStudentNum = maxStudentNum;
         this.module = module;
+        confirm = false;
     }
     
     public Long getId() {
@@ -95,6 +99,14 @@ public class SuperGroup implements Serializable {
 
     public void setMaxStudentNum(int maxStudentNum) {
         this.maxStudentNum = maxStudentNum;
+    }
+
+    public boolean isConfirm() {
+        return confirm;
+    }
+
+    public void setConfirm(boolean confirm) {
+        this.confirm = confirm;
     }
 
     @Override

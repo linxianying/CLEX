@@ -104,6 +104,8 @@ public interface StudyPlanSessionBeanLocal {
     public StudyPlan findStudyPlanById(Long id);
 
     public void updateGradeYearSem(Long id, String moduleCode, int newYear, int newSem);
+
+    public void updateStudyPlanYearSem(Long id, int newYear, int newSem);
     
     
 }

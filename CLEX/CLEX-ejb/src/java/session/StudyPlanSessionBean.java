@@ -898,7 +898,14 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         em.flush();
     }
     
-    
+        @Override
+    public void updateStudyPlanYearSem(Long id, int newYear, int newSem) {
+        StudyPlan sp = this.findStudyPlanById(id);
+        sp.setPickYear(Integer.toString(newYear));
+        sp.setPickSem(Integer.toString(newSem));
+        em.merge(sp);
+        em.flush();
+    }
     
     
 }

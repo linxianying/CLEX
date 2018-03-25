@@ -465,7 +465,21 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
         modules = lecturerEntity.getModules();
         return modules;
     }
-
+    
+    @Override
+    public ArrayList<Module> getCurrentModulesFromLecturer(String username, String currentYear, String currentSem) {
+        lecturerEntity = findLecturer(username);
+        modules = lecturerEntity.getModules();
+        ArrayList<Module> currentModules = new ArrayList<Module>();
+        //
+        for (Module m: modules) {
+            if (m.getTakenYear().equals(currentYear) && m.getTakenSem().equals(currentSem)){
+                currentModules.add(m);
+            }
+        }
+        return currentModules;
+    }
+    
     @Override
     public Collection<Lesson> getLessonsFromLecturer(String username) {
         lecturerEntity = findLecturer(username);
@@ -635,4 +649,5 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
         });
         return userList;
     }
+    
 }

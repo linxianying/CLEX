@@ -271,6 +271,7 @@ public class NewStudyPlanBean implements Serializable {
             HtmlOutputText t1 = new HtmlOutputText();
             t1.setValue("Grade" );
             panel.getChildren().add(t1);
+            System.out.println("-------check count"+column1.getWidgetCount());
         }
         
         System.out.println("newStudyPlanBean finish ");
@@ -468,6 +469,7 @@ public class NewStudyPlanBean implements Serializable {
     
     
     public void handleReorder(DashboardReorderEvent event) {
+        System.out.println("handel reorder");
         FacesMessage message = new FacesMessage();
         message.setSeverity(FacesMessage.SEVERITY_INFO);
         //message.setSummary("Reordered: " + event.getWidgetId());
@@ -484,14 +486,20 @@ public class NewStudyPlanBean implements Serializable {
             }
             else if (id.startsWith("m")) {
                 //cannot reorder taking module must be this sem
-//                id = id.substring(1);
-//                updateId = Long.parseLong(id);
-//                this.reorderModule();
+                message.setDetail ("You are dragging the module currently taking to other semester!");
+                addMessage(message);
             }
             else if (id.startsWith("sp")) {
-                id = id.substring(2);
-                updateId = Long.parseLong(id);
-                this.reorderStudyPlan();
+                //setting a study plan for this or previous semester
+                if (event.getColumnIndex() <= this.currentColumnIndex) {
+                    message.setDetail ("You are dragging the Study Plan for previous semester!");
+                    addMessage(message);
+                }
+                else {
+                    id = id.substring(2);
+                    updateId = Long.parseLong(id);
+                    this.reorderStudyPlan(updateId);
+                }
             }
         }
     }
@@ -530,8 +538,17 @@ public class NewStudyPlanBean implements Serializable {
         
     }
     
-    public void reorderStudyPlan() {
-        
+    public void reorderStudyPlan(Long id) {
+        spsbl.updateStudyPlanYearSem(id, newYear, newSem);
+    }
+    
+    
+    public void check(){
+        System.out.println("into check");
+        FacesMessage message = new FacesMessage();
+        message.setSeverity(FacesMessage.SEVERITY_INFO);
+        message.setDetail ("Check!");
+                addMessage(message);
     }
     
     
