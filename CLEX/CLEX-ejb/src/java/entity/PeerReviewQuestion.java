@@ -34,7 +34,9 @@ public class PeerReviewQuestion implements Serializable {
     private ArrayList<Question> individualQuestions;
     //questions for the whole group or all group members
     private ArrayList<Question> groupQuestions;
-    
+    //notStart/start/end
+    private String status;
+            
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date deadline;
     
@@ -132,6 +134,14 @@ public class PeerReviewQuestion implements Serializable {
 
     public void setGroupQuestions(ArrayList<Question> groupQuestions) {
         this.groupQuestions = groupQuestions;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 
