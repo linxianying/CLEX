@@ -187,6 +187,7 @@
 
                     <!-- START: Add New Poll -->
                     <h:form id="addForm">
+                        <p:growl id="msg" showDetail="true" />
                         <p:panel collapsed="false" styleClass="menuHeader"  header="Add New Poll" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
 
                             <table>
@@ -195,7 +196,8 @@
                                         Module Code:
                                     </td>
                                     <td>
-                                        <p:inputText value="#{classroomBean.addModuleCode}" required="true">
+                                        <p:inputText value="#{classroomBean.addModuleCode}" 
+                                                     required="true" requiredMessage="Please enter the module code!" >
                                             <p:ajax event="change" listener="#{classroomBean.checkModule}" update="addForm" />
                                         </p:inputText>
                                     </td>
@@ -211,7 +213,8 @@
 
                                     </td>
                                     <td>
-                                        <p:inputText value="#{classroomBean.addPickYear}" required="true" />
+                                        <p:inputText value="#{classroomBean.addPickYear}" 
+                                                     required="true" requiredMessage="Please enter the module year!"  />
                                     </td>
                                 </tr>
                                 <tr>
@@ -220,7 +223,7 @@
                                     </td>
 
                                     <td>
-                                        <p:selectOneMenu id="addPickSem" value="#{classroomBean.addPickSem}" style="width:125px">
+                                        <p:selectOneMenu id="addPickSem" required="true" value="#{classroomBean.addPickSem}" style="width:125px">
                                             <f:selectItem itemLabel="1" itemValue="1" />
                                             <f:selectItem itemLabel="2" itemValue="2" />
                                         </p:selectOneMenu>
@@ -232,7 +235,8 @@
                                     </td>
 
                                     <td>
-                                        <p:inputText value="#{classroomBean.addPollType}" required="true" />
+                                        <p:inputText value="#{classroomBean.addPollType}" 
+                                                     required="true" requiredMessage="Please enter the poll type!"  />
                                     </td>
                                 </tr>
                                 <tr>
@@ -241,7 +245,8 @@
                                     </td>
 
                                     <td>
-                                        <p:inputText value="#{classroomBean.addPollTopic}" required="true" />
+                                        <p:inputText value="#{classroomBean.addPollTopic}" 
+                                                     required="true" requiredMessage="Please enter the poll topic!" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -250,7 +255,8 @@
                                     </td>
 
                                     <td>
-                                        <p:inputText value="#{classroomBean.addPollContent}" required="true" />
+                                        <p:inputText value="#{classroomBean.addPollContent}" 
+                                                     required="true" requiredMessage="Please enter the poll content!" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -259,12 +265,16 @@
                                     </td>
 
                                     <td>
-                                        <p:inputText value="#{classroomBean.addPollCorrectRate}" required="true" />
+                                        <p:inputNumber value="#{classroomBean.addPollCorrectRate}" required="true" 
+                                                       requiredMessage="Please enter a number range from 0 to 1 only." 
+                                                       minValue="0.00" maxValue="1.00" />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <p:commandButton value="Add" id="addPollButton" rendered="#{classroomBean.addButton}" action="#{classroomBean.addPoll}" />
+                                        <p:commandButton value="Add" id="addPollButton" 
+                                                         rendered="#{classroomBean.addButton}" action="#{classroomBean.addPoll}"
+                                                         update="msg"/>
                                     </td>
                                 </tr>
                             </table>

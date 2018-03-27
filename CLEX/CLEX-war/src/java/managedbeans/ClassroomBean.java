@@ -88,6 +88,7 @@ public class ClassroomBean {
     
     FacesContext context;
     HttpSession session;
+    FacesMessage fmsg;
     
     private BarChartModel barModel;
     //private PieChartModel pieModel1;
@@ -162,6 +163,10 @@ public class ClassroomBean {
     }
 
     public void addPoll(){
+        fmsg = new FacesMessage();
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+        
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         Poll p = crsbl.createPoll(addModuleCode, addPickYear, addPickSem, dateFormat.format(date), 
@@ -169,8 +174,12 @@ public class ClassroomBean {
         //System.out.println("addPollType:"+addPollType+"//////////////////////Topic:"+addPollTopic);
         if(p==null){
             System.out.println("ClassroomBean: Create Poll failed ");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Poll creation failed. Please check the module details", "Unsuccessfuly");
+            context.addMessage(null, fmsg);
         }else{
             System.out.println("ClassroomBean: New Poll id is "+p.getId());
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Poll '" + p.getId() + " is created.", "Successfuly");
+            context.addMessage(null, fmsg);
         }
         
     }
