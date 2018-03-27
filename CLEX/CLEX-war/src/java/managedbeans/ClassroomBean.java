@@ -91,6 +91,7 @@ public class ClassroomBean {
     
     private BarChartModel barModel;
     //private PieChartModel pieModel1;
+    private BarChartModel barModelByType;
     
     public ClassroomBean() {
     }
@@ -183,17 +184,31 @@ public class ClassroomBean {
     
     private void createBarModel() {
         barModel = initPollBarModel();
+        barModelByType = initPollBarModelByType();
          
-        barModel.setTitle("Poll Analysis");
+        barModelByType.setTitle("Poll Analysis By Type");
+        barModelByType.setLegendPosition("ne");
+        
+        barModel.setTitle("Poll AnalysisT By Topic");
         barModel.setLegendPosition("ne");
          
         Axis xAxis = barModel.getAxis(AxisType.X);
-        xAxis.setLabel("Poll Features");
+        xAxis.setLabel("Poll Topic");
+        
+        Axis xAxis1 = barModelByType.getAxis(AxisType.X);
+        xAxis1.setLabel("Poll Type");
          
         Axis yAxis = barModel.getAxis(AxisType.Y);
         yAxis.setLabel("Correct Rate");
+        
+        Axis yAxis1 = barModelByType.getAxis(AxisType.Y);
+        yAxis1.setLabel("Correct Rate");
+        
         yAxis.setMin(0);
         yAxis.setMax(1);
+        
+        yAxis1.setMin(0);
+        yAxis1.setMax(1);
     }
     
     private BarChartModel initPollBarModel() {
@@ -205,20 +220,31 @@ public class ClassroomBean {
             for(Poll pl : polls){
                 p.set(""+pl.getTopic(), crsbl.getCorrectRateByTopic(polls, pl.getTopic()));
             }        
-            ChartSeries p1 = new ChartSeries();
-            p1.setLabel("PollsByType");
-            for(Poll pl : polls){
-                p1.set(""+pl.getType(), crsbl.getCorrectRateByType(polls, pl.getType()));
-            } 
 
             model.addSeries(p);
-            model.addSeries(p1);
          
             return model;
         }
         return null;
     }
 
+    private BarChartModel initPollBarModelByType() {
+        BarChartModel model = new BarChartModel();
+ 
+        if(!polls.isEmpty()){
+                 
+            ChartSeries p1 = new ChartSeries();
+            p1.setLabel("PollsByType");
+            for(Poll pl : polls){
+                p1.set(""+pl.getType(), crsbl.getCorrectRateByType(polls, pl.getType()));
+            } 
+            model.addSeries(p1);
+         
+            return model;
+        }
+        return null;
+    }
+    
     public BarChartModel getBarModel() {
         return barModel;
     }
@@ -226,8 +252,6 @@ public class ClassroomBean {
     public void setBarModel(BarChartModel barModel) {
         this.barModel = barModel;
     }
-    
-    
     
     public DataSource getClexDataSource() {
         return clexDataSource;
@@ -414,6 +438,14 @@ public class ClassroomBean {
 
     public void setFilteredPolls(ArrayList<Poll> filteredPolls) {
         this.filteredPolls = filteredPolls;
+    }
+
+    public BarChartModel getBarModelByType() {
+        return barModelByType;
+    }
+
+    public void setBarModelByType(BarChartModel barModelByType) {
+        this.barModelByType = barModelByType;
     }
     
     
