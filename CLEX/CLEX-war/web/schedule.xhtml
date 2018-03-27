@@ -12,6 +12,17 @@
     <ui:define name="viewname">Schedule</ui:define>
 
     <ui:define name="content">
+        <p:commandButton value="Reset Calendar" actionListener="#{scheduleBean.reset()}" 
+
+                    action="schedule?faces-redirect=true">
+            <p:confirm header="Confirmation" 
+                  message="Are you sure you want to reset the schedule? This action will delete all your timeslots."
+                  icon="ui-icon-alert" />
+        </p:commandButton>
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
         <h:form>
             <p:growl id="messages" showDetail="true" />
             <!--
@@ -30,20 +41,12 @@
                         <p:ajax event="eventMove" listener="#{scheduleBean.onEventMove}" update="messages" />
                         <p:ajax event="eventResize" listener="#{scheduleBean.onEventResize}" update="messages" />
                     </p:schedule>
-
+                    
                     <p:commandButton value="Print" type="button" icon="ui-icon-print" style="margin-bottom: 20px; float: right">
                         <p:printer target="cal" />
                     </p:commandButton>
 
-                    <p:commandButton value="Reset Calendar" actionListener="#{scheduleBean.reset()}" style="margin-left:10px; float: left" action="schedule?faces-redirect=true">
-                        <p:confirm header="Confirmation" 
-                                   message="Are you sure you want to reset the schedule? This action will delete all your timeslots."
-                                   icon="ui-icon-alert" />
-                    </p:commandButton>
-                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                    </p:confirmDialog>
+                    
 
                     <div class="task-list">
                         <p:panel header="Coming Events" style="float: right; width: 24%; min-height:150px;">

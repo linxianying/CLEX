@@ -88,8 +88,8 @@ public class ToDoTimelineBean {
  
         //example
         Calendar cal = Calendar.getInstance();
-        cal.set(2018, Calendar.JUNE, 12, 0, 0, 0);
-        model.add(new TimelineEvent("PrimeUI 1.1", cal.getTime()));
+        cal.set(2018, Calendar.APRIL, 14, 0, 0, 0);
+        model.add(new TimelineEvent("Release of PRISM", cal.getTime()));
 
         if(studentEntity!=null)
             tasks = studentEntity.getTasks();
