@@ -136,6 +136,19 @@
                     </h:form>
                     <!-- END: View All Polls -->
                     
+                    <h:form>
+                        <p:growl id="growl" showDetail="true" />
+
+                        <h:panelGrid columns="2" columnClasses="left,right" style="width:100%">
+        
+
+                            <p:chart type="bar" model="#{classroomBean.barModel}" style="width:900px;height:300px">
+                                <p:ajax event="itemSelect" listener="#{classroomBean.itemSelect}" update="growl" />
+                            </p:chart>  
+                        </h:panelGrid>
+
+                    </h:form>
+
                     <!-- START: Add New Poll -->
                     <h:form id="addForm">
                         <p:panel collapsed="false" styleClass="menuHeader"  header="Add New Poll" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">

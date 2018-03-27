@@ -25,6 +25,7 @@ import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
@@ -32,6 +33,11 @@ import javax.sql.DataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperRunManager;
 import static org.primefaces.component.focus.Focus.PropertyKeys.context;
+import org.primefaces.event.ItemSelectEvent;
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.BarChartModel;
+import org.primefaces.model.chart.ChartSeries;
 import session.ClassroomSessionBeanLocal;
 import session.ClexSessionBeanLocal;
 import session.CourseMgmtBeanLocal;
@@ -83,6 +89,9 @@ public class ClassroomBean {
     FacesContext context;
     HttpSession session;
     
+    private BarChartModel barModel;
+    //private PieChartModel pieModel1;
+    
     public ClassroomBean() {
     }
     
@@ -102,7 +111,7 @@ public class ClassroomBean {
             modules = crsbl.viewModules(lecturerEntity);
             polls = crsbl.viewPolls(lecturerEntity);
         }
-        
+        createBarModel();
         System.out.println("ClassroomBean: initial finished");
 
         //modules = cmbl.getModulesFromLecturer(username);
@@ -164,6 +173,65 @@ public class ClassroomBean {
         }
         
     }
+    
+    public void itemSelect(ItemSelectEvent event) {
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Item selected",
+                        "Item Index: " + event.getItemIndex() + ", Series Index:" + event.getSeriesIndex());
+         
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+    
+    private void createBarModel() {
+        barModel = initPollBarModel();
+         
+        barModel.setTitle("Poll Analysis");
+        barModel.setLegendPosition("ne");
+         
+        Axis xAxis = barModel.getAxis(AxisType.X);
+        xAxis.setLabel("Poll Features");
+         
+        Axis yAxis = barModel.getAxis(AxisType.Y);
+        yAxis.setLabel("Correct Rate");
+        yAxis.setMin(0);
+        yAxis.setMax(1);
+    }
+    
+    private BarChartModel initPollBarModel() {
+        BarChartModel model = new BarChartModel();
+ 
+        if(!polls.isEmpty()){
+            ChartSeries p = new ChartSeries();
+            p.setLabel("PollsByTopic");
+            for(Poll pl : polls){
+                p.set(""+pl.getTopic(), pl.getCorrectRate());
+            }        
+            model.addSeries(p);
+        
+        
+ 
+            ChartSeries p1 = new ChartSeries();
+            p1.setLabel("PollsByType");
+            for(Poll pl : polls){
+                p1.set(""+pl.getType(), pl.getCorrectRate());
+            } 
+
+
+            model.addSeries(p1);
+         
+            return model;
+        }
+        return null;
+    }
+
+    public BarChartModel getBarModel() {
+        return barModel;
+    }
+
+    public void setBarModel(BarChartModel barModel) {
+        this.barModel = barModel;
+    }
+    
+    
     
     public DataSource getClexDataSource() {
         return clexDataSource;
