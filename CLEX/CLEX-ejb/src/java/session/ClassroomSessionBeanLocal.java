@@ -42,4 +42,8 @@ public interface ClassroomSessionBeanLocal {
     
     public ArrayList<Poll> viewPolls(Lecturer lecturer);
     
+    public double getCorrectRateByTopic(ArrayList<Poll> polls, String topic);
+    
+    public double getCorrectRateByType(ArrayList<Poll> polls, String type);
+    
 }

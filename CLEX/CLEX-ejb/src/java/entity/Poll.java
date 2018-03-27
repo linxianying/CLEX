@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -37,6 +38,9 @@ public class Poll implements Serializable {
     
     @Column(length = 32, nullable = false)
     private double correctRate;
+    
+    @ManyToOne
+    private Module module;
 
 
     public void createPoll(String datetime, String topic, double correctRate, String type, 
@@ -114,6 +118,14 @@ public class Poll implements Serializable {
             return false;
         }
         return true;
+    }
+
+    public Module getModule() {
+        return module;
+    }
+
+    public void setModule(Module module) {
+        this.module = module;
     }
 
     @Override

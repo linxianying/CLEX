@@ -84,6 +84,7 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
             pollEntity.setDatetime(datetime);
             pollEntity.setTopic(topic);
             pollEntity.setType(type);
+            pollEntity.setModule(moduleEntity);
             em.persist(pollEntity);
             em.flush();
             moduleEntity.getPolls().add(pollEntity);
@@ -319,4 +320,41 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
         return polls;
     }
     
+    @Override
+    public double getCorrectRateByTopic(ArrayList<Poll> polls, String topic){
+        double total = 0.0;
+        int index = 0;
+        if(polls!=null){
+            for(Poll p : polls){
+                if(p.getTopic().equals(topic)){
+                    index++;
+                    total = total + p.getCorrectRate();
+                }
+            }
+            if(index!=0){
+                return total/index;
+            }
+            
+        }
+        return 0.0;
+    }
+    
+    @Override
+    public double getCorrectRateByType(ArrayList<Poll> polls, String type){
+        double total = 0.0;
+        int index = 0;
+        if(polls!=null){
+            for(Poll p : polls){
+                if(p.getType().equals(type)){
+                    index++;
+                    total = total + p.getCorrectRate();
+                }
+            }
+            if(index!=0){
+                return total/index;
+            }
+            
+        }
+        return 0.0;
+    }
 }
