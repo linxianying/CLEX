@@ -649,21 +649,31 @@ public class indexBean {
         sbl.createTimeslot("hsianghui2", "IS4103", "2018-03-12 16:00", "2018-03-12 17:00",  "COM1-203", "Lecture");
         //sbl.createTimeslot("guesta", "Go with Su", "2018-03-18 22:00", "2018-03-18 23:00",  "Beijing", "Buy clothes");
         
-        crsbl.createPoll("CS2100", "2016", "2", "2016-08-27", "Computer Organization", 0.35, "type", "Do you like this course?");
-        
-        crsbl.createPoll("CS1020", "2016", "1", "2016-01-30", "Java OOP Concepts", 0.70, "type1", "Do you feel familiar with four OOP concepts?");
+        crsbl.createPoll("CS2100", "2016", "2", "2016-08-27", "Computer Organization", 0.25, "type1", "Do you like this course?");
+        crsbl.createPoll("CS2100", "2016", "2", "2016-09-27", "Computer Organization", 0.49, "type1", "How do you find the lecturer?");
+        crsbl.createPoll("CS2100", "2016", "2", "2016-10-17", "MIPS", 0.31, "type2", "How much do you know MIPS?");
+        crsbl.createPoll("CS1020", "2016", "1", "2016-01-30", "Java OOP", 0.70, "type1", "Do you feel familiar with four OOP concepts?");
+        crsbl.createPoll("CS1020", "2016", "1", "2016-02-30", "Java OOP", 0.40, "type2", "Do you understand inheritance?");
+        crsbl.createPoll("CS1020", "2016", "1", "2016-03-30", "Java OOP", 0.29, "type3", "Do you understand abstract?");
         crsbl.createPoll("GER1000", "2017", "1", "2017-02-27", "Final report", 0.38, "type1", "How is your final report going?");
         crsbl.createPoll("PC2193", "2017", "2", "2017-11-27", "Physics", 0.31, "type1", "Do you like this course?");
         crsbl.createPoll("LAL1201", "2017", "1", "2017-02-17", "Language Learning Curve", 0.18, "type", "Do you find it difficult to learn new languages?");
         crsbl.createPoll("CS2100", "2016", "2", "2016-08-27", "Computer Organization", 0.38, "type", "Do you like this course?");
         crsbl.createPoll("CP3109", "2015", "1", "2015-01-29", "Project", 0.11, "type", "Do you think this course bring you something interesting");
-        crsbl.createPoll("CS1020", "2016", "1", "2016-03-20", "Java OOP Concepts", 0.27, "type", "Do you feel familiar with four OOP concepts?");
+        crsbl.createPoll("CS1020", "2016", "1", "2016-03-20", "Java OOP", 0.27, "type", "Do you feel familiar with four OOP concepts?");
         crsbl.createPoll("GER1000", "2017", "1", "2017-01-27", "First lecture", 0.53, "type2", "How is the lecturer?");
         crsbl.createPoll("GER1000", "2017", "1", "2017-02-27", "Second lecture", 0.13, "type3", "How is the tutorial?");
         crsbl.createPoll("GER1000", "2017", "1", "2017-03-27", "Assignment", 0.78, "type4", "How is the assignment?");
         crsbl.createPoll("PC2193", "2017", "2", "2017-10-27", "Physics", 0.39, "type1", "Do you understand the concepts");
         crsbl.createPoll("LAL1201", "2017", "1", "2017-04-17", "Language Learning Curve", 0.27, "type1", "How is your learning experience?");
         crsbl.createPoll("IE1111", "2016", "2", "2017-10-17", "IE", 0.38, "type2", "How is your learning experience?");
+        crsbl.createPoll("PC2193", "2017", "2", "2017-11-17", "topic1", 0.64, "type1", "How is your learning experience?");
+        crsbl.createPoll("PC2193", "2017", "2", "2017-11-27", "topic2", 0.42, "type2", "How is your learning experience?");
+        crsbl.createPoll("PC2193", "2017", "2", "2017-12-07", "topic3", 0.71, "type3", "How is your learning experience?");
+        crsbl.createPoll("PC2193", "2017", "2", "2017-12-11", "topic3", 0.38, "type4", "How is your learning experience?");
+        crsbl.createPoll("PC2193", "2017", "2", "2017-12-17", "topic4", 0.78, "type5", "How is your learning experience?");
+        
+        
         
         asbl.createLecturerAnnc("lecturer", "CS2100 Lecture 5 cancelled", "Lecture 5, which is on next Friday is cancelled", "CS2100");
         asbl.createLecturerAnnc("lecturer", "IS3106 Lecture 6 cancelled", "Lecture 6, which is on next Monday is cancelled", "IS3106");

@@ -203,19 +203,15 @@ public class ClassroomBean {
             ChartSeries p = new ChartSeries();
             p.setLabel("PollsByTopic");
             for(Poll pl : polls){
-                p.set(""+pl.getTopic(), pl.getCorrectRate());
+                p.set(""+pl.getTopic(), crsbl.getCorrectRateByTopic(polls, pl.getTopic()));
             }        
-            model.addSeries(p);
-        
-        
- 
             ChartSeries p1 = new ChartSeries();
             p1.setLabel("PollsByType");
             for(Poll pl : polls){
-                p1.set(""+pl.getType(), pl.getCorrectRate());
+                p1.set(""+pl.getType(), crsbl.getCorrectRateByType(polls, pl.getType()));
             } 
 
-
+            model.addSeries(p);
             model.addSeries(p1);
          
             return model;

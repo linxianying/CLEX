@@ -108,11 +108,11 @@
                                     </f:facet>
                                     <h:outputText value="#{poll.type}" />
                                 </p:column>
-                                <!--
-                                <p:column filterBy="#{poll.id}" headerText="ID" filterMatchMode="contains">
-                                    <h:outputText value="#{poll.datetime}" />
+                                <p:column filterBy="#{poll.module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
+                                    <h:outputText value="#{poll.module.course.moduleCode}" />
                                 </p:column>
-                                -->
+                                
+                                
                                 <p:column filterBy="#{poll.datetime}" headerText="Datetime" filterMatchMode="contains">
                                     <h:outputText value="#{poll.datetime}" />
                                 </p:column>
