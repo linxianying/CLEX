@@ -1,28 +1,67 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition  xmlns="http://www.w3.org/1999/xhtml"
-       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-       xmlns:h="http://xmlns.jcp.org/jsf/html"
-       xmlns:f="http://xmlns.jcp.org/jsf/core"
-       template="/WEB-INF/template.xhtml"
-       xmlns:p="http://primefaces.org/ui">
+                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                 template="/WEB-INF/template.xhtml"
+                 xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="title">PRISM Student Community Page</ui:define>
 
     <ui:define name="viewname">Community</ui:define>
-    
+
     <ui:define name="content">
-        
-        <div class="ui-g">
-            <div class="ui-g-12">
-                <div class="card">
+        <p:messages id="messages" showDetail="true" closable="true"/>
+        <h:form id="forumForm">
+            <p:tabView id="communityTab">
+                <p:tab title="COMMUNITY FORUMS - #{forumListBean.userEntity.school}">
+                    <p:commandButton value="New Thread" id="newThreadButton" >
+                        <p:overlayPanel for="newThreadButton" showEffect="fade" hideEffect="fade">
+                            <h:form>
+                                <p:inputText title="Title" placeholder="Title" id="title" value="#{forumListBean.tTitle}" > </p:inputText>   
+                                <p:inputText title="Content" placeholder="Content" id="content" value="#{forumListBean.tContent}" > </p:inputText> 
+                                <p:inputText title="Tag" placeholder="Tag" id="tag" value="#{forumListBean.tTag}" > </p:inputText> 
+                                <p:commandButton value="Create Thread" actionListener="#{forumListBean.startThread}" update="forumForm:communityTab:forumtable"/>
+                            </h:form>
+                        </p:overlayPanel>
+                    </p:commandButton>
+                    <br /><br />
+                    <h:panelGroup>
+                        <p:dataTable selectionMode="single" selection="#{forumListBean.selectedThread}" rowKey="#{threads.id}"
+                                     id="forumtable" value="#{forumListBean.threads}" 
+                                     var="threads" paginator="true" 
+                                     rows="20" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
+                                     emptyMessage="No threads has been created yet!">
+                            <p:ajax event="rowSelect" listener="#{forumListBean.onRowSelect}" update="messages" />                            
+                            <p:column headerText="Thread / Thread Starter" >                                
+                                <h:outputLabel style="font-size: 16px" value="#{threads.title}"/>
+                                <br />
+                                <h:outputLabel style="font-size: 11px" value="#{threads.user.name} - #{threads.dateTime}" />                                    
+                            </p:column>
+                            <p:column style="width: 11%" headerText="Replies" >
+                                <h:outputLabel style="font-size: 16px" value="#{threads.replies.size()}"/> 
+                            </p:column>
+                            <p:column style="width: 11%" headerText="Votes" >
+                                <h:outputLabel style="font-size: 16px" value="#{threads.voteThreads.size()}"/>  
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGroup>
+
+                    <br /><br />
+                </p:tab>
+                <p:tab title="SEARCH FORUMS">
+                    <!-- search by user? search by keyword-->
+                </p:tab>
+                <p:tab title="#{forumListBean.userEntity.school} MODULE REVIEWS">
+                    <!-- search by user? search by keyword-->
                     <h1>FOR TESTING ONLY, CAN REUSE THEM FOR FRONTEND IF POSSIBLE</h1>
                     <!-- BUTTONS FOR TESTING BACKEND -->
                     <h:form>
-                        <p:inputText title="Title" placeholder="Title" id="title" value="#{communityBean.tTitle}" > </p:inputText>   
-                        <p:inputText title="Content" placeholder="Content" id="content" value="#{communityBean.tContent}" > </p:inputText> 
-                        <p:inputText title="Tag" placeholder="Tag" id="tag" value="#{communityBean.tTag}" > </p:inputText> 
-                        <h:commandButton value="Create Thread" actionListener="#{communityBean.startThread}" />
+                        <p:inputText title="Title" placeholder="Title" id="title" value="#{forumListBean.tTitle}" > </p:inputText>   
+                        <p:inputText title="Content" placeholder="Content" id="content" value="#{forumListBean.tContent}" > </p:inputText> 
+                        <p:inputText title="Tag" placeholder="Tag" id="tag" value="#{forumListBean.tTag}" > </p:inputText> 
+                        <h:commandButton value="Create Thread" actionListener="#{forumListBean.startThread}" />
                     </h:form>
 
                     <h:form>
@@ -51,12 +90,12 @@
 
                     <h:form>
                         <p:inputText title="ThreadId" placeholder="ThreadId" id="threadid" value="#{communityBean.tId}" > </p:inputText>   
-                        <h:commandButton value="Unvote Thread" actionListener="#{communityBean.unvote(communityBean.tId, 0, true)}" />
+                        <h:commandButton value="Unvote Thread" actionListener="#{communityBean.unvote(forumListBean.tId, 0, true)}" />
                     </h:form>
 
                     <h:form>
                         <p:inputText title="ReplyId" placeholder="ReplyId" id="replyid" value="#{communityBean.rId}" > </p:inputText>   
-                        <h:commandButton value="Unvote Reply" actionListener="#{communityBean.unvote(0, communityBean.rId, false)}" />
+                        <h:commandButton value="Unvote Reply" actionListener="#{communityBean.unvote(0, forumListBean.rId, false)}" />
                     </h:form>
 
                     <h:form>
@@ -65,18 +104,18 @@
                         <p:inputText title="Content" placeholder="Content" id="content" value="#{communityBean.tContent}" > </p:inputText> 
                         <p:inputText title="Tag" placeholder="Tag" id="tag" value="#{communityBean.tTag}" > </p:inputText> 
                         <h:commandButton value="Modify Thread" actionListener="#{communityBean.modifyThread(
-                                                 communityBean.tId, communityBean.tContent, communityBean.tTitle, communityBean.tTag)}" />
+                                                                                 communityBean.tId, forumListBean.tContent, forumListBean.tTitle, communityBean.tTag)}" />
                     </h:form>
 
                     <h:form>
                         <p:inputText title="ReplyId" placeholder="ReplyId" id="replyid" value="#{communityBean.rId}" > </p:inputText>   
                         <p:inputText title="Content" placeholder="Content" id="content" value="#{communityBean.rContent}" > </p:inputText> 
-                        <h:commandButton value="Modify Reply" actionListener="#{communityBean.modifyReply(communityBean.rId, communityBean.rContent)}" />
+                        <h:commandButton value="Modify Reply" actionListener="#{communityBean.modifyReply(forumListBean.rId, forumListBean.rContent)}" />
                     </h:form>
 
                     <h:form>
-                        <p:inputText title="ThreadId" placeholder="ThreadId" id="threadid" value="#{communityBean.tId}" > </p:inputText>   
-                        <h:commandButton value="Delete Thread" actionListener="#{communityBean.removeThread()}" />
+                        <p:inputText title="ThreadId" placeholder="ThreadId" id="threadid" value="#{forumListBean.tId}" > </p:inputText>   
+                        <h:commandButton value="Delete Thread" actionListener="#{forumListBean.removeThread()}" />
                     </h:form> 
 
                     <h:form>
@@ -87,38 +126,40 @@
                     <h:form>
                         <h:commandButton value="Test sorting" actionListener="#{communityBean.sort()}" />
                     </h:form>
-                    
+
                     <h:form>
                         <h:commandButton value="Test entity" actionListener="#{communityBean.test()}" />
                     </h:form>
-                    
+
                     <br></br><!--PRIVATE MESSAGING FUNCTION TEST -->
-                    <h:form>
+                    <!--<h:form>
                         <p:inputText title="Receiver" placeholder="Receiver" id="rUsername" value="#{privateMsgBean.rUsername}" > </p:inputText>   
                         <p:inputText title="Content" placeholder="Content" id="content" value="#{privateMsgBean.content}" > </p:inputText> 
                         <h:commandButton value="Start Convo" actionListener="#{privateMsgBean.sendNewMessage}" />
                     </h:form>
-                    
+        
                     <h:form>
                         <p:inputText title="ConvoId" placeholder="ConvoId" id="convoid" value="#{privateMsgBean.cId}" > </p:inputText>   
                         <p:inputText title="Content" placeholder="Content" id="content" value="#{privateMsgBean.content}" > </p:inputText> 
                         <h:commandButton value="Send Msg" actionListener="#{privateMsgBean.sendMessage}" />
                     </h:form>
-                    
+        
                     <h:form>
                         <p:inputText title="ConvoId" placeholder="ConvoId" id="convoid" value="#{privateMsgBean.cId}" > </p:inputText>   
                         <h:commandButton value="Delete Convo" actionListener="#{privateMsgBean.deleteConversation}" />
                     </h:form>
-                    
+        
                     <h:form>
                         <h:commandButton value="Test entity" actionListener="#{privateMsgBean.test()}" />
-                    </h:form>
+                    </h:form>-->
                     <!-- TEST CODE STOPS HERE -->
-                </div>
-            </div>
-        </div>
-        
-        
+                </p:tab>
+
+            </p:tabView>
+
+        </h:form>
+
 
     </ui:define>
 </ui:composition>
+

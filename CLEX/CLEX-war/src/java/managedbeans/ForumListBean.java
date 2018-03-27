@@ -11,13 +11,16 @@ import entity.User;
 import entity.Vote;
 import entity.VoteReply;
 import entity.VoteThread;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import org.primefaces.event.SelectEvent;
 import session.CommunitySessionBeanLocal;
 
 /**
@@ -30,58 +33,96 @@ public class ForumListBean {
 
     @EJB
     private CommunitySessionBeanLocal cmsbl;
-    
+
     private ArrayList<Thread> threads;
     private ArrayList<Reply> replies;
     private ArrayList<Vote> votes;
     private ArrayList<VoteThread> voteThreads;
     private ArrayList<VoteReply> voteReplies;
-    
+
     //User
     private User userEntity;
     private String username;
     private String userType;
-    
+
     //Thread
     private Thread threadEntity;
     private Long tId;
     private String tContent;
     private String tTitle;
     private String tTag;
-    
+    private Thread selectedThread;
+
     //Reply
     private Reply replyEntity;
     private Long rId;
     private String rContent;
-    
+
     //Vote
     private Vote voteEntity;
     private VoteThread voteThread;
     private VoteReply voteReply;
     private boolean voteFor; //false - reply, true - thread
     private boolean voteType; //false - downvote, true - upvote
-    
+
     FacesContext context;
     HttpSession session;
-    
+
     public ForumListBean() {
     }
-    
+
     //Use this to search, collect and display, use communitybean for other functions
-    
     @PostConstruct
     public void init() {
+        refresh();
+    }
+
+    public void refresh() {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
         username = (String) session.getAttribute("username");
-        threads = (ArrayList) cmsbl.getAllThreads();
+        userEntity = (User) session.getAttribute("user");
+        threads = (ArrayList) cmsbl.getAllThreadsBySchool(userEntity.getSchool());
     }
-    
-    public void listRepliesForThread(Long tId){
+
+    public void startThread() throws IOException {
+        FacesMessage fmsg = new FacesMessage();
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+        username = (String) session.getAttribute("username");
+        userEntity = (User) session.getAttribute("user");
+
+        if (this.tTitle.equals("")) {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Thread title needed.", "Please fill up the title field.");
+        } else if (this.tContent.equals("")) {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Thread contents needed.", "Please fill up the content field.");
+        } else {
+            if (cmsbl.createThread(username, tContent, tTitle, tTag, userEntity.getSchool())) {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Thread created.");
+                refresh();
+
+            } else {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to create thread.", "Please ensure you are logged in.");
+            }
+        }
+        context.addMessage(null, fmsg);
+    }
+
+    public void onRowSelect(SelectEvent event) {
+        System.out.println(selectedThread.getId());
+        try {
+            session.setAttribute("thread", selectedThread);
+            context.getExternalContext().redirect("viewThread.xhtml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void listRepliesForThread(Long tId) {
         this.tId = tId;
         replies = (ArrayList) cmsbl.getRepliesFromThread(tId);
     }
-    
+
     public ArrayList<Thread> getThreads() {
         return threads;
     }
@@ -249,5 +290,12 @@ public class ForumListBean {
     public void setVoteType(boolean voteType) {
         this.voteType = voteType;
     }
-    
+
+    public Thread getSelectedThread() {
+        return selectedThread;
+    }
+
+    public void setSelectedThread(Thread selectedThread) {
+        this.selectedThread = selectedThread;
+    }
 }

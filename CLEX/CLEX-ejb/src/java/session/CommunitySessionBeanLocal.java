@@ -20,7 +20,7 @@ import javax.ejb.Local;
 @Local
 public interface CommunitySessionBeanLocal {
 
-    public boolean createThread(String username, String content, String title, String tag);
+    public boolean createThread(String username, String content, String title, String tag, String school);
     public boolean createReply(Long threadId, String username, String content);
     public boolean createVoteThread(Long threadId, String username, boolean voteType);
     public boolean createVoteReply(Long replyId, String username, boolean voteType);
@@ -58,4 +58,6 @@ public interface CommunitySessionBeanLocal {
             
     public List<Thread> sortThreadByUpvote(List<Thread> threadList);
     public List<Thread> sortThreadByDate(List<Thread> threadList);
+    
+    public List<Thread> getAllThreadsBySchool(String school);
 }

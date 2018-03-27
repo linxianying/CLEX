@@ -26,54 +26,58 @@ import javax.persistence.OneToMany;
  */
 @Entity
 public class Thread implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(length = 32, nullable = false)
     private String username;
-    
+
     @Column(length = 64, nullable = false)
     private String dateTime;
-    
+
     @Column(length = 256, nullable = false)
     private String content;
-    
+
     @Column(length = 64, nullable = false)
     private String title;
-    
+
     @Column(length = 32, nullable = false)
     private int upVote;
-    
+
     @Column(length = 32, nullable = false)
     private int downVote;
-    
+
     @Column(length = 32, nullable = false)
     private String tag; //KIV can give them many types (e.g "1": general, "2": reviews, "3": technical, "4": academic, "0": others
-    
+
     @Column(length = 32, nullable = false)
     private boolean edited; //false = no (default), true = yes
-    
+
     @Column(length = 32, nullable = false)
     private String editDateTime;
-    
+
+    @Column(length = 32, nullable = false)
+    private String school;
+
     @ManyToOne
     private User user;
-    
-    @OneToMany(cascade={CascadeType.ALL}, mappedBy="thread")
+
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "thread")
     private Collection<Reply> replies = new ArrayList<Reply>();
-    
-    @OneToMany(cascade={CascadeType.ALL}, mappedBy="thread")
+
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "thread")
     private Collection<VoteThread> voteThreads = new ArrayList<VoteThread>();
-    
-    public Thread(){
+
+    public Thread() {
         Date current = new Date();
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         this.dateTime = format.format(current);
     }
-    
-    public void createThread(String username, String content, String title, String tag){
+
+    public void createThread(String username, String content, String title, String tag, String school) {
         this.upVote = 0; //by default 0
         this.downVote = 0;
         this.username = username;
@@ -82,8 +86,9 @@ public class Thread implements Serializable {
         this.tag = tag;
         this.edited = false;
         this.editDateTime = "";
+        this.school = school;
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -91,7 +96,7 @@ public class Thread implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     public User getUser() {
         return user;
     }
@@ -195,6 +200,14 @@ public class Thread implements Serializable {
         return hash;
     }
 
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
+    }
+
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -212,5 +225,5 @@ public class Thread implements Serializable {
     public String toString() {
         return "entity.Thread[ id=" + id + " ]";
     }
-    
+
 }

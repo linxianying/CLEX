@@ -43,6 +43,7 @@ import javax.persistence.Query;
  */
 @Stateless
 public class CommunitySessionBean implements CommunitySessionBeanLocal {
+
     @PersistenceContext
     EntityManager em;
     private User userEntity;
@@ -66,149 +67,147 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
     private Reply replyEntity;
 
     @Override
-    public boolean createThread(String username, String content, String title, String tag){
+    public boolean createThread(String username, String content, String title, String tag, String school) {
         userEntity = findUser(username);
-        
-        if(userEntity == null){
+
+        if (userEntity == null) {
             System.out.println("User not logged in.");
             return false;
         }
-        
+
         Thread thread = new Thread();
-        
+
         System.out.println("Id: " + thread.getId());
-        thread.createThread(username, content, title, tag);
+        thread.createThread(username, content, title, tag, school);
         thread.setUser(userEntity);
         userEntity.getThreads().add(thread);
-        
+
         em.merge(userEntity);
         em.persist(thread);
         em.flush();
-        
+
         System.out.println("Thread " + thread.getId() + " created.");
         return true;
     }
-    
+
     @Override
-    public boolean createReply(Long threadId, String username, String content){
+    public boolean createReply(Long threadId, String username, String content) {
         userEntity = findUser(username);
         threadEntity = findThread(threadId);
-        
-        if(userEntity == null){
+
+        if (userEntity == null) {
             System.out.println("User not logged in.");
             return false;
         }
-        
+
         Reply reply = new Reply();
-        
+
         reply.createReply(threadId, content);
         reply.setUser(userEntity);
         reply.setThread(threadEntity);
-        
+
         userEntity.getReplys().add(reply);
         threadEntity.getReplies().add(reply);
-        
+
         em.merge(userEntity);
         em.merge(threadEntity);
         em.persist(reply);
-        em.flush();     
-        
+        em.flush();
+
         System.out.println("Reply " + reply.getId() + " created.");
         return true;
     }
-    
+
     @Override
-    public boolean createVoteThread(Long threadId, String username, boolean voteType){
+    public boolean createVoteThread(Long threadId, String username, boolean voteType) {
         userEntity = findUser(username);
         threadEntity = findThread(threadId);
-        
-        if(checkUserVotedThread(userEntity, threadEntity)){
+
+        if (checkUserVotedThread(userEntity, threadEntity)) {
             System.out.println("User " + username + " has already voted thread.");
             return false;
         }
-            
+
         VoteThread voteThread = new VoteThread();
-        
+
         voteThread.createVoteThread(genDateTime(), voteType, userEntity, threadEntity);
-        
+
         userEntity.getVotes().add(voteThread);
         threadEntity.getVoteThreads().add(voteThread);
-        if(voteType == false){ //false = downvote, true = upvote
+        if (voteType == false) { //false = downvote, true = upvote
             threadEntity.setDownVote((threadEntity.getDownVote() + 1));
-        }
-        else{
+        } else {
             threadEntity.setUpVote((threadEntity.getUpVote() + 1));
         }
-        
+
         em.merge(userEntity);
         em.merge(threadEntity);
         em.persist(voteThread);
         em.flush();
         return true;
     }
-    
+
     @Override
-    public boolean createVoteReply(Long replyId, String username, boolean voteType){
+    public boolean createVoteReply(Long replyId, String username, boolean voteType) {
         userEntity = findUser(username);
         replyEntity = findReply(replyId);
-        
-        if(checkUserVotedReply(userEntity, replyEntity)){
+
+        if (checkUserVotedReply(userEntity, replyEntity)) {
             System.out.println("User " + username + " has already voted reply.");
             return false;
         }
-        
+
         VoteReply voteReply = new VoteReply();
-        
+
         voteReply.createVoteReply(genDateTime(), voteType, userEntity, replyEntity);
-        
+
         userEntity.getVotes().add(voteReply);
         replyEntity.getVoteReplies().add(voteReply);
-        if(voteType == false){ //false = downvote, true = upvote
+        if (voteType == false) { //false = downvote, true = upvote
             replyEntity.setDownVote((replyEntity.getDownVote() + 1));
-        }
-        else{
+        } else {
             replyEntity.setUpVote((replyEntity.getUpVote() + 1));
         }
-        
+
         em.merge(userEntity);
         em.merge(replyEntity);
         em.persist(voteReply);
-        em.flush();        
+        em.flush();
         return true;
     }
-    
+
     @Override
-    public void editThread(Long threadId, String content, String title, String tag){
+    public void editThread(Long threadId, String content, String title, String tag) {
         threadEntity = findThread(threadId);
-        
+
         threadEntity.setContent(content);
         threadEntity.setTitle(title);
         threadEntity.setTag(tag);
         threadEntity.setEdited(true);
         threadEntity.setEditDateTime(genDateTime());
-        
+
         em.merge(threadEntity);
-        em.flush();  
+        em.flush();
     }
-    
+
     @Override
-    public void editReply(Long replyId, String content){
+    public void editReply(Long replyId, String content) {
         replyEntity = findReply(replyId);
-        
+
         replyEntity.setContent(content);
         replyEntity.setEdited(true);
         replyEntity.setEditDateTime(genDateTime());
-        
+
         em.merge(replyEntity);
-        em.flush();  
+        em.flush();
     }
-    
+
     @Override
-    public boolean deleteThread(String username, Long threadId){
+    public boolean deleteThread(String username, Long threadId) {
         userEntity = findUser(username);
         threadEntity = findThread(threadId);
-        
-        if(userEntity.getThreads().remove(threadEntity)){
+
+        if (userEntity.getThreads().remove(threadEntity)) {
             em.merge(userEntity);
             em.remove(threadEntity);
             em.flush();
@@ -218,16 +217,16 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         }
 
         System.out.println("Failed to delete thread.");
-        return false;  
+        return false;
     }
-    
+
     @Override
-    public boolean deleteReply(String username, Long replyId){
+    public boolean deleteReply(String username, Long replyId) {
         userEntity = findUser(username);
         replyEntity = findReply(replyId);
         threadEntity = replyEntity.getThread();
-        
-        if(userEntity.getReplys().remove(replyEntity) && threadEntity.getReplies().remove(replyEntity)){
+
+        if (userEntity.getReplys().remove(replyEntity) && threadEntity.getReplies().remove(replyEntity)) {
             em.merge(userEntity);
             em.merge(threadEntity);
             em.remove(replyEntity);
@@ -238,22 +237,21 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         }
 
         System.out.println("Failed to delete reply.");
-        return false;  
+        return false;
     }
 
     @Override
-    public boolean deleteVoteThread(String username, Long threadId, Long voteId){
+    public boolean deleteVoteThread(String username, Long threadId, Long voteId) {
         userEntity = findUser(username);
         threadEntity = findThread(threadId);
         voteEntity = findVote(voteId);
-        
-        if(userEntity.getVotes().remove(voteEntity) && threadEntity.getVoteThreads().remove((VoteThread) voteEntity)){
-            
-            if(voteEntity.isVoteType()){
+
+        if (userEntity.getVotes().remove(voteEntity) && threadEntity.getVoteThreads().remove((VoteThread) voteEntity)) {
+
+            if (voteEntity.isVoteType()) {
                 threadEntity.setUpVote((threadEntity.getUpVote() - 1));
-            }
-            else{
-                threadEntity.setDownVote((threadEntity.getDownVote() - 1));     
+            } else {
+                threadEntity.setDownVote((threadEntity.getDownVote() - 1));
             }
 
             em.remove(voteEntity);
@@ -264,81 +262,80 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
             System.out.println("Vote " + voteId + " deleted.");
             return true;
         }
-        
+
         System.out.println("Failed to delete thread vote.");
         return false;
     }
-  
+
     @Override
-    public boolean deleteVoteReply(String username, Long replyId, Long voteId){
+    public boolean deleteVoteReply(String username, Long replyId, Long voteId) {
         userEntity = findUser(username);
         replyEntity = findReply(replyId);
-        voteEntity = findVote(voteId); 
-    
-        if(userEntity.getVotes().remove(voteEntity) && replyEntity.getVoteReplies().remove((VoteReply) voteEntity)){
-            
-            if(voteEntity.isVoteType()){
+        voteEntity = findVote(voteId);
+
+        if (userEntity.getVotes().remove(voteEntity) && replyEntity.getVoteReplies().remove((VoteReply) voteEntity)) {
+
+            if (voteEntity.isVoteType()) {
                 replyEntity.setUpVote((replyEntity.getUpVote() - 1));
+            } else {
+                replyEntity.setDownVote((replyEntity.getDownVote() - 1));
             }
-            else{
-                replyEntity.setDownVote((replyEntity.getDownVote() - 1));     
-            }
-            
+
             em.merge(userEntity);
             em.merge(replyEntity);
-            em.remove(voteEntity);  
+            em.remove(voteEntity);
             em.flush();
             em.clear();
             System.out.println("Vote " + voteId + " deleted.");
             return true;
         }
-        
+
         System.out.println("Failed to delete reply vote.");
         return false;
     }
-    
+
     @Override
-    public boolean checkExistingThread(Long threadId){
+    public boolean checkExistingThread(Long threadId) {
         threadEntity = findThread(threadId);
-        if(threadEntity == null){
+        if (threadEntity == null) {
             return false;
         }
         return true;
     }
-    
+
     @Override
-    public boolean checkExistingReply(Long replyId){
+    public boolean checkExistingReply(Long replyId) {
         replyEntity = findReply(replyId);
-        if(replyEntity == null){
+        if (replyEntity == null) {
             return false;
         }
         return true;
     }
-    
-    public boolean checkUserVotedThread(User userEntity, Thread threadEntity){
-        List <Vote> votes = (List) userEntity.getVotes();
-        for(int i=0; i < votes.size(); i++){
-            if(votes.get(i).isVoteFor()){ //if true (thread), else ignore
-                if(threadEntity.getVoteThreads().contains((VoteThread) votes.get(i))){
+
+    public boolean checkUserVotedThread(User userEntity, Thread threadEntity) {
+        List<Vote> votes = (List) userEntity.getVotes();
+        for (int i = 0; i < votes.size(); i++) {
+            if (votes.get(i).isVoteFor()) { //if true (thread), else ignore
+                if (threadEntity.getVoteThreads().contains((VoteThread) votes.get(i))) {
                     return true;
                 }
             }
         }
         return false;
     }
-    
-    public boolean checkUserVotedReply(User userEntity, Reply replyEntity){
-        List <Vote> votes = (List) userEntity.getVotes();
-        for(int i=0; i < votes.size(); i++){
-            if(!votes.get(i).isVoteFor()){ //if false (reply), else ignore
-                if(replyEntity.getVoteReplies().contains((VoteReply) votes.get(i))){
+
+    public boolean checkUserVotedReply(User userEntity, Reply replyEntity) {
+        List<Vote> votes = (List) userEntity.getVotes();
+        for (int i = 0; i < votes.size(); i++) {
+            if (!votes.get(i).isVoteFor()) { //if false (reply), else ignore
+                if (replyEntity.getVoteReplies().contains((VoteReply) votes.get(i))) {
                     return true;
                 }
             }
         }
         return false;
-    }    
-    
+    }
+
     @Override
     public List<Thread> getAllThreads() {
         List<Thread> threads = new ArrayList<Thread>();
@@ -349,7 +346,21 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         }
         return threads;
     }
-    
+
+    @Override
+    public List<Thread> getAllThreadsBySchool(String school) {
+        List<Thread> threads = new ArrayList<Thread>();
+        Query q = em.createQuery("Select t FROM Thread t");
+        for (Object o : q.getResultList()) {
+            threadEntity = (Thread) o;
+            if (threadEntity.getSchool().equals(school)) {
+                threads.add(threadEntity);
+            }
+
+        }
+        return threads;
+    }
+
     @Override
     public List<VoteThread> getAllVoteThreads() {
         List<VoteThread> voteThreads = new ArrayList<VoteThread>();
@@ -359,8 +370,8 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
             voteThreads.add(voteThreadEntity);
         }
         return voteThreads;
-    }    
-    
+    }
+
     @Override
     public List<VoteReply> getAllVoteReplies() {
         List<VoteReply> voteReplies = new ArrayList<VoteReply>();
@@ -370,83 +381,83 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
             voteReplies.add(voteReplyEntity);
         }
         return voteReplies;
-    }    
-    
+    }
+
     @Override
-    public List<Thread> getThreadsFromUser(String username){
+    public List<Thread> getThreadsFromUser(String username) {
         userEntity = findUser(username);
         List<Thread> threads = (List) userEntity.getThreads();
         return threads;
     }
-    
+
     @Override
-    public List<Reply> getRepliesFromUser(String username){
+    public List<Reply> getRepliesFromUser(String username) {
         userEntity = findUser(username);
         List<Reply> replies = (List) userEntity.getReplys();
         return replies;
     }
-    
+
     @Override
-    public List<Reply> getRepliesFromThread(Long threadId){
+    public List<Reply> getRepliesFromThread(Long threadId) {
         threadEntity = findThread(threadId);
         List<Reply> replies = (List) threadEntity.getReplies();
         return replies;
-    }    
+    }
 
     @Override
-    public List<Thread> searchThreadByTitle(String searchTitle){
+    public List<Thread> searchThreadByTitle(String searchTitle) {
         List<Thread> threadList = new ArrayList<Thread>();
         List<Thread> threads = getAllThreads();
-        for(int i=0; i < threads.size(); i++){
+        for (int i = 0; i < threads.size(); i++) {
             threadEntity = threads.get(i);
-            if(threadEntity.getTitle().contains(searchTitle)){
+            if (threadEntity.getTitle().contains(searchTitle)) {
                 threadList.add(threads.get(i));
             }
         }
         return threadList;
     }
-    
+
     @Override
-    public List<Thread> searchThreadByContent(String searchContent){
+    public List<Thread> searchThreadByContent(String searchContent) {
         List<Thread> threadList = new ArrayList<Thread>();
         List<Thread> threads = getAllThreads();
-        for(int i=0; i < threads.size(); i++){
+        for (int i = 0; i < threads.size(); i++) {
             threadEntity = threads.get(i);
-            if(threadEntity.getContent().contains(searchContent)){
-                threadList.add(threads.get(i));
-            }
-        }
-        return threadList;
-    }      
-    
-    @Override
-    public List<Thread> getThreadsByTag(String tag){
-        List<Thread> threadList = new ArrayList<Thread>();
-        List<Thread> threads = getAllThreads();
-        for(int i=0; i < threads.size(); i++){
-            threadEntity = threads.get(i);
-            if(threadEntity.getTag().equals(tag)){
+            if (threadEntity.getContent().contains(searchContent)) {
                 threadList.add(threads.get(i));
             }
         }
         return threadList;
     }
-   
+
     @Override
-    public List<VoteThread> getVotesFromThread(Long threadId){
+    public List<Thread> getThreadsByTag(String tag) {
+        List<Thread> threadList = new ArrayList<Thread>();
+        List<Thread> threads = getAllThreads();
+        for (int i = 0; i < threads.size(); i++) {
+            threadEntity = threads.get(i);
+            if (threadEntity.getTag().equals(tag)) {
+                threadList.add(threads.get(i));
+            }
+        }
+        return threadList;
+    }
+
+    @Override
+    public List<VoteThread> getVotesFromThread(Long threadId) {
         threadEntity = findThread(threadId);
         List<VoteThread> voteThreads = (List) threadEntity.getVoteThreads();
         return voteThreads;
     }
-    
+
     @Override
-    public List<VoteReply> getVotesFromReply(Long replyId){
+    public List<VoteReply> getVotesFromReply(Long replyId) {
         replyEntity = findReply(replyId);
         List<VoteReply> voteReplies = (List) replyEntity.getVoteReplies();
         return voteReplies;
     }
-     
-    public String genDateTime(){
+
+    public String genDateTime() {
         Date current = new Date();
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         return format.format(current);
@@ -468,7 +479,7 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         }
         return userEntity;
     }
-    
+
     public Thread findThread(Long id) {
         threadEntity = null;
         try {
@@ -484,7 +495,7 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         }
         return threadEntity;
     }
-    
+
     public Reply findReply(Long id) {
         replyEntity = null;
         try {
@@ -500,7 +511,7 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         }
         return replyEntity;
     }
-    
+
     public Vote findVote(Long id) {
         voteEntity = null;
         try {
@@ -516,9 +527,9 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         }
         return voteEntity;
     }
-    
+
     @Override
-    public VoteThread findVoteByUserThread(Long userId, Long threadId){
+    public VoteThread findVoteByUserThread(Long userId, Long threadId) {
         voteThreadEntity = null;
         try {
             Query q = em.createQuery("SELECT v FROM VoteThread v WHERE v.user.id = :userid AND v.thread.id = :threadid");
@@ -534,9 +545,9 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         }
         return voteThreadEntity;
     }
-    
+
     @Override
-    public VoteReply findVoteByUserReply(Long userId, Long replyId){
+    public VoteReply findVoteByUserReply(Long userId, Long replyId) {
         voteReplyEntity = null;
         try {
             Query q = em.createQuery("SELECT v FROM VoteReply v WHERE v.user.id = :userid AND v.reply.id = :replyid");
@@ -552,9 +563,9 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         }
         return voteReplyEntity;
     }
-    
+
     @Override
-    public List<Thread> sortThreadByUpvote(List<Thread> threadList){
+    public List<Thread> sortThreadByUpvote(List<Thread> threadList) {
         //Descending order (Highest vote to lowest)
         Collections.sort(threadList, new Comparator<Thread>() {
             public int compare(Thread t1, Thread t2) {
@@ -563,9 +574,9 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         });
         return threadList;
     }
-    
+
     @Override
-    public List<Thread> sortThreadByDate(List<Thread> threadList){
+    public List<Thread> sortThreadByDate(List<Thread> threadList) {
         //Descending order (Latest to oldest)
         Collections.sort(threadList, new Comparator<Thread>() {
             public int compare(Thread t1, Thread t2) {
@@ -574,5 +585,5 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         });
         return threadList;
     }
-    
+
 }
