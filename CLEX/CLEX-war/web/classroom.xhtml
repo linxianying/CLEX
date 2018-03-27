@@ -13,44 +13,15 @@
     
     <ui:define name="content">
 
-        <h:body>
-            <div>
-                <div id="content" class="left_content">
-                    <h3><h:outputText value="Classroom" /></h3>
-                    
-                    <!--
-                    <h:form>
-                        
-                        <p:growl id="messages" showDetail="true" />
-                        <p:toolbar>
-                            <f:facet name="left">
-                                <p:commandButton type="button" actionListener="#{studyPlanBean.newStudyPlan}" value="New" icon="ui-icon-document" />
+        
+            
+        <div id="content" class="left_content">
+            <h3><h:outputText value="Classroom" /></h3>
 
-                                <p:commandButton type="button" value="Refresh" icon="ui-icon-folder-open" />
+            <p:tabView>
+                <p:tab title="VIEW POLLS">
 
-                                <span class="ui-separator">
-                                    <span class="ui-icon ui-icon-grip-dotted-vertical" />
-                                </span>
-
-                                <p:commandButton type="button" title="Save" icon="ui-icon-disk" />
-                                <p:commandButton type="button" title="Delete" icon="ui-icon-trash" />
-                                <p:commandButton type="button" title="Print" icon="ui-icon-print" />
-                            </f:facet>
-                            
-                            <f:facet name="right">
-                                <p:menuButton value="Options">
-                                    <p:menuitem value="Save" actionListener="#{studyPlanBean.save}" update="messages" icon="ui-icon-disk" />
-                                    <p:menuitem value="Update" actionListener="#{studyPlanBean.update}" update="messages" icon="ui-icon-arrowrefresh-1-w" />
-                                    <p:menuitem value="Delete" actionListener="#{studyPlanBean.delete}" ajax="false" icon="ui-icon-close" />
-                                    <p:menuitem value="Homepage" url="http://www.primefaces.org" icon="ui-icon-extlink" />
-                                </p:menuButton>
-                            </f:facet>
-                            
-                        </p:toolbar>
-                    </h:form>
-                    -->
-                    
-                    <!-- START: View All Polls -->
+                <!-- START: View All Polls -->
                     <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
                         <p:printer target="panel" />
                     </p:commandButton>
@@ -98,7 +69,7 @@
                                         </h:commandLink>
                                     </div>
                                 </f:facet>
-                                
+
 
                                 <p:column filterBy="#{poll.type}" headerText="Poll Type" filterMatchMode="in">
                                     <f:facet name="filter">
@@ -111,8 +82,8 @@
                                 <p:column filterBy="#{poll.module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
                                     <h:outputText value="#{poll.module.course.moduleCode}" />
                                 </p:column>
-                                
-                                
+
+
                                 <p:column filterBy="#{poll.datetime}" headerText="Datetime" filterMatchMode="contains">
                                     <h:outputText value="#{poll.datetime}" />
                                 </p:column>
@@ -129,14 +100,15 @@
                                     <h:outputText value="#{poll.correctRate}" />
                                 </p:column>
                             </p:dataTable>
-                            
-                            
-                            
+
+
+
                         </p:panel> 
                     </h:form>
-                    <!-- END: View All Polls -->
-                    
-                    
+                <!-- END: View All Polls -->
+                </p:tab>
+
+                <p:tab title="VIEW ANALYZATION">
                     <p:growl id="msgmsg" showDetail="true" />
 
                     <h:panelGrid columns="2" columnClasses="left,right" style="width:100%">
@@ -144,7 +116,7 @@
                         <p:chart type="bar" widgetVar="chart" model="#{classroomBean.barModel}" style="width:900px;height:300px">
                             <p:ajax event="itemSelect" listener="#{classroomBean.itemSelect}" update="msgmsg" />
                         </p:chart> 
-                        
+
                         <p:commandButton type="button" value="Export" icon="ui-icon-extlink" onclick="exportChart()"/>
 
                         <p:dialog widgetVar="dlg" showEffect="fade" modal="true" header="Chart as an Image" resizable="false">
@@ -160,9 +132,9 @@
                                 PF('dlg').show();
                             }
                         </script>
-                        
 
-                       
+
+
                     </h:panelGrid>
                     <h:panelGrid columns="2" columnClasses="left,right" style="width:100%">
                         <p:chart type="bar" widgetVar="chartType" model="#{classroomBean.barModelByType}" style="width:900px;height:300px">
@@ -184,106 +156,114 @@
                             }
                         </script>
                     </h:panelGrid>
+                </p:tab>
 
-                    <!-- START: Add New Poll -->
+                <p:tab title="ADD NEW POLL">
+                <!-- START: Add New Poll -->
                     <h:form id="addForm">
                         <p:growl id="msg" showDetail="true" />
                         <p:panel collapsed="false" styleClass="menuHeader"  header="Add New Poll" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
 
-                            <table>
-                                <tr>
-                                    <td>
-                                        Module Code:
-                                    </td>
-                                    <td>
-                                        <p:inputText value="#{classroomBean.addModuleCode}" 
-                                                     required="true" requiredMessage="Please enter the module code!" >
-                                            <p:ajax event="change" listener="#{classroomBean.checkModule}" update="addForm" />
-                                        </p:inputText>
-                                    </td>
+                        <table>
+                            <tr>
+                                <td>
+                                    Module Code:
+                                </td>
+                                <td>
+                                    <p:inputText value="#{classroomBean.addModuleCode}" 
+                                                 required="true" requiredMessage="Please enter the module code!" 
+                                                 style="width:300px;">
+                                        <p:ajax event="change" listener="#{classroomBean.checkModule}" update="addForm" />
+                                    </p:inputText>
+                                </td>
 
-                                    <td>
-                                        <h:outputText id="addErrorMsg" value="#{classroomBean.addErrorMsg}" />
-                                    </td>
+                                <td>
+                                    <h:outputText id="addErrorMsg" value="#{classroomBean.addErrorMsg}" />
+                                </td>
 
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Year:
+                            </tr>
+                            <tr>
+                                <td>
+                                    Year:
 
-                                    </td>
-                                    <td>
-                                        <p:inputText value="#{classroomBean.addPickYear}" 
-                                                     required="true" requiredMessage="Please enter the module year!"  />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p:outputLabel for="addPickSem" value="Semester" />
-                                    </td>
+                                </td>
+                                <td>
+                                    <p:inputText style="width:300px;" value="#{classroomBean.addPickYear}" 
+                                                 required="true" requiredMessage="Please enter the module year!"  />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:outputLabel for="addPickSem" value="Semester" />
+                                </td>
 
-                                    <td>
-                                        <p:selectOneMenu id="addPickSem" required="true" value="#{classroomBean.addPickSem}" style="width:125px">
-                                            <f:selectItem itemLabel="1" itemValue="1" />
-                                            <f:selectItem itemLabel="2" itemValue="2" />
-                                        </p:selectOneMenu>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Type of Poll:
-                                    </td>
+                                <td>
+                                    <p:selectOneMenu style="width:285px;" id="addPickSem" required="true" value="#{classroomBean.addPickSem}" >
+                                        <f:selectItem itemLabel="1" itemValue="1" />
+                                        <f:selectItem itemLabel="2" itemValue="2" />
+                                    </p:selectOneMenu>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Type of Poll:
+                                </td>
 
-                                    <td>
-                                        <p:inputText value="#{classroomBean.addPollType}" 
-                                                     required="true" requiredMessage="Please enter the poll type!"  />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Topic of Poll:
-                                    </td>
+                                <td>
+                                    <p:inputText value="#{classroomBean.addPollType}" style="width:300px;"
+                                                 required="true" requiredMessage="Please enter the poll type!"  />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Topic of Poll:
+                                </td>
 
-                                    <td>
-                                        <p:inputText value="#{classroomBean.addPollTopic}" 
-                                                     required="true" requiredMessage="Please enter the poll topic!" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Content of Poll:
-                                    </td>
+                                <td>
+                                    <p:inputText value="#{classroomBean.addPollTopic}" style="width:300px;"
+                                                 required="true" requiredMessage="Please enter the poll topic!" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Content of Poll:
+                                </td>
 
-                                    <td>
-                                        <p:inputText value="#{classroomBean.addPollContent}" 
-                                                     required="true" requiredMessage="Please enter the poll content!" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Correct Rate:
-                                    </td>
+                                <td>
+                                    <p:inputText value="#{classroomBean.addPollContent}"  style="width:300px;"
+                                                 required="true" requiredMessage="Please enter the poll content!" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Correct Rate:
+                                </td>
 
-                                    <td>
-                                        <p:inputNumber value="#{classroomBean.addPollCorrectRate}" required="true" 
-                                                       requiredMessage="Please enter a number range from 0 to 1 only." 
-                                                       minValue="0.00" maxValue="1.00" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p:commandButton value="Add" id="addPollButton" 
-                                                         rendered="#{classroomBean.addButton}" action="#{classroomBean.addPoll}"
-                                                         update="msg"/>
-                                    </td>
-                                </tr>
-                            </table>
-                        </p:panel>
+                                <td >
+                                    <p:inputNumber value="#{classroomBean.addPollCorrectRate}" required="true" 
+                                                   requiredMessage="Please enter a number range from 0 to 1 only." 
+                                                   minValue="0.00" maxValue="1.00"
+                                                   placeholder="Number from 0 to 1"
+                                                   />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:commandButton value="Add" id="addPollButton"  style="width:200px;"
+                                                     rendered="#{classroomBean.addButton}" action="#{classroomBean.addPoll}"
+                                                     update="msg"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </p:panel>
                     </h:form>
-                    <!-- END: Add New Poll -->
-                    
-                    
+
+                </p:tab>
+                <!-- END: Add New Poll -->
+
                     <!-- START: Jasper Report Generator -->
+                <p:tab title="VIEW JASPER REPORT">
+
                     <h:form id="formJasperReport">
                         <p:panel header="Test JasperReport Generation">
 
@@ -291,10 +271,10 @@
 
                         </p:panel>
                     </h:form>
-                    <!-- END: Jasper Report Generator -->
-                </div>
-            </div>
 
-        </h:body>
+                </p:tab>
+                <!-- END: Jasper Report Generator -->
+            </p:tabView>
+        </div>  
     </ui:define>
 </ui:composition>
