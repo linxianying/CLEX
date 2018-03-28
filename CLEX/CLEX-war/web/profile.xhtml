@@ -37,12 +37,14 @@
                             <span>School</span>
                             <p:inputText id="newSchool" value="#{profileBean.school}" readonly="true"/>
                             <span>Faculty</span>
-                            <p:selectOneMenu style="padding: 0%;" required="true" id="newFaculty" value="#{profileBean.faculty}" 
+                            <p:selectOneMenu style="padding: 0%; width: 333.33;" required="true" id="newFaculty" value="#{profileBean.faculty}" 
                                              placeholder="Faculty">
                                 <f:selectItems value="#{profileBean.facultylist}" />
                             </p:selectOneMenu>
+                            <span>Major</span>
+                            <p:inputText id="newMajor" value="#{profileBean.major}" />
                             <span>Matriculated Year</span>
-                            <p:selectOneMenu style="padding: 0%; width: 190px" id="maticYear" value="#{profileBean.matricYear}" 
+                            <p:selectOneMenu style="padding: 0%; width: 333.33" id="maticYear" value="#{profileBean.matricYear}" 
                                              editable="true" placeholder="Matriculated Year">
                                 <f:selectItem itemLabel="2014" itemValue="2014" />
                                 <f:selectItem itemLabel="2015" itemValue="2015" />
@@ -50,7 +52,7 @@
                                 <f:selectItems value="#{profileBean.yearlist}" />
                             </p:selectOneMenu>
                             <span>Matriculated Semester</span>
-                            <p:selectOneButton style="padding: 0%; width: 190px" id="maticSem" value="#{profileBean.matricSem}">
+                            <p:selectOneButton style="padding: 0%; width: 333.33" id="maticSem" value="#{profileBean.matricSem}">
                                 <f:selectItem itemLabel="1" itemValue="1" />
                                 <f:selectItem itemLabel="2" itemValue="2" />
                             </p:selectOneButton>
