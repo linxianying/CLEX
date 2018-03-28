@@ -161,14 +161,13 @@ public class StudyPlanBean {
 
         context = FacesContext.getCurrentInstance();
         System.out.println("username" + username);
-        cpsbl.addStudyPlan(addPickYear, addPickSem, addModuleCode.toUpperCase(), username);
+        cpsbl.createStudyPlan(addPickYear, addPickSem, addModuleCode.toUpperCase(), csbl.findStudent(username));
         studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
         addModuleCode = null;
         addPickYear = null;
         addPickSem = null;
         this.addButton = false;
         refresh();
-
     }
 
     public void deleteStudyPlan(String moduleCode) {

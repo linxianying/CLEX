@@ -22,65 +22,145 @@
         <p:growl id="msgs" showDetail="true" />
         <div>
             <div id="content" class="left_content">
-                <h3><h:outputText value="My Study Plan" /></h3><br></br>
-                <h:form id="studyPlanForm">
-                    <p:fieldset id="studyPlan">
-                    <p:dashboard id="spDashboard" binding="#{newStudyPlanBean.dashboard}" >
-                        <p:ajax event="reorder" listener="#{newStudyPlanBean.handleReorder}" update="msgs" />
-                        <p:panel id="y11" style="width:138px;">
-                            <h:outputText value="Year1 Sem1" />
-                        </p:panel>
+                <p:tabView id="tab">
+                    <p:tab id="plan" title="Academic Plans">
+                        <!--<h3><h:outputText value="My Study Plan" /></h3><br></br>-->
+                        <h:form id="studyPlanForm">
+                            <p:fieldset id="studyPlan">
+                                <p:dashboard id="spDashboard" binding="#{newStudyPlanBean.dashboard}" >
+                                    <p:ajax event="reorder" listener="#{newStudyPlanBean.handleReorder}" update="msgs" />
+                                    <p:panel id="y11" style="width:138px;">
+                                        <h:outputText value="Year1 Sem1" />
+                                    </p:panel>
+                                        
+                                    <p:panel id="y12" style="width:138px;">
+                                        <h:outputText value="Year1 Sem2" />
+                                    </p:panel>
+                                        
+                                    <p:panel id="y21" style="width:138px;">
+                                        <h:outputText value="Year2 Sem1"  />
+                                    </p:panel>
+                                        
+                                    <p:panel id="y22" style="width:138px;">
+                                        <h:outputText value="Year2 Sem2" />
+                                    </p:panel>
+                                        
+                                    <p:panel id="y31" style="width:138px;">
+                                        <h:outputText value="Year3 Sem1" />
+                                    </p:panel>
+                                        
+                                    <p:panel id="y32" style="width:138px;">
+                                        <h:outputText value="Year3 Sem2" />
+                                    </p:panel>
+                                        
+                                    <p:panel id="y41" style="width:138px;">
+                                        <h:outputText value="Year4 Sem1" />
+                                    </p:panel>
+                                        
+                                    <p:panel id="y42" style="width:138px;">
+                                        <h:outputText value="Year4 Sem2" />
+                                    </p:panel>
+                <!--                    <ui:repeat value="#{newStudyPlanBean.grades}" var="grade" rendered="#{not empty newStudyPlanBean.grades}">
+                                        <p:panel>
+                                            <h:outputText value="Taken Modules"/>
+                                            <h:outputText value="#{grade.module.course.moduleCode}"/>
+                                        </p:panel>
+                                    </ui:repeat>
+                                        
+                                    <ui:repeat value="#{newStudyPlanBean.takingModules}" var="module" rendered="#{not empty newStudyPlanBean.takingModules}">
+                                        <p:panel id="#{module.course.moduleCode}">
+                                            <h:outputText value="Taking Modules"/>
+                                        </p:panel>
+                                    </ui:repeat>
+                                        
+                                    <ui:repeat value="#{newStudyPlanBean.studyPlans}" var="sp" rendered="#{not empty newStudyPlanBean.studyPlans}">
+                                        <p:panel id="#{sp.course.moduleCode}">
+                                            <h:outputText value="Study Plan"/>
+                                        </p:panel>
+                                    </ui:repeat>-->
+                                </p:dashboard>
+                            </p:fieldset>
+                        </h:form>
+                    </p:tab>
+                    
+                    <p:tab id="newModule" title="Add new">
+                        <h:form id="addNewModule">
+                            <p:commandLink value="Add a new entry * :" onclick="PF('disclaim').show()" style="font-size: 1.2em"/>
+                            <br/>
+                            <h:outputText value="Add a new "/>
+                            <p:selectOneMenu value="#{newStudyPlanBean.addItem}" >
+                                <f:selectItem itemLabel="Taken module" itemValue="Taken module"/>
+                                <f:selectItem itemLabel="Taking module" itemValue="Taking module"/>
+                                <f:selectItem itemLabel="Study Plan" itemValue="Study Plan"/>
+                            </p:selectOneMenu>
+                                <p:panelGrid columns="2" style="border: none">
+                                    <p:panelGrid columns="2">
+                                        <p:outputLabel id="viewLabel" for="moduleCode" value="Module Code:" />
+                                        <p:selectOneMenu id="moduleCode" value="#{newStudyPlanBean.addModuleCode}"  panelStyle="width:180px" effect="fade" 
+                                                             var="course" style="width:160px" filter="true" filterMatchMode="contains" appendTo="@this">
+                                            <!--<p:ajax event="change" listener="#{studyPlanBean.checkStudyPlan}" update="tab:studyPlanForm:addForm:addSPButton, tab:studyPlanForm:addForm:moduleInfoBox, tab:studyPlanForm:addForm:addPickSemLabel, addErrorMsg"  />-->
+                                            <f:selectItem itemLabel="Select One" itemValue="select"/>
+                                            <f:selectItems value="#{newStudyPlanBean.courses}" var="course" itemLabel="#{course.moduleCode}" itemValue="#{course.moduleCode}" />
+                                        </p:selectOneMenu>
+
+                                        <h:outputLabel for="addPickYearLabel" value="Year: " />
+
+                                        <p:inputNumber id="addPickYearLabel" value="#{newStudyPlanBean.addPickYear}" required="true" emptyValue="#{newStudyPlanBean.currentYear}" decimalPlaces="0"/>
+
+                                        <p>Semester<sup>+</sup>:</p>
+                                        <p:selectOneButton id="addPickSemLabel" value="#{newStudyPlanBean.addPickSem}" required="true">
+                                            <f:selectItem itemLabel="1" itemValue="1" />
+                                            <f:selectItem itemLabel="2" itemValue="2" />
+                                        </p:selectOneButton>                                        
+                                    </p:panelGrid>
+<!--                                    <h:panelGroup id="moduleInfoBox">
+                                        <p:panelGrid columns ="2">
+                                            <h:outputText value="Module Information:" />
+                                            <p:inputTextarea value="#{newStudyPlanBean.courseFront.moduleInfo}" style="width: 96%;" rows="3" cols="100" readonly="true" 
+                                                             autoResize="false" >
+                                            </p:inputTextarea>
+                                            <h:outputText value="Credit Unit(s): "/>
+                                            <h:outputText value="#{newStudyPlanBean.courseFront.modularCredits}"/>
+                                            <h:outputText value="Workload: "/>
+                                            <h:outputText value="#{newStudyPlanBean.courseFront.workload}"/>
+                                        </p:panelGrid>
+                                    </h:panelGroup>-->
+                                </p:panelGrid>
+                            <h:panelGroup id="addSPButton">
+                                <p:commandButton value="Add" id="addStudyPlanButton" 
+                                                 update="tab:studyPlanForm addErrorMsg" 
+                                                 actionListener="#{newStudyPlanBean.addNewItem()}">
+                                    <p:confirm header="Add #{newStudyPlanBean.addModuleCode} to #{newStudyPlanBean.addItem}" message="Are you sure?" icon="ui-icon-alert" />
+                                </p:commandButton>
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </p:confirmDialog>
+                            </h:panelGroup>
+                        </h:form>
+                        <br />
+
+                        <p:dialog header="DISCLAIMER" widgetVar="disclaim" modal="true" minHeight="40" draggable="false">
+                            <h:outputText value="* IMPORTANT: PRISM does not check for prerequisites and/or preclusion."/>
+                            <br/><br/>
+                            <h:outputText value="It is YOUR responsibility to ensure that you meet the requirements before adding a module."/>
+                            <br/><br/><br/>
+                            <h:outputText value="+ IMPORTANT: PRISM will automatically select the semester offered for the module."/> 
+                            <br/><br/>
+                            <h:outputText value="Nothing will be selected if no such information is available or if the module is offered in both semesters."/>
+                            <br/><br/>
+                            <h:outputText value="It is YOUR responsibility to check if module is available in the semester and year you plan to add to."/>
+                            <br/><br/><br/>
+                            <h:outputText value="PRISM will not be responsible for any lapses found in your academic plans."/>
+                            <br/><br/><hr/>
+                            <p:commandButton style="float:right;" value="Ok, I got it" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-check" onclick="PF('disclaim').hide()"/>
+                        </p:dialog>
+                    </p:tab>
                         
-                        <p:panel id="y12" style="width:138px;">
-                            <h:outputText value="Year1 Sem2" />
-                        </p:panel>
-                        
-                        <p:panel id="y21" style="width:138px;">
-                            <h:outputText value="Year2 Sem1"  />
-                        </p:panel>
-
-                        <p:panel id="y22" style="width:138px;">
-                            <h:outputText value="Year2 Sem2" />
-                        </p:panel>
-
-                        <p:panel id="y31" style="width:138px;">
-                            <h:outputText value="Year3 Sem1" />
-                        </p:panel>
-
-                        <p:panel id="y32" style="width:138px;">
-                            <h:outputText value="Year3 Sem2" />
-                        </p:panel>
-
-                        <p:panel id="y41" style="width:138px;">
-                            <h:outputText value="Year4 Sem1" />
-                        </p:panel>
-
-                        <p:panel id="y42" style="width:138px;">
-                            <h:outputText value="Year4 Sem2" />
-                        </p:panel>
-    <!--                    <ui:repeat value="#{newStudyPlanBean.grades}" var="grade" rendered="#{not empty newStudyPlanBean.grades}">
-                            <p:panel>
-                                <h:outputText value="Taken Modules"/>
-                                <h:outputText value="#{grade.module.course.moduleCode}"/>
-                            </p:panel>
-                        </ui:repeat>
-
-                        <ui:repeat value="#{newStudyPlanBean.takingModules}" var="module" rendered="#{not empty newStudyPlanBean.takingModules}">
-                            <p:panel id="#{module.course.moduleCode}">
-                                <h:outputText value="Taking Modules"/>
-                            </p:panel>
-                        </ui:repeat>
-
-                        <ui:repeat value="#{newStudyPlanBean.studyPlans}" var="sp" rendered="#{not empty newStudyPlanBean.studyPlans}">
-                            <p:panel id="#{sp.course.moduleCode}">
-                                <h:outputText value="Study Plan"/>
-                            </p:panel>
-                        </ui:repeat>-->
-                    </p:dashboard>
-                    </p:fieldset>
-                </h:form>
+                </p:tabView>
+                
                 <h:form id="initializePageDataForm">
-                    <p:remoteCommand name="initializePageDataCommand" autoRun="true" action="#{newStudyPlanBean.check()}" update="studyPlanForm:studyPlan"/>
+                    <p:remoteCommand name="initializePageDataCommand" autoRun="true" action="#{newStudyPlanBean.check()}" update="tab:studyPlanForm:studyPlan"/>
                 </h:form>
             </div>
         </div>

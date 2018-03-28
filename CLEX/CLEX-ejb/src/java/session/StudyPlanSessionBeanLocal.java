@@ -23,17 +23,17 @@ import javax.ejb.Local;
 @Local
 public interface StudyPlanSessionBeanLocal {
 
-    public void createStudyPlan(String pickYear, String pickSem, Course course, Student student);
+    public void createStudyPlan(String pickYear, String pickSem, String moduleCode, Student student);
 
     public Student findStudent(String username);
 
     public Course findCourse(String moduleCode);
 
-    public void addStudyPlan(String pickYear, String pickSem, String moduleCode, String username);
+//    public void addStudyPlan(String pickYear, String pickSem, String moduleCode, String username);
 
     public boolean checkStudyPlan(String username, String moduleCode);
 
-    public void updateStudyPlan(String username, String moduleCode, String pickYear, String pickSem);
+    public void updateStudyPlan(String pickYear, String pickSem, String moduleCode, String username);
 
     public void changeStudyPlan();
 
@@ -106,6 +106,10 @@ public interface StudyPlanSessionBeanLocal {
     public void updateGradeYearSem(Long id, String moduleCode, int newYear, int newSem);
 
     public void updateStudyPlanYearSem(Long id, int newYear, int newSem);
+
+    public void addTakenModule(String pickYear, String pickSem, String moduleCode, Student student);
+
+    public void addTakingModule(String pickYear, String pickSem, String moduleCode, Student student);
     
     
 }

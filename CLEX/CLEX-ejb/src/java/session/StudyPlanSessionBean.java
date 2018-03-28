@@ -466,45 +466,24 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         return s;
     }
 
-    //the actual step that creates studyPlan enity and sets relationship
-    @Override
-    public void createStudyPlan(String pickYear, String pickSem, Course course, Student student) {
-        try {
-            //create new studyPlan entity
-            studyPlan = new StudyPlan();
-            studyPlan.createStudyPlan(pickYear, pickSem, course, student);
-            //set relationship between StudyPlan and Student
-            this.student.getStudyPlan().add(studyPlan);
-            //set relationship between StudyPlan and course
-            studyPlan.setCourse(course);
-            em.merge(student);
-            em.persist(studyPlan);
-            em.flush();
-            System.out.println("StudyPlanSessionBean: createStudyPlan:");
-            System.out.println("studyPlan " + course.getModuleCode() + " at year "
-                    + pickYear + ", at sem " + pickSem + " added");
-        } catch (Exception e) {
-            System.out.println("StudyPlanSessionBean: createStudyPlan method:");
-            e.printStackTrace();
-        }
-    }
+  
 
-    //check whether it's in DB or not, if not, create one by calling method createStudyPlan.
-    @Override
-    public void addStudyPlan(String pickYear, String pickSem, String moduleCode, String username) {
-        //if the studyplan is not found
-        /*if (!checkStudyPlan(username, moduleCode)) { */
-        this.pickSem = pickSem;
-        this.pickYear = pickYear;
-        this.createStudyPlan(pickYear, pickSem, this.findCourse(moduleCode), this.findStudent(username));
-        /*} */
-        //if the studyPlan is in DB already
-        /*else {
-         System.out.println("StudyPlanSessionBean: addStudyPlan method: "
-         + "studyplan with user:" + username + ", moduleCode:" 
-         + moduleCode + "alrady exists");
-         } */
-    }
+//    //check whether it's in DB or not, if not, create one by calling method createStudyPlan.
+//    @Override
+//    public void addStudyPlan(String pickYear, String pickSem, String moduleCode, String username) {
+//        //if the studyplan is not found
+//        /*if (!checkStudyPlan(username, moduleCode)) { */
+//        this.pickSem = pickSem;
+//        this.pickYear = pickYear;
+//        this.createStudyPlan(pickYear, pickSem, this.findCourse(moduleCode), this.findStudent(username));
+//        /*} */
+//        //if the studyPlan is in DB already
+//        /*else {
+//         System.out.println("StudyPlanSessionBean: addStudyPlan method: "
+//         + "studyplan with user:" + username + ", moduleCode:" 
+//         + moduleCode + "alrady exists");
+//         } */
+//    }
 
     @Override
     public void changeStudyPlan() {
@@ -515,7 +494,7 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     }
 
     @Override
-    public void updateStudyPlan(String username, String moduleCode, String pickYear, String pickSem) {
+    public void updateStudyPlan(String pickYear, String pickSem, String moduleCode, String username) {
         //if the studyplan is found
         if (checkStudyPlan(username, moduleCode)) {
             this.pickSem = pickSem;
@@ -523,7 +502,7 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
             this.changeStudyPlan();
         } //if the studyPlan is not in DB, create one
         else {
-            addStudyPlan(username, moduleCode, pickYear, pickSem);
+            createStudyPlan(pickYear, pickSem, moduleCode, this.findStudent(username));
         }
     }
 
@@ -898,7 +877,7 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         em.flush();
     }
     
-        @Override
+    @Override
     public void updateStudyPlanYearSem(Long id, int newYear, int newSem) {
         StudyPlan sp = this.findStudyPlanById(id);
         sp.setPickYear(Integer.toString(newYear));
@@ -907,5 +886,43 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         em.flush();
     }
     
+     //the actual step that creates studyPlan enity and sets relationship
+    @Override
+    public void createStudyPlan(String pickYear, String pickSem, String moduleCode, Student student) {
+        try {
+            Course course = this.findCourse(moduleCode);
+            // new studyPlan entity
+            studyPlan = new StudyPlan();
+            studyPlan.createStudyPlan(pickYear, pickSem, course, student);
+            //set relationship between StudyPlan and Student
+            this.student.getStudyPlan().add(studyPlan);
+            //set relationship between StudyPlan and course
+            studyPlan.setCourse(course);
+            em.merge(student);
+            em.persist(studyPlan);
+            em.flush();
+            System.out.println("StudyPlanSessionBean: createStudyPlan:");
+            System.out.println("studyPlan " + course.getModuleCode() + " at year "
+                    + pickYear + ", at sem " + pickSem + " added");
+        } catch (Exception e) {
+            System.out.println("StudyPlanSessionBean: createStudyPlan method:");
+            e.printStackTrace();
+        }
+    }
     
+    @Override
+    public void addTakenModule(String pickYear, String pickSem, String moduleCode, Student student) {
+        module = this.findModule(pickYear, pickSem, moduleCode);
+        student.getModules().add(module);
+        em.merge(student);
+        em.flush();
+    }
+    
+    @Override
+    public void addTakingModule(String pickYear, String pickSem, String moduleCode, Student student) {
+        module = this.findModule(pickYear, pickSem, moduleCode);
+        student.getModules().add(module);
+        em.merge(student);
+        em.flush();
+    }
 }

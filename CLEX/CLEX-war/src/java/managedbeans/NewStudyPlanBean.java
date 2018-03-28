@@ -1,10 +1,11 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package managedbeans;
 
+import entity.Course;
 import entity.Grade;
 import entity.Module;
 import entity.Student;
@@ -13,6 +14,7 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.Application;
@@ -41,7 +43,7 @@ import session.StudyPlanSessionBeanLocal;
 @ManagedBean(name = "newStudyPlanBean")
 @SessionScoped
 public class NewStudyPlanBean implements Serializable {
-
+    
     public NewStudyPlanBean() {
     }
     
@@ -50,12 +52,13 @@ public class NewStudyPlanBean implements Serializable {
     @EJB
     private ClexSessionBeanLocal csbl;
     @EJB
-    CourseMgmtBeanLocal cmbl;
-
+            CourseMgmtBeanLocal cmbl;
+    
     FacesContext context;
     HttpSession session;
-
+    
     private Student student;
+    private String username;
     private double cap;
     private double expectedCap;
     private ArrayList<Grade> grades;
@@ -70,10 +73,22 @@ public class NewStudyPlanBean implements Serializable {
     
     private int newYear;
     private int newSem;
-
+    
     private Dashboard dashboard;
     Application application;
     private DashboardModel model;
+    
+    //for add new item
+    private String addItem;
+    private String addModuleCode;
+    private int addPickYear;
+    private int addPickSem;
+    private String addErrorMsg;
+    private boolean addButton;
+    private List<Course> courses;
+    
+    //for rendering the info after the student select the module
+    Course courseFront;
     
     @PostConstruct
     public void init() {
@@ -81,19 +96,21 @@ public class NewStudyPlanBean implements Serializable {
         application = context.getApplication();
         session = (HttpSession) context.getExternalContext().getSession(true);
         student = (Student) session.getAttribute("user");
+        username = student.getUsername();
+        this.setYearSem();
+        courses = spsbl.getAllCourses();
+        
         cap = student.getCap();
         
         if (student.getGrades().size() > 0) {
             grades = spsbl.getAllGrades(student);
         }
-
+        
         takingModules = spsbl.getCurrentModules(student);
         
         if (student.getStudyPlan() != null) {
             studyPlans = spsbl.getAllStudyPlans(student);
         }
-        
-        this.setYearSem();
         
         
         dashboard = (Dashboard) application.createComponent(context, "org.primefaces.component.Dashboard", "org.primefaces.component.DashboardRenderer");
@@ -139,31 +156,31 @@ public class NewStudyPlanBean implements Serializable {
             yearSem = (Integer.parseInt(g.getModule().getTakenYear())-matricYear)*2+Integer.parseInt(g.getModule().getTakenSem());
             //column1.addWidget(panel.getId());
             switch(yearSem){
-                case 1: 
+                case 1:
                     column1.addWidget(panel.getId());
                     break;
-                case 2: 
+                case 2:
                     column2.addWidget(panel.getId());
                     break;
-                case 3: 
+                case 3:
                     column3.addWidget(panel.getId());
                     break;
-                case 4: 
+                case 4:
                     column4.addWidget(panel.getId());
                     break;
-                case 5: 
+                case 5:
                     column5.addWidget(panel.getId());
                     break;
-                case 6: 
+                case 6:
                     column6.addWidget(panel.getId());
                     break;
-                case 7: 
+                case 7:
                     column7.addWidget(panel.getId());
                     break;
-                case 8: 
+                case 8:
                     column8.addWidget(panel.getId());
                     break;
-                default: 
+                default:
                     column8.addWidget(panel.getId());
                     break;
             }
@@ -188,31 +205,31 @@ public class NewStudyPlanBean implements Serializable {
             yearSem = (currentYear-matricYear)*2+currentSem;
             //column1.addWidget(panel.getId());
             switch(yearSem){
-                case 1: 
+                case 1:
                     column1.addWidget(panel.getId());
                     break;
-                case 2: 
+                case 2:
                     column2.addWidget(panel.getId());
                     break;
-                case 3: 
+                case 3:
                     column3.addWidget(panel.getId());
                     break;
-                case 4: 
+                case 4:
                     column4.addWidget(panel.getId());
                     break;
-                case 5: 
+                case 5:
                     column5.addWidget(panel.getId());
                     break;
-                case 6: 
+                case 6:
                     column6.addWidget(panel.getId());
                     break;
-                case 7: 
+                case 7:
                     column7.addWidget(panel.getId());
                     break;
-                case 8: 
+                case 8:
                     column8.addWidget(panel.getId());
                     break;
-                default: 
+                default:
                     column8.addWidget(panel.getId());
                     break;
             }
@@ -236,31 +253,31 @@ public class NewStudyPlanBean implements Serializable {
             yearSem = (Integer.parseInt(sp.getPickYear())-matricYear)*2+Integer.parseInt(sp.getPickSem());
             //column1.addWidget(panel.getId());
             switch(yearSem){
-                case 1: 
+                case 1:
                     column1.addWidget(panel.getId());
                     break;
-                case 2: 
+                case 2:
                     column2.addWidget(panel.getId());
                     break;
-                case 3: 
+                case 3:
                     column3.addWidget(panel.getId());
                     break;
-                case 4: 
+                case 4:
                     column4.addWidget(panel.getId());
                     break;
-                case 5: 
+                case 5:
                     column5.addWidget(panel.getId());
                     break;
-                case 6: 
+                case 6:
                     column6.addWidget(panel.getId());
                     break;
-                case 7: 
+                case 7:
                     column7.addWidget(panel.getId());
                     break;
-                case 8: 
+                case 8:
                     column8.addWidget(panel.getId());
                     break;
-                default: 
+                default:
                     column8.addWidget(panel.getId());
                     break;
             }
@@ -276,178 +293,7 @@ public class NewStudyPlanBean implements Serializable {
         
         System.out.println("newStudyPlanBean finish ");
     }
-
-    public DashboardModel getModel() {
-        return model;
-    }
-
-    public void setModel(DashboardModel model) {
-        this.model = model;
-    }
-
-    public StudyPlanSessionBeanLocal getSpsbl() {
-        return spsbl;
-    }
-
-    public void setSpsbl(StudyPlanSessionBeanLocal spsbl) {
-        this.spsbl = spsbl;
-    }
-
-    public ClexSessionBeanLocal getCsbl() {
-        return csbl;
-    }
-
-    public void setCsbl(ClexSessionBeanLocal csbl) {
-        this.csbl = csbl;
-    }
-
-    public CourseMgmtBeanLocal getCmbl() {
-        return cmbl;
-    }
-
-    public void setCmbl(CourseMgmtBeanLocal cmbl) {
-        this.cmbl = cmbl;
-    }
-
-    public FacesContext getContext() {
-        return context;
-    }
-
-    public void setContext(FacesContext context) {
-        this.context = context;
-    }
-
-    public HttpSession getSession() {
-        return session;
-    }
-
-    public void setSession(HttpSession session) {
-        this.session = session;
-    }
-
-    public Student getStudent() {
-        return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
-    }
-
-    public double getCap() {
-        return cap;
-    }
-
-    public void setCap(double cap) {
-        this.cap = cap;
-    }
-
-    public double getExpectedCap() {
-        return expectedCap;
-    }
-
-    public void setExpectedCap(double expectedCap) {
-        this.expectedCap = expectedCap;
-    }
-
-    public ArrayList<Grade> getGrades() {
-        return grades;
-    }
-
-    public void setGrades(ArrayList<Grade> grades) {
-        this.grades = grades;
-    }
-
-    public ArrayList<Module> getTakingModules() {
-        return takingModules;
-    }
-
-    public void setTakingModules(ArrayList<Module> takingModules) {
-        this.takingModules = takingModules;
-    }
-
-    public ArrayList<StudyPlan> getStudyPlans() {
-        return studyPlans;
-    }
-
-    public void setStudyPlans(ArrayList<StudyPlan> studyPlans) {
-        this.studyPlans = studyPlans;
-    }
-
-    public int getCurrentYear() {
-        return currentYear;
-    }
-
-    public void setCurrentYear(int currentYear) {
-        this.currentYear = currentYear;
-    }
-
-    public int getCurrentSem() {
-        return currentSem;
-    }
-
-    public void setCurrentSem(int currentSem) {
-        this.currentSem = currentSem;
-    }
-
-    public int getMatricYear() {
-        return matricYear;
-    }
-
-    public void setMatricYear(int matricYear) {
-        this.matricYear = matricYear;
-    }
-
-    public int getMatricSem() {
-        return matricSem;
-    }
-
-    public void setMatricSem(int matricSem) {
-        this.matricSem = matricSem;
-    }
-
-    public Dashboard getDashboard() {
-        return dashboard;
-    }
-
-    public void setDashboard(Dashboard dashboard) {
-        this.dashboard = dashboard;
-    }
-
-    public Application getApplication() {
-        return application;
-    }
-
-    public void setApplication(Application application) {
-        this.application = application;
-    }
-
-    public int getCurrentColumnIndex() {
-        return currentColumnIndex;
-    }
-
-    public void setCurrentColumnIndex(int currentColumnIndex) {
-        this.currentColumnIndex = currentColumnIndex;
-    }
-
-    public int getNewYear() {
-        return newYear;
-    }
-
-    public void setNewYear(int newYear) {
-        this.newYear = newYear;
-    }
-
-    public int getNewSem() {
-        return newSem;
-    }
-
-    public void setNewSem(int newSem) {
-        this.newSem = newSem;
-    }
-
     
-    
-  
     
     public void setYearSem(){
         Calendar now = Calendar.getInstance();
@@ -502,24 +348,25 @@ public class NewStudyPlanBean implements Serializable {
                 }
             }
         }
+        init();
     }
-     
+    
     public void handleClose(CloseEvent event) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Panel Closed", "Closed panel id:'" + event.getComponent().getId() + "'");
-         
+        
         addMessage(message);
     }
-     
+    
     public void handleToggle(ToggleEvent event) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, event.getComponent().getId() + " toggled", "Status:" + event.getVisibility().name());
-         
+        
         addMessage(message);
     }
-     
+    
     private void addMessage(FacesMessage message) {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
-
+    
     public void setNewYearSem(int sendeeColumnIndex) {
         newSem = sendeeColumnIndex % 2 + 1;
         if (newSem == 1)
@@ -534,21 +381,356 @@ public class NewStudyPlanBean implements Serializable {
         spsbl.updateGradeYearSem(id, m.getCourse().getModuleCode(), newYear, newSem);
     }
     
-    public void reorderModule() {
-        
-    }
+//    public void reorderModule() {
+//        
+//    }
     
     public void reorderStudyPlan(Long id) {
         spsbl.updateStudyPlanYearSem(id, newYear, newSem);
     }
     
-    
     public void check(){
-        System.out.println("into check");
-        FacesMessage message = new FacesMessage();
-        message.setSeverity(FacesMessage.SEVERITY_INFO);
-        message.setDetail ("Check!");
-                addMessage(message);
+//        System.out.println("into check");
+//        FacesMessage message = new FacesMessage();
+//        message.setSeverity(FacesMessage.SEVERITY_INFO);
+//        message.setDetail ("Check!");
+//        addMessage(message);
+    }
+    
+    public void addNewItem() {
+        System.out.println("start add");
+        if (validattion()) {
+            if (addItem.equals("Taken module")) {
+                this.addTakenModule();
+            }
+            else if (addItem.equals("Taking module")) {
+                this.addTakingModule();
+            }
+            else if (addItem.equals("Study Plan")) {
+                this.addStudyPlan();
+            }
+        }
+    }
+    
+    public boolean validattion() {
+        boolean validate = true;
+        FacesMessage fmsg = new FacesMessage();
+        if (addItem.equals("Taken module")) {
+            if (!(addPickYear < currentYear || (addPickYear == currentYear && addPickSem < currentSem))) {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Fail to add", "You cannot add a module taken before to a semester in future");
+            context.addMessage(null, fmsg);
+            validate = false;
+            }
+        }
+        else if (addItem.equals("Taking module")) {
+            if (addPickYear != currentYear ||  addPickSem != currentSem) {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Fail to add", "You cannot add a currently taking module to other semester");
+            context.addMessage(null, fmsg);
+            validate = false;
+            }
+        }
+        else if (addItem.equals("Study Plan")) {
+            if (!(addPickYear > currentYear || (addPickYear == currentYear && addPickSem > currentSem))) {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Fail to add", "You cannot add a study plan to a semester before");
+            context.addMessage(null, fmsg);
+            validate = false;
+            }
+        }
+        if (addModuleCode.equals("select")) {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "No module selected", "Please select a module");
+            context.addMessage(null, fmsg);
+            validate = false;
+        }
+        else if (spsbl.checkStudyPlan(username, addModuleCode)) {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "The module " + addModuleCode + " already in your study plan", "Please change to another module");
+            context.addMessage(null, fmsg);
+            validate = false;
+        } 
+        //this course already in takenCourses list
+        else if (spsbl.checkStudentModule(username, addModuleCode)) {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "You have already taken " + addModuleCode, "Please change to another module");
+            context.addMessage(null, fmsg);
+            validate = false;
+        } 
+        else {
+            fmsg = null;
+        }
+        return validate;
+    }
+    
+    public void addStudyPlan() {
+        context = FacesContext.getCurrentInstance();
+        spsbl.createStudyPlan(Integer.toString(addPickYear), Integer.toString(addPickSem), addModuleCode, csbl.findStudent(username));
+        init();
+        FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Successful", "You have added module " + addModuleCode);
+        context.addMessage(null, fmsg);
+    }
+    
+    public void addTakenModule() {
+        context = FacesContext.getCurrentInstance();
+        spsbl.addTakenModule(Integer.toString(addPickYear), Integer.toString(addPickSem), addModuleCode, csbl.findStudent(username));
+        init();
+        FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Successful", "You have added module " + addModuleCode);
+        context.addMessage(null, fmsg);
+    }
+    
+    public void addTakingModule() {
+        context = FacesContext.getCurrentInstance();
+        spsbl.addTakingModule(Integer.toString(addPickYear), Integer.toString(addPickSem), addModuleCode, csbl.findStudent(username));
+        init();
+        FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Successful", "You have added module " + addModuleCode);
+        context.addMessage(null, fmsg);
+    }
+    
+    
+    public StudyPlanSessionBeanLocal getSpsbl() {
+        return spsbl;
+    }
+    
+    public void setSpsbl(StudyPlanSessionBeanLocal spsbl) {
+        this.spsbl = spsbl;
+    }
+    
+    public ClexSessionBeanLocal getCsbl() {
+        return csbl;
+    }
+    
+    public void setCsbl(ClexSessionBeanLocal csbl) {
+        this.csbl = csbl;
+    }
+    
+    public CourseMgmtBeanLocal getCmbl() {
+        return cmbl;
+    }
+    
+    public void setCmbl(CourseMgmtBeanLocal cmbl) {
+        this.cmbl = cmbl;
+    }
+    
+    public FacesContext getContext() {
+        return context;
+    }
+    
+    public void setContext(FacesContext context) {
+        this.context = context;
+    }
+    
+    public HttpSession getSession() {
+        return session;
+    }
+    
+    public void setSession(HttpSession session) {
+        this.session = session;
+    }
+    
+    public Student getStudent() {
+        return student;
+    }
+    
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+    
+    public double getCap() {
+        return cap;
+    }
+    
+    public void setCap(double cap) {
+        this.cap = cap;
+    }
+    
+    public double getExpectedCap() {
+        return expectedCap;
+    }
+    
+    public void setExpectedCap(double expectedCap) {
+        this.expectedCap = expectedCap;
+    }
+    
+    public ArrayList<Grade> getGrades() {
+        return grades;
+    }
+    
+    public void setGrades(ArrayList<Grade> grades) {
+        this.grades = grades;
+    }
+    
+    public ArrayList<Module> getTakingModules() {
+        return takingModules;
+    }
+    
+    public void setTakingModules(ArrayList<Module> takingModules) {
+        this.takingModules = takingModules;
+    }
+    
+    public ArrayList<StudyPlan> getStudyPlans() {
+        return studyPlans;
+    }
+    
+    public void setStudyPlans(ArrayList<StudyPlan> studyPlans) {
+        this.studyPlans = studyPlans;
+    }
+    
+    public int getCurrentYear() {
+        return currentYear;
+    }
+    
+    public void setCurrentYear(int currentYear) {
+        this.currentYear = currentYear;
+    }
+    
+    public int getCurrentSem() {
+        return currentSem;
+    }
+    
+    public void setCurrentSem(int currentSem) {
+        this.currentSem = currentSem;
+    }
+    
+    public int getCurrentColumnIndex() {
+        return currentColumnIndex;
+    }
+    
+    public void setCurrentColumnIndex(int currentColumnIndex) {
+        this.currentColumnIndex = currentColumnIndex;
+    }
+    
+    public int getMatricYear() {
+        return matricYear;
+    }
+    
+    public void setMatricYear(int matricYear) {
+        this.matricYear = matricYear;
+    }
+    
+    public int getMatricSem() {
+        return matricSem;
+    }
+    
+    public void setMatricSem(int matricSem) {
+        this.matricSem = matricSem;
+    }
+    
+    public int getNewYear() {
+        return newYear;
+    }
+    
+    public void setNewYear(int newYear) {
+        this.newYear = newYear;
+    }
+    
+    public int getNewSem() {
+        return newSem;
+    }
+    
+    public void setNewSem(int newSem) {
+        this.newSem = newSem;
+    }
+    
+    public Dashboard getDashboard() {
+        return dashboard;
+    }
+    
+    public void setDashboard(Dashboard dashboard) {
+        this.dashboard = dashboard;
+    }
+    
+    public Application getApplication() {
+        return application;
+    }
+    
+    public void setApplication(Application application) {
+        this.application = application;
+    }
+    
+    public DashboardModel getModel() {
+        return model;
+    }
+    
+    public void setModel(DashboardModel model) {
+        this.model = model;
+    }
+    
+    public String getAddItem() {
+        return addItem;
+    }
+    
+    public void setAddItem(String addItem) {
+        this.addItem = addItem;
+    }
+    
+    public String getAddModuleCode() {
+        return addModuleCode;
+    }
+    
+    public void setAddModuleCode(String addModuleCode) {
+        this.addModuleCode = addModuleCode;
+    }
+
+    public int getAddPickYear() {
+        return addPickYear;
+    }
+
+    public void setAddPickYear(int addPickYear) {
+        this.addPickYear = addPickYear;
+    }
+
+    public int getAddPickSem() {
+        return addPickSem;
+    }
+
+    public void setAddPickSem(int addPickSem) {
+        this.addPickSem = addPickSem;
+    }
+    
+    
+    public String getAddErrorMsg() {
+        return addErrorMsg;
+    }
+    
+    public void setAddErrorMsg(String addErrorMsg) {
+        this.addErrorMsg = addErrorMsg;
+    }
+    
+    public boolean isAddButton() {
+        return addButton;
+    }
+    
+    public void setAddButton(boolean addButton) {
+        this.addButton = addButton;
+    }
+    
+    public List<Course> getCourses() {
+        return courses;
+    }
+    
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Course getCourseFront() {
+        return courseFront;
+    }
+
+    public void setCourseFront(Course courseFront) {
+        this.courseFront = courseFront;
     }
     
     
@@ -556,5 +738,4 @@ public class NewStudyPlanBean implements Serializable {
     
 }
 
-     
-        
+
