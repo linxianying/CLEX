@@ -14,7 +14,6 @@ import entity.Vote;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -80,9 +79,10 @@ public class CommunityBean {
     public void refresh() {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
+        threadEntity = (Thread) session.getAttribute("thread");
+        System.out.println(threadEntity.getUser().getName());
         username = (String) session.getAttribute("username");
         userEntity = (User) session.getAttribute("user");
-        threadEntity = (Thread) session.getAttribute("thread");
         check();
         replies = cmsbl.getRepliesFromThread(threadEntity.getId());
 
@@ -92,25 +92,51 @@ public class CommunityBean {
         Date current = new Date();
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         dateTimeCompare = format.format(current);
-        if (userEntity.getUserType().equals("Student")) {
-            studentEntity = (Student) userEntity;
-            faculty = studentEntity.getFaculty();
-            major = studentEntity.getMajor();
-
-        } else if (userEntity.getUserType().equals("Lecturer")) {
-            lecturerEntity = (Lecturer) userEntity;
-            faculty = lecturerEntity.getFaculty();
-            major = "";
-        } else {
-            major = "";
-            faculty = "";
-        }
-
         if (threadEntity.getDateTime().substring(0, 10).equals(dateTimeCompare)) {
             dayDisplay = "Today, " + threadEntity.getDateTime().substring(10);
         } else {
             dayDisplay = threadEntity.getDateTime();
         }
+        if (threadEntity.getUser().getUserType().equals("Student")) {
+            studentEntity = (Student) threadEntity.getUser();
+            faculty = studentEntity.getFaculty();
+            major = studentEntity.getMajor();
+        } else if (threadEntity.getUser().getUserType().equals("Lecturer")) {
+            lecturerEntity = (Lecturer) threadEntity.getUser();
+            faculty = lecturerEntity.getFaculty();
+            major = "";
+        } else {
+            faculty = "";
+            major = "";
+        }
+    }
+
+    public String getReplyFaculty(User userEntity) {
+        String faculty1;
+        System.out.println("USER: " + userEntity.getName());
+        if (userEntity.getUserType().equals("Student")) {
+            studentEntity = (Student) userEntity;
+            faculty1 = studentEntity.getFaculty();
+        } else if (userEntity.getUserType().equals("Lecturer")) {
+            lecturerEntity = (Lecturer) userEntity;
+            faculty1 = lecturerEntity.getFaculty();
+        } else {
+            faculty1 = "";
+        }
+        System.out.println("FACULTY: " + faculty1);
+        return faculty1;
+    }
+
+    public String getReplyMajor(User userEntity) {
+        String major1;
+        if (userEntity.getUserType().equals("Student")) {
+            studentEntity = (Student) userEntity;
+            major1 = studentEntity.getMajor();
+        } else {
+            major1 = "";
+        }
+        System.out.println("MAJOR: " + major1);
+        return major1;
     }
 
     //Use this for creating, editing and deleting, use forumlistbean for other functions
@@ -127,7 +153,6 @@ public class CommunityBean {
                 if (cmsbl.createReply(threadEntity.getId(), username, rContent)) {
                     fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Replied to thread.");
                     refresh();
-
                 } else {
                     fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to create reply.", "Please ensure you are logged in.");
                 }
@@ -136,48 +161,116 @@ public class CommunityBean {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to create reply.", "Thread does not exists.");
         }
         context.addMessage(null, fmsg);
+        this.rContent = "";
     }
 
-    public void enterVote(boolean voteFor) throws IOException {
+    public void quoteText(String quotedText, String quoteWho) {
+        rContent = quoteWho + " said:\n''" + quotedText + "'' ----- My Reply: ";
+        refresh();
+    }
+
+    public void voteThread(Long id, boolean voteType) throws IOException {
         FacesMessage fmsg = new FacesMessage();
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
-        username = (String) session.getAttribute("username");
-        userEntity = cmsbl.findUser(username);
-        this.voteFor = voteFor;
-
+        userEntity = (User) session.getAttribute("user");
+        voteEntity = (Vote) cmsbl.findVoteByUserThread(userEntity.getId(), id);
         if (userEntity != null) {
-            if (voteFor) { //Thread
-                if (cmsbl.checkExistingThread(tId)) {
-                    if (cmsbl.createVoteThread(tId, username, voteType)) {
-                        if (voteType) {
-                            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Thread upvoted.", "");
-                        } else {
-                            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Thread downvoted.", "");
-                        }
+            if (voteEntity != null) {
+                if (voteEntity.isVoteType() == voteType) { //if voted before, check if vote is same, if yes, error
+                    fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed!", "You have made the same vote before.");
+                } else { //if vote is different but have already voted before, remove vote then create
+                    cmsbl.deleteVoteThread(userEntity.getUsername(), id, voteEntity.getId());
+                    cmsbl.createVoteThread(id, userEntity.getUsername(), voteType);
+                    if (voteType) {
+                        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Thread upvoted.");
                     } else {
-                        fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to vote.", "Already voted thread.");
+                        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Thread downvoted.");
                     }
-                } else {
-                    fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to vote.", "Thread does not exists.");
                 }
-            } else { //Reply
-                if (cmsbl.checkExistingReply(rId)) {
-                    if (cmsbl.createVoteReply(rId, username, voteType)) {
-                        if (voteType) {
-                            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reply upvoted.", "");
-                        } else {
-                            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reply downvoted.", "");
-                        }
-                    } else {
-                        fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to vote.", "Already voted reply.");
-                    }
+            } else { //if never vote before, create vote
+                cmsbl.createVoteThread(id, userEntity.getUsername(), voteType);
+                if (voteType) {
+                    fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Thread upvoted.");
                 } else {
-                    fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to vote.", "Reply does not exists.");
+                    fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Thread downvoted.");
                 }
             }
         } else {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to vote.", "Please ensure you are logged in.");
+        }
+
+        context.addMessage(null, fmsg);
+    }
+
+    public void voteReply(Long id, boolean voteType) throws IOException {
+        FacesMessage fmsg = new FacesMessage();
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+        userEntity = (User) session.getAttribute("user");
+        voteEntity = (Vote) cmsbl.findVoteByUserReply(userEntity.getId(), id);
+        if (userEntity != null) {
+            if (voteEntity != null) {
+                if (voteEntity.isVoteType() == voteType) { //if voted before, check if vote is same, if yes, error
+                    fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed!", "You have made the same vote before.");
+                } else { //if vote is different but have already voted before, remove vote then create
+                    cmsbl.deleteVoteReply(userEntity.getUsername(), id, voteEntity.getId());
+                    cmsbl.createVoteReply(id, userEntity.getUsername(), voteType);
+                    if (voteType) {
+                        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Reply upvoted.");
+                    } else {
+                        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Reply downvoted.");
+                    }
+                }
+            } else { //if never vote before, create vote
+                cmsbl.createVoteReply(id, userEntity.getUsername(), voteType);
+                if (voteType) {
+                    fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Reply upvoted.");
+                } else {
+                    fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Reply downvoted.");
+                }
+            }
+        } else {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to vote.", "Please ensure you are logged in.");
+        }
+
+        context.addMessage(null, fmsg);
+    }
+
+    public void removeVoteThread(Long id) {
+        FacesMessage fmsg = new FacesMessage();
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+        userEntity = (User) session.getAttribute("user");
+        voteEntity = (Vote) cmsbl.findVoteByUserThread(userEntity.getId(), id);
+        if (userEntity != null) {
+            if (voteEntity != null) {
+                cmsbl.deleteVoteThread(userEntity.getUsername(), id, voteEntity.getId());
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Vote removed.");
+            } else {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed!", "You have not voted for this thread before.");
+            }
+        } else {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to unvote.", "Please ensure you are logged in.");
+        }
+        context.addMessage(null, fmsg);
+    }
+
+    public void removeVoteReply(Long id) {
+        FacesMessage fmsg = new FacesMessage();
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+        userEntity = (User) session.getAttribute("user");
+        voteEntity = (Vote) cmsbl.findVoteByUserReply(userEntity.getId(), id);
+        if (userEntity != null) {
+            if (voteEntity != null) {
+                cmsbl.deleteVoteReply(userEntity.getUsername(), id, voteEntity.getId());
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Vote removed.");
+            } else {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed!", "You have not voted for this reply before.");
+            }
+        } else {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to unvote.", "Please ensure you are logged in.");
         }
         context.addMessage(null, fmsg);
     }
@@ -188,72 +281,34 @@ public class CommunityBean {
         fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Thread edited.", "");
     }
 
-    public void modifyReply(Long replyId, String content) {
+    public void modifyReply() {
         FacesMessage fmsg = new FacesMessage();
-        cmsbl.editReply(replyId, content);
-        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reply edited.", "");
-    }
-
-    public void unvote(Long threadId, Long replyId, boolean voteFor) {
-        FacesMessage fmsg = new FacesMessage();
+        System.out.println("rContent: " + rContent);
         context = FacesContext.getCurrentInstance();
-        session = (HttpSession) context.getExternalContext().getSession(true);
-        username = (String) session.getAttribute("username");
-
-        userEntity = cmsbl.findUser(username);
-        this.voteFor = voteFor;
-
-        if (voteFor) {
-            tId = threadId;
-            voteEntity = (Vote) cmsbl.findVoteByUserThread(userEntity.getId(), tId);
-        } else {
-            rId = replyId;
-            voteEntity = (Vote) cmsbl.findVoteByUserReply(userEntity.getId(), rId);
-        }
-
-        if (userEntity != null) {
-            if (voteEntity != null) {
-                if (voteFor) { //Thread
-                    if (cmsbl.checkExistingThread(tId)) {
-                        if (cmsbl.deleteVoteThread(username, tId, voteEntity.getId())) {
-                            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Vote removed.", "");
-                        } else {
-                            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to unvote.", "");
-                        }
-                    } else {
-                        fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to unvote.", "Thread does not exists.");
-                    }
-                } else { //Reply
-                    if (cmsbl.checkExistingReply(rId)) {
-                        if (cmsbl.deleteVoteReply(username, rId, voteEntity.getId())) {
-                            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Vote removed.", "");
-                        } else {
-                            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to unvote.", "");
-                        }
-                    } else {
-                        fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to unvote.", "Reply does not exists.");
-                    }
-                }
-            } else {
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to unvote.", "You have not voted yet.");
-            }
-        } else {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to unvote.", "Please ensure you are logged in.");
-        }
+        cmsbl.editReply(rId, rContent);
+        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Reply edited.");
+        refresh();
         context.addMessage(null, fmsg);
     }
 
-    public void removeReply() {
+    public void forModifyReply(String content, Long id) {
+        rContent = content;
+        rId = id;
+        refresh();
+
+    }
+
+    public void removeReply(Long id) {
         FacesMessage fmsg = new FacesMessage();
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
-        username = (String) session.getAttribute("username");
-        userEntity = cmsbl.findUser(username);
+        userEntity = (User) session.getAttribute("user");
 
         if (userEntity != null) {
-            if (cmsbl.checkExistingReply(rId)) {
-                if (cmsbl.deleteReply(username, rId)) {
-                    fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reply removed.", "");
+            if (cmsbl.checkExistingReply(id)) {
+                if (cmsbl.deleteReply(username, id)) {
+                    fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Reply removed.");
+                    refresh();
                 } else {
                     fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to delete reply.", "");
                 }

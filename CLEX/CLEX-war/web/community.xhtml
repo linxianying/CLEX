@@ -19,10 +19,12 @@
                     <p:commandButton value="New Thread" id="newThreadButton" >
                         <p:overlayPanel for="newThreadButton" showEffect="fade" hideEffect="fade">
                             <h:form>
-                                <p:inputText title="Title" placeholder="Title" id="title" value="#{forumListBean.tTitle}" > </p:inputText>   
-                                <p:inputText title="Content" placeholder="Content" id="content" value="#{forumListBean.tContent}" > </p:inputText> 
-                                <p:inputText title="Tag" placeholder="Tag" id="tag" value="#{forumListBean.tTag}" > </p:inputText> 
-                                <p:commandButton value="Create Thread" actionListener="#{forumListBean.startThread}" update="forumForm:communityTab:forumtable"/>
+                                <h:panelGrid columns="1">
+                                    <p:inputTextarea rows="1" cols="100" title="Title" placeholder="Thread Title" id="title" value="#{forumListBean.tTitle}"/>                                    
+                                    <p:inputTextarea rows="20" cols="100" title="Content" placeholder="Content" id="content" value="#{forumListBean.tContent}" />
+                                    <p:inputTextarea rows="1" cols="100" title="Tag" placeholder="Tags - Separate multiple tags with comma (Optional)" id="tag" value="#{forumListBean.tTag}"/>
+                                    <p:commandButton value="Create Thread" actionListener="#{forumListBean.startThread}" update="forumForm:communityTab:forumtable"/>
+                                </h:panelGrid>
                             </h:form>
                         </p:overlayPanel>
                     </p:commandButton>
@@ -31,19 +33,19 @@
                         <p:dataTable selectionMode="single" selection="#{forumListBean.selectedThread}" rowKey="#{threads.id}"
                                      id="forumtable" value="#{forumListBean.threads}" 
                                      var="threads" paginator="true" 
-                                     rows="20" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
+                                     rows="15" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
                                      emptyMessage="No threads has been created yet!">
                             <p:ajax event="rowSelect" listener="#{forumListBean.onRowSelect}" update="messages" />                            
-                            <p:column headerText="Thread / Thread Starter" >                                
+                            <p:column style="height:40px" headerText="Thread / Thread Starter" >                                
                                 <h:outputLabel style="font-size: 16px" value="#{threads.title}"/>
                                 <br />
                                 <h:outputLabel style="font-size: 11px" value="#{threads.user.name} - #{threads.dateTime}" />                                    
                             </p:column>
-                            <p:column style="width: 11%" headerText="Replies" >
+                            <p:column style="width: 11%;height:40px" headerText="Replies" >
                                 <h:outputLabel style="font-size: 16px" value="#{threads.replies.size()}"/> 
                             </p:column>
-                            <p:column style="width: 11%" headerText="Votes" >
-                                <h:outputLabel style="font-size: 16px" value="#{threads.voteThreads.size()}"/>  
+                            <p:column style="width: 11%;height:40px" headerText="Up | Down" >
+                                <h:outputLabel style="font-size: 16px" value="#{threads.upVote} | #{threads.downVote}"/>  
                             </p:column>
                         </p:dataTable>
                     </h:panelGroup>
@@ -57,46 +59,8 @@
                     <!-- search by user? search by keyword-->
                     <h1>FOR TESTING ONLY, CAN REUSE THEM FOR FRONTEND IF POSSIBLE</h1>
                     <!-- BUTTONS FOR TESTING BACKEND -->
-                    <h:form>
-                        <p:inputText title="Title" placeholder="Title" id="title" value="#{forumListBean.tTitle}" > </p:inputText>   
-                        <p:inputText title="Content" placeholder="Content" id="content" value="#{forumListBean.tContent}" > </p:inputText> 
-                        <p:inputText title="Tag" placeholder="Tag" id="tag" value="#{forumListBean.tTag}" > </p:inputText> 
-                        <h:commandButton value="Create Thread" actionListener="#{forumListBean.startThread}" />
-                    </h:form>
 
-                    <h:form>
-                        <p:inputText title="ThreadId" placeholder="ThreadId" id="threadid" value="#{communityBean.tId}" > </p:inputText>   
-                        <p:inputText title="Content" placeholder="Content" id="content" value="#{communityBean.rContent}" > </p:inputText> 
-                        <h:commandButton value="Create Reply" actionListener="#{communityBean.enterReply}" />
-                    </h:form>
 
-                    <h:form>
-                        <p:inputText title="ThreadId" placeholder="ThreadId" id="threadid" value="#{communityBean.tId}" > </p:inputText>   
-                        <p:selectOneButton styleClass="textInput" required="true" id="voteType" value="#{communityBean.voteType}" >
-                            <f:selectItem itemLabel="Upvote" itemValue="true" />
-                            <f:selectItem itemLabel="Downvote" itemValue="false" />
-                        </p:selectOneButton>
-                        <h:commandButton value="Vote Thread" actionListener="#{communityBean.enterVote(true)}" />
-                    </h:form>
-
-                    <h:form>
-                        <p:inputText title="ReplyId" placeholder="ReplyId" id="replyid" value="#{communityBean.rId}" > </p:inputText>   
-                        <p:selectOneButton styleClass="textInput" required="true" id="voteType" value="#{communityBean.voteType}" >
-                            <f:selectItem itemLabel="Upvote" itemValue="true" />
-                            <f:selectItem itemLabel="Downvote" itemValue="false" />
-                        </p:selectOneButton>
-                        <h:commandButton value="Vote Reply" actionListener="#{communityBean.enterVote(false)}" />
-                    </h:form>
-
-                    <h:form>
-                        <p:inputText title="ThreadId" placeholder="ThreadId" id="threadid" value="#{communityBean.tId}" > </p:inputText>   
-                        <h:commandButton value="Unvote Thread" actionListener="#{communityBean.unvote(forumListBean.tId, 0, true)}" />
-                    </h:form>
-
-                    <h:form>
-                        <p:inputText title="ReplyId" placeholder="ReplyId" id="replyid" value="#{communityBean.rId}" > </p:inputText>   
-                        <h:commandButton value="Unvote Reply" actionListener="#{communityBean.unvote(0, forumListBean.rId, false)}" />
-                    </h:form>
 
                     <h:form>
                         <p:inputText title="ThreadId" placeholder="ThreadId" id="threadid" value="#{communityBean.tId}" > </p:inputText>   
@@ -118,10 +82,6 @@
                         <h:commandButton value="Delete Thread" actionListener="#{forumListBean.removeThread()}" />
                     </h:form> 
 
-                    <h:form>
-                        <p:inputText title="ReplyId" placeholder="ReplyId" id="replyid" value="#{communityBean.rId}" > </p:inputText>   
-                        <h:commandButton value="Delete Reply" actionListener="#{communityBean.removeReply()}" />
-                    </h:form>
 
                     <h:form>
                         <h:commandButton value="Test sorting" actionListener="#{communityBean.sort()}" />
