@@ -15,6 +15,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -31,13 +32,19 @@ public class SuperGroup implements Serializable {
     private int numOfGroups;
     
     @Column(length = 32, nullable = false)
+    private int avgStudentNum;
+    
+    @Column(length = 32)
     private int minStudentNum;
     
-    @Column(length = 32, nullable = false)
+    @Column(length = 32)
     private int maxStudentNum;
     
     //if the group formation ended, the lecturer can close the group formation and confirm=true;
     private boolean confirm;
+    
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date deadline;
     
     @OneToOne(mappedBy="superGroup")
     private Module module;
@@ -107,6 +114,22 @@ public class SuperGroup implements Serializable {
 
     public void setConfirm(boolean confirm) {
         this.confirm = confirm;
+    }
+
+    public int getAvgStudentNum() {
+        return avgStudentNum;
+    }
+
+    public void setAvgStudentNum(int avgStudentNum) {
+        this.avgStudentNum = avgStudentNum;
+    }
+
+    public Date getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(Date deadline) {
+        this.deadline = deadline;
     }
 
     @Override
