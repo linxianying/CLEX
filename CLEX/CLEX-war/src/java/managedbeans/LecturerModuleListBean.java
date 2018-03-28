@@ -171,8 +171,17 @@ public class LecturerModuleListBean implements Serializable {
     }
     
             
-    public void formGroup(Module module){
-        System.out.println("Form group "+module.getCourse().getModuleCode()+": # of groups:"+numOfGroups+", max:"+maxStudentNum + ", min:" +minStudentNum);
+    public void formGroup(Module module) {
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+        session.setAttribute("managedModule", module);
+        try {
+        context.getExternalContext().redirect("lecturerModuleGroup.xhtml");
+        //System.out.println("Form group "+module.getCourse().getModuleCode()+": # of groups:"+numOfGroups+", max:"+maxStudentNum + ", min:" +minStudentNum);
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     public List<Module> getModules() {

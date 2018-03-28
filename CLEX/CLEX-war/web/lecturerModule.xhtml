@@ -69,16 +69,16 @@
                             <h:outputText value="Polls:#{module.polls.size()}" />
                         </p:column>
                         <p:column style="width: 20%" headerText="Groups" >
-                            <h:outputText value="No groups" rendered="#{empty module.superGroup}"/>
-                            <p:commandButton value="Start group formation" onclick="PF('dlg1').show();" update=":panel:lecturerModule:currentModules:dlg1" />
+                            <h:outputText value="Status: No groups" rendered="#{empty module.superGroup}"/>
+                            <!--<p:commandButton value="Start group formation" onclick="PF('dlg1').show();" update=":panel:lecturerModule:currentModules:dlg1" />-->
                             <!--<p:commandButton value="Start group formation" oncomplete="PF('dlg1').show();" update=":panel:currentModules:groupDialog" />-->
-                            <!--<p:commandButton value="Start group formation" actionListener=#{lecturerModuleListBean.formGroup(module)}"" rendered="#{empty module.superGroup}"/>-->
+                            <p:commandButton value="Manage groups" actionListener="#{lecturerModuleListBean.formGroup(module)}" />
                             <br />
                             <h:outputText value="Polls:#{module.polls.size()}" />
                         </p:column>
-                        <p:dialog header="Start group Formation" widgetVar="dlg1" id="dlg1">
+<!--                        <p:dialog header="Start group Formation" widgetVar="dlg1" id="dlg1">
                             <h:outputText value="Check!"/>
-<!--                            <h:form id="formGroupForm">
+                            <h:form id="formGroupForm">
                                 <p:outputLabel for="numOfGroups" value="Max numbers of groups in total"/>
                                 <p:inputText id="numOfGroups" value="#{lecturerModuleListBean.numOfGroups}"/>
                                 <br/>
@@ -89,8 +89,8 @@
                                 <p:inputText id="maxStudentNum" value="#{lecturerModuleListBean.maxStudentNum}"/>
                                 <br/>
                                 <p:commandButton value="submit" actionListener="#{lecturerModuleListBean.formGroup(module)}" update=":panel:currentModules"/>
-                            </h:form>-->
-                        </p:dialog>
+                            </h:form>
+                        </p:dialog>-->
                     </p:dataTable>
                 </p:tab>
                 <p:tab title="VIEW MODULES">

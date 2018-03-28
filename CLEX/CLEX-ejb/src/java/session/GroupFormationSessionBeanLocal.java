@@ -23,5 +23,7 @@ public interface GroupFormationSessionBeanLocal {
     public boolean joinGroup(Student student, ProjectGroup group);
 
     public ProjectGroup findProjectGroup(Long id);
+
+    public void changeStudentGroup(Student student, ProjectGroup toGroup, ProjectGroup fromGroup);
     
 }

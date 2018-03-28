@@ -8,6 +8,7 @@ package session;
 import entity.Module;
 import entity.ProjectGroup;
 import entity.Student;
+import entity.SuperGroup;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.ejb.Stateless;
@@ -93,4 +94,17 @@ public class GroupFormationSessionBean implements GroupFormationSessionBeanLocal
         return check;
     }
     
+    @Override
+    public void changeStudentGroup(Student student, ProjectGroup toGroup, ProjectGroup fromGroup) {
+        fromGroup.getGroupMembers().remove(student);
+        toGroup.getGroupMembers().add(student);
+        student.getProjectGroups().remove(fromGroup);
+        student.getProjectGroups().add(toGroup);
+        em.merge(toGroup);
+        em.merge(fromGroup);
+        em.merge(student);
+        em.flush();
+    }
+    
+
 }
