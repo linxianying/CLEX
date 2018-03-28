@@ -61,29 +61,29 @@ public class indexBean {
         //create Users
         csbl.createAdmin("adminadmin", "123456", "Stephen Hawking", "hawking@gmail.com", "NUS", 87246583L, genSalt());
         
-        csbl.createStudent("namename", "123456", "Lin Xianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 5.00);
-        csbl.createStudent("aaaaaa", "123456", "Su Xinran", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
-        csbl.createStudent("bbbbbb", "123456", "Cao Yu", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "CS","2015", "2", 0.0);
-        csbl.createStudent("cccccc", "123456", "Joseph", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
-        csbl.createStudent("dddddd", "123456", "Wenjie", "email@email.com", "NUS", 65345455L, genSalt(), "soc", "CS","2015", "2", 4.8);
-        csbl.createStudent("eeeeee", "123456", "EE Ren", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 4.3);
-        csbl.createStudent("ffffff", "123456", "Lifeng Zhou", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "CS","2016", "1", 4.2);
-        csbl.createStudent("gggggg", "123456", "Fan Weiguang", "email@email.com", "NUS", 12345378L, genSalt(), "soc", "BA","2016", "2", 3.9);
-        csbl.createStudent("hhhhhh", "123456", "Duan Yichen", "email@email.com", "NUS", 12345278L, genSalt(), "soc", "IS","2016", "1", 4.7);
-        csbl.createStudent("iiiiii", "123456", "Luo Yuyang", "email@email.com", "NUS", 12845678L, genSalt(), "soc", "EE","2016", "2", 3.5);
-        csbl.createStudent("jjjjjj", "123456", "Yang Ming", "email@email.com", "NUS", 12345278L, genSalt(), "soc", "CEG","2016", "1", 1.6);
-        csbl.createStudent("XiaoHong", "123456", "XiaoHong", "email@email.com", "NUS", 12545678L, genSalt(), "soc", "IS","2015", "1", 5.0);
-        csbl.createStudent("XiaoHuang", "123456", "XiaoHuang", "email@email.com", "NUS", 12545678L, genSalt(), "soc", "IS","2015", "1", 5.0);
-        csbl.createStudent("XiaoLan", "123456", "XiaoLan", "email@email.com", "NUS", 63845678L, genSalt(), "soc", "IS","2015", "1", 5.0);
-        csbl.createStudent("XiaoLv", "123456", "XiaoLv", "email@email.com", "NUS", 12517578L, genSalt(), "soc", "IS","2015", "1", 5.0);
-        csbl.createStudent("bluesheep", "123456", "Sun Mingyang", "miemiemie@email.com", "NUS", 12345278L, genSalt(), "soc", "CEG","2016", "1", 2.6);
-        csbl.createStudent("namename1", "123456", "Lilith", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 5.00);
-        csbl.createStudent("namename2", "123456", "Echo", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 5.00);
-        csbl.createStudent("namename3", "123456", "Shawn", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 5.00);
-        csbl.createStudent("namename4", "123456", "David", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 5.00);
-        csbl.createStudent("namename5", "123456", "Taylor", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 5.00);
-        csbl.createStudent("namename6", "123456", "George", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 5.00);
-        csbl.createStudent("namename7", "123456", "Tony", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 5.00);
+        csbl.createStudent("namename", "123456", "Lin Xianying", "A0000M", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 5.00);
+        csbl.createStudent("aaaaaa", "123456", "Su Xinran", "A0001M","email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
+        csbl.createStudent("bbbbbb", "123456", "Cao Yu", "A0002M","email@email.com", "NUS", 12345678L, genSalt(), "soc", "CS","2015", "2", 0.0);
+        csbl.createStudent("cccccc", "123456", "Joseph", "A0003M","email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
+        csbl.createStudent("dddddd", "123456", "Wenjie", "A0004M","email@email.com", "NUS", 65345455L, genSalt(), "soc", "CS","2015", "2", 4.8);
+        csbl.createStudent("eeeeee", "123456", "EE Ren", "A0005M","email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 4.3);
+        csbl.createStudent("ffffff", "123456", "Lifeng Zhou", "A0006M","email@email.com", "NUS", 12345678L, genSalt(), "soc", "CS","2016", "1", 4.2);
+        csbl.createStudent("gggggg", "123456", "Fan Weiguang", "A0007M","email@email.com", "NUS", 12345378L, genSalt(), "soc", "BA","2016", "2", 3.9);
+        csbl.createStudent("hhhhhh", "123456", "Duan Yichen", "A0008M","email@email.com", "NUS", 12345278L, genSalt(), "soc", "IS","2016", "1", 4.7);
+        csbl.createStudent("iiiiii", "123456", "Luo Yuyang", "A0009M","email@email.com", "NUS", 12845678L, genSalt(), "soc", "EE","2016", "2", 3.5);
+        csbl.createStudent("jjjjjj", "123456", "Yang Ming", "A0010M","email@email.com", "NUS", 12345278L, genSalt(), "soc", "CEG","2016", "1", 1.6);
+        csbl.createStudent("XiaoHong", "123456", "XiaoHong", "A0011M","email@email.com", "NUS", 12545678L, genSalt(), "soc", "IS","2015", "1", 5.0);
+        csbl.createStudent("XiaoHuang", "123456", "XiaoHuang", "A0012M","email@email.com", "NUS", 12545678L, genSalt(), "soc", "IS","2015", "1", 5.0);
+        csbl.createStudent("XiaoLan", "123456", "XiaoLan", "A0013M","email@email.com", "NUS", 63845678L, genSalt(), "soc", "IS","2015", "1", 5.0);
+        csbl.createStudent("XiaoLv", "123456", "XiaoLv", "A0014M","email@email.com", "NUS", 12517578L, genSalt(), "soc", "IS","2015", "1", 5.0);
+        csbl.createStudent("bluesheep", "123456", "Sun Mingyang", "A0015M", "miemiemie@email.com", "NUS", 12345278L, genSalt(), "soc", "CEG","2016", "1", 2.6);
+        csbl.createStudent("namename1", "123456", "Lilith", "A0016M", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 5.00);
+        csbl.createStudent("namename2", "123456", "Echo", "A0017M", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 5.00);
+        csbl.createStudent("namename3", "123456", "Shawn", "A0018M", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 5.00);
+        csbl.createStudent("namename4", "123456", "David", "A0019M", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 5.00);
+        csbl.createStudent("namename5", "123456", "Taylor", "A0020M", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 5.00);
+        csbl.createStudent("namename6", "123456", "George", "A0021M", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 5.00);
+        csbl.createStudent("namename7", "123456", "Tony", "A0022M", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 5.00);
 
         
         
@@ -98,8 +98,8 @@ public class indexBean {
         csbl.createGuest("guestd", "123456", "Yang Xiaoge", "email@email.com", "NUS", 12345678L, genSalt());
         csbl.createGuest("gueste", "123456", "Sun Junyi", "email@email.com", "NUS", 12345678L, genSalt());
         
-        csbl.createStudent("useless", "123456", "Berk", "email@email.com", "NUS", 18907578L, genSalt(), "soc", "IS","2015", "1", 5.0);
-        csbl.createStudent("irrelevant", "123456", "Lucy", "email@email.com", "NUS", 12511948L, genSalt(), "soc", "IS","2015", "1", 5.0);        
+        csbl.createStudent("useless", "123456", "Berk", "AjbnbM","email@email.com", "NUS", 18907578L, genSalt(), "soc", "IS","2015", "1", 5.0);
+        csbl.createStudent("irrelevant", "123456", "Lucy", "AhscoM","email@email.com", "NUS", 12511948L, genSalt(), "soc", "IS","2015", "1", 5.0);        
         //create course, read from nusmods
         csbl.dragAllNusMods("try");
         
@@ -173,7 +173,7 @@ public class indexBean {
         csbl.createModule("2017", "2", "none", "none", csbl.findCourse("LAM3201"));
         csbl.createModule("2017", "2", "none", "none", csbl.findCourse("TIE2010"));
         
-        csbl.linkLecturerModule("lecturer", "PS2240", "2017", "2");
+        csbl.linkLecturerModule("hsianghui2", "PS2240", "2017", "2");
         csbl.linkLecturerModule("hsianghui2", "PC2193", "2017", "2");
         csbl.linkLecturerModule("hsianghui3", "SC3101", "2017", "2");
         csbl.linkLecturerModule("hsianghui4", "LAM3201", "2017", "2");
@@ -514,14 +514,14 @@ public class indexBean {
         
         //create superGroup for current sem
         //No Group Formation needed for TIE2010
-        csbl.createSuperGroup(3, 2, 3, csbl.findModule("PS2240", "2017", "2"));
-        csbl.createSuperGroup(3, 1, 3, csbl.findModule("PC2193", "2017", "2"));
-        csbl.createSuperGroup(3, 3, 3, csbl.findModule("SC3101", "2017", "2"));
-        csbl.createSuperGroup(4, 2, 3, csbl.findModule("LAM3201", "2017", "2"));
-        csbl.createSuperGroup(3, 2, 3, csbl.findModule("CS1020", "2016", "1"));
-        csbl.createSuperGroup(3, 1, 3, csbl.findModule("GER1000", "2017", "1"));
-        csbl.createSuperGroup(3, 3, 3, csbl.findModule("CS2100", "2016", "2"));
-        csbl.createSuperGroup(4, 2, 3, csbl.findModule("CP3109", "2015", "1"));
+        csbl.createSuperGroup(3, 2, 2, 3, csbl.findModule("PS2240", "2017", "2"));
+        csbl.createSuperGroup(3, 2, 2, 3, csbl.findModule("PC2193", "2017", "2"));
+        csbl.createSuperGroup(3, 3, csbl.findModule("SC3101", "2017", "2"));
+        csbl.createSuperGroup(4, 2, csbl.findModule("LAM3201", "2017", "2"));
+        csbl.createSuperGroup(3, 2, csbl.findModule("CS1020", "2016", "1"));
+        csbl.createSuperGroup(3, 1, csbl.findModule("GER1000", "2017", "1"));
+        csbl.createSuperGroup(3, 3, csbl.findModule("CS2100", "2016", "2"));
+        csbl.createSuperGroup(4, 2, csbl.findModule("CP3109", "2015", "1"));
         //csbl.createSuperGroup(5, 2, 3, csbl.findModule("TIE2010", "2017", "2"));
         
         //create projectGroup 

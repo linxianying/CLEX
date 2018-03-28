@@ -67,10 +67,10 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     private DecimalFormat df = new DecimalFormat("#.##");
 
     @Override
-    public void createStudent(String username, String password, String name, String email, String school, Long contactNum, String salt, 
+    public void createStudent(String username, String password, String name, String studentId, String email, String school, Long contactNum, String salt, 
                 String faculty, String major, String matricYear, String matricSem, double cap){
         studentEntity = new Student();
-        studentEntity.createStudent(username, hashPassword(password, salt), name, email, school, contactNum, salt,
+        studentEntity.createStudent(username, hashPassword(password, salt), name, studentId, email, school, contactNum, salt,
                  faculty, major, matricYear, matricSem, cap);
         em.persist(studentEntity);
         em.flush();
@@ -88,9 +88,43 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     
     
     @Override
-    public void createSuperGroup(int numOfGroups, int minStudentNum, int maxStudentNum, Module module){
+    public void createSuperGroup(int numOfGroups, int avgStudentNum, int minStudentNum, int maxStudentNum, Module module){
         superGroupEntity = new SuperGroup();
-        superGroupEntity.createSuperGroup(numOfGroups, minStudentNum, maxStudentNum, module);
+        superGroupEntity.createSuperGroup(numOfGroups, avgStudentNum, module);
+        superGroupEntity.setMaxStudentNum(maxStudentNum);
+        superGroupEntity.setMinStudentNum(minStudentNum);
+        em.persist(superGroupEntity);
+        module.setSuperGroup(superGroupEntity);
+        em.merge(module);
+        em.flush();
+    }
+    
+    @Override
+    public void createSuperGroup(int numOfGroups, int avgStudentNum, Module module) {
+        superGroupEntity = new SuperGroup();
+        superGroupEntity.createSuperGroup(numOfGroups, avgStudentNum, module);
+        em.persist(superGroupEntity);
+        module.setSuperGroup(superGroupEntity);
+        em.merge(module);
+        em.flush();
+    }
+    
+    @Override
+    public void createSuperGroupWithMax(int numOfGroups, int avgStudentNum,  int maxStudentNum, Module module) {
+        superGroupEntity = new SuperGroup();
+        superGroupEntity.createSuperGroup(numOfGroups, avgStudentNum, module);
+        superGroupEntity.setMaxStudentNum(maxStudentNum);
+        em.persist(superGroupEntity);
+        module.setSuperGroup(superGroupEntity);
+        em.merge(module);
+        em.flush();
+    }
+    
+    @Override
+    public void createSuperGroupWithMin(int numOfGroups, int avgStudentNum, int minStudentNum,  Module module) {
+        superGroupEntity = new SuperGroup();
+        superGroupEntity.createSuperGroup(numOfGroups, avgStudentNum, module);
+        superGroupEntity.setMinStudentNum(minStudentNum);
         em.persist(superGroupEntity);
         module.setSuperGroup(superGroupEntity);
         em.merge(module);
@@ -102,6 +136,8 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         projectGroupEntity = new ProjectGroup();
         projectGroupEntity.createProjectGroup(superGroup, name, cost);
         em.persist(projectGroupEntity);
+        superGroup.getProjectGroups().add(projectGroupEntity);
+        em.merge(superGroup);
         em.flush();
     }
     

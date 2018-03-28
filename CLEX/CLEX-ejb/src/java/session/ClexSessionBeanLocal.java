@@ -30,7 +30,7 @@ import javax.ejb.Local;
 @Local
 public interface ClexSessionBeanLocal {
 
-    public void createStudent(String username, String password, String name,
+    public void createStudent(String username, String password, String name, String studentId,
             String email, String school, Long contactNum, String salt,
             String faculty, String major, String matricYear, String matricSem, double cap);
 
@@ -48,7 +48,13 @@ public interface ClexSessionBeanLocal {
             boolean discontinuedBool, String discountinuedYear, String discountinuedSem,
             String offeredSem, String school, String moduleCredit, String workload);
 
-    public void createSuperGroup(int numOfGroups, int minStudentNum, int maxStudentNum, Module module);
+    public void createSuperGroup(int numOfGroups, int avgStudentNum, int minStudentNum, int maxStudentNum, Module module);
+    
+    public void createSuperGroup(int numOfGroups, int avgStudentNum, Module module);
+    
+    public void createSuperGroupWithMax(int numOfGroups, int avgStudentNum,  int maxStudentNum, Module module);
+    
+    public void createSuperGroupWithMin(int numOfGroups, int avgStudentNum, int minStudentNum,  Module module);
 
     public void createProjectGroup(SuperGroup superGroup, String name, double cost);
 

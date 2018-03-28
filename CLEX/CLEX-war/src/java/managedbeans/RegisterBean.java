@@ -59,6 +59,7 @@ public class RegisterBean implements Serializable {
     private double cap;
     private boolean agree = false;
     private List<String> schoollist;
+    private String studentId;
 
     public RegisterBean() {
 
@@ -88,7 +89,7 @@ public class RegisterBean implements Serializable {
                 if (password.length() >= 6 && !username.equals("") && !email.equals("")) {
                     if (password.equals(password1)) {
                         if (userType.equals("1")) { //Student
-                            csbl.createStudent(username, password, name, email, school, contactNum, genSalt(),
+                            csbl.createStudent(username, password, name, "not updated", email, school, contactNum, genSalt(),
                                     faculty, major, matricYear, matricSem, cap);
                             fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Student '" + username + "' successfully created.", "We hope you will like PRISM.");
                         } else if (userType.equals("2")) { //Lecturer
@@ -141,7 +142,7 @@ public class RegisterBean implements Serializable {
     //For testing only
     public void testRegisterStudent() throws IOException {
         if (csbl.checkNewUser("namename") == true) {
-            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS", "2015", "1", 0.0);
+            csbl.createStudent("namename", "123456", "LinXianying", "A0000M", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS", "2015", "1", 0.0);
             //FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "User 'namename' already exists.", ""));
@@ -176,16 +177,16 @@ public class RegisterBean implements Serializable {
     }
 
     public void testusercase() throws IOException {
-        csbl.createStudent("aaaaaa", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS", "2015", "1", 0.0);
-        csbl.createStudent("bbbbbb", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS", "2015", "2", 0.0);
-        csbl.createStudent("cccccc", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS", "2015", "1", 0.0);
-        csbl.createStudent("dddddd", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS", "2015", "2", 0.0);
-        csbl.createStudent("eeeeee", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS", "2015", "1", 0.0);
-        csbl.createStudent("ffffff", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS", "2016", "1", 0.0);
-        csbl.createStudent("gggggg", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS", "2016", "2", 0.0);
-        csbl.createStudent("hhhhhh", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS", "2016", "1", 0.0);
-        csbl.createStudent("iiiiii", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS", "2016", "2", 0.0);
-        csbl.createStudent("jjjjjj", "123456", "name", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS", "2016", "1", 0.0);
+        csbl.createStudent("aaaaaa", "123456", "Su Xinran", "A0001M","email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
+        csbl.createStudent("bbbbbb", "123456", "Cao Yu", "A0002M","email@email.com", "NUS", 12345678L, genSalt(), "soc", "CS","2015", "2", 0.0);
+        csbl.createStudent("cccccc", "123456", "Joseph", "A0003M","email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
+        csbl.createStudent("dddddd", "123456", "Wenjie", "A0004M","email@email.com", "NUS", 65345455L, genSalt(), "soc", "CS","2015", "2", 4.8);
+        csbl.createStudent("eeeeee", "123456", "EE Ren", "A0005M","email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 4.3);
+        csbl.createStudent("ffffff", "123456", "Lifeng Zhou", "A0006M","email@email.com", "NUS", 12345678L, genSalt(), "soc", "CS","2016", "1", 4.2);
+        csbl.createStudent("gggggg", "123456", "Fan Weiguang", "A0007M","email@email.com", "NUS", 12345378L, genSalt(), "soc", "BA","2016", "2", 3.9);
+        csbl.createStudent("hhhhhh", "123456", "Duan Yichen", "A0008M","email@email.com", "NUS", 12345278L, genSalt(), "soc", "IS","2016", "1", 4.7);
+        csbl.createStudent("iiiiii", "123456", "Luo Yuyang", "A0009M","email@email.com", "NUS", 12845678L, genSalt(), "soc", "EE","2016", "2", 3.5);
+        csbl.createStudent("jjjjjj", "123456", "Yang Ming", "A0010M","email@email.com", "NUS", 12345278L, genSalt(), "soc", "CEG","2016", "1", 1.6);
         csbl.createLecturer("hsianghui2", "123456", "LekHsiangHui2", "email@email.com", "NUS", 12345678L, genSalt(), "soc");
         csbl.createLecturer("hsianghui3", "123456", "LekHsiangHui3", "email@email.com", "NUS", 12345678L, genSalt(), "soc");
         csbl.createLecturer("hsianghui4", "123456", "LekHsiangHui4", "email@email.com", "NUS", 12345678L, genSalt(), "soc");

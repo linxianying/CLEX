@@ -52,13 +52,40 @@ public class SuperGroup implements Serializable {
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="superGroup")
     private Collection<ProjectGroup> projectGroups = new ArrayList<ProjectGroup>();
     
-    public void createSuperGroup(int numOfGroups, int minStudentNum, int maxStudentNum, Module module){
+    public void createSuperGroup(int numOfGroups, int avgStudentNum, Module module){
         this.numOfGroups = numOfGroups;
-        this.minStudentNum = minStudentNum;
-        this.maxStudentNum = maxStudentNum;
+        this.avgStudentNum = avgStudentNum;
         this.module = module;
         confirm = false;
     }
+    
+//    //set min and max as well
+//    public void createSuperGroup(int numOfGroups, int avgStudentNum, int minStudentNum, int maxStudentNum, Module module){
+//        this.numOfGroups = numOfGroups;
+//        this.avgStudentNum = avgStudentNum;
+//        this.minStudentNum = minStudentNum;
+//        this.maxStudentNum = maxStudentNum;
+//        this.module = module;
+//        confirm = false;
+//    }
+//    
+//    //set max only
+//    public void createSuperGroupWithMax(int numOfGroups, int avgStudentNum,  int maxStudentNum, Module module){
+//        this.numOfGroups = numOfGroups;
+//        this.avgStudentNum = avgStudentNum;
+//        this.maxStudentNum = maxStudentNum;
+//        this.module = module;
+//        confirm = false;
+////    }
+//    
+//    //set min only
+//    public void createSuperGroupWithMin(int numOfGroups, int avgStudentNum, int minStudentNum,  Module module){
+//        this.numOfGroups = numOfGroups;
+//        this.avgStudentNum = avgStudentNum;
+//        this.minStudentNum = minStudentNum;
+//        this.module = module;
+//        confirm = false;
+//    }
     
     public Long getId() {
         return id;

@@ -34,6 +34,9 @@ public class Student extends User implements Serializable {
     private Long id;
     
     @Column(length = 32)
+    private String studentId;
+    
+    @Column(length = 32)
     private String faculty;
     
     @Column(length = 32)
@@ -85,11 +88,12 @@ public class Student extends User implements Serializable {
     @OneToMany(mappedBy = "reviewee")
     private Collection<PeerReviewAnswer> asReviewee;
     
-    public void createStudent(String username, String password, String name, 
+    public void createStudent(String username, String password, String name, String studentId,
                 String email, String school, Long contactNum, String salt,
                 String faculty, String major, String matricYear, String matricSem, 
                 double cap){
         super.createUser(username, password, name, email, "Student", school, contactNum, salt);
+        this.studentId = studentId;
         this.faculty = faculty;
         this.major = major;
         this.matricYear = matricYear;
@@ -239,6 +243,14 @@ public class Student extends User implements Serializable {
 
     public void setAsReviewee(Collection<PeerReviewAnswer> asReviewee) {
         this.asReviewee = asReviewee;
+    }
+
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 
     @Override
