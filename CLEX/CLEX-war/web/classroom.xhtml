@@ -79,24 +79,29 @@
                                     </f:facet>
                                     <h:outputText value="#{poll.type}" />
                                 </p:column>
-                                <p:column filterBy="#{poll.module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
+                                <p:column filterBy="#{poll.module.course.moduleCode}" sortBy="#{poll.module.course.moduleCode}" 
+                                          headerText="Module Code" filterMatchMode="contains">
                                     <h:outputText value="#{poll.module.course.moduleCode}" />
                                 </p:column>
 
 
-                                <p:column filterBy="#{poll.datetime}" headerText="Datetime" filterMatchMode="contains">
+                                <p:column filterBy="#{poll.datetime}" sortBy="#{poll.datetime}" 
+                                          headerText="Datetime" filterMatchMode="contains">
                                     <h:outputText value="#{poll.datetime}" />
                                 </p:column>
 
-                                <p:column filterBy="#{poll.content}" headerText="Content" filterMatchMode="contains">
+                                <p:column filterBy="#{poll.content}" sortBy="#{poll.content}" 
+                                          headerText="Content" filterMatchMode="contains">
                                     <h:outputText value="#{poll.content}" />
                                 </p:column>
 
-                                <p:column filterBy="#{poll.topic}" headerText="Topic" filterMatchMode="contains">
+                                <p:column filterBy="#{poll.topic}" sortBy="#{poll.topic}" 
+                                          headerText="Topic" filterMatchMode="contains">
                                     <h:outputText value="#{poll.topic}" />
                                 </p:column>
 
-                                <p:column filterBy="#{poll.correctRate}" headerText="Correct Rate" filterMatchMode="contains">
+                                <p:column filterBy="#{poll.correctRate}" sortBy="#{poll.correctRate}" 
+                                          headerText="Correct Rate" filterMatchMode="contains">
                                     <h:outputText value="#{poll.correctRate}" />
                                 </p:column>
                             </p:dataTable>

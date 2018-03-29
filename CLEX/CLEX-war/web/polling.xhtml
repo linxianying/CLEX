@@ -7,21 +7,35 @@
                 xmlns:p="http://primefaces.org/ui" 
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
+    <ui:define name="title">PRISM Student Polling Page</ui:define>
+
+    <ui:define name="viewname">Polling</ui:define>
+    
     <ui:define name="content">
-        <h:head>
-            <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-            <title>PRISM Student Polling page</title>
-        </h:head>
-        <h:body>
+        <p:growl id="messages" showDetail="true" />
             <div id="top" class="top">
-                <ui:insert name="top">Student Polling Page</ui:insert>
+                <h3><ui:insert name="top">My Projects</ui:insert></h3>
             </div>
+            <br />
             <div>
                 <div id="content" class="left_content">
-                    <ui:insert name="top">Student Polling Page</ui:insert>
+  
+                    
+                    <ui:repeat var="m" value="#{pollingBean.takingModules}">
+                        <p:column>
+                            <p:panel header="#{m.course.moduleCode}">
+                                <h:outputText value="This course doesn't have a polling" escape="false" 
+                                              rendered="#{empty m.polls}" />
+                                
+                                
+                                <br />
+                            </p:panel>
+                            
+                        </p:column>
+                         
+                    </ui:repeat>
                 </div>
             </div>
-
-        </h:body>
+        
     </ui:define>
 </ui:composition>
