@@ -84,8 +84,7 @@ public class CommunityBean {
         username = (String) session.getAttribute("username");
         userEntity = (User) session.getAttribute("user");
         check();
-        replies = cmsbl.getRepliesFromThread(threadEntity.getId());
-
+        replies = cmsbl.getRepliesFromThread(threadEntity.getId());        
     }
 
     public void check() {
@@ -275,20 +274,25 @@ public class CommunityBean {
         context.addMessage(null, fmsg);
     }
 
-    public void modifyThread(Long threadId, String content, String title, String tag) {
+    public void modifyThread() {
         FacesMessage fmsg = new FacesMessage();
-        cmsbl.editThread(threadId, content, title, tag);
-        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Thread edited.", "");
+        cmsbl.editThread(threadEntity.getId(), tContent, tTitle, tTag);
+        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Thread edited.");
+        refresh();
+        context.addMessage(null, fmsg);
+        tContent = "";
+        tTitle = "";
+        tTag = "";
     }
 
     public void modifyReply() {
         FacesMessage fmsg = new FacesMessage();
-        System.out.println("rContent: " + rContent);
         context = FacesContext.getCurrentInstance();
         cmsbl.editReply(rId, rContent);
         fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Reply edited.");
         refresh();
         context.addMessage(null, fmsg);
+        rContent = "";
     }
 
     public void forModifyReply(String content, Long id) {
@@ -296,6 +300,14 @@ public class CommunityBean {
         rId = id;
         refresh();
 
+    }
+
+    public void forModifyThread(String title, String content, String tag, Long id) {
+        tContent = content;
+        tTitle = title;
+        tTag = tag;
+        tId = id;
+        refresh();
     }
 
     public void removeReply(Long id) {
