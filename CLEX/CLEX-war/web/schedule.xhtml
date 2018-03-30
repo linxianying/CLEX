@@ -45,24 +45,15 @@
                     <p:commandButton value="Print" type="button" icon="ui-icon-print" style="margin-bottom: 20px; float: right">
                         <p:printer target="cal" />
                     </p:commandButton>
-
                     
-
                     <div class="task-list">
                         <p:panel header="Coming Events" style="float: right; width: 24%; min-height:150px;">
-                            
                             <p:dataList id="toDoList" var="todo" value="#{scheduleBean.timeslots}">
-                                <ul>
-                                    <li>
-
-                                        <p:selectBooleanCheckbox>
-                                            <p:ajax event="change" update="toDoList" listener="#{scheduleBean.timeslots}" />
-                                        </p:selectBooleanCheckbox>
-                                        <span id="toDo">#{todo.title}</span>    
-                                    </li>
-                                </ul>
+                                <p:selectBooleanCheckbox>
+                                    <p:ajax event="change" update="toDoList" listener="#{scheduleBean.timeslots}" />
+                                </p:selectBooleanCheckbox>
+                                <span id="toDo">#{todo.title}</span>
                             </p:dataList>
-                            
                         </p:panel>
                     </div>
                 </p:outputPanel>

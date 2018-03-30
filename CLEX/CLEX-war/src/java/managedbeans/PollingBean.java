@@ -7,6 +7,7 @@ package managedbeans;
 
 import entity.Module;
 import entity.Student;
+import java.io.IOException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import session.ClexSessionBeanLocal;
@@ -61,6 +63,21 @@ public class PollingBean implements Serializable {
         System.out.println("ProjectBean Finish initialization");
     }  
 
+    public void viewPolling(Module m) throws IOException{
+        
+        FacesMessage fmsg = new FacesMessage();
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+
+        session.setAttribute("user", student);
+        session.setAttribute("username", username);
+        session.setAttribute("module", m);
+        session.setAttribute("moduleCode", m.getCourse().getModuleCode());
+        session.setAttribute("pickSem", m.getTakenSem());
+        session.setAttribute("pickYear", m.getTakenYear());
+        context.getExternalContext().redirect("pollInfo.xhtml");
+    
+    }
     public ClexSessionBeanLocal getCsbl() {
         return csbl;
     }

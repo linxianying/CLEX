@@ -26,7 +26,10 @@
                             <p:panel header="#{m.course.moduleCode}">
                                 <h:outputText value="This course doesn't have a polling" escape="false" 
                                               rendered="#{empty m.polls}" />
-                                
+                                <br />
+                                <p:commandButton value="See Polls" 
+                                                rendered="#{not empty m.polls}"
+                                                actionListener="#{pollingBean.viewPolling(m)}"/>
                                 
                                 <br />
                             </p:panel>

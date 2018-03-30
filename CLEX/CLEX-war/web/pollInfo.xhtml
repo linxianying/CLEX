@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+                xmlns:h="http://xmlns.jcp.org/jsf/html" 
+                template="/WEB-INF/template.xhtml" 
+                xmlns:p="http://primefaces.org/ui" 
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">PRISM Student Polling Information Page</ui:define>
+
+    <ui:define name="viewname">Polling</ui:define>
+    
+    <ui:define name="content">
+        <h:form id="panel">
+            <p:dataTable var="poll" value="#{pollInfoBean.polls}" id="polls" rows="5"
+                        emptyMessage="No polls found with given criteria." 
+                        paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+                        filteredValue="#{pollInfoBean.filteredPolls}"
+                        paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} 
+                        {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+                        rowsPerPageTemplate="5,10,20">
+
+                <f:facet name="header">
+                   <p:outputPanel>
+                       <h:outputText value="Search all fields:" />
+                       <p:inputText id="globalFilter" onkeyup="PF('pollsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                   </p:outputPanel>
+                </f:facet>  
+                <f:facet name="{Exporters}">
+                   <div style="float:right;">
+                       <h:commandLink>
+                           <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                           <p:dataExporter type="xls" target="polls" fileName="polls"  />
+                       </h:commandLink>
+
+                       <h:commandLink>
+                           <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                           <p:dataExporter type="pdf" target="polls" fileName="polls" />
+                       </h:commandLink>
+
+                       <h:commandLink>
+                           <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                           <p:dataExporter type="csv" target="polls" fileName="polls"  />
+                       </h:commandLink>
+
+                       <h:commandLink>
+                           <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                           <p:dataExporter type="xml" target="polls" fileName="polls"/>
+                       </h:commandLink>
+                   </div>
+                </f:facet>
+                <p:column filterBy="#{poll.topic}" sortBy="#{poll.topic}" headerText="Topic" filterMatchMode="contains">
+                    <h:outputText value="#{poll.topic} " />
+                </p:column>
+                <p:column  filterBy="#{poll.type}" sortBy="#{poll.type}" headerText="Type" filterMatchMode="contains">
+                    <h:outputText value="#{poll.type}" />
+                </p:column>
+                <p:column headerText="Content" >
+                    <h:outputText value="#{poll.content} " />
+                </p:column>
+                <p:column headerText="Correct Rate" >
+                    <h:outputText value="Status: Unfinished" rendered="#{empty poll.correctRate}"/>
+                    <br />
+                    <h:outputText value="Polls:#{poll.correctRate}" />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>

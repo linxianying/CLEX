@@ -100,7 +100,9 @@ public class TasksBean {
         session = (HttpSession) context.getExternalContext().getSession(true);
         
         
-        
+        studentEntity = (Student) session.getAttribute("user");
+        username = studentEntity.getUsername();
+         System.out.println("add task username: "+ username);
         //if(deadline!=null)
         //    System.out.println("addTask: deadline is "+deadline);
         //    ddl = ft.format(deadline);
