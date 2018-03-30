@@ -47,7 +47,8 @@ public interface CommunitySessionBeanLocal {
     public List<Thread> searchThreadByTitle(String searchTitle);
     public List<Thread> searchThreadByContent(String searchContent);
     public List<Thread> getThreadsByTag(String tag);
-
+    public List<Thread> getAllThreadsBySchool(String school)
+            ;
     public List<VoteThread> getVotesFromThread(Long threadId);
     public List<VoteReply> getVotesFromReply(Long replyId);
     
@@ -58,6 +59,6 @@ public interface CommunitySessionBeanLocal {
             
     public List<Thread> sortThreadByUpvote(List<Thread> threadList);
     public List<Thread> sortThreadByDate(List<Thread> threadList);
-    
-    public List<Thread> getAllThreadsBySchool(String school);
+    public List<Thread> sortThreadByLatestReply(List<Thread> threadList);
+            
 }

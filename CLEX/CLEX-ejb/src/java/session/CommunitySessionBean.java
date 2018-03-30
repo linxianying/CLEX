@@ -101,7 +101,8 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         }
 
         Reply reply = new Reply();
-
+        threadEntity.setLatestReplyDateTime(genDateTime());
+        
         reply.createReply(threadId, content);
         reply.setUser(userEntity);
         reply.setThread(threadEntity);
@@ -414,6 +415,7 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
                 threadList.add(threads.get(i));
             }
         }
+        threadList = sortThreadByLatestReply(threadList);
         return threadList;
     }
 
@@ -427,6 +429,7 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
                 threadList.add(threads.get(i));
             }
         }
+        threadList = sortThreadByLatestReply(threadList);
         return threadList;
     }
 
@@ -440,6 +443,7 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
                 threadList.add(threads.get(i));
             }
         }
+        threadList = sortThreadByLatestReply(threadList);
         return threadList;
     }
 
@@ -581,6 +585,17 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         Collections.sort(threadList, new Comparator<Thread>() {
             public int compare(Thread t1, Thread t2) {
                 return t2.getDateTime().compareTo(t1.getDateTime());
+            }
+        });
+        return threadList;
+    }
+    
+    @Override
+    public List<Thread> sortThreadByLatestReply(List<Thread> threadList) {
+        //Descending order (Latest to oldest)
+        Collections.sort(threadList, new Comparator<Thread>() {
+            public int compare(Thread t1, Thread t2) {
+                return t2.getLatestReplyDateTime().compareTo(t1.getLatestReplyDateTime());
             }
         });
         return threadList;

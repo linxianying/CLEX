@@ -60,6 +60,9 @@ public class Thread implements Serializable {
     private String editDateTime;
 
     @Column(length = 32, nullable = false)
+    private String latestReplyDateTime;
+        
+    @Column(length = 32, nullable = false)
     private String school;
 
     @ManyToOne
@@ -75,6 +78,7 @@ public class Thread implements Serializable {
         Date current = new Date();
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         this.dateTime = format.format(current);
+        this.latestReplyDateTime = format.format(current);
     }
 
     public void createThread(String username, String content, String title, String tag, String school) {
@@ -192,20 +196,28 @@ public class Thread implements Serializable {
     public void setVoteThreads(Collection<VoteThread> voteThreads) {
         this.voteThreads = voteThreads;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
+    
     public String getSchool() {
         return school;
     }
 
     public void setSchool(String school) {
         this.school = school;
+    }
+
+    public String getLatestReplyDateTime() {
+        return latestReplyDateTime;
+    }
+
+    public void setLatestReplyDateTime(String latestReplyDateTime) {
+        this.latestReplyDateTime = latestReplyDateTime;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
     }
 
     @Override
