@@ -357,8 +357,8 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
             if (threadEntity.getSchool().equals(school)) {
                 threads.add(threadEntity);
             }
-
         }
+        threads = this.sortThreadByLatestReply(threads);
         return threads;
     }
 
@@ -483,7 +483,8 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         }
         return userEntity;
     }
-
+    
+    @Override
     public Thread findThread(Long id) {
         threadEntity = null;
         try {
@@ -499,7 +500,8 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         }
         return threadEntity;
     }
-
+    
+    @Override
     public Reply findReply(Long id) {
         replyEntity = null;
         try {

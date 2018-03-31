@@ -60,5 +60,7 @@ public interface CommunitySessionBeanLocal {
     public List<Thread> sortThreadByUpvote(List<Thread> threadList);
     public List<Thread> sortThreadByDate(List<Thread> threadList);
     public List<Thread> sortThreadByLatestReply(List<Thread> threadList);
+    public Reply findReply(Long id);
+    public Thread findThread(Long id);
             
 }

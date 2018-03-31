@@ -60,6 +60,7 @@ public class CommunityBean {
     private Reply replyEntity;
     private Long rId;
     private String rContent;
+    private String dayDisplay2; //for reply
 
     //Vote
     private Vote voteEntity;
@@ -79,12 +80,13 @@ public class CommunityBean {
     public void refresh() {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
-        threadEntity = (Thread) session.getAttribute("thread");
+        Long threadID = (Long) session.getAttribute("id");
+        threadEntity = cmsbl.findThread(threadID);
         System.out.println(threadEntity.getUser().getName());
         username = (String) session.getAttribute("username");
         userEntity = (User) session.getAttribute("user");
         check();
-        replies = cmsbl.getRepliesFromThread(threadEntity.getId());        
+        replies = cmsbl.getRepliesFromThread(threadEntity.getId());
     }
 
     public void check() {
@@ -108,6 +110,18 @@ public class CommunityBean {
             faculty = "";
             major = "";
         }
+    }
+
+    public String dayTime(Reply replyEntity) {
+        Date current = new Date();
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        dateTimeCompare = format.format(current);
+        if (replyEntity.getDateTime().substring(0, 10).equals(dateTimeCompare)) {
+            dayDisplay2 = "Today, " + replyEntity.getDateTime().substring(10);
+        } else {
+            dayDisplay2 = replyEntity.getDateTime();
+        }
+        return dayDisplay2;
     }
 
     public String getReplyFaculty(User userEntity) {
@@ -198,7 +212,7 @@ public class CommunityBean {
         } else {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to vote.", "Please ensure you are logged in.");
         }
-
+        refresh();
         context.addMessage(null, fmsg);
     }
 
@@ -232,7 +246,7 @@ public class CommunityBean {
         } else {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to vote.", "Please ensure you are logged in.");
         }
-
+        refresh();
         context.addMessage(null, fmsg);
     }
 
@@ -252,6 +266,8 @@ public class CommunityBean {
         } else {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to unvote.", "Please ensure you are logged in.");
         }
+        session.setAttribute("thread", threadEntity);
+        refresh();
         context.addMessage(null, fmsg);
     }
 
@@ -271,6 +287,7 @@ public class CommunityBean {
         } else {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to unvote.", "Please ensure you are logged in.");
         }
+        refresh();
         context.addMessage(null, fmsg);
     }
 
@@ -278,6 +295,10 @@ public class CommunityBean {
         FacesMessage fmsg = new FacesMessage();
         cmsbl.editThread(threadEntity.getId(), tContent, tTitle, tTag);
         fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Thread edited.");
+        threadEntity.setContent(tContent);
+        threadEntity.setTitle(tTitle);
+        threadEntity.setTag(tTag);
+        session.setAttribute("thread", threadEntity);
         refresh();
         context.addMessage(null, fmsg);
         tContent = "";
@@ -302,11 +323,11 @@ public class CommunityBean {
 
     }
 
-    public void forModifyThread(String title, String content, String tag, Long id) {
-        tContent = content;
-        tTitle = title;
-        tTag = tag;
-        tId = id;
+    public void forModifyThread(Thread threadEntity) {
+        tContent = threadEntity.getContent();
+        tTitle = threadEntity.getTitle();
+        tTag = threadEntity.getTag();
+        tId = threadEntity.getId();
         refresh();
     }
 
@@ -333,16 +354,16 @@ public class CommunityBean {
         context.addMessage(null, fmsg);
     }
 
-    public void removeThread() {
+    public void removeThread(Long id) {
         FacesMessage fmsg = new FacesMessage();
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
-        username = (String) session.getAttribute("username");
+        username = threadEntity.getUsername();
         userEntity = cmsbl.findUser(username);
 
         if (userEntity != null) {
-            if (cmsbl.checkExistingThread(tId)) {
-                if (cmsbl.deleteThread(username, tId)) {
+            if (cmsbl.checkExistingThread(id)) {
+                if (cmsbl.deleteThread(username, id)) {
                     fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Thread removed.", "");
                 } else {
                     fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to delete thread.", "");
@@ -353,7 +374,14 @@ public class CommunityBean {
         } else {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to delete thread.", "Please ensure you are logged in.");
         }
+
         context.addMessage(null, fmsg);
+        try {
+            context.getExternalContext().redirect("community.xhtml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     //For debugging entities
@@ -580,5 +608,13 @@ public class CommunityBean {
 
     public void setReplies(List<Reply> replies) {
         this.replies = replies;
+    }
+
+    public String getDayDisplay2() {
+        return dayDisplay2;
+    }
+
+    public void setDayDisplay2(String dayDisplay2) {
+        this.dayDisplay2 = dayDisplay2;
     }
 }

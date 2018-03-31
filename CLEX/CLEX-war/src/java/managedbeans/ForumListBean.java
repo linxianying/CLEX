@@ -12,7 +12,10 @@ import entity.Vote;
 import entity.VoteReply;
 import entity.VoteThread;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -52,6 +55,8 @@ public class ForumListBean {
     private String tTitle;
     private String tTag;
     private Thread selectedThread;
+    private String dateTimeCompare;
+    private String dayDisplay;
 
     //Reply
     private Reply replyEntity;
@@ -111,11 +116,35 @@ public class ForumListBean {
     public void onRowSelect(SelectEvent event) {
         System.out.println(selectedThread.getId());
         try {
-            session.setAttribute("thread", selectedThread);
+            session.setAttribute("id", selectedThread.getId());
             context.getExternalContext().redirect("viewThread.xhtml");
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public String dayTime(Thread threadEntity) {
+        Date current = new Date();
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        dateTimeCompare = format.format(current);
+        if (threadEntity.getDateTime().substring(0, 10).equals(dateTimeCompare)) {
+            dayDisplay = "Today, " + threadEntity.getDateTime().substring(10);
+        } else {
+            dayDisplay = threadEntity.getDateTime();
+        }
+        return dayDisplay;
+    }
+
+    public String latestReplyDayTime(String dayTime) {
+        Date current = new Date();
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        dateTimeCompare = format.format(current);
+        if (dayTime.substring(0, 10).equals(dateTimeCompare)) {
+            dayDisplay = "Today, " + dayTime.substring(10);
+        } else {
+            dayDisplay = dayTime;
+        }
+        return dayDisplay;
     }
 
     public void listRepliesForThread(Long tId) {
@@ -297,5 +326,21 @@ public class ForumListBean {
 
     public void setSelectedThread(Thread selectedThread) {
         this.selectedThread = selectedThread;
+    }
+
+    public String getDateTimeCompare() {
+        return dateTimeCompare;
+    }
+
+    public void setDateTimeCompare(String dateTimeCompare) {
+        this.dateTimeCompare = dateTimeCompare;
+    }
+
+    public String getDayDisplay() {
+        return dayDisplay;
+    }
+
+    public void setDayDisplay(String dayDisplay) {
+        this.dayDisplay = dayDisplay;
     }
 }
