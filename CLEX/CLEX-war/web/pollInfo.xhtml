@@ -15,6 +15,7 @@
         <h:form id="panel">
             <p:dataTable var="poll" value="#{pollInfoBean.polls}" id="polls" rows="5"
                         emptyMessage="No polls found with given criteria." 
+                        widgetVar="pollsTable"
                         paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
                         filteredValue="#{pollInfoBean.filteredPolls}"
                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} 
@@ -24,7 +25,8 @@
                 <f:facet name="header">
                    <p:outputPanel>
                        <h:outputText value="Search all fields:" />
-                       <p:inputText id="globalFilter" onkeyup="PF('pollsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                       <p:inputText id="globalFilter" onkeyup="PF('pollsTable').filter()" 
+                                    style="width:150px" placeholder="Enter keyword"/>
                    </p:outputPanel>
                 </f:facet>  
                 <f:facet name="{Exporters}">
@@ -56,13 +58,13 @@
                 <p:column  filterBy="#{poll.type}" sortBy="#{poll.type}" headerText="Type" filterMatchMode="contains">
                     <h:outputText value="#{poll.type}" />
                 </p:column>
-                <p:column headerText="Content" >
+                <p:column headerText="Content" sortBy="#{poll.content}">
                     <h:outputText value="#{poll.content} " />
                 </p:column>
-                <p:column headerText="Correct Rate" >
-                    <h:outputText value="Status: Unfinished" rendered="#{empty poll.correctRate}"/>
+                <p:column headerText="Correct Rate" sortBy="#{poll.correctRate}">
+                    <h:outputText value="Status: Unfinished"  rendered="#{empty poll.correctRate}"/>
                     <br />
-                    <h:outputText value="Polls:#{poll.correctRate}" />
+                    <h:outputText  value="Polls:#{poll.correctRate}" />
                 </p:column>
             </p:dataTable>
         </h:form>
