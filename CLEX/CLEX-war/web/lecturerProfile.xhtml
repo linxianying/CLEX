@@ -24,7 +24,7 @@
                         <h1>Basic Profile</h1>
                         <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
                             <span>Username</span>
-                            <p:inputText id="username" value="#{profileBean.username}" readonly="true" />
+                            <p:inputText id="username" disabled="true" value="#{profileBean.username}" readonly="true" />
                             <span>Full Name</span>
                             <p:inputText id="newName" value="#{profileBean.name}" />
                             <span>Email</span>
@@ -34,9 +34,9 @@
                             <p:inputText id="newContactNum" value="#{profileBean.contactNum}" />
 
                             <span>School</span>
-                            <p:inputText id="newSchool" value="#{profileBean.school}" readonly="true"/>
+                            <p:inputText id="newSchool" disabled="true" value="#{profileBean.school}" readonly="true"/>
                             <span>Faculty</span>
-                            <p:selectOneMenu style="padding: 0%;" required="true" id="newFaculty" value="#{profileBean.faculty}" 
+                            <p:selectOneMenu disabled="true" style="padding: 0%;" required="true" id="newFaculty" value="#{profileBean.faculty}" 
                                             editable="true" placeholder="Faculty">
                                <f:selectItems value="#{profileBean.facultylist}" />
                             </p:selectOneMenu>

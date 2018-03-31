@@ -25,7 +25,7 @@
                         <h1>Basic Profile</h1>
                         <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
                             <span>Username</span>
-                            <p:inputText id="username" value="#{profileBean.username}" readonly="true" />
+                            <p:inputText id="username" disabled="true"  value="#{profileBean.username}" readonly="true" />
                             <span>Full Name</span>
                             <p:inputText id="newName" value="#{profileBean.name}" />
                             <span>Email</span>
@@ -35,16 +35,16 @@
                             <p:inputText id="newContactNum" value="#{profileBean.contactNum}" />
 
                             <span>School</span>
-                            <p:inputText id="newSchool" value="#{profileBean.school}" readonly="true"/>
+                            <p:inputText id="newSchool" disabled="true" value="#{profileBean.school}" readonly="true"/>
                             <span>Faculty</span>
-                            <p:selectOneMenu style="padding: 0%; width: 100%;" required="true" id="newFaculty" value="#{profileBean.faculty}" 
+                            <p:selectOneMenu style="padding: 0%; width: 100%;" disabled="true"  required="true" id="newFaculty" value="#{profileBean.faculty}" 
                                              placeholder="Faculty">
                                 <f:selectItems value="#{profileBean.facultylist}" />
                             </p:selectOneMenu>
                             <span>Major</span>
-                            <p:inputText id="newMajor" value="#{profileBean.major}" />
+                            <p:inputText disabled="true" id="newMajor" value="#{profileBean.major}" />
                             <span>Matriculated Year</span>
-                            <p:selectOneMenu style="padding: 0%; width: 100%" id="maticYear" value="#{profileBean.matricYear}" 
+                            <p:selectOneMenu disabled="true" style="padding: 0%; width: 100%" id="maticYear" value="#{profileBean.matricYear}" 
                                              editable="true" placeholder="Matriculated Year">
                                 <f:selectItem itemLabel="2014" itemValue="2014" />
                                 <f:selectItem itemLabel="2015" itemValue="2015" />
@@ -52,7 +52,7 @@
                                 <f:selectItems value="#{profileBean.yearlist}" />
                             </p:selectOneMenu>
                             <span>Matriculated Semester</span>
-                            <p:selectOneButton style="padding: 0%; width: 100%" id="maticSem" value="#{profileBean.matricSem}">
+                            <p:selectOneButton disabled="true" style="padding: 0%; width: 100%" id="maticSem" value="#{profileBean.matricSem}">
                                 <f:selectItem itemLabel="1" itemValue="1" />
                                 <f:selectItem itemLabel="2" itemValue="2" />
                             </p:selectOneButton>
