@@ -156,11 +156,8 @@ public class CommunityBean {
     public void enterReply() throws IOException {
         FacesMessage fmsg = new FacesMessage();
         context = FacesContext.getCurrentInstance();
-        session = (HttpSession) context.getExternalContext().getSession(true);
-        username = (String) session.getAttribute("username");
-
         if (cmsbl.checkExistingThread(threadEntity.getId())) {
-            if (this.rContent.equals("")) {
+            if (rContent.equals("")) {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Reply contents needed.", "Please fill up the content field.");
             } else {
                 if (cmsbl.createReply(threadEntity.getId(), username, rContent)) {
@@ -174,12 +171,24 @@ public class CommunityBean {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to create reply.", "Thread does not exists.");
         }
         context.addMessage(null, fmsg);
-        this.rContent = "";
+        rContent = "";
     }
 
-    public void quoteText(String quotedText, String quoteWho) {
-        rContent = quoteWho + " said:\n''" + quotedText + "'' ----- My Reply: ";
-        refresh();
+    public void quoteText(Long id, String checker) {
+        String name;
+        String content;
+        if (checker.equals("thread")) {
+            Thread thread = cmsbl.findThread(id);
+            name = thread.getUser().getName();
+            content = thread.getContent();
+        } else {
+            Reply reply = cmsbl.findReply(id);
+            name = reply.getUser().getName();
+            content = reply.getContent();
+        }
+        rContent = name + " said: </p><p> <em> " + content + " <em>" + "</p><p>"
+                + "---------------------------------------------------------------------------------------------------------------------------------"
+                + "</p><p><br></p><p><br></p><p><br>";
     }
 
     public void voteThread(Long id, boolean voteType) throws IOException {
@@ -522,14 +531,6 @@ public class CommunityBean {
         this.rId = rId;
     }
 
-    public String getrContent() {
-        return rContent;
-    }
-
-    public void setrContent(String rContent) {
-        this.rContent = rContent;
-    }
-
     public Vote getVoteEntity() {
         return voteEntity;
     }
@@ -584,6 +585,14 @@ public class CommunityBean {
 
     public void setMajor(String major) {
         this.major = major;
+    }
+
+    public String getrContent() {
+        return rContent;
+    }
+
+    public void setrContent(String rContent) {
+        this.rContent = rContent;
     }
 
     public String getDateTimeCompare() {

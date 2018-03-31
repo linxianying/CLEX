@@ -16,23 +16,35 @@
         <p:tabView id="communityTab">
             <p:tab title="COMMUNITY FORUMS - #{communityBean.userEntity.school}">       
                 <h:panelGrid columns="1">
-                    <p:commandButton value="Post Reply" id="newReplyButton" style="float: right">
-                        <p:overlayPanel id="replyOverlay" for="newReplyButton" showEffect="fade" hideEffect="fade" widgetVar="replyWidget">
-                            <h:form>
-                                <h:panelGrid columns="1">                                                                       
-                                    <p:inputTextarea rows="15" cols="70" title="Content" placeholder="Content" id="content" value="#{communityBean.rContent}" />
-                                    <p:commandButton oncomplete="PF('replyWidget').hide()" value="Reply" actionListener="#{communityBean.enterReply}" update="communityTab:forumForm, messages"/>
-                                </h:panelGrid>
-                            </h:form>
-                        </p:overlayPanel>
-                    </p:commandButton>
-                    <p:commandButton value="Delete Thread" actionListener="#{communityBean.removeThread(communityBean.threadEntity.id)}" rendered="#{communityBean.userEntity.userType == 'Admin'}">
-                        <p:confirm header="Delete Thread" message="Deleted threads cannot be recovered! Are you sure?" icon="ui-icon-alert" />
-                    </p:commandButton>                        
-                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                        <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                    </p:confirmDialog>
+                    <h:panelGroup>
+                        <p:commandButton value="Back to Forums" action="community?faces-redirect=true" id="backButton" icon="fa fa-arrow-left" />                        
+                        <p:commandButton value="Post Reply" id="newReplyButton" >
+                            <p:overlayPanel style="width: 650px" id="replyOverlay" for="newReplyButton" showEffect="fade" hideEffect="fade" widgetVar="replyWidget">
+                                <h:form>
+                                    <h:panelGrid columns="1">                
+                                        <p:textEditor value="#{communityBean.rContent}" height="300" style="margin-bottom:10px; width: 600px" placeholder="Enter your content">
+                                            <f:facet name="toolbar">
+                                                <span class="ql-formats">
+                                                    <button class="ql-bold"></button>
+                                                    <button class="ql-italic"></button>
+                                                    <button class="ql-underline"></button>
+                                                    <button class="ql-strike"></button>
+                                                </span>                                                
+                                            </f:facet>
+                                        </p:textEditor>
+                                        <p:commandButton oncomplete="PF('replyWidget').hide()" value="Reply" actionListener="#{communityBean.enterReply}" update="communityTab:forumForm, messages"/>
+                                    </h:panelGrid>
+                                </h:form>
+                            </p:overlayPanel>
+                        </p:commandButton>
+                        <p:commandButton icon="fa fa-trash" value="Delete Thread" actionListener="#{communityBean.removeThread(communityBean.threadEntity.id)}" rendered="#{communityBean.userEntity.userType == 'Admin'}">
+                            <p:confirm header="Delete Thread" message="Deleted threads cannot be recovered! Are you sure?" icon="ui-icon-alert" />
+                        </p:commandButton>                        
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+                    </h:panelGroup>
                     <br />
                     <br />
                     <h:panelGrid columns="1"> 
@@ -45,23 +57,49 @@
                                     <p:commandButton icon="fa fa-thumbs-up" style="float: left;" actionListener="#{communityBean.voteThread(communityBean.threadEntity.id, true)}" update="communityTab, messages" rendered="#{communityBean.threadEntity.user != communityBean.userEntity}"/>
                                     <p:commandButton icon="fa fa-thumbs-down" style="float: left;" actionListener="#{communityBean.voteThread(communityBean.threadEntity.id, false)}" update="communityTab, messages" rendered="#{communityBean.threadEntity.user != communityBean.userEntity}"/>
                                     <p:commandButton actionListener="#{communityBean.removeVoteThread(communityBean.threadEntity.id)}" title="Remove Vote" icon="fa fa-compress" style="float: left;" update="communityTab, messages" rendered="#{communityBean.threadEntity.user != communityBean.userEntity}"/>
-                                    <p:commandButton update="communityTab:editThreadForm" actionListener="#{communityBean.forModifyThread(communityBean.threadEntity)}" onclick="PF('editThreadWidget').show()" id="editThreadButton" style="float: left;" value="Edit Post" rendered="#{communityBean.threadEntity.user == communityBean.userEntity}">
+                                    <p:commandButton update="communityTab:editThreadForm" actionListener="#{communityBean.forModifyThread(communityBean.threadEntity)}" onclick="PF('editThreadWidget').show()" id="editThreadButton" style="float: left;" icon="fa fa-pencil" value="Edit Post" rendered="#{communityBean.threadEntity.user == communityBean.userEntity}">
                                         <p:overlayPanel widgetVar="editThreadWidget" showEffect="fade" hideEffect="fade">
                                             <h:form id="editThreadForm">
                                                 <h:panelGrid columns="1">
                                                     <p:inputTextarea rows="1" cols="100" title="Title" placeholder="Thread Title" id="title" value="#{communityBean.tTitle}"/>                                    
-                                                    <p:inputTextarea rows="20" cols="100" title="Content" placeholder="Content" id="content" value="#{communityBean.tContent}" />
+                                                    <p:textEditor value="#{communityBean.tContent}" height="300" style="margin-bottom:10px" placeholder="Enter your content">
+                                                        <f:facet name="toolbar">
+                                                            <span class="ql-formats">
+                                                                <span class="ql-formats">
+                                                                    <button class="ql-bold" />
+                                                                    <button class="ql-italic" />
+                                                                    <button class="ql-underline" />
+                                                                    <button class="ql-strike" />
+                                                                </span>
+                                                                <span class="ql-formats">
+                                                                    <select class="ql-color" />
+                                                                    <select class="ql-background" />
+                                                                </span>
+                                                                <span class="ql-formats">
+                                                                    <button class="ql-script" value="sub" />
+                                                                    <button class="ql-script" value="super" />
+                                                                </span>
+                                                                <span class="ql-formats">
+                                                                    <button class="ql-header" value="1" />
+                                                                    <button class="ql-header" value="2" />
+                                                                </span>                        
+                                                                <span class="ql-formats">
+                                                                    <button class="ql-clean" />
+                                                                </span>
+                                                            </span>                                            
+                                                        </f:facet>
+                                                    </p:textEditor>
                                                     <p:inputTextarea rows="1" cols="100" title="Tag" placeholder="Tags - Separate multiple tags with comma (Optional)" id="tag" value="#{communityBean.tTag}"/>
                                                     <p:commandButton oncomplete="PF('editThreadWidget').hide()" value="Update Thread" actionListener="#{communityBean.modifyThread}" update="communityTab:threadPanel, messages"/>
                                                 </h:panelGrid>
                                             </h:form>
                                         </p:overlayPanel>
                                     </p:commandButton> 
-                                    <p:commandButton onclick="PF('quoteThreadWidget').show()" value="Quote Post" id="quoteThreadButton" style="float: left" actionListener="#{communityBean.quoteText(communityBean.threadEntity.content, communityBean.threadEntity.user.name)}" update="communityTab:quoteThreadForm"/>
+                                    <p:commandButton icon="fa fa-comment" onclick="PF('quoteThreadWidget').show()" value="Quote Post" id="quoteThreadButton" style="float: left" actionListener="#{communityBean.quoteText(communityBean.threadEntity.id, 'thread')}" update="communityTab:quoteThreadForm"/>
                                 </h:panelGroup>
                                 <p:separator style="width:1000px"/>
                                 <h:panelGroup>
-                                    <h:outputText value="#{communityBean.threadEntity.content}"/>
+                                    <h:outputText escape="false" value="#{communityBean.threadEntity.content}"/>
                                     <br />
                                     <br />
                                     <h:outputLabel style="font-size: 10px; font-style: italic" value="Last edited: #{communityBean.threadEntity.editDateTime}" rendered="#{communityBean.threadEntity.edited == true}"/>
@@ -84,13 +122,11 @@
                                                     <p:commandButton icon="fa fa-thumbs-down" style="float: left;" actionListener="#{communityBean.voteReply(replies.id, false)}" update="communityTab:forumForm, messages"/>    
                                                     <p:commandButton actionListener="#{communityBean.removeVoteReply(replies.id)}" title="Remove Vote" icon="fa fa-compress" style="float: left;" update="communityTab:forumForm, messages"/>
                                                 </h:panelGroup>
-                                                <p:commandButton style="float: left;" onclick="PF('editReplyWidget').show()" value="Edit Post" id="editReplyButton" actionListener="#{communityBean.forModifyReply(replies.content, replies.id)}" update="communityTab:editReplyForm" rendered="#{replies.user == communityBean.userEntity}">
-                                                </p:commandButton>
-                                                <p:commandButton style="float: left;" value="Delete Post" actionListener="#{communityBean.removeReply(replies.id)}" update="communityTab:forumForm, messages" rendered="#{replies.user == communityBean.userEntity}">
+                                                <p:commandButton icon="fa fa-pencil" style="float: left;" onclick="PF('editReplyWidget').show()" value="Edit Post" id="editReplyButton" actionListener="#{communityBean.forModifyReply(replies.content, replies.id)}" update="communityTab:editReplyForm" rendered="#{replies.user == communityBean.userEntity}"/>
+                                                <p:commandButton icon="fa fa-trash" style="float: left;" value="Delete Post" actionListener="#{communityBean.removeReply(replies.id)}" update="communityTab:forumForm, messages" rendered="#{replies.user == communityBean.userEntity}">
                                                     <p:confirm header="Delete Post" message="Deleted posts cannot be recovered! Are you sure?" icon="ui-icon-alert" />
                                                 </p:commandButton>
-                                                <p:commandButton onclick="PF('quoteReplyWidget').show()" value="Quote Post" id="quoteReplyButton" style="float: left" actionListener="#{communityBean.quoteText(replies.content, replies.user.name)}" update="communityTab:quoteReplyForm"/>
-
+                                                <p:commandButton icon="fa fa-comment" onclick="PF('quoteReplyWidget').show()" value="Quote Post" id="quoteReplyButton" style="float: left" actionListener="#{communityBean.quoteText(replies.id, 'reply')}" update="communityTab:quoteReplyForm"/>
                                                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                                                     <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                                                     <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
@@ -98,7 +134,7 @@
                                             </h:panelGroup>
                                             <p:separator style="width:1000px"/>
                                             <h:panelGroup>
-                                                <h:outputText value="#{replies.content}"/>  
+                                                <h:outputText escape="false" value="#{replies.content}"/>  
                                                 <br />
                                                 <br />
                                                 <h:outputLabel style="font-size: 10px; font-style: italic" value="Last edited: #{replies.editDateTime}" rendered="#{replies.edited == true}"/>                                          
@@ -109,10 +145,36 @@
                             </h:form>
                         </h:panelGrid>
                     </h:panelGrid>
-                    <p:overlayPanel id="editReplyOverlay" showEffect="fade" hideEffect="fade" widgetVar="editReplyWidget">
+                    <p:overlayPanel style="width: 650px" id="editReplyOverlay" showEffect="fade" hideEffect="fade" widgetVar="editReplyWidget">
                         <h:form id="editReplyForm">
-                            <h:panelGrid columns="1">                                                        
-                                <p:inputTextarea rows="15" cols="70" title="Content" placeholder="Content" id="updateContent" value="#{communityBean.rContent}" />
+                            <h:panelGrid columns="1">    
+                                <p:textEditor id="editReplyEditor" widgetVar="editReplyVar" value="#{communityBean.rContent}" height="300" style="margin-bottom:10px; width: 600px" placeholder="Enter your content">
+                                    <f:facet name="toolbar">
+                                        <span class="ql-formats">
+                                            <span class="ql-formats">
+                                                <button class="ql-bold" />
+                                                <button class="ql-italic" />
+                                                <button class="ql-underline" />
+                                                <button class="ql-strike" />
+                                            </span>
+                                            <span class="ql-formats">
+                                                <select class="ql-color" />
+                                                <select class="ql-background" />
+                                            </span>
+                                            <span class="ql-formats">
+                                                <button class="ql-script" value="sub" />
+                                                <button class="ql-script" value="super" />
+                                            </span>
+                                            <span class="ql-formats">
+                                                <button class="ql-header" value="1" />
+                                                <button class="ql-header" value="2" />
+                                            </span>                        
+                                            <span class="ql-formats">
+                                                <button class="ql-clean" />
+                                            </span>
+                                        </span>                                                
+                                    </f:facet>
+                                </p:textEditor>
                                 <p:commandButton oncomplete="PF('editReplyWidget').toggle()" value="Update Reply" actionListener="#{communityBean.modifyReply}" update="communityTab:forumForm, messages"/>
                             </h:panelGrid>
                         </h:form>
@@ -120,14 +182,14 @@
                     <p:overlayPanel id="quoteReplyOverlay" showEffect="fade" hideEffect="fade" widgetVar="quoteReplyWidget">
                         <h:form id="quoteReplyForm">
                             <h:panelGrid columns="1">                                                        
-                                <p:inputTextarea rows="15" cols="70" title="Content" placeholder="Content" id="quotecontent" value="#{communityBean.rContent}" />
+                                <p:inputTextarea rows="15" cols="70" title="Content" placeholder="Content" id="content" value="#{communityBean.rContent}" />
                                 <p:commandButton oncomplete="PF('quoteReplyWidget').toggle()" value="Reply" actionListener="#{communityBean.enterReply}" update="communityTab:forumForm, messages"/>
                             </h:panelGrid>
                         </h:form>
                     </p:overlayPanel>
                     <p:overlayPanel id="quoteThreadOverlay" showEffect="fade" hideEffect="fade" widgetVar="quoteThreadWidget">
                         <h:form id="quoteThreadForm">
-                            <h:panelGrid columns="1">                                                        
+                            <h:panelGrid columns="1">
                                 <p:inputTextarea rows="15" cols="70" title="Content" placeholder="Content" id="content" value="#{communityBean.rContent}" />
                                 <p:commandButton oncomplete="PF('quoteThreadWidget').toggle()" value="Reply" actionListener="#{communityBean.enterReply}" update="communityTab:forumForm, messages"/>
                             </h:panelGrid>
@@ -135,9 +197,6 @@
                     </p:overlayPanel>
                 </h:panelGrid>
             </p:tab>
-            <p:tab title="SEARCH FORUMS">
-                <!-- search by user? search by keyword-->
-            </p:tab>               
         </p:tabView>
         <h:form id="initializePageDataForm">
             <p:remoteCommand name="initializePageDataCommand" autoRun="true" action="#{communityBean.init()}" update="communityTab"/>

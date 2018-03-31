@@ -5,6 +5,7 @@
  */
 package managedbeans;
 
+import entity.Course;
 import entity.Thread;
 import entity.Reply;
 import entity.User;
@@ -16,6 +17,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -70,6 +72,11 @@ public class ForumListBean {
     private boolean voteFor; //false - reply, true - thread
     private boolean voteType; //false - downvote, true - upvote
 
+    //search
+    private String searchContent;
+    private String searchTitle;
+    private String searchTag;
+
     FacesContext context;
     HttpSession session;
 
@@ -90,13 +97,52 @@ public class ForumListBean {
         threads = (ArrayList) cmsbl.getAllThreadsBySchool(userEntity.getSchool());
     }
 
+    public void searchThread() throws IOException {
+        FacesMessage fmsg = new FacesMessage();
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+        userEntity = (User) session.getAttribute("user");
+        if (!searchTitle.equals("") && searchContent.equals("") && searchTag.equals("")) {
+            threads = (ArrayList) cmsbl.searchThreadByTitle(searchTitle, userEntity.getSchool());
+            if (threads.isEmpty()) {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No Threads found!", "Try refining your search terms.");
+            } else {
+                int searchcount = threads.size();
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", searchcount + " Thread(s) found.");
+            }
+        } else if (searchTitle.equals("") && !searchContent.equals("") && searchTag.equals("")) {
+            threads = (ArrayList) cmsbl.searchThreadByContent(searchContent, userEntity.getSchool());
+            if (threads.isEmpty()) {
+                threads = (ArrayList) cmsbl.getAllThreadsBySchool(userEntity.getSchool());
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No Threads found!", "Try refining your search terms.");
+            } else {
+                int searchcount = threads.size();
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", searchcount + " Thread(s) found.");
+            }
+        } else if (searchTitle.equals("") && searchContent.equals("") && !searchTag.equals("")) {
+            threads = (ArrayList) cmsbl.getThreadsByTag(searchTag, userEntity.getSchool());
+            if (threads.isEmpty()) {
+                threads = (ArrayList) cmsbl.getAllThreadsBySchool(userEntity.getSchool());
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No Threads found!", "Try refining your search terms.");
+            } else {
+                int searchcount = threads.size();
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", searchcount + " Thread(s) found.");
+            }
+        } else {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Please search by Title, Content OR Tag only.");
+        }
+        searchTitle = "";
+        searchContent = "";
+        searchTag = "";
+        context.addMessage(null, fmsg);
+    }
+
     public void startThread() throws IOException {
         FacesMessage fmsg = new FacesMessage();
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
         username = (String) session.getAttribute("username");
         userEntity = (User) session.getAttribute("user");
-
         if (this.tTitle.equals("")) {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Thread title needed.", "Please fill up the title field.");
         } else if (this.tContent.equals("")) {
@@ -105,16 +151,16 @@ public class ForumListBean {
             if (cmsbl.createThread(username, tContent, tTitle, tTag, userEntity.getSchool())) {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Thread created.");
                 refresh();
-
             } else {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to create thread.", "Please ensure you are logged in.");
             }
         }
+
         context.addMessage(null, fmsg);
     }
 
     public void onRowSelect(SelectEvent event) {
-        System.out.println(selectedThread.getId());
+        System.out.println("Selected Thread ID: " + selectedThread.getId());
         try {
             session.setAttribute("id", selectedThread.getId());
             context.getExternalContext().redirect("viewThread.xhtml");
@@ -343,4 +389,29 @@ public class ForumListBean {
     public void setDayDisplay(String dayDisplay) {
         this.dayDisplay = dayDisplay;
     }
+
+    public String getSearchContent() {
+        return searchContent;
+    }
+
+    public void setSearchContent(String searchContent) {
+        this.searchContent = searchContent;
+    }
+
+    public String getSearchTitle() {
+        return searchTitle;
+    }
+
+    public void setSearchTitle(String searchTitle) {
+        this.searchTitle = searchTitle;
+    }
+
+    public String getSearchTag() {
+        return searchTag;
+    }
+
+    public void setSearchTag(String searchTag) {
+        this.searchTag = searchTag;
+    }
+
 }

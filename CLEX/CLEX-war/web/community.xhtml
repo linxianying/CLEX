@@ -12,23 +12,72 @@
     <ui:define name="viewname">Community</ui:define>
 
     <ui:define name="content">
-        <p:messages id="messages" showDetail="true" closable="true"/>
-        <h:form id="forumForm">
-            <p:tabView id="communityTab">
-                <p:tab title="COMMUNITY FORUMS - #{forumListBean.userEntity.school}">
-                    <p:commandButton value="New Thread" id="newThreadButton" >
-                        <p:overlayPanel for="newThreadButton" showEffect="fade" hideEffect="fade" widgetVar="createThreadWidget">
-                            <h:form>
-                                <h:panelGrid columns="1">
-                                    <p:inputTextarea rows="1" cols="100" title="Title" placeholder="Thread Title" id="title" value="#{forumListBean.tTitle}"/>                                    
-                                    <p:inputTextarea rows="20" cols="100" title="Content" placeholder="Content" id="content" value="#{forumListBean.tContent}" />
-                                    <p:inputTextarea rows="1" cols="100" title="Tag" placeholder="Tags - Separate multiple tags with comma (Optional)" id="tag" value="#{forumListBean.tTag}"/>
-                                    <p:commandButton oncomplete="PF('createThreadWidget').hide()" value="Create Thread" actionListener="#{forumListBean.startThread}" update="forumForm:communityTab:forumtable"/>
-                                </h:panelGrid>
-                            </h:form>
-                        </p:overlayPanel>
-                    </p:commandButton>
-                    <br /><br />
+        <p:growl id="messages" showDetail="true"/>        
+        <p:tabView id="communityTab">
+            <p:tab title="COMMUNITY FORUMS - #{forumListBean.userEntity.school}">
+                <p:commandButton icon="fa fa-plus" value="New Thread" id="newThreadButton" >
+                    <p:overlayPanel for="newThreadButton" showEffect="fade" hideEffect="fade" widgetVar="createThreadWidget">
+                        <h:form id="createForm">
+                            <h:panelGrid columns="1">
+                                <!-- <h:outputLabel value="Not sure what Title is suitable for your thread? Check out our pre-defined Titles!"/>
+                                 <p:selectOneMenu style="width: 540px" value="#{forumListBean.tTitle}" editable="true">
+                                     <f:selectItem itemLabel="Feel free to edit me!" itemValue="#{null}" />
+                                     <f:selectItem itemLabel="Looking for project members" itemValue="Looking for project members" />
+                                     <f:selectItem itemLabel="Seeking advice for next semester" itemValue="Seeking advice for next semester" />
+                                     <f:selectItem itemLabel="Clarification on Tutorial Question(s)" itemValue="Clarification on Tutorial Question(s)" />
+                                 </p:selectOneMenu>-->
+                                <p:inputTextarea rows="1" cols="100" title="Title" placeholder="Thread Title" id="title" value="#{forumListBean.tTitle}"/>
+                                <p:textEditor widgetVar="editor2" value="#{forumListBean.tContent}" height="300" style="margin-bottom:10px" placeholder="Enter your content">
+                                    <f:facet name="toolbar">
+                                        <span class="ql-formats">
+                                            <span class="ql-formats">
+                                                <button class="ql-bold" />
+                                                <button class="ql-italic" />
+                                                <button class="ql-underline" />
+                                                <button class="ql-strike" />
+                                            </span>
+                                            <span class="ql-formats">
+                                                <select class="ql-color" />
+                                                <select class="ql-background" />
+                                            </span>
+                                            <span class="ql-formats">
+                                                <button class="ql-script" value="sub" />
+                                                <button class="ql-script" value="super" />
+                                            </span>
+                                            <span class="ql-formats">
+                                                <button class="ql-header" value="1" />
+                                                <button class="ql-header" value="2" />
+                                            </span>                        
+                                            <span class="ql-formats">
+                                                <button class="ql-clean" />
+                                            </span>
+                                        </span>    
+                                    </f:facet>
+                                </p:textEditor>
+                                <!--<p:inputTextarea rows="20" cols="100" title="Content" placeholder="Content" id="content" value="#{forumListBean.tContent}" />-->
+                                <p:inputTextarea rows="1" cols="100" title="Tag" placeholder="Tags - Separate multiple tags with comma (Optional)" id="tag" value="#{forumListBean.tTag}"/>
+                                <p:commandButton icon="fa fa-pencil-square-o" oncomplete="PF('createThreadWidget').hide()" value="Create Thread" actionListener="#{forumListBean.startThread}" update="communityTab:forumForm:forumtable"/>
+                            </h:panelGrid>
+                        </h:form>
+                    </p:overlayPanel>
+                </p:commandButton>
+                <p:commandButton value="Search" id="searchButton" icon="fa fa-search" >
+                    <p:overlayPanel for="searchButton" showEffect="fade" hideEffect="fade" widgetVar="searchWidget">
+                        <h:form>
+                            <h:panelGrid columns="1">
+                                <p:inputTextarea rows="1" cols="50" title="Title" placeholder="Thread Title" id="searchtitle" value="#{forumListBean.searchTitle}"/>                                    
+                                <p:inputTextarea rows="5" cols="50" title="Content" placeholder="Thread Content" id="searchcontent" value="#{forumListBean.searchContent}" />
+                                <p:inputTextarea rows="1" cols="50" title="Tag" id="searchtag" placeholder="Tags" value="#{forumListBean.searchTag}"/>
+                                <h:panelGroup>
+                                    <p:commandButton oncomplete="PF('searchWidget').hide()" icon="fa fa-search-plus" value="Search Thread" actionListener="#{forumListBean.searchThread}" update="communityTab:forumForm, messages"/>
+                                    <p:commandButton oncomplete="PF('searchWidget').hide()" icon="fa fa-search-minus" value="Clear Search" actionListener="#{forumListBean.refresh()}" update="communityTab:forumForm, messages" />
+                                </h:panelGroup>
+                            </h:panelGrid>
+                        </h:form>
+                    </p:overlayPanel>
+                </p:commandButton>
+                <br /><br />
+                <h:form id="forumForm">
                     <h:panelGroup>
                         <p:dataTable selectionMode="single" selection="#{forumListBean.selectedThread}" rowKey="#{threads.id}"
                                      id="forumtable" value="#{forumListBean.threads}" 
@@ -46,64 +95,53 @@
                             <p:column style="width: 11%;height:40px" headerText="Replies" >
                                 <h:outputLabel style="font-size: 16px" value="#{threads.replies.size()}"/> 
                             </p:column>
-                            <p:column style="width: 11%;height:40px" headerText="Up | Down" >
-                                <h:outputLabel style="font-size: 16px" value="#{threads.upVote} | #{threads.downVote}"/>  
+                            <p:column style="width: 11%;height:40px" headerText="Votes" >
+                                <h:outputLabel id="positiveThread" style="font-size:16px; font-weight: bold; float: left" value="+#{threads.upVote - threads.downVote}" rendered="#{(threads.upVote - threads.downVote) gt 0}"/>
+                                <h:outputLabel id="negativeThead" style="font-size:16px; font-weight: bold; float: left" value="#{threads.upVote - threads.downVote}" rendered="#{(threads.upVote - threads.downVote) lt 0}"/>
+                                <h:outputLabel id="zeroThread" style="font-size:16px; font-weight: bold; float: left" value="0" rendered="#{(threads.upVote - threads.downVote) == 0}"/>
                             </p:column>
                         </p:dataTable>
                     </h:panelGroup>
+                </h:form>
+                <br /><br />
+            </p:tab>
 
-                    <br /><br />
-                </p:tab>
-                <p:tab title="SEARCH FORUMS">
-                    <!-- search by user? search by keyword-->
-                </p:tab>
-                <p:tab title="#{forumListBean.userEntity.school} MODULE REVIEWS">
-                    <!-- search by user? search by keyword-->
-                    <h1>FOR TESTING ONLY, CAN REUSE THEM FOR FRONTEND IF POSSIBLE</h1>
-                    <!-- BUTTONS FOR TESTING BACKEND -->
-                    <h:form>
-                        <p:inputText title="ThreadId" placeholder="ThreadId" id="threadid" value="#{forumListBean.tId}" > </p:inputText>   
-                        <h:commandButton value="Delete Thread" actionListener="#{forumListBean.removeThread()}" />
-                    </h:form> 
+            <p:tab title="#{forumListBean.userEntity.school} MODULE REVIEWS">
+                <!-- search by user? search by keyword-->
+                <h1>FOR TESTING ONLY, CAN REUSE THEM FOR FRONTEND IF POSSIBLE</h1>
+                <!-- BUTTONS FOR TESTING BACKEND -->
+                <h:form>
+                    <h:commandButton value="Test sorting" actionListener="#{communityBean.sort()}" />
+                </h:form>
 
+                <h:form>
+                    <h:commandButton value="Test entity" actionListener="#{communityBean.test()}" />
+                </h:form>
 
-                    <h:form>
-                        <h:commandButton value="Test sorting" actionListener="#{communityBean.sort()}" />
-                    </h:form>
-
-                    <h:form>
-                        <h:commandButton value="Test entity" actionListener="#{communityBean.test()}" />
-                    </h:form>
-
-                    <br></br><!--PRIVATE MESSAGING FUNCTION TEST -->
-                    <!--<h:form>
-                        <p:inputText title="Receiver" placeholder="Receiver" id="rUsername" value="#{privateMsgBean.rUsername}" > </p:inputText>   
-                        <p:inputText title="Content" placeholder="Content" id="content" value="#{privateMsgBean.content}" > </p:inputText> 
-                        <h:commandButton value="Start Convo" actionListener="#{privateMsgBean.sendNewMessage}" />
-                    </h:form>
-        
-                    <h:form>
-                        <p:inputText title="ConvoId" placeholder="ConvoId" id="convoid" value="#{privateMsgBean.cId}" > </p:inputText>   
-                        <p:inputText title="Content" placeholder="Content" id="content" value="#{privateMsgBean.content}" > </p:inputText> 
-                        <h:commandButton value="Send Msg" actionListener="#{privateMsgBean.sendMessage}" />
-                    </h:form>
-        
-                    <h:form>
-                        <p:inputText title="ConvoId" placeholder="ConvoId" id="convoid" value="#{privateMsgBean.cId}" > </p:inputText>   
-                        <h:commandButton value="Delete Convo" actionListener="#{privateMsgBean.deleteConversation}" />
-                    </h:form>
-        
-                    <h:form>
-                        <h:commandButton value="Test entity" actionListener="#{privateMsgBean.test()}" />
-                    </h:form>-->
-                    <!-- TEST CODE STOPS HERE -->
-                </p:tab>
-
-            </p:tabView>
-
-        </h:form>
-
-
+                <br></br><!--PRIVATE MESSAGING FUNCTION TEST -->
+                <!--<h:form>
+                    <p:inputText title="Receiver" placeholder="Receiver" id="rUsername" value="#{privateMsgBean.rUsername}" > </p:inputText>   
+                    <p:inputText title="Content" placeholder="Content" id="content" value="#{privateMsgBean.content}" > </p:inputText> 
+                    <h:commandButton value="Start Convo" actionListener="#{privateMsgBean.sendNewMessage}" />
+                </h:form>
+    
+                <h:form>
+                    <p:inputText title="ConvoId" placeholder="ConvoId" id="convoid" value="#{privateMsgBean.cId}" > </p:inputText>   
+                    <p:inputText title="Content" placeholder="Content" id="content" value="#{privateMsgBean.content}" > </p:inputText> 
+                    <h:commandButton value="Send Msg" actionListener="#{privateMsgBean.sendMessage}" />
+                </h:form>
+    
+                <h:form>
+                    <p:inputText title="ConvoId" placeholder="ConvoId" id="convoid" value="#{privateMsgBean.cId}" > </p:inputText>   
+                    <h:commandButton value="Delete Convo" actionListener="#{privateMsgBean.deleteConversation}" />
+                </h:form>
+    
+                <h:form>
+                    <h:commandButton value="Test entity" actionListener="#{privateMsgBean.test()}" />
+                </h:form>-->
+                <!-- TEST CODE STOPS HERE -->
+            </p:tab>
+        </p:tabView>
     </ui:define>
 </ui:composition>
 

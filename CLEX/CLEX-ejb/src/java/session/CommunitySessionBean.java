@@ -102,7 +102,7 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
 
         Reply reply = new Reply();
         threadEntity.setLatestReplyDateTime(genDateTime());
-        
+
         reply.createReply(threadId, content);
         reply.setUser(userEntity);
         reply.setThread(threadEntity);
@@ -406,9 +406,9 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
     }
 
     @Override
-    public List<Thread> searchThreadByTitle(String searchTitle) {
+    public List<Thread> searchThreadByTitle(String searchTitle, String schoolname) {
         List<Thread> threadList = new ArrayList<Thread>();
-        List<Thread> threads = getAllThreads();
+        List<Thread> threads = getAllThreadsBySchool(schoolname);
         for (int i = 0; i < threads.size(); i++) {
             threadEntity = threads.get(i);
             if (threadEntity.getTitle().contains(searchTitle)) {
@@ -420,9 +420,9 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
     }
 
     @Override
-    public List<Thread> searchThreadByContent(String searchContent) {
+    public List<Thread> searchThreadByContent(String searchContent, String schoolname) {
         List<Thread> threadList = new ArrayList<Thread>();
-        List<Thread> threads = getAllThreads();
+        List<Thread> threads = getAllThreadsBySchool(schoolname);
         for (int i = 0; i < threads.size(); i++) {
             threadEntity = threads.get(i);
             if (threadEntity.getContent().contains(searchContent)) {
@@ -434,9 +434,9 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
     }
 
     @Override
-    public List<Thread> getThreadsByTag(String tag) {
+    public List<Thread> getThreadsByTag(String tag, String schoolname) {
         List<Thread> threadList = new ArrayList<Thread>();
-        List<Thread> threads = getAllThreads();
+        List<Thread> threads = getAllThreadsBySchool(schoolname);
         for (int i = 0; i < threads.size(); i++) {
             threadEntity = threads.get(i);
             if (threadEntity.getTag().equals(tag)) {
@@ -483,7 +483,7 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         }
         return userEntity;
     }
-    
+
     @Override
     public Thread findThread(Long id) {
         threadEntity = null;
@@ -500,7 +500,7 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         }
         return threadEntity;
     }
-    
+
     @Override
     public Reply findReply(Long id) {
         replyEntity = null;
@@ -591,7 +591,7 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         });
         return threadList;
     }
-    
+
     @Override
     public List<Thread> sortThreadByLatestReply(List<Thread> threadList) {
         //Descending order (Latest to oldest)
@@ -602,5 +602,8 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         });
         return threadList;
     }
+
+
+
 
 }
