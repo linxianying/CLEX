@@ -18,27 +18,49 @@
                     <h:form id="summaryForm">
                         <p:dataTable value="#{viewProjectCostBean.balances}" var="balance" rendered="#{not empty viewProjectCostBean.sortedTransactions}">
                             <p:column headerText="Members">
-                                <h:outputText value="#{balance.student.name} "/>
+                                <p:graphicImage style="background: top left no-repeat;background-size: 40px 40px; width: 40px; height: 40px" 
+                                                url="/resources/profile/pic/#{balance.student.username}.png"/>
+                                <h:outputText style="font-weight: bold;" value=" #{balance.student.name} "/>
                                 <h:outputText value="has zero balance" rendered="#{balance.totalAmount eq 0}"/>
-                                <h:outputText value="to pay $" rendered="#{balance.totalAmount lt 0}"/>
-                                <h:outputText value="to receive back $" rendered="#{balance.totalAmount gt 0}"/>
-                                <h:outputText value="#{(balance.totalAmount lt 0) ? -balance.totalAmount : balance.totalAmount}" rendered="#{balance.totalAmount ne 0}">
+                                <h:outputText value="to pay " rendered="#{balance.totalAmount lt 0}"/>
+                                 <h:outputText style="text-decoration: underline;font-weight: bold" value="$" rendered="#{balance.totalAmount lt 0}"/>
+                                <h:outputText value="to receive back " rendered="#{balance.totalAmount gt 0}"/>
+                                <h:outputText style="text-decoration: underline;font-weight: bold" value="$" rendered="#{balance.totalAmount gt 0}"/>
+                                <h:outputText style="text-decoration: underline;font-weight: bold" value="#{(balance.totalAmount lt 0) ? -balance.totalAmount : balance.totalAmount}" rendered="#{balance.totalAmount ne 0}">
                                     <f:convertNumber pattern="#0.00" />
                                 </h:outputText>
                                 <h:outputText value=" in total" rendered="#{balance.totalAmount ne 0}"/>
                             </p:column>
                             <p:column headerText="Details">                                
                                 <ui:repeat value="#{balance.getBalances()}" var="payee" >
-                                    <h:outputText value="#{balance.student.name} to receive $" rendered="#{balance.totalAmount gt 0}"/>
-                                    <h:outputText value="#{payee.value}" rendered="#{balance.totalAmount gt 0}">
+                                    <p:graphicImage style="background-color: transparent;background: top left no-repeat;background-size: 40px 40px; width: 40px; height: 40px" 
+                                                    url="/resources/profile/pic/#{balance.student.username}.png" rendered="#{balance.totalAmount gt 0}"/>
+                                    <h:outputText style="font-weight: bold" value=" #{balance.student.name}" rendered="#{balance.totalAmount gt 0}"/>
+                                    <h:outputText value=" to receive " rendered="#{balance.totalAmount gt 0}"/>
+                                    <h:outputText style="text-decoration: underline;font-weight: bold" value="$" rendered="#{balance.totalAmount gt 0}"/>
+                                    <h:outputText style="text-decoration: underline;font-weight: bold" value="#{payee.value}" rendered="#{balance.totalAmount gt 0}">
                                         <f:convertNumber pattern="#0.00" />
                                     </h:outputText>
-                                    <h:outputText value=" from #{payee.key.name}" rendered="#{balance.totalAmount gt 0}"/>
-                                    <h:outputText value="#{balance.student.name} to pay $" rendered="#{balance.totalAmount lt 0}"/>
-                                    <h:outputText value="#{payee.value}" rendered="#{balance.totalAmount lt 0}">
+                                    <h:outputText value=" from " rendered="#{balance.totalAmount gt 0}"/>
+                                    <p:graphicImage style="background-color: transparent;background: top left no-repeat;background-size: 40px 40px; width: 40px; height: 40px" 
+                                                    url="/resources/profile/pic/#{payee.key.username}.png" rendered="#{balance.totalAmount gt 0}"/>
+                                    <h:outputText style="font-weight: bold" value=" #{payee.key.name}" rendered="#{balance.totalAmount gt 0}"/>
+
+
+                                    <p:graphicImage style="background-color: transparent;background: top left no-repeat;background-size: 40px 40px; width: 40px; height: 40px" 
+                                                    url="/resources/profile/pic/#{balance.student.username}.png" rendered="#{balance.totalAmount lt 0}"/>
+                                    <h:outputText style="font-weight: bold" value=" #{balance.student.name} " rendered="#{balance.totalAmount lt 0}"/>
+                                    <h:outputText value="to pay " rendered="#{balance.totalAmount lt 0}"/>
+                                    <h:outputText style="text-decoration: underline;font-weight: bold" value="$" rendered="#{balance.totalAmount lt 0}"/>
+                                    <h:outputText style="text-decoration: underline;font-weight: bold" value="#{payee.value}" rendered="#{balance.totalAmount lt 0}">
                                         <f:convertNumber pattern="#0.00" />
                                     </h:outputText>
-                                    <h:outputText value=" to #{payee.key.name}" rendered="#{balance.totalAmount lt 0}"/>
+
+                                    <h:outputText value=" to " rendered="#{balance.totalAmount lt 0}"/>
+                                    <p:graphicImage style="background-color: transparent;background: top left no-repeat;background-size: 40px 40px; width: 40px; height: 40px" 
+                                                    url="/resources/profile/pic/#{payee.key.username}.png" rendered="#{balance.totalAmount lt 0}"/>
+                                    <h:outputText style="font-weight: bold" value=" #{payee.key.name}" rendered="#{balance.totalAmount lt 0}"/>
+
                                     <br />
                                 </ui:repeat>
                             </p:column>
