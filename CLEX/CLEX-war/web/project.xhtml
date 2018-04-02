@@ -27,20 +27,18 @@
             <br />
             <div>
                 <div id="content" class="left_content">
-
-
                     <ui:repeat var="m" value="#{projectBean.takingModules}">
                         <p:column>
                             <p:panel header="#{m.course.moduleCode}">
                                 <h:panelGroup>
                                     <h:outputText value="This course doesn't have a group" escape="false" 
                                                   rendered="#{empty m.superGroup}" />                                    
-                                        <h:outputText value="You have yet to join a group" escape="false" 
-                                                      rendered="#{not empty m.superGroup and 
-                                                                  !projectBean.hasProjectGroup(m.course.moduleCode)}" />
-                                        <h:outputText value="Your group" escape="false" 
-                                                      rendered="#{not empty m.superGroup and 
-                                                                  projectBean.hasProjectGroup(m.course.moduleCode)}" />                                   
+                                    <h:outputText value="You have yet to join a group" escape="false" 
+                                                  rendered="#{not empty m.superGroup and 
+                                                              !projectBean.hasProjectGroup(m.course.moduleCode)}" />
+                                    <h:outputText value="Your group" escape="false" 
+                                                  rendered="#{not empty m.superGroup and 
+                                                              projectBean.hasProjectGroup(m.course.moduleCode)}" />                                   
                                     <h:panelGroup>
                                         <br />
                                         <p:commandButton value="Group formation" 
