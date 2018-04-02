@@ -45,5 +45,9 @@ public interface PRQuestionSessionBeanLocal {
 
     public void setIndQuestion(PeerReviewQuestion question, ArrayList<Question> individualQuestions);
 
+    public void startPR(Module module, Date newDeadline);
+
+    public void stopPR(Module module);
+
     
 }

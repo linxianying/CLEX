@@ -96,4 +96,7 @@ public interface CourseMgmtBeanLocal {
 
     public List<Lecturer> getLecturerFromSchool(String school);
 
+    public void addPRForm(Module module);
+
+
 }

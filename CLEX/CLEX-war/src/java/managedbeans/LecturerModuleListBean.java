@@ -183,6 +183,33 @@ public class LecturerModuleListBean implements Serializable {
             e.printStackTrace();
         }
     }
+    
+    //add the peer review template to this module
+    public void startPR(Module module) {
+        cmbl.addPRForm(module);
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+        session.setAttribute("managedModule", module);
+        try {
+        context.getExternalContext().redirect("lecturerUpdatePRform.xhtml");
+        //System.out.println("Form group "+module.getCourse().getModuleCode()+": # of groups:"+numOfGroups+", max:"+maxStudentNum + ", min:" +minStudentNum);
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+    public void goPRPage(Module module) {
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+        session.setAttribute("managedModule", module);
+        try {
+        context.getExternalContext().redirect("lecturerUpdatePRform.xhtml");
+        //System.out.println("Form group "+module.getCourse().getModuleCode()+": # of groups:"+numOfGroups+", max:"+maxStudentNum + ", min:" +minStudentNum);
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
 
     public List<Module> getModules() {
         return modules;

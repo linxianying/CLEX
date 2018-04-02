@@ -76,6 +76,17 @@
                             <br />
                             <h:outputText value="Polls:#{module.polls.size()}" />
                         </p:column>
+                        <p:column style="width: 20%" headerText="Peer Review">
+                            <p:commandButton value="Add Peer Review Form" actionListener="#{lecturerModuleListBean.startPR(module)}" 
+                                             rendered="#{not empty module.superGroup and module.superGroup.confirm and empty module.peerReviewQuestion}"/>
+                            <br/><br />
+                            <p:commandButton value="Manage Peer Review" actionListener="#{lecturerModuleListBean.goPRPage(module)}" 
+                                             rendered="#{not empty module.superGroup and module.superGroup.confirm and not empty module.peerReviewQuestion}"/>
+                            <br /><br />
+                            <p:commandButton value="View submitted Peer Review Forms" action="lecturerUpdatePRform?faces-redirect=true"/>
+                            <br /><br />
+                            <p:commandButton value="view Groups' Peer Review Results" action="lecturerUpdatePRform?faces-redirect=true"/>
+                        </p:column>
 <!--                        <p:dialog header="Start group Formation" widgetVar="dlg1" id="dlg1">
                             <h:outputText value="Check!"/>
                             <h:form id="formGroupForm">
@@ -279,6 +290,5 @@
                 </p:tab>
             </p:tabView>
         </h:form>
-            
     </ui:define>
 </ui:composition>

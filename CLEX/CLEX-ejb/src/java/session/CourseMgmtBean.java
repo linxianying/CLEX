@@ -9,6 +9,7 @@ import entity.Course;
 import entity.Lecturer;
 import entity.Lesson;
 import entity.Module;
+import entity.PeerReviewQuestion;
 import entity.User;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -650,4 +651,15 @@ public class CourseMgmtBean implements CourseMgmtBeanLocal {
         return userList;
     }
     
+    @Override
+    public void addPRForm(Module module) {
+        if (module.getPeerReviewQuestion() == null) {
+            PeerReviewQuestion form = new PeerReviewQuestion();
+            form.createPeerReviewQuestion(module.getCourse().getModuleCode()+" Peer Review Form", null, module);
+            em.persist(form);
+            module.setPeerReviewQuestion(form);
+            em.merge(module);
+            em.flush();
+        }
+    }
 }
