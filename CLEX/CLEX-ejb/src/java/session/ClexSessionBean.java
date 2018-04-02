@@ -758,5 +758,14 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         em.persist(ledgerEntity);
         em.merge(student);
         em.merge(transaction);
+        em.flush();
+    }
+    
+    @Override
+    public void confirmGroupFormation(Module module) {
+        if (module.getSuperGroup() != null)
+            module.getSuperGroup().setConfirm(true);
+        em.merge(module);
+        em.flush();
     }
 }

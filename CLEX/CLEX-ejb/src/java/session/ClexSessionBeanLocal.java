@@ -132,4 +132,6 @@ public interface ClexSessionBeanLocal {
     public Transaction createTransaction(double cost, String date, String activity, ProjectGroup group);
 
     public void createLedger(Student student, double ascCost, double pay, Transaction transaction);
+
+    public void confirmGroupFormation(Module module);
 }

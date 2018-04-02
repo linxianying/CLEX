@@ -515,6 +515,8 @@ public class indexBean {
         //create superGroup for current sem
         //No Group Formation needed for TIE2010
         csbl.createSuperGroup(3, 2, 2, 3, csbl.findModule("PS2240", "2017", "2"));
+        //group formation has ended for module PS2240
+        csbl.confirmGroupFormation(csbl.findModule("PS2240", "2017", "2"));
         csbl.createSuperGroup(3, 2, 2, 3, csbl.findModule("PC2193", "2017", "2"));
         csbl.createSuperGroup(3, 3, csbl.findModule("SC3101", "2017", "2"));
         csbl.createSuperGroup(4, 2, csbl.findModule("LAM3201", "2017", "2"));

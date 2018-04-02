@@ -158,7 +158,8 @@ public class SuperGroup implements Serializable {
     public void setDeadline(Date deadline) {
         this.deadline = deadline;
     }
-
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;
