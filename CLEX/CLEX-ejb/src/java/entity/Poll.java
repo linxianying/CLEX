@@ -36,8 +36,11 @@ public class Poll implements Serializable {
     @Column(length = 256, nullable = false)
     private String content;
     
-    @Column(length = 32, nullable = false)
+    @Column(length = 32)
     private double correctRate;
+    
+    @Column(length = 32)
+    private String status;
     
     @ManyToOne
     private Module module;
@@ -50,6 +53,17 @@ public class Poll implements Serializable {
         this.type = type;
         this.correctRate = correctRate;
         this.content = content;
+        this.status = "finished";
+    }
+    
+    public void createPoll(String datetime, String topic, double correctRate, String type, 
+                String content, String status){
+        this.datetime = datetime;
+        this.topic = topic;
+        this.type = type;
+        this.correctRate = correctRate;
+        this.content = content;
+        this.status = status;
     }
     
     public Long getId() {
@@ -98,6 +112,14 @@ public class Poll implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override

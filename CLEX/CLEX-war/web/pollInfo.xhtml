@@ -13,14 +13,14 @@
     
     <ui:define name="content">
         <h:form id="panel">
-            <p:dataTable var="poll" value="#{pollInfoBean.polls}" id="polls" rows="5"
+            <p:dataTable var="poll" value="#{pollInfoBean.polls}" id="polls" rows="10"
                         emptyMessage="No polls found with given criteria." 
                         widgetVar="pollsTable"
                         paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
                         filteredValue="#{pollInfoBean.filteredPolls}"
                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} 
                         {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
-                        rowsPerPageTemplate="5,10,20">
+                        rowsPerPageTemplate="10,15,20">
 
                 <f:facet name="header">
                    <p:outputPanel>
@@ -58,13 +58,16 @@
                 <p:column  filterBy="#{poll.type}" sortBy="#{poll.type}" headerText="Type" filterMatchMode="contains">
                     <h:outputText value="#{poll.type}" />
                 </p:column>
-                <p:column headerText="Content" sortBy="#{poll.content}">
+                <p:column headerText="Content" filterBy="#{poll.content}" sortBy="#{poll.content}" filterMatchMode="contains">
                     <h:outputText value="#{poll.content} " />
                 </p:column>
-                <p:column headerText="Correct Rate" sortBy="#{poll.correctRate}">
-                    <h:outputText value="Status: Unfinished"  rendered="#{empty poll.correctRate}"/>
+                <p:column headerText="Correct Rate" filterBy="#{poll.correctRate}" sortBy="#{poll.correctRate}" filterMatchMode="contains">
+                    
+                    <p:commandButton value="Join Poll" 
+                                                rendered="#{empty poll.status}"
+                                                actionListener="#{pollingBean.joinPolling(poll)}"/>
                     <br />
-                    <h:outputText  value="Polls:#{poll.correctRate}" />
+                    <h:outputText  value="#{poll.correctRate}" rendered="#{not empty poll.status}"/>
                 </p:column>
             </p:dataTable>
         </h:form>
