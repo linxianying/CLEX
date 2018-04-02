@@ -56,6 +56,7 @@ public class TasksBean {
     private Task task;
     private String ddl;
     private Integer urgencyInt;
+    private int groupOrPersonal;
     
     
     private User studentEntity;
@@ -376,6 +377,14 @@ public class TasksBean {
 
     public void setFmsg(FacesMessage fmsg) {
         this.fmsg = fmsg;
+    }
+
+    public int getGroupOrPersonal() {
+        return groupOrPersonal;
+    }
+
+    public void setGroupOrPersonal(int groupOrPersonal) {
+        this.groupOrPersonal = groupOrPersonal;
     }
 
     

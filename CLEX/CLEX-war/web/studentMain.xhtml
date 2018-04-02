@@ -154,7 +154,18 @@
                                             <p:rating id="urgency" value="#{tasksBean.urgencyInt}" />
                                         </td>
                                     </tr>
-                                    
+                                    <tr>
+                                        <td>
+                                            Type:
+
+                                        </td>
+                                        <td>
+                                            <p:selectOneButton style="padding: 0%; width: 100%" value="#{tasksBean.groupOrPersonal}">
+                                                <f:selectItem itemLabel="Personal" itemValue="1" />
+                                                <f:selectItem itemLabel="Group" itemValue="2" />
+                                            </p:selectOneButton>
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td>
                                             <p:commandButton value="Add" actionListener="#{tasksBean.addTask}" />
@@ -164,6 +175,7 @@
                             </p:panel>
                         </h:form>
                         <!-- END: Add New Poll -->
+                        
                     </div>
                 </div>
             </p:tab>
