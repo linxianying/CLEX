@@ -214,9 +214,25 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
     }
     
     @Override
+    public void unfinishTask(Long taskId){
+        taskEntity = findTask(taskId);
+        taskEntity.setStatus("unfinished");
+        em.merge(taskEntity);
+        em.flush();
+    }
+    
+    @Override
     public void finishGroupTask(Long taskId){
         groupTaskEntity = findGroupTask(taskId);
         groupTaskEntity.setStatus("finished");
+        em.merge(groupTaskEntity);
+        em.flush();
+    }
+    
+    @Override
+    public void unfinishGroupTask(Long taskId){
+        groupTaskEntity = findGroupTask(taskId);
+        groupTaskEntity.setStatus("unfinished");
         em.merge(groupTaskEntity);
         em.flush();
     }

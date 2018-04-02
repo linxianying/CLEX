@@ -23,6 +23,9 @@ public interface ClassroomSessionBeanLocal {
     public Poll createPoll(String moduleCode, String takenYear, String takenSem, 
             String datetime, String topic, double correctRate, String type, String content);
     
+    public Poll createUnfinishedPoll(String moduleCode, String takenYear, String takenSem, 
+            String datetime, String topic, double correctRate, String type, String content);
+    
     public void updatePoll(Module module, Long id, String datetime, String topic, 
             double correctRate, String type, String content);
     

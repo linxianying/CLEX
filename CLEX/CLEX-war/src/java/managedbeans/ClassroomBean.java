@@ -134,9 +134,9 @@ public class ClassroomBean {
         
         try{
             HashMap parameters = new HashMap();
-            parameters.put("IMAGEPATH", "http://localhost:1527/CLEX-war/jasperreports/cherry.jpg");
+            parameters.put("IMAGEPATH", "http://localhost:8080/CLEX-war/jasperreport/cherry.jpg");
 
-            InputStream reportStream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/jasperreports/pollsreport.jasper");                
+            InputStream reportStream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/jasperreport/pollsreport.jasper");                
             OutputStream outputStream = FacesContext.getCurrentInstance().getExternalContext().getResponseOutputStream();
             
             JasperRunManager.runReportToPdfStream(reportStream, outputStream, parameters, clexDataSource.getConnection());

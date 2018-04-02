@@ -417,7 +417,18 @@
                                     </p:panel>
                                 </p:dataGrid>-->
                             </p:fieldset>
-                        </p:tab>   
+                        </p:tab>  
+                        <p:tab title="Grades Report">
+
+                            <h:form id="formJasperReport">
+                                <p:panel header="JasperReport Generation">
+
+                                    <p:commandButton value="Generate Report" actionListener="#{reportManagedBean.generateReport}" ajax="false" />
+
+                                </p:panel>
+                            </h:form>
+
+                        </p:tab>
                     </p:tabView>
                     <br />
                     <br />

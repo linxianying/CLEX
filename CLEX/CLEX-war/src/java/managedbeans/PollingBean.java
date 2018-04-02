@@ -6,6 +6,7 @@
 package managedbeans;
 
 import entity.Module;
+import entity.Poll;
 import entity.Student;
 import java.io.IOException;
 import javax.inject.Named;
@@ -63,6 +64,16 @@ public class PollingBean implements Serializable {
         System.out.println("ProjectBean Finish initialization");
     }  
 
+    public void joinPolling(Poll poll){
+        FacesMessage fmsg = new FacesMessage();
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+
+        session.setAttribute("user", student);
+        session.setAttribute("username", username);
+        session.setAttribute("poll", poll);
+    
+    }
     public void viewPolling(Module m) throws IOException{
         
         FacesMessage fmsg = new FacesMessage();

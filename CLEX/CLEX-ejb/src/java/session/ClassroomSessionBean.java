@@ -84,7 +84,36 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
             pollEntity.setDatetime(datetime);
             pollEntity.setTopic(topic);
             pollEntity.setType(type);
+            pollEntity.setStatus("finished");
             pollEntity.setModule(moduleEntity);
+            em.persist(pollEntity);
+            em.flush();
+            moduleEntity.getPolls().add(pollEntity);
+            em.merge(moduleEntity);
+            em.flush();
+        }
+        return pollEntity;
+    }
+    
+    @Override
+    public Poll createUnfinishedPoll(String moduleCode, String takenYear, String takenSem, 
+            String datetime, String topic, double correctRate, String type, String content){
+        moduleEntity = null;
+        pollEntity = null;
+        moduleEntity = findModule(moduleCode, takenYear, takenSem);
+        if(moduleEntity==null){
+            System.out.println("Module " + moduleCode + " does not exist!");
+            return null;
+        }else{
+            System.out.println("Module " + moduleCode + " is found. Poll is created");
+            pollEntity = new Poll();
+            pollEntity.setContent(content);
+            pollEntity.setCorrectRate(correctRate);
+            pollEntity.setDatetime(datetime);
+            pollEntity.setTopic(topic);
+            pollEntity.setType(type);
+            pollEntity.setModule(moduleEntity);
+            pollEntity.setStatus(null);
             em.persist(pollEntity);
             em.flush();
             moduleEntity.getPolls().add(pollEntity);
