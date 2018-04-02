@@ -62,7 +62,7 @@ public class TasksBean {
     private String username;
     private String userType;
     private boolean value;
-    private List<Task> unfinishedTasks = new ArrayList<Task>();;
+    private List<Task> unfinishedTasks = new ArrayList<Task>();
     private List<Task> allTasks = new ArrayList<Task>();
     private Collection<Task> tasks;
     
@@ -78,11 +78,17 @@ public class TasksBean {
     
     @PostConstruct
     protected void initialize()  {
+        refresh();
+    }
+    
+    public void refresh() {
         value = false;
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
         studentEntity = (Student) session.getAttribute("user");
         username = studentEntity.getUsername();
+        tasks = null;
+        unfinishedTasks = new ArrayList<Task>();
         
         if(studentEntity!=null)
             tasks = studentEntity.getTasks();
@@ -123,7 +129,7 @@ public class TasksBean {
         }else{
             tsbl.unfinishTask(task.getId());
         }
-        
+        refresh();
     }
     
     public void addTask(){
