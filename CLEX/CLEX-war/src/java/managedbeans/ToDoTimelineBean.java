@@ -25,6 +25,7 @@ import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import org.primefaces.event.timeline.TimelineSelectEvent;
@@ -38,7 +39,7 @@ import session.ToDoListSessionBeanLocal;
  * @author lin
  */
 @Named(value = "toDoTimelineBean")
-@Dependent
+@RequestScoped
 public class ToDoTimelineBean {
 
     /**
@@ -109,9 +110,8 @@ public class ToDoTimelineBean {
         }
     }
  
-    public void test(){
-        //
-    }
+    
+    
     
     public int showTaskOverview(){
         int index = tdsbl.calculateTaskOverview((Student) session.getAttribute("user"));

@@ -65,7 +65,13 @@ public class PollingBean implements Serializable {
     }  
 
     public void joinPolling(Poll poll){
-    
+        FacesMessage fmsg = new FacesMessage();
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+
+        session.setAttribute("user", student);
+        session.setAttribute("username", username);
+        session.setAttribute("poll", poll);
     
     }
     public void viewPolling(Module m) throws IOException{

@@ -11,10 +11,12 @@ import entity.User;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -59,6 +61,9 @@ public class TasksBean {
     private User studentEntity;
     private String username;
     private String userType;
+    private boolean value;
+    private List<Task> unfinishedTasks = new ArrayList<Task>();;
+    private List<Task> allTasks = new ArrayList<Task>();
     private Collection<Task> tasks;
     
     
@@ -73,12 +78,24 @@ public class TasksBean {
     
     @PostConstruct
     protected void initialize()  {
+        value = false;
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
         studentEntity = (Student) session.getAttribute("user");
         username = studentEntity.getUsername();
         
-        System.out.println("finish intialization");
+        if(studentEntity!=null)
+            tasks = studentEntity.getTasks();
+        if(tasks!=null){
+            Iterator<Task> itr = tasks.iterator();
+            while(itr.hasNext()){
+                Task t = (Task) itr.next();
+                if(t.getStatus().equals("unfinished"))
+                    unfinishedTasks.add(t);
+                //allTasks.add(t);
+            }
+            
+        }
     }
     
     
@@ -91,6 +108,21 @@ public class TasksBean {
         
         setDdl(ft.format(event.getObject()));
         System.out.println("onDateSelect: ddl is " + ddl);
+        
+    }
+    
+    public void checkTask(Task task) {
+        String summary = value ? "Checked. This task is finished!" : "Unchecked. This task is unfinished.";
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(summary));
+        
+        if(value==true){
+            //finished
+            tsbl.finishTask(task.getId());
+            System.out.println("Task " + task.getId() + "is finished. " + task.getStatus());
+            value = false;
+        }else{
+            tsbl.unfinishTask(task.getId());
+        }
         
     }
     
@@ -170,6 +202,30 @@ public class TasksBean {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public boolean isValue() {
+        return value;
+    }
+
+    public void setValue(boolean value) {
+        this.value = value;
+    }
+
+    public List<Task> getUnfinishedTasks() {
+        return unfinishedTasks;
+    }
+
+    public void setUnfinishedTasks(List<Task> unfinishedTasks) {
+        this.unfinishedTasks = unfinishedTasks;
+    }
+
+    public List<Task> getAllTasks() {
+        return allTasks;
+    }
+
+    public void setAllTasks(List<Task> allTasks) {
+        this.allTasks = allTasks;
     }
 
     public Date getDeadline() {
