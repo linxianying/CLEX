@@ -33,7 +33,7 @@
                                                     value="#{studyPlanBean.studyPlansInOrer}" id="studyPlansList" emptyMessage="Start a plan by adding a module!" >
                                             <p:dataTable id="spTable" var="sp" value="#{studyPlans}" rendered="#{not empty studyPlanBean.studyPlansInOrer}">
                                                 <f:facet name="header">
-                                                    <h:outputText value="YEAR: #{studyPlanBean.getSPPickYear(studyPlans.get(0).pickYear)} " />
+                                                    <h:outputText value="YEAR: #{studyPlanBean.convertPickYear(studyPlans.get(0).pickYear)} " />
                                                     <h:outputText value="SEMESTER: #{studyPlans.get(0).pickSem}"/>
                                                 </f:facet>
                                                 <p:column style="width: 20%" headerText="Module Code">
@@ -96,22 +96,20 @@
 
                                     <p:panelGrid columns="2" style="border: none">
                                         <p:panelGrid columns="2">
-                                            <p:outputLabel id="viewLabel" for="moduleCode" value="Module Code:" >
-                                            </p:outputLabel>
-
+                                            <p:outputLabel id="viewLabel" for="moduleCode" value="Module Code:" />
                                             <p:selectOneMenu id="moduleCode" value="#{studyPlanBean.addModuleCode}"  panelStyle="width:180px" effect="fade" 
                                                              var="course" style="width:160px" filter="true" filterMatchMode="contains" appendTo="@this">
-                                                <p:ajax event="change" listener="#{studyPlanBean.checkStudyPlan}" update="tab:studyPlanForm:addForm:addSPButton, tab:studyPlanForm:addForm:moduleInfoBox, tab:studyPlanForm:addForm:addPickSemLabel, addErrorMsg"  />
+                                                <p:ajax event="change" listener="#{studyPlanBean.checkStudyPlan}" update="tab:studyPlanForm:addForm:addSPButton, tab:studyPlanForm:addForm:moduleInfoBox, tab:studyPlanForm:addForm:addSPPickSem, addErrorMsg"  />
                                                 <f:selectItem itemLabel="Select One" itemValue="select"/>
                                                 <f:selectItems value="#{studyPlanBean.courses}" var="course" itemLabel="#{course.moduleCode}" itemValue="#{course.moduleCode}" />
                                             </p:selectOneMenu>
 
-                                            <h:outputLabel for="addPickYearLabel" value="Year: " />
-                                            <p:inputNumber id="addPickYearLabel" value="#{studyPlanBean.addPickYear}" required="true" decimalPlaces="0" 
+                                            <h:outputLabel for="addSPPickYear" value="Year: " />
+                                            <p:inputNumber id="addSPPickYear" value="#{studyPlanBean.addPickYear}" required="true" decimalPlaces="0" 
                                                            placeholder="Enter #{studyPlanBean.currentYear+1-studyPlanBean.matricYear}-4 "
                                                            minValue="#{studyPlanBean.currentYear+1-studyPlanBean.matricYear}" maxValue="4" />
                                             <p>Semester<sup>+</sup>:</p>
-                                            <p:selectOneButton id="addPickSemLabel" value="#{studyPlanBean.addPickSem}" required="true">
+                                            <p:selectOneButton id="addSPPickSem" value="#{studyPlanBean.addPickSem}" required="true">
                                                 <f:selectItem itemLabel="1" itemValue="1" />
                                                 <f:selectItem itemLabel="2" itemValue="2" />
                                             </p:selectOneButton>  
@@ -240,7 +238,8 @@
                                             </p:column>
                                         </p:dataTable>
                                     </h:panelGrid>
-                                </p:fieldset> 
+                                </p:fieldset>
+                                
                             </h:form>
                             <h3>
                                 Expected Cap: 
@@ -260,7 +259,7 @@
                                         <p:panel>
                                             <p:dataTable value="#{grades}" var="grade">
                                                 <f:facet name="header">
-                                                    <h:outputText value="YEAR: #{grades.get(0).module.takenYear} " />
+                                                    <h:outputText value="YEAR: #{studyPlanBean.convertPickYear(grades.get(0).module.takenYear)} " />
                                                     <h:outputText value="SEMESTER: #{grades.get(0).module.takenSem}"/>
                                                 </f:facet>
                                                 <p:column style="width: 20%" headerText="Module Code">
@@ -268,6 +267,14 @@
                                                                    id="modulecode" >
                                                         <h:outputText value="#{grade.module.course.moduleCode}" />
                                                     </p:commandLink>
+                                                    <p:commandButton icon="ui-icon-trash" style="background: grey; float: right" id="deleteStudyPlan-button" >
+                                                        <p:ajax update="tab:modulesTaken" listener="#{studyPlanBean.deleteGrade(grade)}" />
+                                                        <p:confirm header="Delete #{grade.module.course.moduleCode}" message="Are you sure?" icon="ui-icon-alert" />
+                                                    </p:commandButton>
+                                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                                        <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                                    </p:confirmDialog>
                                                     <p:overlayPanel for="modulecode" hideEffect="fade">
                                                         <p:panel header="#{grade.module.course.moduleCode} - #{grade.module.course.moduleName}">
                                                             <p:panelGrid columns="2" style="margin: auto">
@@ -306,6 +313,29 @@
                                     <h:outputText value="Current Cap: #{studyPlanBean.cap}" />
                                 </h3>
                             </p:fieldset> 
+                            
+                            <p:commandLink value="Add a module you took before:" style="font-size: 1.2em"/>
+                            <h:form id="addGradeForm">
+                                <p:panelGrid columns="2">
+                                    <p:outputLabel id="viewLabel" for="GradeModuleCode" value="Module Code:" />
+                                    <p:selectOneMenu id="GradeModuleCode" value="#{studyPlanBean.addGradeModuleCode}"  panelStyle="width:180px" effect="fade" 
+                                                     var="course" style="width:160px" filter="true" filterMatchMode="contains" appendTo="@this">
+                                        <p:ajax event="change" listener="#{studyPlanBean.checkAddGrade}" update="tab:addGradeForm, addErrorMsg"  />
+                                        <f:selectItem itemLabel="Select One" itemValue="select"/>
+                                        <f:selectItems value="#{studyPlanBean.courses}" var="course" itemLabel="#{course.moduleCode}" itemValue="#{course.moduleCode}" />
+                                    </p:selectOneMenu>
+                                        
+                                    <h:outputLabel for="addGradePickYear" value="Year: " />
+                                    <p:inputNumber id="addGradePickYear" value="#{studyPlanBean.addGradePickYear}" required="true" decimalPlaces="0" 
+                                                   placeholder="Enter 1-#{studyPlanBean.currentYear+1-studyPlanBean.matricYear}"
+                                                   minValue="1" maxValue="#{studyPlanBean.currentYear+1-studyPlanBean.matricYear}" />
+                                    <p>Semester<sup>+</sup>:</p>
+                                    <p:selectOneButton id="addGradePickSem" value="#{studyPlanBean.addGradePickSem}" required="true">
+                                        <f:selectItem itemLabel="1" itemValue=1 />
+                                        <f:selectItem itemLabel="2" itemValue=2 />
+                                    </p:selectOneButton>  
+                                </p:panelGrid>
+                            </h:form>
                         </p:tab>  
                         
                         <p:tab id="overviewTab" title="Overview">

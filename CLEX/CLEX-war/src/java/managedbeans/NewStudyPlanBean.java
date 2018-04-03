@@ -453,72 +453,72 @@ public class NewStudyPlanBean implements Serializable {
 //        addMessage(message);
     }
     
-    public void addNewItem() {
-        System.out.println("start add");
-        if (validattion()) {
-            if (addItem.equals("Taken module")) {
-                this.addTakenModule();
-            }
-            else if (addItem.equals("Taking module")) {
-                this.addTakingModule();
-            }
-            else if (addItem.equals("Study Plan")) {
-                this.addStudyPlan();
-            }
-        }
-    }
-    
-    public boolean validattion() {
-        boolean validate = true;
-        FacesMessage fmsg = new FacesMessage();
-        if (addItem.equals("Taken module")) {
-            if (!(addPickYear < currentYear || (addPickYear == currentYear && addPickSem < currentSem))) {
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Fail to add", "You cannot add a module taken before to a semester in future");
-            context.addMessage(null, fmsg);
-            validate = false;
-            }
-        }
-        else if (addItem.equals("Taking module")) {
-            if (addPickYear != currentYear ||  addPickSem != currentSem) {
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Fail to add", "You cannot add a currently taking module to other semester");
-            context.addMessage(null, fmsg);
-            validate = false;
-            }
-        }
-        else if (addItem.equals("Study Plan")) {
-            if (!(addPickYear > currentYear || (addPickYear == currentYear && addPickSem > currentSem))) {
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Fail to add", "You cannot add a study plan to a semester before");
-            context.addMessage(null, fmsg);
-            validate = false;
-            }
-        }
-        if (addModuleCode.equals("select")) {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "No module selected", "Please select a module");
-            context.addMessage(null, fmsg);
-            validate = false;
-        }
-        else if (spsbl.checkStudyPlan(username, addModuleCode)) {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "The module " + addModuleCode + " already in your study plan", "Please change to another module");
-            context.addMessage(null, fmsg);
-            validate = false;
-        } 
-        //this course already in takenCourses list
-        else if (spsbl.checkStudentModule(username, addModuleCode)) {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "You have already taken " + addModuleCode, "Please change to another module");
-            context.addMessage(null, fmsg);
-            validate = false;
-        } 
-        else {
-            fmsg = null;
-        }
-        return validate;
-    }
+//    public void addNewItem() {
+//        System.out.println("start add");
+//        if (validattion()) {
+//            if (addItem.equals("Taken module")) {
+//                this.addTakenModule();
+//            }
+//            else if (addItem.equals("Taking module")) {
+//                this.addTakingModule();
+//            }
+//            else if (addItem.equals("Study Plan")) {
+//                this.addStudyPlan();
+//            }
+//        }
+//    }
+//    
+//    public boolean validattion() {
+//        boolean validate = true;
+//        FacesMessage fmsg = new FacesMessage();
+//        if (addItem.equals("Taken module")) {
+//            if (!(addPickYear < currentYear || (addPickYear == currentYear && addPickSem < currentSem))) {
+//                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+//                    "Fail to add", "You cannot add a module taken before to a semester in future");
+//            context.addMessage(null, fmsg);
+//            validate = false;
+//            }
+//        }
+//        else if (addItem.equals("Taking module")) {
+//            if (addPickYear != currentYear ||  addPickSem != currentSem) {
+//                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+//                    "Fail to add", "You cannot add a currently taking module to other semester");
+//            context.addMessage(null, fmsg);
+//            validate = false;
+//            }
+//        }
+//        else if (addItem.equals("Study Plan")) {
+//            if (!(addPickYear > currentYear || (addPickYear == currentYear && addPickSem > currentSem))) {
+//                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+//                    "Fail to add", "You cannot add a study plan to a semester before");
+//            context.addMessage(null, fmsg);
+//            validate = false;
+//            }
+//        }
+//        if (addModuleCode.equals("select")) {
+//            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+//                    "No module selected", "Please select a module");
+//            context.addMessage(null, fmsg);
+//            validate = false;
+//        }
+//        else if (spsbl.checkStudyPlan(username, addModuleCode)) {
+//            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+//                    "The module " + addModuleCode + " already in your study plan", "Please change to another module");
+//            context.addMessage(null, fmsg);
+//            validate = false;
+//        } 
+//        //this course already in takenCourses list
+//        else if (spsbl.checkStudentModule(username, addModuleCode)) {
+//            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+//                    "You have already taken " + addModuleCode, "Please change to another module");
+//            context.addMessage(null, fmsg);
+//            validate = false;
+//        } 
+//        else {
+//            fmsg = null;
+//        }
+//        return validate;
+//    }
     
     public void addStudyPlan() {
         context = FacesContext.getCurrentInstance();
@@ -529,14 +529,14 @@ public class NewStudyPlanBean implements Serializable {
         context.addMessage(null, fmsg);
     }
     
-    public void addTakenModule() {
-        context = FacesContext.getCurrentInstance();
-        spsbl.addTakenModule(Integer.toString(addPickYear), Integer.toString(addPickSem), addModuleCode, csbl.findStudent(username));
-        init();
-        FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Successful", "You have added module " + addModuleCode);
-        context.addMessage(null, fmsg);
-    }
+//    public void addTakenModule() {
+//        context = FacesContext.getCurrentInstance();
+//        spsbl.addTakenModule(Integer.toString(addPickYear), Integer.toString(addPickSem), addModuleCode, csbl.findStudent(username));
+//        init();
+//        FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+//                    "Successful", "You have added module " + addModuleCode);
+//        context.addMessage(null, fmsg);
+//    }
     
     public void addTakingModule() {
         context = FacesContext.getCurrentInstance();

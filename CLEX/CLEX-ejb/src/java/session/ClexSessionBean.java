@@ -635,8 +635,20 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     
     
     @Override
-    public void setStudentTakenModules(Student student, Module module){
+    public void setStudentTakingModules(Student student, Module module){
         student.getModules().add(module);
+        em.merge(student);
+        em.flush();
+        
+        module.getStudents().add(student);
+        em.merge(module);
+        em.flush();
+    }
+    
+    public void setStudentTakenModules(Student student, Module module, String grade) {
+        Grade g = new Grade();
+        g.createGrade(grade, module, student);
+        student.getGrades().add(g);
         em.merge(student);
         em.flush();
         

@@ -140,20 +140,20 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         return m;
     }
 
-    // find all courses taken by the user, including currently taking courses
-    @Override
-    public ArrayList<Course> getTakenCourses(String username) {
-        this.takenCourses = new ArrayList<Course>();
-        findStudent(username);
-        Collection<Module> modules = new ArrayList<Module>();
-        modules = this.student.getModules();
-        System.out.println("StudyPlanSessionbean: getTakenCourses: student:"
-                + username + "'s takenModules:" + modules.size());
-        for (Module m : modules) {
-            this.takenCourses.add(m.getCourse());
-        }
-        return takenCourses;
-    }
+//    // find all courses taken by the user, including currently taking courses
+//    @Override
+//    public ArrayList<Course> getTakenCourses(String username) {
+//        this.takenCourses = new ArrayList<Course>();
+//        findStudent(username);
+//        Collection<Module> modules = new ArrayList<Module>();
+//        modules = this.student.getModules();
+//        System.out.println("StudyPlanSessionbean: getTakenCourses: student:"
+//                + username + "'s takenModules:" + modules.size());
+//        for (Module m : modules) {
+//            this.takenCourses.add(m.getCourse());
+//        }
+//        return takenCourses;
+//    }
 
     // find all modules taken by the user
     @Override
@@ -204,64 +204,64 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
 //        return takingModules;
 //    }
 
-    @Override
-    public ArrayList<Grade> getAllGrades(String username) {
-        Collection<Grade> all = new ArrayList<Grade>();
-        grades = new ArrayList<Grade>();
-        findStudent(username);
-        all = this.student.getGrades();
-        for (Grade g : all) {
-            grades.add(g);
-        }
-        System.out.println("StudyPlanSessionbean: getAllGrades: student:"
-                + username + "'s gardes:" + grades.size());
-        return grades;
-    }
+//    @Override
+//    public ArrayList<Grade> getAllGrades(String username) {
+//        Collection<Grade> all = new ArrayList<Grade>();
+//        grades = new ArrayList<Grade>();
+//        findStudent(username);
+//        all = this.student.getGrades();
+//        for (Grade g : all) {
+//            grades.add(g);
+//        }
+//        System.out.println("StudyPlanSessionbean: getAllGrades: student:"
+//                + username + "'s gardes:" + grades.size());
+//        return grades;
+//    }
 
-    @Override
-    public ArrayList<ArrayList<Grade>> getAllGradesInOrder(String username) {
-        gradesInOrder = new ArrayList<ArrayList<Grade>>();
-        grades = this.getAllGrades(username);
-        //the iterator of for loop to change to next semster
-        int year = 2018;
-        if (this.findStudent(username).getMatricYear() != null) {
-            year = Integer.parseInt(this.findStudent(username).getMatricYear());
-        }
-        int sem = 1;
-        int numOfSemTaken = checkNumOfSemTaken(username) - 1;
-        //from matric year sem 1, check what are the courses taken for the sem
-        //then increase the year/sem to next semster
-        for (int i = 0; i < numOfSemTaken; i++) {
-//            System.out.println("check for year " + year + ", sem " + sem);
-            ArrayList<Grade> current = new ArrayList<Grade>();
-            //go through all the modules the student takes
-            for (int index = 0; index < grades.size(); index++) {
-                //if the module is taken in "year" "sem", add it to the current 
-                if (Integer.parseInt(grades.get(index).getModule().getTakenYear()) == year) {
-                    if (Integer.parseInt(grades.get(index).getModule().getTakenSem()) == sem) {
-                        current.add(grades.get(index));
-//                        System.out.println("StudyPlanSessionbean: getAllGradesInOrder: "
-//                                + "add course " + grades.get(index).getModule().getCourse().getModuleCode()
-//                                + " at year " + year + ", sem " + sem);
-                    }
-                }
-            }
-            gradesInOrder.add(current);
-            System.out.println("check for"
-                    + " year " + year + ", sem " + sem + " finishes.");
-            current = null;
-            //increase sem year to next semester
-            if (sem == 1) {
-                sem = 2;
-            } else {
-                year++;
-                sem = 1;
-            }
-        }
-        System.out.print("StudyPlanSessionbean: getAllGradesInOrder:");
-        System.out.println(gradesInOrder.size());
-        return gradesInOrder;
-    }
+//    @Override
+//    public ArrayList<ArrayList<Grade>> getAllGradesInOrder(String username) {
+//        gradesInOrder = new ArrayList<ArrayList<Grade>>();
+//        grades = this.getAllGrades(username);
+//        //the iterator of for loop to change to next semster
+//        int year = 2018;
+//        if (this.findStudent(username).getMatricYear() != null) {
+//            year = Integer.parseInt(this.findStudent(username).getMatricYear());
+//        }
+//        int sem = 1;
+//        int numOfSemTaken = checkNumOfSemTaken(username) - 1;
+//        //from matric year sem 1, check what are the courses taken for the sem
+//        //then increase the year/sem to next semster
+//        for (int i = 0; i < numOfSemTaken; i++) {
+////            System.out.println("check for year " + year + ", sem " + sem);
+//            ArrayList<Grade> current = new ArrayList<Grade>();
+//            //go through all the modules the student takes
+//            for (int index = 0; index < grades.size(); index++) {
+//                //if the module is taken in "year" "sem", add it to the current 
+//                if (Integer.parseInt(grades.get(index).getModule().getTakenYear()) == year) {
+//                    if (Integer.parseInt(grades.get(index).getModule().getTakenSem()) == sem) {
+//                        current.add(grades.get(index));
+////                        System.out.println("StudyPlanSessionbean: getAllGradesInOrder: "
+////                                + "add course " + grades.get(index).getModule().getCourse().getModuleCode()
+////                                + " at year " + year + ", sem " + sem);
+//                    }
+//                }
+//            }
+//            gradesInOrder.add(current);
+//            System.out.println("check for"
+//                    + " year " + year + ", sem " + sem + " finishes.");
+//            current = null;
+//            //increase sem year to next semester
+//            if (sem == 1) {
+//                sem = 2;
+//            } else {
+//                year++;
+//                sem = 1;
+//            }
+//        }
+//        System.out.print("StudyPlanSessionbean: getAllGradesInOrder:");
+//        System.out.println(gradesInOrder.size());
+//        return gradesInOrder;
+//    }
 
     //set all course taken by the user in order of year and sem
     //Update:instead of all courses, leave out the courses taking this semester
@@ -311,19 +311,19 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         return takenCoursesInOrder;
     }
 
-    //check whether a student has taken certain course already
-    @Override
-    public boolean checkStudentModule(String username, String moduleCode) {
-        boolean check = false;
-        takenCourses = new ArrayList<Course>();
-        takenCourses = this.getTakenCourses(username);
-        for (Course c : takenCourses) {
-            if (c.getModuleCode().equals(moduleCode)) {
-                check = true;
-            }
-        }
-        return check;
-    }
+//    //check whether a student has taken certain course already
+//    @Override
+//    public boolean checkStudentModule(String username, String moduleCode) {
+//        boolean check = false;
+//        takenCourses = new ArrayList<Course>();
+//        takenCourses = this.getTakenCourses(username);
+//        for (Course c : takenCourses) {
+//            if (c.getModuleCode().equals(moduleCode)) {
+//                check = true;
+//            }
+//        }
+//        return check;
+//    }
 
 //    // find all studyPlan the user has
 //    @Override
@@ -352,57 +352,57 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
 //        return studyPlans;
 //    }
 
-    //set all course taken by the user in order of year and sem
-    //update all study plans first (remove study plans for previous semesters)
-    @Override
-    public ArrayList<ArrayList<StudyPlan>> getStudyPlanInOrder(String username) {
-        this.updateAllStudyPlans(username);
-        studyPlansInOrder = new ArrayList<ArrayList<StudyPlan>>();
-        studyPlans = this.getAllStudyPlans(this.findStudent(username));
-        
-        Calendar now = Calendar.getInstance();
-        int startYear = now.get(Calendar.YEAR);
-        int startSem = 1;
-        // month starts from 0 to 11
-        int currentMonth = now.get(Calendar.MONTH);
-        if (currentMonth < 6) {
-            startSem = 1;
-        } else {
-            startSem = 2;
-        }
-        //System.out.println("startYear=" +startYear+", startSem="+startSem);
-        do {
-            ArrayList<StudyPlan> current = new ArrayList<StudyPlan>();
-            for (StudyPlan s : studyPlans) {
-//                System.out.println("StudyPlanSessionbean: getStudyPlanInOrder: "
-//                        + s.getCourse().getModuleCode()
-//                        + " at year " + s.getPickYear() + ", sem " + s.getPickSem());
-                if (Integer.parseInt(s.getPickYear()) == startYear) {
-                    if (Integer.parseInt(s.getPickSem()) == startSem) {
-                        current.add(s);
-//                        System.out.println("StudyPlanSessionbean: getStudyPlanInOrder: add"
-//                                + s.getCourse().getModuleCode()
-//                                + " at year " + startYear + ", sem " + startSem);
-                    }
-                }
-            }
-            System.out.println("SPsb: getStudyPlanInOrder: current: " + current.size());
-//            System.out.println(current);
-            //if for this semester, no modules are added to studyPlan, jump to next semester
-            if (current.size() != 0) {
-                studyPlansInOrder.add(current);
-                current = null;
-            }
-            //increase sem year to next semester
-            if (startSem == 1) {
-                startSem = 2;
-            } else {
-                startYear++;
-                startSem = 1;
-            }
-        } while (!checkAllStudyPlansAdded(studyPlansInOrder, studyPlans));
-        return studyPlansInOrder;
-    }
+//    //set all course taken by the user in order of year and sem
+//    //update all study plans first (remove study plans for previous semesters)
+//    @Override
+//    public ArrayList<ArrayList<StudyPlan>> getStudyPlanInOrder(String username) {
+//        this.updateAllStudyPlans(username);
+//        studyPlansInOrder = new ArrayList<ArrayList<StudyPlan>>();
+//        studyPlans = this.getAllStudyPlans(this.findStudent(username));
+//        
+//        Calendar now = Calendar.getInstance();
+//        int startYear = now.get(Calendar.YEAR);
+//        int startSem = 1;
+//        // month starts from 0 to 11
+//        int currentMonth = now.get(Calendar.MONTH);
+//        if (currentMonth < 6) {
+//            startSem = 1;
+//        } else {
+//            startSem = 2;
+//        }
+//        //System.out.println("startYear=" +startYear+", startSem="+startSem);
+//        do {
+//            ArrayList<StudyPlan> current = new ArrayList<StudyPlan>();
+//            for (StudyPlan s : studyPlans) {
+////                System.out.println("StudyPlanSessionbean: getStudyPlanInOrder: "
+////                        + s.getCourse().getModuleCode()
+////                        + " at year " + s.getPickYear() + ", sem " + s.getPickSem());
+//                if (Integer.parseInt(s.getPickYear()) == startYear) {
+//                    if (Integer.parseInt(s.getPickSem()) == startSem) {
+//                        current.add(s);
+////                        System.out.println("StudyPlanSessionbean: getStudyPlanInOrder: add"
+////                                + s.getCourse().getModuleCode()
+////                                + " at year " + startYear + ", sem " + startSem);
+//                    }
+//                }
+//            }
+//            System.out.println("SPsb: getStudyPlanInOrder: current: " + current.size());
+////            System.out.println(current);
+//            //if for this semester, no modules are added to studyPlan, jump to next semester
+//            if (current.size() != 0) {
+//                studyPlansInOrder.add(current);
+//                current = null;
+//            }
+//            //increase sem year to next semester
+//            if (startSem == 1) {
+//                startSem = 2;
+//            } else {
+//                startYear++;
+//                startSem = 1;
+//            }
+//        } while (!checkAllStudyPlansAdded(studyPlansInOrder, studyPlans));
+//        return studyPlansInOrder;
+//    }
 
     //check whether all studyPlans have been 
     public boolean checkAllStudyPlansAdded(ArrayList<ArrayList<StudyPlan>> studyPlansInOrder, ArrayList<StudyPlan> all) {
@@ -515,37 +515,37 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     }
 
 
-    //check whether there is any syudyPlan planned for semesters passed already
-    //if yes, delete these studyPlan
-    @Override
-    public void updateAllStudyPlans(String username) {
-        Collection<StudyPlan> all = this.getAllStudyPlans(this.findStudent(username));
-        Calendar now = Calendar.getInstance();
-        int currentSem = 1;
-        int currentYear = now.get(Calendar.YEAR);
-        // month starts from 0 to 11
-        int currentMonth = now.get(Calendar.MONTH);
-        if (currentMonth < 6) {
-            currentSem = 2;
-            currentYear--;
-        }
-        student = this.findStudent(username);
-        //skip if the student doesn't have any studyPlan
-        if (all != null) {
-            for (StudyPlan studyPlan : all) {
-                if (Integer.parseInt(studyPlan.getPickYear()) < currentYear) {
-                    student.getStudyPlan().remove(studyPlan);
-                    em.remove(studyPlan);
-                    em.persist(student);
-                } else if ((Integer.parseInt(studyPlan.getPickYear()) == currentYear)
-                        && (Integer.parseInt(studyPlan.getPickSem()) <= currentSem)) {
-                    student.getStudyPlan().remove(studyPlan);
-                    em.remove(studyPlan);
-                    em.persist(student);
-                }
-            }
-        }
-    }
+//    //check whether there is any syudyPlan planned for semesters passed already
+//    //if yes, delete these studyPlan
+//    @Override
+//    public void updateAllStudyPlans(String username) {
+//        Collection<StudyPlan> all = this.getAllStudyPlans(this.findStudent(username));
+//        Calendar now = Calendar.getInstance();
+//        int currentSem = 1;
+//        int currentYear = now.get(Calendar.YEAR);
+//        // month starts from 0 to 11
+//        int currentMonth = now.get(Calendar.MONTH);
+//        if (currentMonth < 6) {
+//            currentSem = 2;
+//            currentYear--;
+//        }
+//        student = this.findStudent(username);
+//        //skip if the student doesn't have any studyPlan
+//        if (all != null) {
+//            for (StudyPlan studyPlan : all) {
+//                if (Integer.parseInt(studyPlan.getPickYear()) < currentYear) {
+//                    student.getStudyPlan().remove(studyPlan);
+//                    em.remove(studyPlan);
+//                    em.persist(student);
+//                } else if ((Integer.parseInt(studyPlan.getPickYear()) == currentYear)
+//                        && (Integer.parseInt(studyPlan.getPickSem()) <= currentSem)) {
+//                    student.getStudyPlan().remove(studyPlan);
+//                    em.remove(studyPlan);
+//                    em.persist(student);
+//                }
+//            }
+//        }
+//    }
 
     private double capCulculator(Student student) {
         double cap = 0.0;
@@ -690,28 +690,7 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     //!!Assume all Students start at sem1
     //eg. For AY2017-2018 sem 2, the current year would be 2018, 
     //but it will be remembered as 2017 sem 2
-    @Override
-    public int checkNumOfSemTaken(String username) {
-        numOfSemTaken = 1;
-        Calendar now = Calendar.getInstance();
-        int currentYear = now.get(Calendar.YEAR);
-//        System.out.println("spsb:checkNumOfSemTaken:Current Year is : " + currentYear);
-        // month starts from 0 to 11
-        int currentMonth = now.get(Calendar.MONTH);
-//        System.out.println("spsb:checkNumOfSemTaken:Current Month is : " + now.get(Calendar.MONTH));
-        if (currentMonth < 6) {
-            currentSem = 2;
-            currentYear--;
-            numOfSemTaken++;
-        } else {
-            currentSem = 1;
-        }
 
-        int matricYear = Integer.parseInt(this.findStudent(username).getMatricYear());
-        numOfSemTaken += 2 * (currentYear - matricYear);
-        System.out.println("number of semesters for this student " + username + " is " + numOfSemTaken);
-        return numOfSemTaken;
-    }
 
     @Override
     public HashMap<String, String> getExpectedCourseGrade(String username) {
@@ -745,6 +724,7 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         });
         return courseList;
     }
+    
     //-------------------------------------------------------------------------
     //for test urpose only
 
@@ -841,28 +821,69 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     }
     
     @Override
+    public ArrayList<ArrayList<Grade>> getAllGradesInOrder(Student student) {
+        gradesInOrder = new ArrayList<ArrayList<Grade>>();
+        grades = this.getAllGrades(student);
+        //the iterator of for loop to change to next semster
+        int year = 2018;
+        if (student.getMatricYear() != null) {
+            year = Integer.parseInt(student.getMatricYear());
+        }
+        int sem = 1;
+        int numOfSemTaken = checkNumOfSemTaken(username) - 1;
+        //from matric year sem 1, check what are the courses taken for the sem
+        //then increase the year/sem to next semster
+        for (int i = 0; i < numOfSemTaken; i++) {
+            ArrayList<Grade> current = new ArrayList<Grade>();
+            //go through all the modules the student takes
+            for (int index = 0; index < grades.size(); index++) {
+                //if the module is taken in "year" "sem", add it to the current 
+                if (Integer.parseInt(grades.get(index).getModule().getTakenYear()) == year) {
+                    if (Integer.parseInt(grades.get(index).getModule().getTakenSem()) == sem) {
+                        current.add(grades.get(index));
+//                        System.out.println("StudyPlanSessionbean: getAllGradesInOrder: "
+//                                + "add course " + grades.get(index).getModule().getCourse().getModuleCode()
+//                                + " at year " + year + ", sem " + sem);
+                    }
+                }
+            }
+            gradesInOrder.add(current);
+            current = null;
+            //increase sem year to next semester
+            if (sem == 1) {
+                sem = 2;
+            } else {
+                year++;
+                sem = 1;
+            }
+        }
+//        System.out.print("StudyPlanSessionbean: getAllGradesInOrder:");
+//        System.out.println(gradesInOrder.size());
+        return gradesInOrder;
+    }
+    
+    @Override
     public ArrayList<Module> getCurrentModules(Student student) {
         List<Module> all = new ArrayList<Module>();
         takingModules = new ArrayList<Module>();
         
-        //get current year and sem
-        Calendar now = Calendar.getInstance();
-        int currentYear = now.get(Calendar.YEAR);
-        // month starts from 0 to 11
-        int currentMonth = now.get(Calendar.MONTH);
-        if (currentMonth < 6) {
-            currentSem = 2;
-            currentYear--;
-        } else {
-            currentSem = 1;
-        }
+//        //get current year and sem
+//        Calendar now = Calendar.getInstance();
+//        int currentYear = now.get(Calendar.YEAR);
+//        // month starts from 0 to 11
+//        int currentMonth = now.get(Calendar.MONTH);
+//        if (currentMonth < 6) {
+//            currentSem = 2;
+//            currentYear--;
+//        } else {
+//            currentSem = 1;
+//        }
         
         try{
-            Query q = em.createQuery("SELECT DISTINCT m FROM Student s LEFT JOIN s.modules m Where s.id = :id AND m.takenYear = :currentYear AND m.takenSem = :currentSem");
-//            Query q = em.createQuery("SELECT m FROM Student m WHERE m.takenYear = :currentYear AND m.takenSem = :currentSem");
+            Query q = em.createQuery("SELECT m FROM Student s LEFT JOIN s.modules m Where s.id = :id");
             q.setParameter("id", student.getId());
-            q.setParameter("currentYear", Integer.toString(currentYear));
-            q.setParameter("currentSem", Integer.toString(currentSem));
+//            q.setParameter("currentYear", Integer.toString(currentYear));
+//            q.setParameter("currentSem", Integer.toString(currentSem));
             all = (List<Module>) q.getResultList();
             for (Module m : all) {
                 takingModules.add(m);
@@ -907,6 +928,57 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         return studyPlans;
     }
     
+    //set all course taken by the user in order of year and sem
+    //update all study plans first (remove study plans for previous semesters)
+    @Override
+    public ArrayList<ArrayList<StudyPlan>> getStudyPlanInOrder(Student student) {
+        this.updateAllStudyPlans(username);
+        studyPlansInOrder = new ArrayList<ArrayList<StudyPlan>>();
+        studyPlans = this.getAllStudyPlans(student);
+        
+        Calendar now = Calendar.getInstance();
+        int startYear = now.get(Calendar.YEAR);
+        int startSem = 1;
+        // month starts from 0 to 11
+        int currentMonth = now.get(Calendar.MONTH);
+        if (currentMonth < 6) {
+            startSem = 1;
+        } else {
+            startSem = 2;
+        }
+        do {
+            ArrayList<StudyPlan> current = new ArrayList<StudyPlan>();
+            for (StudyPlan s : studyPlans) {
+//                System.out.println("StudyPlanSessionbean: getStudyPlanInOrder: "
+//                        + s.getCourse().getModuleCode()
+//                        + " at year " + s.getPickYear() + ", sem " + s.getPickSem());
+                if (Integer.parseInt(s.getPickYear()) == startYear) {
+                    if (Integer.parseInt(s.getPickSem()) == startSem) {
+                        current.add(s);
+//                        System.out.println("StudyPlanSessionbean: getStudyPlanInOrder: add"
+//                                + s.getCourse().getModuleCode()
+//                                + " at year " + startYear + ", sem " + startSem);
+                    }
+                }
+            }
+            System.out.println("SPsb: getStudyPlanInOrder: current: " + current.size());
+//            System.out.println(current);
+            //if for this semester, no modules are added to studyPlan, jump to next semester
+            if (current.size() != 0) {
+                studyPlansInOrder.add(current);
+                current = null;
+            }
+            //increase sem year to next semester
+            if (startSem == 1) {
+                startSem = 2;
+            } else {
+                startYear++;
+                startSem = 1;
+            }
+        } while (!checkAllStudyPlansAdded(studyPlansInOrder, studyPlans));
+        return studyPlansInOrder;
+    }
+    
     @Override
     public void updateGradeYearSem(Long id, String moduleCode, int newYear, int newSem) {
         Grade g = this.findGrade(id);
@@ -948,10 +1020,14 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     }
     
     @Override
-    public void addTakenModule(String pickYear, String pickSem, String moduleCode, Student student) {
-        module = this.findModule(pickYear, pickSem, moduleCode);
-        student.getModules().add(module);
+    public void addGrade(String pickYear, String pickSem, String moduleCode, Student student, String moduelGrade) {
+        Grade g = new Grade();
+        g.createGrade(moduelGrade, module, student);
+        student.getGrades().add(g);
         em.merge(student);
+        
+        module.getStudents().add(student);
+        em.merge(module);
         em.flush();
     }
     
@@ -960,6 +1036,9 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         module = this.findModule(pickYear, pickSem, moduleCode);
         student.getModules().add(module);
         em.merge(student);
+        
+        module.getStudents().add(student);
+        em.merge(module);
         em.flush();
     }
     
@@ -987,5 +1066,101 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         em.flush();
 //        System.out.println("Size after remove " + student.getModules().size());
     }
+    
+    @Override
+    public void removeGrade(Student student, Grade grade) {
+        student.getGrades().remove(grade);
+        em.merge(student);
+        em.flush();
+    }
+    
+    //check whether a module is inside a student's study plan or not
+    @Override
+    public boolean checkInSP(ArrayList<StudyPlan> all, String moduleCode) {
+       boolean contains = false;
+        for (StudyPlan sp: all)
+           if (sp.getCourse().getModuleCode().equals(moduleCode))
+               contains = true;
+        return contains;
+    }
+    
+    //check whether a module is inside a student's current taking module or not
+    @Override
+    public boolean checkInCM(ArrayList<Module> all, String moduleCode) {
+        boolean contains = false;
+        for (Module m: all)
+           if (m.getCourse().getModuleCode().equals(moduleCode))
+               contains = true;
+        return contains;
+    }
+    
+    //check whether a module is inside a student's taken module or not
+    @Override
+    public boolean checkInGrade(ArrayList<Grade> all, String moduleCode) {
+        boolean contains = false;
+        for (Grade g: all)
+           if (g.getModule().getCourse().getModuleCode().equals(moduleCode))
+               contains = true;
+        return contains;
+    }
+    
+    
+    
+    
+    @Override
+    public int checkNumOfSemTaken(String username) {
+        numOfSemTaken = 1;
+        Calendar now = Calendar.getInstance();
+        int currentYear = now.get(Calendar.YEAR);
+//        System.out.println("spsb:checkNumOfSemTaken:Current Year is : " + currentYear);
+        // month starts from 0 to 11
+        int currentMonth = now.get(Calendar.MONTH);
+//        System.out.println("spsb:checkNumOfSemTaken:Current Month is : " + now.get(Calendar.MONTH));
+        if (currentMonth < 6) {
+            currentSem = 2;
+            currentYear--;
+            numOfSemTaken++;
+        } else {
+            currentSem = 1;
+        }
+
+        int matricYear = Integer.parseInt(this.findStudent(username).getMatricYear());
+        numOfSemTaken += 2 * (currentYear - matricYear);
+        System.out.println("number of semesters for this student " + username + " is " + numOfSemTaken);
+        return numOfSemTaken;
+    }
+    
+    //check whether there is any syudyPlan planned for semesters passed already
+    //if yes, delete these studyPlan
+    @Override
+    public void updateAllStudyPlans(String username) {
+        Collection<StudyPlan> all = this.getAllStudyPlans(this.findStudent(username));
+        Calendar now = Calendar.getInstance();
+        int currentSem = 1;
+        int currentYear = now.get(Calendar.YEAR);
+        // month starts from 0 to 11
+        int currentMonth = now.get(Calendar.MONTH);
+        if (currentMonth < 6) {
+            currentSem = 2;
+            currentYear--;
+        }
+        student = this.findStudent(username);
+        //skip if the student doesn't have any studyPlan
+        if (all != null) {
+            for (StudyPlan studyPlan : all) {
+                if (Integer.parseInt(studyPlan.getPickYear()) < currentYear) {
+                    student.getStudyPlan().remove(studyPlan);
+                    em.remove(studyPlan);
+                    em.persist(student);
+                } else if ((Integer.parseInt(studyPlan.getPickYear()) == currentYear)
+                        && (Integer.parseInt(studyPlan.getPickSem()) <= currentSem)) {
+                    student.getStudyPlan().remove(studyPlan);
+                    em.remove(studyPlan);
+                    em.persist(student);
+                }
+            }
+        }
+    }
+    
     
 }

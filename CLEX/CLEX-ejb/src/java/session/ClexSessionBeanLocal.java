@@ -117,7 +117,7 @@ public interface ClexSessionBeanLocal {
     
     public String resetPassword(String username);
 
-    public void setStudentTakenModules(Student student, Module module);
+    public void setStudentTakenModules(Student student, Module module, String grade);
 
     public void setStudentLesson(Student student, Lesson lesson);
 
@@ -134,4 +134,6 @@ public interface ClexSessionBeanLocal {
     public void createLedger(Student student, double ascCost, double pay, Transaction transaction);
 
     public void confirmGroupFormation(Module module);
+
+    public void setStudentTakingModules(Student student, Module module);
 }

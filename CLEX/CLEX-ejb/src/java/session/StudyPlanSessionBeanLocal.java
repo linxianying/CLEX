@@ -55,21 +55,21 @@ public interface StudyPlanSessionBeanLocal {
 
     public int checkNumOfSemTaken(String username);
 
-    public ArrayList<Course> getTakenCourses(String username);
+//    public ArrayList<Course> getTakenCourses(String username);
 
     public ArrayList<ArrayList<Course>> getTakenModulesInOrder(String username);
 
     public void updateAllStudyPlans(String username);
 
-    public ArrayList<ArrayList<StudyPlan>> getStudyPlanInOrder(String username);
+    public ArrayList<ArrayList<StudyPlan>> getStudyPlanInOrder(Student s);
 
-    public boolean checkStudentModule(String username, String moduleCode);
+//    public boolean checkStudentModule(String username, String moduleCode);
 
     public boolean checkCourseExistance(String moduleCode);
 
-    public ArrayList<Grade> getAllGrades(String username);
+//    public ArrayList<Grade> getAllGrades(String username);
 
-    public ArrayList<ArrayList<Grade>> getAllGradesInOrder(String username);
+    public ArrayList<ArrayList<Grade>> getAllGradesInOrder(Student s);
 
 //    public ArrayList<Module> getCurrentModules(String username);
 
@@ -107,11 +107,19 @@ public interface StudyPlanSessionBeanLocal {
 
     public void updateStudyPlanYearSem(Long id, int newYear, int newSem);
 
-    public void addTakenModule(String pickYear, String pickSem, String moduleCode, Student student);
-
     public void addTakingModule(String pickYear, String pickSem, String moduleCode, Student student);
 
     public void removeModule(Student student, Module module);
+
+    public void removeGrade(Student student, Grade grade);
+
+    public void addGrade(String pickYear, String pickSem, String moduleCode, Student student, String moduelGrade);
+
+    public boolean checkInSP(ArrayList<StudyPlan> all, String moduleCode);
+
+    public boolean checkInCM(ArrayList<Module> all, String moduleCode);
+
+    public boolean checkInGrade(ArrayList<Grade> all, String moduleCode);
     
     
 }
