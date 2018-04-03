@@ -45,7 +45,7 @@ public interface StudyPlanSessionBeanLocal {
 
     public Collection<Module> getTakenModules(String username);
 
-    public ArrayList<StudyPlan> getAllStudyPlans(String username);
+    public ArrayList<StudyPlan> getAllStudyPlans(Student student);
 
     public ArrayList<Course> testViewTakenModules();
 
@@ -71,7 +71,7 @@ public interface StudyPlanSessionBeanLocal {
 
     public ArrayList<ArrayList<Grade>> getAllGradesInOrder(String username);
 
-    public ArrayList<Module> getCurrentModules(String username);
+//    public ArrayList<Module> getCurrentModules(String username);
 
     public StudyPlan findStudyPlan(String username, String moduleCode);
 
@@ -91,9 +91,9 @@ public interface StudyPlanSessionBeanLocal {
 
     public List<Course> getAllCourses();
 
-    public ArrayList<Grade> getAllGrades(Student s);
+    public ArrayList<Grade> getAllGrades(Student student);
 
-    public ArrayList<Module> getCurrentModules(Student s);
+    public ArrayList<Module> getCurrentModules(Student student);
 
 //    public ArrayList<StudyPlan> getAllStudyPlans(Student student);
 
@@ -110,6 +110,8 @@ public interface StudyPlanSessionBeanLocal {
     public void addTakenModule(String pickYear, String pickSem, String moduleCode, Student student);
 
     public void addTakingModule(String pickYear, String pickSem, String moduleCode, Student student);
+
+    public void removeModule(Student student, Module module);
     
     
 }

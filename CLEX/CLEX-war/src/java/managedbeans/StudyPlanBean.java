@@ -102,10 +102,10 @@ public class StudyPlanBean {
         //this.username="namename";
         cap = cpsbl.findStudent(username).getCap();
         if (student.getGrades().size() > 0) {
-            System.out.println(student.getGrades().size());
+//            System.out.println(student.getGrades().size());
             gradesInOrder = cpsbl.getAllGradesInOrder(username);
         }
-        takingModules = cpsbl.getCurrentModules(username);
+        takingModules = cpsbl.getCurrentModules(student);
         if (student.getStudyPlan() != null) {
             studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
             expectedCourseGrade = cpsbl.getExpectedCourseGrade(username);
@@ -195,7 +195,16 @@ public class StudyPlanBean {
         cpsbl.removeStudyPlan(username, moduleCode);
         studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
     }
-
+    
+    public void deleteModule(Module module) {
+        cpsbl.removeModule(student, module);
+        takingModules = cpsbl.getCurrentModules(student);
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!# of taking Moduless: " + takingModules.size());
+        if (student.getGrades().size() > 0) {
+            gradesInOrder = cpsbl.getAllGradesInOrder(username);
+        }
+    }
+    
     public void updateExpectedCap(int newModuleCredit, String moduleCode) {
         String oldGrade = checkExpectedCourseGrade(moduleCode);
         //System.out.println("newModuleGrade" + newModuleGrade);
@@ -245,7 +254,7 @@ public class StudyPlanBean {
         }
         System.out.println("Expected cap change to " + expectedCap);
     }
-
+    
     public void updateCurrentExpectedCap(int newModuleCredit, String moduleCode) {
         String oldGrade = checkExpectedCourseGrade(moduleCode);
         //System.out.println("newCurrentModuleGrade" + newCurrentModuleGrade);

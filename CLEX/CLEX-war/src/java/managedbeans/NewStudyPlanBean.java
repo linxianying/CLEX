@@ -115,13 +115,14 @@ public class NewStudyPlanBean implements Serializable {
         
         if (student.getGrades().size() > 0) {
             grades = spsbl.getAllGrades(student);
+//            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!# of taken Moduless: " + grades.size());
         }
         
         takingModules = spsbl.getCurrentModules(student);
+//        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!# of taking Moduless: " + takingModules.size());
         
         if (student.getStudyPlan() != null) {
-            studyPlans = spsbl.getAllStudyPlans(student.getUsername());
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!# of study plans: " + studyPlans.size());
+            studyPlans = spsbl.getAllStudyPlans(student);
         }
         
         newGrade = -1;
@@ -293,9 +294,6 @@ public class NewStudyPlanBean implements Serializable {
             HtmlOutputText text = new HtmlOutputText();
             text.setValue("Taking Module\n");
             panel.getChildren().add(text);
-            HtmlOutputText t1 = new HtmlOutputText();
-            t1.setValue("Grade" );
-            panel.getChildren().add(t1);
         }
         
         for (StudyPlan sp : studyPlans) {
@@ -342,9 +340,6 @@ public class NewStudyPlanBean implements Serializable {
             text.setId("spt"+sp.getId());
             text.setValue("Study Plan\n");
             panel.getChildren().add(text);
-            HtmlOutputText t1 = new HtmlOutputText();
-            t1.setValue("Grade" );
-            panel.getChildren().add(t1);
 //            System.out.println("-------check count"+column1.getWidgetCount());
         }
         

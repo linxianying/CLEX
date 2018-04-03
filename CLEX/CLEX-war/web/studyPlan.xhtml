@@ -168,22 +168,30 @@
                                 <br/><br/><hr/>
                                 <p:commandButton style="float:right;" value="Ok, I got it" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-check" onclick="PF('disclaim').hide()"/>
                             </p:dialog>
-
                         </p:tab>
-                        <p:tab title="Current">
+                        
+                        <p:tab id="currentTab" title="Current">
                             <h:form id="modulesTakingForm">
                                 <p:fieldset id="modulesTaking" legend="Modules Taking This Semester" >
                                     <h:outputText value="You are not taking any modules currently" rendered="#{empty studyPlanBean.takingModules}"/>
                                     <h:panelGrid columns="2" width="100%">
                                         <p:dataTable var="module" value="#{studyPlanBean.takingModules}" rendered="#{not empty studyPlanBean.takingModules}">
                                             <f:facet name="header">
-                                                <h:outputText value="YEAR: #{studyPlanBean.takingModules.get(0).takenYear} " />
+                                                <h:outputText value="YEAR: #{studyPlanBean.currentYear-studyPlanBean.matricYear+1} " />
                                                 <h:outputText value="SEMESTER: #{studyPlanBean.takingModules.get(0).takenSem}"/>
                                             </f:facet>
                                             <p:column style="width: 20%" headerText="Module Code">
                                                 <p:commandLink action="studyPlan?faces-redirect=false" id="modulecode" >
                                                     <h:outputText value="#{module.course.moduleCode}" />
                                                 </p:commandLink>
+                                                <p:commandButton icon="ui-icon-trash" style="background: grey; float: right" id="deleteStudyPlan-button" >
+                                                    <p:ajax update="tab:modulesTakingForm" listener="#{studyPlanBean.deleteModule(module)}" />
+                                                    <p:confirm header="Delete #{sp.course.moduleCode}" message="Are you sure?" icon="ui-icon-alert" />
+                                                </p:commandButton>
+                                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                                    <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                                </p:confirmDialog>
                                                 <p:overlayPanel for="modulecode" hideEffect="fade">
                                                     <p:panel header="#{module.course.moduleCode} - #{module.course.moduleName}">
                                                         <p:panelGrid columns="2" style="margin: auto">
