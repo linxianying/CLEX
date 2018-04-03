@@ -11,7 +11,7 @@
     <ui:define name="title">PRISM Lecturer Profile Page</ui:define>
 
     <ui:define name="viewname">Profile</ui:define>
-    
+
     <ui:define name="content">
 
         <div class="ui-g ui-fluid">
@@ -19,7 +19,7 @@
                 <p:growl id="messages" showDetail="true" />
                 <h:form>
 
-                <!-- Left Side -->
+                    <!-- Left Side -->
                     <div class="card card-w-title">
                         <h1>Basic Profile</h1>
                         <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
@@ -37,8 +37,8 @@
                             <p:inputText id="newSchool" disabled="true" value="#{profileBean.school}" readonly="true"/>
                             <span>Faculty</span>
                             <p:selectOneMenu disabled="true" style="padding: 0%;" required="true" id="newFaculty" value="#{profileBean.faculty}" 
-                                            editable="true" placeholder="Faculty">
-                               <f:selectItems value="#{profileBean.facultylist}" />
+                                             editable="true" placeholder="Faculty">
+                                <f:selectItems value="#{profileBean.facultylist}" />
                             </p:selectOneMenu>
                         </p:panelGrid>
                         <p:commandButton value="Save Profile Details" actionListener="#{profileBean.editLecturerProfile}" id="editBasicButton" update="messages" >
@@ -52,10 +52,43 @@
                     </div>
                 </h:form>
             </div>
-                
+            <br />
             <div class="ui-g-12 ui-lg-6">
                 <div class="card card-w-title">
-                <h1>Change Password</h1>
+
+                    <h:panelGroup id="profilepic">
+                        <p:graphicImage rendered="#{profileBean.checkpic(profileBean.username) == true}"
+                                        alt="#{profileBean.userEntity.name}" cache="false" library="profile"
+                                        style="background-color: transparent;background: top left no-repeat;background-size: 100px 100px; width: 100px; height: 100px" 
+                                        name="#{profileBean.username}.png"/>
+                        <p:graphicImage rendered="#{profileBean.checkpic(profileBean.username) == false}"
+                                        alt="#{profileBean.userEntity.name}" cache="false" library="profile"
+                                        style="background-color: transparent;background: top left no-repeat;background-size: 100px 100px; width: 100px; height: 100px" 
+                                        name="default.png"/>
+                    </h:panelGroup> 
+                   
+                    
+
+                    <h:outputLabel style="font-weight: bold; font-size: 30px" value="#{profileBean.username}"/>
+                    <br />
+                    <br />
+                    <h:panelGroup>
+                        <h:outputLabel value="Profile photo should be of size (120x120)."/>
+                        <br />
+                        <h:outputLabel value="Drag and drop is available on supported browsers."/>
+                        <h:form>
+                            <p:fileUpload fileUploadListener="#{profileBean.handleFileUpload}" mode="advanced" dragDropSupport="true"
+                                          invalidSizeMessage="File size should be smaller than 1024kb"
+                                          update="profilepic, messages" sizeLimit="1024000" fileLimit="1000" allowTypes="/(\.|\/)(png)$/" />
+                        </h:form>
+                    </h:panelGroup>
+
+                </div>
+            </div>
+
+            <div class="ui-g-12 ui-lg-6">
+                <div class="card card-w-title">
+                    <h1>Change Password</h1>
                     <h:form >
                         <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
                             <span>Current Password</span>
