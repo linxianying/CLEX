@@ -51,6 +51,7 @@ public class Student extends User implements Serializable {
     @Column(length = 32)
     private double cap = 0.0;
     
+    //These are modules currently taking
     @ManyToMany(cascade={CascadeType.PERSIST}, mappedBy="students")
     @JoinTable(name="Student_Module")
     private Collection<Module> modules = new ArrayList<Module>();
@@ -59,12 +60,14 @@ public class Student extends User implements Serializable {
     @JoinTable(name="Student_Lesson")
     private Collection<Lesson> lessons = new ArrayList<Lesson>();
 
+    //These are modules taken before
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="student")
     private Collection<Grade> grades = new ArrayList<Grade>();
     
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="student")
     private Collection<Ledger> ledgers = new ArrayList<Ledger>();
     
+    //These are modules will take in the future
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="student")
     private Collection<StudyPlan> studyPlan = new ArrayList<StudyPlan>();
     

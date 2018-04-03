@@ -352,146 +352,146 @@ public class indexBean {
         csbl.createLesson("Friday", "14:30", "17:30", "LEC [1]", "i3-0337",csbl.findModule("TIE2010", "2017", "2"));
         
         //set student "namename" with taken modules 
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("CP3109", "2015", "1"));
+        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("CP3109", "2015", "1"), "A");
         //csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("YIR3312", "2015", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("LAG2201", "2015", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("ES1102", "2015", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("CL2280", "2015", "1"));
+        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("LAG2201", "2015", "1"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("ES1102", "2015", "1"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("CL2280", "2015", "1"), "A");
         
-        csbl.setStudentTakenModules(csbl.findStudent("aaaaaa"), csbl.findModule("CP3109", "2015", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("CP3109", "2015", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("cccccc"), csbl.findModule("CP3109", "2015", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("dddddd"), csbl.findModule("CP3109", "2015", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("eeeeee"), csbl.findModule("CP3109", "2015", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("ffffff"), csbl.findModule("CP3109", "2015", "1"));
+        csbl.setStudentTakenModules(csbl.findStudent("aaaaaa"), csbl.findModule("CP3109", "2015", "1"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("CP3109", "2015", "1"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("cccccc"), csbl.findModule("CP3109", "2015", "1"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("dddddd"), csbl.findModule("CP3109", "2015", "1"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("eeeeee"), csbl.findModule("CP3109", "2015", "1"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("ffffff"), csbl.findModule("CP3109", "2015", "1"), "A");
         //csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("YIR3312", "2015", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("cccccc"), csbl.findModule("LAG2201", "2015", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("dddddd"), csbl.findModule("ES1102", "2015", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("eeeeee"), csbl.findModule("CL2280", "2015", "1"));
+        csbl.setStudentTakenModules(csbl.findStudent("cccccc"), csbl.findModule("LAG2201", "2015", "1"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("dddddd"), csbl.findModule("ES1102", "2015", "1"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("eeeeee"), csbl.findModule("CL2280", "2015", "1"), "A");
         
         
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("IS3106", "2015", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("CL2281", "2015", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("PL1101E", "2015", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("CM4254", "2015", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("YHU1210", "2015", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("IS3106", "2015", "2"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("CL2281", "2015", "2"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("PL1101E", "2015", "2"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("CM4254", "2015", "2"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("YHU1210", "2015", "2"), "A");
         
-        csbl.setStudentTakenModules(csbl.findStudent("aaaaaa"), csbl.findModule("IS3106", "2015", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("CL2281", "2015", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("gggggg"), csbl.findModule("PL1101E", "2015", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("eeeeee"), csbl.findModule("CM4254", "2015", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("ffffff"), csbl.findModule("YHU1210", "2015", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("aaaaaa"), csbl.findModule("IS3106", "2015", "2"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("CL2281", "2015", "2"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("gggggg"), csbl.findModule("PL1101E", "2015", "2"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("eeeeee"), csbl.findModule("CM4254", "2015", "2"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("ffffff"), csbl.findModule("YHU1210", "2015", "2"), "A");
         
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("CS1020", "2016", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("aaaaaa"), csbl.findModule("CS1020", "2016", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("jjjjjj"), csbl.findModule("CS1020", "2016", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("CS1020", "2016", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("cccccc"), csbl.findModule("CS1020", "2016", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("EC3551", "2016", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("FIN3103A", "2016", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("ACC1701X", "2016", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("MS3212", "2016", "1"));
+        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("CS1020", "2016", "1"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("aaaaaa"), csbl.findModule("CS1020", "2016", "1"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("jjjjjj"), csbl.findModule("CS1020", "2016", "1"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("CS1020", "2016", "1"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("cccccc"), csbl.findModule("CS1020", "2016", "1"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("EC3551", "2016", "1"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("FIN3103A", "2016", "1"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("ACC1701X", "2016", "1"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("MS3212", "2016", "1"), "A");
         
-        csbl.setStudentTakenModules(csbl.findStudent("ffffff"), csbl.findModule("CS1020", "2016", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("ffffff"), csbl.findModule("EC3551", "2016", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("ffffff"), csbl.findModule("FIN3103A", "2016", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("ACC1701X", "2016", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("dddddd"), csbl.findModule("MS3212", "2016", "1"));
+        csbl.setStudentTakenModules(csbl.findStudent("ffffff"), csbl.findModule("CS1020", "2016", "1"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("ffffff"), csbl.findModule("EC3551", "2016", "1"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("ffffff"), csbl.findModule("FIN3103A", "2016", "1"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("ACC1701X", "2016", "1"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("dddddd"), csbl.findModule("MS3212", "2016", "1"), "A");
       
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("CS2100", "2016", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("aaaaaa"), csbl.findModule("CS2100", "2016", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("dddddd"), csbl.findModule("CS2100", "2016", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("gggggg"), csbl.findModule("CS2100", "2016", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("IE1111", "2016", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("PF3302", "2016", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("MA2101", "2016", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("CL3551", "2016", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("CS2100", "2016", "2"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("aaaaaa"), csbl.findModule("CS2100", "2016", "2"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("dddddd"), csbl.findModule("CS2100", "2016", "2"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("gggggg"), csbl.findModule("CS2100", "2016", "2"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("IE1111", "2016", "2"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("PF3302", "2016", "2"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("MA2101", "2016", "2"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("CL3551", "2016", "2"), "A");
         
-        csbl.setStudentTakenModules(csbl.findStudent("ffffff"), csbl.findModule("CS2100", "2016", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("CS2100", "2016", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("aaaaaa"), csbl.findModule("IE1111", "2016", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("jjjjjj"), csbl.findModule("PF3302", "2016", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("ffffff"), csbl.findModule("MA2101", "2016", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("CL3551", "2016", "2"));
+        csbl.setStudentTakenModules(csbl.findStudent("ffffff"), csbl.findModule("CS2100", "2016", "2"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("CS2100", "2016", "2"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("aaaaaa"), csbl.findModule("IE1111", "2016", "2"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("jjjjjj"), csbl.findModule("PF3302", "2016", "2"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("ffffff"), csbl.findModule("MA2101", "2016", "2"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("CL3551", "2016", "2"), "A");
 
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("GER1000", "2017", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("RE2102", "2017", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("MLE2101", "2017", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("NM4227", "2017", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("LAL1201", "2017", "1"));
+        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("GER1000", "2017", "1"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("RE2102", "2017", "1"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("MLE2101", "2017", "1"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("NM4227", "2017", "1"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("LAL1201", "2017", "1"), "A");
         
-        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("GER1000", "2017", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("jjjjjj"), csbl.findModule("RE2102", "2017", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("eeeeee"), csbl.findModule("MLE2101", "2017", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("dddddd"), csbl.findModule("NM4227", "2017", "1"));
-        csbl.setStudentTakenModules(csbl.findStudent("aaaaaa"), csbl.findModule("LAL1201", "2017", "1"));
+        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("GER1000", "2017", "1"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("jjjjjj"), csbl.findModule("RE2102", "2017", "1"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("eeeeee"), csbl.findModule("MLE2101", "2017", "1"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("dddddd"), csbl.findModule("NM4227", "2017", "1"), "A");
+        csbl.setStudentTakenModules(csbl.findStudent("aaaaaa"), csbl.findModule("LAL1201", "2017", "1"), "A");
 
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("PS2240", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("PC2193", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("aaaaaa"), csbl.findModule("PS2240", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("PC2193", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("SC3101", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("LAM3201", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("TIE2010", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("namename"), csbl.findModule("PS2240", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("namename"), csbl.findModule("PC2193", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("aaaaaa"), csbl.findModule("PS2240", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("bbbbbb"), csbl.findModule("PC2193", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("namename"), csbl.findModule("SC3101", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("namename"), csbl.findModule("LAM3201", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("namename"), csbl.findModule("TIE2010", "2017", "2"));
         
-        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("PS2240", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("iiiiii"), csbl.findModule("PS2240", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("gggggg"), csbl.findModule("PS2240", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("hhhhhh"), csbl.findModule("PC2193", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("aaaaaa"), csbl.findModule("SC3101", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("LAM3201", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("cccccc"), csbl.findModule("TIE2010", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("bbbbbb"), csbl.findModule("PS2240", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("iiiiii"), csbl.findModule("PS2240", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("gggggg"), csbl.findModule("PS2240", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("hhhhhh"), csbl.findModule("PC2193", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("aaaaaa"), csbl.findModule("SC3101", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("bbbbbb"), csbl.findModule("LAM3201", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("cccccc"), csbl.findModule("TIE2010", "2017", "2"));
         
-        csbl.setStudentTakenModules(csbl.findStudent("XiaoHong"), csbl.findModule("SC3101", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("XiaoHuang"), csbl.findModule("SC3101", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("XiaoLan"), csbl.findModule("SC3101", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("XiaoLv"), csbl.findModule("SC3101", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("XiaoHong"), csbl.findModule("SC3101", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("XiaoHuang"), csbl.findModule("SC3101", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("XiaoLan"), csbl.findModule("SC3101", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("XiaoLv"), csbl.findModule("SC3101", "2017", "2"));
         
-        csbl.setStudentTakenModules(csbl.findStudent("XiaoHong"), csbl.findModule("LAM3201", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("XiaoHuang"), csbl.findModule("LAM3201", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("XiaoLan"), csbl.findModule("LAM3201", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("XiaoLv"), csbl.findModule("LAM3201", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("XiaoHong"), csbl.findModule("LAM3201", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("XiaoHuang"), csbl.findModule("LAM3201", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("XiaoLan"), csbl.findModule("LAM3201", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("XiaoLv"), csbl.findModule("LAM3201", "2017", "2"));
         
-        csbl.setStudentTakenModules(csbl.findStudent("XiaoHong"), csbl.findModule("PS2240", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("XiaoHuang"), csbl.findModule("PS2240", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("XiaoLan"), csbl.findModule("PS2240", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("XiaoLv"), csbl.findModule("PS2240", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("XiaoHong"), csbl.findModule("PS2240", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("XiaoHuang"), csbl.findModule("PS2240", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("XiaoLan"), csbl.findModule("PS2240", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("XiaoLv"), csbl.findModule("PS2240", "2017", "2"));
         
-        csbl.setStudentTakenModules(csbl.findStudent("XiaoHong"), csbl.findModule("PC2193", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("XiaoHuang"), csbl.findModule("PC2193", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("XiaoLan"), csbl.findModule("PC2193", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("XiaoLv"), csbl.findModule("PC2193", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("XiaoHong"), csbl.findModule("PC2193", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("XiaoHuang"), csbl.findModule("PC2193", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("XiaoLan"), csbl.findModule("PC2193", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("XiaoLv"), csbl.findModule("PC2193", "2017", "2"));
         
-        csbl.setStudentTakenModules(csbl.findStudent("XiaoHong"), csbl.findModule("TIE2010", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("XiaoHuang"), csbl.findModule("TIE2010", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("XiaoLan"), csbl.findModule("TIE2010", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("XiaoLv"), csbl.findModule("TIE2010", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("XiaoHong"), csbl.findModule("TIE2010", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("XiaoHuang"), csbl.findModule("TIE2010", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("XiaoLan"), csbl.findModule("TIE2010", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("XiaoLv"), csbl.findModule("TIE2010", "2017", "2"));
         
         
         //for test group formation function of lecturer
-        csbl.setStudentTakenModules(csbl.findStudent("XiaoHong"), csbl.findModule("IS4231", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("XiaoHuang"), csbl.findModule("IS4231", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("XiaoLan"), csbl.findModule("IS4231", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("XiaoLv"), csbl.findModule("IS4231", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("IS4231", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("aaaaaa"), csbl.findModule("IS4231", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("bbbbbb"), csbl.findModule("IS4231", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("cccccc"), csbl.findModule("IS4231", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("dddddd"), csbl.findModule("IS4231", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("eeeeee"), csbl.findModule("IS4231", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("ffffff"), csbl.findModule("IS4231", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("gggggg"), csbl.findModule("IS4231", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("hhhhhh"), csbl.findModule("IS4231", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("iiiiii"), csbl.findModule("IS4231", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("jjjjjj"), csbl.findModule("IS4231", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("bluesheep"), csbl.findModule("IS4231", "2017", "2"));        
-        csbl.setStudentTakenModules(csbl.findStudent("namename1"), csbl.findModule("IS4231", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename2"), csbl.findModule("IS4231", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename3"), csbl.findModule("IS4231", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename4"), csbl.findModule("IS4231", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename5"), csbl.findModule("IS4231", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename6"), csbl.findModule("IS4231", "2017", "2"));
-        csbl.setStudentTakenModules(csbl.findStudent("namename7"), csbl.findModule("IS4231", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("XiaoHong"), csbl.findModule("IS4231", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("XiaoHuang"), csbl.findModule("IS4231", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("XiaoLan"), csbl.findModule("IS4231", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("XiaoLv"), csbl.findModule("IS4231", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("namename"), csbl.findModule("IS4231", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("aaaaaa"), csbl.findModule("IS4231", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("bbbbbb"), csbl.findModule("IS4231", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("cccccc"), csbl.findModule("IS4231", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("dddddd"), csbl.findModule("IS4231", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("eeeeee"), csbl.findModule("IS4231", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("ffffff"), csbl.findModule("IS4231", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("gggggg"), csbl.findModule("IS4231", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("hhhhhh"), csbl.findModule("IS4231", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("iiiiii"), csbl.findModule("IS4231", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("jjjjjj"), csbl.findModule("IS4231", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("bluesheep"), csbl.findModule("IS4231", "2017", "2"));        
+        csbl.setStudentTakingModules(csbl.findStudent("namename1"), csbl.findModule("IS4231", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("namename2"), csbl.findModule("IS4231", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("namename3"), csbl.findModule("IS4231", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("namename4"), csbl.findModule("IS4231", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("namename5"), csbl.findModule("IS4231", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("namename6"), csbl.findModule("IS4231", "2017", "2"));
+        csbl.setStudentTakingModules(csbl.findStudent("namename7"), csbl.findModule("IS4231", "2017", "2"));
    
         //set student with lesson for 2017 sem 2 (current semester)
         csbl.setStudentLesson(csbl.findStudent("namename"), 
