@@ -10,18 +10,18 @@
     <ui:define name="title">PRISM Lecturer Classroom Page</ui:define>
 
     <ui:define name="viewname">Classroom</ui:define>
-    
+
     <ui:define name="content">
 
-        
-            
+
+
         <div id="content" class="left_content">
             <h3><h:outputText value="Classroom" /></h3>
 
             <p:tabView>
                 <p:tab title="VIEW POLLS">
 
-                <!-- START: View All Polls -->
+                    <!-- START: View All Polls -->
                     <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
                         <p:printer target="panel" />
                     </p:commandButton>
@@ -103,10 +103,10 @@
                                 <p:column filterBy="#{poll.correctRate}" sortBy="#{poll.correctRate}" 
                                           headerText="Correct Rate" filterMatchMode="contains">
                                     <p:commandButton value="Finish Poll" 
-                                              rendered="#{empty poll.status}" 
-                                              actionListener="#{classroomBean.stopPoll(poll)}"
-                                              action="classroom?faces-redirect=true"/>
-                                    
+                                                     rendered="#{empty poll.status}" 
+                                                     actionListener="#{classroomBean.stopPoll(poll)}"
+                                                     action="classroom?faces-redirect=true"/>
+
                                     <h:outputText value="#{poll.correctRate}" rendered="#{not empty poll.status}"/>
                                 </p:column>
                             </p:dataTable>
@@ -115,33 +115,34 @@
 
                         </p:panel> 
                     </h:form>
-                <!-- END: View All Polls -->
+                    <!-- END: View All Polls -->
                 </p:tab>
 
                 <p:tab title="VIEW ANALYZATION">
                     <p:growl id="msgmsg" showDetail="true" />
 
-                    <h:panelGrid columns="2" columnClasses="left,right" style="width:100%">
+                    <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+                        <p:printer target="chart" />
+                    </p:commandButton>
+                    <p:commandButton type="button" value="Export" icon="ui-icon-extlink" onclick="exportChart1()"/>
 
+
+                    <h:panelGrid columns="2" columnClasses="left,right" style="width:100%">
                         <p:chart type="bar" id="chart" widgetVar="chart" model="#{classroomBean.barModel}" style="width:900px;height:300px">
                             <p:ajax event="itemSelect" listener="#{classroomBean.itemSelect}" update="msgmsg" />
                         </p:chart> 
 
-                        <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+                        <!--<p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
                             <p:printer target="chart" />
-                        </p:commandButton>
-
-                        
-
-
+                        </p:commandButton>-->
 
                     </h:panelGrid>
-                    
+
                     <h:panelGrid columns="2" columnClasses="left,right" style="width:100%">
                         <p:chart type="bar" widgetVar="chartType" model="#{classroomBean.barModelByType}" style="width:900px;height:300px">
                             <p:ajax event="itemSelect" listener="#{classroomBean.itemSelect}" update="msgmsg" /> 
                         </p:chart> 
-                        <p:commandButton type="button" value="Export" icon="ui-icon-extlink" onclick="exportChart1()"/>
+                        <!--<p:commandButton type="button" value="Export" icon="ui-icon-extlink" onclick="exportChart1()"/>-->
 
                         <p:dialog widgetVar="dlg1" showEffect="fade" modal="true" header="Chart as an Image" resizable="false">
                             <p:outputPanel id="output1" layout="block" style="width:500px;height:300px"/>
@@ -160,7 +161,7 @@
                 </p:tab>
 
                 <p:tab title="ADD NEW POLL">
-                <!-- START: Add New Poll -->
+                    <!-- START: Add New Poll -->
                     <h:form id="addForm">
                         <p:growl id="msg" showDetail="true" />
                         <p:panel collapsed="false" styleClass="menuHeader"  header="Add New Finished Poll" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
@@ -199,10 +200,10 @@
                                     </td>
 
                                     <td>
-                                        <p:selectOneMenu style="width:285px;" id="addPickSem" required="true" value="#{classroomBean.addPickSem}" >
+                                        <p:selectOneButton style="width: 100%" id="addPickSem" required="true" value="#{classroomBean.addPickSem}" >
                                             <f:selectItem itemLabel="1" itemValue="1" />
                                             <f:selectItem itemLabel="2" itemValue="2" />
-                                        </p:selectOneMenu>
+                                        </p:selectOneButton>
                                     </td>
                                 </tr>
                                 <tr>
@@ -241,7 +242,7 @@
                                     </td>
 
                                     <td >
-                                        <p:inputNumber value="#{classroomBean.addPollCorrectRate}" required="true" 
+                                        <p:inputNumber style="width: 100%" value="#{classroomBean.addPollCorrectRate}" required="true" 
                                                        requiredMessage="Please enter a number range from 0 to 1 only." 
                                                        minValue="0.00" maxValue="1.00"
                                                        placeholder="Number from 0 to 1"
@@ -290,10 +291,10 @@
                                     </td>
 
                                     <td>
-                                        <p:selectOneMenu style="width:285px;" id="addPickSem1" required="true" value="#{classroomBean.addPickSem}" >
+                                        <p:selectOneButton style="width: 100%" id="addPickSem1" required="true" value="#{classroomBean.addPickSem}" >
                                             <f:selectItem itemLabel="1" itemValue="1" />
                                             <f:selectItem itemLabel="2" itemValue="2" />
-                                        </p:selectOneMenu>
+                                        </p:selectOneButton>
                                     </td>
                                 </tr>
                                 <tr>
@@ -334,11 +335,11 @@
                                     <td >
                                         <p:inputNumber value="#{classroomBean.num}" required="true" 
                                                        requiredMessage="Please enter an integer number" 
-                                                       minValue="0.00" maxValue="10.00"
-                                                       placeholder="Number from 0 to 10"
+                                                       minValue="0" maxValue="10"
+                                                       placeholder="0 - 10"
                                                        id="num"
                                                        />
-                                        <p:commandButton value="Comfirm" partialSubmit="true" update="@form" process="num" />
+                                        <p:commandButton value="Confirm" partialSubmit="true" update="answers" process="num" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -347,15 +348,15 @@
                                     </td>
 
                                     <td >
-                                        <p:dataList value="#{classroomBean.ans}" var="answer" type="ordered">
-                                    
+                                        <p:dataList value="#{classroomBean.ans}" id="answers" var="answer" type="ordered">
+
                                             <p:inputText value="#{answer}"  style="width:300px;"
-                                                required="true"  />
+                                                         required="true"  />
 
                                         </p:dataList>
                                     </td>
                                 </tr>
-                                
+
                                 <tr>
                                     <td>
                                         <p:commandButton value="Add"  style="width:200px;"
@@ -365,7 +366,7 @@
                                 </tr>
                             </table>
                         </p:panel>
-                       
+
                     </h:form>
 
                 </p:tab>
