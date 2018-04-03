@@ -32,19 +32,11 @@
                             <p:panel header="#{m.course.moduleCode}">
                                 <h:outputText value="This course doesn't have a group" escape="false" 
                                               rendered="#{empty m.superGroup}" />
-                                
-<!--                                <h:outputText value="You have yet to join a group" escape="false" 
-                                              rendered="#{not empty m.superGroup and 
-                                                          !projectBean.hasProjectGroup(m.course.moduleCode)}" />-->
                                 <br />
                                 <br />
                                 <p:commandButton value="Group formation in process" 
                                                 rendered="#{not empty m.superGroup and !m.superGroup.confirm}"
                                                             action="#{projectBean.goFormGroup(m.course.moduleCode)}" />
-                                <h:outputText value="Your group #{projectBean.getStudentProjectGroupName(m.course.moduleCode)}" escape="false" 
-                                              rendered="#{not empty m.superGroup and m.superGroup.confirm and
-                                                          projectBean.hasProjectGroup(m.course.moduleCode)}" />
-                                
                                 <h:outputText value="Your group #{projectBean.getStudentProjectGroupName(m.course.moduleCode)}" escape="false" 
                                               rendered="#{not empty m.superGroup and m.superGroup.confirm and
                                                           projectBean.hasProjectGroup(m.course.moduleCode)}" />
@@ -59,7 +51,7 @@
                                                  projectBean.hasProjectGroup(m.course.moduleCode) and 
                                                  not empty m.peerReviewQuestion and m.peerReviewQuestion.status eq 'start'}" 
                                                  action="#{projectBean.GoPRPage(m.course.moduleCode)}"/>
-                                <h:panelGroup>
+<!--                                <h:panelGroup>
                                     <h:outputText value="This course doesn't have a group" escape="false" 
                                                   rendered="#{empty m.superGroup}" />                                    
                                     <h:outputText value="You have yet to join a group" escape="false" 
@@ -67,8 +59,8 @@
                                                               !projectBean.hasProjectGroup(m.course.moduleCode)}" />
                                     <h:outputText value="Your group" escape="false" 
                                                   rendered="#{not empty m.superGroup and 
-                                                              projectBean.hasProjectGroup(m.course.moduleCode)}" />                                   
-                                    <h:panelGroup>
+                                                              projectBean.hasProjectGroup(m.course.moduleCode)}" />                                   -->
+<!--                                    <h:panelGroup>
                                         <br />
                                         <p:commandButton value="Group formation" 
                                                          rendered="#{not empty m.superGroup and 
@@ -78,8 +70,8 @@
                                                          rendered="#{not empty m.superGroup and 
                                                                      projectBean.hasProjectGroup(m.course.moduleCode)}" 
                                                          action="#{projectBean.GoGroupPage(m.course.moduleCode)}"/>
-                                    </h:panelGroup>
-                                </h:panelGroup>
+                                    </h:panelGroup>-->
+                                <!--</h:panelGroup>-->
                             </p:panel>
                         </p:column>
                     </ui:repeat>
