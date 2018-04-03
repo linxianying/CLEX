@@ -46,6 +46,7 @@ import facebook4j.Reading;
 import facebook4j.ResponseList;
 import facebook4j.auth.AccessToken;
 import facebook4j.conf.Configuration;
+import session.ClexSessionBeanLocal;
 //import facebook4j.conf.ConfigurationBuilder;
 
 /**
@@ -64,6 +65,9 @@ public class AnnouncementBean {
 
     @EJB
     StudyPlanSessionBeanLocal spsbl;
+    
+    @EJB
+    ClexSessionBeanLocal csbl;
 
     private User userEntity;
     private String username;
@@ -97,7 +101,11 @@ public class AnnouncementBean {
         userType = (int) session.getAttribute("userType");
         if (userType == 1) {
             userEntity = asbl.findUser(username);
+<<<<<<< HEAD
             takingModules = spsbl.getCurrentModules(spsbl.findStudent(username));
+=======
+            takingModules = spsbl.getCurrentModules(csbl.findStudent(username));
+>>>>>>> 417b4e18bceee3e1736f38564d0efc97044bd96d
             announcements = getAnnouncementByAdminForStudent();
             announcements2 = getLatestAnnouncementForAllModules();
             announcements.addAll(announcements2);

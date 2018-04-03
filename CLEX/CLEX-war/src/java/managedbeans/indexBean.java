@@ -6,6 +6,7 @@
 package managedbeans;
 
 import entity.Transaction;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 import javax.ejb.EJB;
@@ -709,9 +710,19 @@ public class indexBean {
         crsbl.createPoll("PC2193", "2017", "2", "2017-12-07", "topic3", 0.71, "type3", "How is your learning experience?");
         crsbl.createPoll("PC2193", "2017", "2", "2017-12-11", "topic3", 0.38, "type4", "How is your learning experience?");
         crsbl.createPoll("PC2193", "2017", "2", "2017-12-17", "topic4", 0.10, "type5", "How is your learning experience?");
-        crsbl.createUnfinishedPoll("PC2193", "2017", "2", "2018-01-01", "topic4", 0.0, "type5", "How is your learning experience?");
-        crsbl.createUnfinishedPoll("PC2193", "2017", "2", "2018-02-01", "topic1", 0.0, "type1", "Question?");
-        crsbl.createUnfinishedPoll("CS2100", "2016", "2", "2016-09-27", "Computer Organization", 0.49, "type1", "How do you find the lecturer?");
+        ArrayList<String> ans = new ArrayList<String>();
+        ans.add("A.Very Likely");
+        ans.add("B.Likely");
+        ans.add("C.Not Likely");
+        ans.add("D.Never");
+        ArrayList<String> ans1 = new ArrayList<String>();
+        ans1.add("A.Understand all the materials");
+        ans1.add("B.Understand some parts of the materials");
+        ans1.add("C.Not Understand");
+        crsbl.createUnfinishedPoll("PC2193", "2017", "2", "2018-01-01", "topic4", 0.0, "type5", "Would you like to take next level physics course again?", ans, 0);
+        crsbl.createUnfinishedPoll("PC2193", "2017", "2", "2018-02-01", "topic1", 0.0, "type1", "Do you understand this week's new concepts?", ans1, 0);
+        crsbl.createUnfinishedPoll("CS2100", "2016", "2", "2016-09-27", "Computer Organization", 0.0, "type1", "How do you find the OOP? ", ans1, 0);
+        crsbl.createUnfinishedPoll("CS2100", "2016", "2", "2016-10-27", "Computer Organization", 0.0, "type6", "Are you familiar with OOP?", ans1, 0);
         
         
         
