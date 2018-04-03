@@ -97,7 +97,7 @@ public class AnnouncementBean {
         userType = (int) session.getAttribute("userType");
         if (userType == 1) {
             userEntity = asbl.findUser(username);
-            takingModules = spsbl.getCurrentModules(username);
+            takingModules = spsbl.getCurrentModules(spsbl.findStudent(username));
             announcements = getAnnouncementByAdminForStudent();
             announcements2 = getLatestAnnouncementForAllModules();
             announcements.addAll(announcements2);
