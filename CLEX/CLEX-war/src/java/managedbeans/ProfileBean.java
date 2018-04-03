@@ -9,7 +9,12 @@ import entity.Lecturer;
 import entity.Student;
 import entity.User;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -17,8 +22,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import session.ClexSessionBeanLocal;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 import session.CourseMgmtBeanLocal;
 import session.ProfileSessionBeanLocal;
 
@@ -70,15 +77,20 @@ public class ProfileBean implements Serializable {
     private List<String> yearlist;
 
     HttpSession session;
-
+    HttpServletRequest request;
     FacesMessage fmsg = new FacesMessage();
     FacesContext context = FacesContext.getCurrentInstance();
+    private UploadedFile uploadedFile;
 
     public ProfileBean() {
     }
 
     @PostConstruct
     public void init() {
+        refresh();
+    }
+
+    public void refresh() {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
 
@@ -106,6 +118,47 @@ public class ProfileBean implements Serializable {
             faculty = lecturerEntity.getFaculty();
         }
         facultylist = psbl.getSchoolFaculty(school);
+    }
+
+    public void handleFileUpload(FileUploadEvent event) throws IOException {
+
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+        String filename = username;
+        String extension = ".png";
+
+        String path = session.getServletContext().getRealPath("/");
+        int pathlength = path.length();
+        pathlength = pathlength - 10;
+        path = path.substring(0, pathlength);
+        path = path + "web/resources/profile/pic/";
+        path = path.replaceAll("\\\\", "/");
+        System.out.println("path " + path);
+
+        Path folder = Paths.get(path);
+        Path file = Files.createTempFile(folder, filename, extension);
+        System.out.println("File name: " + file.getFileName().toString());
+
+        try (InputStream input = event.getFile().getInputstream()) {
+            System.out.println("File size: " + event.getFile().getSize());
+            Files.copy(input, file, StandardCopyOption.REPLACE_EXISTING);
+
+        }
+
+        System.out.println("File successfully saved in " + file);
+        FacesMessage message = new FacesMessage("Succes!", event.getFile().getFileName() + " uploaded.");
+        FacesContext.getCurrentInstance().addMessage(null, message);
+
+        if (Files.exists(Paths.get(path + username + extension))) {
+            System.out.println("Try Delete and rename");
+            Files.delete(Paths.get(path + username + extension));
+            Files.move(file, Paths.get(path + username + extension));
+        } else {
+            System.out.println("Try rename");
+            Files.move(file, Paths.get(path + username + extension));
+        }
+        context.getExternalContext().getFlash().setKeepMessages(true);
+        context.getExternalContext().redirect("profile.xhtml");
     }
 
     public void editStudentProfile() throws IOException {
@@ -164,7 +217,7 @@ public class ProfileBean implements Serializable {
                 //throw error: Wrong password
                 // Need help for implementation error message on UI for passwords mismatch
                 System.out.println("Wrong password with DB");
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!","Current password is incorrect"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Current password is incorrect"));
             }
         }
     }
@@ -446,5 +499,13 @@ public class ProfileBean implements Serializable {
 
     public void setYearlist(List<String> yearlist) {
         this.yearlist = yearlist;
+    }
+
+    public UploadedFile getUploadedFile() {
+        return uploadedFile;
+    }
+
+    public void setUploadedFile(UploadedFile uploadedFile) {
+        this.uploadedFile = uploadedFile;
     }
 }

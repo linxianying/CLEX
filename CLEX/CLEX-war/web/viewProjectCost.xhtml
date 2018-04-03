@@ -11,7 +11,7 @@
     </h:head>
     <ui:define name="content">
         <p:growl id="addErrorMsg" showDetail="true" />
-        <p:panelGrid columns="2" layout="grid">
+        <p:panelGrid columns="2" layout="grid">            
             <p:fieldset collapsed="false" styleClass="menuHeader" id="balance" legend="Summary" toggleable="false" toggleSpeed="500" >
                 <h:outputText id="emptyLabel2" value="No member in your group owes anyone anything! Hooray!" rendered="#{empty viewProjectCostBean.sortedTransactions}"/>
                 <h:panelGrid columns="2">
