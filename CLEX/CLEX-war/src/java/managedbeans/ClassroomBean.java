@@ -229,7 +229,7 @@ public class ClassroomBean {
         barModelByType.setTitle("Poll Analysis By Type");
         barModelByType.setLegendPosition("ne");
         
-        barModel.setTitle("Poll AnalysisT By Topic");
+        barModel.setTitle("Poll Analysis By Topic");
         barModel.setLegendPosition("ne");
          
         Axis xAxis = barModel.getAxis(AxisType.X);
