@@ -30,7 +30,6 @@
                     <ui:repeat var="m" value="#{projectBean.takingModules}">
                         <p:column>
                             <p:panel header="#{m.course.moduleCode}">
-<<<<<<< HEAD
                                 <h:outputText value="This course doesn't have a group" escape="false" 
                                               rendered="#{empty m.superGroup}" />
                                 
@@ -60,7 +59,6 @@
                                                  projectBean.hasProjectGroup(m.course.moduleCode) and 
                                                  not empty m.peerReviewQuestion and m.peerReviewQuestion.status eq 'start'}" 
                                                  action="#{projectBean.GoPRPage(m.course.moduleCode)}"/>
-=======
                                 <h:panelGroup>
                                     <h:outputText value="This course doesn't have a group" escape="false" 
                                                   rendered="#{empty m.superGroup}" />                                    
