@@ -75,12 +75,24 @@
                     <h:panelGroup>
                         <h:outputLabel value="Profile photo should be of size (120x120)."/>
                         <br />
+                        <h:outputLabel value="Format must be of PNG format and must not exceed 1024kb."/>
+                        <br />
                         <h:outputLabel value="Drag and drop is available on supported browsers."/>
+                        <br />
+                        <br />
                         <h:form>
-                            <p:fileUpload fileUploadListener="#{profileBean.handleFileUpload}" mode="advanced" dragDropSupport="true"
+                            <p:fileUpload fileUploadListener="#{profileBean.handleFileUpload}" skinSimple="false" mode="advanced" multiple="false" dragDropSupport="true"
                                           invalidSizeMessage="File size should be smaller than 1024kb"
-                                          update="profilepic, messages" sizeLimit="1024000" fileLimit="1000" allowTypes="/(\.|\/)(png)$/" />
+                                          update="profilepic, messages" sizeLimit="1024000" fileLimit="1" allowTypes="/(\.|\/)(png)$/" />
                         </h:form>
+                        <br />
+                        <h:outputLabel value="Inappropriate photos will be removed by the Administrator."/>
+                        <br />
+                        <h:outputLabel value="Repeat offenders shall have his/her account removed from PRISM."/>
+                        <br />
+                        <h:outputLabel value="Photo may not be updated immediately due to caching in your browser."/>
+                        <br />
+                        <h:outputLabel value="If problem persists after clearing cache, please contact PRISM."/>
                     </h:panelGroup>
 
                 </div>
