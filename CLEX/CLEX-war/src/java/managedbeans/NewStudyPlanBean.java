@@ -17,16 +17,24 @@ import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.el.MethodExpression;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.component.UISelectItem;
+import org.primefaces.behavior.ajax.AjaxBehavior;
+import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.component.html.HtmlOutputText;
+import org.primefaces.component.selectonemenu.SelectOneMenu;
 import javax.faces.context.FacesContext;
+import javax.faces.event.MethodExpressionActionListener;
+import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpSession;
 import org.primefaces.component.dashboard.Dashboard;
 import org.primefaces.component.panel.Panel;
 import org.primefaces.event.CloseEvent;
 import org.primefaces.event.DashboardReorderEvent;
+import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.DashboardColumn;
 import org.primefaces.model.DashboardModel;
@@ -87,6 +95,9 @@ public class NewStudyPlanBean implements Serializable {
     private boolean addButton;
     private List<Course> courses;
     
+    //for edit grade
+    private double newGrade;
+    
     //for rendering the info after the student select the module
     Course courseFront;
     
@@ -109,9 +120,11 @@ public class NewStudyPlanBean implements Serializable {
         takingModules = spsbl.getCurrentModules(student);
         
         if (student.getStudyPlan() != null) {
-            studyPlans = spsbl.getAllStudyPlans(student);
+            studyPlans = spsbl.getAllStudyPlans(student.getUsername());
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!# of study plans: " + studyPlans.size());
         }
         
+        newGrade = -1;
         
         dashboard = (Dashboard) application.createComponent(context, "org.primefaces.component.Dashboard", "org.primefaces.component.DashboardRenderer");
         dashboard.setId("spDashboard");
@@ -144,6 +157,50 @@ public class NewStudyPlanBean implements Serializable {
         column6.addWidget("y32");
         column7.addWidget("y41");
         column8.addWidget("y42");
+        
+        final UISelectItem item0 = new UISelectItem();
+        item0.setItemLabel("select");
+        item0.setItemValue("select");
+        final UISelectItem item1 = new UISelectItem();
+        item1.setItemLabel("A+");
+        item1.setItemValue("A+");
+        final UISelectItem item2 = new UISelectItem();
+        item2.setItemLabel("A");
+        item2.setItemValue("A");
+        final UISelectItem item3 = new UISelectItem();
+        item3.setItemLabel("A-");
+        item3.setItemValue("A-");
+        final UISelectItem item4 = new UISelectItem();
+        item4.setItemLabel("B+");
+        item4.setItemValue("B+");
+        final UISelectItem item5 = new UISelectItem();
+        item5.setItemLabel("B");
+        item5.setItemValue("B");
+        final UISelectItem item6 = new UISelectItem();
+        item6.setItemLabel("B-");
+        item6.setItemValue("B-");
+        final UISelectItem item7 = new UISelectItem();
+        item7.setItemLabel("C+");
+        item7.setItemValue("C+");
+        final UISelectItem item8 = new UISelectItem();
+        item8.setItemLabel("C");
+        item8.setItemValue("C");
+        final UISelectItem item9 = new UISelectItem();
+        item9.setItemLabel("D+");
+        item9.setItemValue("D+");
+        final UISelectItem item10 = new UISelectItem();
+        item10.setItemLabel("D");
+        item10.setItemValue("D");
+        final UISelectItem item11 = new UISelectItem();
+        item11.setItemLabel("F");
+        item11.setItemValue("F");
+        final UISelectItem item12 = new UISelectItem();
+        item12.setItemLabel("S");
+        item12.setItemValue("S");
+        final UISelectItem item13 = new UISelectItem();
+        item13.setItemLabel("U");
+        item13.setItemValue("U");
+            
         for (Grade g : grades) {
             Panel panel = (Panel) application.createComponent(context, "org.primefaces.component.Panel", "org.primefaces.component.PanelRenderer");
             panel.setId("g" + g.getId());
@@ -288,12 +345,11 @@ public class NewStudyPlanBean implements Serializable {
             HtmlOutputText t1 = new HtmlOutputText();
             t1.setValue("Grade" );
             panel.getChildren().add(t1);
-            System.out.println("-------check count"+column1.getWidgetCount());
+//            System.out.println("-------check count"+column1.getWidgetCount());
         }
         
         System.out.println("newStudyPlanBean finish ");
     }
-    
     
     public void setYearSem(){
         Calendar now = Calendar.getInstance();
@@ -310,9 +366,14 @@ public class NewStudyPlanBean implements Serializable {
         //for test purpose
         //matricYear = 2015;
         currentColumnIndex = (currentYear-matricYear)*2+currentSem - 1;
-        
     }
     
+    public void onTabChange(TabChangeEvent event){
+        if (event.getTab().getId().equals("overviewTab")) {
+            this.init();
+            System.out.println("NewStudyPlanBean:onTabChange: studyPlans size " + studyPlans.size());
+        }
+    }
     
     public void handleReorder(DashboardReorderEvent event) {
         System.out.println("handel reorder");
@@ -491,6 +552,9 @@ public class NewStudyPlanBean implements Serializable {
         context.addMessage(null, fmsg);
     }
     
+    public void editGrade() {
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Edit Grade");
+    }
     
     public StudyPlanSessionBeanLocal getSpsbl() {
         return spsbl;
@@ -731,6 +795,14 @@ public class NewStudyPlanBean implements Serializable {
 
     public void setCourseFront(Course courseFront) {
         this.courseFront = courseFront;
+    }
+
+    public double getNewGrade() {
+        return newGrade;
+    }
+
+    public void setNewGrade(double newGrade) {
+        this.newGrade = newGrade;
     }
     
     

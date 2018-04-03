@@ -11,6 +11,7 @@ import entity.Module;
 import entity.Student;
 import entity.StudyPlan;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -65,7 +66,7 @@ public class StudyPlanBean {
     private Student student;
     //for add study plan
     private String addModuleCode;
-    private String addPickYear;
+    private int addPickYear;
     private String addPickSem;
     private String addErrorMsg;
     private boolean addButton;
@@ -77,6 +78,10 @@ public class StudyPlanBean {
     private List<Course> courses;
 
     Course courseFront; //for rendering the info after the student select the module
+    
+    private int currentYear;
+    private int currentSem;
+    private int matricYear;
 
     public StudyPlanBean() {
     }
@@ -84,6 +89,7 @@ public class StudyPlanBean {
     @PostConstruct
     public void init() {
         refresh();
+        setYearSem();
     }
 
     public void refresh() {
@@ -105,7 +111,8 @@ public class StudyPlanBean {
             expectedCourseGrade = cpsbl.getExpectedCourseGrade(username);
             expectedCap = cap;
             System.out.println("Expected Cap reset to " + expectedCap);
-        } else {
+        } 
+        else {
             expectedCap = 0.0;
         }
         this.setNewModuleGrade("select");
@@ -114,7 +121,6 @@ public class StudyPlanBean {
         //newCurrentModuleGrade = "A+";
         allCredits = cpsbl.getNumOfCredits(username);
         addModuleCode = null;
-        addPickYear = null;
         addPickSem = null;
         addErrorMsg = null;
         addButton = false;
@@ -124,15 +130,29 @@ public class StudyPlanBean {
         courses = cpsbl.getAllCourses();
         System.out.println("finish to render StudyPlanBean");
     }
+    
+    public void setYearSem(){
+        Calendar now = Calendar.getInstance();
+        currentYear = now.get(Calendar.YEAR);
+        // month starts from 0 to 11
+        int currentMonth = now.get(Calendar.MONTH);
+        if (currentMonth < 6) {
+            currentSem = 2;
+            currentYear--;
+        } else {
+            currentSem = 1;
+        }
+        matricYear = Integer.parseInt(student.getMatricYear());
+    }
 
     public void checkStudyPlan() {
-
         context = FacesContext.getCurrentInstance();
         FacesMessage fmsg = new FacesMessage();
         //System.out.println(addPickYear + " " + addPickSem);
         if (addModuleCode.endsWith("select")) {
             this.addButton = false;
-        } //this course already in studyPlan
+        } 
+        //this course already in studyPlan
         else if (cpsbl.checkStudyPlan(username, addModuleCode.toUpperCase())) {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "The module " + addModuleCode + " already in your study plan", "Please change to another module");
@@ -155,16 +175,17 @@ public class StudyPlanBean {
     }
 
     public void addStudyPlan() {
-        System.out.println("addModuleCode" + addModuleCode);
+        System.out.println("studyPlanBena: addStudyPlan: addModuleCode" + addModuleCode);
         System.out.println("addpickyear" + addPickYear);
         System.out.println("addpickSem" + addPickSem);
-
+        addPickYear += this.matricYear-1;
         context = FacesContext.getCurrentInstance();
         System.out.println("username" + username);
-        cpsbl.createStudyPlan(addPickYear, addPickSem, addModuleCode.toUpperCase(), csbl.findStudent(username));
-        studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
+        cpsbl.createStudyPlan(Integer.toString(addPickYear), addPickSem, addModuleCode.toUpperCase(), csbl.findStudent(username));
+//        studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!# of SPs in year4 sem 2:" + studyPlansInOrer.get(1).size());
         addModuleCode = null;
-        addPickYear = null;
+//        addPickYear = null;
         addPickSem = null;
         this.addButton = false;
         refresh();
@@ -319,7 +340,12 @@ public class StudyPlanBean {
             return true;
         }
     }
-
+    
+    //convert pickyear (eg. 2018) to Year 4
+    public String getSPPickYear(String pickYear){
+        int year = Integer.parseInt(pickYear) + 1 - this.matricYear;
+        return Integer.toString(year);
+    }
     //-------------------------------------------------------------------------
     //for test addStudyPlan, dont forget to create student and module before test
 //    public void testAddStudyPlan(){
@@ -441,10 +467,6 @@ public class StudyPlanBean {
         this.addModuleCode = addModuleCode.toUpperCase();
     }
 
-    public String getAddPickYear() {
-        return addPickYear;
-    }
-
     public ArrayList<Grade> getGrades() {
         return grades;
     }
@@ -475,10 +497,6 @@ public class StudyPlanBean {
 
     public void setGradesInOrder(ArrayList<ArrayList<Grade>> gradesInOrder) {
         this.gradesInOrder = gradesInOrder;
-    }
-
-    public void setAddPickYear(String addPickYear) {
-        this.addPickYear = addPickYear;
     }
 
     public String getNewModuleGrade() {
@@ -689,4 +707,47 @@ public class StudyPlanBean {
         this.courseFront = courseFront;
     }
 
+    public CourseMgmtBeanLocal getCmbl() {
+        return cmbl;
+    }
+
+    public void setCmbl(CourseMgmtBeanLocal cmbl) {
+        this.cmbl = cmbl;
+    }
+
+    public int getCurrentYear() {
+        return currentYear;
+    }
+
+    public void setCurrentYear(int currentYear) {
+        this.currentYear = currentYear;
+    }
+
+    public int getCurrentSem() {
+        return currentSem;
+    }
+
+    public void setCurrentSem(int currentSem) {
+        this.currentSem = currentSem;
+    }
+
+    public int getMatricYear() {
+        return matricYear;
+    }
+
+    public void setMatricYear(int matricYear) {
+        this.matricYear = matricYear;
+    }
+
+    public int getAddPickYear() {
+        return addPickYear;
+    }
+
+    public void setAddPickYear(int addPickYear) {
+        this.addPickYear = addPickYear;
+    }
+    
+    
+    
+    
 }

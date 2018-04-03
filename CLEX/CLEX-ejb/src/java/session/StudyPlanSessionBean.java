@@ -150,7 +150,6 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         System.out.println("StudyPlanSessionbean: getTakenCourses: student:"
                 + username + "'s takenModules:" + modules.size());
         for (Module m : modules) {
-            System.out.println("Module's course is" + m.getCourse().getModuleCode());
             this.takenCourses.add(m.getCourse());
         }
         return takenCourses;
@@ -241,9 +240,9 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
                 if (Integer.parseInt(grades.get(index).getModule().getTakenYear()) == year) {
                     if (Integer.parseInt(grades.get(index).getModule().getTakenSem()) == sem) {
                         current.add(grades.get(index));
-                        System.out.println("StudyPlanSessionbean: getAllGradesInOrder: "
-                                + "add course " + grades.get(index).getModule().getCourse().getModuleCode()
-                                + " at year " + year + ", sem " + sem);
+//                        System.out.println("StudyPlanSessionbean: getAllGradesInOrder: "
+//                                + "add course " + grades.get(index).getModule().getCourse().getModuleCode()
+//                                + " at year " + year + ", sem " + sem);
                     }
                 }
             }
@@ -286,9 +285,9 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
                 if (Integer.parseInt(takenModules.get(index).getTakenYear()) == year) {
                     if (Integer.parseInt(takenModules.get(index).getTakenSem()) == sem) {
                         currentCourses.add(takenModules.get(index).getCourse());
-                        System.out.println("StudyPlanSessionbean: getTakenModulesInOrder: "
-                                + "add course " + takenModules.get(index).getCourse().getModuleCode()
-                                + " at year " + year + ", sem " + sem);
+//                        System.out.println("StudyPlanSessionbean: getTakenModulesInOrder: "
+//                                + "add course " + takenModules.get(index).getCourse().getModuleCode()
+//                                + " at year " + year + ", sem " + sem);
                     }
                 }
             }
@@ -326,24 +325,32 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         return check;
     }
 
-    // find all studyPlan the user has
-    @Override
-    public ArrayList<StudyPlan> getAllStudyPlans(String username) {
-        student = findStudent(username);
-        Collection<StudyPlan> all = new ArrayList<StudyPlan>();
-        studyPlans = new ArrayList<StudyPlan>();
-        all = student.getStudyPlan();
-        for (StudyPlan s : all) {
-            studyPlans.add(s);
-        }
-        System.out.println("StudyPlanSessionbean: getAllStudyPlans: student:"
-                + username + "'s studyPlans:" + studyPlans.size());
-        for (StudyPlan s : studyPlans) {
-            System.out.println(s.getCourse().getModuleCode()
-                    + " at year " + s.getPickYear() + ", sem " + s.getPickSem());
-        }
-        return studyPlans;
-    }
+//    // find all studyPlan the user has
+//    @Override
+//    public ArrayList<StudyPlan> getAllStudyPlans(String username) {
+//        student = findStudent(username);
+//        List<StudyPlan> all = new ArrayList<StudyPlan>();
+//        studyPlans = new ArrayList<StudyPlan>();
+//        try{
+//            Query q = em.createQuery("SELECT sp FROM StudyPlan sp WHERE sp.student.id = :userId");
+//            q.setParameter("userId", student.getId());
+//            all = (List<StudyPlan>) q.getResultList();
+//            for (StudyPlan s : all) {
+//                studyPlans.add(s);
+//            }
+//            System.out.println("StudyPlanSessionbean: getAllStudyPlans: student:"
+//                + username + "'s studyPlans:" + studyPlans.size());
+//        }
+//        catch(NoResultException e){
+//            System.out.println("User " + username + " does not have any study plan.");
+//            studyPlans = null;
+//        }
+//        catch(Exception e) {
+//            e.printStackTrace();
+//        }
+//        
+//        return studyPlans;
+//    }
 
     //set all course taken by the user in order of year and sem
     //update all study plans first (remove study plans for previous semesters)
@@ -352,6 +359,7 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         this.updateAllStudyPlans(username);
         studyPlansInOrder = new ArrayList<ArrayList<StudyPlan>>();
         studyPlans = this.getAllStudyPlans(username);
+        
         Calendar now = Calendar.getInstance();
         int startYear = now.get(Calendar.YEAR);
         int startSem = 1;
@@ -366,20 +374,20 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         do {
             ArrayList<StudyPlan> current = new ArrayList<StudyPlan>();
             for (StudyPlan s : studyPlans) {
-                System.out.println("StudyPlanSessionbean: getStudyPlanInOrder: "
-                        + s.getCourse().getModuleCode()
-                        + " at year " + s.getPickYear() + ", sem " + s.getPickSem());
+//                System.out.println("StudyPlanSessionbean: getStudyPlanInOrder: "
+//                        + s.getCourse().getModuleCode()
+//                        + " at year " + s.getPickYear() + ", sem " + s.getPickSem());
                 if (Integer.parseInt(s.getPickYear()) == startYear) {
                     if (Integer.parseInt(s.getPickSem()) == startSem) {
                         current.add(s);
-                        System.out.println("StudyPlanSessionbean: getStudyPlanInOrder: add"
-                                + s.getCourse().getModuleCode()
-                                + " at year " + startYear + ", sem " + startSem);
+//                        System.out.println("StudyPlanSessionbean: getStudyPlanInOrder: add"
+//                                + s.getCourse().getModuleCode()
+//                                + " at year " + startYear + ", sem " + startSem);
                     }
                 }
             }
-            System.out.println("current: " + current.size());
-            System.out.println(current);
+            System.out.println("SPsb: getStudyPlanInOrder: current: " + current.size());
+//            System.out.println(current);
             //if for this semester, no modules are added to studyPlan, jump to next semester
             if (current.size() != 0) {
                 studyPlansInOrder.add(current);
@@ -857,17 +865,43 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         return takingModules;
     }
     
+//    @Override
+//    public ArrayList<StudyPlan> getAllStudyPlans(Student student) {
+//        Collection<StudyPlan> all = new ArrayList<StudyPlan>();
+//        studyPlans = new ArrayList<StudyPlan>();
+//        all = student.getStudyPlan();
+//        for (StudyPlan s : all) {
+//            studyPlans.add(s);
+//        }
+//        return studyPlans;
+//    }
+    
+    // find all studyPlan the user has
     @Override
-    public ArrayList<StudyPlan> getAllStudyPlans(Student student) {
-        Collection<StudyPlan> all = new ArrayList<StudyPlan>();
+    public ArrayList<StudyPlan> getAllStudyPlans(String username) {
+        student = findStudent(username);
+        List<StudyPlan> all = new ArrayList<StudyPlan>();
         studyPlans = new ArrayList<StudyPlan>();
-        all = student.getStudyPlan();
-        for (StudyPlan s : all) {
-            studyPlans.add(s);
+        try{
+            Query q = em.createQuery("SELECT sp FROM StudyPlan sp WHERE sp.student.id = :userId");
+            q.setParameter("userId", student.getId());
+            all = (List<StudyPlan>) q.getResultList();
+            for (StudyPlan s : all) {
+                studyPlans.add(s);
+            }
+            System.out.println("StudyPlanSessionbean: getAllStudyPlans: student:"
+                + username + "'s studyPlans:" + studyPlans.size());
         }
+        catch(NoResultException e){
+            System.out.println("User " + username + " does not have any study plan.");
+            studyPlans = null;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        
         return studyPlans;
     }
-    
     
     @Override
     public void updateGradeYearSem(Long id, String moduleCode, int newYear, int newSem) {
@@ -905,7 +939,6 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
             System.out.println("studyPlan " + course.getModuleCode() + " at year "
                     + pickYear + ", at sem " + pickSem + " added");
         } catch (Exception e) {
-            System.out.println("StudyPlanSessionBean: createStudyPlan method:");
             e.printStackTrace();
         }
     }

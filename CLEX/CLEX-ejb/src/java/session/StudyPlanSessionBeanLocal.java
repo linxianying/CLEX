@@ -95,7 +95,7 @@ public interface StudyPlanSessionBeanLocal {
 
     public ArrayList<Module> getCurrentModules(Student s);
 
-    public ArrayList<StudyPlan> getAllStudyPlans(Student student);
+//    public ArrayList<StudyPlan> getAllStudyPlans(Student student);
 
     public Grade findGrade(Long id);
 
