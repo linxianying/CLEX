@@ -24,7 +24,8 @@ public interface ClassroomSessionBeanLocal {
             String datetime, String topic, double correctRate, String type, String content);
     
     public Poll createUnfinishedPoll(String moduleCode, String takenYear, String takenSem, 
-            String datetime, String topic, double correctRate, String type, String content);
+            String datetime, String topic, double correctRate, String type, String content, 
+            ArrayList<String> ans, int correctAns);
     
     public void updatePoll(Module module, Long id, String datetime, String topic, 
             double correctRate, String type, String content);
@@ -32,6 +33,8 @@ public interface ClassroomSessionBeanLocal {
     public Course findCourse(String moduleCode);
     
     public Poll findPoll(Long id);
+    
+    public void updatePoll(Poll p, int correct, int total);
     
     public boolean removePoll(String moduleCode, String takenYear, String takenSem, Long id);
     

@@ -19,6 +19,7 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import session.ClassroomSessionBeanLocal;
 import session.ClexSessionBeanLocal;
 import session.ProjectSessionBeanLocal;
 
@@ -34,6 +35,8 @@ public class PollingBean implements Serializable {
     private ClexSessionBeanLocal csbl;
     @EJB
     private ProjectSessionBeanLocal psbl;
+    @EJB
+    private ClassroomSessionBeanLocal crsbl;       
     
     FacesContext context;
     HttpSession session;
@@ -44,6 +47,14 @@ public class PollingBean implements Serializable {
     private String currentYear;
     private String currentSem;
     private Module module;
+    private ArrayList<String> ans = new ArrayList<String>();
+    private int correctAns;
+    private Poll poll;
+    private String answer;
+    private int total;
+    private int rightAns;
+    
+    private ArrayList<String> filteredAns = new ArrayList<String>();
     /**
      * Creates a new instance of PollingBean
      */
@@ -64,7 +75,7 @@ public class PollingBean implements Serializable {
         System.out.println("ProjectBean Finish initialization");
     }  
 
-    public void joinPolling(Poll poll){
+    public void joinPolling(Poll poll) throws IOException{
         FacesMessage fmsg = new FacesMessage();
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
@@ -72,8 +83,14 @@ public class PollingBean implements Serializable {
         session.setAttribute("user", student);
         session.setAttribute("username", username);
         session.setAttribute("poll", poll);
+        context.getExternalContext().redirect("joinPoll.xhtml");
+        ans = poll.getAnswers();
+        correctAns = poll.getCorrectAns();
+        this.poll = poll;
+        
     
     }
+    
     public void viewPolling(Module m) throws IOException{
         
         FacesMessage fmsg = new FacesMessage();
@@ -89,6 +106,22 @@ public class PollingBean implements Serializable {
         context.getExternalContext().redirect("pollInfo.xhtml");
     
     }
+    
+    public void submitAnswer(){
+        if(ans.contains(answer)&&ans.get(correctAns).equals(answer)){
+            rightAns = poll.getCorrectAns() + 1;
+        }
+        total = poll.getTotal() + 1;
+        crsbl.updatePoll(poll, rightAns, total);
+        
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Your answer is recorded"));
+    
+    }
+    
+    public void stopPoll(Poll p){
+        
+    }
+    
     public ClexSessionBeanLocal getCsbl() {
         return csbl;
     }
@@ -115,6 +148,14 @@ public class PollingBean implements Serializable {
 
     public HttpSession getSession() {
         return session;
+    }
+
+    public ArrayList<String> getFilteredAns() {
+        return filteredAns;
+    }
+
+    public void setFilteredAns(ArrayList<String> filteredAns) {
+        this.filteredAns = filteredAns;
     }
 
     public void setSession(HttpSession session) {
@@ -168,6 +209,23 @@ public class PollingBean implements Serializable {
     public void setModule(Module module) {
         this.module = module;
     }
+
+    public ArrayList<String> getAns() {
+        return ans;
+    }
+
+    public void setAns(ArrayList<String> ans) {
+        this.ans = ans;
+    }
+
+    public int getCorrectAns() {
+        return correctAns;
+    }
+
+    public void setCorrectAns(int correctAns) {
+        this.correctAns = correctAns;
+    }
+    
     
     public void setCurrentYearSem() {
         Calendar now = Calendar.getInstance();
@@ -183,6 +241,46 @@ public class PollingBean implements Serializable {
         }
         currentYear = Integer.toString(year);
         //System.out.println("projectBean: Current Year:" + currentYear + ", current sem:" + currentSem);
+    }
+
+    public Poll getPoll() {
+        return poll;
+    }
+
+    public void setPoll(Poll poll) {
+        this.poll = poll;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public int getRightAns() {
+        return rightAns;
+    }
+
+    public void setRightAns(int rightAns) {
+        this.rightAns = rightAns;
+    }
+
+    public ClassroomSessionBeanLocal getCrsbl() {
+        return crsbl;
+    }
+
+    public void setCrsbl(ClassroomSessionBeanLocal crsbl) {
+        this.crsbl = crsbl;
     }
     
     

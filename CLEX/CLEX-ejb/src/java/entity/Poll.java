@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -42,6 +43,13 @@ public class Poll implements Serializable {
     @Column(length = 32)
     private String status;
     
+    private ArrayList<String> answers = new ArrayList<String>();
+    
+    private int correctAns;
+    
+    private int total;
+    private int correct;
+    
     @ManyToOne
     private Module module;
 
@@ -72,6 +80,14 @@ public class Poll implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public int getCorrectAns() {
+        return correctAns;
+    }
+
+    public void setCorrectAns(int correctAns) {
+        this.correctAns = correctAns;
     }
 
     public double getCorrectRate() {
@@ -120,6 +136,30 @@ public class Poll implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public ArrayList<String> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(ArrayList<String> answers) {
+        this.answers = answers;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public int getCorrect() {
+        return correct;
+    }
+
+    public void setCorrect(int correct) {
+        this.correct = correct;
     }
 
     @Override

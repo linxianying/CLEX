@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+                xmlns:h="http://xmlns.jcp.org/jsf/html" 
+                template="/WEB-INF/template.xhtml" 
+                xmlns:p="http://primefaces.org/ui" 
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">PRISM Student Join Poll Page</ui:define>
+
+    <ui:define name="viewname">Polling</ui:define>
+    
+    <ui:define name="content">
+        <div id="top" class="top">
+            <h3><ui:insert name="top">#{pollInfoBean.module.course.moduleCode} #{pollInfoBean.module.course.moduleName}</ui:insert></h3>
+        </div>
+        <h:form id="panel">
+           
+            
+               
+            <p:growl id="messages" showDetail="true" />
+            <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
+                <span>Question</span>
+                <h:outputText value="#{pollingBean.poll.content} " />
+                <span>Answer</span>
+                <p:selectOneMenu style=" width: 80%" id="ans" value="#{pollingBean.answer}" 
+                                 editable="true" placeholder="Answer">
+                    <f:selectItems value="#{pollingBean.ans}" />
+                </p:selectOneMenu>
+            </p:panelGrid>
+            <p:commandButton value="Submit Answer" actionListener="#{pollingBean.submitAnswer}" id="editBasicButton" update="messages">
+                <p:confirm header="Confirmation" message="Are you sure? The answer cannot be changed after submitting." icon="ui-icon-alert" />
+            </p:commandButton>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </h:form>
+    </ui:define>
+</ui:composition>
