@@ -90,6 +90,26 @@ public class ProfileBean implements Serializable {
         refresh();
     }
 
+    public boolean checkpic(String username) {
+
+        context = FacesContext.getCurrentInstance();
+        String filename = username;
+        String extension = ".png";
+
+        String path = session.getServletContext().getRealPath("/");
+        int pathlength = path.length();
+        pathlength = pathlength - 10;
+        path = path.substring(0, pathlength);
+        path = path + "web/resources/profile/";
+        path = path.replaceAll("\\\\", "/");
+        if (Files.exists(Paths.get(path + filename + extension))) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
     public void refresh() {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
@@ -131,7 +151,7 @@ public class ProfileBean implements Serializable {
         int pathlength = path.length();
         pathlength = pathlength - 10;
         path = path.substring(0, pathlength);
-        path = path + "web/resources/profile/pic/";
+        path = path + "web/resources/profile/";
         path = path.replaceAll("\\\\", "/");
         System.out.println("path " + path);
 
@@ -158,7 +178,16 @@ public class ProfileBean implements Serializable {
             Files.move(file, Paths.get(path + username + extension));
         }
         context.getExternalContext().getFlash().setKeepMessages(true);
-        context.getExternalContext().redirect("profile.xhtml");
+        if (userEntity.getUserType().equals("Lecturer")) {
+            context.getExternalContext().redirect("lecturerProfile.xhtml");
+        } else if (userEntity.getUserType().equals("Student")) {
+            context.getExternalContext().redirect("profile.xhtml");
+        } else if (userEntity.getUserType().equals("Admin")) {
+            context.getExternalContext().redirect("adminProfile.xhtml");
+        } else {
+            context.getExternalContext().redirect("guestProfile.xhtml");
+        }
+
     }
 
     public void editStudentProfile() throws IOException {
