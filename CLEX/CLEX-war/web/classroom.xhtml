@@ -163,100 +163,209 @@
                 <!-- START: Add New Poll -->
                     <h:form id="addForm">
                         <p:growl id="msg" showDetail="true" />
-                        <p:panel collapsed="false" styleClass="menuHeader"  header="Add New Poll" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
+                        <p:panel collapsed="false" styleClass="menuHeader"  header="Add New Finished Poll" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
 
-                        <table>
-                            <tr>
-                                <td>
-                                    Module Code:
-                                </td>
-                                <td>
-                                    <p:inputText value="#{classroomBean.addModuleCode}" 
-                                                 required="true" requiredMessage="Please enter the module code!" 
-                                                 style="width:300px;">
-                                        <p:ajax event="change" listener="#{classroomBean.checkModule}" update="addForm" />
-                                    </p:inputText>
-                                </td>
+                            <table>
+                                <tr>
+                                    <td>
+                                        Module Code:
+                                    </td>
+                                    <td>
+                                        <p:inputText value="#{classroomBean.addModuleCode}" 
+                                                     required="true" requiredMessage="Please enter the module code!" 
+                                                     style="width:300px;">
+                                            <p:ajax event="change" listener="#{classroomBean.checkModule}" update="addForm" />
+                                        </p:inputText>
+                                    </td>
 
-                                <td>
-                                    <h:outputText id="addErrorMsg" value="#{classroomBean.addErrorMsg}" />
-                                </td>
+                                    <td>
+                                        <h:outputText id="addErrorMsg" value="#{classroomBean.addErrorMsg}" />
+                                    </td>
 
-                            </tr>
-                            <tr>
-                                <td>
-                                    Year:
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Year:
 
-                                </td>
-                                <td>
-                                    <p:inputText style="width:300px;" value="#{classroomBean.addPickYear}" 
-                                                 required="true" requiredMessage="Please enter the module year!"  />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p:outputLabel for="addPickSem" value="Semester" />
-                                </td>
+                                    </td>
+                                    <td>
+                                        <p:inputText style="width:300px;" value="#{classroomBean.addPickYear}" 
+                                                     required="true" requiredMessage="Please enter the module year!"  />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p:outputLabel for="addPickSem" value="Semester" />
+                                    </td>
 
-                                <td>
-                                    <p:selectOneMenu style="width:285px;" id="addPickSem" required="true" value="#{classroomBean.addPickSem}" >
-                                        <f:selectItem itemLabel="1" itemValue="1" />
-                                        <f:selectItem itemLabel="2" itemValue="2" />
-                                    </p:selectOneMenu>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Type of Poll:
-                                </td>
+                                    <td>
+                                        <p:selectOneMenu style="width:285px;" id="addPickSem" required="true" value="#{classroomBean.addPickSem}" >
+                                            <f:selectItem itemLabel="1" itemValue="1" />
+                                            <f:selectItem itemLabel="2" itemValue="2" />
+                                        </p:selectOneMenu>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Type of Poll:
+                                    </td>
 
-                                <td>
-                                    <p:inputText value="#{classroomBean.addPollType}" style="width:300px;"
-                                                 required="true" requiredMessage="Please enter the poll type!"  />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Topic of Poll:
-                                </td>
+                                    <td>
+                                        <p:inputText value="#{classroomBean.addPollType}" style="width:300px;"
+                                                     required="true" requiredMessage="Please enter the poll type!"  />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Topic of Poll:
+                                    </td>
 
-                                <td>
-                                    <p:inputText value="#{classroomBean.addPollTopic}" style="width:300px;"
-                                                 required="true" requiredMessage="Please enter the poll topic!" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Content of Poll:
-                                </td>
+                                    <td>
+                                        <p:inputText value="#{classroomBean.addPollTopic}" style="width:300px;"
+                                                     required="true" requiredMessage="Please enter the poll topic!" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Content of Poll:
+                                    </td>
 
-                                <td>
-                                    <p:inputText value="#{classroomBean.addPollContent}"  style="width:300px;"
-                                                 required="true" requiredMessage="Please enter the poll content!" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Correct Rate:
-                                </td>
+                                    <td>
+                                        <p:inputText value="#{classroomBean.addPollContent}"  style="width:300px;"
+                                                     required="true" requiredMessage="Please enter the poll content!" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Correct Rate:
+                                    </td>
 
-                                <td >
-                                    <p:inputNumber value="#{classroomBean.addPollCorrectRate}" required="true" 
-                                                   requiredMessage="Please enter a number range from 0 to 1 only." 
-                                                   minValue="0.00" maxValue="1.00"
-                                                   placeholder="Number from 0 to 1"
-                                                   />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p:commandButton value="Add" id="addPollButton"  style="width:200px;"
-                                                     rendered="#{classroomBean.addButton}" action="#{classroomBean.addPoll}"
-                                                     update="msg"/>
-                                </td>
-                            </tr>
-                        </table>
-                    </p:panel>
+                                    <td >
+                                        <p:inputNumber value="#{classroomBean.addPollCorrectRate}" required="true" 
+                                                       requiredMessage="Please enter a number range from 0 to 1 only." 
+                                                       minValue="0.00" maxValue="1.00"
+                                                       placeholder="Number from 0 to 1"
+                                                       />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p:commandButton value="Add" id="addPollButton"  style="width:200px;"
+                                                         rendered="#{classroomBean.addButton}" action="#{classroomBean.addPoll}"
+                                                         update="msg"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </p:panel>
+                    </h:form>
+                    <h:form id="addForm1">
+                        <p:growl id="msg1" showDetail="true" />
+                        <p:panel collapsed="false" styleClass="menuHeader"  header="Add New Unfinished Poll" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
+                            <table>
+                                <tr>
+                                    <td>
+                                        Module Code:
+                                    </td>
+                                    <td>
+                                        <p:inputText value="#{classroomBean.addModuleCode}" 
+                                                     required="true" requiredMessage="Please enter the module code!" 
+                                                     style="width:300px;">
+                                        </p:inputText>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Year:
+
+                                    </td>
+                                    <td>
+                                        <p:inputText style="width:300px;" value="#{classroomBean.addPickYear}" 
+                                                     required="true" requiredMessage="Please enter the module year!"  />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p:outputLabel for="addPickSem1" value="Semester" />
+                                    </td>
+
+                                    <td>
+                                        <p:selectOneMenu style="width:285px;" id="addPickSem1" required="true" value="#{classroomBean.addPickSem}" >
+                                            <f:selectItem itemLabel="1" itemValue="1" />
+                                            <f:selectItem itemLabel="2" itemValue="2" />
+                                        </p:selectOneMenu>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Type of Poll:
+                                    </td>
+
+                                    <td>
+                                        <p:inputText value="#{classroomBean.addPollType}" style="width:300px;"
+                                                     required="true" requiredMessage="Please enter the poll type!"  />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Topic of Poll:
+                                    </td>
+
+                                    <td>
+                                        <p:inputText value="#{classroomBean.addPollTopic}" style="width:300px;"
+                                                     required="true" requiredMessage="Please enter the poll topic!" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Content of Poll:
+                                    </td>
+
+                                    <td>
+                                        <p:inputText value="#{classroomBean.addPollContent}"  style="width:300px;"
+                                                     required="true" requiredMessage="Please enter the poll content!" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Number Of Answers:
+                                    </td>
+
+                                    <td >
+                                        <p:inputNumber value="#{classroomBean.num}" required="true" 
+                                                       requiredMessage="Please enter an integer number" 
+                                                       minValue="0.00" maxValue="10.00"
+                                                       placeholder="Number from 0 to 10"
+                                                       id="num"
+                                                       />
+                                        <p:commandButton value="Comfirm" partialSubmit="true" update="@form" process="num" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Answers:
+                                    </td>
+
+                                    <td >
+                                        <p:dataList value="#{classroomBean.ans}" var="answer" type="ordered">
+                                    
+                                            <p:inputText value="#{answer}"  style="width:300px;"
+                                                required="true"  />
+
+                                        </p:dataList>
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>
+                                        <p:commandButton value="Add"  style="width:200px;"
+                                                         rendered="#{classroomBean.addButton}" action="#{classroomBean.addUnfinishedPoll}"
+                                                         update="msg1"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </p:panel>
+                       
                     </h:form>
 
                 </p:tab>

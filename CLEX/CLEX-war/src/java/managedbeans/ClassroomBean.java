@@ -84,7 +84,12 @@ public class ClassroomBean {
     private String addPickYear;
     private String addPickSem;
     private boolean addButton;
-    
+    private boolean finishedOrNot;
+    private ArrayList<String> ans = new ArrayList<String>();
+    int num;
+    private int total;
+    private int rightAns;
+    private boolean[] str = new boolean[20];
     
     FacesContext context;
     HttpSession session;
@@ -182,6 +187,23 @@ public class ClassroomBean {
             context.addMessage(null, fmsg);
         }
         
+    }
+    
+    public void addUnfinishedPoll(){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        Poll p = crsbl.createUnfinishedPoll(addModuleCode, addPickYear, addPickSem, dateFormat.format(date), 
+                addPollTopic, 0.0, addPollType, addPollContent,ans,0);
+        System.out.println("addType:"+addPollType+"//////////////////////ans:"+ans.get(0));
+        if(p==null){
+            System.out.println("ClassroomBean: Create Poll failed ");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Poll creation failed. Please check the module details", "Unsuccessfuly");
+            context.addMessage(null, fmsg);
+        }else{
+            System.out.println("ClassroomBean: New Poll id is "+p.getId());
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Poll '" + p.getId() + " is created.", "Successfuly");
+            context.addMessage(null, fmsg);
+        }
     }
     
     public void stopPoll(Poll p){
@@ -400,7 +422,21 @@ public class ClassroomBean {
         this.addModuleCode = addModuleCode;
     }
 
+    public boolean isFinishedOrNot() {
+        return finishedOrNot;
+    }
 
+    public void setFinishedOrNot(boolean finishedOrNot) {
+        this.finishedOrNot = finishedOrNot;
+    }
+
+    public FacesMessage getFmsg() {
+        return fmsg;
+    }
+
+    public void setFmsg(FacesMessage fmsg) {
+        this.fmsg = fmsg;
+    }
 
     public String getAddErrorMsg() {
         return addErrorMsg;
@@ -465,6 +501,55 @@ public class ClassroomBean {
     public void setBarModelByType(BarChartModel barModelByType) {
         this.barModelByType = barModelByType;
     }
+
+    public ArrayList<String> getAns() {
+        return ans;
+    }
+
+    public void setAns(ArrayList<String> ans) {
+        this.ans = ans;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public int getRightAns() {
+        return rightAns;
+    }
+
+    public void setRightAns(int rightAns) {
+        this.rightAns = rightAns;
+    }
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+        System.out.println("num is set to "+num);
+        if(ans.size()<num){
+            for(int i = 0;i<num; i++)
+                ans.add("");
+        }
+    }
     
+    public void addMessage() {
+		String summary = finishedOrNot ? "Checked" : "Unchecked";
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(summary));
+    }
+
+    public boolean[] getStr() {
+        return str;
+    }
+
+    public void setStr(boolean[] str) {
+        this.str = str;
+    }
     
 }
