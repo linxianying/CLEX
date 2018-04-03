@@ -12,9 +12,9 @@
     <ui:define name="title">PRISM Student Profile page</ui:define>
 
     <ui:define name="viewname">Profile</ui:define>
-    
+
     <ui:define name="content">
-        
+
         <div class="ui-g ui-fluid">
             <div class="ui-g-12 ui-lg-6">
                 <p:growl id="messages" showDetail="true" />
@@ -22,10 +22,7 @@
 
                     <!-- Left Side -->
                     <div class="card card-w-title">
-                        <h1>Basic Profile</h1>
                         <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
-                            <span>Username</span>
-                            <p:inputText id="username" disabled="true"  value="#{profileBean.username}" readonly="true" />
                             <span>Full Name</span>
                             <p:inputText id="newName" value="#{profileBean.name}" />
                             <span>Email</span>
@@ -56,7 +53,6 @@
                                 <f:selectItem itemLabel="1" itemValue="1" />
                                 <f:selectItem itemLabel="2" itemValue="2" />
                             </p:selectOneButton>
-
                         </p:panelGrid>
                         <p:commandButton value="Save Profile Details" actionListener="#{profileBean.editStudentProfile}" id="editBasicButton" update="messages">
                             <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
@@ -69,7 +65,33 @@
                     </div>
                 </h:form>
             </div>
+            <br />
+            <div class="ui-g-12 ui-lg-6">
+                <div class="card card-w-title">
+                    <!-- <p:graphicImage style="background: top left no-repeat;background-size: 120px 120px; width: 120px; height: 120px" 
+                                     value="#{profileBean.getImage()}">
+                         <f:param name="#{profileBean.username}" value="#{profileBean.username}.png" />
+                     </p:graphicImage>-->
 
+                    <p:graphicImage id="profilepic" style="background: top left no-repeat;background-size: 100px 100px; width: 100px; height: 100px" 
+                                    url="/resources/profile/pic/#{profileBean.username}.png"/>
+
+                    <h:outputLabel style="font-weight: bold; font-size: 30px" value="#{profileBean.username}"/>
+                    <br />
+                    <br />
+                    <h:panelGroup>
+                        <h:outputLabel value="Profile photo should be of size (120x120)."/>
+                        <br />
+                        <h:outputLabel value="Drag and drop is available on supported browsers."/>
+                        <h:form>
+                            <p:fileUpload fileUploadListener="#{profileBean.handleFileUpload}" mode="advanced" dragDropSupport="true"
+                                          invalidSizeMessage="File size should be smaller than 1024kb"
+                                          update="profilepic, messages" sizeLimit="1024000" fileLimit="1000" allowTypes="/(\.|\/)(png)$/" />
+                        </h:form>
+                    </h:panelGroup>
+
+                </div>
+            </div>
             <div class="ui-g-12 ui-lg-6">
                 <div class="card card-w-title">
                     <h1>Change Password</h1>

@@ -72,6 +72,7 @@ public class ViewProjectCostBean {
     private Transaction selectedTransaction;
     private double totalCostLabel;
 
+
     public ViewProjectCostBean() {
     }
 
