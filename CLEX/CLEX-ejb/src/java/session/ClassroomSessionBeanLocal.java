@@ -18,6 +18,8 @@ import javax.ejb.Local;
  */
 @Local
 public interface ClassroomSessionBeanLocal {
+    public void endPoll(Poll poll);
+    
     public Module findModule(String moduleCode, String takenYear, String takenSem);
     
     public Poll createPoll(String moduleCode, String takenYear, String takenSem, 

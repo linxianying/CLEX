@@ -102,8 +102,10 @@
 
                                 <p:column filterBy="#{poll.correctRate}" sortBy="#{poll.correctRate}" 
                                           headerText="Correct Rate" filterMatchMode="contains">
-                                    <h:outputText value="The polling is not finished yet" escape="false" 
-                                              rendered="#{empty poll.status}" />
+                                    <p:commandButton value="Finish Poll" 
+                                              rendered="#{empty poll.status}" 
+                                              actionListener="#{classroomBean.stopPoll(poll)}"
+                                              />
                                     
                                     <h:outputText value="#{poll.correctRate}" rendered="#{not empty poll.status}"/>
                                 </p:column>

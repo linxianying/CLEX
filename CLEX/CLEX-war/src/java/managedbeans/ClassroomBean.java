@@ -184,6 +184,15 @@ public class ClassroomBean {
         
     }
     
+    public void stopPoll(Poll p){
+        crsbl.endPoll(p);
+        
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Poll is finished",
+                        "Please check in the classroom ");
+         
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+    
     public void itemSelect(ItemSelectEvent event) {
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Item selected",
                         "Item Index: " + event.getItemIndex() + ", Series Index:" + event.getSeriesIndex());

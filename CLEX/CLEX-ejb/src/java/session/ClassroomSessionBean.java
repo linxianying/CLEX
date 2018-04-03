@@ -33,10 +33,14 @@ import java.util.Iterator;
 import java.util.Random;
 import javaClass.JsonReader;
 import javax.ejb.Stateless;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.servlet.http.HttpSession;
+import static org.primefaces.component.focus.Focus.PropertyKeys.context;
 /**
  *
  * @author lin
@@ -152,6 +156,17 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
             e.printStackTrace();
         }
         return moduleEntity;
+    }
+    
+    @Override
+    public void endPoll(Poll poll){
+        poll.setStatus("finished");
+        double rate = 0.0;
+        if(poll.getTotal()!=0)
+            rate = (double) ((poll.getCorrect()*1.0)/poll.getTotal());
+        poll.setCorrectRate(rate);
+        em.merge(poll);
+        em.flush();
     }
     
     @Override

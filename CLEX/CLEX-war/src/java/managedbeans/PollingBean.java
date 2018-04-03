@@ -118,9 +118,6 @@ public class PollingBean implements Serializable {
     
     }
     
-    public void stopPoll(Poll p){
-        
-    }
     
     public ClexSessionBeanLocal getCsbl() {
         return csbl;

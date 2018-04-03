@@ -721,7 +721,8 @@ public class indexBean {
         ans1.add("C.Not Understand");
         crsbl.createUnfinishedPoll("PC2193", "2017", "2", "2018-01-01", "topic4", 0.0, "type5", "Would you like to take next level physics course again?", ans, 0);
         crsbl.createUnfinishedPoll("PC2193", "2017", "2", "2018-02-01", "topic1", 0.0, "type1", "Do you understand this week's new concepts?", ans1, 0);
-        crsbl.createUnfinishedPoll("CS2100", "2016", "2", "2016-09-27", "Computer Organization", 0.49, "type1", "How do you find the OOP? Are you familiar with it?", ans1, 0);
+        crsbl.createUnfinishedPoll("CS2100", "2016", "2", "2016-09-27", "Computer Organization", 0.0, "type1", "How do you find the OOP? ", ans1, 0);
+        crsbl.createUnfinishedPoll("CS2100", "2016", "2", "2016-10-27", "Computer Organization", 0.0, "type6", "Are you familiar with OOP?", ans1, 0);
         
         
         
