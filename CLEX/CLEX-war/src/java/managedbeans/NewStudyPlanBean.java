@@ -60,7 +60,7 @@ public class NewStudyPlanBean implements Serializable {
     @EJB
     private ClexSessionBeanLocal csbl;
     @EJB
-            CourseMgmtBeanLocal cmbl;
+    CourseMgmtBeanLocal cmbl;
     
     FacesContext context;
     HttpSession session;

@@ -86,6 +86,7 @@ public class StudyPlanBean {
     private String addGradeModuleCode;
     private int addGradePickYear;
     private int addGradePickSem;
+    private String addGradeModuleGrade;
     
     public StudyPlanBean() {
     }
@@ -203,7 +204,12 @@ public class StudyPlanBean {
         this.addButton = false;
         refresh();
     }
-
+    
+        
+    public void addCurrentModule() {
+        
+    }
+    
     public void checkAddGrade() {
         context = FacesContext.getCurrentInstance();
         FacesMessage fmsg = new FacesMessage();
@@ -237,15 +243,22 @@ public class StudyPlanBean {
     
     //to check whether the Grade is added to current sem, if so, error msg
     public boolean checkAddGradeYearSem() {
-        return true;
-    }
-    
-    public void addCurrentModule() {
-        
+        context = FacesContext.getCurrentInstance();
+        FacesMessage fmsg = new FacesMessage();
+        if(addGradePickYear == currentYear && addGradePickSem == currentSem) {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "You choose current semester" , "Please change to a semester before current semester");
+            context.addMessage(null, fmsg);
+            return false;
+        }
+        else 
+            return true;
     }
     
     public void addGrade() {
-        
+        if (checkAddGradeYearSem()){
+            cpsbl.addGrade(Integer.toString(addGradePickYear), Integer.toString(addGradePickSem), addGradeModuleCode, student, addGradeModuleGrade);
+        }
     }
     
     public void deleteStudyPlan(String moduleCode) {
@@ -264,7 +277,8 @@ public class StudyPlanBean {
         if (student.getGrades().size() > 0) {
             gradesInOrder = cpsbl.getAllGradesInOrder(student);
         }
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!# of taken Moduless: " + gradesInOrder.size());
+        else
+            gradesInOrder = null;
     }
     
     public void updateExpectedCap(int newModuleCredit, String moduleCode) {
@@ -842,6 +856,15 @@ public class StudyPlanBean {
         this.addGradePickSem = addGradePickSem;
     }
 
+    public String getAddGradeModuleGrade() {
+        return addGradeModuleGrade;
+    }
+
+    public void setAddGradeModuleGrade(String addGradeModuleGrade) {
+        this.addGradeModuleGrade = addGradeModuleGrade;
+    }
+    
+    
     
     
     

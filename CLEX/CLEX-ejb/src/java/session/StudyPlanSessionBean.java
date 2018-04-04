@@ -1021,6 +1021,7 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     
     @Override
     public void addGrade(String pickYear, String pickSem, String moduleCode, Student student, String moduelGrade) {
+        module = this.findModule(pickYear, pickSem, moduleCode);
         Grade g = new Grade();
         g.createGrade(moduelGrade, module, student);
         student.getGrades().add(g);
@@ -1069,9 +1070,12 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     
     @Override
     public void removeGrade(Student student, Grade grade) {
+        grade = this.findGrade(grade.getId());
         student.getGrades().remove(grade);
         em.merge(student);
+        em.remove(grade);
         em.flush();
+//        System.out.println("After remove: " + this.getAllGrades(student).size());
     }
     
     //check whether a module is inside a student's study plan or not

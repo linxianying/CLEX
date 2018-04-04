@@ -31,6 +31,7 @@
                                     <p:ajax event="reorder" listener="#{newStudyPlanBean.handleReorder}" update="msgs" />
                                     <p:panel id="y11" style="width:138px;">
                                         <h:outputText value="Year1 Sem1" />
+                                        <!--<h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"><h:outputText styleClass="ui-icon ui-icon-help" /></h:commandLink>-->
                                     </p:panel>
                                         
                                     <p:panel id="y12" style="width:138px;">
@@ -60,24 +61,6 @@
                                     <p:panel id="y42" style="width:138px;">
                                         <h:outputText value="Year4 Sem2" />
                                     </p:panel>
-                <!--                    <ui:repeat value="#{newStudyPlanBean.grades}" var="grade" rendered="#{not empty newStudyPlanBean.grades}">
-                                        <p:panel>
-                                            <h:outputText value="Taken Modules"/>
-                                            <h:outputText value="#{grade.module.course.moduleCode}"/>
-                                        </p:panel>
-                                    </ui:repeat>
-                                        
-                                    <ui:repeat value="#{newStudyPlanBean.takingModules}" var="module" rendered="#{not empty newStudyPlanBean.takingModules}">
-                                        <p:panel id="#{module.course.moduleCode}">
-                                            <h:outputText value="Taking Modules"/>
-                                        </p:panel>
-                                    </ui:repeat>
-                                        
-                                    <ui:repeat value="#{newStudyPlanBean.studyPlans}" var="sp" rendered="#{not empty newStudyPlanBean.studyPlans}">
-                                        <p:panel id="#{sp.course.moduleCode}">
-                                            <h:outputText value="Study Plan"/>
-                                        </p:panel>
-                                    </ui:repeat>-->
                                 </p:dashboard>
                             </p:fieldset>
                         </h:form>
@@ -104,7 +87,6 @@
                                         </p:selectOneMenu>
 
                                         <h:outputLabel for="addPickYearLabel" value="Year: " />
-
                                         <p:inputNumber id="addPickYearLabel" value="#{newStudyPlanBean.addPickYear}" required="true" emptyValue="#{newStudyPlanBean.currentYear}" decimalPlaces="0"/>
 
                                         <p>Semester<sup>+</sup>:</p>
