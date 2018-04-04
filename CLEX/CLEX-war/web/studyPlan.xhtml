@@ -240,6 +240,20 @@
                                     </h:panelGrid>
                                 </p:fieldset>
                                 
+                                <p:commandLink value="Add a module you took before:" style="font-size: 1.2em"/>
+                                <h:form id="addModuleForm">
+                                    <p:panelGrid columns="2">
+                                        <p:outputLabel id="viewLabel" for="CurrentModuleCode" value="Module Code:" />
+                                        <p:selectOneMenu id="CurrentModuleCode" value="#{studyPlanBean.addCurrentModuleCode}"  panelStyle="width:180px" effect="fade" 
+                                                         var="course" style="width:160px" filter="true" filterMatchMode="contains" appendTo="@this">
+                                            <p:ajax event="change" listener="#{studyPlanBean.checkAddModule()}" update="tab:modulesTakingForm, addErrorMsg"  />
+                                            <f:selectItem itemLabel="Select One" itemValue="select"/>
+                                            <f:selectItems value="#{studyPlanBean.courses}" var="course" itemLabel="#{course.moduleCode}" itemValue="#{course.moduleCode}" />
+                                        </p:selectOneMenu>
+                                        <br />
+                                        <p:commandButton value="Add" actionListener="#{studyPlanBean.addCurrentModule()}" update="tab:modulesTakingForm, addErrorMsg"/>
+                                    </p:panelGrid>
+                                </h:form>
                             </h:form>
                             <h3>
                                 Expected Cap: 
