@@ -88,6 +88,8 @@ public class StudyPlanBean {
     private int addGradePickSem;
     private String addGradeModuleGrade;
     
+    private String addCurrentModuleCode;
+    
     public StudyPlanBean() {
     }
 
@@ -95,6 +97,7 @@ public class StudyPlanBean {
     public void init() {
         refresh();
         setYearSem();
+        courses = cpsbl.getAllCourses();
     }
 
     public void refresh() {
@@ -131,7 +134,8 @@ public class StudyPlanBean {
         addButton = false;
         updatePickYear = null;
         updatePickSem = null;
-        courses = cpsbl.getAllCourses();
+        addGradeModuleCode= null;
+        addGradeModuleGrade = null;
         System.out.println("finish to render StudyPlanBean");
     }
     
@@ -205,9 +209,39 @@ public class StudyPlanBean {
         refresh();
     }
     
-        
+    public void checkAddModule() {
+        context = FacesContext.getCurrentInstance();
+        FacesMessage fmsg = new FacesMessage();
+        if (addCurrentModuleCode.endsWith("select")) {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "No module selected", "Please choose a module");
+            context.addMessage(null, fmsg);
+        } 
+        //this course already in studyPlan
+        else if (cpsbl.checkInSP(cpsbl.getAllStudyPlans(student), addCurrentModuleCode.toUpperCase())) {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "The module " + addCurrentModuleCode + " already in your study plan", "Please change to another module");
+            context.addMessage(null, fmsg);
+        } 
+        //this course is currently taken
+        else if (cpsbl.checkInCM(this.takingModules, addCurrentModuleCode.toUpperCase())) {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "You are currently taking" + addCurrentModuleCode.toUpperCase(), "Please change to another module");
+            context.addMessage(null, fmsg);
+        } 
+        //this course already in takenCourses list
+        else if (cpsbl.checkInGrade(cpsbl.getAllGrades(student), addCurrentModuleCode.toUpperCase())) {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "You have already taken " + addCurrentModuleCode.toUpperCase(), "Please change to another module");
+            context.addMessage(null, fmsg);
+        } 
+        else {
+            fmsg = null;
+        }
+    }    
     public void addCurrentModule() {
-        
+        cpsbl.addTakingModule(Integer.toString(currentYear), Integer.toString(currentSem), addCurrentModuleCode, student);
+        refresh();
     }
     
     public void checkAddGrade() {
@@ -231,7 +265,7 @@ public class StudyPlanBean {
             context.addMessage(null, fmsg);
         } 
         //this course already in takenCourses list
-        else if (cpsbl.checkInGrade(this.grades, addGradeModuleCode.toUpperCase())) {
+        else if (cpsbl.checkInGrade(cpsbl.getAllGrades(student), addGradeModuleCode.toUpperCase())) {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "You have already taken " + addGradeModuleCode.toUpperCase(), "Please change to another module");
             context.addMessage(null, fmsg);
@@ -245,7 +279,7 @@ public class StudyPlanBean {
     public boolean checkAddGradeYearSem() {
         context = FacesContext.getCurrentInstance();
         FacesMessage fmsg = new FacesMessage();
-        if(addGradePickYear == currentYear && addGradePickSem == currentSem) {
+        if(addGradePickYear == (currentYear-matricYear+1) && addGradePickSem == currentSem) {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "You choose current semester" , "Please change to a semester before current semester");
             context.addMessage(null, fmsg);
@@ -257,28 +291,32 @@ public class StudyPlanBean {
     
     public void addGrade() {
         if (checkAddGradeYearSem()){
-            cpsbl.addGrade(Integer.toString(addGradePickYear), Integer.toString(addGradePickSem), addGradeModuleCode, student, addGradeModuleGrade);
+            cpsbl.addGrade(Integer.toString(addGradePickYear+matricYear-1), Integer.toString(addGradePickSem), addGradeModuleCode, student, addGradeModuleGrade);
         }
+        refresh();
     }
     
     public void deleteStudyPlan(String moduleCode) {
         cpsbl.removeStudyPlan(username, moduleCode);
-        studyPlansInOrer = cpsbl.getStudyPlanInOrder(student);
+        refresh();
+//        studyPlansInOrer = cpsbl.getStudyPlanInOrder(student);
     }
     
     public void deleteModule(Module module) {
         cpsbl.removeModule(student, module);
-        takingModules = cpsbl.getCurrentModules(student);
+        refresh();
+//        takingModules = cpsbl.getCurrentModules(student);
 //        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!# of taking Moduless: " + takingModules.size());
     }
     
     public void deleteGrade(Grade grade) {
         cpsbl.removeGrade(student, grade);
-        if (student.getGrades().size() > 0) {
-            gradesInOrder = cpsbl.getAllGradesInOrder(student);
-        }
-        else
-            gradesInOrder = null;
+//        if (student.getGrades().size() > 0) {
+//            gradesInOrder = cpsbl.getAllGradesInOrder(student);
+//        }
+//        else
+//            gradesInOrder = null;
+        refresh();
     }
     
     public void updateExpectedCap(int newModuleCredit, String moduleCode) {
@@ -862,6 +900,14 @@ public class StudyPlanBean {
 
     public void setAddGradeModuleGrade(String addGradeModuleGrade) {
         this.addGradeModuleGrade = addGradeModuleGrade;
+    }
+
+    public String getAddCurrentModuleCode() {
+        return addCurrentModuleCode;
+    }
+
+    public void setAddCurrentModuleCode(String addCurrentModuleCode) {
+        this.addCurrentModuleCode = addCurrentModuleCode;
     }
     
     

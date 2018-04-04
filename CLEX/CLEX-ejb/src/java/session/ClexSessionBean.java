@@ -174,15 +174,15 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         em.flush();
     }
     
-    @Override
-    public void createGrade(String moduleGrade, Module module, Student student){
-        Grade grade = new Grade();
-        grade.createGrade(moduleGrade, module, student);
-        student.getGrades().add(grade);
-        em.persist(grade);
-        em.merge(student);
-        em.flush();
-    }
+//    @Override
+//    public void createGrade(String moduleGrade, Module module, Student student){
+//        Grade grade = new Grade();
+//        grade.createGrade(moduleGrade, module, student);
+//        student.getGrades().add(grade);
+//        em.persist(grade);
+//        em.merge(student);
+//        em.flush();
+//    }
     
     @Override
     public void dragAllNusMods(String url){
@@ -343,7 +343,7 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
             Query q = em.createQuery("SELECT u FROM Student u WHERE u.username=:username");
             q.setParameter("username", username);
             studentEntity = (Student) q.getSingleResult();
-            System.out.println("Student " + username + " found.");
+//            System.out.println("Student " + username + " found.");
         }
         catch(NoResultException e){
             System.out.println("Student " + username + " does not exist.");
@@ -449,7 +449,7 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
             Query q = em.createQuery("SELECT c FROM Course c WHERE c.moduleCode=:moduleCode");
             q.setParameter("moduleCode", moduleCode);
             courseEntity = (Course) q.getSingleResult();
-            System.out.println("Course " + moduleCode + " found.");
+//            System.out.println("Course " + moduleCode + " found.");
         }
         catch(NoResultException e){
             System.out.println("Course " + moduleCode + " does not exist.");
@@ -645,6 +645,7 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         em.flush();
     }
     
+    @Override
     public void setStudentTakenModules(Student student, Module module, String grade) {
         Grade g = new Grade();
         g.createGrade(grade, module, student);

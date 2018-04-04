@@ -72,7 +72,7 @@ public interface ClexSessionBeanLocal {
     public Timeslot createTimeslot(String title, String startDate, String endDate,
             String details, String venue);
 
-    public void createGrade(String moduleGrade, Module module, Student student);
+//    public void createGrade(String moduleGrade, Module module, Student student);
 
     public boolean checkNewUser(String username);
 

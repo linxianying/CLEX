@@ -867,27 +867,29 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         List<Module> all = new ArrayList<Module>();
         takingModules = new ArrayList<Module>();
         
-//        //get current year and sem
-//        Calendar now = Calendar.getInstance();
-//        int currentYear = now.get(Calendar.YEAR);
-//        // month starts from 0 to 11
-//        int currentMonth = now.get(Calendar.MONTH);
-//        if (currentMonth < 6) {
-//            currentSem = 2;
-//            currentYear--;
-//        } else {
-//            currentSem = 1;
-//        }
+        //get current year and sem
+        Calendar now = Calendar.getInstance();
+        int currentYear = now.get(Calendar.YEAR);
+        // month starts from 0 to 11
+        int currentMonth = now.get(Calendar.MONTH);
+        if (currentMonth < 6) {
+            currentSem = 2;
+            currentYear--;
+        } else {
+            currentSem = 1;
+        }
         
         try{
-            Query q = em.createQuery("SELECT m FROM Student s LEFT JOIN s.modules m Where s.id = :id");
+            Query q = em.createQuery("SELECT m FROM Student s LEFT JOIN s.modules m Where s.id = :id AND m.takenYear = :currentYear AND m.takenSem = :currentSem");
             q.setParameter("id", student.getId());
-//            q.setParameter("currentYear", Integer.toString(currentYear));
-//            q.setParameter("currentSem", Integer.toString(currentSem));
+            q.setParameter("currentYear", Integer.toString(currentYear));
+            q.setParameter("currentSem", Integer.toString(currentSem));
             all = (List<Module>) q.getResultList();
             for (Module m : all) {
                 takingModules.add(m);
             }
+            System.out.println("StudyPlanSessionbean: getCurrentModules: student:"
+                + username + "'s taking module using get methods:" + student.getModules().size());
             System.out.println("StudyPlanSessionbean: getCurrentModules: student:"
                 + username + "'s taking module:" + takingModules.size());
         }
@@ -1071,8 +1073,11 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     @Override
     public void removeGrade(Student student, Grade grade) {
         grade = this.findGrade(grade.getId());
+        Module module = grade.getModule();
         student.getGrades().remove(grade);
+        module.getStudents().remove(student);
         em.merge(student);
+        em.merge(module);
         em.remove(grade);
         em.flush();
 //        System.out.println("After remove: " + this.getAllGrades(student).size());
