@@ -100,6 +100,34 @@
                             </p:panel>
                         </h:form>
                     </div>
+                    <div class="ui-g-12 ui-md-8 task-list">
+                        <h:form id="taskObject1">
+                            
+                            <p:panel header="Group Tasks" style="min-height:320px">
+                                
+                                <ul>
+                                    <li>
+                                        <p:dataList var="groupTask" id="tasklist" value="#{tasksBean.indGroupTasks}"
+                                                    widgetVar="groupTaskTable"
+                                                    paginator="true"
+                                                    paginatorTemplate="{CurrentPageReport} {FirstPageLink} 
+                                                    {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                    rowsPerPageTemplate="3,5,10"
+                                                    rows="3"
+                                                    emptyMessage="No users found with given criteria." >
+                                            <p:growl id="msgmsg1" />    
+                                            <p:selectBooleanCheckbox value="#{tasksBean.value}">
+                                                <p:ajax update="msgmsg1" listener="#{tasksBean.checkGroupTask(groupTask)}" />
+                                            </p:selectBooleanCheckbox>
+                                            <span class="task-name">#{groupTask.title}</span>
+                                            <i class="fa fa-briefcase"></i>
+                                        </p:dataList>    
+                                    </li>
+                                </ul>
+                            </p:panel>
+                            
+                        </h:form>
+                    </div>
                 </div>
             </p:tab>
             <p:tab title="ADD TASKS">

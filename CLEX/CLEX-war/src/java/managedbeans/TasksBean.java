@@ -5,6 +5,9 @@
  */
 package managedbeans;
 
+import entity.GroupTask;
+import entity.IndividualGroupTask;
+import entity.ProjectGroup;
 import entity.Student;
 import entity.Task;
 import entity.User;
@@ -30,6 +33,7 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.ScheduleEvent;
+import session.ClexSessionBeanLocal;
 import session.ToDoListSessionBeanLocal;
 
 /**
@@ -42,7 +46,10 @@ public class TasksBean {
 
     @EJB
     ToDoListSessionBeanLocal tsbl;
+    @EJB
+    private ClexSessionBeanLocal csbl;
     /**
+     * 
      * Creates a new instance of TasksBean
      */
     private Date date = new Date();
@@ -59,12 +66,13 @@ public class TasksBean {
     private int groupOrPersonal;
     
     
-    private User studentEntity;
+    private Student studentEntity;
     private String username;
     private String userType;
     private boolean value;
     private List<Task> unfinishedTasks = new ArrayList<Task>();
     private List<Task> allTasks = new ArrayList<Task>();
+    private Collection<IndividualGroupTask> indGroupTasks = new ArrayList<IndividualGroupTask>();
     private Collection<Task> tasks;
     
     
@@ -91,8 +99,10 @@ public class TasksBean {
         tasks = null;
         unfinishedTasks = new ArrayList<Task>();
         
-        if(studentEntity!=null)
+        if(studentEntity!=null){
             tasks = studentEntity.getTasks();
+            indGroupTasks = studentEntity.getIndividualGroupTasks();
+        }
         if(tasks!=null){
             Iterator<Task> itr = tasks.iterator();
             while(itr.hasNext()){
@@ -103,6 +113,31 @@ public class TasksBean {
             }
             
         }
+        
+    }
+    
+    public void test(){
+        tsbl.createGroupTask("2018-04-07", "2018-04-22 23:59", "Group Task Test11", 
+             "Group Task Test details", "unfinished", csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")), 
+            getProjectUserName(csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2"))));
+    }
+    
+    public String[] getProjectUserName(ProjectGroup p){
+        if(p.getGroupMembers()==null){
+            System.out.println("This project group is empty");
+            return null;
+        }
+        Iterator itr = p.getGroupMembers().iterator();
+        String[] name = new String[p.getGroupMembers().size()];
+        System.out.println("This project group size is " + p.getGroupMembers().size());
+        int index = 0;
+        Student s;
+        while(itr.hasNext()){
+            s =(Student) itr.next();
+            name[index] = s.getUsername();
+            index++;
+        }
+        return name;
     }
     
     
@@ -131,6 +166,10 @@ public class TasksBean {
             tsbl.unfinishTask(task.getId());
         }
         refresh();
+    }
+    
+    public void checkGroupTask(IndividualGroupTask groupTask){
+        
     }
     
     public void addTask(){
@@ -291,11 +330,11 @@ public class TasksBean {
         this.task = task;
     }
 
-    public User getStudentEntity() {
+    public Student getStudentEntity() {
         return studentEntity;
     }
 
-    public void setStudentEntity(User studentEntity) {
+    public void setStudentEntity(Student studentEntity) {
         this.studentEntity = studentEntity;
     }
 
@@ -385,6 +424,14 @@ public class TasksBean {
 
     public void setGroupOrPersonal(int groupOrPersonal) {
         this.groupOrPersonal = groupOrPersonal;
+    }
+
+    public Collection<IndividualGroupTask> getIndGroupTasks() {
+        return indGroupTasks;
+    }
+
+    public void setIndGroupTasks(Collection<IndividualGroupTask> indGroupTasks) {
+        this.indGroupTasks = indGroupTasks;
     }
 
     

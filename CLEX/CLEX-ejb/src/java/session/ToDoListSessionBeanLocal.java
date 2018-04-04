@@ -7,6 +7,7 @@ package session;
 
 import entity.ProjectGroup;
 import entity.GroupTask;
+import entity.IndividualGroupTask;
 import entity.Student;
 import entity.Task;
 import entity.User;
@@ -21,10 +22,12 @@ public interface ToDoListSessionBeanLocal {
     
     public Task createTask(String username, String date, String deadline, 
             String title,String details, String status);
+    
     public void createGroupTask(String date, String deadline, String title, 
             String details, String status, ProjectGroup projectGroup, 
             String[] users);
-    public void createIndividualGroupTask(String username, String date, 
+    
+    public IndividualGroupTask createIndividualGroupTask(String username, String date, 
             String deadline, String title,String details, String status);
     
     public void linkTaskStudent(Long taskId, String name);

@@ -5,9 +5,12 @@
  */
 package managedbeans;
 
+import entity.ProjectGroup;
+import entity.Student;
 import entity.Transaction;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Random;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -746,8 +749,45 @@ public class indexBean {
         tdsbl.createTask("aaaaaa", "2018-03-17", "2018-03-21 23:00", "IS4103 Lab 3", "IS4103 Lab Week 4", "finished");
         tdsbl.createTask("aaaaaa", "2018-04-17", "2018-04-21 13:00", "IS4103 Lab 4", "IS4103 Lab Week 4", "unfinished");
         tdsbl.createTask("aaaaaa", "2018-05-17", "2018-05-21 09:00", "IS4103 Lab 5", "IS4103 Lab Week 4", "unfinished");
-
+        
+        tdsbl.createGroupTask("2018-04-07", "2018-04-22 23:59", "Group Meeting", 
+             "Group Task Test details", "unfinished", csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")), 
+            getProjectUserName(csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2"))));
+        
+        tdsbl.createGroupTask("2018-04-07", "2018-04-12 12:59", "Group Talk", 
+             "Group Task Test details", "unfinished", csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")), 
+            getProjectUserName(csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2"))));
+        tdsbl.createGroupTask("2018-04-07", "2018-04-12 12:59", "Group Lecture", 
+             "Group Task Test details", "unfinished", csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")), 
+            getProjectUserName(csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2"))));
+        tdsbl.createGroupTask("2018-04-07", "2018-04-12 12:59", "Group Report", 
+             "Group Task Test details", "unfinished", csbl.findProjectgroup("N2", csbl.findModule("GER1000", "2017", "1")), 
+            getProjectUserName(csbl.findProjectgroup("N2", csbl.findModule("GER1000", "2017", "1"))));
+        tdsbl.createGroupTask("2018-04-07", "2018-04-11 10:59", "Group Discussion", 
+             "Group Task Test details", "unfinished", csbl.findProjectgroup("N2", csbl.findModule("GER1000", "2017", "1")), 
+            getProjectUserName(csbl.findProjectgroup("N2", csbl.findModule("GER1000", "2017", "1"))));
+        tdsbl.createGroupTask("2018-04-07", "2018-04-12 12:59", "Group Report", 
+             "Group Task Test details", "unfinished", csbl.findProjectgroup("N1", csbl.findModule("SC3101", "2017", "2")), 
+            getProjectUserName(csbl.findProjectgroup("N1", csbl.findModule("SC3101", "2017", "2"))));
+        
     
+    }
     
+    public String[] getProjectUserName(ProjectGroup p){
+        if(p.getGroupMembers()==null){
+            System.out.println("This project group is empty");
+            return null;
+        }
+        Iterator itr = p.getGroupMembers().iterator();
+        String[] name = new String[p.getGroupMembers().size()];
+        System.out.println("This project group size is " + p.getGroupMembers().size());
+        int index = 0;
+        Student s;
+        while(itr.hasNext()){
+            s =(Student) itr.next();
+            name[index] = s.getUsername();
+            index++;
+        }
+        return name;
     }
 }
