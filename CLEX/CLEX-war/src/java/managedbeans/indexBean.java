@@ -5,9 +5,11 @@
  */
 package managedbeans;
 
+import entity.Course;
 import entity.Transaction;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -59,6 +61,28 @@ public class indexBean {
     }
     
     public void createEntities() {
+//        //create modules for all course from year 2014 sem1 - 2017 sem2
+//        List<Course> courses = cpsbl.getAllCourses();
+//        int year = 2014;
+//        int sem = 1;
+//        for (Course c: courses) {
+//            do{
+//                //create module for year and sem
+//                csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", c);
+//                //increase to next semester
+//                if (sem == 1)
+//                    sem++;
+//                else {
+//                    year++;
+//                    sem--;
+//                }
+//            }while (year != 2018 || sem != 1);
+//        }
+        
+        //create course, read from nusmods
+        csbl.dragAllNusMods("try");
+        this.setModules();
+        
         //create Users
         csbl.createAdmin("adminadmin", "123456", "Stephen Hawking", "hawking@gmail.com", "NUS", 87246583L, genSalt());
         
@@ -100,9 +124,7 @@ public class indexBean {
         csbl.createGuest("gueste", "123456", "Sun Junyi", "email@email.com", "NUS", 12345678L, genSalt());
         
         csbl.createStudent("useless", "123456", "Berk", "AjbnbM","email@email.com", "NUS", 18907578L, genSalt(), "soc", "IS","2015", "1", 5.0);
-        csbl.createStudent("irrelevant", "123456", "Lucy", "AhscoM","email@email.com", "NUS", 12511948L, genSalt(), "soc", "IS","2015", "1", 5.0);        
-        //create course, read from nusmods
-        csbl.dragAllNusMods("try");
+        csbl.createStudent("irrelevant", "123456", "Lucy", "AhscoM","email@email.com", "NUS", 12511948L, genSalt(), "soc", "IS","2015", "1", 5.0);
         
         //create Module basde on course
         //modules for 2015, sem 1
@@ -118,7 +140,7 @@ public class indexBean {
         csbl.linkLecturerModule("hsianghui2", "ES1102", "2015", "1");
         csbl.linkLecturerModule("hsianghui3", "CL2280", "2015", "1");
         //modules for 2015, sem 2
-        csbl.createModule("2015", "2", "none", "none", csbl.findCourse("IS3106"));
+        //csbl.createModule("2015", "2", "none", "none", csbl.findCourse("IS3106"));
         csbl.createModule("2015", "2", "none", "none", csbl.findCourse("CL2281"));
         csbl.createModule("2015", "2", "none", "none", csbl.findCourse("PL1101E"));
         csbl.createModule("2015", "2", "none", "none", csbl.findCourse("CM4254"));
@@ -130,7 +152,7 @@ public class indexBean {
         csbl.linkLecturerModule("hsianghui4", "CM4254", "2015", "2");
         csbl.linkLecturerModule("hsianghui4", "YHU1210", "2015", "2");
         //modules for 2016, sem 1
-        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("CS1020"));
+//        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("CS1020"));
         csbl.createModule("2016", "1", "none", "none", csbl.findCourse("EC3551"));
         csbl.createModule("2016", "1", "none", "none", csbl.findCourse("FIN3103A"));
         csbl.createModule("2016", "1", "none", "none", csbl.findCourse("ACC1701X"));
@@ -142,7 +164,7 @@ public class indexBean {
         csbl.linkLecturerModule("hsianghui4", "ACC1701X", "2016", "1");
         csbl.linkLecturerModule("hsianghui4", "MS3212", "2016", "1");
         //modules for 2016, sem 2
-        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("CS2100"));
+//        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("CS2100"));
         csbl.createModule("2016", "2", "none", "none", csbl.findCourse("IE1111"));
         csbl.createModule("2016", "2", "none", "none", csbl.findCourse("PF3302"));
         csbl.createModule("2016", "2", "none", "none", csbl.findCourse("MA2101"));
@@ -214,10 +236,10 @@ public class indexBean {
         csbl.createModule("2017", "2", "none", "none", csbl.findCourse("CL2280"));
         
         
-        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("IS3106"));
-        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("IS3106"));
-        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("IS3106"));
-        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("IS3106"));
+//        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("IS3106"));
+//        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("IS3106"));
+//        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("IS3106"));
+//        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("IS3106"));
         
         csbl.createModule("2015", "1", "none", "none", csbl.findCourse("CL2281"));
         csbl.createModule("2016", "1", "none", "none", csbl.findCourse("CL2281"));
@@ -240,10 +262,10 @@ public class indexBean {
         csbl.createModule("2017", "2", "none", "none", csbl.findCourse("YHU1210"));
         
         
-        csbl.createModule("2015", "2", "none", "none", csbl.findCourse("CS1020"));
-        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("CS1020"));
-        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("CS1020"));
-        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("CS1020"));
+//        csbl.createModule("2015", "2", "none", "none", csbl.findCourse("CS1020"));
+//        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("CS1020"));
+//        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("CS1020"));
+//        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("CS1020"));
         
         csbl.createModule("2015", "2", "none", "none", csbl.findCourse("EC3551"));
         csbl.createModule("2015", "1", "none", "none", csbl.findCourse("EC3551"));
@@ -266,10 +288,10 @@ public class indexBean {
         csbl.createModule("2017", "2", "none", "none", csbl.findCourse("MS3212"));
         
         
-        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("CS2100"));
-        csbl.createModule("2015", "2", "none", "none", csbl.findCourse("CS2100"));
-        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("CS2100"));
-        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("CS2100"));
+//        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("CS2100"));
+//        csbl.createModule("2015", "2", "none", "none", csbl.findCourse("CS2100"));
+//        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("CS2100"));
+//        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("CS2100"));
         
         csbl.createModule("2015", "1", "none", "none", csbl.findCourse("IE1111"));
         csbl.createModule("2015", "2", "none", "none", csbl.findCourse("IE1111"));
@@ -318,7 +340,7 @@ public class indexBean {
         csbl.createModule("2016", "2", "none", "none", csbl.findCourse("TIE2010"));
         
         //for test group formation function of lecturer
-        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("IS4231"));
+//        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("IS4231"));
         csbl.linkLecturerModule("hsianghui2", "IS4231", "2017", "2");
         
         //set peer review form for hsianghui2 PC2193 TEST
@@ -625,36 +647,36 @@ public class indexBean {
         csbl.createStudyPlan("2018", "2", csbl.findCourse("EM1001"), csbl.findStudent("namename"));
         csbl.createStudyPlan("2018", "2", csbl.findCourse("LAF1201"), csbl.findStudent("namename"));
         
-        //create Grade, its relationship is set during create
-        csbl.createGrade("A", csbl.findModule("CP3109", "2015", "1"), csbl.findStudent("namename"));
-        csbl.createGrade("A", csbl.findModule("YIR3312", "2015", "1"), csbl.findStudent("namename"));
-        csbl.createGrade("A", csbl.findModule("LAG2201", "2015", "1"), csbl.findStudent("namename"));
-        csbl.createGrade("A", csbl.findModule("ES1102", "2015", "1"), csbl.findStudent("namename"));
-        csbl.createGrade("A", csbl.findModule("CL2280", "2015", "1"), csbl.findStudent("namename"));
-
-        csbl.createGrade("A", csbl.findModule("IS3106", "2015", "2"), csbl.findStudent("namename"));
-        csbl.createGrade("A", csbl.findModule("CL2281", "2015", "2"), csbl.findStudent("namename"));
-        csbl.createGrade("A", csbl.findModule("PL1101E", "2015", "2"), csbl.findStudent("namename"));
-        csbl.createGrade("A", csbl.findModule("CM4254", "2015", "2"), csbl.findStudent("namename"));
-        csbl.createGrade("A", csbl.findModule("YHU1210", "2015", "2"), csbl.findStudent("namename"));
-
-        csbl.createGrade("A", csbl.findModule("CS1020", "2016", "1"), csbl.findStudent("namename"));
-        csbl.createGrade("A", csbl.findModule("EC3551", "2016", "1"), csbl.findStudent("namename"));
-        csbl.createGrade("A", csbl.findModule("FIN3103A", "2016", "1"), csbl.findStudent("namename"));
-        csbl.createGrade("A", csbl.findModule("ACC1701X", "2016", "1"), csbl.findStudent("namename"));
-        csbl.createGrade("A", csbl.findModule("MS3212", "2016", "1"), csbl.findStudent("namename"));
-        
-        csbl.createGrade("A", csbl.findModule("CS2100", "2016", "2"), csbl.findStudent("namename"));
-        csbl.createGrade("A", csbl.findModule("IE1111", "2016", "2"), csbl.findStudent("namename"));
-        csbl.createGrade("A", csbl.findModule("PF3302", "2016", "2"), csbl.findStudent("namename"));
-        csbl.createGrade("A", csbl.findModule("MA2101", "2016", "2"), csbl.findStudent("namename"));
-        csbl.createGrade("A", csbl.findModule("CL3551", "2016", "2"), csbl.findStudent("namename"));
-
-        csbl.createGrade("A", csbl.findModule("GER1000", "2017", "1"), csbl.findStudent("namename"));
-        csbl.createGrade("A", csbl.findModule("RE2102", "2017", "1"), csbl.findStudent("namename"));
-        csbl.createGrade("A", csbl.findModule("MLE2101", "2017", "1"), csbl.findStudent("namename"));
-        csbl.createGrade("A", csbl.findModule("NM4227", "2017", "1"), csbl.findStudent("namename"));
-        csbl.createGrade("A", csbl.findModule("LAL1201", "2017", "1"), csbl.findStudent("namename"));
+//        //create Grade, its relationship is set during create
+//        csbl.createGrade("A", csbl.findModule("CP3109", "2015", "1"), csbl.findStudent("namename"));
+//        csbl.createGrade("A", csbl.findModule("YIR3312", "2015", "1"), csbl.findStudent("namename"));
+//        csbl.createGrade("A", csbl.findModule("LAG2201", "2015", "1"), csbl.findStudent("namename"));
+//        csbl.createGrade("A", csbl.findModule("ES1102", "2015", "1"), csbl.findStudent("namename"));
+//        csbl.createGrade("A", csbl.findModule("CL2280", "2015", "1"), csbl.findStudent("namename"));
+//
+//        csbl.createGrade("A", csbl.findModule("IS3106", "2015", "2"), csbl.findStudent("namename"));
+//        csbl.createGrade("A", csbl.findModule("CL2281", "2015", "2"), csbl.findStudent("namename"));
+//        csbl.createGrade("A", csbl.findModule("PL1101E", "2015", "2"), csbl.findStudent("namename"));
+//        csbl.createGrade("A", csbl.findModule("CM4254", "2015", "2"), csbl.findStudent("namename"));
+//        csbl.createGrade("A", csbl.findModule("YHU1210", "2015", "2"), csbl.findStudent("namename"));
+//
+//        csbl.createGrade("A", csbl.findModule("CS1020", "2016", "1"), csbl.findStudent("namename"));
+//        csbl.createGrade("A", csbl.findModule("EC3551", "2016", "1"), csbl.findStudent("namename"));
+//        csbl.createGrade("A", csbl.findModule("FIN3103A", "2016", "1"), csbl.findStudent("namename"));
+//        csbl.createGrade("A", csbl.findModule("ACC1701X", "2016", "1"), csbl.findStudent("namename"));
+//        csbl.createGrade("A", csbl.findModule("MS3212", "2016", "1"), csbl.findStudent("namename"));
+//        
+//        csbl.createGrade("A", csbl.findModule("CS2100", "2016", "2"), csbl.findStudent("namename"));
+//        csbl.createGrade("A", csbl.findModule("IE1111", "2016", "2"), csbl.findStudent("namename"));
+//        csbl.createGrade("A", csbl.findModule("PF3302", "2016", "2"), csbl.findStudent("namename"));
+//        csbl.createGrade("A", csbl.findModule("MA2101", "2016", "2"), csbl.findStudent("namename"));
+//        csbl.createGrade("A", csbl.findModule("CL3551", "2016", "2"), csbl.findStudent("namename"));
+//
+//        csbl.createGrade("A", csbl.findModule("GER1000", "2017", "1"), csbl.findStudent("namename"));
+//        csbl.createGrade("A", csbl.findModule("RE2102", "2017", "1"), csbl.findStudent("namename"));
+//        csbl.createGrade("A", csbl.findModule("MLE2101", "2017", "1"), csbl.findStudent("namename"));
+//        csbl.createGrade("A", csbl.findModule("NM4227", "2017", "1"), csbl.findStudent("namename"));
+//        csbl.createGrade("A", csbl.findModule("LAL1201", "2017", "1"), csbl.findStudent("namename"));
 
         
         //csbl.createGrade("A", csbl.findModule("PS2240", "2017", "2"), csbl.findStudent("namename"));
@@ -746,8 +768,707 @@ public class indexBean {
         tdsbl.createTask("aaaaaa", "2018-03-17", "2018-03-21 23:00", "IS4103 Lab 3", "IS4103 Lab Week 4", "finished");
         tdsbl.createTask("aaaaaa", "2018-04-17", "2018-04-21 13:00", "IS4103 Lab 4", "IS4103 Lab Week 4", "unfinished");
         tdsbl.createTask("aaaaaa", "2018-05-17", "2018-05-21 09:00", "IS4103 Lab 5", "IS4103 Lab Week 4", "unfinished");
-
+    }
     
-    
+    public void setModules() {
+        int year = 2014;
+        int sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("IS1103"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("IS1105"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("IS2101"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("IS2102"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("IS2103"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("IS3103"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("IS3106"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("IS3150"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("IS3240"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("IS3261"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("IS4010"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("IS4100"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("IS4103"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("IS4204"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("IS4228"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("IS4231"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("IS4234"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("IS4240"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("IS4301"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS1010"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS1010J"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS1010S"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS1020"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS1231"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS2010"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS2030"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS2040"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS2100"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS2101"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS2102"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS2103"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS2104"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS2105"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS2106"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS2107"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS2108"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS2220"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS2309"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS3103"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS3201"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS3202"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS3205"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS3210"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS3216"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS3219"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS3230"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS3235"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS3240"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS3241"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
+        
+        year = 2014;
+        sem = 1;
+        do{
+            //create module for year and sem
+            csbl.createModule(Integer.toString(year), Integer.toString(sem), "none", "none", csbl.findCourse("CS3244"));
+            //increase to next semester
+            if (sem == 1)
+                sem++;
+            else {
+                year++;
+                sem--;
+            }
+        }while (year != 2018 || sem != 1);
     }
 }
