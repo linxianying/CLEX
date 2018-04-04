@@ -41,11 +41,15 @@ public interface ToDoListSessionBeanLocal {
     
     public Task findTask(Long taskId);
     public GroupTask findGroupTask(Long taskId);
+    public IndividualGroupTask findIndGroupTask(Long id);
     
     public void finishTask(Long taskId);
     public void unfinishTask(Long taskId);
     public void finishGroupTask(Long taskId);
     public void unfinishGroupTask(Long taskId);
+    
+    public void finishIndGroupTask(Long taskId);
+    public void unfinishIndGroupTask(Long taskId);
     public Student findStudent(String username);
     
     public boolean removeTask(Long taskId, User user);
