@@ -90,7 +90,7 @@ public class RegisterBean implements Serializable {
                     if (password.equals(password1)) {
                         if (userType.equals("1")) { //Student
                             csbl.createStudent(username, password, name, "not updated", email, school, contactNum, genSalt(),
-                                    faculty, major, matricYear, matricSem, cap);
+                                    faculty, major, matricYear, matricSem, 5.0);
                             fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Student '" + username + "' successfully created.", "We hope you will like PRISM.");
                         } else if (userType.equals("2")) { //Lecturer
                             csbl.createLecturer(username, password, name, email, school, contactNum, genSalt(),
