@@ -331,9 +331,27 @@
                                                    minValue="1" maxValue="#{studyPlanBean.currentYear+1-studyPlanBean.matricYear}" />
                                     <p>Semester<sup>+</sup>:</p>
                                     <p:selectOneButton id="addGradePickSem" value="#{studyPlanBean.addGradePickSem}" required="true">
-                                        <f:selectItem itemLabel="1" itemValue=1 />
-                                        <f:selectItem itemLabel="2" itemValue=2 />
-                                    </p:selectOneButton>  
+                                        <f:selectItem itemLabel="1" itemValue="1" />
+                                        <f:selectItem itemLabel="2" itemValue="2" />
+                                    </p:selectOneButton>
+                                    <br />
+                                    <h:outputText value="Grade you get:"/>
+                                    <p:selectOneMenu value="#{studyPlanBean.addGradeModuleGrade}">
+                                        <f:selectItem itemLabel="A+" itemValue="A+" />
+                                        <f:selectItem itemLabel="A" itemValue="A" />
+                                        <f:selectItem itemLabel="A-" itemValue="A-" />
+                                        <f:selectItem itemLabel="B+" itemValue="B+" />
+                                        <f:selectItem itemLabel="B" itemValue="B" />
+                                        <f:selectItem itemLabel="B-" itemValue="B-" />
+                                        <f:selectItem itemLabel="C+" itemValue="C+" />
+                                        <f:selectItem itemLabel="C" itemValue="C" />
+                                        <f:selectItem itemLabel="D+" itemValue="D+" />
+                                        <f:selectItem itemLabel="D" itemValue="D" />
+                                        <f:selectItem itemLabel="F" itemValue="F" />
+                                        <f:selectItem itemLabel="S" itemValue="S" />
+                                        <f:selectItem itemLabel="U" itemValue="U" />
+                                    </p:selectOneMenu>
+                                    <p:commandButton value="Add" actionListener="#{studyPlanBean.addGrade()}" update="addErrorMsg, tab:modulesTaken, tab:addGradeForm"/>
                                 </p:panelGrid>
                             </h:form>
                         </p:tab>  
