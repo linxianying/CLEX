@@ -73,6 +73,7 @@ public class TasksBean {
     private List<Task> unfinishedTasks = new ArrayList<Task>();
     private List<Task> allTasks = new ArrayList<Task>();
     private Collection<IndividualGroupTask> indGroupTasks = new ArrayList<IndividualGroupTask>();
+    private Collection<IndividualGroupTask> unfinishedIndGroupTasks = new ArrayList<IndividualGroupTask>();
     private Collection<Task> tasks;
     
     
@@ -98,7 +99,7 @@ public class TasksBean {
         username = studentEntity.getUsername();
         tasks = null;
         unfinishedTasks = new ArrayList<Task>();
-        
+        unfinishedIndGroupTasks = new ArrayList<IndividualGroupTask>();
         if(studentEntity!=null){
             tasks = studentEntity.getTasks();
             indGroupTasks = studentEntity.getIndividualGroupTasks();
@@ -109,6 +110,16 @@ public class TasksBean {
                 Task t = (Task) itr.next();
                 if(t.getStatus().equals("unfinished"))
                     unfinishedTasks.add(t);
+                //allTasks.add(t);
+            }
+            
+        }
+        if(indGroupTasks!=null){
+            Iterator<IndividualGroupTask> itr = indGroupTasks.iterator();
+            while(itr.hasNext()){
+                IndividualGroupTask t = (IndividualGroupTask) itr.next();
+                if(t.getStatus().equals("unfinished"))
+                    unfinishedIndGroupTasks.add(t);
                 //allTasks.add(t);
             }
             
@@ -169,7 +180,17 @@ public class TasksBean {
     }
     
     public void checkGroupTask(IndividualGroupTask groupTask){
+        String summary = value ? "Checked. This task is finished!" : "Unchecked. This task is unfinished.";
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(summary));
         
+        if(value==true){
+            //finished
+            tsbl.finishIndGroupTask(groupTask.getId());
+            System.out.println("GroupTask " + groupTask.getId() + " is " + groupTask.getStatus());
+            value = false;
+        }else{
+            tsbl.unfinishGroupTask(groupTask.getId());
+        }
     }
     
     public void addTask(){
@@ -432,6 +453,22 @@ public class TasksBean {
 
     public void setIndGroupTasks(Collection<IndividualGroupTask> indGroupTasks) {
         this.indGroupTasks = indGroupTasks;
+    }
+
+    public ClexSessionBeanLocal getCsbl() {
+        return csbl;
+    }
+
+    public void setCsbl(ClexSessionBeanLocal csbl) {
+        this.csbl = csbl;
+    }
+
+    public Collection<IndividualGroupTask> getUnfinishedIndGroupTasks() {
+        return unfinishedIndGroupTasks;
+    }
+
+    public void setUnfinishedIndGroupTasks(Collection<IndividualGroupTask> unfinishedIndGroupTasks) {
+        this.unfinishedIndGroupTasks = unfinishedIndGroupTasks;
     }
 
     
