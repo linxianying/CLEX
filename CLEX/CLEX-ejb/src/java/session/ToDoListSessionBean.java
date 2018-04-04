@@ -257,7 +257,6 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
     
     @Override
     public GroupTask findGroupTask(Long id){
-        groupTaskEntity = new GroupTask();
         groupTaskEntity = null;
         try{
             Query q = em.createQuery("SELECT t FROM GroupTask t WHERE t.id=:id");
@@ -275,7 +274,6 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
     
     @Override
     public IndividualGroupTask findIndGroupTask(Long id){
-        indGroupTaskEntity = new IndividualGroupTask();
         indGroupTaskEntity = null;
         try{
             Query q = em.createQuery("SELECT t FROM IndividualGroupTask t WHERE t.id=:id");
@@ -296,16 +294,16 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
         String details, String status, ProjectGroup projectGroup, String[] users){
         groupTaskEntity = new GroupTask();
         groupTaskEntity.createGroupTask(date, deadline, title,details, status, projectGroup);
+        em.persist(groupTaskEntity);
+        em.flush();
         for(int i=0;i<users.length;i++){
             indGroupTaskEntity = createIndividualGroupTask(users[i], date, deadline, title, details+"("+projectGroup.getId()+")", status);
             indGroupTaskEntity.setGroupTask(groupTaskEntity);
-            em.merge(indGroupTaskEntity);
+            em.persist(indGroupTaskEntity);
             System.out.println("createGroupTask: individual" + indGroupTaskEntity.getId());
         }
-        em.persist(groupTaskEntity);
         System.out.println("createGroupTask: group" + groupTaskEntity.getId());
         
-        em.flush();
     }
 
     @Override
