@@ -21,7 +21,7 @@
                 <table>
                     <tr>
                         <td>
-                            Total number of students
+                             <p:outputLabel id="noStud" for="noStudent" value="Total number of students: " />
                         </td>
                         <td>
                             <p:inputText disabled="true" id="noStudent" value="#{lecturerModuleGroupBean.module.students.size()}" style="width: 100%"/>
@@ -29,7 +29,7 @@
                     </tr>
                     <tr>
                         <td>
-                            Formation Method
+                            <p:outputLabel id="methodForm" for="formMethod" value="Formation Method: " />
                         </td>
                         <td>
                             <p:selectOneMenu id="formMethod" value="#{lecturerModuleGroupBean.formMethod}" style="width: 100%">
@@ -41,7 +41,7 @@
                     </tr>
                     <tr>
                         <td>
-                            Number of Groups
+                            <p:outputLabel id="numOfGroup" for="numOfGroups" value="# of Groups: " />
                         </td>
                         <td>
                             <p:inputNumber id="numOfGroups" value="#{lecturerModuleGroupBean.numOfGroups}" required="true" minValue="1" style="width: 100%"/>
@@ -49,7 +49,7 @@
                     </tr>
                     <tr>
                         <td>
-                            Average # of Students in each Group
+                            <p:outputLabel id="averageNum" for="avgStudentNum" value="Average # of Students in each Group: " />
                         </td>
                         <td>
                             <p:inputNumber id="avgStudentNum" value="#{lecturerModuleGroupBean.avgStudentNum}" required="true" minValue="1" style="width: 100%"/>
@@ -57,7 +57,7 @@
                     </tr>
                     <tr>
                         <td>
-                            Minimum # of Students in each Group
+                            <p:outputLabel id="minStu" for="minStudentNum" value="Minimum # of Students in each Group: " />
                         </td>
                         <td>
                             <p:inputNumber id="minStudentNum" value="#{lecturerModuleGroupBean.minStudentNum}" minValue="1"/>
@@ -68,7 +68,7 @@
                     </tr>
                     <tr>
                         <td>
-                            Maximum # of Students in each Group
+                            <p:outputLabel id="maxStu" for="maxStudentNum" value="Maximum # of Students in each Group: " />
                         </td>
                         <td>
                             <p:inputNumber id="maxStudentNum" value="#{lecturerModuleGroupBean.maxStudentNum}" minValue="1"/>
@@ -79,7 +79,7 @@
                     </tr>
                     <tr>
                         <td>
-                            Deadline for Group Formation
+                            <p:outputLabel id="deadl" for="maxStudentNum" value="Deadline for Group Formation: " />
                         </td>
                         <td>
                             <p:calendar id="deadline" value="#{lecturerModuleGroupBean.deadline}" pattern="MM/dd/yyyy HH:mm:ss" />
