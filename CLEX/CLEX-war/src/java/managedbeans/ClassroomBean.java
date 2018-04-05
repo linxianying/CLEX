@@ -118,9 +118,9 @@ public class ClassroomBean {
         addButton = true;
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
-        lecturerEntity = (Lecturer) session.getAttribute("user");
-        username = lecturerEntity.getUsername();
-        System.out.println("Lecturer Name: " + username);
+        username = (String) session.getAttribute("username");
+        lecturerEntity = csbl.findLecturer(username);
+        //System.out.println("Lecturer Name: " + username);
         this.setCurrentYearSem();
         if(lecturerEntity!=null){
             modules = crsbl.viewModules(lecturerEntity);
@@ -197,7 +197,7 @@ public class ClassroomBean {
         
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
-        Poll p = crsbl.createPoll(addModuleCode, addPickYear, addPickSem, dateFormat.format(date), 
+        Poll p = crsbl.createPoll(addModuleCode, currentYear+"", currentSem+"", dateFormat.format(date), 
                 addPollTopic, Double.parseDouble(addPollCorrectRate), addPollType, addPollContent);
         //System.out.println("addPollType:"+addPollType+"//////////////////////Topic:"+addPollTopic);
         if(p==null){
@@ -215,7 +215,7 @@ public class ClassroomBean {
     public void addUnfinishedPoll(){
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
-        Poll p = crsbl.createUnfinishedPoll(addModuleCode, addPickYear, addPickSem, dateFormat.format(date), 
+        Poll p = crsbl.createUnfinishedPoll(addModuleCode, currentYear+"", currentSem+"", dateFormat.format(date), 
                 addPollTopic, 0.0, addPollType, addPollContent,ans,0);
         System.out.println("addType:"+addPollType+"//////////////////////ans:"+ans.get(0));
         if(p==null){
