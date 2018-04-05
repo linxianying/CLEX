@@ -250,7 +250,7 @@ public class TasksBean {
                 group = gfsbl.findProjectGroup(Long.parseLong(groupInfo));
             System.out.println("group: " + group.getId());
             gt = tsbl.createGroupTask(ft.format(Calendar.getInstance().getTime()), ddl, 
-            group.getSuperGroup().getModule().getCourse().getModuleCode()+"-"+title, 
+            group.getSuperGroup().getModule().getCourse().getModuleCode()+" - "+title, 
             details, "unfinished", group,getProjectUserName(group));   
             if(urgencyInt!=null){
                 urgency = urgencyInt+"";
@@ -270,7 +270,7 @@ public class TasksBean {
                 context.addMessage(null, fmsg);
             }
         }
-        
+        refresh();
     }
     
     public ProjectGroup findGroupViaGroupInfo(Student student,  String groupInfo){

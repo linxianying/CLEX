@@ -133,7 +133,7 @@
                 </div>
             </p:tab>
             <p:tab title="ADD TASKS">
-                 
+                <div class="ui-g dashboard"> 
                     <div class="ui-g-12 ui-md-8">
                          <h:form id="addTaskForm">
                             <p:messages showDetail="true" autoUpdate="true" closable="true" />
@@ -142,6 +142,19 @@
                                      toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
 
                                 <table>
+                                    <tr>
+                                        <td>
+                                            Type:
+
+                                        </td>
+                                        <td>
+                                            <p:selectOneButton id="select" style="padding: 0%; width: 100%" value="#{tasksBean.groupOrPersonal}">
+                                                <f:selectItem itemLabel="Personal" itemValue="1" />
+                                                <f:selectItem itemLabel="Group" itemValue="2" />
+                                                <p:ajax update="tab:addTaskForm:projectGroup, tab:addTaskForm" event="change"/>
+                                            </p:selectOneButton>
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td>
                                             Deadline:
@@ -184,19 +197,7 @@
                                             <p:rating id="urgency" value="#{tasksBean.urgencyInt}" />
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>
-                                            Type:
-
-                                        </td>
-                                        <td>
-                                            <p:selectOneButton id="select" style="padding: 0%; width: 100%" value="#{tasksBean.groupOrPersonal}">
-                                                <f:selectItem itemLabel="Personal" itemValue="1" />
-                                                <f:selectItem itemLabel="Group" itemValue="2" />
-                                                <p:ajax update="tab:addTaskForm:projectGroup, tab:addTaskForm" event="change"/>
-                                            </p:selectOneButton>
-                                        </td>
-                                    </tr>
+                                    
                                     <tr>
                                         <td>
                                             Project Group:
@@ -215,7 +216,8 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <p:commandButton value="Add" actionListener="#{tasksBean.addTask}" />
+                                            <p:commandButton value="Add" actionListener="#{tasksBean.addTask}" update="tab:taskObject:tasklist"
+                                                             action="studentMain?faces-redirect=true"/>
                                         </td>
                                     </tr>
                                 </table>
@@ -224,7 +226,7 @@
                         <!-- END: Add New Poll -->
                         
                     </div>
-                
+                </div>
             </p:tab>
         </p:tabView>
     </ui:define>

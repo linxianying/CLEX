@@ -775,19 +775,19 @@ public class indexBean {
              "Group Task Test details", "unfinished", csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")), 
             getProjectUserName(csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2"))));
         
-        tdsbl.createGroupTask("2018-04-07", "2018-04-12 12:59", "Group Talk", 
+        tdsbl.createGroupTask("2018-04-07", "2018-04-12 12:59", "PS2240 - Group Talk", 
              "Group Task Test details", "unfinished", csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")), 
             getProjectUserName(csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2"))));
-        tdsbl.createGroupTask("2018-04-07", "2018-04-12 12:59", "Group Lecture", 
+        tdsbl.createGroupTask("2018-04-07", "2018-04-12 12:59", "PS2240 - Group Lecture", 
              "Group Task Test details", "unfinished", csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")), 
             getProjectUserName(csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2"))));
-        tdsbl.createGroupTask("2018-04-07", "2018-04-12 12:59", "GER1000 Group", 
+        tdsbl.createGroupTask("2018-04-07", "2018-04-12 12:59", "GER1000 - Group Lecture", 
              "Group Task Test details", "unfinished", csbl.findProjectgroup("N2", csbl.findModule("GER1000", "2017", "1")), 
             getProjectUserName(csbl.findProjectgroup("N2", csbl.findModule("GER1000", "2017", "1"))));
-        tdsbl.createGroupTask("2018-04-07", "2018-04-11 10:59", "Group Discussion", 
+        tdsbl.createGroupTask("2018-04-07", "2018-04-11 10:59", "GER1000 - Group Discussion", 
              "Group Task Test details", "unfinished", csbl.findProjectgroup("N2", csbl.findModule("GER1000", "2017", "1")), 
             getProjectUserName(csbl.findProjectgroup("N2", csbl.findModule("GER1000", "2017", "1"))));
-        tdsbl.createGroupTask("2018-04-07", "2018-04-12 12:59", "Group Report", 
+        tdsbl.createGroupTask("2018-04-07", "2018-04-12 12:59", "SC3101 - Group Report", 
              "Group Task Test details", "unfinished", csbl.findProjectgroup("N1", csbl.findModule("SC3101", "2017", "2")), 
             getProjectUserName(csbl.findProjectgroup("N1", csbl.findModule("SC3101", "2017", "2"))));
         
