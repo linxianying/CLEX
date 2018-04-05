@@ -33,10 +33,14 @@ import java.util.Iterator;
 import java.util.Random;
 import javaClass.JsonReader;
 import javax.ejb.Stateless;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.servlet.http.HttpSession;
+import static org.primefaces.component.focus.Focus.PropertyKeys.context;
 /**
  *
  * @author lin
@@ -84,7 +88,39 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
             pollEntity.setDatetime(datetime);
             pollEntity.setTopic(topic);
             pollEntity.setType(type);
+            pollEntity.setStatus("finished");
             pollEntity.setModule(moduleEntity);
+            em.persist(pollEntity);
+            em.flush();
+            moduleEntity.getPolls().add(pollEntity);
+            em.merge(moduleEntity);
+            em.flush();
+        }
+        return pollEntity;
+    }
+    
+    @Override
+    public Poll createUnfinishedPoll(String moduleCode, String takenYear, String takenSem, 
+            String datetime, String topic, double correctRate, String type, String content, 
+            ArrayList<String> ans, int correctAns){
+        moduleEntity = null;
+        pollEntity = null;
+        moduleEntity = findModule(moduleCode, takenYear, takenSem);
+        if(moduleEntity==null){
+            System.out.println("Module " + moduleCode + " does not exist!");
+            return null;
+        }else{
+            System.out.println("Module " + moduleCode + " is found. Poll is created");
+            pollEntity = new Poll();
+            pollEntity.setContent(content);
+            pollEntity.setCorrectRate(correctRate);
+            pollEntity.setDatetime(datetime);
+            pollEntity.setTopic(topic);
+            pollEntity.setType(type);
+            pollEntity.setModule(moduleEntity);
+            pollEntity.setStatus(null);
+            pollEntity.setAnswers(ans);
+            pollEntity.setCorrectAns(correctAns);
             em.persist(pollEntity);
             em.flush();
             moduleEntity.getPolls().add(pollEntity);
@@ -120,6 +156,17 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
             e.printStackTrace();
         }
         return moduleEntity;
+    }
+    
+    @Override
+    public void endPoll(Poll poll){
+        poll.setStatus("finished");
+        double rate = 0.0;
+        if(poll.getTotal()!=0)
+            rate = (double) ((poll.getCorrect()*1.0)/poll.getTotal());
+        poll.setCorrectRate(rate);
+        em.merge(poll);
+        em.flush();
     }
     
     @Override
@@ -174,6 +221,15 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
         }
         return pollEntity;
     
+    }
+    
+    @Override
+    public void updatePoll(Poll p, int correct, int total){
+        p.setCorrect(correct);
+        p.setTotal(total);
+        System.out.println("updatePoll: poll with id " + p.getId() + " and " + correct + "/" + total );
+        em.merge(p);
+        em.flush();
     }
     
     @Override
@@ -309,7 +365,7 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
         Iterator<Poll> iterator = polls.iterator();
         while (iterator.hasNext()) {
             Poll p = iterator.next();
-            if(p.getTopic().equals(topic)){
+            if(p.getTopic().equals(topic)&&p.getStatus()!=null&&p.getStatus().equals("finished")){
                 //System.out.println(p.getDatetime() + " " + p.getContent()
                 //+ " " + p.getCorrectRate());
             }
@@ -326,7 +382,7 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
         int index = 0;
         if(polls!=null){
             for(Poll p : polls){
-                if(p.getTopic().equals(topic)){
+                if(p.getTopic().equals(topic)&&p.getStatus()!=null&&p.getStatus().equals("finished")){
                     index++;
                     total = total + p.getCorrectRate();
                 }
@@ -345,7 +401,7 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
         int index = 0;
         if(polls!=null){
             for(Poll p : polls){
-                if(p.getType().equals(type)){
+                if(p.getType().equals(type)&&p.getStatus()!=null&&p.getStatus().equals("finished")){
                     index++;
                     total = total + p.getCorrectRate();
                 }

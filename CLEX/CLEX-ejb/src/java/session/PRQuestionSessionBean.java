@@ -144,6 +144,25 @@ public class PRQuestionSessionBean implements PRQuestionSessionBeanLocal {
         em.flush();
     }
     
+    @Override
+    public void startPR(Module module, Date newDeadline) {
+        question = module.getPeerReviewQuestion();
+        question.setStatus("start");
+        if (newDeadline != null)
+            question.setDeadline(newDeadline);
+        em.merge(question);
+        em.flush();
+    }
+    
+    @Override
+    public void stopPR(Module module) {
+        question = module.getPeerReviewQuestion();
+        question.setStatus("end");
+        em.merge(question);
+        em.flush();
+    }
+    
+    
     public void testUpdatePRForm() {
         
     }

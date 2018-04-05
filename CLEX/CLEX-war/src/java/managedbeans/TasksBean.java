@@ -5,16 +5,21 @@
  */
 package managedbeans;
 
+import entity.GroupTask;
+import entity.IndividualGroupTask;
+import entity.ProjectGroup;
 import entity.Student;
 import entity.Task;
 import entity.User;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -28,6 +33,7 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.ScheduleEvent;
+import session.ClexSessionBeanLocal;
 import session.ToDoListSessionBeanLocal;
 
 /**
@@ -40,7 +46,10 @@ public class TasksBean {
 
     @EJB
     ToDoListSessionBeanLocal tsbl;
+    @EJB
+    private ClexSessionBeanLocal csbl;
     /**
+     * 
      * Creates a new instance of TasksBean
      */
     private Date date = new Date();
@@ -54,11 +63,17 @@ public class TasksBean {
     private Task task;
     private String ddl;
     private Integer urgencyInt;
+    private int groupOrPersonal;
     
     
-    private User studentEntity;
+    private Student studentEntity;
     private String username;
     private String userType;
+    private boolean value;
+    private List<Task> unfinishedTasks = new ArrayList<Task>();
+    private List<Task> allTasks = new ArrayList<Task>();
+    private Collection<IndividualGroupTask> indGroupTasks = new ArrayList<IndividualGroupTask>();
+    private Collection<IndividualGroupTask> unfinishedIndGroupTasks = new ArrayList<IndividualGroupTask>();
     private Collection<Task> tasks;
     
     
@@ -73,12 +88,67 @@ public class TasksBean {
     
     @PostConstruct
     protected void initialize()  {
+        refresh();
+    }
+    
+    public void refresh() {
+        value = false;
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
         studentEntity = (Student) session.getAttribute("user");
         username = studentEntity.getUsername();
+        tasks = null;
+        unfinishedTasks = new ArrayList<Task>();
+        unfinishedIndGroupTasks = new ArrayList<IndividualGroupTask>();
+        if(studentEntity!=null){
+            tasks = studentEntity.getTasks();
+            indGroupTasks = studentEntity.getIndividualGroupTasks();
+        }
+        if(tasks!=null){
+            Iterator<Task> itr = tasks.iterator();
+            while(itr.hasNext()){
+                Task t = (Task) itr.next();
+                if(t.getStatus().equals("unfinished"))
+                    unfinishedTasks.add(t);
+                //allTasks.add(t);
+            }
+            
+        }
+        if(indGroupTasks!=null){
+            Iterator<IndividualGroupTask> itr = indGroupTasks.iterator();
+            while(itr.hasNext()){
+                IndividualGroupTask t = (IndividualGroupTask) itr.next();
+                if(t.getStatus().equals("unfinished"))
+                    unfinishedIndGroupTasks.add(t);
+                //allTasks.add(t);
+            }
+            
+        }
         
-        System.out.println("finish intialization");
+    }
+    
+    public void test(){
+        tsbl.createGroupTask("2018-04-07", "2018-04-22 23:59", "Group Task Test11", 
+             "Group Task Test details", "unfinished", csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")), 
+            getProjectUserName(csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2"))));
+    }
+    
+    public String[] getProjectUserName(ProjectGroup p){
+        if(p.getGroupMembers()==null){
+            System.out.println("This project group is empty");
+            return null;
+        }
+        Iterator itr = p.getGroupMembers().iterator();
+        String[] name = new String[p.getGroupMembers().size()];
+        System.out.println("This project group size is " + p.getGroupMembers().size());
+        int index = 0;
+        Student s;
+        while(itr.hasNext()){
+            s =(Student) itr.next();
+            name[index] = s.getUsername();
+            index++;
+        }
+        return name;
     }
     
     
@@ -92,6 +162,35 @@ public class TasksBean {
         setDdl(ft.format(event.getObject()));
         System.out.println("onDateSelect: ddl is " + ddl);
         
+    }
+    
+    public void checkTask(Task task) {
+        String summary = value ? "Checked. This task is finished!" : "Unchecked. This task is unfinished.";
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(summary));
+        
+        if(value==true){
+            //finished
+            tsbl.finishTask(task.getId());
+            System.out.println("Task " + task.getId() + "is finished. " + task.getStatus());
+            value = false;
+        }else{
+            tsbl.unfinishTask(task.getId());
+        }
+        refresh();
+    }
+    
+    public void checkGroupTask(IndividualGroupTask groupTask){
+        String summary = value ? "Checked. This task is finished!" : "Unchecked. This task is unfinished.";
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(summary));
+        
+        if(value==true){
+            //finished
+            tsbl.finishIndGroupTask(groupTask.getId());
+            System.out.println("GroupTask " + groupTask.getId() + " is " + groupTask.getStatus());
+            value = false;
+        }else{
+            tsbl.unfinishGroupTask(groupTask.getId());
+        }
     }
     
     public void addTask(){
@@ -172,6 +271,30 @@ public class TasksBean {
         this.id = id;
     }
 
+    public boolean isValue() {
+        return value;
+    }
+
+    public void setValue(boolean value) {
+        this.value = value;
+    }
+
+    public List<Task> getUnfinishedTasks() {
+        return unfinishedTasks;
+    }
+
+    public void setUnfinishedTasks(List<Task> unfinishedTasks) {
+        this.unfinishedTasks = unfinishedTasks;
+    }
+
+    public List<Task> getAllTasks() {
+        return allTasks;
+    }
+
+    public void setAllTasks(List<Task> allTasks) {
+        this.allTasks = allTasks;
+    }
+
     public Date getDeadline() {
         return deadline;
     }
@@ -228,11 +351,11 @@ public class TasksBean {
         this.task = task;
     }
 
-    public User getStudentEntity() {
+    public Student getStudentEntity() {
         return studentEntity;
     }
 
-    public void setStudentEntity(User studentEntity) {
+    public void setStudentEntity(Student studentEntity) {
         this.studentEntity = studentEntity;
     }
 
@@ -314,6 +437,38 @@ public class TasksBean {
 
     public void setFmsg(FacesMessage fmsg) {
         this.fmsg = fmsg;
+    }
+
+    public int getGroupOrPersonal() {
+        return groupOrPersonal;
+    }
+
+    public void setGroupOrPersonal(int groupOrPersonal) {
+        this.groupOrPersonal = groupOrPersonal;
+    }
+
+    public Collection<IndividualGroupTask> getIndGroupTasks() {
+        return indGroupTasks;
+    }
+
+    public void setIndGroupTasks(Collection<IndividualGroupTask> indGroupTasks) {
+        this.indGroupTasks = indGroupTasks;
+    }
+
+    public ClexSessionBeanLocal getCsbl() {
+        return csbl;
+    }
+
+    public void setCsbl(ClexSessionBeanLocal csbl) {
+        this.csbl = csbl;
+    }
+
+    public Collection<IndividualGroupTask> getUnfinishedIndGroupTasks() {
+        return unfinishedIndGroupTasks;
+    }
+
+    public void setUnfinishedIndGroupTasks(Collection<IndividualGroupTask> unfinishedIndGroupTasks) {
+        this.unfinishedIndGroupTasks = unfinishedIndGroupTasks;
     }
 
     

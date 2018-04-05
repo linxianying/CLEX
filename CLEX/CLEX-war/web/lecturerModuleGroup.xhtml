@@ -37,8 +37,7 @@
                 <p:inputNumber id="maxStudentNum" value="#{lecturerModuleGroupBean.maxStudentNum}" minValue="1"/>
                 <br/>
                 <h:outputLabel for="deadline" value="Deadline for group formation (not compulsory)" />
-                <!--<p:inputText id="deadline" value="#{lecturerModuleGroupBean.deadline}" required="true" />-->
-                <p:calendar id="deadline" value="#{lecturerModuleGroupBean.deadline}" placeholder="Today" pattern="dd.MM.yyyy HH:mm"/>
+                <p:calendar id="deadline" value="#{lecturerModuleGroupBean.deadline}" pattern="MM/dd/yyyy HH:mm:ss" />
                 <p:commandButton value="Start" actionListener="#{lecturerModuleGroupBean.formGroup}" update="@all"/>
             </p:fieldset>
         </h:form>

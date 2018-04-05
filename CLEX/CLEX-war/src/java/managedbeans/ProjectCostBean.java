@@ -8,18 +8,14 @@ package managedbeans;
 import entity.ProjectGroup;
 import entity.Student;
 import entity.Module;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import javaClass.StudentCost;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import session.ClexSessionBeanLocal;
@@ -32,18 +28,19 @@ import session.ProjectCostSessionBeanLocal;
 @ManagedBean(name = "projectCostBean")
 @SessionScoped
 public class ProjectCostBean implements Serializable {
+
     @EJB
     private ClexSessionBeanLocal csbl;
     @EJB
     private ProjectCostSessionBeanLocal pcsbl;
-    
+
     FacesContext context;
     HttpSession session;
-    
+
     private Module module;
     private ProjectGroup group;
     private Student student;
-    
+
     private String activity;
     private double totalCost;
     private double cost;
@@ -61,17 +58,20 @@ public class ProjectCostBean implements Serializable {
 
     private boolean multiple;
     private boolean individual;
-    
-    
+
     public ProjectCostBean() {
     }
-    
+
     @PostConstruct
     public void init() {
         //for test only
         //group = csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2"));
         //groupMembers = group.getGroupMembers();
-        
+        refresh();
+
+    }
+
+    public void refresh() {
         System.out.println("ProjectCostBean start initialization");
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
@@ -224,26 +224,23 @@ public class ProjectCostBean implements Serializable {
     public void setGroupMembers(Collection<Student> groupMembers) {
         this.groupMembers = groupMembers;
     }
-    
-    
-    
+
     //in case of multiple payers and payees, set each student with the amount they pay
     public void setOriStudentCost() {
         all = new ArrayList<StudentCost>();
-        for (Student s: this.getGroupMembers()) {
+        for (Student s : this.getGroupMembers()) {
             StudentCost studentCost = new StudentCost(s, 0.0, 0.0);
             all.add(studentCost);
         }
     }
-    
-    
+
     public void addTransaction() {
         System.out.println("Strat to add transaction");
         System.out.println("activity=" + this.activity);
         System.out.println("totalcost=" + this.totalCost);
         System.out.println("individual payer ID = " + individualPayerId);
 
-        for (StudentCost sc: all) {
+        for (StudentCost sc : all) {
             System.out.println(sc.toString());
             System.out.println(" ");
         }
@@ -251,7 +248,7 @@ public class ProjectCostBean implements Serializable {
         if (paidBy.equals("Individual")) {
             // find the individualPayer in the payer arrayList and assign total cost to it
             System.out.println("It is paid by individual");
-            for (StudentCost sc: all) {
+            for (StudentCost sc : all) {
                 if (sc.getStudent().getId().equals(individualPayerId)) {
                     System.out.println(sc.getStudent().getName() + "find");
                     sc.setPay(totalCost);
@@ -261,14 +258,14 @@ public class ProjectCostBean implements Serializable {
         // no need to set anything if paid by multiple people
         //if split equally 
         if (splitBy.equals("Equally")) {
-            cost = totalCost/getGroupMembers().size();
-            for (StudentCost sc: all) 
+            cost = totalCost / getGroupMembers().size();
+            for (StudentCost sc : all) {
                 sc.setCost(cost);
-        }
-        //if split by percentage 
+            }
+        } //if split by percentage 
         else if (splitBy.equals("Percentage")) {
-            for (StudentCost sc: all) {
-                cost = totalCost*sc.getCost()/100;
+            for (StudentCost sc : all) {
+                cost = totalCost * sc.getCost() / 100;
                 sc.setCost(cost);
             }
         }
@@ -276,9 +273,9 @@ public class ProjectCostBean implements Serializable {
         System.out.println("totalcost=" + this.totalCost);
         System.out.println("all=" + this.all.toString());
         //pcsbl.addTransaction(all, activity, totalCost, group, date);
-        
+
         //initialize 
-        for (StudentCost sc: all) {
+        for (StudentCost sc : all) {
             sc.setPay(0.0);
             sc.setCost(0.0);
         }
@@ -288,8 +285,9 @@ public class ProjectCostBean implements Serializable {
 //        catch(Exception e){
 //            e.printStackTrace();
 //        }
+        refresh();
     }
-    
+
     //for test purpose
     //check there is one payer or multiple
     public void checkNumOfPayer() {
@@ -298,19 +296,18 @@ public class ProjectCostBean implements Serializable {
     }
 
     /*
-    @return the groupMembers
+     @return the groupMembers
      
-    public Map<Long, Student> getGroupMembers() {
-        return groupMembers;
-    }
+     public Map<Long, Student> getGroupMembers() {
+     return groupMembers;
+     }
 
    
      * @param groupMembers the groupMembers to set
-    public void setGroupMembers(Map<Long, Student> groupMembers) {
-        this.groupMembers = groupMembers;
-    }
-    */
-
+     public void setGroupMembers(Map<Long, Student> groupMembers) {
+     this.groupMembers = groupMembers;
+     }
+     */
     public String getIndividualPayerUsername() {
         return individualPayerUsername;
     }
@@ -319,8 +316,6 @@ public class ProjectCostBean implements Serializable {
         this.individualPayerUsername = individualPayerUsername;
     }
 
-
-
     public Long getIndividualPayerId() {
         return individualPayerId;
     }
@@ -328,6 +323,5 @@ public class ProjectCostBean implements Serializable {
     public void setIndividualPayerId(Long individualPayerId) {
         this.individualPayerId = individualPayerId;
     }
-    
-    
+
 }

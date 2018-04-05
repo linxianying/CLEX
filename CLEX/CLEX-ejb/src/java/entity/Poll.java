@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,8 +37,18 @@ public class Poll implements Serializable {
     @Column(length = 256, nullable = false)
     private String content;
     
-    @Column(length = 32, nullable = false)
+    @Column(length = 32)
     private double correctRate;
+    
+    @Column(length = 32)
+    private String status;
+    
+    private ArrayList<String> answers = new ArrayList<String>();
+    
+    private int correctAns;
+    
+    private int total;
+    private int correct;
     
     @ManyToOne
     private Module module;
@@ -50,6 +61,17 @@ public class Poll implements Serializable {
         this.type = type;
         this.correctRate = correctRate;
         this.content = content;
+        this.status = "finished";
+    }
+    
+    public void createPoll(String datetime, String topic, double correctRate, String type, 
+                String content, String status){
+        this.datetime = datetime;
+        this.topic = topic;
+        this.type = type;
+        this.correctRate = correctRate;
+        this.content = content;
+        this.status = status;
     }
     
     public Long getId() {
@@ -58,6 +80,14 @@ public class Poll implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public int getCorrectAns() {
+        return correctAns;
+    }
+
+    public void setCorrectAns(int correctAns) {
+        this.correctAns = correctAns;
     }
 
     public double getCorrectRate() {
@@ -98,6 +128,38 @@ public class Poll implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public ArrayList<String> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(ArrayList<String> answers) {
+        this.answers = answers;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public int getCorrect() {
+        return correct;
+    }
+
+    public void setCorrect(int correct) {
+        this.correct = correct;
     }
 
     @Override

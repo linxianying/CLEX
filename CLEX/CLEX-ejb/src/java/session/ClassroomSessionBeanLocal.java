@@ -18,10 +18,16 @@ import javax.ejb.Local;
  */
 @Local
 public interface ClassroomSessionBeanLocal {
+    public void endPoll(Poll poll);
+    
     public Module findModule(String moduleCode, String takenYear, String takenSem);
     
     public Poll createPoll(String moduleCode, String takenYear, String takenSem, 
             String datetime, String topic, double correctRate, String type, String content);
+    
+    public Poll createUnfinishedPoll(String moduleCode, String takenYear, String takenSem, 
+            String datetime, String topic, double correctRate, String type, String content, 
+            ArrayList<String> ans, int correctAns);
     
     public void updatePoll(Module module, Long id, String datetime, String topic, 
             double correctRate, String type, String content);
@@ -29,6 +35,8 @@ public interface ClassroomSessionBeanLocal {
     public Course findCourse(String moduleCode);
     
     public Poll findPoll(Long id);
+    
+    public void updatePoll(Poll p, int correct, int total);
     
     public boolean removePoll(String moduleCode, String takenYear, String takenSem, Long id);
     

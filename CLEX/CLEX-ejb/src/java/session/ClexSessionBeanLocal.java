@@ -72,7 +72,7 @@ public interface ClexSessionBeanLocal {
     public Timeslot createTimeslot(String title, String startDate, String endDate,
             String details, String venue);
 
-    public void createGrade(String moduleGrade, Module module, Student student);
+//    public void createGrade(String moduleGrade, Module module, Student student);
 
     public boolean checkNewUser(String username);
 
@@ -117,7 +117,7 @@ public interface ClexSessionBeanLocal {
     
     public String resetPassword(String username);
 
-    public void setStudentTakenModules(Student student, Module module);
+    public void setStudentTakenModules(Student student, Module module, String grade);
 
     public void setStudentLesson(Student student, Lesson lesson);
 
@@ -132,4 +132,8 @@ public interface ClexSessionBeanLocal {
     public Transaction createTransaction(double cost, String date, String activity, ProjectGroup group);
 
     public void createLedger(Student student, double ascCost, double pay, Transaction transaction);
+
+    public void confirmGroupFormation(Module module);
+
+    public void setStudentTakingModules(Student student, Module module);
 }

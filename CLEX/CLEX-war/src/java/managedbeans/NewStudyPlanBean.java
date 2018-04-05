@@ -17,16 +17,24 @@ import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.el.MethodExpression;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.component.UISelectItem;
+import org.primefaces.behavior.ajax.AjaxBehavior;
+import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.component.html.HtmlOutputText;
+import org.primefaces.component.selectonemenu.SelectOneMenu;
 import javax.faces.context.FacesContext;
+import javax.faces.event.MethodExpressionActionListener;
+import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpSession;
 import org.primefaces.component.dashboard.Dashboard;
 import org.primefaces.component.panel.Panel;
 import org.primefaces.event.CloseEvent;
 import org.primefaces.event.DashboardReorderEvent;
+import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.DashboardColumn;
 import org.primefaces.model.DashboardModel;
@@ -52,7 +60,7 @@ public class NewStudyPlanBean implements Serializable {
     @EJB
     private ClexSessionBeanLocal csbl;
     @EJB
-            CourseMgmtBeanLocal cmbl;
+    CourseMgmtBeanLocal cmbl;
     
     FacesContext context;
     HttpSession session;
@@ -87,6 +95,9 @@ public class NewStudyPlanBean implements Serializable {
     private boolean addButton;
     private List<Course> courses;
     
+    //for edit grade
+    private double newGrade;
+    
     //for rendering the info after the student select the module
     Course courseFront;
     
@@ -104,14 +115,17 @@ public class NewStudyPlanBean implements Serializable {
         
         if (student.getGrades().size() > 0) {
             grades = spsbl.getAllGrades(student);
+//            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!# of taken Moduless: " + grades.size());
         }
         
         takingModules = spsbl.getCurrentModules(student);
+//        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!# of taking Moduless: " + takingModules.size());
         
         if (student.getStudyPlan() != null) {
             studyPlans = spsbl.getAllStudyPlans(student);
         }
         
+        newGrade = -1;
         
         dashboard = (Dashboard) application.createComponent(context, "org.primefaces.component.Dashboard", "org.primefaces.component.DashboardRenderer");
         dashboard.setId("spDashboard");
@@ -144,6 +158,50 @@ public class NewStudyPlanBean implements Serializable {
         column6.addWidget("y32");
         column7.addWidget("y41");
         column8.addWidget("y42");
+        
+        final UISelectItem item0 = new UISelectItem();
+        item0.setItemLabel("select");
+        item0.setItemValue("select");
+        final UISelectItem item1 = new UISelectItem();
+        item1.setItemLabel("A+");
+        item1.setItemValue("A+");
+        final UISelectItem item2 = new UISelectItem();
+        item2.setItemLabel("A");
+        item2.setItemValue("A");
+        final UISelectItem item3 = new UISelectItem();
+        item3.setItemLabel("A-");
+        item3.setItemValue("A-");
+        final UISelectItem item4 = new UISelectItem();
+        item4.setItemLabel("B+");
+        item4.setItemValue("B+");
+        final UISelectItem item5 = new UISelectItem();
+        item5.setItemLabel("B");
+        item5.setItemValue("B");
+        final UISelectItem item6 = new UISelectItem();
+        item6.setItemLabel("B-");
+        item6.setItemValue("B-");
+        final UISelectItem item7 = new UISelectItem();
+        item7.setItemLabel("C+");
+        item7.setItemValue("C+");
+        final UISelectItem item8 = new UISelectItem();
+        item8.setItemLabel("C");
+        item8.setItemValue("C");
+        final UISelectItem item9 = new UISelectItem();
+        item9.setItemLabel("D+");
+        item9.setItemValue("D+");
+        final UISelectItem item10 = new UISelectItem();
+        item10.setItemLabel("D");
+        item10.setItemValue("D");
+        final UISelectItem item11 = new UISelectItem();
+        item11.setItemLabel("F");
+        item11.setItemValue("F");
+        final UISelectItem item12 = new UISelectItem();
+        item12.setItemLabel("S");
+        item12.setItemValue("S");
+        final UISelectItem item13 = new UISelectItem();
+        item13.setItemLabel("U");
+        item13.setItemValue("U");
+            
         for (Grade g : grades) {
             Panel panel = (Panel) application.createComponent(context, "org.primefaces.component.Panel", "org.primefaces.component.PanelRenderer");
             panel.setId("g" + g.getId());
@@ -236,9 +294,6 @@ public class NewStudyPlanBean implements Serializable {
             HtmlOutputText text = new HtmlOutputText();
             text.setValue("Taking Module\n");
             panel.getChildren().add(text);
-            HtmlOutputText t1 = new HtmlOutputText();
-            t1.setValue("Grade" );
-            panel.getChildren().add(t1);
         }
         
         for (StudyPlan sp : studyPlans) {
@@ -285,15 +340,11 @@ public class NewStudyPlanBean implements Serializable {
             text.setId("spt"+sp.getId());
             text.setValue("Study Plan\n");
             panel.getChildren().add(text);
-            HtmlOutputText t1 = new HtmlOutputText();
-            t1.setValue("Grade" );
-            panel.getChildren().add(t1);
-            System.out.println("-------check count"+column1.getWidgetCount());
+//            System.out.println("-------check count"+column1.getWidgetCount());
         }
         
         System.out.println("newStudyPlanBean finish ");
     }
-    
     
     public void setYearSem(){
         Calendar now = Calendar.getInstance();
@@ -310,9 +361,14 @@ public class NewStudyPlanBean implements Serializable {
         //for test purpose
         //matricYear = 2015;
         currentColumnIndex = (currentYear-matricYear)*2+currentSem - 1;
-        
     }
     
+    public void onTabChange(TabChangeEvent event){
+        if (event.getTab().getId().equals("overviewTab")) {
+            this.init();
+            System.out.println("NewStudyPlanBean:onTabChange: studyPlans size " + studyPlans.size());
+        }
+    }
     
     public void handleReorder(DashboardReorderEvent event) {
         System.out.println("handel reorder");
@@ -397,72 +453,72 @@ public class NewStudyPlanBean implements Serializable {
 //        addMessage(message);
     }
     
-    public void addNewItem() {
-        System.out.println("start add");
-        if (validattion()) {
-            if (addItem.equals("Taken module")) {
-                this.addTakenModule();
-            }
-            else if (addItem.equals("Taking module")) {
-                this.addTakingModule();
-            }
-            else if (addItem.equals("Study Plan")) {
-                this.addStudyPlan();
-            }
-        }
-    }
-    
-    public boolean validattion() {
-        boolean validate = true;
-        FacesMessage fmsg = new FacesMessage();
-        if (addItem.equals("Taken module")) {
-            if (!(addPickYear < currentYear || (addPickYear == currentYear && addPickSem < currentSem))) {
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Fail to add", "You cannot add a module taken before to a semester in future");
-            context.addMessage(null, fmsg);
-            validate = false;
-            }
-        }
-        else if (addItem.equals("Taking module")) {
-            if (addPickYear != currentYear ||  addPickSem != currentSem) {
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Fail to add", "You cannot add a currently taking module to other semester");
-            context.addMessage(null, fmsg);
-            validate = false;
-            }
-        }
-        else if (addItem.equals("Study Plan")) {
-            if (!(addPickYear > currentYear || (addPickYear == currentYear && addPickSem > currentSem))) {
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Fail to add", "You cannot add a study plan to a semester before");
-            context.addMessage(null, fmsg);
-            validate = false;
-            }
-        }
-        if (addModuleCode.equals("select")) {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "No module selected", "Please select a module");
-            context.addMessage(null, fmsg);
-            validate = false;
-        }
-        else if (spsbl.checkStudyPlan(username, addModuleCode)) {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "The module " + addModuleCode + " already in your study plan", "Please change to another module");
-            context.addMessage(null, fmsg);
-            validate = false;
-        } 
-        //this course already in takenCourses list
-        else if (spsbl.checkStudentModule(username, addModuleCode)) {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "You have already taken " + addModuleCode, "Please change to another module");
-            context.addMessage(null, fmsg);
-            validate = false;
-        } 
-        else {
-            fmsg = null;
-        }
-        return validate;
-    }
+//    public void addNewItem() {
+//        System.out.println("start add");
+//        if (validattion()) {
+//            if (addItem.equals("Taken module")) {
+//                this.addTakenModule();
+//            }
+//            else if (addItem.equals("Taking module")) {
+//                this.addTakingModule();
+//            }
+//            else if (addItem.equals("Study Plan")) {
+//                this.addStudyPlan();
+//            }
+//        }
+//    }
+//    
+//    public boolean validattion() {
+//        boolean validate = true;
+//        FacesMessage fmsg = new FacesMessage();
+//        if (addItem.equals("Taken module")) {
+//            if (!(addPickYear < currentYear || (addPickYear == currentYear && addPickSem < currentSem))) {
+//                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+//                    "Fail to add", "You cannot add a module taken before to a semester in future");
+//            context.addMessage(null, fmsg);
+//            validate = false;
+//            }
+//        }
+//        else if (addItem.equals("Taking module")) {
+//            if (addPickYear != currentYear ||  addPickSem != currentSem) {
+//                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+//                    "Fail to add", "You cannot add a currently taking module to other semester");
+//            context.addMessage(null, fmsg);
+//            validate = false;
+//            }
+//        }
+//        else if (addItem.equals("Study Plan")) {
+//            if (!(addPickYear > currentYear || (addPickYear == currentYear && addPickSem > currentSem))) {
+//                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+//                    "Fail to add", "You cannot add a study plan to a semester before");
+//            context.addMessage(null, fmsg);
+//            validate = false;
+//            }
+//        }
+//        if (addModuleCode.equals("select")) {
+//            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+//                    "No module selected", "Please select a module");
+//            context.addMessage(null, fmsg);
+//            validate = false;
+//        }
+//        else if (spsbl.checkStudyPlan(username, addModuleCode)) {
+//            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+//                    "The module " + addModuleCode + " already in your study plan", "Please change to another module");
+//            context.addMessage(null, fmsg);
+//            validate = false;
+//        } 
+//        //this course already in takenCourses list
+//        else if (spsbl.checkStudentModule(username, addModuleCode)) {
+//            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+//                    "You have already taken " + addModuleCode, "Please change to another module");
+//            context.addMessage(null, fmsg);
+//            validate = false;
+//        } 
+//        else {
+//            fmsg = null;
+//        }
+//        return validate;
+//    }
     
     public void addStudyPlan() {
         context = FacesContext.getCurrentInstance();
@@ -473,14 +529,14 @@ public class NewStudyPlanBean implements Serializable {
         context.addMessage(null, fmsg);
     }
     
-    public void addTakenModule() {
-        context = FacesContext.getCurrentInstance();
-        spsbl.addTakenModule(Integer.toString(addPickYear), Integer.toString(addPickSem), addModuleCode, csbl.findStudent(username));
-        init();
-        FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Successful", "You have added module " + addModuleCode);
-        context.addMessage(null, fmsg);
-    }
+//    public void addTakenModule() {
+//        context = FacesContext.getCurrentInstance();
+//        spsbl.addTakenModule(Integer.toString(addPickYear), Integer.toString(addPickSem), addModuleCode, csbl.findStudent(username));
+//        init();
+//        FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+//                    "Successful", "You have added module " + addModuleCode);
+//        context.addMessage(null, fmsg);
+//    }
     
     public void addTakingModule() {
         context = FacesContext.getCurrentInstance();
@@ -491,6 +547,9 @@ public class NewStudyPlanBean implements Serializable {
         context.addMessage(null, fmsg);
     }
     
+    public void editGrade() {
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Edit Grade");
+    }
     
     public StudyPlanSessionBeanLocal getSpsbl() {
         return spsbl;
@@ -731,6 +790,14 @@ public class NewStudyPlanBean implements Serializable {
 
     public void setCourseFront(Course courseFront) {
         this.courseFront = courseFront;
+    }
+
+    public double getNewGrade() {
+        return newGrade;
+    }
+
+    public void setNewGrade(double newGrade) {
+        this.newGrade = newGrade;
     }
     
     

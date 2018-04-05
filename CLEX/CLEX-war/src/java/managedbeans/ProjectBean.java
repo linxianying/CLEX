@@ -240,4 +240,17 @@ public class ProjectBean {
             e.printStackTrace();
         }
     }
+    
+    public void GoPRPage(String moduleCode){
+    try {
+            module = csbl.findModule(moduleCode, currentYear, currentSem);
+            session.setAttribute("module", module);
+            projectGroup = psbl.getStudentProjectGroup(student, module);
+            session.setAttribute("projectGroup", projectGroup);
+            context.getExternalContext().redirect("studentPeerReview.xhtml");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

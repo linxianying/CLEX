@@ -66,8 +66,6 @@ public class Grade implements Serializable {
         this.id = id;
     }
 
-
-
     public String getModuleGrade() {
         return moduleGrade;
     }

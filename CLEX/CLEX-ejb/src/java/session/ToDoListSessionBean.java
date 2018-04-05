@@ -132,15 +132,15 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
     }
     
     public void linkIndividualTaskStudent(IndividualGroupTask indGroupTaskEntity, String username) {
-    //To change body of generated methods, choose Tools | Templates.
         studentEntity = findStudent(username);
         if(studentEntity==null){
             System.out.println("Student " + username + " does not exist.");
-        }else if(taskEntity==null){
-            System.out.println("Task does not exist.");
+        }else if(indGroupTaskEntity==null){
+            System.out.println("IndividualGroupTask does not exist.");
         }else{
             indGroupTaskEntity.setStudent(studentEntity);
             studentEntity.getIndividualGroupTasks().add(indGroupTaskEntity);
+            System.out.println("linkIndividualTaskStudent: " + indGroupTaskEntity.getId());
             em.merge(indGroupTaskEntity);
             em.merge(studentEntity);
             em.flush();
@@ -148,13 +148,15 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
     }
     
     @Override
-    public void createIndividualGroupTask(String username, String date, String deadline, String title,String details, String status){
+    public IndividualGroupTask createIndividualGroupTask(String username, String date, String deadline, String title,String details, String status){
         indGroupTaskEntity = new IndividualGroupTask();
         indGroupTaskEntity.createIndividualGroupTask(date, deadline, title, details, status);
-        linkIndividualTaskStudent(indGroupTaskEntity, username);
         em.persist(indGroupTaskEntity);
         em.flush();
-    
+        linkIndividualTaskStudent(indGroupTaskEntity, username);
+        
+        System.out.println("createIndividualGroupTask: " + indGroupTaskEntity.getId());
+        return indGroupTaskEntity;
     }
     
     @Override
@@ -214,6 +216,14 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
     }
     
     @Override
+    public void unfinishTask(Long taskId){
+        taskEntity = findTask(taskId);
+        taskEntity.setStatus("unfinished");
+        em.merge(taskEntity);
+        em.flush();
+    }
+    
+    @Override
     public void finishGroupTask(Long taskId){
         groupTaskEntity = findGroupTask(taskId);
         groupTaskEntity.setStatus("finished");
@@ -222,8 +232,31 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
     }
     
     @Override
+    public void finishIndGroupTask(Long taskId){
+        indGroupTaskEntity = findIndGroupTask(taskId);
+        indGroupTaskEntity.setStatus("finished");
+        em.merge(indGroupTaskEntity);
+        em.flush();
+    }
+    
+    @Override
+    public void unfinishIndGroupTask(Long taskId){
+        indGroupTaskEntity = findIndGroupTask(taskId);
+        indGroupTaskEntity.setStatus("unfinished");
+        em.merge(indGroupTaskEntity);
+        em.flush();
+    }
+    
+    @Override
+    public void unfinishGroupTask(Long taskId){
+        groupTaskEntity = findGroupTask(taskId);
+        groupTaskEntity.setStatus("unfinished");
+        em.merge(groupTaskEntity);
+        em.flush();
+    }
+    
+    @Override
     public GroupTask findGroupTask(Long id){
-        groupTaskEntity = new GroupTask();
         groupTaskEntity = null;
         try{
             Query q = em.createQuery("SELECT t FROM GroupTask t WHERE t.id=:id");
@@ -240,15 +273,37 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
     }
     
     @Override
+    public IndividualGroupTask findIndGroupTask(Long id){
+        indGroupTaskEntity = null;
+        try{
+            Query q = em.createQuery("SELECT t FROM IndividualGroupTask t WHERE t.id=:id");
+            q.setParameter("id", id);
+            indGroupTaskEntity = (IndividualGroupTask) q.getSingleResult();
+            System.out.println("IndividualGroupTask " + id + " found.");
+        }
+        catch(NoResultException e){
+            System.out.println("IndividualGroupTask " + id + " does not exist.");
+            indGroupTaskEntity = null;
+        }
+        return indGroupTaskEntity;
+        
+    }
+    
+    @Override
     public void createGroupTask(String date, String deadline, String title,
         String details, String status, ProjectGroup projectGroup, String[] users){
         groupTaskEntity = new GroupTask();
         groupTaskEntity.createGroupTask(date, deadline, title,details, status, projectGroup);
-        for(int i=0;i<users.length;i++){
-            createIndividualGroupTask(users[i], date, deadline, title, details+"("+projectGroup.getId()+")", status);
-        }
         em.persist(groupTaskEntity);
         em.flush();
+        for(int i=0;i<users.length;i++){
+            indGroupTaskEntity = createIndividualGroupTask(users[i], date, deadline, title, details+"("+projectGroup.getId()+")", status);
+            indGroupTaskEntity.setGroupTask(groupTaskEntity);
+            em.persist(indGroupTaskEntity);
+            System.out.println("createGroupTask: individual" + indGroupTaskEntity.getId());
+        }
+        System.out.println("createGroupTask: group" + groupTaskEntity.getId());
+        
     }
 
     @Override

@@ -18,7 +18,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import org.primefaces.event.SelectEvent;
@@ -30,13 +30,13 @@ import session.ProjectCostSessionBeanLocal;
  * @author caoyu
  */
 @ManagedBean(name = "viewProjectCostBean")
-@SessionScoped
+@ViewScoped
 public class ViewProjectCostBean {
 
     @EJB
-    private ClexSessionBeanLocal csbl;
+    ClexSessionBeanLocal csbl;
     @EJB
-    private ProjectCostSessionBeanLocal pcsbl;
+    ProjectCostSessionBeanLocal pcsbl;
 
     FacesContext context;
     HttpSession session;
@@ -72,11 +72,16 @@ public class ViewProjectCostBean {
     private Transaction selectedTransaction;
     private double totalCostLabel;
 
+
     public ViewProjectCostBean() {
     }
 
     @PostConstruct
     public void init() {
+        refresh();
+    }
+
+    public void refresh() {
         System.out.println("ViewProjectCostBean start initialization");
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
@@ -92,7 +97,6 @@ public class ViewProjectCostBean {
         this.setOriStudentCost();
         System.out.println("ViewProjectCostBean Finish initialization");
         selectedTransaction = null;
-
     }
 
     public void onRowSelect(SelectEvent event) {
@@ -127,8 +131,9 @@ public class ViewProjectCostBean {
 //            System.out.println(sc.toString());
 //            System.out.println(" ");
 //        }
-        if (date == null)
+        if (date == null) {
             date = new Date();
+        }
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
         if (addTransactionValidator()) {
@@ -168,7 +173,7 @@ public class ViewProjectCostBean {
             this.setOriStudentCost();
             fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", activity + " added.");
             context.addMessage(null, fmsg);
-            activity = null;
+            activity = "";
             totalCost = 0.0;
             paidBy = "Individual";
             splitBy = "Equally";
@@ -180,7 +185,7 @@ public class ViewProjectCostBean {
     }
 
     public void deleteTransaction() {
-        //System.out.println("into delete");
+        System.out.println("into delete");
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
         pcsbl.deleteTransaction(selectedTransaction.getId(), group, selectedTransaction);
@@ -190,7 +195,7 @@ public class ViewProjectCostBean {
         //System.out.println("After add transaction: sortedTransactions size: " + sortedTransactions.size());
         balances = pcsbl.getAllStudentBalance(group);
         this.setOriStudentCost();
-        activity = null;
+        activity = "";
         totalCost = 0.0;
         paidBy = "Individual";
         splitBy = "Equally";
@@ -205,21 +210,21 @@ public class ViewProjectCostBean {
         double totalCostBy = 0;
         double difference = 0;
         double totalPercentage = 0;
-        
+
         for (StudentCost sc : all) {
             totalPaidBy += sc.getPay();
             totalCostBy += sc.getCost();
         }
 
         if (paidBy.equals("Multiple People")) {
-            
+
             if (totalPaidBy > totalCost) {
                 difference = totalPaidBy - totalCost;
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wrong input", "The total amount paid is $"
                         + difference + " more than the total cost!");
                 context.addMessage(null, fmsg);
                 return false;
-            } else if(totalPaidBy < totalCost){
+            } else if (totalPaidBy < totalCost) {
                 difference = totalCost - totalPaidBy;
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wrong input", "The total amount paid is $"
                         + difference + " less than the total cost!");
@@ -259,38 +264,6 @@ public class ViewProjectCostBean {
         }
 
         return true;
-    }
-
-    public ClexSessionBeanLocal getCsbl() {
-        return csbl;
-    }
-
-    public void setCsbl(ClexSessionBeanLocal csbl) {
-        this.csbl = csbl;
-    }
-
-    public ProjectCostSessionBeanLocal getPcsbl() {
-        return pcsbl;
-    }
-
-    public void setPcsbl(ProjectCostSessionBeanLocal pcsbl) {
-        this.pcsbl = pcsbl;
-    }
-
-    public FacesContext getContext() {
-        return context;
-    }
-
-    public void setContext(FacesContext context) {
-        this.context = context;
-    }
-
-    public HttpSession getSession() {
-        return session;
-    }
-
-    public void setSession(HttpSession session) {
-        this.session = session;
     }
 
     public Module getModule() {
@@ -460,6 +433,5 @@ public class ViewProjectCostBean {
     public void setDate(Date date) {
         this.date = date;
     }
-    
-    
+
 }

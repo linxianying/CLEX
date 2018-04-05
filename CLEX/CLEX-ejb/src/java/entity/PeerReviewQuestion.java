@@ -51,6 +51,7 @@ public class PeerReviewQuestion implements Serializable {
         this.title = title;
         this.deadline = deadline;
         this.module = module;
+        this.status = "notStart";
         individualQuestions = new ArrayList<Question>();
         groupQuestions = new ArrayList<Question>();
         System.out.print("create PRform finish");

@@ -19,7 +19,7 @@
     </h:head>
     <h:body styleClass="login-body" > <!--ondblclick="closeDialog();"-->
         <div class="login-panel ui-fluid">
-            <h:form>
+            <h:form id="registerForm">
                 <p:focus context="panel"/>
                 <div class="ui-g">
                     <p:panel id="panel" style="border: none">
@@ -36,7 +36,7 @@
                                          requiredMessage="Full Name Required." >
                             </p:inputText> 
                         </div>
-                        <p:message for="name" />
+                        <!--<p:message for="name" />-->
 
                         <!-- Email Address -->
                         <div class="ui-g-12">
@@ -48,7 +48,7 @@
                                          validatorMessage="Email format is invalid.">
                             </p:inputText>
                         </div>
-                        <p:message for="email" />
+                        <!--<p:message for="email" />-->
 
                         <!-- Contact Number -->
                         <div class="ui-g-12">
@@ -62,7 +62,7 @@
                             </p:inputText>
 
                         </div>
-                        <p:message for="contact" />
+                        <!--<p:message for="contact" />-->
 
                         <!-- School --> 
                         <div class="ui-g-12">
@@ -70,20 +70,50 @@
                                              required="true" title="Select your school from the list. If your school isn't available, send a request to your instituition to adopt PRISM."
                                              id="school" value="#{registerBean.school}" 
                                              placeholder="School" requiredMessage="School Required">
+                                 <p:ajax listener="#{registerBean.onSchoolChange(registerBean.school)}" update="registerForm:yearsemgroup" />
                                 <f:selectItems value="#{registerBean.schoollist}" />
                             </p:selectOneMenu>
                             <p:tooltip id="toolTipFocus" for="school" showEvent="focus" hideEvent="blur" />
                         </div>
-                        <p:message for="school" />                        
+                        <!-- <p:message for="school" />   -->                     
                         <!-- User Type -->
                         <div class="ui-g-12 chkbox-container">
                             <p:selectOneButton required="true" requiredMessage="User Type Required" styleClass="menuSelect" id="userType" value="#{registerBean.userType}">
+                                <p:ajax event="change" update="registerForm:yearsemgroup" />
                                 <f:selectItem itemValue="1" itemLabel="STU" />
                                 <f:selectItem itemValue="2" itemLabel="LEC" />
                                 <f:selectItem itemValue="3" itemLabel="GUE" />
                             </p:selectOneButton>
                         </div>
-                        <p:message for="userType" />
+                        <!--<p:message for="userType" />-->
+                        <h:panelGroup id="yearsemgroup">
+                            <p:selectOneMenu style="padding: 0%" 
+                                             required="true" rendered="#{registerBean.userType == '1'}"
+                                             id="matricYear" value="#{registerBean.matricYear}" 
+                                             placeholder="School" requiredMessage="Matriculated Year Required">
+                                <f:selectItem itemValue="" itemLabel="Matriculated Year" noSelectionOption="true"/>
+                                <f:selectItems value="#{registerBean.yearlist}" />
+                            </p:selectOneMenu>
+                            <p:selectOneButton required="true" rendered="#{registerBean.userType == '1'}"
+                                               requiredMessage="Matriculated Semester Required" 
+                                               styleClass="menuSelect" id="matricSem" value="#{registerBean.matricSem}">
+                                <f:selectItem itemValue="1" itemLabel="SEM 1" />
+                                <f:selectItem itemValue="2" itemLabel="SEM 2" />
+                            </p:selectOneButton>
+                            <p:selectOneMenu style="padding: 0%" 
+                                             required="true" rendered="#{registerBean.userType == '1'}"
+                                             id="facultylist" value="#{registerBean.faculty}" 
+                                             placeholder="School" requiredMessage="Faculty Required">
+                                <f:selectItem itemValue="" itemLabel="Faculty" noSelectionOption="true"/>
+                                <f:selectItems value="#{registerBean.facultylist}" />
+                            </p:selectOneMenu>
+                            <p:inputText styleClass="textInput" rendered="#{registerBean.userType == '1'}"
+                                         placeholder="Major"
+                                         title="Information Systems, Applied Mathematics etc."
+                                         id="major" value="#{registerBean.major}" 
+                                         required="true" requiredMessage="Major Required." />
+                        </h:panelGroup>
+
 
                         <!-- Username -->
                         <div class="ui-g-12">
@@ -96,7 +126,7 @@
                                 <f:validateRegex pattern="^[a-zA-Z0-9]{6,12}$" /> 
                             </p:inputText>
                         </div>
-                        <p:message for="username" />
+                        <!-- <p:message for="username" />-->
 
                         <!-- Password -->
                         <div class="ui-g-12">
