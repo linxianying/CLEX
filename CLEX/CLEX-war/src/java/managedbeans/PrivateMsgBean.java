@@ -59,11 +59,17 @@ public class PrivateMsgBean {
     }
 
     @PostConstruct
-    public void init() {
+    public void init(){
+        refresh();
+    }
+    
+    public void refresh() {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
         sndUsername = (String) session.getAttribute("username");
         tabIndex = 0;
+        rcvUsername = null;
+        content = null;
         convo = null;
         msgList = null;
         convoExist = false;
@@ -98,21 +104,19 @@ public class PrivateMsgBean {
     public void startConversation() {
         if (msbl.findUser(rcvUsername) == null) {
             System.out.println("User does not exist. = " + rcvUsername);
-            tabIndex = 0;
         } else {
             rcvName = msbl.findUser(rcvUsername).getName();
             convoExist = true;
             if (msbl.checkUserInSameConversation(sndUsername, rcvUsername) != null) {
                 convo = msbl.checkUserInSameConversation(sndUsername, rcvUsername);
                 msgList = (List) convo.getMessages();
-                tabIndex = 1;
                 System.out.println("Conversation between " + sndUsername + " and " + rcvUsername + " already exists.");
             } else {
                 convo = msbl.createConversation(sndUsername, rcvUsername);
                 msgList = (List) convo.getMessages();
-                tabIndex = 1;
                 System.out.println("Conversation between " + sndUsername + " and " + rcvUsername + " created.");
             }
+            refresh();
         }
     }
 
@@ -147,7 +151,8 @@ public class PrivateMsgBean {
         } else {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to send message.", "Please ensure you are logged in.");
         }
-        msg = null;
+        msgList = (List) msbl.getMessageByConversation(convo.getId());
+        content = null;
         context.addMessage(null, fmsg);
     }
 
@@ -161,7 +166,8 @@ public class PrivateMsgBean {
         if (sender != null) {
             if (msbl.deleteConversation(sndUsername, convo.getId())) {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Left conversation.", "");
-                tabIndex = 0;
+                refresh();
+                convo = null;
             } else {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to delete conversation.", "");
             }

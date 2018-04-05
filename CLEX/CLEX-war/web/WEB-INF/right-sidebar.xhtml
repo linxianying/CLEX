@@ -22,7 +22,7 @@
                         <div style="overflow: hidden; overflow-wrap:break-word; height:90vh;">
                             <div style=" height: 75vh; overflow-y: scroll; width: 240px">
                                 <div class="search-input">
-                                    <h:form>
+                                    <h:form id="form1">
                                         <p:inputText value="#{privateMsgBean.rcvUsername}"
                                                      placeholder="Search for user..." styleClass="inputMsg"
                                                      onkeypress="if (event.keyCode == 13) {
@@ -31,21 +31,19 @@
                                                              }" />
                                         <i class="fa fa-search"></i>
 
-                                        <p:remoteCommand name="searchUser" update="msgTabView" actionListener="#{privateMsgBean.startConversation}"/>
+                                        <p:remoteCommand name="searchUser" update="msgTabView:form1" actionListener="#{privateMsgBean.startConversation}"/>
 
-                                        <p:dataList var="convo" value="#{privateMsgBean.convoList}">
+                                        <p:dataList id="myContacts" var="convo" value="#{privateMsgBean.convoList}">
                                             <button type="button" onclick="#{convo.users.get(1).getUsername()}convo()" class="convoBox">
                                                 <p:remoteCommand name="#{convo.users.get(1).getUsername()}convo" update="msgTabView"
                                                                  action="#{privateMsgBean.selectConversation(convo.users.get(1).getUsername())}"/>
 
                                                 <h:outputText value="#{convo.users.get(1).getName()}"/>
                                                 <br/>
-                                                <c:if test="#{empty convo.messages}">
-                                                    <h:outputText style="color: #777777" value="no messages"/>
-                                                </c:if>
-                                                <c:if test="#{not empty convo.messages}">
-                                                    <h:outputText style="color: #777777" value="#{convo.messages.get(convo.messages.size()-1).getMessage()}"/>
-                                                </c:if>
+
+                                                <h:outputText rendered="#{empty convo.messages}" style="color: #777777" value="no messages"/>
+                                                <h:outputText rendered="#{not empty convo.messages}" style="color: #777777" value="#{convo.messages.get(convo.messages.size()-1).getMessage()}"/>
+
                                                 <i class="fa fa-angle-right" style="float:right; color: #777777; font-size: 1.5em"/>
                                             </button>
                                             <hr style="border: none; height: 1px; background-color: #dddddd"/>
@@ -59,49 +57,51 @@
 
                     <p:tab title="Chat">
                         <div style="overflow: hidden; overflow-wrap:break-word; height:90vh;">
-                            <c:if test="#{not empty privateMsgBean.convo}">
-                                <h:outputText style="margin-top:5px;float:left;" value="#{privateMsgBean.rcvName}"/>
+                            <h:form id="form2">
+                                <c:if test="#{not empty privateMsgBean.convo}">
+                                    <h:outputText style="margin-top:5px;float:left;" value="#{privateMsgBean.rcvName}"/>
 
-                                <p:commandButton icon="fa fa-minus" styleClass="delConvoBtn" update="msgTabView" actionListener="#{privateMsgBean.deleteConversation}">
-                                    <p:confirm header="Delete Conversation" message="Are you sure you want to delete this conversation?" icon="ui-icon-alert" />
-                                </p:commandButton>
+                                    <p:commandButton icon="fa fa-minus" styleClass="delConvoBtn" update="msgTabView:form1:myContacts" actionListener="#{privateMsgBean.deleteConversation}">
+                                        <p:confirm header="Delete Conversation" message="Are you sure you want to delete this conversation?" icon="ui-icon-alert" />
+                                    </p:commandButton>
 
-                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                                </p:confirmDialog>
-                                
-                                <br/><br/><hr style="margin-bottom: 1px; border: none; height: 1px; background-color: #dddddd"/>
-                            </c:if>
-
-                            <div style=" height: 75vh; overflow-y: scroll; width: 240px;">
-                                <c:if test="#{empty privateMsgBean.convo}">
-                                    <h:outputText rendered="true" value="Please select a contact first!" />
+                                    <br/><br/><hr style="margin-bottom: 1px; border: none; height: 1px; background-color: #dddddd"/>
                                 </c:if>
 
-                                <c:if test="#{not empty privateMsgBean.msgList}">
-                                    <p:dataList id="myMessages" var="msgList" value="#{privateMsgBean.msgList}">
-                                        <h:outputText rendered="#{privateMsgBean.messageIsByUser(msgList)}" value="#{msgList.getMessage()}" class="chatBubble_left"/>
-                                        <br/>
-                                        <h:outputText rendered="#{not privateMsgBean.messageIsByUser(msgList)}" value="#{msgList.getMessage()}" class="chatBubble_right"/>
-                                        <br/>
-                                    </p:dataList>
-                                </c:if>
+                                <div style=" height: 75vh; overflow-y: scroll; width: 240px;">
+                                    <c:if test="#{empty privateMsgBean.convo}">
+                                        <h:outputText rendered="true" value="Please select a contact first!" />
+                                    </c:if>
 
-                                <c:if test="#{privateMsgBean.convoExist}">
-                                    <div class="ui-fluid contact-form" style="bottom: 15vh; position: absolute">
-                                        <h:form>
+                                    <c:if test="#{not empty privateMsgBean.msgList}">
+
+                                        <p:dataList id="myMessages" var="msgList" value="#{privateMsgBean.msgList}">
+                                            <h:outputText rendered="#{privateMsgBean.messageIsByUser(msgList)}" value="#{msgList.getMessage()}" class="chatBubble_left"/>
+                                            <br/>
+                                            <h:outputText rendered="#{not privateMsgBean.messageIsByUser(msgList)}" value="#{msgList.getMessage()}" class="chatBubble_right"/>
+                                            <br/>
+                                        </p:dataList>
+                                    </c:if>
+
+                                    <c:if test="#{privateMsgBean.convoExist}">
+                                        <div class="ui-fluid contact-form" style="bottom: 15vh; position: absolute">
+
                                             <h:panelGrid columns="2" styleClass="columnItems">
                                                 <p:inputTextarea value="#{privateMsgBean.content}" placeholder="type your message..." rows="1" cols="30" maxlength="300" styleClass="inputMsg"/>
-                                                <p:commandButton type="submit" icon="fa fa-paper-plane-o" styleClass="sendMsg" action="#{privateMsgBean.sendMessage}"></p:commandButton>
+                                                <p:commandButton type="submit" icon="fa fa-paper-plane-o" update="msgTabView:form2" styleClass="sendMsg" action="#{privateMsgBean.sendMessage}"></p:commandButton>
                                             </h:panelGrid>
-                                        </h:form>
-                                    </div>
-                                </c:if>
-                            </div>
+                                        </div>
+                                    </c:if>
+                                </div>
+                            </h:form>
                         </div>
                     </p:tab>
                 </p:tabView>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
             </div>
         </div>
     </div>
