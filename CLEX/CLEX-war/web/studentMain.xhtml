@@ -49,7 +49,7 @@
        </ui:define>
     <ui:define name="content">
         <h3><h:outputText value="Welcome to PRISM, #{loginBean.userEntity.name}" /></h3><br></br>
-        <p:tabView>
+        <p:tabView id="tab">
             <p:tab title="VIEW TASKS">
                 <div class="ui-g dashboard">   
                     <div class="ui-g-12 ui-md-8">
@@ -133,10 +133,10 @@
             <p:tab title="ADD TASKS">
                 <div class="ui-g dashboard">   
                     <div class="ui-g-12 ui-md-8">
-                         <h:form>
+                         <h:form id="addTaskForm">
                             <p:messages showDetail="true" autoUpdate="true" closable="true" />
                             <p:growl id="msgs" showDetail="true" />
-                            <p:panel collapsed="false" styleClass="menuHeader"  
+                            <p:panel id="taskPanel" collapsed="false" styleClass="menuHeader"  
                                      toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
 
                                 <table>
@@ -188,10 +188,10 @@
 
                                         </td>
                                         <td>
-                                            <p:selectOneButton style="padding: 0%; width: 100%" value="#{tasksBean.groupOrPersonal}">
+                                            <p:selectOneButton id="select" style="padding: 0%; width: 100%" value="#{tasksBean.groupOrPersonal}">
                                                 <f:selectItem itemLabel="Personal" itemValue="1" />
                                                 <f:selectItem itemLabel="Group" itemValue="2" />
-                                                <p:ajax update="msgs" event="change"/>
+                                                <p:ajax update="tab:addTaskForm:projectGroup, tab:addTaskForm" event="change"/>
                                             </p:selectOneButton>
                                         </td>
                                     </tr>
@@ -203,7 +203,7 @@
                                         <td>
                                             <p:selectOneMenu id="projectGroup" value="#{tasksBean.groupInfo}"  panelStyle="width:180px" effect="fade" 
                                                              style="width:160px" filter="true" filterMatchMode="contains" 
-                                                             appendTo="@this"  >
+                                                             appendTo="@this" rendered="#{tasksBean.groupOrPersonal==2}" >
                                                 <p:ajax event="change" update="msgs"  />
                                                 <f:selectItem itemLabel="Select One" itemValue="select"/>
                                                 <f:selectItems value="#{tasksBean.projectGroups}" var="projectGroup" 
