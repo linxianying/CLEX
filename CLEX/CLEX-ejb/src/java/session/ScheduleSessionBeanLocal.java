@@ -36,7 +36,7 @@ public interface ScheduleSessionBeanLocal {
     
     public ArrayList<Timeslot> getAllTimeslots(User userentitity);
     
-    public void createGroupTimeslot(String date, String timeFrom, String timeEnd, 
+    public GroupTimeslot createGroupTimeslot(String date, String timeFrom, String timeEnd, 
                 String title, String details, String venue, ProjectGroup pojectGroup);
     void updateGroupTimeslot(Long id, String date, String timeFrom, String timeEnd, 
                 String title, String details, String venue, ProjectGroup pojectGroup);

@@ -291,12 +291,13 @@ public class ScheduleSessionBean implements ScheduleSessionBeanLocal {
     }
     
     @Override
-    public void createGroupTimeslot(String date, String timeFrom, String timeEnd, 
+    public GroupTimeslot createGroupTimeslot(String date, String timeFrom, String timeEnd, 
                 String title, String details, String venue, ProjectGroup projectGroup) {
         groupTimeslotEntity = new GroupTimeslot();
         groupTimeslotEntity.createGroupTimeslot(date, timeFrom, timeEnd,title, details, venue, projectGroup);
         em.persist(groupTimeslotEntity);
         em.flush();
+        return groupTimeslotEntity;
     }
 
     @Override

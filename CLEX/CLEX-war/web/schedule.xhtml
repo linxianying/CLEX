@@ -23,7 +23,7 @@
             <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
             <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
-        <h:form>
+        <h:form id="addTimeslotForm">
             <p:growl id="messages" showDetail="true" />
             <!--
             <h:commandLink>
@@ -61,6 +61,13 @@
 
             <p:dialog widgetVar="eventDialog" header="Event Details" showEffect="clip" hideEffect="clip">
                 <h:panelGrid id="eventDetails" columns="2">
+                    <p:outputLabel for="type" value="Type:" />
+                    <p:selectOneButton id="type" style="padding: 0%; width: 100%" value="#{scheduleBean.groupOrPersonal}">
+                        <f:selectItem itemLabel="Personal" itemValue="1" />
+                        <f:selectItem itemLabel="Group" itemValue="2" />
+                        <p:ajax update="addTimeslotForm:projectGroup, addTimeslotForm:eventDetails" event="change"/>
+                    </p:selectOneButton>
+                    
                     <p:outputLabel for="title" value="Titles:" />
                     <p:inputText id="title" value="#{scheduleBean.event.title}" required="true" />
 
@@ -75,8 +82,19 @@
 
                     <p:outputLabel for="venue" value="Venue:" />
                     <p:inputText id="venue" value="#{scheduleBean.venue}" required="false" />
+                    
+                                                      
+                    <p:outputLabel for="projectGroup" value="Group:" />
+                    <p:selectOneMenu id="projectGroup" value="#{scheduleBean.groupInfo}"  panelStyle="width:120px" effect="fade" 
+                                     style="width:130px;" filter="true" filterMatchMode="contains" 
+                                    appendTo="@this" rendered="#{scheduleBean.groupOrPersonal==2}" >
+                        <p:ajax event="change"  />
+                        <f:selectItem itemLabel="Select One" itemValue="select"/>
+                        <f:selectItems value="#{scheduleBean.projectGroups}" var="projectGroup" 
+                                      itemValue="#{projectGroup.id}" itemLabel="#{projectGroup.superGroup.module.course.moduleCode}-#{projectGroup.name}" />
+                    </p:selectOneMenu>
 
-                    <p:commandButton id="deleteButton" value="delete" actionListener="#{scheduleBean.deleteEvent}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();"/>
+                    <p:commandButton id="deleteButton" value="Delete" actionListener="#{scheduleBean.deleteEvent}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();"/>
                     <p:commandButton style="float: right" id="addButton" value="Save" actionListener="#{scheduleBean.addEvent}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
 
                 </h:panelGrid>
