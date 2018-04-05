@@ -85,6 +85,7 @@ public class ClassroomBean {
     private String addPickSem;
     private boolean addButton;
     private boolean finishedOrNot;
+    private String finish;
     private ArrayList<String> ans = new ArrayList<String>();
     int num;
     private int total;
@@ -550,6 +551,14 @@ public class ClassroomBean {
 
     public void setStr(boolean[] str) {
         this.str = str;
+    }
+
+    public String getFinish() {
+        return finish;
+    }
+
+    public void setFinish(String finish) {
+        this.finish = finish;
     }
     
 }

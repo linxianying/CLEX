@@ -169,6 +169,19 @@
                             <table>
                                 <tr>
                                     <td>
+                                        <p:outputLabel for="finish" value="Finished Or Not" />
+                                    </td>
+
+                                    <td>
+                                        <p:selectOneButton id="finish" style="width: 300px;" required="true" value="#{classroomBean.finish}" >
+                                            <f:selectItem itemLabel="Finished" itemValue="1" />
+                                            <f:selectItem itemLabel="Not Finished" itemValue="2" />
+                                            <p:ajax update="addForm" event="change"/>
+                                        </p:selectOneButton>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
                                         Module Code:
                                     </td>
                                     <td>
@@ -238,15 +251,53 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        Correct Rate:
+                                        <p:outputLabel for="correctRate" value="Correct Rate:" 
+                                                       rendered="#{classroomBean.finish==1}" />
+                                        
                                     </td>
 
                                     <td >
                                         <p:inputNumber style="width: 100%" value="#{classroomBean.addPollCorrectRate}" required="true" 
                                                        requiredMessage="Please enter a number range from 0 to 1 only." 
-                                                       minValue="0.00" maxValue="1.00"
+                                                       minValue="0.00" maxValue="1.00" id="correctRate"
                                                        placeholder="Number from 0 to 1"
+                                                       rendered="#{classroomBean.finish==1}" 
                                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p:outputLabel for="num" value=" Number Of Answers:" 
+                                                       rendered="#{classroomBean.finish==2}" />
+                                       
+                                    </td>
+
+                                    <td >
+                                        <p:inputNumber value="#{classroomBean.num}" required="true" 
+                                                       requiredMessage="Please enter an integer number" 
+                                                       minValue="0" maxValue="10"
+                                                       rendered="#{classroomBean.finish==2}" 
+                                                       placeholder="0 - 10"
+                                                       id="num"
+                                                       />
+                                        <p:commandButton value="Confirm" partialSubmit="true" update="answers" process="num"
+                                                         rendered="#{classroomBean.finish==2}" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p:outputLabel value="Answers:" 
+                                                       rendered="#{classroomBean.finish==2}" />
+                                    </td>
+
+                                    <td >
+                                        <p:dataList rendered="#{classroomBean.finish==2}" 
+                                            value="#{classroomBean.ans}" id="answers" var="answer" type="ordered">
+
+                                            <p:inputText value="#{answer}"  style="width:300px;"
+                                                         required="true"  />
+
+                                        </p:dataList>
                                     </td>
                                 </tr>
                                 <tr>
@@ -260,6 +311,7 @@
                         </p:panel>
                     </h:form>
                     <h:form id="addForm1">
+                        <!--
                         <p:growl id="msg1" showDetail="true" />
                         <p:panel collapsed="false" styleClass="menuHeader"  header="Add New Unfinished Poll" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
                             <table>
@@ -366,7 +418,7 @@
                                 </tr>
                             </table>
                         </p:panel>
-
+                        -->
                     </h:form>
 
                 </p:tab>
