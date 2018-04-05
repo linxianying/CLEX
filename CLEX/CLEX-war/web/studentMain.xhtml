@@ -49,10 +49,67 @@
        </ui:define>
     <ui:define name="content">
         <h3><h:outputText value="Welcome to PRISM, #{loginBean.userEntity.name}" /></h3><br></br>
-        <p:tabView>
+        <p:tabView id="tab">
             <p:tab title="VIEW TASKS">
                 <div class="ui-g dashboard">   
-                    <div class="ui-g-12 ui-md-8">
+                    <div class="ui-g-12 ui-md-4 task-list">
+                        <h:form id="taskObject">
+                            
+                            <p:panel header="Unfinished Tasks" style="min-height:320px">
+                                
+                                <ul>
+                                    <li>
+                                        <p:dataList var="task" id="tasklist" value="#{tasksBean.unfinishedTasks}"
+                                                    widgetVar="tasksTable"
+                                                    paginator="true"
+                                                    paginatorTemplate="{CurrentPageReport} {FirstPageLink} 
+                                                    {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                    rowsPerPageTemplate="5,10,15"
+                                                    rows="5"
+                                                    emptyMessage="No users found with given criteria." >
+                                            <p:growl id="msgmsg" />     
+                                            <p:selectBooleanCheckbox value="#{tasksBean.value}">
+                                                <p:ajax update="msgmsg" listener="#{tasksBean.checkTask(task)}" />
+                                            </p:selectBooleanCheckbox>
+                                            <span class="task-name">#{task.title}</span>
+                                            <i class="fa fa-graduation-cap"></i>
+                                        </p:dataList>    
+                                    </li>
+                                </ul>
+                            </p:panel>
+                        </h:form>
+                    </div>
+                    
+                    
+                    <div class="ui-g-12 ui-md-8 task-list">
+                        <h:form id="taskObject1">
+                            
+                            <p:panel header="Group Tasks" style="min-height:320px">
+                                
+                                <ul>
+                                    <li>
+                                        <p:dataList var="groupTask" id="tasklist" value="#{tasksBean.unfinishedIndGroupTasks}"
+                                                    widgetVar="groupTaskTable"
+                                                    paginator="true"
+                                                    paginatorTemplate="{CurrentPageReport} {FirstPageLink} 
+                                                    {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                    rowsPerPageTemplate="4,6,10"
+                                                    rows="6"
+                                                    emptyMessage="No users found with given criteria." >
+                                            <p:growl id="msgmsg1" />    
+                                            <p:selectBooleanCheckbox value="#{tasksBean.value}">
+                                                <p:ajax update="msgmsg1" listener="#{tasksBean.checkGroupTask(groupTask)}" />
+                                            </p:selectBooleanCheckbox>
+                                            <span class="task-name">#{groupTask.title}</span>
+                                            <i class="fa fa-briefcase"></i>
+                                        </p:dataList>    
+                                    </li>
+                                </ul>
+                            </p:panel>
+                            
+                        </h:form>
+                    </div>
+                    <div class="ui-g-12 ui-md-12">
 
                     <p:panel header="Your Timeline Of To-Do List" style="min-height:320px">
 
@@ -73,70 +130,15 @@
                         </p:timeline>
                     </p:panel>
                     </div>
-                    <div class="ui-g-12 ui-md-4 task-list">
-                        <h:form id="taskObject">
-                            
-                            <p:panel header="Unfinished Tasks" style="min-height:320px">
-                                
-                                <ul>
-                                    <li>
-                                        <p:dataList var="task" id="tasklist" value="#{tasksBean.unfinishedTasks}"
-                                                    widgetVar="tasksTable"
-                                                    paginator="true"
-                                                    paginatorTemplate="{CurrentPageReport} {FirstPageLink} 
-                                                    {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                    rowsPerPageTemplate="3,5,10"
-                                                    rows="3"
-                                                    emptyMessage="No users found with given criteria." >
-                                            <p:growl id="msgmsg" />     
-                                            <p:selectBooleanCheckbox value="#{tasksBean.value}">
-                                                <p:ajax update="msgmsg" listener="#{tasksBean.checkTask(task)}" />
-                                            </p:selectBooleanCheckbox>
-                                            <span class="task-name">#{task.title}</span>
-                                            <i class="fa fa-graduation-cap"></i>
-                                        </p:dataList>    
-                                    </li>
-                                </ul>
-                            </p:panel>
-                        </h:form>
-                    </div>
-                    <div class="ui-g-12 ui-md-8 task-list">
-                        <h:form id="taskObject1">
-                            
-                            <p:panel header="Group Tasks" style="min-height:320px">
-                                
-                                <ul>
-                                    <li>
-                                        <p:dataList var="groupTask" id="tasklist" value="#{tasksBean.unfinishedIndGroupTasks}"
-                                                    widgetVar="groupTaskTable"
-                                                    paginator="true"
-                                                    paginatorTemplate="{CurrentPageReport} {FirstPageLink} 
-                                                    {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                    rowsPerPageTemplate="3,5,10"
-                                                    rows="3"
-                                                    emptyMessage="No users found with given criteria." >
-                                            <p:growl id="msgmsg1" />    
-                                            <p:selectBooleanCheckbox value="#{tasksBean.value}">
-                                                <p:ajax update="msgmsg1" listener="#{tasksBean.checkGroupTask(groupTask)}" />
-                                            </p:selectBooleanCheckbox>
-                                            <span class="task-name">#{groupTask.title}</span>
-                                            <i class="fa fa-briefcase"></i>
-                                        </p:dataList>    
-                                    </li>
-                                </ul>
-                            </p:panel>
-                            
-                        </h:form>
-                    </div>
                 </div>
             </p:tab>
             <p:tab title="ADD TASKS">
-                <div class="ui-g dashboard">   
+                 
                     <div class="ui-g-12 ui-md-8">
-                         <h:form>
+                         <h:form id="addTaskForm">
                             <p:messages showDetail="true" autoUpdate="true" closable="true" />
                             <p:growl id="msgs" showDetail="true" />
-                            <p:panel collapsed="false" styleClass="menuHeader"  
+                            <p:panel id="taskPanel" collapsed="false" styleClass="menuHeader"  
                                      toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
 
                                 <table>
@@ -188,10 +190,27 @@
 
                                         </td>
                                         <td>
-                                            <p:selectOneButton style="padding: 0%; width: 100%" value="#{tasksBean.groupOrPersonal}">
+                                            <p:selectOneButton id="select" style="padding: 0%; width: 100%" value="#{tasksBean.groupOrPersonal}">
                                                 <f:selectItem itemLabel="Personal" itemValue="1" />
                                                 <f:selectItem itemLabel="Group" itemValue="2" />
+                                                <p:ajax update="tab:addTaskForm:projectGroup, tab:addTaskForm" event="change"/>
                                             </p:selectOneButton>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Project Group:
+
+                                        </td>
+                                        <td>
+                                            <p:selectOneMenu id="projectGroup" value="#{tasksBean.groupInfo}"  panelStyle="width:180px" effect="fade" 
+                                                             style="width:160px" filter="true" filterMatchMode="contains" 
+                                                             appendTo="@this" rendered="#{tasksBean.groupOrPersonal==2}" >
+                                                <p:ajax event="change" update="msgs"  />
+                                                <f:selectItem itemLabel="Select One" itemValue="select"/>
+                                                <f:selectItems value="#{tasksBean.projectGroups}" var="projectGroup" 
+                                                               itemValue="#{projectGroup.id}" itemLabel="#{projectGroup.superGroup.module.course.moduleCode}-#{projectGroup.name}" />
+                                            </p:selectOneMenu>
                                         </td>
                                     </tr>
                                     <tr>
@@ -205,7 +224,7 @@
                         <!-- END: Add New Poll -->
                         
                     </div>
-                </div>
+                
             </p:tab>
         </p:tabView>
     </ui:define>

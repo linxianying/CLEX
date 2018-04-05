@@ -599,21 +599,6 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         em.flush();
     }
 
-    //get all the credits the student have taken
-    //modules getting SU is not counted
-    @Override
-    public int getNumOfCredits(String username) {
-        int credits = 0;
-        student = this.findStudent(username);
-        Collection<Grade> grades = student.getGrades();
-        for (Grade grade : grades) {
-            if ((!grade.getModuleGrade().equals("S")) && (!grade.getModuleGrade().equals("U"))) {
-                credits += Integer.parseInt(grade.getModule().getCourse().getModularCredits());
-            }
-        }
-        System.out.println("student " + username + "'s total credits taken is " + credits);
-        return credits;
-    }
 
     //convert grade (A+ to F) to point
     public double convertGradeToPoint(String moduleGrade) {
@@ -847,8 +832,11 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
                     }
                 }
             }
-            gradesInOrder.add(current);
-            current = null;
+            //if there is no Grade added for this semester, jump to next semester
+            if (!current.isEmpty()) {
+                gradesInOrder.add(current);
+                current = null;
+            }
             //increase sem year to next semester
             if (sem == 1) {
                 sem = 2;
@@ -966,7 +954,7 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
             System.out.println("SPsb: getStudyPlanInOrder: current: " + current.size());
 //            System.out.println(current);
             //if for this semester, no modules are added to studyPlan, jump to next semester
-            if (current.size() != 0) {
+            if (!current.isEmpty()) {
                 studyPlansInOrder.add(current);
                 current = null;
             }
@@ -1010,8 +998,8 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
             this.student.getStudyPlan().add(studyPlan);
             //set relationship between StudyPlan and course
             studyPlan.setCourse(course);
-            em.merge(student);
             em.persist(studyPlan);
+            em.merge(student);
             em.flush();
             System.out.println("StudyPlanSessionBean: createStudyPlan:");
             System.out.println("studyPlan " + course.getModuleCode() + " at year "
@@ -1022,15 +1010,21 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     }
     
     @Override
-    public void addGrade(String pickYear, String pickSem, String moduleCode, Student student, String moduelGrade) {
+    public void addGrade(String pickYear, String pickSem, String moduleCode, Student student, String moduleGrade) {
         module = this.findModule(pickYear, pickSem, moduleCode);
         Grade g = new Grade();
-        g.createGrade(moduelGrade, module, student);
+        g.createGrade(moduleGrade, module, student);
         student.getGrades().add(g);
-        em.merge(student);
-        
+        //update cap if not SUed
+        if (!moduleGrade.equals("S") && !moduleGrade.equals("U")) {
+            student.setCap(this.updateCurrentCapOnAdd(student.getCap(), this.getNumOfCredits(this.getAllGrades(student)), 
+                    Integer.parseInt(module.getCourse().getModularCredits()), moduleGrade));
+        }
+//        em.merge(student);
+        em.persist(g);
         module.getStudents().add(student);
         em.merge(module);
+        em.merge(student);
         em.flush();
     }
     
@@ -1073,9 +1067,14 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     @Override
     public void removeGrade(Student student, Grade grade) {
         grade = this.findGrade(grade.getId());
-        Module module = grade.getModule();
+        module = grade.getModule();
         student.getGrades().remove(grade);
         module.getStudents().remove(student);
+        //update cap if not SUed
+        if (!grade.getModuleGrade().equals("S") && !grade.getModuleGrade().equals("U")) {
+        student.setCap(this.updateCurrentCapOnDelete(student.getCap(), this.getNumOfCredits(this.getAllGrades(student)), 
+                Integer.parseInt(module.getCourse().getModularCredits()), grade.getModuleGrade()));
+        }
         em.merge(student);
         em.merge(module);
         em.remove(grade);
@@ -1086,10 +1085,12 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     //check whether a module is inside a student's study plan or not
     @Override
     public boolean checkInSP(ArrayList<StudyPlan> all, String moduleCode) {
-       boolean contains = false;
-        for (StudyPlan sp: all)
-           if (sp.getCourse().getModuleCode().equals(moduleCode))
-               contains = true;
+        boolean contains = false;
+        if (all != null && !all.isEmpty()) {
+             for (StudyPlan sp: all)
+                if (sp.getCourse().getModuleCode().equals(moduleCode))
+                    contains = true;
+        }
         return contains;
     }
     
@@ -1097,9 +1098,11 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     @Override
     public boolean checkInCM(ArrayList<Module> all, String moduleCode) {
         boolean contains = false;
-        for (Module m: all)
-           if (m.getCourse().getModuleCode().equals(moduleCode))
-               contains = true;
+        if (all != null && !all.isEmpty()) {
+            for (Module m: all)
+               if (m.getCourse().getModuleCode().equals(moduleCode))
+                   contains = true;
+        }
         return contains;
     }
     
@@ -1107,14 +1110,13 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
     @Override
     public boolean checkInGrade(ArrayList<Grade> all, String moduleCode) {
         boolean contains = false;
-        for (Grade g: all)
-           if (g.getModule().getCourse().getModuleCode().equals(moduleCode))
-               contains = true;
+        if (all != null && !all.isEmpty()) {
+            for (Grade g: all)
+               if (g.getModule().getCourse().getModuleCode().equals(moduleCode))
+                   contains = true;
+        }
         return contains;
     }
-    
-    
-    
     
     @Override
     public int checkNumOfSemTaken(String username) {
@@ -1171,5 +1173,39 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
         }
     }
     
+    //get all the credits the student have taken
+    //modules getting SU is not counted
+    @Override
+    public int getNumOfCredits(ArrayList<Grade> grades) {
+        int credits = 0;
+        for (Grade grade : grades) {
+            if ((!grade.getModuleGrade().equals("S")) && (!grade.getModuleGrade().equals("U"))) {
+                credits += Integer.parseInt(grade.getModule().getCourse().getModularCredits());
+            }
+        }
+        System.out.println("student " + username + "'s total credits taken is " + credits);
+        return credits;
+    }
     
+    //called by addGrade
+    //calculate new cap when new grade added
+    private double updateCurrentCapOnAdd(double currentCap, int allCredits, int newModuleCredit, String grade) {
+        System.out.println("currentCap=" + currentCap + ", allCredits=" + allCredits + ", newModuleCredit=" + newModuleCredit);
+        double newCap = currentCap * allCredits + this.convertGradeToPoint(grade) * newModuleCredit;
+        System.out.println("newCap after first step=" + newCap);
+        newCap /= (allCredits + newModuleCredit);
+        return newCap;
+    }
+    
+    //called by addGrade
+    //calculate new cap when a grade is deleted
+    private double updateCurrentCapOnDelete(double currentCap, int allCredits, int deleteModuleCredit, String grade) {
+        double newCap = currentCap * allCredits - this.convertGradeToPoint(grade) * deleteModuleCredit;
+        //if this is the only one Grade recorded, after delete reset cap to 5.0
+        if ((allCredits - deleteModuleCredit) == 0)
+            return 5.0;
+        else 
+            newCap /= (allCredits - deleteModuleCredit);
+        return newCap;
+    }
 }

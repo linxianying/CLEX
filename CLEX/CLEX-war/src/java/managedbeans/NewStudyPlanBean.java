@@ -201,149 +201,155 @@ public class NewStudyPlanBean implements Serializable {
         final UISelectItem item13 = new UISelectItem();
         item13.setItemLabel("U");
         item13.setItemValue("U");
-            
-        for (Grade g : grades) {
-            Panel panel = (Panel) application.createComponent(context, "org.primefaces.component.Panel", "org.primefaces.component.PanelRenderer");
-            panel.setId("g" + g.getId());
-            panel.setHeader(g.getModule().getCourse().getModuleCode());
-            panel.setClosable(true);
-            panel.setToggleable(false);
-            panel.setStyle("width:138px");
-            dashboard.getChildren().add(panel);
-            
-            yearSem = (Integer.parseInt(g.getModule().getTakenYear())-matricYear)*2+Integer.parseInt(g.getModule().getTakenSem());
-            //column1.addWidget(panel.getId());
-            switch(yearSem){
-                case 1:
-                    column1.addWidget(panel.getId());
-                    break;
-                case 2:
-                    column2.addWidget(panel.getId());
-                    break;
-                case 3:
-                    column3.addWidget(panel.getId());
-                    break;
-                case 4:
-                    column4.addWidget(panel.getId());
-                    break;
-                case 5:
-                    column5.addWidget(panel.getId());
-                    break;
-                case 6:
-                    column6.addWidget(panel.getId());
-                    break;
-                case 7:
-                    column7.addWidget(panel.getId());
-                    break;
-                case 8:
-                    column8.addWidget(panel.getId());
-                    break;
-                default:
-                    column8.addWidget(panel.getId());
-                    break;
+         
+        if (grades != null) {
+            for (Grade g : grades) {
+                Panel panel = (Panel) application.createComponent(context, "org.primefaces.component.Panel", "org.primefaces.component.PanelRenderer");
+                panel.setId("g" + g.getId());
+                panel.setHeader(g.getModule().getCourse().getModuleCode());
+                panel.setClosable(false);
+                panel.setToggleable(true);
+                panel.setStyle("width:138px");
+                dashboard.getChildren().add(panel);
+
+                yearSem = (Integer.parseInt(g.getModule().getTakenYear())-matricYear)*2+Integer.parseInt(g.getModule().getTakenSem());
+                //column1.addWidget(panel.getId());
+                switch(yearSem){
+                    case 1:
+                        column1.addWidget(panel.getId());
+                        break;
+                    case 2:
+                        column2.addWidget(panel.getId());
+                        break;
+                    case 3:
+                        column3.addWidget(panel.getId());
+                        break;
+                    case 4:
+                        column4.addWidget(panel.getId());
+                        break;
+                    case 5:
+                        column5.addWidget(panel.getId());
+                        break;
+                    case 6:
+                        column6.addWidget(panel.getId());
+                        break;
+                    case 7:
+                        column7.addWidget(panel.getId());
+                        break;
+                    case 8:
+                        column8.addWidget(panel.getId());
+                        break;
+                    default:
+                        column8.addWidget(panel.getId());
+                        break;
+                }
+                HtmlOutputText text = new HtmlOutputText();
+                //text.setId("gt"+g.getId());
+                text.setValue("Taken Module\n");
+                panel.getChildren().add(text);
+                HtmlOutputText t1 = new HtmlOutputText();
+                t1.setValue("Grade " + g.getModuleGrade());
+                panel.getChildren().add(t1);
             }
-            HtmlOutputText text = new HtmlOutputText();
-            //text.setId("gt"+g.getId());
-            text.setValue("Taken Module\n");
-            panel.getChildren().add(text);
-            HtmlOutputText t1 = new HtmlOutputText();
-            t1.setValue("Grade " + g.getModuleGrade());
-            panel.getChildren().add(t1);
         }
         
-        for (Module m : takingModules) {
-            Panel panel = (Panel) application.createComponent(context, "org.primefaces.component.Panel", "org.primefaces.component.PanelRenderer");
-            panel.setId("m" + m.getId());
-            panel.setHeader(m.getCourse().getModuleCode());
-            panel.setClosable(true);
-            panel.setToggleable(false);
-            panel.setStyle("width:138px");
-            dashboard.getChildren().add(panel);
-            
-            yearSem = (currentYear-matricYear)*2+currentSem;
-            //column1.addWidget(panel.getId());
-            switch(yearSem){
-                case 1:
-                    column1.addWidget(panel.getId());
-                    break;
-                case 2:
-                    column2.addWidget(panel.getId());
-                    break;
-                case 3:
-                    column3.addWidget(panel.getId());
-                    break;
-                case 4:
-                    column4.addWidget(panel.getId());
-                    break;
-                case 5:
-                    column5.addWidget(panel.getId());
-                    break;
-                case 6:
-                    column6.addWidget(panel.getId());
-                    break;
-                case 7:
-                    column7.addWidget(panel.getId());
-                    break;
-                case 8:
-                    column8.addWidget(panel.getId());
-                    break;
-                default:
-                    column8.addWidget(panel.getId());
-                    break;
+        if (takingModules != null) {
+            for (Module m : takingModules) {
+                Panel panel = (Panel) application.createComponent(context, "org.primefaces.component.Panel", "org.primefaces.component.PanelRenderer");
+                panel.setId("m" + m.getId());
+                panel.setHeader(m.getCourse().getModuleCode());
+                panel.setClosable(false);
+                panel.setToggleable(true);
+                panel.setStyle("width:138px");
+                dashboard.getChildren().add(panel);
+
+                yearSem = (currentYear-matricYear)*2+currentSem;
+                //column1.addWidget(panel.getId());
+                switch(yearSem){
+                    case 1:
+                        column1.addWidget(panel.getId());
+                        break;
+                    case 2:
+                        column2.addWidget(panel.getId());
+                        break;
+                    case 3:
+                        column3.addWidget(panel.getId());
+                        break;
+                    case 4:
+                        column4.addWidget(panel.getId());
+                        break;
+                    case 5:
+                        column5.addWidget(panel.getId());
+                        break;
+                    case 6:
+                        column6.addWidget(panel.getId());
+                        break;
+                    case 7:
+                        column7.addWidget(panel.getId());
+                        break;
+                    case 8:
+                        column8.addWidget(panel.getId());
+                        break;
+                    default:
+                        column8.addWidget(panel.getId());
+                        break;
+                }
+                HtmlOutputText text = new HtmlOutputText();
+                text.setValue("Taking Module\n");
+                panel.getChildren().add(text);
             }
-            HtmlOutputText text = new HtmlOutputText();
-            text.setValue("Taking Module\n");
-            panel.getChildren().add(text);
         }
         
-        for (StudyPlan sp : studyPlans) {
-            Panel panel = (Panel) application.createComponent(context, "org.primefaces.component.Panel", "org.primefaces.component.PanelRenderer");
-            panel.setId("sp" + sp.getId());
-            panel.setHeader(sp.getCourse().getModuleCode());
-            panel.setClosable(true);
-            panel.setToggleable(false);
-            panel.setStyle("width:138px");
-            dashboard.getChildren().add(panel);
-            
-            yearSem = (Integer.parseInt(sp.getPickYear())-matricYear)*2+Integer.parseInt(sp.getPickSem());
-            //column1.addWidget(panel.getId());
-            switch(yearSem){
-                case 1:
-                    column1.addWidget(panel.getId());
-                    break;
-                case 2:
-                    column2.addWidget(panel.getId());
-                    break;
-                case 3:
-                    column3.addWidget(panel.getId());
-                    break;
-                case 4:
-                    column4.addWidget(panel.getId());
-                    break;
-                case 5:
-                    column5.addWidget(panel.getId());
-                    break;
-                case 6:
-                    column6.addWidget(panel.getId());
-                    break;
-                case 7:
-                    column7.addWidget(panel.getId());
-                    break;
-                case 8:
-                    column8.addWidget(panel.getId());
-                    break;
-                default:
-                    column8.addWidget(panel.getId());
-                    break;
+        if (studyPlans != null) {
+            for (StudyPlan sp : studyPlans) {
+                Panel panel = (Panel) application.createComponent(context, "org.primefaces.component.Panel", "org.primefaces.component.PanelRenderer");
+                panel.setId("sp" + sp.getId());
+                panel.setHeader(sp.getCourse().getModuleCode());
+                panel.setClosable(false);
+                panel.setToggleable(true);
+                panel.setStyle("width:138px");
+                dashboard.getChildren().add(panel);
+
+                yearSem = (Integer.parseInt(sp.getPickYear())-matricYear)*2+Integer.parseInt(sp.getPickSem());
+                //column1.addWidget(panel.getId());
+                switch(yearSem){
+                    case 1:
+                        column1.addWidget(panel.getId());
+                        break;
+                    case 2:
+                        column2.addWidget(panel.getId());
+                        break;
+                    case 3:
+                        column3.addWidget(panel.getId());
+                        break;
+                    case 4:
+                        column4.addWidget(panel.getId());
+                        break;
+                    case 5:
+                        column5.addWidget(panel.getId());
+                        break;
+                    case 6:
+                        column6.addWidget(panel.getId());
+                        break;
+                    case 7:
+                        column7.addWidget(panel.getId());
+                        break;
+                    case 8:
+                        column8.addWidget(panel.getId());
+                        break;
+                    default:
+                        column8.addWidget(panel.getId());
+                        break;
+                }
+                HtmlOutputText text = new HtmlOutputText();
+                text.setId("spt"+sp.getId());
+                text.setValue("Study Plan\n");
+                panel.getChildren().add(text);
+    //            System.out.println("-------check count"+column1.getWidgetCount());
             }
-            HtmlOutputText text = new HtmlOutputText();
-            text.setId("spt"+sp.getId());
-            text.setValue("Study Plan\n");
-            panel.getChildren().add(text);
-//            System.out.println("-------check count"+column1.getWidgetCount());
         }
         
-        System.out.println("newStudyPlanBean finish ");
+        System.out.println("newStudyPlanBean finish render");
     }
     
     public void setYearSem(){
@@ -364,10 +370,13 @@ public class NewStudyPlanBean implements Serializable {
     }
     
     public void onTabChange(TabChangeEvent event){
-        if (event.getTab().getId().equals("overviewTab")) {
+//        if (event.getTab().getId().equals("overviewTab")) {
             this.init();
-            System.out.println("NewStudyPlanBean:onTabChange: studyPlans size " + studyPlans.size());
-        }
+//            System.out.println("NewStudyPlanBean:onTabChange: studyPlans size " + studyPlans.size());
+//        }
+        FacesContext fctx = FacesContext.getCurrentInstance();
+        StudyPlanBean studyPlanBean = fctx.getApplication().evaluateExpressionGet(fctx , "#{studyPlanBean}", StudyPlanBean.class);
+        studyPlanBean.refresh();
     }
     
     public void handleReorder(DashboardReorderEvent event) {
@@ -375,9 +384,9 @@ public class NewStudyPlanBean implements Serializable {
         FacesMessage message = new FacesMessage();
         message.setSeverity(FacesMessage.SEVERITY_INFO);
         //message.setSummary("Reordered: " + event.getWidgetId());
-        message.setDetail("Reordered: " + event.getWidgetId() + ", Column index: " + event.getColumnIndex() + ", Sender index: " + event.getSenderColumnIndex());
-        addMessage(message);
-        String moduleCode;
+//        message.setDetail("Reordered: " + event.getWidgetId() + ", Column index: " + event.getColumnIndex() + ", Sender index: " + event.getSenderColumnIndex());
+//        addMessage(message);
+//        String moduleCode;
         if (event.getSenderColumnIndex() != null) {
             String id = event.getWidgetId();
             this.setNewYearSem(event.getColumnIndex());
@@ -388,12 +397,14 @@ public class NewStudyPlanBean implements Serializable {
             }
             else if (id.startsWith("m")) {
                 //cannot reorder taking module must be this sem
+                message.setSummary("Attention");
                 message.setDetail ("You are dragging the module currently taking to other semester!");
                 addMessage(message);
             }
             else if (id.startsWith("sp")) {
                 //setting a study plan for this or previous semester
                 if (event.getColumnIndex() <= this.currentColumnIndex) {
+                    message.setSummary("Error");
                     message.setDetail ("You are dragging the Study Plan for previous semester!");
                     addMessage(message);
                 }

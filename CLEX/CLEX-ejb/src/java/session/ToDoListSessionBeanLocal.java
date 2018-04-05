@@ -23,7 +23,7 @@ public interface ToDoListSessionBeanLocal {
     public Task createTask(String username, String date, String deadline, 
             String title,String details, String status);
     
-    public void createGroupTask(String date, String deadline, String title, 
+    public GroupTask createGroupTask(String date, String deadline, String title, 
             String details, String status, ProjectGroup projectGroup, 
             String[] users);
     
