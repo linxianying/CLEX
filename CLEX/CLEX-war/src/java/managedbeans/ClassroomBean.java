@@ -6,6 +6,7 @@
 package managedbeans;
 
 
+import entity.Course;
 import entity.Lecturer;
 import entity.Module;
 import entity.Poll;
@@ -17,6 +18,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -86,11 +88,15 @@ public class ClassroomBean {
     private boolean addButton;
     private boolean finishedOrNot;
     private String finish;
+    private int currentYear;
+    private int currentSem;
     private ArrayList<String> ans = new ArrayList<String>();
+    private ArrayList<Module> currentModules;
     int num;
     private int total;
     private int rightAns;
     private boolean[] str = new boolean[20];
+    private List<Course> courses;
     
     FacesContext context;
     HttpSession session;
@@ -115,14 +121,30 @@ public class ClassroomBean {
         lecturerEntity = (Lecturer) session.getAttribute("user");
         username = lecturerEntity.getUsername();
         System.out.println("Lecturer Name: " + username);
+        this.setCurrentYearSem();
         if(lecturerEntity!=null){
             modules = crsbl.viewModules(lecturerEntity);
             polls = crsbl.viewPolls(lecturerEntity);
+            currentModules = cmbl.getCurrentModulesFromLecturer(username, Integer.toString(currentYear), Integer.toString(currentSem));
+    
         }
         createBarModel();
         System.out.println("ClassroomBean: initial finished");
 
         //modules = cmbl.getModulesFromLecturer(username);
+    }
+    
+    public void setCurrentYearSem(){
+        Calendar now = Calendar.getInstance();
+        currentYear = now.get(Calendar.YEAR);
+        // month starts from 0 to 11
+        int currentMonth = now.get(Calendar.MONTH);
+        if (currentMonth < 6) {
+            currentSem = 2;
+            currentYear--;
+        } else {
+            currentSem = 1;
+        }
     }
     
     public void testViewPolls(){
@@ -560,5 +582,38 @@ public class ClassroomBean {
     public void setFinish(String finish) {
         this.finish = finish;
     }
+
+    public int getCurrentYear() {
+        return currentYear;
+    }
+
+    public void setCurrentYear(int currentYear) {
+        this.currentYear = currentYear;
+    }
+
+    public int getCurrentSem() {
+        return currentSem;
+    }
+
+    public void setCurrentSem(int currentSem) {
+        this.currentSem = currentSem;
+    }
+
+    public ArrayList<Module> getCurrentModules() {
+        return currentModules;
+    }
+
+    public void setCurrentModules(ArrayList<Module> currentModules) {
+        this.currentModules = currentModules;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
+    
     
 }

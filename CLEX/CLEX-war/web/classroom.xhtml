@@ -182,43 +182,20 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        Module Code:
+                                        <p:outputLabel id="viewLabel" for="moduleCode" value="Module Code:" />
                                     </td>
                                     <td>
-                                        <p:inputText value="#{classroomBean.addModuleCode}" 
-                                                     required="true" requiredMessage="Please enter the module code!" 
-                                                     style="width:300px;">
-                                            <p:ajax event="change" listener="#{classroomBean.checkModule}" update="addForm" />
-                                        </p:inputText>
-                                    </td>
-
-                                    <td>
-                                        <h:outputText id="addErrorMsg" value="#{classroomBean.addErrorMsg}" />
+                                        
+                                        
+                                        <p:selectOneMenu id="moduleCode" value="#{classroomBean.currentModules}"  panelStyle="width:180px" effect="fade" 
+                                                         var="course" style="width:280px" filter="true" filterMatchMode="contains" appendTo="@this">
+                                            <f:selectItem itemLabel="Select One" itemValue="select"/>
+                                            <f:selectItems value="#{classroomBean.currentModules}" var="module" itemLabel="#{module.course.moduleCode}" itemValue="#{module.course.moduleCode}" />
+                                        </p:selectOneMenu>
                                     </td>
 
                                 </tr>
-                                <tr>
-                                    <td>
-                                        Year:
-
-                                    </td>
-                                    <td>
-                                        <p:inputText style="width:300px;" value="#{classroomBean.addPickYear}" 
-                                                     required="true" requiredMessage="Please enter the module year!"  />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p:outputLabel for="addPickSem" value="Semester" />
-                                    </td>
-
-                                    <td>
-                                        <p:selectOneButton style="width: 100%" id="addPickSem" required="true" value="#{classroomBean.addPickSem}" >
-                                            <f:selectItem itemLabel="1" itemValue="1" />
-                                            <f:selectItem itemLabel="2" itemValue="2" />
-                                        </p:selectOneButton>
-                                    </td>
-                                </tr>
+                                
                                 <tr>
                                     <td>
                                         Type of Poll:
