@@ -144,7 +144,7 @@
 
                                 <table>
                                     <tr>
-                                        <td>
+                                        <td style="width:180px">
                                             Type:
 
                                         </td>
@@ -201,8 +201,8 @@
                                     
                                     <tr >
                                         <td>
-                                            Project Group:
-
+                                            <p:outputLabel for="projectGroup" value="Project Group:" 
+                                                           rendered="#{tasksBean.groupOrPersonal==2}"/>
                                         </td>
                                         <td>
                                             <p:selectOneMenu id="projectGroup" value="#{tasksBean.groupInfo}"  panelStyle="width:180px" effect="fade" 
@@ -217,11 +217,12 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <p:commandButton value="Add" actionListener="#{tasksBean.addTask}" update="tab:taskObject:tasklist"
-                                                             action="studentMain?faces-redirect=true"/>
+                                            
                                         </td>
                                     </tr>
                                 </table>
+                                <p:commandButton styleClass="raised-btn" style="width:340px;" value="Add" actionListener="#{tasksBean.addTask}" update="tab:taskObject:tasklist"
+                                                             action="studentMain?faces-redirect=true"/>
                             </p:panel>
                         </h:form>
                         <!-- END: Add New Poll -->
