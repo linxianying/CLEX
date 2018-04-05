@@ -191,7 +191,24 @@
                                             <p:selectOneButton style="padding: 0%; width: 100%" value="#{tasksBean.groupOrPersonal}">
                                                 <f:selectItem itemLabel="Personal" itemValue="1" />
                                                 <f:selectItem itemLabel="Group" itemValue="2" />
+                                                <p:ajax update="msgs" event="change"/>
                                             </p:selectOneButton>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Project Group:
+
+                                        </td>
+                                        <td>
+                                            <p:selectOneMenu id="projectGroup" value="#{tasksBean.groupInfo}"  panelStyle="width:180px" effect="fade" 
+                                                             style="width:160px" filter="true" filterMatchMode="contains" 
+                                                             appendTo="@this"  >
+                                                <p:ajax event="change" update="msgs"  />
+                                                <f:selectItem itemLabel="Select One" itemValue="select"/>
+                                                <f:selectItems value="#{tasksBean.projectGroups}" var="projectGroup" 
+                                                               itemValue="#{projectGroup.id}" itemLabel="#{projectGroup.superGroup.module.course.moduleCode}-#{projectGroup.name}" />
+                                            </p:selectOneMenu>
                                         </td>
                                     </tr>
                                     <tr>
