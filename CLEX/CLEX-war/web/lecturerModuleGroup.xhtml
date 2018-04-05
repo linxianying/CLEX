@@ -6,42 +6,99 @@
                 template="/WEB-INF/template_lecturer.xhtml" 
                 xmlns:p="http://primefaces.org/ui" 
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
-<ui:define name="title">PRISM Lecturer Module Page</ui:define>
-        
+    <ui:define name="title">PRISM Lecturer Module Page</ui:define>
+
     <ui:define name="viewname">Module</ui:define>
-        
+
     <ui:define name="content">
         <p:growl id="messages" showDetail="true" />
-        
-        <h3><h:outputText value="Manage Group for #{lecturerModuleGroupBean.module.course.moduleCode}" /></h3>
-        <h:outputText value="Total #{lecturerModuleGroupBean.module.students.size()} students in this module"/>
+
+        <h2><h:outputText value="#{lecturerModuleGroupBean.module.course.moduleCode}"/></h2>
+
+        <!-- Start: Group Formation Settings -->
         <h:form id="formGroupForm">
-            <p:fieldset legend="Start group formation" rendered="#{empty lecturerModuleGroupBean.superGroup}">
-                <h:outputText value="How do you want to form the groups? " /> 
-                <p:selectOneMenu id="formMethod" value="#{lecturerModuleGroupBean.formMethod}" >
-                    <p:ajax event="change" update=" "  />
-                    <f:selectItem itemLabel="By students themselves" itemValue="student"/>
-                    <f:selectItem itemLabel="Auto assign all students" itemValue="auto"/>
-                </p:selectOneMenu>
-                <br/>
-                <h:outputLabel for="numOfGroups" value="Number of gourps in total" />
-                <p:inputNumber id="numOfGroups" value="#{lecturerModuleGroupBean.numOfGroups}" required="true" minValue="1"/>
-                <br/>
-                <h:outputLabel for="avgStudentNum" value="How many students do you expected to have in each group" />
-                <p:inputNumber id="avgStudentNum" value="#{lecturerModuleGroupBean.avgStudentNum}" required="true" minValue="1"/>
-                <br/>
-                <h:outputLabel for="minStudentNum" value="Minimum number of students in each group (not compulsory)" />
-                <p:inputNumber id="minStudentNum" value="#{lecturerModuleGroupBean.minStudentNum}" minValue="1"/>
-                <br/>
-                <h:outputLabel for="maxStudentNum" value="Maximum number of students in each group (not compulsory)" />
-                <p:inputNumber id="maxStudentNum" value="#{lecturerModuleGroupBean.maxStudentNum}" minValue="1"/>
-                <br/>
-                <h:outputLabel for="deadline" value="Deadline for group formation (not compulsory)" />
-                <p:calendar id="deadline" value="#{lecturerModuleGroupBean.deadline}" pattern="MM/dd/yyyy HH:mm:ss" />
-                <p:commandButton value="Start" actionListener="#{lecturerModuleGroupBean.formGroup}" update="@all"/>
+            <p:fieldset legend="Group Formation Settings" rendered="#{empty lecturerModuleGroupBean.superGroup}">
+                <table>
+                    <tr>
+                        <td>
+                            Total number of students
+                        </td>
+                        <td>
+                            <p:inputText disabled="true" id="noStudent" value="#{lecturerModuleGroupBean.module.students.size()}" style="width: 100%"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Formation Method
+                        </td>
+                        <td>
+                            <p:selectOneMenu id="formMethod" value="#{lecturerModuleGroupBean.formMethod}" style="width: 100%">
+                                <p:ajax event="change" update=" "  />
+                                <f:selectItem itemLabel="Students" itemValue="student"/>
+                                <f:selectItem itemLabel="Auto-Assign" itemValue="auto"/>
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Number of Groups
+                        </td>
+                        <td>
+                            <p:inputNumber id="numOfGroups" value="#{lecturerModuleGroupBean.numOfGroups}" required="true" minValue="1" style="width: 100%"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Average # of Students in each Group
+                        </td>
+                        <td>
+                            <p:inputNumber id="avgStudentNum" value="#{lecturerModuleGroupBean.avgStudentNum}" required="true" minValue="1" style="width: 100%"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Minimum # of Students in each Group
+                        </td>
+                        <td>
+                            <p:inputNumber id="minStudentNum" value="#{lecturerModuleGroupBean.minStudentNum}" minValue="1"/>
+                        </td>
+                        <td>
+                            (Optional)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Maximum # of Students in each Group
+                        </td>
+                        <td>
+                            <p:inputNumber id="maxStudentNum" value="#{lecturerModuleGroupBean.maxStudentNum}" minValue="1"/>
+                        </td>
+                        <td>
+                            (Optional)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Deadline for Group Formation
+                        </td>
+                        <td>
+                            <p:calendar id="deadline" value="#{lecturerModuleGroupBean.deadline}" pattern="MM/dd/yyyy HH:mm:ss" />
+                        </td>
+                        <td>
+                            (Optional)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:commandButton value="Save Settings" actionListener="#{lecturerModuleGroupBean.formGroup}" update="@all"/>
+                        </td>
+                    </tr>
+                </table>
             </p:fieldset>
         </h:form>
-        
+        <!-- End: Group Formation Settings -->
+
+
         <h:form id="groupInformation">
             <p:fieldset legend="Manage the groups" rendered="#{not empty lecturerModuleGroupBean.superGroup}">
                 <h:outputText value="Number of groups currently: #{lecturerModuleGroupBean.groups.size()}"/>
@@ -67,5 +124,5 @@
             </p:fieldset>
         </h:form>
     </ui:define>
-    
+
 </ui:composition>
