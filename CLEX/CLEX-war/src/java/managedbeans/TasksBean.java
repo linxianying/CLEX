@@ -263,7 +263,6 @@ public class TasksBean {
                 context.addMessage(null, fmsg);
 
             }else if(gt!=null){
-                
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "GroupTask '" + gt.getTitle() + " is created.", "Successfuly");
                 context.addMessage(null, fmsg);
             }else{
