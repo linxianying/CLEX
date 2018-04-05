@@ -18,14 +18,14 @@ import javax.ejb.Local;
 @Local
 public interface MessageSessionBeanLocal {
 
-    public boolean createConversation(String username1, String username2, String message);
+    public Conversation createConversation(String username1, String username2);
     public boolean createMessage(Long convoId, String username, String message);
 
     public boolean deleteConversation(String username, Long convoId);
 
     public void setReadMsgCount(Long convoId, String username, int readCount);
     
-    public boolean checkUserInSameConversation(String username1, String username2);
+    public Conversation checkUserInSameConversation(String username1, String username2);
     public boolean checkEmptyUserInConversation(Long convoId);
 
     public Collection<Conversation> getConversationByUser(String username);

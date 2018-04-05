@@ -159,13 +159,13 @@
                                     <h:panelGrid columns="2">
                                         <h:outputLabel for="splitBy" value="Split by: " /> 
                                         <p:selectOneMenu id="splitBy" value="#{viewProjectCostBean.splitBy}" >
-                                            <p:ajax event="change" update="addTransactionForm"  />
+                                            <p:ajax event="change" update="addTransactionForm:splitbygroup"  />
                                             <f:selectItem itemLabel="Equally" itemValue="Equally"/>
                                             <f:selectItem itemLabel="Exact Amount" itemValue="Exact Amount"/>
                                             <f:selectItem itemLabel="Percentage" itemValue="Percentage"/>
                                         </p:selectOneMenu>
                                     </h:panelGrid>
-                                    <h:panelGroup>
+                                    <h:panelGroup id="splitbygroup">
                                         <p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
                                             <h:panelGroup>
                                                 <h:outputText value="Enter the exact amount each member must pay" rendered="#{viewProjectCostBean.splitBy == 'Exact Amount'}"/>
