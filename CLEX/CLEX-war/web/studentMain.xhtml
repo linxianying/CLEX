@@ -52,6 +52,27 @@
         <p:tabView id="tab">
             <p:tab title="VIEW TASKS">
                 <div class="ui-g dashboard">   
+                    <div class="ui-g-12 ui-md-12">
+
+                        <p:panel header="Your Timeline Of To-Do List" style="min-height:320px">
+
+                            <p:growl id="growl" showSummary="true" showDetail="true"></p:growl>
+
+                            <p:timeline id="timeline" value="#{toDoTimelineBean.model}" height="250px"
+                                    selectable="#{toDoTimelineBean.selectable}"
+                                    zoomable="#{toDoTimelineBean.zoomable}"
+                                    moveable="#{toDoTimelineBean.moveable}"
+                                    stackEvents="#{toDoTimelineBean.stackEvents}"
+                                    axisOnTop="#{toDoTimelineBean.axisOnTop}"
+                                    eventStyle="#{toDoTimelineBean.eventStyle}"
+                                    showCurrentTime="#{toDoTimelineBean.showCurrentTime}"
+                                    showNavigation="#{toDoTimelineBean.showNavigation}">
+
+                                <p:ajax event="select" listener="#{toDoTimelineBean.onSelect}"/>
+
+                            </p:timeline>
+                        </p:panel>
+                    </div>
                     <div class="ui-g-12 ui-md-4 task-list">
                         <h:form id="taskObject">
                             
@@ -109,27 +130,7 @@
                             
                         </h:form>
                     </div>
-                    <div class="ui-g-12 ui-md-12">
-
-                    <p:panel header="Your Timeline Of To-Do List" style="min-height:320px">
-
-                        <p:growl id="growl" showSummary="true" showDetail="true"></p:growl>
-
-                        <p:timeline id="timeline" value="#{toDoTimelineBean.model}" height="250px"
-                                selectable="#{toDoTimelineBean.selectable}"
-                                zoomable="#{toDoTimelineBean.zoomable}"
-                                moveable="#{toDoTimelineBean.moveable}"
-                                stackEvents="#{toDoTimelineBean.stackEvents}"
-                                axisOnTop="#{toDoTimelineBean.axisOnTop}"
-                                eventStyle="#{toDoTimelineBean.eventStyle}"
-                                showCurrentTime="#{toDoTimelineBean.showCurrentTime}"
-                                showNavigation="#{toDoTimelineBean.showNavigation}">
-
-                            <p:ajax event="select" listener="#{toDoTimelineBean.onSelect}"/>
-
-                        </p:timeline>
-                    </p:panel>
-                    </div>
+                    
                 </div>
             </p:tab>
             <p:tab title="ADD TASKS">
@@ -198,7 +199,7 @@
                                         </td>
                                     </tr>
                                     
-                                    <tr>
+                                    <tr >
                                         <td>
                                             Project Group:
 
