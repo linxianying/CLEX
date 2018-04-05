@@ -35,6 +35,14 @@
                     <h:outputText value="#{group.groupMembers.size()}" rendered="#{not empty group.groupMembers}"/>
                     <h:panelGrid rendered="#{not empty group.groupMembers}">
                         <ui:repeat var="student" value="#{group.groupMembers}">
+                            <p:graphicImage rendered="#{profileBean.checkpic(student.name) == true}"
+                                                        cache="false" library="profile"
+                                                        style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px" 
+                                                        name="#{student.name}.png"/>
+                            <p:graphicImage rendered="#{profileBean.checkpic(student.name) == false}" 
+                                            cache="false" library="profile"
+                                            style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px" 
+                                            name="default.png"/>
                             <h:outputText value="Student ID: "/>
                             <h:outputText value="#{student.id}" />
                             <h:outputText value="   "/>
