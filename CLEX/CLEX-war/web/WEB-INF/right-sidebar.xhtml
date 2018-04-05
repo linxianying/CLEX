@@ -3,107 +3,179 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:p="http://primefaces.org/ui">
-    
-    <a id="right-sidebar-button-open" href="#">
-        <i class="fa fa-angle-left"></i>
-    </a>
-    
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
     <div id="right-sidebar" class="right-sidebar">
-        <div class="nano">            
+        <div class="nano">
             <div class="right-sidebar-header ui-widget-header">
                 <i class="fa fa-star"></i>
-                <span>Favorites</span>
+                <span>Messenger</span>
                 <a id="right-sidebar-button-close" href="#">
                     <i class="fa fa-angle-right"></i>
                 </a>
             </div>
-        
+
             <div class="nano-content sidebar-scroll-content">
-                <p:accordionPanel activeIndex="0" multiple="true">
+                <p:tabView id="msgTabView" activeIndex="#{privateMsgBean.tabIndex}">
                     <p:tab title="Contacts">
-                        <ul class="contact-list">
-                            <li>
-                                <a href="#">
-                                    <p:graphicImage name="images/avatar1.png" library="poseidon-layout" width="45"/>
-                                    <span class="name">Joshua Williams</span>
-                                    <span class="email">joshua@pf-poseidon.com</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <p:graphicImage name="images/avatar2.png" library="poseidon-layout" width="45"/>
-                                    <span class="name">Emily Clark</span>
-                                    <span class="email">emily@pf-poseidon.com</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <p:graphicImage name="images/avatar3.png" library="poseidon-layout" width="45"/>
-                                    <span class="name">Susan Johnson</span>
-                                    <span class="email">susan@pf-poseidon.com</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <p:graphicImage name="images/avatar4.png" library="poseidon-layout" width="45"/>
-                                    <span class="name">Kelly Stark</span>
-                                    <span class="email">kelly@pf-poseidon.com</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </p:tab>
-                    <p:tab title="Notes">
-                        <ul class="note-list">
-                            <li>
-                                <p:selectBooleanCheckbox />
-                                <span class="task-name">Sales Reports</span>
-                                <i class="fa fa-briefcase"></i>
-                            </li>
-                            <li>
-                                <p:selectBooleanCheckbox />
-                                <span class="task-name">Pay Invoices</span>
-                                <i class="fa fa-credit-card"></i>
-                            </li>
-                            <li>
-                                <p:selectBooleanCheckbox />
-                                <span class="task-name">Dinner with Tony</span>
-                                <i class="fa fa-cutlery"></i>
-                            </li>
-                            <li>
-                                <p:selectBooleanCheckbox />
-                                <span class="task-name">Client Meeting</span>
-                                <i class="fa fa-user"></i>
-                            </li>
-                            <li>
-                                <p:selectBooleanCheckbox />
-                                <span class="task-name">New Theme</span>
-                                <i class="fa fa-paint-brush"></i>
-                            </li>
-                            <li>
-                                <p:selectBooleanCheckbox />
-                                <span class="task-name">Flight Ticket</span>
-                                <i class="fa fa-fighter-jet"></i>
-                            </li>
-                        </ul>
-                    </p:tab>
-                    <p:tab title="Contact Form">
-                        <div class="ui-g ui-fluid contact-form">
-                            <div class="ui-g-12">
-                                <p:inputText placeholder="Name"/>
-                            </div>
-                            <div class="ui-g-12">
-                                <p:inputText placeholder="Message"/>
-                            </div>
-                            <div class="ui-g-12">
-                                <p:commandButton type="button" value="Send" icon="fa fa-paper-plane-o"></p:commandButton>
+                        <div style="overflow: hidden; overflow-wrap:break-word; height:90vh;">
+                            <div style=" height: 75vh; overflow-y: scroll; width: 240px">
+                                <div class="search-input">
+                                    <h:form>
+                                        <p:inputText value="#{privateMsgBean.rcvUsername}"
+                                                     placeholder="Search for user..." styleClass="inputMsg"
+                                                     onkeypress="if (event.keyCode == 13) {
+                                                                 searchUser();
+                                                                 return false;
+                                                             }" />
+                                        <i class="fa fa-search"></i>
+
+                                        <p:remoteCommand name="searchUser" update="msgTabView" actionListener="#{privateMsgBean.startConversation}"/>
+
+                                        <p:dataList var="convo" value="#{privateMsgBean.convoList}">
+                                            <button type="button" onclick="#{convo.users.get(1).getUsername()}convo()" class="convoBox">
+                                                <p:remoteCommand name="#{convo.users.get(1).getUsername()}convo" update="msgTabView"
+                                                                 action="#{privateMsgBean.selectConversation(convo.users.get(1).getUsername())}"/>
+
+                                                <h:outputText value="#{convo.users.get(1).getName()}"/>
+                                                <br/>
+                                                <c:if test="#{empty convo.messages}">
+                                                    <h:outputText style="color: #777777" value="no messages"/>
+                                                </c:if>
+                                                <c:if test="#{not empty convo.messages}">
+                                                    <h:outputText style="color: #777777" value="#{convo.messages.get(convo.messages.size()-1).getMessage()}"/>
+                                                </c:if>
+                                                <i class="fa fa-angle-right" style="float:right; color: #777777; font-size: 1.5em"/>
+                                            </button>
+                                            <hr style="border: none; height: 1px; background-color: #dddddd"/>
+                                        </p:dataList>
+
+                                    </h:form>
+                                </div>
                             </div>
                         </div>
-
                     </p:tab>
-                </p:accordionPanel>
+
+                    <p:tab title="Chat">
+                        <div style="overflow: hidden; overflow-wrap:break-word; height:90vh;">
+                            <c:if test="#{not empty privateMsgBean.convo}">
+                                <h:outputText style="margin-top:5px;float:left;" value="#{privateMsgBean.rcvName}"/>
+
+                                <p:commandButton icon="fa fa-minus" styleClass="delConvoBtn" update="msgTabView" actionListener="#{privateMsgBean.deleteConversation}">
+                                    <p:confirm header="Delete Conversation" message="Are you sure you want to delete this conversation?" icon="ui-icon-alert" />
+                                </p:commandButton>
+
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </p:confirmDialog>
+                                
+                                <br/><br/><hr style="margin-bottom: 1px; border: none; height: 1px; background-color: #dddddd"/>
+                            </c:if>
+
+                            <div style=" height: 75vh; overflow-y: scroll; width: 240px;">
+                                <c:if test="#{empty privateMsgBean.convo}">
+                                    <h:outputText rendered="true" value="Please select a contact first!" />
+                                </c:if>
+
+                                <c:if test="#{not empty privateMsgBean.msgList}">
+                                    <p:dataList id="myMessages" var="msgList" value="#{privateMsgBean.msgList}">
+                                        <h:outputText rendered="#{privateMsgBean.messageIsByUser(msgList)}" value="#{msgList.getMessage()}" class="chatBubble_left"/>
+                                        <br/>
+                                        <h:outputText rendered="#{not privateMsgBean.messageIsByUser(msgList)}" value="#{msgList.getMessage()}" class="chatBubble_right"/>
+                                        <br/>
+                                    </p:dataList>
+                                </c:if>
+
+                                <c:if test="#{privateMsgBean.convoExist}">
+                                    <div class="ui-fluid contact-form" style="bottom: 15vh; position: absolute">
+                                        <h:form>
+                                            <h:panelGrid columns="2" styleClass="columnItems">
+                                                <p:inputTextarea value="#{privateMsgBean.content}" placeholder="type your message..." rows="1" cols="30" maxlength="300" styleClass="inputMsg"/>
+                                                <p:commandButton type="submit" icon="fa fa-paper-plane-o" styleClass="sendMsg" action="#{privateMsgBean.sendMessage}"></p:commandButton>
+                                            </h:panelGrid>
+                                        </h:form>
+                                    </div>
+                                </c:if>
+                            </div>
+                        </div>
+                    </p:tab>
+                </p:tabView>
             </div>
         </div>
     </div>
-    
+
+    <style type="text/css">
+        .ui-datalist-content{
+            border: none !important;
+        }
+        .convoBox{
+            background: #ffffff;
+            width:100%;
+            height: 50px;
+            text-align: left;
+            border: none;
+            margin: -7px 0px -7px 0px;
+        }    
+        .convoBox:hover {
+            background: #efefef;
+            text-decoration: none;
+        }
+        .delConvoBtn{
+            background-color: transparent !important;
+            color: #ffa0a0 !important;
+            float: right;
+        }
+        .chatBubble_left{
+            -webkit-border-radius: 20;
+            -moz-border-radius: 20;
+            border-radius: 20px;
+            color: #000000;
+            background: #e6e6e6;
+            padding: 5px 10px 5px 10px;
+            text-decoration: none;
+            float: left;
+            max-width: 150px;
+            word-wrap: break-word;
+        }
+        .chatBubble_right{
+            -webkit-border-radius: 20;
+            -moz-border-radius: 20;
+            border-radius: 20px;
+            color: #ffffff;
+            background: #32ebc6;
+            padding: 5px 10px 5px 10px;
+            margin-right: 5px; 
+            text-decoration: none;
+            float: right;
+            max-width: 150px;
+            word-wrap: break-word;
+        }
+        .columnItems {
+            margin: 0px -10px 0px -10px !important; 
+        }
+        .columnItems td {
+            vertical-align: bottom;
+        }
+        .inputMsg{
+            -webkit-border-radius: 20 !important;
+            -moz-border-radius: 20 !important;
+            border-radius: 20px !important;
+        }
+        .sendMsg{
+            -webkit-border-radius: 20 !important;
+            -moz-border-radius: 20 !important;
+            border-radius: 20px !important;
+            width: 30px !important;
+            margin: 0px !important;
+        }
+    </style>
+
+    <script>
+        function scrollToBottom() {
+            $('.ui-datalist-scrollable-body').scrollTop(100000)
+        }
+    </script>
+
 </ui:composition>

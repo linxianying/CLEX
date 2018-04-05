@@ -36,18 +36,16 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
     Collection<Message> messages;
     
     @Override
-    public boolean createConversation(String username1, String username2, String message){
+    public Conversation createConversation(String username1, String username2){
         User user1 = findUser(username1);
         User user2 = findUser(username2);
         
         if(user1 == null){
             System.out.println("User1 " + user1.getUsername() +" not found.");
-            return false;
         }
         
         if(user2 == null){
             System.out.println("User2 " + user2.getUsername() +" not found.");
-            return false;
         }
         
         Conversation convo = new Conversation();
@@ -67,8 +65,7 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
         em.merge(user2);
         em.flush();
         
-        createMessage(convo.getId(), username1, message);
-        return true;
+        return convo;
     }
     
     @Override
@@ -176,18 +173,19 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
    
     //For starting conversations
     @Override
-    public boolean checkUserInSameConversation(String username1, String username2){
+    public Conversation checkUserInSameConversation(String username1, String username2){
         User user1 = findUser(username1);
         User user2 = findUser(username2);
+        Conversation convo = null;
         List<Conversation> convoList = (List) user1.getConversations();
         
         for(int i=0; i<convoList.size(); i++){
             if(user2.getConversations().contains(convoList.get(i))){
-                return true;
+                convo = convoList.get(i);
             }
         }
         
-        return false;
+        return convo;
     }
     
     //For stopping messages from being sent if a user left convo
