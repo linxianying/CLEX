@@ -290,7 +290,7 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
     }
     
     @Override
-    public void createGroupTask(String date, String deadline, String title,
+    public GroupTask createGroupTask(String date, String deadline, String title,
         String details, String status, ProjectGroup projectGroup, String[] users){
         groupTaskEntity = new GroupTask();
         groupTaskEntity.createGroupTask(date, deadline, title,details, status, projectGroup);
@@ -303,7 +303,7 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
             System.out.println("createGroupTask: individual" + indGroupTaskEntity.getId());
         }
         System.out.println("createGroupTask: group" + groupTaskEntity.getId());
-        
+        return groupTaskEntity;
     }
 
     @Override

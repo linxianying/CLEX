@@ -81,6 +81,7 @@ public class TasksBean {
     private ProjectGroup group;
     private Collection<ProjectGroup> projectGroups;
     private String groupInfo;
+    private GroupTask gt;
     
     
     FacesContext context;
@@ -248,9 +249,27 @@ public class TasksBean {
             if(groupInfo!=null)
                 group = gfsbl.findProjectGroup(Long.parseLong(groupInfo));
             System.out.println("group: " + group.getId());
-            tsbl.createGroupTask(ft.format(Calendar.getInstance().getTime()), ddl, title, 
-            details, "unfinished", group,getProjectUserName(group));
-            
+            gt = tsbl.createGroupTask(ft.format(Calendar.getInstance().getTime()), ddl, 
+            group.getSuperGroup().getModule().getCourse().getModuleCode()+"-"+title, 
+            details, "unfinished", group,getProjectUserName(group));   
+            if(urgencyInt!=null){
+                urgency = urgencyInt+"";
+                gt.setUrgency(urgency);
+                //System.out.println("Add GroupTask: urgency is " + urgency);
+            }
+            if(gt!=null&&gt.getUrgency()!=null){
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "GroupTask '" + gt.getTitle() + "' with urgency " +
+                        gt.getUrgency() +  " is created.", "Successfuly");
+                context.addMessage(null, fmsg);
+
+            }else if(gt!=null){
+                
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "GroupTask '" + gt.getTitle() + " is created.", "Successfuly");
+                context.addMessage(null, fmsg);
+            }else{
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "GroupTask creation failed.", "Unsuccessfuly");
+                context.addMessage(null, fmsg);
+            }
         }
         
     }
