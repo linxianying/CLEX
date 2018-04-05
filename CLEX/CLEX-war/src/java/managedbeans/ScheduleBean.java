@@ -6,6 +6,7 @@
 package managedbeans;
 
 import entity.GroupTimeslot;
+import entity.ProjectGroup;
 import entity.Student;
 import entity.Timeslot;
 import entity.User;
@@ -22,6 +23,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -45,6 +47,7 @@ import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 import org.primefaces.model.UploadedFile;
+import session.GroupFormationSessionBeanLocal;
 import session.ScheduleSessionBeanLocal;
 import session.ToDoListSessionBeanLocal;
 
@@ -66,6 +69,8 @@ public class ScheduleBean implements Serializable {
     private ToDoListSessionBeanLocal tdsbl;
     @EJB
     private ScheduleSessionBeanLocal sbl;
+    @EJB
+    private GroupFormationSessionBeanLocal gfsbl;
 
     private User userEntity;
     private String username;
@@ -78,6 +83,10 @@ public class ScheduleBean implements Serializable {
     private ScheduleModel eventModel = new DefaultScheduleModel();
     private ScheduleEvent event = new DefaultScheduleEvent();
     private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
+    private ProjectGroup group;
+    private Collection<ProjectGroup> projectGroups;
+    private String groupInfo;
+    private int groupOrPersonal;
 
 
     FacesContext context;
@@ -118,6 +127,7 @@ public class ScheduleBean implements Serializable {
                 System.out.println(g.getDetails());
                 eventModel.addEvent(dse);
            }
+            projectGroups = student.getProjectGroups();
         }
         //csbl.createProjectGroupTimeslot("", "2018-02-28 06:00", "2018-02-28 07:00", "Group Meeting", 
         //        "First System Release", "Biz Lib", csbl.findProjectgroup("N1", csbl.findModule("CS2100", "2016", "2")));
@@ -243,10 +253,18 @@ public class ScheduleBean implements Serializable {
 
     public void addEvent(ActionEvent actionEvent) {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        if (event.getId() == null) {
+        if (event.getId() == null&&groupOrPersonal==1) {
             Timeslot timeslot = sbl.createTimeslot(username, event.getTitle(), df.format(event.getStartDate()), df.format(event.getEndDate()), details, venue);
             eventModel.addEvent(new DefaultScheduleEvent(timeslot.getTitle(), toCalendar(timeslot.getStartDate()), toCalendar(timeslot.getEndDate()), timeslot));
-        } else {
+        } 
+        else if(event.getId() == null && groupOrPersonal == 2 && groupInfo != null){
+            if(groupInfo!=null)
+                group = gfsbl.findProjectGroup(Long.parseLong(groupInfo));
+            GroupTimeslot gts = sbl.createGroupTimeslot("", df.format(event.getStartDate()), df.format(event.getEndDate()), 
+                event.getTitle(), details, venue,  group);
+            eventModel.addEvent(new DefaultScheduleEvent(gts.getTitle(), toCalendar(gts.getTimeFrom()), toCalendar(gts.getTimeEnd()), gts));
+        }
+        else{
             try{
                 Timeslot timeslot = (Timeslot) event.getData();
                 sbl.updateTimeslot(timeslot.getId(), event.getTitle(), 
@@ -260,7 +278,7 @@ public class ScheduleBean implements Serializable {
                 eventModel.updateEvent(new DefaultScheduleEvent(t.getTitle(), 
                         toCalendar(t.getTimeFrom()), toCalendar(t.getTimeEnd()), t));
             }
-        }
+        } 
         event = new DefaultScheduleEvent();
     }
 
@@ -439,6 +457,38 @@ public class ScheduleBean implements Serializable {
 
     public void setGroupTimeslots(List<GroupTimeslot> groupTimeslots) {
         this.groupTimeslots = groupTimeslots;
+    }
+
+    public ProjectGroup getGroup() {
+        return group;
+    }
+
+    public void setGroup(ProjectGroup group) {
+        this.group = group;
+    }
+
+    public Collection<ProjectGroup> getProjectGroups() {
+        return projectGroups;
+    }
+
+    public void setProjectGroups(Collection<ProjectGroup> projectGroups) {
+        this.projectGroups = projectGroups;
+    }
+
+    public String getGroupInfo() {
+        return groupInfo;
+    }
+
+    public void setGroupInfo(String groupInfo) {
+        this.groupInfo = groupInfo;
+    }
+
+    public int getGroupOrPersonal() {
+        return groupOrPersonal;
+    }
+
+    public void setGroupOrPersonal(int groupOrPersonal) {
+        this.groupOrPersonal = groupOrPersonal;
     }
     
 

@@ -84,7 +84,7 @@
                     <p:inputText id="venue" value="#{scheduleBean.venue}" required="false" />
                     
                                                       
-                    <p:outputLabel for="projectGroup" value="Group:" />
+                    <p:outputLabel id="checkGroup" for="projectGroup" value="Group:" rendered="#{scheduleBean.groupOrPersonal==2}" />
                     <p:selectOneMenu id="projectGroup" value="#{scheduleBean.groupInfo}"  panelStyle="width:120px" effect="fade" 
                                      style="width:130px;" filter="true" filterMatchMode="contains" 
                                     appendTo="@this" rendered="#{scheduleBean.groupOrPersonal==2}" >
