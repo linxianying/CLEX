@@ -414,4 +414,28 @@ public class ForumListBean {
         this.searchTag = searchTag;
     }
 
+    public CommunitySessionBeanLocal getCmsbl() {
+        return cmsbl;
+    }
+
+    public void setCmsbl(CommunitySessionBeanLocal cmsbl) {
+        this.cmsbl = cmsbl;
+    }
+
+    public FacesContext getContext() {
+        return context;
+    }
+
+    public void setContext(FacesContext context) {
+        this.context = context;
+    }
+
+    public HttpSession getSession() {
+        return session;
+    }
+
+    public void setSession(HttpSession session) {
+        this.session = session;
+    }
+
 }
