@@ -108,8 +108,8 @@ public class StudyPlanBean {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
 
-        student = (Student) session.getAttribute("user");
-        username = student.getUsername();
+        username = (String) session.getAttribute("username");
+        student = csbl.findStudent(username);
         cap = cpsbl.findStudent(username).getCap();
 //        if (student.getGrades().size() > 0) {
 //            System.out.println(student.getGrades().size());
