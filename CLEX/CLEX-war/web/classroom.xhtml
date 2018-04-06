@@ -366,10 +366,14 @@
                                     </td>
 
                                     <td >
-                                        <p:dataList value="#{classroomBean.ans}" id="answers" var="answer" type="ordered">
-
-                                            <p:inputText value="#{answer}"  style="width:300px;"
-                                                         required="true"  />
+                                        <p:dataList value="#{classroomBean.ans}" id="answers" var="an" 
+                                                    type="ordered">
+                                            <h:outputText>
+                                                number : #{classroomBean.ans.indexOf(an)}
+                                            </h:outputText>
+                                            <p:inputText value="#{an}"  style="width:300px;" required="true"  >
+                                                <p:ajax event="keyup"></p:ajax>
+                                            </p:inputText >
 
                                         </p:dataList>
                                     </td>
@@ -379,7 +383,7 @@
                                     <td>
                                         <p:commandButton value="Add"  style="width:200px;"
                                                          rendered="#{classroomBean.addButton}" action="#{classroomBean.addUnfinishedPoll}"
-                                                         update="msg1, @form" onclick="location.reload()"/>
+                                                         update="msg1" />
                                     </td>
                                 </tr>
                             </table>
