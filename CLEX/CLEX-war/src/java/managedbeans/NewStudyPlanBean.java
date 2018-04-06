@@ -392,6 +392,21 @@ public class NewStudyPlanBean implements Serializable {
             this.setNewYearSem(event.getColumnIndex());
             Long updateId;
             if (id.startsWith("g")) {
+                //setting a Grade for this current or future semester
+                if (event.getColumnIndex() == this.currentColumnIndex) {
+                    message.setSummary("Error");
+                    message.setDetail ("You are dragging a taken module to current semester!");
+                    addMessage(message);
+                }
+                else if (event.getColumnIndex() > this.currentColumnIndex) {
+                    message.setSummary("Error");
+                    message.setDetail ("You are dragging a taken module to future semesters!");
+                    addMessage(message);
+                }
+                else {
+                    updateId = Long.parseLong(id.substring(1));
+                    this.reorderGrade(updateId);
+                }
                 updateId = Long.parseLong(id.substring(1));
                 this.reorderGrade(updateId);
             }
