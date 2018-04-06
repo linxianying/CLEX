@@ -127,7 +127,7 @@
                         </ui:repeat>
                     </p:fieldset>
                     <br />
-                    <p:commandButton value="Close group formation process" actionListener="#{lecturerModuleGroupBean.closeGroupFormation()}" rendered="#{empty group.superGroup.deadline}" update="@all"/>
+                    <p:commandButton value="Close group formation process" actionListener="#{lecturerModuleGroupBean.closeGroupFormation()}" update="@all"/>
                 </h:form>
             </p:tab>
         
@@ -158,6 +158,40 @@
                     </p:fieldset>
                     <br />
                 </h:form>
+            </p:tab>
+            
+            <p:tab title="Change student's group" rendered="#{not empty lecturerModuleGroupBean.superGroup and lecturerModuleGroupBean.superGroup.confirm}">
+                <p:dataTable var="student" value="#{lecturerModuleGroupBean.students}" id="studentGroupTable" widgetVar="studentGroupTable" 
+                                         emptyMessage="No students for this module." paginator="true" paginatorPosition="bottom" rows="15"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="10,20,50">
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Search all fields:" />
+                            <p:inputText id="globalFilter" onkeyup="PF('studentGroupTable').filter()" style="width:150px" placeholder="Enter keyword" />
+                        </p:outputPanel>
+                    </f:facet>  
+                    <p:column filterBy="#{student.studentId}" sortBy="#{student.studentId}" headerText="Student-ID" filterMatchMode="contains">
+                        <h:outputText value="#{student.studentId}" />
+                    </p:column>
+                    <p:column filterBy="#{student.name}" sortBy="#{student.name}" headerText="Student-Name" filterMatchMode="contains">
+                        <h:outputText value="#{student.name}" />
+                    </p:column>
+                    <p:column filterBy="#{lecturerModuleGroupBean.checkStudentGroup(student)}" sortBy="#{lecturerModuleGroupBean.checkStudentGroup(student)}" headerText="Group" filterMatchMode="exact">
+                        <h:outputText value="#{lecturerModuleGroupBean.checkStudentGroup(student)}" />
+                    </p:column>
+                    <p:column  headerText="Change Group">
+                        <h:form id="changeGroupForm">
+                            <h:outputText value="Change the student to group" />
+                            <p:selectOneMenu value="#{lecturerModuleGroupBean.toGroupId}" >
+                                <f:selectItem itemLabel="Select One" itemValue="#{null}" />
+                                <f:selectItems value="#{lecturerModuleGroupBean.groups}" var="group" itemLabel="#{group.name}" itemValue="#{group.id}" />
+                            </p:selectOneMenu>
+                            <br/>
+                            <p:commandButton value="Change" actionListener="#{lecturerModuleGroupBean.changeStudentGroup(student)}" update="messages, tab:groupInfo, tab:studentGroupTable"/>
+                        </h:form>
+                    </p:column>
+                </p:dataTable>
             </p:tab>
         </p:tabView>
     </ui:define>

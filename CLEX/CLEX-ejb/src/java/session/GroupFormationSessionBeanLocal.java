@@ -25,7 +25,7 @@ public interface GroupFormationSessionBeanLocal {
 
     public ProjectGroup findProjectGroup(Long id);
 
-    public void changeStudentGroup(Student student, ProjectGroup toGroup, ProjectGroup fromGroup);
+    public void changeStudentGroup(Long studentId, Long toGroupId, Long fromGroupId);
 
     public SuperGroup createSuperGroup(int numOfGroups, int avgStudentNum, int minStudentNum, int maxStudentNum, Module module);
 
@@ -42,5 +42,15 @@ public interface GroupFormationSessionBeanLocal {
     public void deleteProjectGroup(Long projectGroupId);
 
     public ArrayList<ProjectGroup> getAllProjectGroups(Long superGroupId);
+
+    public Student findStudent(Long id);
+
+    public String checkStudentGroup(Long studentId, Long superGroupId);
+
+    public Long checkStudentGroupId(Long studentId, Long superGroupId);
+
+    public void setStudentGroup(Long studentId, Long projectGroupId);
+
+    public void addProjectGroup(Long superGroupId, String name);
     
 }
