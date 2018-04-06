@@ -208,6 +208,7 @@ public class ClassroomBean {
             System.out.println("ClassroomBean: New Poll id is "+p.getId());
             fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Poll '" + p.getId() + " is created.", "Successfuly");
             context.addMessage(null, fmsg);
+            refresh();
         }
         
     }
@@ -226,6 +227,7 @@ public class ClassroomBean {
             System.out.println("ClassroomBean: New Poll id is "+p.getId());
             fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Poll '" + p.getId() + " is created.", "Successfuly");
             context.addMessage(null, fmsg);
+            refresh();
         }
     }
     
@@ -615,5 +617,28 @@ public class ClassroomBean {
         this.courses = courses;
     }
     
+    public void refresh() { 
+        addModuleCode = null;
+        addPickYear = null;
+        addPickSem = null;
+        addErrorMsg = null;
+        addButton = true;
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+        username = (String) session.getAttribute("username");
+        lecturerEntity = csbl.findLecturer(username);
+        //System.out.println("Lecturer Name: " + username);
+        this.setCurrentYearSem();
+        if(lecturerEntity!=null){
+            modules = crsbl.viewModules(lecturerEntity);
+            polls = crsbl.viewPolls(lecturerEntity);
+            currentModules = cmbl.getCurrentModulesFromLecturer(username, Integer.toString(currentYear), Integer.toString(currentSem));
+    
+        }
+        createBarModel();
+        System.out.println("ClassroomBean: reinititated");
+
+        //modules = cmbl.getModulesFromLecturer(username);
+    }
     
 }
