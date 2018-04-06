@@ -28,8 +28,10 @@ import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -560,7 +562,7 @@ public class ClassroomBean {
         System.out.println("num is set to "+num);
         if(ans.size()<num){
             for(int i = 0;i<num; i++)
-                ans.add("");
+                ans.add(" ");
         }
     }
     
