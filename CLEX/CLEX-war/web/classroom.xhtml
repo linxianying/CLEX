@@ -70,7 +70,10 @@
                                         </h:commandLink>
                                     </div>
                                 </f:facet>
-
+                                <p:column style="width:35%" filterBy="#{poll.content}" sortBy="#{poll.content}" 
+                                          headerText="Content" filterMatchMode="contains">
+                                    <h:outputText value="#{poll.content}" />
+                                </p:column>
 
                                 <p:column filterBy="#{poll.type}" headerText="Poll Type" filterMatchMode="in">
                                     <f:facet name="filter">
@@ -84,17 +87,14 @@
                                           headerText="Module Code" filterMatchMode="contains">
                                     <h:outputText value="#{poll.module.course.moduleCode}" />
                                 </p:column>
-
+                                
 
                                 <p:column filterBy="#{poll.datetime}" sortBy="#{poll.datetime}" 
                                           headerText="Datetime" filterMatchMode="contains">
                                     <h:outputText value="#{poll.datetime}" />
                                 </p:column>
 
-                                <p:column filterBy="#{poll.content}" sortBy="#{poll.content}" 
-                                          headerText="Content" filterMatchMode="contains">
-                                    <h:outputText value="#{poll.content}" />
-                                </p:column>
+                                
 
                                 <p:column filterBy="#{poll.topic}" sortBy="#{poll.topic}" 
                                           headerText="Topic" filterMatchMode="contains">
