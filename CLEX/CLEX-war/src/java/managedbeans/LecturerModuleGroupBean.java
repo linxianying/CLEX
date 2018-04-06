@@ -47,6 +47,7 @@ public class LecturerModuleGroupBean implements Serializable {
     private Module module;
     private SuperGroup superGroup;
     private Collection<ProjectGroup> groups;
+    private Collection<Student> students;
     
     //for enable group formation process
     //whether is to form groups by stduents themselves or auto assign them
@@ -59,8 +60,10 @@ public class LecturerModuleGroupBean implements Serializable {
     
     //for change student group
     private Student student;
-    private ProjectGroup fromGroup;
-    private ProjectGroup toGroup;
+    private Long toGroupId;
+    private Long fromGroupId;
+    
+    private ProjectGroup deleteGroup;
 
     @PostConstruct
     public void init() {
@@ -69,20 +72,22 @@ public class LecturerModuleGroupBean implements Serializable {
         lecturer = (Lecturer) session.getAttribute("user");
         username = lecturer.getUsername();
         module = (Module) session.getAttribute("managedModule");
+        students = module.getStudents();
+        superGroup = module.getSuperGroup();
         refresh();
     }
     
     public void refresh() {
-        superGroup = module.getSuperGroup();
         if (superGroup != null)
-            groups = superGroup.getProjectGroups();
-        
+            groups = gfsbl.getAllProjectGroups(superGroup.getId());
         formMethod = null;
-        numOfGroups = 0;
-        avgStudentNum = 0;
+        numOfGroups = 1;
+        avgStudentNum = 1;
         minStudentNum = 0;
         maxStudentNum = 0;
         deadline = null;
+        toGroupId = null;
+        fromGroupId = null;
     }
 
     public void formGroup(){
@@ -90,15 +95,14 @@ public class LecturerModuleGroupBean implements Serializable {
             this.autoAssign();
         else if (formMethod.equals("student")) {
             if (minStudentNum != 0 && maxStudentNum != 0)
-                csbl.createSuperGroup(numOfGroups, avgStudentNum, minStudentNum, maxStudentNum, module);
+                superGroup = gfsbl.createSuperGroup(numOfGroups, avgStudentNum, minStudentNum, maxStudentNum, module);
             else if (minStudentNum == 0 && maxStudentNum == 0)
-                csbl.createSuperGroup(numOfGroups, avgStudentNum, module);
+                superGroup = gfsbl.createSuperGroup(numOfGroups, avgStudentNum, module);
             else if (minStudentNum != 0 && maxStudentNum == 0)
-                csbl.createSuperGroupWithMin(numOfGroups, avgStudentNum, minStudentNum, module);
+                superGroup = gfsbl.createSuperGroupWithMin(numOfGroups, avgStudentNum, minStudentNum, module);
             else if (minStudentNum == 0 && maxStudentNum != 0)
-                csbl.createSuperGroupWithMax(numOfGroups, avgStudentNum, maxStudentNum, module);
-            //create the project groups according 
-            superGroup = module.getSuperGroup();
+                superGroup = gfsbl.createSuperGroupWithMax(numOfGroups, avgStudentNum, maxStudentNum, module);
+            //create the project groups accordingly
             for (int i=1; i<=numOfGroups; i++) {
                 csbl.createProjectGroup(superGroup, ("N"+i), 0.0);
             }
@@ -112,23 +116,72 @@ public class LecturerModuleGroupBean implements Serializable {
         context = FacesContext.getCurrentInstance();
         FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Auto assign error","Cannot assign the group as required");
         context.addMessage(null, fmsg);
+        this.refresh();
+    }
+    public void closeGroupFormation() {
+        gfsbl.closeGroupFormation(superGroup.getId());
+        superGroup = gfsbl.findSuperGroup(superGroup.getId());
+        this.refresh();
     }
     
-    public void changeStudentGroup() {
-        //--------------------------------------------front end Havn't implement--------------------------------------------
-        gfsbl.changeStudentGroup(student, toGroup, fromGroup);
-        context = FacesContext.getCurrentInstance();
-        FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Change student's group",
-                "Successfully change student " + student.getName() + " from group " + fromGroup.getName() +" to group " + toGroup.getName());
-        context.addMessage(null, fmsg);
+    public void changeStudentGroup(Student student) {
+        this.fromGroupId = gfsbl.checkStudentGroupId(student.getId(), superGroup.getId());
+        //the student does not have a group
+        if (fromGroupId == null) {
+            gfsbl.setStudentGroup(student.getId(), toGroupId);
+            context = FacesContext.getCurrentInstance();
+            FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Success",
+                    "You have set student " + student.getName() + " to group " +  gfsbl.findProjectGroup(toGroupId).getName());
+            context.addMessage(null, fmsg);
+            this.refresh();
+        }
+        else if (fromGroupId == toGroupId) {
+            context = FacesContext.getCurrentInstance();
+            FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Attention",
+                    "Studen t" + student.getName() + " is already in group " +  gfsbl.findProjectGroup(toGroupId).getName());
+            context.addMessage(null, fmsg);
+            toGroupId = null;
+            fromGroupId = null;
+        }
+        //change the stdudent to other group
+        else {
+            gfsbl.changeStudentGroup(student.getId(), toGroupId, fromGroupId);
+            context = FacesContext.getCurrentInstance();
+            FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Success",
+                    "You have changed student " + student.getName() + " from group " + gfsbl.findProjectGroup(fromGroupId).getName() +" to group " +  gfsbl.findProjectGroup(toGroupId).getName());
+            context.addMessage(null, fmsg);
+            this.refresh();
+        }
     }
     
     public void addProjectGroup() {
-        //--------------------------------------------front end Havn't implement--------------------------------------------
         int number = 1;
         if (superGroup.getProjectGroups() != null)
-            number = superGroup.getProjectGroups().size()+1;
-        csbl.createProjectGroup(superGroup, "N"+number, 0.0);
+            number = groups.size()+1;
+        gfsbl.addProjectGroup(superGroup.getId(), "N"+number);
+        this.refresh();
+    }
+    
+    
+    public void deleteProjectGroup(ProjectGroup deleteGroup) {
+        // if there are students in this group
+        if (deleteGroup.getGroupMembers() != null && !deleteGroup.getGroupMembers().isEmpty()) {
+            context = FacesContext.getCurrentInstance();
+            FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Fail to delete group " + deleteGroup.getName(),
+                "There are students in this group, please assign them to other groups first");
+            context.addMessage(null, fmsg);
+        }
+        else {
+            gfsbl.deleteProjectGroup(deleteGroup.getId());
+            this.refresh();
+        }
+    }
+    
+    
+    
+    //check whether a student has a group
+    public String checkStudentGroup(Student student) {
+        return gfsbl.checkStudentGroup(student.getId(), superGroup.getId());
     }
     
     public FacesContext getContext() {
@@ -259,20 +312,39 @@ public class LecturerModuleGroupBean implements Serializable {
         this.student = student;
     }
 
-    public ProjectGroup getFromGroup() {
-        return fromGroup;
+    public ProjectGroup getDeleteGroup() {
+        return deleteGroup;
     }
 
-    public void setFromGroup(ProjectGroup fromGroup) {
-        this.fromGroup = fromGroup;
+    public void setDeleteGroup(ProjectGroup deleteGroup) {
+        this.deleteGroup = deleteGroup;
     }
 
-    public ProjectGroup getToGroup() {
-        return toGroup;
+    public Collection<Student> getStudents() {
+        return students;
     }
 
-    public void setToGroup(ProjectGroup toGroup) {
-        this.toGroup = toGroup;
+    public void setStudents(Collection<Student> students) {
+        this.students = students;
     }
+
+    public Long getFromGroupId() {
+        return fromGroupId;
+    }
+
+    public void setFromGroupId(Long fromGroupId) {
+        this.fromGroupId = fromGroupId;
+    }
+
+    public Long getToGroupId() {
+        return toGroupId;
+    }
+
+    public void setToGroupId(Long toGroupId) {
+        this.toGroupId = toGroupId;
+    }
+
+    
+    
     
 }

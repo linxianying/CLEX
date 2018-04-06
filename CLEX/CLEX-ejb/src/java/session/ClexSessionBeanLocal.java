@@ -48,14 +48,6 @@ public interface ClexSessionBeanLocal {
             boolean discontinuedBool, String discountinuedYear, String discountinuedSem,
             String offeredSem, String school, String moduleCredit, String workload);
 
-    public void createSuperGroup(int numOfGroups, int avgStudentNum, int minStudentNum, int maxStudentNum, Module module);
-    
-    public void createSuperGroup(int numOfGroups, int avgStudentNum, Module module);
-    
-    public void createSuperGroupWithMax(int numOfGroups, int avgStudentNum,  int maxStudentNum, Module module);
-    
-    public void createSuperGroupWithMin(int numOfGroups, int avgStudentNum, int minStudentNum,  Module module);
-
     public void createProjectGroup(SuperGroup superGroup, String name, double cost);
 
     public void createProjectGroupTimeslot(String date, String timeFrom, String timeEnd, 
@@ -136,4 +128,13 @@ public interface ClexSessionBeanLocal {
     public void confirmGroupFormation(Module module);
 
     public void setStudentTakingModules(Student student, Module module);
+    
+    public void createSuperGroup(int numOfGroups, int avgStudentNum, int minStudentNum, int maxStudentNum, Module module);
+
+    public void createSuperGroup(int numOfGroups, int avgStudentNum, Module module);
+
+    public void createSuperGroupWithMax(int numOfGroups, int avgStudentNum, int maxStudentNum, Module module);
+
+    public void createSuperGroupWithMin(int numOfGroups, int avgStudentNum, int minStudentNum, Module module);
+    
 }

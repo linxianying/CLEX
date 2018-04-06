@@ -67,8 +67,8 @@ public class ProjectBean {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
         
-        student = (Student) session.getAttribute("user");
-        username = student.getUsername();
+        username = (String) session.getAttribute("username");
+        student = csbl.findStudent(username);
         
         takingModules = psbl.getTakingModules(student);
         this.setCurrentYearSem();

@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
+import session.ClexSessionBeanLocal;
 import session.CourseMgmtBeanLocal;
 import session.ProfileSessionBeanLocal;
 
@@ -42,6 +43,9 @@ public class ProfileBean implements Serializable {
 
     @EJB
     CourseMgmtBeanLocal cmbl;
+    
+    @EJB
+    private ClexSessionBeanLocal csbl;
 
     private User userEntity;
     private Student studentEntity;
@@ -114,8 +118,8 @@ public class ProfileBean implements Serializable {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
 
+        username = (String) session.getAttribute("username");
         userEntity = (User) session.getAttribute("user");
-        username = userEntity.getUsername();
         userType = userEntity.getUserType();
         yearlist = cmbl.getYearList();
         school = userEntity.getSchool();

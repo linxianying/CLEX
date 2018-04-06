@@ -86,53 +86,9 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         return timeslotEntity;
     }
     
-    
-    @Override
-    public void createSuperGroup(int numOfGroups, int avgStudentNum, int minStudentNum, int maxStudentNum, Module module){
-        superGroupEntity = new SuperGroup();
-        superGroupEntity.createSuperGroup(numOfGroups, avgStudentNum, module);
-        superGroupEntity.setMaxStudentNum(maxStudentNum);
-        superGroupEntity.setMinStudentNum(minStudentNum);
-        em.persist(superGroupEntity);
-        module.setSuperGroup(superGroupEntity);
-        em.merge(module);
-        em.flush();
-    }
-    
-    @Override
-    public void createSuperGroup(int numOfGroups, int avgStudentNum, Module module) {
-        superGroupEntity = new SuperGroup();
-        superGroupEntity.createSuperGroup(numOfGroups, avgStudentNum, module);
-        em.persist(superGroupEntity);
-        module.setSuperGroup(superGroupEntity);
-        em.merge(module);
-        em.flush();
-    }
-    
-    @Override
-    public void createSuperGroupWithMax(int numOfGroups, int avgStudentNum,  int maxStudentNum, Module module) {
-        superGroupEntity = new SuperGroup();
-        superGroupEntity.createSuperGroup(numOfGroups, avgStudentNum, module);
-        superGroupEntity.setMaxStudentNum(maxStudentNum);
-        em.persist(superGroupEntity);
-        module.setSuperGroup(superGroupEntity);
-        em.merge(module);
-        em.flush();
-    }
-    
-    @Override
-    public void createSuperGroupWithMin(int numOfGroups, int avgStudentNum, int minStudentNum,  Module module) {
-        superGroupEntity = new SuperGroup();
-        superGroupEntity.createSuperGroup(numOfGroups, avgStudentNum, module);
-        superGroupEntity.setMinStudentNum(minStudentNum);
-        em.persist(superGroupEntity);
-        module.setSuperGroup(superGroupEntity);
-        em.merge(module);
-        em.flush();
-    }
-    
     @Override
     public void createProjectGroup(SuperGroup superGroup, String name, double cost){
+        System.out.println("Try to Add project group" + name);
         projectGroupEntity = new ProjectGroup();
         projectGroupEntity.createProjectGroup(superGroup, name, cost);
         em.persist(projectGroupEntity);
@@ -778,6 +734,50 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     public void confirmGroupFormation(Module module) {
         if (module.getSuperGroup() != null)
             module.getSuperGroup().setConfirm(true);
+        em.merge(module);
+        em.flush();
+    }
+    
+    @Override
+    public void createSuperGroup(int numOfGroups, int avgStudentNum, int minStudentNum, int maxStudentNum, Module module){
+        superGroupEntity = new SuperGroup();
+        superGroupEntity.createSuperGroup(numOfGroups, avgStudentNum, module);
+        superGroupEntity.setMaxStudentNum(maxStudentNum);
+        superGroupEntity.setMinStudentNum(minStudentNum);
+        em.persist(superGroupEntity);
+        module.setSuperGroup(superGroupEntity);
+        em.merge(module);
+        em.flush();
+    }
+    
+    @Override
+    public void createSuperGroup(int numOfGroups, int avgStudentNum, Module module) {
+        superGroupEntity = new SuperGroup();
+        superGroupEntity.createSuperGroup(numOfGroups, avgStudentNum, module);
+        em.persist(superGroupEntity);
+        module.setSuperGroup(superGroupEntity);
+        em.merge(module);
+        em.flush();
+    }
+    
+    @Override
+    public void createSuperGroupWithMax(int numOfGroups, int avgStudentNum,  int maxStudentNum, Module module) {
+        superGroupEntity = new SuperGroup();
+        superGroupEntity.createSuperGroup(numOfGroups, avgStudentNum, module);
+        superGroupEntity.setMaxStudentNum(maxStudentNum);
+        em.persist(superGroupEntity);
+        module.setSuperGroup(superGroupEntity);
+        em.merge(module);
+        em.flush();
+    }
+    
+    @Override
+    public void createSuperGroupWithMin(int numOfGroups, int avgStudentNum, int minStudentNum,  Module module) {
+        superGroupEntity = new SuperGroup();
+        superGroupEntity.createSuperGroup(numOfGroups, avgStudentNum, module);
+        superGroupEntity.setMinStudentNum(minStudentNum);
+        em.persist(superGroupEntity);
+        module.setSuperGroup(superGroupEntity);
         em.merge(module);
         em.flush();
     }

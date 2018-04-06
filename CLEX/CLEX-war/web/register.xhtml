@@ -21,9 +21,9 @@
         <div class="login-panel ui-fluid">
             <h:form id="registerForm">
                 <p:focus context="panel"/>
-                <div class="ui-g">
+                <div class="ui-g" >
                     <p:panel id="panel" style="border: none;">
-                        <div class="ui-g-12 logo-container">
+                        <div class="ui-g-12 logo-container" style="margin-bottom: -30px">
                             <p:graphicImage name="images/login/login-prism-logo.png" library="poseidon-layout" />
                         </div>
                         <div class="ui-g-12" style="margin-bottom: -30px; padding-bottom: -20px !important;">
@@ -35,11 +35,13 @@
                                          required="true" 
                                          requiredMessage="Full Name Required." >
                             </p:inputText>
-                        </div>
-                        <button disabled="disabled" style="border:none; background: transparent; height: 10px;margin:15px 0px -5px 0px;">                            
-                            <p:message for="name" style="color: red;font-size: 9px;background: transparent; border: none !important; float: left"/>
-                        </button>
 
+                        </div>
+                        <div>
+                            <button disabled="disabled" style="border:none; background: transparent; height: 10px;margin:15px 0px 0px 0px;">                            
+                                <p:message for="name" style="color: red;font-size: 9px;background: transparent; border: none !important; float: left"/>
+                            </button>
+                        </div>
                         <!-- Email Address -->
                         <div class="ui-g-12" style="margin-bottom: -30px; padding-bottom: -20px !important;">
                             <p:inputText styleClass="textInput" 
@@ -50,10 +52,11 @@
                                          validatorMessage="Email format is invalid.">
                             </p:inputText>
                         </div>
-                        <button disabled="disabled" style="border:none; background: transparent; height: 10px;margin:15px 0px -5px 0px;">                            
-                            <p:message for="email" style="color: red;font-size: 9px;background: transparent; border: none !important; float: left"/>
-                        </button>
-
+                        <div>
+                            <button disabled="disabled" style="border:none; background: transparent; height: 10px;margin:15px 0px 10px 0px;">                            
+                                <p:message for="email" style="color: red;font-size: 9px;background: transparent; border: none !important; float: left"/>
+                            </button>
+                        </div>
                         <!-- Contact Number -->
                         <div class="ui-g-12" style="margin-bottom: -30px; padding-bottom: -20px !important;">
                             <p:inputText styleClass="textInput" 
@@ -64,75 +67,72 @@
                                          validatorMessage="Invalid format. Contact number must be at least 8 digits">
                             </p:inputText>
                         </div>
-                        <button disabled="disabled" style="border:none; background: transparent; height: 10px;margin:15px 0px -5px 0px;">                            
-                            <p:message for="contact" style="color: red;font-size: 9px;background: transparent; border: none !important; float: left"/>
-                        </button>
-
+                        <div>
+                            <button disabled="disabled" style="border:none; background: transparent; height: 10px;margin:15px 0px 10px 0px;">                            
+                                <p:message for="contact" style="color: red;font-size: 9px;background: transparent; border: none !important; float: left"/>
+                            </button>
+                        </div>
                         <!-- School --> 
                         <div class="ui-g-12" style="margin-bottom: -30px; padding-bottom: -20px !important;">
                             <p:selectOneMenu style="padding: 0%; text-transform: uppercase;" 
                                              required="true" title="Select your school from the list. If your school isn't available, send a request to your instituition to adopt PRISM."
                                              id="school" value="#{registerBean.school}" 
                                              placeholder="School" requiredMessage="School Required">
-                                <p:ajax listener="#{registerBean.onSchoolChange(registerBean.school)}" update="registerForm:yearsemgroup" />
+                                <p:ajax listener="#{registerBean.onSchoolChange(registerBean.school)}" />
                                 <f:selectItems value="#{registerBean.schoollist}" />
                             </p:selectOneMenu>   
                         </div>
-                        <button disabled="disabled" style="border:none; background: transparent; height: 10px;margin:15px 0px -5px 0px;">                            
-                            <p:message for="school" style="color: red;font-size: 9px;background: transparent; border: none !important; float: left"/>
-                        </button>
+                        <div>
+                            <button disabled="disabled" style="border:none; background: transparent; height: 10px;margin:15px 0px -5px 0px;">                            
+                                <p:message for="school" style="color: red;font-size: 9px;background: transparent; border: none !important; float: left"/>
+                            </button>
+                        </div>
+
                         <!-- User Type -->
                         <div class="ui-g-12 chkbox-container" style="margin-bottom: -30px; padding-bottom: -20px !important;"> 
                             <p:selectOneButton required="true" requiredMessage="User Type Required" styleClass="menuSelect" id="userType" value="#{registerBean.userType}">
-                                <p:ajax event="change" update="registerForm:yearsemgroup" />
+                                <p:ajax event="change" update="registerForm:yeargroup, registerForm:semgroup" />
                                 <f:selectItem itemValue="1" itemLabel="STU" />
                                 <f:selectItem itemValue="2" itemLabel="LEC" />
                                 <f:selectItem itemValue="3" itemLabel="GUE" />
                             </p:selectOneButton>
                         </div>
-                        <button disabled="disabled" style="border:none; background: transparent; height: 10px;margin:15px 0px -5px 0px;">                            
-                            <p:message for="userType" style="color: red;font-size: 9px;background: transparent; border: none !important; float: left"/>
-                        </button>
-                        <h:panelGroup id="yearsemgroup" style="margin-bottom: -30px; padding-bottom: -20px !important;">
-                            <p:selectOneMenu style="padding: 0%" 
-                                             required="true" rendered="#{registerBean.userType == '1'}"
-                                             id="matricYear" value="#{registerBean.matricYear}" 
-                                             placeholder="School" requiredMessage="Matriculated Year Required">
-                                <f:selectItem itemValue="" itemLabel="Matriculated Year" noSelectionOption="true"/>
-                                <f:selectItems value="#{registerBean.yearlist}" />
-                            </p:selectOneMenu>
+                        <div>
                             <button disabled="disabled" style="border:none; background: transparent; height: 10px;margin:15px 0px -5px 0px;">                            
-                                <p:message for="matricYear" style="color: red;font-size: 9px;background: transparent; border: none !important; float: left"/>
+                                <p:message for="userType" style="color: red;font-size: 9px;background: transparent; border: none !important; float: left"/>
                             </button>
-                            <p:selectOneButton required="true" rendered="#{registerBean.userType == '1'}"
-                                               requiredMessage="Matriculated Semester Required" 
-                                               styleClass="menuSelect" id="matricSem" value="#{registerBean.matricSem}">
-                                <f:selectItem itemValue="1" itemLabel="SEM 1" />
-                                <f:selectItem itemValue="2" itemLabel="SEM 2" />
-                            </p:selectOneButton>
+                        </div>
+                        <div class="ui-g-12 chkbox-container" style="margin-bottom: -30px; padding-bottom: -20px !important;"> 
+                            <h:panelGroup id="yeargroup">
+                                <p:selectOneMenu style="padding: 0%" 
+                                                 required="true" rendered="#{registerBean.userType == '1'}"
+                                                 id="matricYear" value="#{registerBean.matricYear}" 
+                                                 placeholder="School" requiredMessage="Matriculated Year Required">
+                                    <f:selectItem itemValue="" itemLabel="Matriculated Year" noSelectionOption="true"/>
+                                    <f:selectItems value="#{registerBean.yearlist}" />
+                                </p:selectOneMenu>
+                            </h:panelGroup>
+                        </div>
+                        <div>
                             <button disabled="disabled" style="border:none; background: transparent; height: 10px;margin:15px 0px -5px 0px;">                            
-                                <p:message for="matricSem" style="color: red;font-size: 9px;background: transparent; border: none !important; float: left"/>
+                                <p:message id="yearmsg" for="matricYear" style="color: red;font-size: 9px;background: transparent; border: none !important; float: left"/>
                             </button>
-                            <p:selectOneMenu style="padding: 0%" 
-                                             required="true" rendered="#{registerBean.userType == '1'}"
-                                             id="facultylist" value="#{registerBean.faculty}" 
-                                             placeholder="School" requiredMessage="Faculty Required">
-                                <f:selectItem itemValue="" itemLabel="Faculty" noSelectionOption="true"/>
-                                <f:selectItems value="#{registerBean.facultylist}" />
-                            </p:selectOneMenu>
+                        </div>
+                        <div class="ui-g-12 chkbox-container" style="margin-bottom: -30px; padding-bottom: -20px !important;"> 
+                            <h:panelGroup id="semgroup">                                
+                                <p:selectOneButton required="true" rendered="#{registerBean.userType == '1'}"
+                                                   requiredMessage="Matriculated Semester Required" 
+                                                   styleClass="menuSelect" id="matricSem" value="#{registerBean.matricSem}">
+                                    <f:selectItem itemValue="1" itemLabel="SEM 1" />
+                                    <f:selectItem itemValue="2" itemLabel="SEM 2" />
+                                </p:selectOneButton>                          
+                            </h:panelGroup>
+                        </div>
+                        <div>
                             <button disabled="disabled" style="border:none; background: transparent; height: 10px;margin:15px 0px -5px 0px;">                            
-                                <p:message for="facultylist" style="color: red;font-size: 9px;background: transparent; border: none !important; float: left"/>
+                                <p:message id="semmsg" for="matricSem" style="color: red;font-size: 9px;background: transparent; border: none !important; float: left"/>
                             </button>
-                            <p:inputText styleClass="textInput" rendered="#{registerBean.userType == '1'}"
-                                         placeholder="Major"
-                                         title="Information Systems, Applied Mathematics etc."
-                                         id="major" value="#{registerBean.major}" 
-                                         required="true" requiredMessage="Major Required." />
-                            <button disabled="disabled" style="border:none; background: transparent; height: 10px;margin:15px 0px -5px 0px;">                            
-                                <p:message for="major" style="color: red;font-size: 9px;background: transparent; border: none !important; float: left"/>
-                            </button>
-                        </h:panelGroup>
-
+                        </div>
 
                         <!-- Username -->
                         <div class="ui-g-12" style="margin-bottom: -30px; padding-bottom: -20px !important;">
@@ -162,10 +162,11 @@
                                         validatorMessage="Invalid format or inconsistent passwords. Please enter again."
                                         required="true" requiredMessage="Password Required." />
                         </div>
-                        <button disabled="disabled" style="border:none; background: transparent; height: 10px;margin:15px 0px -5px 0px;">                            
-                            <p:message for="password" style="color: red;font-size: 9px;background: transparent; border: none !important; float: left"/>
-                        </button>
-
+                        <div>
+                            <button disabled="disabled" style="border:none; background: transparent; height: 10px;margin:15px 0px -5px 0px;">                            
+                                <p:message for="password" style="color: red;font-size: 9px;background: transparent; border: none !important; float: left"/>
+                            </button>
+                        </div>
                         <!-- Confirm Password -->
                         <div class="ui-g-12" style="margin-bottom: -30px; padding-bottom: -20px !important;">
 
@@ -178,9 +179,12 @@
                                         validatorMessage="Passwords are inconsistent. Please enter again."
                                         required="true" requiredMessage="Password required and must match." />
                         </div>
-                        <button disabled="disabled" style="border:none; background: transparent; height: 10px;margin:15px 0px -5px 0px;">                            
-                            <p:message for="password1" style="color: red;font-size: 9px;background: transparent; border: none !important; float: left"/>
-                        </button>
+                        <div>
+                            <button disabled="disabled" style="border:none; background: transparent; height: 10px;margin:15px 0px -5px 0px;">                            
+                                <p:message for="password1" style="color: red;font-size: 9px;background: transparent; border: none !important; float: left"/>
+                            </button>
+                        </div>
+
 
                         <!--<p:confirmDialog style="max-width: 40%; max-height:50%; overflow:auto"  
                                          widgetVar="termsdlg" global="true" showEffect="fade" hideEffect="fade" >
@@ -189,7 +193,7 @@
                         <!-- T&C -->
                         <div class="ui-g-12" style="margin-bottom: -30px; padding-bottom: -20px !important;">
                             <p:lightBox >
-                                <p:commandButton styleClass="termsBtn" ajax="false" value="Read Terms &amp; Conditions">
+                                <p:commandButton icon="fa fa-file-text-o" styleClass="termsBtn" ajax="false" value="Read Terms &amp; Conditions">
                                     <p:confirm  message="Terms &amp; Conditions" icon="ui-icon-alert" />
                                 </p:commandButton>
                                 <f:facet name="inline">
@@ -231,6 +235,9 @@
 
                         <div class="ui-g-12 button-container" style="margin-bottom: -30px; padding-bottom: -20px !important;">
                             <p:commandButton styleClass="pink-btn" icon="fa fa-user" update="@form" value="Sign Up" actionListener="#{registerBean.register}" action="login?faces-redirect=true" />
+                        </div>
+                         <div class="ui-g-12 button-container" style="margin-bottom: -30px; padding-bottom: -20px !important;">
+                            <p:button styleClass="loginBtn" icon="fa fa-sign-in" value="Login" outcome="/login" />
                         </div>
                     </p:panel>
                 </div>

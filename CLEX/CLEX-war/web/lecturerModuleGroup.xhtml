@@ -6,66 +6,194 @@
                 template="/WEB-INF/template_lecturer.xhtml" 
                 xmlns:p="http://primefaces.org/ui" 
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
-<ui:define name="title">PRISM Lecturer Module Page</ui:define>
+    <ui:define name="title">PRISM Lecturer Module Page</ui:define>
         
     <ui:define name="viewname">Module</ui:define>
         
     <ui:define name="content">
         <p:growl id="messages" showDetail="true" />
-        
-        <h3><h:outputText value="Manage Group for #{lecturerModuleGroupBean.module.course.moduleCode}" /></h3>
-        <h:outputText value="Total #{lecturerModuleGroupBean.module.students.size()} students in this module"/>
-        <h:form id="formGroupForm">
-            <p:fieldset legend="Start group formation" rendered="#{empty lecturerModuleGroupBean.superGroup}">
-                <h:outputText value="How do you want to form the groups? " /> 
-                <p:selectOneMenu id="formMethod" value="#{lecturerModuleGroupBean.formMethod}" >
-                    <p:ajax event="change" update=" "  />
-                    <f:selectItem itemLabel="By students themselves" itemValue="student"/>
-                    <f:selectItem itemLabel="Auto assign all students" itemValue="auto"/>
-                </p:selectOneMenu>
-                <br/>
-                <h:outputLabel for="numOfGroups" value="Number of gourps in total" />
-                <p:inputNumber id="numOfGroups" value="#{lecturerModuleGroupBean.numOfGroups}" required="true" minValue="1"/>
-                <br/>
-                <h:outputLabel for="avgStudentNum" value="How many students do you expected to have in each group" />
-                <p:inputNumber id="avgStudentNum" value="#{lecturerModuleGroupBean.avgStudentNum}" required="true" minValue="1"/>
-                <br/>
-                <h:outputLabel for="minStudentNum" value="Minimum number of students in each group (not compulsory)" />
-                <p:inputNumber id="minStudentNum" value="#{lecturerModuleGroupBean.minStudentNum}" minValue="1"/>
-                <br/>
-                <h:outputLabel for="maxStudentNum" value="Maximum number of students in each group (not compulsory)" />
-                <p:inputNumber id="maxStudentNum" value="#{lecturerModuleGroupBean.maxStudentNum}" minValue="1"/>
-                <br/>
-                <h:outputLabel for="deadline" value="Deadline for group formation (not compulsory)" />
-                <p:calendar id="deadline" value="#{lecturerModuleGroupBean.deadline}" pattern="MM/dd/yyyy HH:mm:ss" />
-                <p:commandButton value="Start" actionListener="#{lecturerModuleGroupBean.formGroup}" update="@all"/>
-            </p:fieldset>
-        </h:form>
-        
-        <h:form id="groupInformation">
-            <p:fieldset legend="Manage the groups" rendered="#{not empty lecturerModuleGroupBean.superGroup}">
-                <h:outputText value="Number of groups currently: #{lecturerModuleGroupBean.groups.size()}"/>
-                <br />
-                <h:outputText value="Criteria set for group formation: "/>
-                <br />
-                <h:outputText value="Expected number of groups: #{lecturerModuleGroupBean.groups.size()}"/>
-                <br />
-                <h:outputText value="Expected number of members in each group: #{lecturerModuleGroupBean.superGroup.avgStudentNum}"/>
-                <br />
-                <h:outputText value="Maximum number of members in each group: #{lecturerModuleGroupBean.superGroup.maxStudentNum}" rendered="#{not empty lecturerModuleGroupBean.superGroup.maxStudentNum}"/>
-                <br />
-                <h:outputText value="Minimum number of members in each group: #{lecturerModuleGroupBean.superGroup.minStudentNum}" rendered="#{not empty lecturerModuleGroupBean.superGroup.minStudentNum}"/>
-                <br />
-                <ui:repeat value="#{lecturerModuleGroupBean.groups}" var="group">
-                    <p:panel header="#{group.name}" toggleable="true">
-                        <ui:repeat value="#{group.groupMembers}" var="student" >
-                            <h:outputText value="Name: #{student.name}, Student ID: #{student.studentId}"/>
-                            <br/>
+            
+        <h2><h:outputText value="#{lecturerModuleGroupBean.module.course.moduleCode}"/></h2>
+            
+        <p:tabView id="tab">
+            <!--<p:ajax event="tabChange"  update="tab:studyPlanForm tab:modulesTakingForm tab:modulesTaken tab:overviewForm" />-->
+            <p:tab id="formGroupTab" title="Start Group Formation" rendered="#{empty lecturerModuleGroupBean.superGroup}">
+                <!-- Start: Group Formation Settings -->
+                <h:form id="formGroupForm">
+                    <p:fieldset legend="Group Formation Settings" rendered="#{empty lecturerModuleGroupBean.superGroup}">
+                        <table>
+                            <tr>
+                                <td>
+                                    <p:outputLabel id="noStud" for="noStudent" value="Total number of students: " />
+                                </td>
+                                <td>
+                                    <p:inputText disabled="true" id="noStudent" value="#{lecturerModuleGroupBean.module.students.size()}" style="width: 100%"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:outputLabel id="methodForm" for="formMethod" value="Formation Method: " />
+                                </td>
+                                <td>
+                                    <p:selectOneMenu id="formMethod" value="#{lecturerModuleGroupBean.formMethod}" style="width: 100%">
+                                        <f:selectItem itemLabel="Students" itemValue="student"/>
+                                        <f:selectItem itemLabel="Auto-Assign" itemValue="auto"/>
+                                    </p:selectOneMenu>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:outputLabel id="numOfGroup" for="numOfGroups" value="# of Groups: " />
+                                </td>
+                                <td>
+                                    <p:inputNumber id="numOfGroups" value="#{lecturerModuleGroupBean.numOfGroups}" required="true" minValue="1" style="width: 100%" decimalPlaces="0" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:outputLabel id="averageNum" for="avgStudentNum" value="Average # of Students in each Group: " />
+                                </td>
+                                <td>
+                                    <p:inputNumber id="avgStudentNum" value="#{lecturerModuleGroupBean.avgStudentNum}" required="true" minValue="1" style="width: 100%" decimalPlaces="0"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:outputLabel id="minStu" for="minStudentNum" value="Minimum # of Students in each Group: " />
+                                </td>
+                                <td>
+                                    <p:inputNumber id="minStudentNum" value="#{lecturerModuleGroupBean.minStudentNum}" minValue="1" decimalPlaces="0"/>
+                                </td>
+                                <td>
+                                    (Optional)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:outputLabel id="maxStu" for="maxStudentNum" value="Maximum # of Students in each Group: " />
+                                </td>
+                                <td>
+                                    <p:inputNumber id="maxStudentNum" value="#{lecturerModuleGroupBean.maxStudentNum}" minValue="1" decimalPlaces="0"/>
+                                </td>
+                                <td>
+                                    (Optional)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:outputLabel id="deadl" for="maxStudentNum" value="Deadline for Group Formation: " />
+                                </td>
+                                <td>
+                                    <p:calendar id="deadline" value="#{lecturerModuleGroupBean.deadline}" pattern="MM/dd/yyyy HH:mm:ss" />
+                                </td>
+                                <td>
+                                    (Optional)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:commandButton value="Form Group" actionListener="#{lecturerModuleGroupBean.formGroup}" update="@all"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </p:fieldset>
+                </h:form>
+                <!-- End: Group Formation Settings -->
+            </p:tab>
+            
+            <p:tab title="View Group Formation" rendered="#{not empty lecturerModuleGroupBean.superGroup and !lecturerModuleGroupBean.superGroup.confirm}">
+                <h:form id="groupInformation">
+                    <p:fieldset legend="Manage the groups" rendered="#{not empty lecturerModuleGroupBean.superGroup}">
+                        <h:outputText value="Number of groups currently: #{lecturerModuleGroupBean.groups.size()}"/>
+                        <br />
+                        <h:outputText value="Criteria set for group formation: "/>
+                        <br />
+                        <h:outputText value="Expected number of groups: #{lecturerModuleGroupBean.groups.size()}"/>
+                        <br />
+                        <h:outputText value="Expected number of members in each group: #{lecturerModuleGroupBean.superGroup.avgStudentNum}"/>
+                        <br />
+                        <h:outputText value="Maximum number of members in each group: #{lecturerModuleGroupBean.superGroup.maxStudentNum}" rendered="#{not empty lecturerModuleGroupBean.superGroup.maxStudentNum}"/>
+                        <br />
+                        <h:outputText value="Minimum number of members in each group: #{lecturerModuleGroupBean.superGroup.minStudentNum}" rendered="#{not empty lecturerModuleGroupBean.superGroup.minStudentNum}"/>
+                        <br />
+                        <ui:repeat value="#{lecturerModuleGroupBean.groups}" var="group">
+                            <p:panel header="#{group.name}" toggleable="true">
+                                <h:outputText value="No stdudent in this group" rendered="#{empty group.groupMembers}"/>
+                                <ui:repeat value="#{group.groupMembers}" var="student" >
+                                    <h:outputText value="Name: #{student.name}, Student ID: #{student.studentId}"/>
+                                    <br/>
+                                </ui:repeat>
+                            </p:panel>
                         </ui:repeat>
-                    </p:panel>
-                </ui:repeat>
-            </p:fieldset>
-        </h:form>
+                    </p:fieldset>
+                    <br />
+                    <p:commandButton value="Close group formation process" actionListener="#{lecturerModuleGroupBean.closeGroupFormation()}" update="@all"/>
+                </h:form>
+            </p:tab>
+        
+            <p:tab title="Manage Groups" rendered="#{not empty lecturerModuleGroupBean.superGroup and lecturerModuleGroupBean.superGroup.confirm}">
+                <h:form id="groupInfo">
+                    <p:fieldset legend="Manage the groups">
+                        <ui:repeat value="#{lecturerModuleGroupBean.groups}" var="group">
+                            <p:panel header="#{group.name}" toggleable="true">
+                                <h:outputText value="No stdudent in this group" rendered="#{empty group.groupMembers}"/>
+                                <ui:repeat value="#{group.groupMembers}" var="student" >
+                                    <h:outputText value="Name: #{student.name}, Student ID: #{student.studentId}"/>
+                                    <br/>
+                                </ui:repeat>
+                                <br/>
+                                <p:commandButton value="Delete" id="deleteButton" 
+                                                 actionListener="#{lecturerModuleGroupBean.deleteProjectGroup(group)}"
+                                                 update="tab:groupInfo messages">
+                                    <p:confirm header="Delete Group #{group.name}" message="Are you sure you want to delete this group?" icon="ui-icon-alert" />
+                                </p:commandButton>
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </p:confirmDialog>
+                            </p:panel>
+                        </ui:repeat>
+                        <br/>
+                        <p:commandButton value="Add new ProjectGroup" actionListener="#{lecturerModuleGroupBean.addProjectGroup()}" update="tab:groupInfo" />
+                    </p:fieldset>
+                    <br />
+                </h:form>
+            </p:tab>
+            
+            <p:tab title="Change student's group" rendered="#{not empty lecturerModuleGroupBean.superGroup and lecturerModuleGroupBean.superGroup.confirm}">
+                <p:dataTable var="student" value="#{lecturerModuleGroupBean.students}" id="studentGroupTable" widgetVar="studentGroupTable" 
+                                         emptyMessage="No students for this module." paginator="true" paginatorPosition="bottom" rows="15"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="10,20,50">
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Search all fields:" />
+                            <p:inputText id="globalFilter" onkeyup="PF('studentGroupTable').filter()" style="width:150px" placeholder="Enter keyword" />
+                        </p:outputPanel>
+                    </f:facet>  
+                    <p:column filterBy="#{student.studentId}" sortBy="#{student.studentId}" headerText="Student-ID" filterMatchMode="contains">
+                        <h:outputText value="#{student.studentId}" />
+                    </p:column>
+                    <p:column filterBy="#{student.name}" sortBy="#{student.name}" headerText="Student-Name" filterMatchMode="contains">
+                        <h:outputText value="#{student.name}" />
+                    </p:column>
+                    <p:column filterBy="#{lecturerModuleGroupBean.checkStudentGroup(student)}" sortBy="#{lecturerModuleGroupBean.checkStudentGroup(student)}" headerText="Group" filterMatchMode="exact">
+                        <h:outputText value="#{lecturerModuleGroupBean.checkStudentGroup(student)}" />
+                    </p:column>
+                    <p:column  headerText="Change Group">
+                        <h:form id="changeGroupForm">
+                            <h:outputText value="Change the student to group" />
+                            <p:selectOneMenu value="#{lecturerModuleGroupBean.toGroupId}" >
+                                <f:selectItem itemLabel="Select One" itemValue="#{null}" />
+                                <f:selectItems value="#{lecturerModuleGroupBean.groups}" var="group" itemLabel="#{group.name}" itemValue="#{group.id}" />
+                            </p:selectOneMenu>
+                            <br/>
+                            <p:commandButton value="Change" actionListener="#{lecturerModuleGroupBean.changeStudentGroup(student)}" update="messages, tab:groupInfo, tab:studentGroupTable"/>
+                        </h:form>
+                    </p:column>
+                </p:dataTable>
+            </p:tab>
+        </p:tabView>
     </ui:define>
     
 </ui:composition>

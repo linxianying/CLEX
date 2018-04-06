@@ -162,8 +162,20 @@ public class ForumListBean {
     public void onRowSelect(SelectEvent event) {
         System.out.println("Selected Thread ID: " + selectedThread.getId());
         try {
+            int usertype = (int) session.getAttribute("userType");
             session.setAttribute("id", selectedThread.getId());
-            context.getExternalContext().redirect("viewThread.xhtml");
+            if(usertype == 1){ //Student
+                context.getExternalContext().redirect("viewThread.xhtml");                
+            }
+            else if(usertype == 2){ //Lecturer
+                context.getExternalContext().redirect("viewThreadL.xhtml");  
+            }
+            else if(usertype == 3){ //Admin
+                context.getExternalContext().redirect("viewThreadA.xhtml");  
+            }
+            else if(usertype == 4){ //Guest
+                context.getExternalContext().redirect("viewThreadG.xhtml");  
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -412,6 +424,30 @@ public class ForumListBean {
 
     public void setSearchTag(String searchTag) {
         this.searchTag = searchTag;
+    }
+
+    public CommunitySessionBeanLocal getCmsbl() {
+        return cmsbl;
+    }
+
+    public void setCmsbl(CommunitySessionBeanLocal cmsbl) {
+        this.cmsbl = cmsbl;
+    }
+
+    public FacesContext getContext() {
+        return context;
+    }
+
+    public void setContext(FacesContext context) {
+        this.context = context;
+    }
+
+    public HttpSession getSession() {
+        return session;
+    }
+
+    public void setSession(HttpSession session) {
+        this.session = session;
     }
 
 }

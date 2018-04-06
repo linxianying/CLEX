@@ -50,8 +50,29 @@
     <ui:define name="content">
         <h3><h:outputText value="Welcome to PRISM, #{loginBean.userEntity.name}" /></h3><br></br>
         <p:tabView id="tab">
-            <p:tab title="VIEW TASKS">
+            <p:tab title="View Tasks">
                 <div class="ui-g dashboard">   
+                    <div class="ui-g-12 ui-md-12">
+
+                        <p:panel header="Your Timeline Of To-Do List" style="min-height:320px">
+
+                            <p:growl id="growl" showSummary="true" showDetail="true"></p:growl>
+
+                            <p:timeline id="timeline" value="#{toDoTimelineBean.model}" height="250px"
+                                    selectable="#{toDoTimelineBean.selectable}"
+                                    zoomable="#{toDoTimelineBean.zoomable}"
+                                    moveable="#{toDoTimelineBean.moveable}"
+                                    stackEvents="#{toDoTimelineBean.stackEvents}"
+                                    axisOnTop="#{toDoTimelineBean.axisOnTop}"
+                                    eventStyle="#{toDoTimelineBean.eventStyle}"
+                                    showCurrentTime="#{toDoTimelineBean.showCurrentTime}"
+                                    showNavigation="#{toDoTimelineBean.showNavigation}">
+
+                                <p:ajax event="select" listener="#{toDoTimelineBean.onSelect}"/>
+
+                            </p:timeline>
+                        </p:panel>
+                    </div>
                     <div class="ui-g-12 ui-md-4 task-list">
                         <h:form id="taskObject">
                             
@@ -109,30 +130,11 @@
                             
                         </h:form>
                     </div>
-                    <div class="ui-g-12 ui-md-12">
-
-                    <p:panel header="Your Timeline Of To-Do List" style="min-height:320px">
-
-                        <p:growl id="growl" showSummary="true" showDetail="true"></p:growl>
-
-                        <p:timeline id="timeline" value="#{toDoTimelineBean.model}" height="250px"
-                                selectable="#{toDoTimelineBean.selectable}"
-                                zoomable="#{toDoTimelineBean.zoomable}"
-                                moveable="#{toDoTimelineBean.moveable}"
-                                stackEvents="#{toDoTimelineBean.stackEvents}"
-                                axisOnTop="#{toDoTimelineBean.axisOnTop}"
-                                eventStyle="#{toDoTimelineBean.eventStyle}"
-                                showCurrentTime="#{toDoTimelineBean.showCurrentTime}"
-                                showNavigation="#{toDoTimelineBean.showNavigation}">
-
-                            <p:ajax event="select" listener="#{toDoTimelineBean.onSelect}"/>
-
-                        </p:timeline>
-                    </p:panel>
-                    </div>
+                    
                 </div>
             </p:tab>
-            <p:tab title="ADD TASKS">
+            
+            <p:tab title="Add Tasks">
                 <div class="ui-g dashboard"> 
                     <div class="ui-g-12 ui-md-8">
                          <h:form id="addTaskForm">
@@ -143,7 +145,7 @@
 
                                 <table>
                                     <tr>
-                                        <td>
+                                        <td style="width:180px">
                                             Type:
 
                                         </td>
@@ -198,10 +200,10 @@
                                         </td>
                                     </tr>
                                     
-                                    <tr>
+                                    <tr >
                                         <td>
-                                            Project Group:
-
+                                            <p:outputLabel for="projectGroup" value="Project Group:" 
+                                                           rendered="#{tasksBean.groupOrPersonal==2}"/>
                                         </td>
                                         <td>
                                             <p:selectOneMenu id="projectGroup" value="#{tasksBean.groupInfo}"  panelStyle="width:180px" effect="fade" 
@@ -216,15 +218,15 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <p:commandButton value="Add" actionListener="#{tasksBean.addTask}" update="tab:taskObject:tasklist"
-                                                             action="studentMain?faces-redirect=true"/>
+                                            
                                         </td>
                                     </tr>
                                 </table>
+                                <p:commandButton styleClass="raised-btn" style="width:340px;" value="Add" actionListener="#{tasksBean.addTask}" update="tab:taskObject:tasklist"
+                                                             action="studentMain?faces-redirect=true"/>
                             </p:panel>
                         </h:form>
                         <!-- END: Add New Poll -->
-                        
                     </div>
                 </div>
             </p:tab>

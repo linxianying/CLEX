@@ -102,8 +102,8 @@ public class TasksBean {
         value = false;
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
-        studentEntity = (Student) session.getAttribute("user");
-        username = studentEntity.getUsername();
+        username = (String) session.getAttribute("username");
+        studentEntity = csbl.findStudent(username);
         tasks = null;
         unfinishedTasks = new ArrayList<Task>();
         unfinishedIndGroupTasks = new ArrayList<IndividualGroupTask>();
@@ -244,6 +244,7 @@ public class TasksBean {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Task creation failed.", "Unsuccessfuly");
                 context.addMessage(null, fmsg);
             }
+            
         }if(groupOrPersonal==2){
             System.out.println("group task creation");
             if(groupInfo!=null)

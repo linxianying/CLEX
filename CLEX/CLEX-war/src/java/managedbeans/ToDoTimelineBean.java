@@ -80,9 +80,8 @@ public class ToDoTimelineBean {
     protected void initialize()  {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
-        studentEntity = (Student) session.getAttribute("user");
-        username = studentEntity.getUsername();
-        
+        username = (String) session.getAttribute("username");
+        studentEntity = csbl.findStudent(username);
         
         model = new TimelineModel();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");

@@ -6,6 +6,7 @@
 package managedbeans;
 
 
+import entity.Course;
 import entity.Lecturer;
 import entity.Module;
 import entity.Poll;
@@ -17,6 +18,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,8 +28,10 @@ import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -85,11 +89,16 @@ public class ClassroomBean {
     private String addPickSem;
     private boolean addButton;
     private boolean finishedOrNot;
+    private String finish;
+    private int currentYear;
+    private int currentSem;
     private ArrayList<String> ans = new ArrayList<String>();
+    private ArrayList<Module> currentModules;
     int num;
     private int total;
     private int rightAns;
     private boolean[] str = new boolean[20];
+    private List<Course> courses;
     
     FacesContext context;
     HttpSession session;
@@ -111,17 +120,33 @@ public class ClassroomBean {
         addButton = true;
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
-        lecturerEntity = (Lecturer) session.getAttribute("user");
-        username = lecturerEntity.getUsername();
-        System.out.println("Lecturer Name: " + username);
+        username = (String) session.getAttribute("username");
+        lecturerEntity = csbl.findLecturer(username);
+        //System.out.println("Lecturer Name: " + username);
+        this.setCurrentYearSem();
         if(lecturerEntity!=null){
             modules = crsbl.viewModules(lecturerEntity);
             polls = crsbl.viewPolls(lecturerEntity);
+            currentModules = cmbl.getCurrentModulesFromLecturer(username, Integer.toString(currentYear), Integer.toString(currentSem));
+    
         }
         createBarModel();
         System.out.println("ClassroomBean: initial finished");
 
         //modules = cmbl.getModulesFromLecturer(username);
+    }
+    
+    public void setCurrentYearSem(){
+        Calendar now = Calendar.getInstance();
+        currentYear = now.get(Calendar.YEAR);
+        // month starts from 0 to 11
+        int currentMonth = now.get(Calendar.MONTH);
+        if (currentMonth < 6) {
+            currentSem = 2;
+            currentYear--;
+        } else {
+            currentSem = 1;
+        }
     }
     
     public void testViewPolls(){
@@ -174,7 +199,7 @@ public class ClassroomBean {
         
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
-        Poll p = crsbl.createPoll(addModuleCode, addPickYear, addPickSem, dateFormat.format(date), 
+        Poll p = crsbl.createPoll(addModuleCode, currentYear+"", currentSem+"", dateFormat.format(date), 
                 addPollTopic, Double.parseDouble(addPollCorrectRate), addPollType, addPollContent);
         //System.out.println("addPollType:"+addPollType+"//////////////////////Topic:"+addPollTopic);
         if(p==null){
@@ -185,6 +210,7 @@ public class ClassroomBean {
             System.out.println("ClassroomBean: New Poll id is "+p.getId());
             fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Poll '" + p.getId() + " is created.", "Successfuly");
             context.addMessage(null, fmsg);
+            refresh();
         }
         
     }
@@ -192,7 +218,7 @@ public class ClassroomBean {
     public void addUnfinishedPoll(){
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
-        Poll p = crsbl.createUnfinishedPoll(addModuleCode, addPickYear, addPickSem, dateFormat.format(date), 
+        Poll p = crsbl.createUnfinishedPoll(addModuleCode, currentYear+"", currentSem+"", dateFormat.format(date), 
                 addPollTopic, 0.0, addPollType, addPollContent,ans,0);
         System.out.println("addType:"+addPollType+"//////////////////////ans:"+ans.get(0));
         if(p==null){
@@ -203,6 +229,7 @@ public class ClassroomBean {
             System.out.println("ClassroomBean: New Poll id is "+p.getId());
             fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Poll '" + p.getId() + " is created.", "Successfuly");
             context.addMessage(null, fmsg);
+            refresh();
         }
     }
     
@@ -535,7 +562,7 @@ public class ClassroomBean {
         System.out.println("num is set to "+num);
         if(ans.size()<num){
             for(int i = 0;i<num; i++)
-                ans.add("");
+                ans.add(" ");
         }
     }
     
@@ -550,6 +577,70 @@ public class ClassroomBean {
 
     public void setStr(boolean[] str) {
         this.str = str;
+    }
+
+    public String getFinish() {
+        return finish;
+    }
+
+    public void setFinish(String finish) {
+        this.finish = finish;
+    }
+
+    public int getCurrentYear() {
+        return currentYear;
+    }
+
+    public void setCurrentYear(int currentYear) {
+        this.currentYear = currentYear;
+    }
+
+    public int getCurrentSem() {
+        return currentSem;
+    }
+
+    public void setCurrentSem(int currentSem) {
+        this.currentSem = currentSem;
+    }
+
+    public ArrayList<Module> getCurrentModules() {
+        return currentModules;
+    }
+
+    public void setCurrentModules(ArrayList<Module> currentModules) {
+        this.currentModules = currentModules;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
+    
+    public void refresh() { 
+        addModuleCode = null;
+        addPickYear = null;
+        addPickSem = null;
+        addErrorMsg = null;
+        addButton = true;
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+        username = (String) session.getAttribute("username");
+        lecturerEntity = csbl.findLecturer(username);
+        //System.out.println("Lecturer Name: " + username);
+        this.setCurrentYearSem();
+        if(lecturerEntity!=null){
+            modules = crsbl.viewModules(lecturerEntity);
+            polls = crsbl.viewPolls(lecturerEntity);
+            currentModules = cmbl.getCurrentModulesFromLecturer(username, Integer.toString(currentYear), Integer.toString(currentSem));
+    
+        }
+        createBarModel();
+        System.out.println("ClassroomBean: reinititated");
+
+        //modules = cmbl.getModulesFromLecturer(username);
     }
     
 }
