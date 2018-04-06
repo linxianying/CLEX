@@ -23,7 +23,7 @@
                             <div style=" height: 75vh; overflow-y: scroll; width: 240px">
                                 <div class="search-input">
                                     <h:form id="form1">
-                                        <p:inputText value="#{privateMsgBean.rcvUsername}"
+                                        <p:inputText value="#{privateMsgBean.searchUsername}"
                                                      placeholder="Search for user..." styleClass="inputMsg"
                                                      onkeypress="if (event.keyCode == 13) {
                                                                  searchUser();
@@ -33,12 +33,12 @@
 
                                         <p:remoteCommand name="searchUser" update="msgTabView:form1" actionListener="#{privateMsgBean.startConversation}"/>
 
-                                        <p:dataList id="myContacts" var="convo" value="#{privateMsgBean.convoList}">
-                                            <button type="button" onclick="#{convo.users.get(1).getUsername()}convo()" class="convoBox">
-                                                <p:remoteCommand name="#{convo.users.get(1).getUsername()}convo" update="msgTabView"
-                                                                 action="#{privateMsgBean.selectConversation(convo.users.get(1).getUsername())}"/>
+                                        <p:dataList rendered="#{not empty privateMsgBean.convoList}" id="myContacts" var="convo" value="#{privateMsgBean.convoList}">
+                                            <button type="button" onclick="#{privateMsgBean.getRcvrUsername(convo)}convo()" class="convoBox">
+                                                <p:remoteCommand name="#{privateMsgBean.getRcvrUsername(convo)}convo" update="msgTabView"
+                                                                 action="#{privateMsgBean.selectConversation(privateMsgBean.getRcvrUsername(convo))}"/>
 
-                                                <h:outputText value="#{convo.users.get(1).getName()}"/>
+                                                <h:outputText value="#{privateMsgBean.rcvName}"/>
                                                 <br/>
 
                                                 <h:outputText rendered="#{empty convo.messages}" style="color: #777777" value="no messages"/>
@@ -59,7 +59,7 @@
                         <div style="overflow: hidden; overflow-wrap:break-word; height:90vh;">
                             <h:form id="form2">
                                 <c:if test="#{not empty privateMsgBean.convo}">
-                                    <h:outputText style="margin-top:5px;float:left;" value="#{privateMsgBean.rcvName}"/>
+                                    <h:outputText style="margin-top:5px;float:left;" value="#{privateMsgBean.getRcvName(privateMsgBean.convo)}"/>
 
                                     <p:commandButton icon="fa fa-minus" styleClass="delConvoBtn" update="msgTabView:form1:myContacts" actionListener="#{privateMsgBean.deleteConversation}">
                                         <p:confirm header="Delete Conversation" message="Are you sure you want to delete this conversation?" icon="ui-icon-alert" />
@@ -68,27 +68,32 @@
                                     <br/><br/><hr style="margin-bottom: 1px; border: none; height: 1px; background-color: #dddddd"/>
                                 </c:if>
 
-                                <div style=" height: 75vh; overflow-y: scroll; width: 240px;">
+                                <div style=" height: 60vh; overflow-y: scroll; width: 240px;">
                                     <c:if test="#{empty privateMsgBean.convo}">
                                         <h:outputText rendered="true" value="Please select a contact first!" />
                                     </c:if>
 
                                     <c:if test="#{not empty privateMsgBean.msgList}">
-
-                                        <p:dataList id="myMessages" var="msgList" value="#{privateMsgBean.msgList}">
-                                            <h:outputText rendered="#{privateMsgBean.messageIsByUser(msgList)}" value="#{msgList.getMessage()}" class="chatBubble_left"/>
+                                        <p:dataList id="myMessages" var="msg" value="#{privateMsgBean.msgList}">
+                                            <h:outputText rendered="#{privateMsgBean.messageIsByUser(msg)}" value="#{msg.getMessage()}" class="chatBubble_left"/>
                                             <br/>
-                                            <h:outputText rendered="#{not privateMsgBean.messageIsByUser(msgList)}" value="#{msgList.getMessage()}" class="chatBubble_right"/>
+                                            <h:outputText rendered="#{not privateMsgBean.messageIsByUser(msg)}" value="#{msg.getMessage()}" class="chatBubble_right"/>
                                             <br/>
                                         </p:dataList>
                                     </c:if>
+
 
                                     <c:if test="#{privateMsgBean.convoExist}">
                                         <div class="ui-fluid contact-form" style="bottom: 15vh; position: absolute">
 
                                             <h:panelGrid columns="2" styleClass="columnItems">
-                                                <p:inputTextarea value="#{privateMsgBean.content}" placeholder="type your message..." rows="1" cols="30" maxlength="300" styleClass="inputMsg"/>
-                                                <p:commandButton type="submit" icon="fa fa-paper-plane-o" update="msgTabView:form2" styleClass="sendMsg" action="#{privateMsgBean.sendMessage}"></p:commandButton>
+                                                <p:inputTextarea value="#{privateMsgBean.content}" placeholder="type your message..." rows="1" cols="30" maxlength="300" styleClass="inputMsg"
+                                                                 onkeypress="if (event.keyCode == 13) {
+                                                                             submitMsg();
+                                                                             return false;
+                                                                         }"/>
+                                                <p:commandButton type="submit" icon="fa fa-paper-plane-o" update="msgTabView" styleClass="sendMsg" action="#{privateMsgBean.sendMessage}"></p:commandButton>
+                                                <p:remoteCommand name="submitMsg" update="msgTabView" actionListener="#{privateMsgBean.sendMessage}"/>
                                             </h:panelGrid>
                                         </div>
                                     </c:if>

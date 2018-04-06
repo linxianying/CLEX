@@ -88,11 +88,11 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
         int sentUser; //1: user1, 2: user2
         
         if(Objects.equals(userEntity.getId(), userList.get(0).getId())){
-            sentUser = 1;
+            sentUser = 0;
             convoEntity.setSentMsgCount1(convoEntity.getSentMsgCount1() + 1);
         }
         else if(Objects.equals(userEntity.getId(), userList.get(1).getId())){
-            sentUser = 2;
+            sentUser = 1;
             convoEntity.setSentMsgCount2(convoEntity.getSentMsgCount2() + 1);
         }
         else{
