@@ -36,12 +36,12 @@
                                         <p:dataList rendered="#{not empty privateMsgBean.convoList}" id="myContacts" var="convo" value="#{privateMsgBean.convoList}">
                                             <button type="button" onclick="#{privateMsgBean.getRcvrUsername(convo)}convo()" class="convoBox">
                                                 <p:remoteCommand name="#{privateMsgBean.getRcvrUsername(convo)}convo" update="msgTabView"
-                                                                 action="#{privateMsgBean.selectConversation(privateMsgBean.getRcvrUsername(convo))}"/>
+                                                                 action="#{privateMsgBean.selectConversation(convo)}"/>
 
                                                 <h:outputText value="#{privateMsgBean.rcvName}"/>
                                                 <br/>
 
-                                                <h:outputText rendered="#{empty convo.messages}" style="color: #777777" value="no messages"/>
+                                                <h:outputText rendered="#{empty convo.messages}" style="color: #777777" value=" "/>
                                                 <h:outputText rendered="#{not empty convo.messages}" style="color: #777777" value="#{convo.messages.get(convo.messages.size()-1).getMessage()}"/>
 
                                                 <i class="fa fa-angle-right" style="float:right; color: #777777; font-size: 1.5em"/>
@@ -74,7 +74,7 @@
                                     </c:if>
 
                                     <c:if test="#{not empty privateMsgBean.msgList}">
-                                        <h:outputText value="#{privateMsgBean.convo.id}" />
+                                        
                                         <p:dataList id="myMessages" var="msg" value="#{privateMsgBean.msgList}">
                                             <h:outputText rendered="#{privateMsgBean.messageIsByUser(msg)}" value="#{msg.getMessage()}" class="chatBubble_left"/>
                                             <br/>
