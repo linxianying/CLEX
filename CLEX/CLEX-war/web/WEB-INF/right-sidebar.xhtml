@@ -70,10 +70,11 @@
 
                                 <div style=" height: 60vh; overflow-y: scroll; width: 240px;">
                                     <c:if test="#{empty privateMsgBean.convo}">
-                                        <h:outputText rendered="true" value="Please select a contact first!" />
+                                        <h:outputText value="Please select a contact first!" />
                                     </c:if>
 
                                     <c:if test="#{not empty privateMsgBean.msgList}">
+                                        <h:outputText value="#{privateMsgBean.convo.id}" />
                                         <p:dataList id="myMessages" var="msg" value="#{privateMsgBean.msgList}">
                                             <h:outputText rendered="#{privateMsgBean.messageIsByUser(msg)}" value="#{msg.getMessage()}" class="chatBubble_left"/>
                                             <br/>

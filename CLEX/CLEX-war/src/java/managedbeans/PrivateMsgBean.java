@@ -69,6 +69,7 @@ public class PrivateMsgBean {
         session = (HttpSession) context.getExternalContext().getSession(true);
         sndUsername = (String) session.getAttribute("username");
         tabIndex = 0;
+        searchUsername = null;
         rcvUsername = null;
         content = null;
         convo = null;
@@ -78,15 +79,16 @@ public class PrivateMsgBean {
     }
 
     public String getRcvrUsername(Conversation convo) {
+        
         List<User> userList = (List<User>) convo.getUsers();
-
+        String rUsername = null;
         for (User u : userList) {
             if (!(sndUsername.equals(u.getUsername()))) {
-                rcvUsername = u.getUsername();
+                rUsername = u.getUsername();
                 rcvName = u.getName();
             }
         }
-        return rcvUsername;
+        return rUsername;
     }
 
     public String getRcvName(Conversation convo) {
@@ -120,14 +122,12 @@ public class PrivateMsgBean {
     }
 
     public void selectConversation(String username) {
-        if (username != null) {
-            convoExist = true;
-            rcvName = msbl.findUser(username).getName();
-            rcvUsername = username;
-            convo = msbl.checkUserInSameConversation(sndUsername, rcvUsername);
-            msgList = (List) convo.getMessages();
-            tabIndex = 1;
-        }
+        convoExist = true;
+        rcvName = msbl.findUser(username).getName();
+        rcvUsername = username;
+        convo = msbl.checkUserInSameConversation(sndUsername, rcvUsername);
+        msgList = (List) convo.getMessages();
+        tabIndex = 1;
     }
 
     public boolean messageIsByUser(Message msg) {
@@ -172,6 +172,7 @@ public class PrivateMsgBean {
         }
 
         rcvName = getRcvName(convo);
+        content = null;
         msgList = (List) msbl.getMessageByConversation(convo.getId());
         convoList = (List) msbl.getConversationByUser(sndUsername);
         context.addMessage(null, fmsg);
