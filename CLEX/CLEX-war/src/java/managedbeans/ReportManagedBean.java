@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperRunManager;
+import session.ClexSessionBeanLocal;
 
 /**
  *
@@ -35,6 +37,9 @@ public class ReportManagedBean {
     @Resource(name = "jasperReportDataSource")
     private DataSource jasperReportDataSource;
 
+    @EJB
+    private ClexSessionBeanLocal csbl;
+    
     private String username;
     private Student student;
     FacesContext context;
@@ -51,8 +56,9 @@ public class ReportManagedBean {
     public void init(){
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
-        student = (Student) session.getAttribute("user");
-        username = student.getUsername();
+        
+        username = (String) session.getAttribute("username");
+        student = csbl.findStudent(username);
     }
     
     public void generateReport(ActionEvent event){        

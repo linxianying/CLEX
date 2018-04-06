@@ -102,9 +102,8 @@ public class ScheduleBean implements Serializable {
         eventModel = new DefaultScheduleModel();
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
-        userEntity = (User) session.getAttribute("user");
+        username = (String) session.getAttribute("username");
         userType = session.getAttribute("userType")+"";
-        username = userEntity.getUsername();
         userEntity = csbl.findUser(username);
         timeslots = sbl.getAllTimeslots(userEntity);
         Timeslot t;
