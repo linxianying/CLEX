@@ -85,14 +85,11 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
         }
         
         Message msg = new Message();
-        int sentUser; //1: user1, 2: user2
         
         if(Objects.equals(userEntity.getId(), userList.get(0).getId())){
-            sentUser = 0;
             convoEntity.setSentMsgCount1(convoEntity.getSentMsgCount1() + 1);
         }
         else if(Objects.equals(userEntity.getId(), userList.get(1).getId())){
-            sentUser = 1;
             convoEntity.setSentMsgCount2(convoEntity.getSentMsgCount2() + 1);
         }
         else{
@@ -100,7 +97,7 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
             return false;
         }
         
-        msg.createMessage(message, sentUser);
+        msg.createMessage(message, username);
         msg.setConversation(convoEntity);
         
         convoEntity.getMessages().add(msg);
