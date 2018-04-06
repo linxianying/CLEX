@@ -17,7 +17,7 @@
 
         <div id="content" class="left_content">
             <h3><h:outputText value="Classroom" /></h3>
-
+            <p:growl id="msgmsg" showDetail="true" />
             <p:tabView>
                 <p:tab title="VIEW POLLS">
 
@@ -26,7 +26,6 @@
                         <p:printer target="panel" />
                     </p:commandButton>
                     <h:form id="panel">
-                        
                         <p:panel collapsed="false" styleClass="menuHeader"  header="All Polls of Lecturer" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
 
                             <p:dataTable var="poll" value="#{classroomBean.polls}"
@@ -40,6 +39,8 @@
                                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
                                          {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
                                          rowsPerPageTemplate="10,20,50">
+                                
+                        
                                 <f:facet name="header">
                                     <p:outputPanel>
                                         <h:outputText value="Search all fields:" />
@@ -70,9 +71,13 @@
                                         </h:commandLink>
                                     </div>
                                 </f:facet>
-                                <p:column style="width:35%" filterBy="#{poll.content}" sortBy="#{poll.content}" 
+                                <p:column style="width:30%" filterBy="#{poll.content}" sortBy="#{poll.content}" 
                                           headerText="Content" filterMatchMode="contains">
                                     <h:outputText value="#{poll.content}" />
+                                    <p:commandButton style="float: right; background: grey" icon="ui-icon-trash"
+                                                     update="msgmsg" actionListener="#{classroomBean.removePoll(poll)}">
+                                        <p:confirm header="Delete Poll Question #{poll.content}" message="Please ensure that no students are linked to this poll!" icon="ui-icon-alert" />
+                                    </p:commandButton>
                                 </p:column>
 
                                 <p:column filterBy="#{poll.type}" headerText="Poll Type" filterMatchMode="in">
