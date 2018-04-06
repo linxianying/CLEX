@@ -1,8 +1,8 @@
 /*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
-*/
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package managedbeans;
 
 import entity.Course;
@@ -51,20 +51,20 @@ import session.StudyPlanSessionBeanLocal;
 @ManagedBean(name = "newStudyPlanBean")
 @SessionScoped
 public class NewStudyPlanBean implements Serializable {
-    
+
     public NewStudyPlanBean() {
     }
-    
+
     @EJB
     private StudyPlanSessionBeanLocal spsbl;
     @EJB
     private ClexSessionBeanLocal csbl;
     @EJB
-            CourseMgmtBeanLocal cmbl;
-    
+    CourseMgmtBeanLocal cmbl;
+
     FacesContext context;
     HttpSession session;
-    
+
     private Student student;
     private String username;
     private double cap;
@@ -78,14 +78,14 @@ public class NewStudyPlanBean implements Serializable {
     private int currentColumnIndex;
     private int matricYear;
     private int matricSem;
-    
+
     private int newYear;
     private int newSem;
-    
+
     private Dashboard dashboard;
     Application application;
     private DashboardModel model;
-    
+
     //for add new item
     private String addItem;
     private String addModuleCode;
@@ -94,13 +94,13 @@ public class NewStudyPlanBean implements Serializable {
     private String addErrorMsg;
     private boolean addButton;
     private List<Course> courses;
-    
+
     //for edit grade
     private double newGrade;
-    
+
     //for rendering the info after the student select the module
     Course courseFront;
-    
+
     @PostConstruct
     public void init() {
         context = FacesContext.getCurrentInstance();
@@ -110,23 +110,23 @@ public class NewStudyPlanBean implements Serializable {
         username = student.getUsername();
         this.setYearSem();
         courses = spsbl.getAllCourses();
-        
+
         cap = student.getCap();
-        
+
         if (student.getGrades().size() > 0) {
             grades = spsbl.getAllGrades(student);
 //            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!# of taken Moduless: " + grades.size());
         }
-        
+
         takingModules = spsbl.getCurrentModules(student);
 //        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!# of taking Moduless: " + takingModules.size());
-        
+
         if (student.getStudyPlan() != null) {
             studyPlans = spsbl.getAllStudyPlans(student);
         }
-        
+
         newGrade = -1;
-        
+
         dashboard = (Dashboard) application.createComponent(context, "org.primefaces.component.Dashboard", "org.primefaces.component.DashboardRenderer");
         dashboard.setId("spDashboard");
         model = new DefaultDashboardModel();
@@ -146,9 +146,9 @@ public class NewStudyPlanBean implements Serializable {
         model.addColumn(column6);
         model.addColumn(column7);
         model.addColumn(column8);
-        
+
         dashboard.setModel(model);
-        
+
         int yearSem = 0;
         column1.addWidget("y11");
         column2.addWidget("y12");
@@ -158,7 +158,7 @@ public class NewStudyPlanBean implements Serializable {
         column6.addWidget("y32");
         column7.addWidget("y41");
         column8.addWidget("y42");
-        
+
         final UISelectItem item0 = new UISelectItem();
         item0.setItemLabel("select");
         item0.setItemValue("select");
@@ -201,7 +201,7 @@ public class NewStudyPlanBean implements Serializable {
         final UISelectItem item13 = new UISelectItem();
         item13.setItemLabel("U");
         item13.setItemValue("U");
-        
+
         if (grades != null) {
             for (Grade g : grades) {
                 Panel panel = (Panel) application.createComponent(context, "org.primefaces.component.Panel", "org.primefaces.component.PanelRenderer");
@@ -210,14 +210,15 @@ public class NewStudyPlanBean implements Serializable {
                     System.out.println("!!!!!!!!!!!!!!!!!! NULL g:" + g.getId());
                 }
                 panel.setHeader(g.getModule().getCourse().getModuleCode());
-                panel.setClosable(false);
                 panel.setToggleable(true);
-                panel.setStyle("width:138px");
+                panel.setCollapsed(true);
+                panel.setStyle("width:138px;");
+                panel.setStyleClass("takenStyle");
                 dashboard.getChildren().add(panel);
-                
-                yearSem = (Integer.parseInt(g.getModule().getTakenYear())-matricYear)*2+Integer.parseInt(g.getModule().getTakenSem());
+
+                yearSem = (Integer.parseInt(g.getModule().getTakenYear()) - matricYear) * 2 + Integer.parseInt(g.getModule().getTakenSem());
                 //column1.addWidget(panel.getId());
-                switch(yearSem){
+                switch (yearSem) {
                     case 1:
                         column1.addWidget(panel.getId());
                         break;
@@ -255,7 +256,7 @@ public class NewStudyPlanBean implements Serializable {
                 panel.getChildren().add(t1);
             }
         }
-        
+
         if (takingModules != null) {
             for (Module m : takingModules) {
                 Panel panel = (Panel) application.createComponent(context, "org.primefaces.component.Panel", "org.primefaces.component.PanelRenderer");
@@ -263,12 +264,14 @@ public class NewStudyPlanBean implements Serializable {
                 panel.setHeader(m.getCourse().getModuleCode());
                 panel.setClosable(false);
                 panel.setToggleable(true);
-                panel.setStyle("width:138px");
+                panel.setCollapsed(true);
+                panel.setStyle("width:138px;");
+                panel.setStyleClass("takingStyle");
                 dashboard.getChildren().add(panel);
-                
-                yearSem = (currentYear-matricYear)*2+currentSem;
+
+                yearSem = (currentYear - matricYear) * 2 + currentSem;
                 //column1.addWidget(panel.getId());
-                switch(yearSem){
+                switch (yearSem) {
                     case 1:
                         column1.addWidget(panel.getId());
                         break;
@@ -302,7 +305,7 @@ public class NewStudyPlanBean implements Serializable {
                 panel.getChildren().add(text);
             }
         }
-        
+
         if (studyPlans != null) {
             for (StudyPlan sp : studyPlans) {
                 Panel panel = (Panel) application.createComponent(context, "org.primefaces.component.Panel", "org.primefaces.component.PanelRenderer");
@@ -310,12 +313,14 @@ public class NewStudyPlanBean implements Serializable {
                 panel.setHeader(sp.getCourse().getModuleCode());
                 panel.setClosable(false);
                 panel.setToggleable(true);
-                panel.setStyle("width:138px");
+                panel.setCollapsed(true);
+                panel.setStyle("width:138px;");
+                panel.setStyleClass("spStyle");
                 dashboard.getChildren().add(panel);
-                
-                yearSem = (Integer.parseInt(sp.getPickYear())-matricYear)*2+Integer.parseInt(sp.getPickSem());
+
+                yearSem = (Integer.parseInt(sp.getPickYear()) - matricYear) * 2 + Integer.parseInt(sp.getPickSem());
                 //column1.addWidget(panel.getId());
-                switch(yearSem){
+                switch (yearSem) {
                     case 1:
                         column1.addWidget(panel.getId());
                         break;
@@ -345,17 +350,17 @@ public class NewStudyPlanBean implements Serializable {
                         break;
                 }
                 HtmlOutputText text = new HtmlOutputText();
-                text.setId("spt"+sp.getId());
+                text.setId("spt" + sp.getId());
                 text.setValue("Study Plan\n");
                 panel.getChildren().add(text);
                 //            System.out.println("-------check count"+column1.getWidgetCount());
             }
         }
-        
+
         System.out.println("newStudyPlanBean finish render");
     }
-    
-    public void setYearSem(){
+
+    public void setYearSem() {
         Calendar now = Calendar.getInstance();
         currentYear = now.get(Calendar.YEAR);
         // month starts from 0 to 11
@@ -369,19 +374,19 @@ public class NewStudyPlanBean implements Serializable {
         matricYear = Integer.parseInt(student.getMatricYear());
         //for test purpose
         //matricYear = 2015;
-        currentColumnIndex = (currentYear-matricYear)*2+currentSem - 1;
+        currentColumnIndex = (currentYear - matricYear) * 2 + currentSem - 1;
     }
-    
-    public void onTabChange(TabChangeEvent event){
+
+    public void onTabChange(TabChangeEvent event) {
 //        if (event.getTab().getId().equals("overviewTab")) {
         this.init();
 //            System.out.println("NewStudyPlanBean:onTabChange: studyPlans size " + studyPlans.size());
 //        }
         FacesContext fctx = FacesContext.getCurrentInstance();
-        StudyPlanBean studyPlanBean = fctx.getApplication().evaluateExpressionGet(fctx , "#{studyPlanBean}", StudyPlanBean.class);
+        StudyPlanBean studyPlanBean = fctx.getApplication().evaluateExpressionGet(fctx, "#{studyPlanBean}", StudyPlanBean.class);
         studyPlanBean.refresh();
     }
-    
+
     public void handleReorder(DashboardReorderEvent event) {
         System.out.println("handel reorder");
         FacesMessage message = new FacesMessage();
@@ -398,33 +403,28 @@ public class NewStudyPlanBean implements Serializable {
                 //setting a Grade for this current or future semester
                 if (event.getColumnIndex() == this.currentColumnIndex) {
                     message.setSummary("Error");
-                    message.setDetail ("You are dragging a taken module to current semester!");
+                    message.setDetail("You are dragging a completed module to the current semester!");
                     addMessage(message);
-                }
-                else if (event.getColumnIndex() > this.currentColumnIndex) {
+                } else if (event.getColumnIndex() > this.currentColumnIndex) {
                     message.setSummary("Error");
-                    message.setDetail ("You are dragging a taken module to future semesters!");
+                    message.setDetail("You are dragging a completed module to a future semester!");
                     addMessage(message);
-                }
-                else {
+                } else {
                     updateId = Long.parseLong(id.substring(1));
                     this.reorderGrade(updateId);
                 }
-            }
-            else if (id.startsWith("m")) {
+            } else if (id.startsWith("m")) {
                 //cannot reorder taking module must be this sem
                 message.setSummary("Attention");
-                message.setDetail ("You are dragging the module currently taking to other semester!");
+                message.setDetail("You are dragging a module you are currently taking to other semesters!");
                 addMessage(message);
-            }
-            else if (id.startsWith("sp")) {
+            } else if (id.startsWith("sp")) {
                 //setting a study plan for this or previous semester
                 if (event.getColumnIndex() <= this.currentColumnIndex) {
                     message.setSummary("Error");
-                    message.setDetail ("You are dragging the Study Plan for previous semester!");
+                    message.setDetail("You are dragging a planned module to previous semesters!");
                     addMessage(message);
-                }
-                else {
+                } else {
                     id = id.substring(2);
                     updateId = Long.parseLong(id);
                     this.reorderStudyPlan(updateId);
@@ -433,53 +433,53 @@ public class NewStudyPlanBean implements Serializable {
         }
         init();
     }
-    
+
     public void handleClose(CloseEvent event) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Panel Closed", "Closed panel id:'" + event.getComponent().getId() + "'");
-        
+
         addMessage(message);
     }
-    
+
     public void handleToggle(ToggleEvent event) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, event.getComponent().getId() + " toggled", "Status:" + event.getVisibility().name());
-        
+
         addMessage(message);
     }
-    
+
     private void addMessage(FacesMessage message) {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
-    
+
     public void setNewYearSem(int sendeeColumnIndex) {
         newSem = sendeeColumnIndex % 2 + 1;
-        if (newSem == 1)
-            newYear = sendeeColumnIndex/2 + matricYear;
-        else if (newSem == 2)
-            newYear = (sendeeColumnIndex-1)/2 + matricYear;
+        if (newSem == 1) {
+            newYear = sendeeColumnIndex / 2 + matricYear;
+        } else if (newSem == 2) {
+            newYear = (sendeeColumnIndex - 1) / 2 + matricYear;
+        }
         System.out.println("newSPbean: setNewYearSem: change to year " + newYear + ",sem " + newSem);
     }
-    
+
     public void reorderGrade(Long id) {
         Module m = spsbl.findGrade(id).getModule();
         spsbl.updateGradeYearSem(id, m.getCourse().getModuleCode(), newYear, newSem);
     }
-    
+
 //    public void reorderModule() {
 //
 //    }
-    
     public void reorderStudyPlan(Long id) {
         spsbl.updateStudyPlanYearSem(id, newYear, newSem);
     }
-    
-    public void check(){
+
+    public void check() {
 //        System.out.println("into check");
 //        FacesMessage message = new FacesMessage();
 //        message.setSeverity(FacesMessage.SEVERITY_INFO);
 //        message.setDetail ("Check!");
 //        addMessage(message);
     }
-    
+
 //    public void addNewItem() {
 //        System.out.println("start add");
 //        if (validattion()) {
@@ -546,7 +546,6 @@ public class NewStudyPlanBean implements Serializable {
 //        }
 //        return validate;
 //    }
-    
     public void addStudyPlan() {
         context = FacesContext.getCurrentInstance();
         spsbl.createStudyPlan(Integer.toString(addPickYear), Integer.toString(addPickSem), addModuleCode, csbl.findStudent(username));
@@ -555,7 +554,7 @@ public class NewStudyPlanBean implements Serializable {
                 "Successful", "You have added module " + addModuleCode);
         context.addMessage(null, fmsg);
     }
-    
+
 //    public void addTakenModule() {
 //        context = FacesContext.getCurrentInstance();
 //        spsbl.addTakenModule(Integer.toString(addPickYear), Integer.toString(addPickSem), addModuleCode, csbl.findStudent(username));
@@ -564,7 +563,6 @@ public class NewStudyPlanBean implements Serializable {
 //                    "Successful", "You have added module " + addModuleCode);
 //        context.addMessage(null, fmsg);
 //    }
-    
     public void addTakingModule() {
         context = FacesContext.getCurrentInstance();
         spsbl.addTakingModule(Integer.toString(addPickYear), Integer.toString(addPickSem), addModuleCode, csbl.findStudent(username));
@@ -573,263 +571,257 @@ public class NewStudyPlanBean implements Serializable {
                 "Successful", "You have added module " + addModuleCode);
         context.addMessage(null, fmsg);
     }
-    
+
     public void editGrade() {
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Edit Grade");
     }
-    
+
     public StudyPlanSessionBeanLocal getSpsbl() {
         return spsbl;
     }
-    
+
     public void setSpsbl(StudyPlanSessionBeanLocal spsbl) {
         this.spsbl = spsbl;
     }
-    
+
     public ClexSessionBeanLocal getCsbl() {
         return csbl;
     }
-    
+
     public void setCsbl(ClexSessionBeanLocal csbl) {
         this.csbl = csbl;
     }
-    
+
     public CourseMgmtBeanLocal getCmbl() {
         return cmbl;
     }
-    
+
     public void setCmbl(CourseMgmtBeanLocal cmbl) {
         this.cmbl = cmbl;
     }
-    
+
     public FacesContext getContext() {
         return context;
     }
-    
+
     public void setContext(FacesContext context) {
         this.context = context;
     }
-    
+
     public HttpSession getSession() {
         return session;
     }
-    
+
     public void setSession(HttpSession session) {
         this.session = session;
     }
-    
+
     public Student getStudent() {
         return student;
     }
-    
+
     public void setStudent(Student student) {
         this.student = student;
     }
-    
+
     public double getCap() {
         return cap;
     }
-    
+
     public void setCap(double cap) {
         this.cap = cap;
     }
-    
+
     public double getExpectedCap() {
         return expectedCap;
     }
-    
+
     public void setExpectedCap(double expectedCap) {
         this.expectedCap = expectedCap;
     }
-    
+
     public ArrayList<Grade> getGrades() {
         return grades;
     }
-    
+
     public void setGrades(ArrayList<Grade> grades) {
         this.grades = grades;
     }
-    
+
     public ArrayList<Module> getTakingModules() {
         return takingModules;
     }
-    
+
     public void setTakingModules(ArrayList<Module> takingModules) {
         this.takingModules = takingModules;
     }
-    
+
     public ArrayList<StudyPlan> getStudyPlans() {
         return studyPlans;
     }
-    
+
     public void setStudyPlans(ArrayList<StudyPlan> studyPlans) {
         this.studyPlans = studyPlans;
     }
-    
+
     public int getCurrentYear() {
         return currentYear;
     }
-    
+
     public void setCurrentYear(int currentYear) {
         this.currentYear = currentYear;
     }
-    
+
     public int getCurrentSem() {
         return currentSem;
     }
-    
+
     public void setCurrentSem(int currentSem) {
         this.currentSem = currentSem;
     }
-    
+
     public int getCurrentColumnIndex() {
         return currentColumnIndex;
     }
-    
+
     public void setCurrentColumnIndex(int currentColumnIndex) {
         this.currentColumnIndex = currentColumnIndex;
     }
-    
+
     public int getMatricYear() {
         return matricYear;
     }
-    
+
     public void setMatricYear(int matricYear) {
         this.matricYear = matricYear;
     }
-    
+
     public int getMatricSem() {
         return matricSem;
     }
-    
+
     public void setMatricSem(int matricSem) {
         this.matricSem = matricSem;
     }
-    
+
     public int getNewYear() {
         return newYear;
     }
-    
+
     public void setNewYear(int newYear) {
         this.newYear = newYear;
     }
-    
+
     public int getNewSem() {
         return newSem;
     }
-    
+
     public void setNewSem(int newSem) {
         this.newSem = newSem;
     }
-    
+
     public Dashboard getDashboard() {
         return dashboard;
     }
-    
+
     public void setDashboard(Dashboard dashboard) {
         this.dashboard = dashboard;
     }
-    
+
     public Application getApplication() {
         return application;
     }
-    
+
     public void setApplication(Application application) {
         this.application = application;
     }
-    
+
     public DashboardModel getModel() {
         return model;
     }
-    
+
     public void setModel(DashboardModel model) {
         this.model = model;
     }
-    
+
     public String getAddItem() {
         return addItem;
     }
-    
+
     public void setAddItem(String addItem) {
         this.addItem = addItem;
     }
-    
+
     public String getAddModuleCode() {
         return addModuleCode;
     }
-    
+
     public void setAddModuleCode(String addModuleCode) {
         this.addModuleCode = addModuleCode;
     }
-    
+
     public int getAddPickYear() {
         return addPickYear;
     }
-    
+
     public void setAddPickYear(int addPickYear) {
         this.addPickYear = addPickYear;
     }
-    
+
     public int getAddPickSem() {
         return addPickSem;
     }
-    
+
     public void setAddPickSem(int addPickSem) {
         this.addPickSem = addPickSem;
     }
-    
-    
+
     public String getAddErrorMsg() {
         return addErrorMsg;
     }
-    
+
     public void setAddErrorMsg(String addErrorMsg) {
         this.addErrorMsg = addErrorMsg;
     }
-    
+
     public boolean isAddButton() {
         return addButton;
     }
-    
+
     public void setAddButton(boolean addButton) {
         this.addButton = addButton;
     }
-    
+
     public List<Course> getCourses() {
         return courses;
     }
-    
+
     public void setCourses(List<Course> courses) {
         this.courses = courses;
     }
-    
+
     public String getUsername() {
         return username;
     }
-    
+
     public void setUsername(String username) {
         this.username = username;
     }
-    
+
     public Course getCourseFront() {
         return courseFront;
     }
-    
+
     public void setCourseFront(Course courseFront) {
         this.courseFront = courseFront;
     }
-    
+
     public double getNewGrade() {
         return newGrade;
     }
-    
+
     public void setNewGrade(double newGrade) {
         this.newGrade = newGrade;
     }
-    
-    
-    
-    
+
 }
-
-
