@@ -60,7 +60,7 @@ public class NewStudyPlanBean implements Serializable {
     @EJB
     private ClexSessionBeanLocal csbl;
     @EJB
-    CourseMgmtBeanLocal cmbl;
+            CourseMgmtBeanLocal cmbl;
     
     FacesContext context;
     HttpSession session;
@@ -201,17 +201,20 @@ public class NewStudyPlanBean implements Serializable {
         final UISelectItem item13 = new UISelectItem();
         item13.setItemLabel("U");
         item13.setItemValue("U");
-         
+        
         if (grades != null) {
             for (Grade g : grades) {
                 Panel panel = (Panel) application.createComponent(context, "org.primefaces.component.Panel", "org.primefaces.component.PanelRenderer");
                 panel.setId("g" + g.getId());
+                if (g.getModule() == null) {
+                    System.out.println("!!!!!!!!!!!!!!!!!! NULL g:" + g.getId());
+                }
                 panel.setHeader(g.getModule().getCourse().getModuleCode());
                 panel.setClosable(false);
                 panel.setToggleable(true);
                 panel.setStyle("width:138px");
                 dashboard.getChildren().add(panel);
-
+                
                 yearSem = (Integer.parseInt(g.getModule().getTakenYear())-matricYear)*2+Integer.parseInt(g.getModule().getTakenSem());
                 //column1.addWidget(panel.getId());
                 switch(yearSem){
@@ -262,7 +265,7 @@ public class NewStudyPlanBean implements Serializable {
                 panel.setToggleable(true);
                 panel.setStyle("width:138px");
                 dashboard.getChildren().add(panel);
-
+                
                 yearSem = (currentYear-matricYear)*2+currentSem;
                 //column1.addWidget(panel.getId());
                 switch(yearSem){
@@ -309,7 +312,7 @@ public class NewStudyPlanBean implements Serializable {
                 panel.setToggleable(true);
                 panel.setStyle("width:138px");
                 dashboard.getChildren().add(panel);
-
+                
                 yearSem = (Integer.parseInt(sp.getPickYear())-matricYear)*2+Integer.parseInt(sp.getPickSem());
                 //column1.addWidget(panel.getId());
                 switch(yearSem){
@@ -345,7 +348,7 @@ public class NewStudyPlanBean implements Serializable {
                 text.setId("spt"+sp.getId());
                 text.setValue("Study Plan\n");
                 panel.getChildren().add(text);
-    //            System.out.println("-------check count"+column1.getWidgetCount());
+                //            System.out.println("-------check count"+column1.getWidgetCount());
             }
         }
         
@@ -371,7 +374,7 @@ public class NewStudyPlanBean implements Serializable {
     
     public void onTabChange(TabChangeEvent event){
 //        if (event.getTab().getId().equals("overviewTab")) {
-            this.init();
+        this.init();
 //            System.out.println("NewStudyPlanBean:onTabChange: studyPlans size " + studyPlans.size());
 //        }
         FacesContext fctx = FacesContext.getCurrentInstance();
@@ -407,8 +410,6 @@ public class NewStudyPlanBean implements Serializable {
                     updateId = Long.parseLong(id.substring(1));
                     this.reorderGrade(updateId);
                 }
-                updateId = Long.parseLong(id.substring(1));
-                this.reorderGrade(updateId);
             }
             else if (id.startsWith("m")) {
                 //cannot reorder taking module must be this sem
@@ -464,7 +465,7 @@ public class NewStudyPlanBean implements Serializable {
     }
     
 //    public void reorderModule() {
-//        
+//
 //    }
     
     public void reorderStudyPlan(Long id) {
@@ -493,7 +494,7 @@ public class NewStudyPlanBean implements Serializable {
 //            }
 //        }
 //    }
-//    
+//
 //    public boolean validattion() {
 //        boolean validate = true;
 //        FacesMessage fmsg = new FacesMessage();
@@ -532,14 +533,14 @@ public class NewStudyPlanBean implements Serializable {
 //                    "The module " + addModuleCode + " already in your study plan", "Please change to another module");
 //            context.addMessage(null, fmsg);
 //            validate = false;
-//        } 
+//        }
 //        //this course already in takenCourses list
 //        else if (spsbl.checkStudentModule(username, addModuleCode)) {
 //            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 //                    "You have already taken " + addModuleCode, "Please change to another module");
 //            context.addMessage(null, fmsg);
 //            validate = false;
-//        } 
+//        }
 //        else {
 //            fmsg = null;
 //        }
@@ -551,7 +552,7 @@ public class NewStudyPlanBean implements Serializable {
         spsbl.createStudyPlan(Integer.toString(addPickYear), Integer.toString(addPickSem), addModuleCode, csbl.findStudent(username));
         init();
         FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Successful", "You have added module " + addModuleCode);
+                "Successful", "You have added module " + addModuleCode);
         context.addMessage(null, fmsg);
     }
     
@@ -569,7 +570,7 @@ public class NewStudyPlanBean implements Serializable {
         spsbl.addTakingModule(Integer.toString(addPickYear), Integer.toString(addPickSem), addModuleCode, csbl.findStudent(username));
         init();
         FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Successful", "You have added module " + addModuleCode);
+                "Successful", "You have added module " + addModuleCode);
         context.addMessage(null, fmsg);
     }
     
@@ -760,19 +761,19 @@ public class NewStudyPlanBean implements Serializable {
     public void setAddModuleCode(String addModuleCode) {
         this.addModuleCode = addModuleCode;
     }
-
+    
     public int getAddPickYear() {
         return addPickYear;
     }
-
+    
     public void setAddPickYear(int addPickYear) {
         this.addPickYear = addPickYear;
     }
-
+    
     public int getAddPickSem() {
         return addPickSem;
     }
-
+    
     public void setAddPickSem(int addPickSem) {
         this.addPickSem = addPickSem;
     }
@@ -801,27 +802,27 @@ public class NewStudyPlanBean implements Serializable {
     public void setCourses(List<Course> courses) {
         this.courses = courses;
     }
-
+    
     public String getUsername() {
         return username;
     }
-
+    
     public void setUsername(String username) {
         this.username = username;
     }
-
+    
     public Course getCourseFront() {
         return courseFront;
     }
-
+    
     public void setCourseFront(Course courseFront) {
         this.courseFront = courseFront;
     }
-
+    
     public double getNewGrade() {
         return newGrade;
     }
-
+    
     public void setNewGrade(double newGrade) {
         this.newGrade = newGrade;
     }
