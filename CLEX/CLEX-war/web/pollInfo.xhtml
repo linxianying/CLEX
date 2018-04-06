@@ -55,15 +55,16 @@
                        </h:commandLink>
                    </div>
                 </f:facet>
+                <p:column style="width:35%" headerText="Content" filterBy="#{poll.content}" sortBy="#{poll.content}" filterMatchMode="contains">
+                    <h:outputText value="#{poll.content} " />
+                </p:column>
                 <p:column filterBy="#{poll.topic}" sortBy="#{poll.topic}" headerText="Topic" filterMatchMode="contains">
                     <h:outputText value="#{poll.topic} " />
                 </p:column>
                 <p:column  filterBy="#{poll.type}" sortBy="#{poll.type}" headerText="Type" filterMatchMode="contains">
                     <h:outputText value="#{poll.type}" />
                 </p:column>
-                <p:column headerText="Content" filterBy="#{poll.content}" sortBy="#{poll.content}" filterMatchMode="contains">
-                    <h:outputText value="#{poll.content} " />
-                </p:column>
+                
                 <p:column headerText="Correct Rate" filterBy="#{poll.correctRate}" 
                           sortBy="#{poll.correctRate}" filterMatchMode="contains">
                     

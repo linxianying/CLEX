@@ -136,6 +136,21 @@ public class ClassroomBean {
         //modules = cmbl.getModulesFromLecturer(username);
     }
     
+    public void removePoll(Poll p){
+        setCurrentYearSem();
+        
+        boolean deletePoll = crsbl.removePoll(p.getModule().getCourse().getModuleCode(), 
+                p.getModule().getTakenYear(), p.getModule().getTakenSem(), p.getId());
+        System.out.println("delete poll is " + deletePoll);
+        if(deletePoll){
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Poll '" + p.getId() + " is deleted.", "Successfuly");
+            context.addMessage(null, fmsg);
+        }else{
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Poll '" + p.getId() + " is not deleted.", "Unsuccessfuly");
+            context.addMessage(null, fmsg);
+        }
+    }
+    
     public void setCurrentYearSem(){
         Calendar now = Calendar.getInstance();
         currentYear = now.get(Calendar.YEAR);
@@ -210,7 +225,6 @@ public class ClassroomBean {
             System.out.println("ClassroomBean: New Poll id is "+p.getId());
             fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Poll '" + p.getId() + " is created.", "Successfuly");
             context.addMessage(null, fmsg);
-            refresh();
         }
         
     }

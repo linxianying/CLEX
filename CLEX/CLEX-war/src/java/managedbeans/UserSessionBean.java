@@ -61,13 +61,21 @@ public class UserSessionBean implements Serializable {
         // 'successURL' is the page you'll be redirected to on successful login
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         String successURL = "https://localhost:8080"+externalContext.getRequestContextPath() + "/landing.xhtml"; 
-        System.out.println(successURL);
-        String authenticationURL = manager.getAuthenticationUrl(providerID, successURL);
-        // Store in session
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("authManager", manager);                
+        //System.out.println(successURL);
+        //String authenticationURL = manager.getAuthenticationUrl(providerID, successURL);
+        //System.out.println(authenticationURL);
+    // Store in session
+        //FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("authManager", manager);                
         //redirect to the successful login page
-        FacesContext.getCurrentInstance().responseComplete();
+        //FacesContext.getCurrentInstance().responseComplete();     
+        //FacesContext.getCurrentInstance().getExternalContext().redirect(authenticationURL);
+        
+        //ExternalContext externalContext   = FacesContext.getCurrentInstance().getExternalContext();
+        //String          successURL        = externalContext.getRequestContextPath() + "/landing.xhtml"; 
+        String          authenticationURL = manager.getAuthenticationUrl(providerID, successURL);
+        //VaadinSession.getCurrentRequest().getWrappedSession(); 
         FacesContext.getCurrentInstance().getExternalContext().redirect(authenticationURL);
+    
         pullUserInfo();
     }   
     
@@ -75,23 +83,27 @@ public class UserSessionBean implements Serializable {
     public void pullUserInfo() throws SocialAuthException {
         try {
             //HttpSession session = (HttpSession) request.getAttribute("jsessionid");
+            ExternalContext    externalContext = FacesContext.getCurrentInstance().getExternalContext();
+            HttpServletRequest request         = (HttpServletRequest) externalContext.getRequest();
+            Map                map             = SocialAuthUtil.getRequestParametersMap(request);
             
-
-            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-            HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
-            System.out.println("request:"+request.toString());
-            Map map = SocialAuthUtil.getRequestParametersMap(request);
-            Map<String, String> paramsMap = SocialAuthUtil.getRequestParametersMap(request);
-            manager = (SocialAuthManager) request.getSession().getAttribute("authManager");
-            Enumeration<String> e = request.getParameterNames();
-            for (e = e; e.hasMoreElements();)
-                System.out.println(e.nextElement());
-            AccessGrant a =  createAccessGrant(paramsMap);
-            request.setAttribute("code", "code");
+            
+            //ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+            //HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
+            
+            // (String) request.getContentType());
+            //Map map = SocialAuthUtil.getRequestParametersMap(request);
+            //Map<String, String> paramsMap = SocialAuthUtil.getRequestParametersMap(request);
+            //manager = (SocialAuthManager) request.getSession().getAttribute("authManager");
+            //Enumeration<String> e = request.getParameterNames();
+            //for (e = e; e.hasMoreElements();)
+            //    System.out.println(e.nextElement());
+            //AccessGrant a =  createAccessGrant(paramsMap);
+            //System.out.println(request.getAttribute("Code"));
             if (this.manager != null) {
-                System.out.println(paramsMap.size());
+                System.out.println("map size"+map.size());
                 //paramsMap.put("code", "400");
-                AuthProvider provider = manager.connect(paramsMap);
+                AuthProvider provider = manager.connect(SocialAuthUtil.getRequestParametersMap(request));
                 //manager.getProvider(providerID);
                 //manager.getCurrentAuthProvider();
                 //manager.connect(a);
@@ -108,7 +120,7 @@ public class UserSessionBean implements Serializable {
             }
         } catch (Exception ex) {
             
-            System.out.println("UserSession - Exception: ");
+            System.out.println("pullUserInfo: ");
             System.err.println(ex);
         } 
     }
@@ -142,7 +154,7 @@ public class UserSessionBean implements Serializable {
             // Redirect to home page
             FacesContext.getCurrentInstance().getExternalContext().redirect(externalContext.getRequestContextPath() + "/landing.xhtml/");
         } catch (IOException ex) {
-            System.out.println("UserSessionBean - IOException: " + ex.toString());
+            System.out.println("logOut: " + ex.toString());
         }
     }
     

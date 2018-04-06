@@ -98,6 +98,11 @@ public class ScheduleBean implements Serializable {
 
     @PostConstruct
     public void init() {
+        refresh();
+        
+    }
+    
+    public void refresh(){
         userEntity = null;
         eventModel = new DefaultScheduleModel();
         context = FacesContext.getCurrentInstance();
@@ -130,7 +135,6 @@ public class ScheduleBean implements Serializable {
         }
         //csbl.createProjectGroupTimeslot("", "2018-02-28 06:00", "2018-02-28 07:00", "Group Meeting", 
         //        "First System Release", "Biz Lib", csbl.findProjectgroup("N1", csbl.findModule("CS2100", "2016", "2")));
-        
         
     }
     
@@ -252,7 +256,8 @@ public class ScheduleBean implements Serializable {
 
     public void addEvent(ActionEvent actionEvent) {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        if (event.getId() == null&&groupOrPersonal==1) {
+        System.out.println(userType);
+        if (event.getId() == null&&(groupOrPersonal==1||userType.equals("2"))) {
             Timeslot timeslot = sbl.createTimeslot(username, event.getTitle(), df.format(event.getStartDate()), df.format(event.getEndDate()), details, venue);
             eventModel.addEvent(new DefaultScheduleEvent(timeslot.getTitle(), toCalendar(timeslot.getStartDate()), toCalendar(timeslot.getEndDate()), timeslot));
         } 
@@ -264,6 +269,7 @@ public class ScheduleBean implements Serializable {
             eventModel.addEvent(new DefaultScheduleEvent(gts.getTitle(), toCalendar(gts.getTimeFrom()), toCalendar(gts.getTimeEnd()), gts));
         }
         else{
+            
             try{
                 Timeslot timeslot = (Timeslot) event.getData();
                 sbl.updateTimeslot(timeslot.getId(), event.getTitle(), 
@@ -279,6 +285,8 @@ public class ScheduleBean implements Serializable {
             }
         } 
         event = new DefaultScheduleEvent();
+        
+         refresh();
     }
 
     public void deleteEvent(ActionEvent actionEvent) {
