@@ -26,6 +26,7 @@
                         <p:printer target="panel" />
                     </p:commandButton>
                     <h:form id="panel">
+                        
                         <p:panel collapsed="false" styleClass="menuHeader"  header="All Polls of Lecturer" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
 
                             <p:dataTable var="poll" value="#{classroomBean.polls}"
@@ -288,7 +289,7 @@
                                     <td>
                                         <p:commandButton value="Add" id="addPollButton"  style="width:200px;"
                                                          rendered="#{classroomBean.addButton}" action="#{classroomBean.addPoll}"
-                                                         update="msg"/>
+                                                         update="msg" onclick="location.reload()"/>
                                     </td>
                                 </tr>
                             </table>
@@ -378,7 +379,7 @@
                                     <td>
                                         <p:commandButton value="Add"  style="width:200px;"
                                                          rendered="#{classroomBean.addButton}" action="#{classroomBean.addUnfinishedPoll}"
-                                                         update="msg1, @form"/>
+                                                         update="msg1, @form" onclick="location.reload()"/>
                                     </td>
                                 </tr>
                             </table>
