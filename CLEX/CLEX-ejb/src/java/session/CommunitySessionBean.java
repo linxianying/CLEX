@@ -411,7 +411,7 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         List<Thread> threads = getAllThreadsBySchool(schoolname);
         for (int i = 0; i < threads.size(); i++) {
             threadEntity = threads.get(i);
-            if (threadEntity.getTitle().contains(searchTitle)) {
+            if (threadEntity.getTitle().toLowerCase().contains(searchTitle.toLowerCase())) {
                 threadList.add(threads.get(i));
             }
         }
@@ -425,7 +425,7 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         List<Thread> threads = getAllThreadsBySchool(schoolname);
         for (int i = 0; i < threads.size(); i++) {
             threadEntity = threads.get(i);
-            if (threadEntity.getContent().contains(searchContent)) {
+            if (threadEntity.getContent().toLowerCase().contains(searchContent.toLowerCase())) {
                 threadList.add(threads.get(i));
             }
         }
@@ -439,7 +439,7 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         List<Thread> threads = getAllThreadsBySchool(schoolname);
         for (int i = 0; i < threads.size(); i++) {
             threadEntity = threads.get(i);
-            if (threadEntity.getTag().equals(tag)) {
+            if (threadEntity.getTag().toLowerCase().equals(tag.toLowerCase())) {
                 threadList.add(threads.get(i));
             }
         }
