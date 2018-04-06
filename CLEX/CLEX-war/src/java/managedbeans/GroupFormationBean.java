@@ -70,7 +70,8 @@ public class GroupFormationBean {
         superGroup = module.getSuperGroup();
         minStudentNum = superGroup.getMinStudentNum();
         maxStudentNum = superGroup.getMaxStudentNum();
-        projectGroups = gfsbl.getAllProjectGroups(module);
+        if (superGroup != null)
+            projectGroups = gfsbl.getAllProjectGroups(superGroup.getId());
     }
 
     public ClexSessionBeanLocal getCsbl() {

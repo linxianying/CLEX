@@ -69,7 +69,8 @@
                             <h:outputText value="Polls:#{module.polls.size()}" />
                         </p:column>
                         <p:column style="width: 20%" headerText="Groups" >
-                            <h:outputText value="Status: No groups" rendered="#{empty module.superGroup}"/>
+                            <h:outputText value="Status: Group formation not statrted" rendered="#{empty module.superGroup}"/>
+                            <br/>
                             <!--<p:commandButton value="Start group formation" onclick="PF('dlg1').show();" update=":panel:lecturerModule:currentModules:dlg1" />-->
                             <!--<p:commandButton value="Start group formation" oncomplete="PF('dlg1').show();" update=":panel:currentModules:groupDialog" />-->
                             <p:commandButton value="Manage groups" actionListener="#{lecturerModuleListBean.formGroup(module)}" />

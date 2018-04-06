@@ -11,6 +11,7 @@ import entity.Student;
 import entity.SuperGroup;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -29,8 +30,8 @@ public class GroupFormationSessionBean implements GroupFormationSessionBeanLocal
     private Student student;
     private String username;
     private ProjectGroup group;
-    public ArrayList<ProjectGroup> projectGroups;
-    
+    private ArrayList<ProjectGroup> projectGroups;
+    private SuperGroup superGroupEntity;
     
     @Override
     public ProjectGroup findProjectGroup(Long id) {
@@ -38,8 +39,8 @@ public class GroupFormationSessionBean implements GroupFormationSessionBeanLocal
             Query q = em.createQuery("SELECT p FROM ProjectGroup p WHERE p.id = :id");
             q.setParameter("id", id);
             this.group = (ProjectGroup) q.getSingleResult();
-            System.out.println("ProjectGroup " + group.getName() + " for " 
-                    + group.getSuperGroup().getModule().getCourse().getModuleCode() +" found.");
+//            System.out.println("ProjectGroup " + group.getName() + " for " 
+//                    + group.getSuperGroup().getModule().getCourse().getModuleCode() +" found.");
         }
         catch(NoResultException e){
             System.out.println("ProjectGroup " + group.getName() + " for " 
@@ -53,11 +54,50 @@ public class GroupFormationSessionBean implements GroupFormationSessionBeanLocal
     }
     
     @Override
-    public ArrayList<ProjectGroup> getAllProjectGroups(Module module) {
+    public SuperGroup findSuperGroup(Long id) {
+        try{
+            Query q = em.createQuery("SELECT sg FROM SuperGroup sg WHERE sg.id = :id");
+            q.setParameter("id", id);
+            this.superGroupEntity = (SuperGroup) q.getSingleResult();
+        }
+        catch(NoResultException e){
+            System.out.println("superGroup for " + group.getSuperGroup().getModule().getCourse().getModuleCode() + " does not exist.");
+            superGroupEntity = null;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return superGroupEntity;
+    }
+    
+//    @Override
+//    public ArrayList<ProjectGroup> getAllProjectGroups(Module module) {
+//        projectGroups = new ArrayList<ProjectGroup>();
+//        Collection<ProjectGroup> all = module.getSuperGroup().getProjectGroups();
+//        for (ProjectGroup pg: all) 
+//            projectGroups.add(pg);
+//        return projectGroups;
+//    }
+    
+    @Override
+    public ArrayList<ProjectGroup> getAllProjectGroups(Long superGroupId) {
         projectGroups = new ArrayList<ProjectGroup>();
-        Collection<ProjectGroup> all = module.getSuperGroup().getProjectGroups();
-        for (ProjectGroup pg: all) 
-            projectGroups.add(pg);
+        List<ProjectGroup> all = new ArrayList<ProjectGroup>();
+        try{
+            Query q = em.createQuery("SELECT g FROM ProjectGroup g WHERE g.superGroup.id = :superGroupId");
+            q.setParameter("superGroupId", superGroupId);
+            all = (List<ProjectGroup>) q.getResultList();
+            for (ProjectGroup pg: all) 
+                projectGroups.add(pg);
+        }
+        catch(NoResultException e){
+            System.out.println("GroupFormationSessionBean:getAllProjectGroups: no projectgroups found" );
+            projectGroups = null;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        
         return projectGroups;
     }
     
@@ -106,5 +146,72 @@ public class GroupFormationSessionBean implements GroupFormationSessionBeanLocal
         em.flush();
     }
     
-
+    @Override
+    public SuperGroup createSuperGroup(int numOfGroups, int avgStudentNum, int minStudentNum, int maxStudentNum, Module module){
+        superGroupEntity = new SuperGroup();
+        superGroupEntity.createSuperGroup(numOfGroups, avgStudentNum, module);
+        superGroupEntity.setMaxStudentNum(maxStudentNum);
+        superGroupEntity.setMinStudentNum(minStudentNum);
+        em.persist(superGroupEntity);
+        module.setSuperGroup(superGroupEntity);
+        em.merge(module);
+        em.flush();
+        return superGroupEntity;
+    }
+    
+    @Override
+    public SuperGroup createSuperGroup(int numOfGroups, int avgStudentNum, Module module) {
+        superGroupEntity = new SuperGroup();
+        superGroupEntity.createSuperGroup(numOfGroups, avgStudentNum, module);
+        em.persist(superGroupEntity);
+        module.setSuperGroup(superGroupEntity);
+        em.merge(module);
+        em.flush();
+        return superGroupEntity;
+    }
+    
+    @Override
+    public SuperGroup createSuperGroupWithMax(int numOfGroups, int avgStudentNum,  int maxStudentNum, Module module) {
+        superGroupEntity = new SuperGroup();
+        superGroupEntity.createSuperGroup(numOfGroups, avgStudentNum, module);
+        superGroupEntity.setMaxStudentNum(maxStudentNum);
+        em.persist(superGroupEntity);
+        module.setSuperGroup(superGroupEntity);
+        em.merge(module);
+        em.flush();
+        return superGroupEntity;
+    }
+    
+    @Override
+    public SuperGroup createSuperGroupWithMin(int numOfGroups, int avgStudentNum, int minStudentNum,  Module module) {
+        superGroupEntity = new SuperGroup();
+        superGroupEntity.createSuperGroup(numOfGroups, avgStudentNum, module);
+        superGroupEntity.setMinStudentNum(minStudentNum);
+        em.persist(superGroupEntity);
+        module.setSuperGroup(superGroupEntity);
+        em.merge(module);
+        em.flush();
+        return superGroupEntity;
+    }
+    
+    @Override
+    public void closeGroupFormation(Long superGroupId) {
+        superGroupEntity = this.findSuperGroup(superGroupId);
+        superGroupEntity.setConfirm(true);
+        em.merge(superGroupEntity);
+        em.flush();
+    }
+    
+    @Override
+    public void deleteProjectGroup(Long projectGroupId){
+        group = this.findProjectGroup(projectGroupId);
+        if (group.getGroupMembers() != null && !group.getGroupMembers().isEmpty()) {
+            System.out.println("Error: groupFormationSessionBean: deleteProjectGroup: The group has related students");
+        }
+        superGroupEntity = group.getSuperGroup();
+        superGroupEntity.getProjectGroups().remove(group);
+        em.merge(superGroupEntity);
+        em.remove(group);
+        em.flush();
+    }
 }

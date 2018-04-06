@@ -61,6 +61,8 @@ public class LecturerModuleGroupBean implements Serializable {
     private Student student;
     private ProjectGroup fromGroup;
     private ProjectGroup toGroup;
+    
+    private ProjectGroup deleteGroup;
 
     @PostConstruct
     public void init() {
@@ -75,11 +77,10 @@ public class LecturerModuleGroupBean implements Serializable {
     public void refresh() {
         superGroup = module.getSuperGroup();
         if (superGroup != null)
-            groups = superGroup.getProjectGroups();
-        
+            groups = gfsbl.getAllProjectGroups(superGroup.getId());
         formMethod = null;
-        numOfGroups = 0;
-        avgStudentNum = 0;
+        numOfGroups = 1;
+        avgStudentNum = 1;
         minStudentNum = 0;
         maxStudentNum = 0;
         deadline = null;
@@ -90,15 +91,14 @@ public class LecturerModuleGroupBean implements Serializable {
             this.autoAssign();
         else if (formMethod.equals("student")) {
             if (minStudentNum != 0 && maxStudentNum != 0)
-                csbl.createSuperGroup(numOfGroups, avgStudentNum, minStudentNum, maxStudentNum, module);
+                superGroup = gfsbl.createSuperGroup(numOfGroups, avgStudentNum, minStudentNum, maxStudentNum, module);
             else if (minStudentNum == 0 && maxStudentNum == 0)
-                csbl.createSuperGroup(numOfGroups, avgStudentNum, module);
+                superGroup = gfsbl.createSuperGroup(numOfGroups, avgStudentNum, module);
             else if (minStudentNum != 0 && maxStudentNum == 0)
-                csbl.createSuperGroupWithMin(numOfGroups, avgStudentNum, minStudentNum, module);
+                superGroup = gfsbl.createSuperGroupWithMin(numOfGroups, avgStudentNum, minStudentNum, module);
             else if (minStudentNum == 0 && maxStudentNum != 0)
-                csbl.createSuperGroupWithMax(numOfGroups, avgStudentNum, maxStudentNum, module);
-            //create the project groups according 
-            superGroup = module.getSuperGroup();
+                superGroup = gfsbl.createSuperGroupWithMax(numOfGroups, avgStudentNum, maxStudentNum, module);
+            //create the project groups accordingly
             for (int i=1; i<=numOfGroups; i++) {
                 csbl.createProjectGroup(superGroup, ("N"+i), 0.0);
             }
@@ -112,6 +112,11 @@ public class LecturerModuleGroupBean implements Serializable {
         context = FacesContext.getCurrentInstance();
         FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Auto assign error","Cannot assign the group as required");
         context.addMessage(null, fmsg);
+        this.refresh();
+    }
+    public void closeGroupFormation() {
+        gfsbl.closeGroupFormation(superGroup.getId());
+        this.refresh();
     }
     
     public void changeStudentGroup() {
@@ -121,6 +126,7 @@ public class LecturerModuleGroupBean implements Serializable {
         FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Change student's group",
                 "Successfully change student " + student.getName() + " from group " + fromGroup.getName() +" to group " + toGroup.getName());
         context.addMessage(null, fmsg);
+        this.refresh();
     }
     
     public void addProjectGroup() {
@@ -129,6 +135,21 @@ public class LecturerModuleGroupBean implements Serializable {
         if (superGroup.getProjectGroups() != null)
             number = superGroup.getProjectGroups().size()+1;
         csbl.createProjectGroup(superGroup, "N"+number, 0.0);
+        this.refresh();
+    }
+    
+    public void deleteProjectGroup(ProjectGroup deleteGroup) {
+        // if there are students in this group
+        if (deleteGroup.getGroupMembers() != null && !deleteGroup.getGroupMembers().isEmpty()) {
+            context = FacesContext.getCurrentInstance();
+            FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Fail to delete group " + deleteGroup.getName(),
+                "There are students in this group, please assign them to other groups first");
+            context.addMessage(null, fmsg);
+        }
+        else {
+            gfsbl.deleteProjectGroup(deleteGroup.getId());
+            this.refresh();
+        }
     }
     
     public FacesContext getContext() {
@@ -273,6 +294,14 @@ public class LecturerModuleGroupBean implements Serializable {
 
     public void setToGroup(ProjectGroup toGroup) {
         this.toGroup = toGroup;
+    }
+
+    public ProjectGroup getDeleteGroup() {
+        return deleteGroup;
+    }
+
+    public void setDeleteGroup(ProjectGroup deleteGroup) {
+        this.deleteGroup = deleteGroup;
     }
     
 }
