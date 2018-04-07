@@ -29,13 +29,13 @@
                     <a href="">                            
                         <h:panelGroup>
                             <p:graphicImage rendered="#{profileBean.checkpic(loginBean.username) == true}"
-                                            alt="#{profileBean.userEntity.name}" cache="false" library="profile"
-                                            style="background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px" 
-                                            name="#{loginBean.username}.png"/>
+                                            alt="#{profileBean.userEntity.name}" cache="false" 
+                                            style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px"
+                                            value="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/resources/profile/#{loginBean.username}.png"/>
                             <p:graphicImage rendered="#{profileBean.checkpic(loginBean.username) == false}"
                                             alt="#{profileBean.userEntity.name}" cache="false" library="profile"
                                             style="background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px" 
-                                            name="default.png"/>
+                                            name="default.png"/>  
                         </h:panelGroup> 
                         <!-- <div class="profile-image"></div>-->
                         <span class="topbar-item-name">#{loginBean.userEntity.name}</span>

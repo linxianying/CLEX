@@ -14,7 +14,8 @@
     <ui:define name="viewname">Profile</ui:define>
 
     <ui:define name="content">
-
+        <f:event type="preRenderView" listener="#{profileBean.setNoCache}" />
+        
         <div class="ui-g ui-fluid">
             <div class="ui-g-12 ui-lg-6">
                 <p:growl id="messages" showDetail="true" />
@@ -68,16 +69,12 @@
             <br />
             <div class="ui-g-12 ui-lg-6">
                 <div class="card card-w-title">
-                    <!-- <p:graphicImage style="background: top left no-repeat;background-size: 120px 120px; width: 120px; height: 120px" 
-                                     value="#{profileBean.getImage()}">
-                         <f:param name="#{profileBean.username}" value="#{profileBean.username}.png" />
-                     </p:graphicImage>-->
-
                     <h:panelGroup id="profilepic">
                         <p:graphicImage rendered="#{profileBean.checkpic(profileBean.username) == true}"
-                                        alt="#{profileBean.userEntity.name}" cache="false" library="profile"
+                                        alt="#{profileBean.userEntity.name}" cache="false" 
                                         style="background-color: transparent;background: top left no-repeat;background-size: 100px 100px; width: 100px; height: 100px" 
-                                        name="#{profileBean.username}.png"/>
+                                        value="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/resources/profile/#{profileBean.username}.png"/>
+                        <!--<img src="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/resources/profile/#{profileBean.username}.png" alt="test" />-->
                         <p:graphicImage rendered="#{profileBean.checkpic(profileBean.username) == false}"
                                         alt="#{profileBean.userEntity.name}" cache="false" library="profile"
                                         style="background-color: transparent;background: top left no-repeat;background-size: 100px 100px; width: 100px; height: 100px" 

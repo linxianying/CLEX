@@ -23,6 +23,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -43,7 +44,7 @@ public class ProfileBean implements Serializable {
 
     @EJB
     CourseMgmtBeanLocal cmbl;
-    
+
     @EJB
     private ClexSessionBeanLocal csbl;
 
@@ -87,6 +88,12 @@ public class ProfileBean implements Serializable {
     private UploadedFile uploadedFile;
 
     public ProfileBean() {
+    }
+
+    public void setNoCache() {
+        HttpServletResponse response = (HttpServletResponse) FacesContext
+                .getCurrentInstance().getExternalContext().getResponse();
+        response.setHeader("Cache-Control", "no-cache, no-store");
     }
 
     @PostConstruct
@@ -166,7 +173,6 @@ public class ProfileBean implements Serializable {
         try (InputStream input = event.getFile().getInputstream()) {
             System.out.println("File size: " + event.getFile().getSize());
             Files.copy(input, file, StandardCopyOption.REPLACE_EXISTING);
-
         }
 
         System.out.println("File successfully saved in " + file);
@@ -180,6 +186,13 @@ public class ProfileBean implements Serializable {
         } else {
             System.out.println("Try rename");
             Files.move(file, Paths.get(path + username + extension));
+        }
+        
+        try{
+            Thread.sleep(2000);
+        }
+        catch(Exception e){
+            
         }
         context.getExternalContext().getFlash().setKeepMessages(true);
         if (userEntity.getUserType().equals("Lecturer")) {
