@@ -52,7 +52,7 @@
                             <h:panelGrid columns="1" >
                                 <h:outputLabel id="positiveThread" style="font-size:18px; font-weight: bold; float: left" value="+#{communityBean.threadEntity.upVote - communityBean.threadEntity.downVote}" rendered="#{(communityBean.threadEntity.upVote - communityBean.threadEntity.downVote) gt 0}"/>
                                 <h:outputLabel id="negativeThead" style="font-size:18px; font-weight: bold; float: left" value="#{communityBean.threadEntity.upVote - communityBean.threadEntity.downVote}" rendered="#{(communityBean.threadEntity.upVote - communityBean.threadEntity.downVote) lt 0}"/>
-                                <h:outputLabel id="zeroThread" style="font-size:18px; font-weight: bold; float: left" value="0" rendered="#{(communityBean.threadEntity.upVote - communityBean.threadEntity.downVote) == 0}"/>
+<!--                                <h:outputLabel id="zeroThread" style="font-size:18px; font-weight: bold; float: left" value="0" rendered="#{(communityBean.threadEntity.upVote - communityBean.threadEntity.downVote) == 0}"/>-->
                                 <h:panelGroup>
                                     <p:commandButton icon="fa fa-thumbs-up" style="float: left;" actionListener="#{communityBean.voteThread(communityBean.threadEntity.id, true)}" update="communityTab, messages" rendered="#{communityBean.threadEntity.user != communityBean.userEntity}"/>
                                     <p:commandButton icon="fa fa-thumbs-down" style="float: left;" actionListener="#{communityBean.voteThread(communityBean.threadEntity.id, false)}" update="communityTab, messages" rendered="#{communityBean.threadEntity.user != communityBean.userEntity}"/>
@@ -115,7 +115,7 @@
                                         <h:panelGrid columns="1" >
                                             <h:outputLabel id="positiveReply" style="font-size:18px; font-weight: bold; float: left" value="+#{replies.upVote - replies.downVote}" rendered="#{(replies.upVote - replies.downVote) gt 0}"/>
                                             <h:outputLabel id="negativeReply" style="font-size:18px; font-weight: bold; float: left" value="#{replies.upVote - replies.downVote}" rendered="#{(replies.upVote - replies.downVote) lt 0}"/>
-                                            <h:outputLabel id="zeroReply" style="font-size:18px; font-weight: bold; float: left" value="0" rendered="#{(replies.upVote - replies.downVote) == 0}"/>
+                                            <!--<h:outputLabel id="zeroReply" style="font-size:18px; font-weight: bold; float: left" value="0" rendered="#{(replies.upVote - replies.downVote) == 0}"/>-->
                                             <h:panelGroup>
                                                 <h:panelGroup rendered="#{replies.user != communityBean.userEntity}">                                                
                                                     <p:commandButton icon="fa fa-thumbs-up" style="float: left;" actionListener="#{communityBean.voteReply(replies.id, true)}" update="communityTab:forumForm, messages"/>
