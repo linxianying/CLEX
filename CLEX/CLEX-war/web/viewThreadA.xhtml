@@ -20,7 +20,7 @@
                         <p:commandButton value="Back to Forums" action="community?faces-redirect=true" id="backButton" icon="fa fa-arrow-left" />                        
                         <p:commandButton value="Post Reply" id="newReplyButton" >
                             <p:overlayPanel style="width: 650px" id="replyOverlay" for="newReplyButton" showEffect="fade" hideEffect="fade" widgetVar="replyWidget">
-                                <h:form>
+                                <h:form id="replyForm">
                                     <h:panelGrid columns="1">                
                                         <p:textEditor value="#{communityBean.rContent}" height="300" style="margin-bottom:10px; width: 600px" placeholder="Enter your content">
                                             <f:facet name="toolbar">
@@ -32,7 +32,7 @@
                                                 </span>                                                
                                             </f:facet>
                                         </p:textEditor>
-                                        <p:commandButton oncomplete="PF('replyWidget').hide()" value="Reply" actionListener="#{communityBean.enterReply}" update="communityTab:forumForm, messages"/>
+                                        <p:commandButton oncomplete="PF('replyWidget').hide()" value="Reply" actionListener="#{communityBean.enterReply}" update="communityTab:forumForm, messages, communityTab:replyForm"/>
                                     </h:panelGrid>
                                 </h:form>
                             </p:overlayPanel>

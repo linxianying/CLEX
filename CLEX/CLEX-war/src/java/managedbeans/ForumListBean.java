@@ -155,7 +155,9 @@ public class ForumListBean {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to create thread.", "Please ensure you are logged in.");
             }
         }
-
+        tTitle = "";
+        tContent = "";
+        tTag = "";
         context.addMessage(null, fmsg);
     }
 
@@ -164,17 +166,14 @@ public class ForumListBean {
         try {
             int usertype = (int) session.getAttribute("userType");
             session.setAttribute("id", selectedThread.getId());
-            if(usertype == 1){ //Student
-                context.getExternalContext().redirect("viewThread.xhtml");                
-            }
-            else if(usertype == 2){ //Lecturer
-                context.getExternalContext().redirect("viewThreadL.xhtml");  
-            }
-            else if(usertype == 3){ //Admin
-                context.getExternalContext().redirect("viewThreadA.xhtml");  
-            }
-            else if(usertype == 4){ //Guest
-                context.getExternalContext().redirect("viewThreadG.xhtml");  
+            if (usertype == 1) { //Student
+                context.getExternalContext().redirect("viewThread.xhtml");
+            } else if (usertype == 2) { //Lecturer
+                context.getExternalContext().redirect("viewThreadL.xhtml");
+            } else if (usertype == 3) { //Admin
+                context.getExternalContext().redirect("viewThreadA.xhtml");
+            } else if (usertype == 4) { //Guest
+                context.getExternalContext().redirect("viewThreadG.xhtml");
             }
         } catch (Exception e) {
             e.printStackTrace();
