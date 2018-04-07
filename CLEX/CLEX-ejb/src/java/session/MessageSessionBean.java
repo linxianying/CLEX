@@ -70,7 +70,7 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
     }
 
     @Override
-    public boolean createMessage(Long convoId, String username, String message) {
+    public boolean createMessage(Long convoId, String username, String rcvUsername, String message) {
         userEntity = findUser(username);
         convoEntity = findConversation(convoId);
         List<User> userList = (List<User>) convoEntity.getUsers();
@@ -96,7 +96,7 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
             return false;
         }
 
-        msg.createMessage(message, username);
+        msg.createMessage(message, username, rcvUsername);
         msg.setConversation(convoEntity);
 
         convoEntity.getMessages().add(msg);

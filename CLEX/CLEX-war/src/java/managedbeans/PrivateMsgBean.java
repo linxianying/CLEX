@@ -76,7 +76,6 @@ public class PrivateMsgBean {
         msgList = null;
         convoExist = false;
         convoList = (List) msbl.getConversationByUser(sndUsername);
-        System.out.println("size of convo is : " + convoList.size());
     }
 
     public String getRcvrUsername(Conversation convo) {
@@ -85,41 +84,33 @@ public class PrivateMsgBean {
         for (User u : userList) {
             if (!(sndUsername.equals(u.getUsername()))) {
                 rUsername = u.getUsername();
+                rcvName = u.getName();
             }
         }
 
         if (rUsername == null) {
             msgList = (List) convo.getMessages();
-
             for (int i = 0; i < msgList.size(); i++) {
-                if (!(sndUsername.equals(msgList.get(i).getMsgOwner()))) {
-                    rcvUsername = msgList.get(i).getMsgOwner();
+                String owner = msgList.get(i).getMsgOwner();
+                if (!sndUsername.equals(owner)) {
+                    rUsername = owner;
+                    rcvName = msbl.findUser(rUsername).getName();
                     break;
                 }
             }
         }
-        rcvName = getRcvName(convo);
-
         return rUsername;
     }
 
     public String getRcvName(Conversation convo) {
-        List<User> userList = (List<User>) convo.getUsers();
-        rcvName = null;
-
-        for (User u : userList) {
-            if (!(sndUsername.equals(u.getUsername()))) {
-                rcvName = u.getName();
-            }
-        }
-
-        if (rcvName == null) {
-            msgList = (List) convo.getMessages();
+        msgList = (List) convo.getMessages();
+        if (rcvUsername != null) {
+            rcvName = msbl.findUser(rcvUsername).getName();
+        } else {
             for (int i = 0; i < msgList.size(); i++) {
-                if (!(sndUsername.equals(msgList.get(i).getMsgOwner()))) {
-                    if (rcvUsername == null) {
-                        rcvUsername = msgList.get(i).getMsgOwner();
-                    }
+                Message temp = msgList.get(i);
+                if (sndUsername.equals(temp.getMsgOwner())) {
+                    rcvUsername = temp.getMsgReceiver();
                     rcvName = msbl.findUser(rcvUsername).getName();
                     break;
                 }
@@ -149,18 +140,14 @@ public class PrivateMsgBean {
     }
 
     public void selectConversation(Conversation selectedConvo) {
-        System.out.println("CONVO ID is--------------" + selectedConvo.getId());
         convoExist = true;
+        rcvUsername = getRcvrUsername(selectedConvo);
         convo = selectedConvo;
-        msgList = (List) selectedConvo.getMessages();
-        rcvUsername = getRcvrUsername(convo);
-        System.out.println("receiver:++++++++" + rcvUsername + " +++ " + rcvName);
+        msgList = (List) convo.getMessages();
         tabIndex = 1;
     }
 
     public boolean messageIsByUser(Message msg) {
-        convo = msbl.checkUserInSameConversation(sndUsername, rcvUsername);
-
         if (sndUsername.equals(msg.getMsgOwner())) {
             this.isUser = false;
         } else {
@@ -181,7 +168,7 @@ public class PrivateMsgBean {
             if (msbl.checkEmptyUserInConversation(convo.getId())) {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to send message.", "A user has already left conversation.");
             } else {
-                if (msbl.createMessage(convo.getId(), sndUsername, content)) {
+                if (msbl.createMessage(convo.getId(), sndUsername, rcvUsername, content)) {
                     fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Message sent.", "");
                 } else {
                     fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to send message.", "");
@@ -193,8 +180,9 @@ public class PrivateMsgBean {
 
         rcvName = getRcvName(convo);
         content = null;
-        msgList = (List) msbl.getMessageByConversation(convo.getId());
         convoList = (List) msbl.getConversationByUser(sndUsername);
+        convo = msbl.checkUserInSameConversation(sndUsername, rcvUsername);
+        msgList = (List) msbl.getMessageByConversation(convo.getId());
         context.addMessage(null, fmsg);
     }
 
@@ -205,18 +193,16 @@ public class PrivateMsgBean {
         sndUsername = (String) session.getAttribute("username");
         sender = msbl.findUser(sndUsername);
 
-        System.out.println("delete--------" + sndUsername + "....." + convo.getId());
-        
         if (sender != null) {
             if (msbl.deleteConversation(sndUsername, convo.getId())) {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Left conversation.", "");
-
             } else {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to delete conversation.", "");
             }
         } else {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to leave conversation.", "Please ensure you are logged in.");
         }
+        
         refresh();
         context.addMessage(null, fmsg);
     }
@@ -227,6 +213,11 @@ public class PrivateMsgBean {
             return false;
         }
         return true;
+    }
+
+    public boolean checkEmptyUser() {
+        System.out.println(msbl.checkEmptyUserInConversation(convo.getId()));
+        return msbl.checkEmptyUserInConversation(convo.getId());
     }
 
     public User getSender() {

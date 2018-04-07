@@ -19,7 +19,7 @@ import javax.ejb.Local;
 public interface MessageSessionBeanLocal {
 
     public Conversation createConversation(String username1, String username2);
-    public boolean createMessage(Long convoId, String username, String message);
+    public boolean createMessage(Long convoId, String username, String rcvUsername, String message);
 
     public boolean deleteConversation(String username, Long convoId);
 
