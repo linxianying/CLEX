@@ -280,7 +280,7 @@
                                                                    id="modulecode" >
                                                         <h:outputText value="#{grade.module.course.moduleCode}" />
                                                     </p:commandLink>
-                                                    <p:commandButton icon="ui-icon-trash" style="background: grey; float: right" id="deleteStudyPlan-button" >
+                                                    <p:commandButton icon="ui-icon-trash" style="background: grey; float: right" id="deleteStudyPlan-button" update="tab:reporttab" >
                                                         <p:ajax update="tab:modulesTaken" listener="#{studyPlanBean.deleteGrade(grade)}" />
                                                         <p:confirm header="Delete #{grade.module.course.moduleCode}" message="Are you sure?" icon="ui-icon-alert" />
                                                     </p:commandButton>
@@ -371,7 +371,7 @@
                                         <f:selectItem itemLabel="U" itemValue="U" />
                                     </p:selectOneMenu>
                                 </p:panelGrid>
-                                <p:commandButton value="Add" actionListener="#{studyPlanBean.addGrade()}" update="addErrorMsg, tab:modulesTaken, tab:addGradeForm"/>
+                                <p:commandButton value="Add" actionListener="#{studyPlanBean.addGrade()}" update="addErrorMsg, tab:modulesTaken, tab:addGradeForm, tab:reporttab"/>
                             </h:form>
                         </p:tab>  
 
@@ -421,7 +421,7 @@
                                 </p:fieldset>
                             </h:form>
                         </p:tab>  
-                        <p:tab title="Grades Report">
+                        <p:tab title="Grades Report" id="reporttab">
                             <h:outputText value="You have not taken any modules before" rendered="#{empty studyPlanBean.student.grades}"/>       
                             <p:fieldset>
                                 <br></br>
@@ -447,11 +447,14 @@
                                     <h:outputText value="#{profileBean.faculty}" style="float: left"/>
                                 </p:panelGrid>
                             </p:fieldset>
-                            <h:form id="formJasperReport">
-                                <p:panel header="JasperReport Generation">
-                                    <p:commandButton value="Generate Report" actionListener="#{reportManagedBean.generateReport}" ajax="false" />
-                                </p:panel>
-                            </h:form>
+                            <h:panelGroup>
+                                <h:form id="formJasperReport" >
+                                    <p:panel header="Unofficial Transcript" rendered="#{not empty studyPlanBean.student.grades}">
+                                        <p:commandButton value="Generate Report" actionListener="#{reportManagedBean.generateReport}" ajax="false" />
+                                    </p:panel>
+                                </h:form>
+                            </h:panelGroup>
+
                         </p:tab>
                     </p:tabView>
                     <br />
