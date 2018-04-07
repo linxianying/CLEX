@@ -45,10 +45,10 @@
                                 <ui:repeat value="#{balance.getBalances()}" var="payee" >
                                     <h:panelGroup rendered="#{balance.totalAmount gt 0}">
                                         <p:graphicImage rendered="#{profileBean.checkpic(balance.student.username) == true}"
-                                                    alt="#{profileBean.userEntity.name}" cache="false" 
-                                                    style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px"
-                                                    value="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/resources/profile/#{balance.student.username}.png"/>
-                                       
+                                                        alt="#{profileBean.userEntity.name}" cache="false" 
+                                                        style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px"
+                                                        value="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/resources/profile/#{balance.student.username}.png"/>
+
                                         <p:graphicImage rendered="#{profileBean.checkpic(balance.student.username) == false}"
                                                         cache="false" library="profile"
                                                         style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px" 
@@ -64,9 +64,9 @@
                                     <h:outputText value=" from " rendered="#{balance.totalAmount gt 0}"/>
                                     <h:panelGroup rendered="#{balance.totalAmount gt 0}">
                                         <p:graphicImage rendered="#{profileBean.checkpic(payee.key.username) == true}"
-                                                    alt="#{profileBean.userEntity.name}" cache="false" 
-                                                    style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px"
-                                                    value="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/resources/profile/#{payee.key.username}.png"/>
+                                                        alt="#{profileBean.userEntity.name}" cache="false" 
+                                                        style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px"
+                                                        value="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/resources/profile/#{payee.key.username}.png"/>
                                         <p:graphicImage rendered="#{profileBean.checkpic(payee.key.username) == false}" 
                                                         cache="false" library="profile"
                                                         style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px" 
@@ -77,9 +77,9 @@
 
                                     <h:panelGroup rendered="#{balance.totalAmount lt 0}">
                                         <p:graphicImage rendered="#{profileBean.checkpic(balance.student.username) == true}"
-                                                    alt="#{profileBean.userEntity.name}" cache="false" 
-                                                    style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px"
-                                                    value="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/resources/profile/#{balance.student.username}.png"/>
+                                                        alt="#{profileBean.userEntity.name}" cache="false" 
+                                                        style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px"
+                                                        value="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/resources/profile/#{balance.student.username}.png"/>
                                         <p:graphicImage rendered="#{profileBean.checkpic(balance.student.username) == false}" 
                                                         cache="false" library="profile"
                                                         style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px" 
@@ -96,10 +96,10 @@
                                     <h:outputText value=" to " rendered="#{balance.totalAmount lt 0}"/>
 
                                     <h:panelGroup rendered="#{balance.totalAmount lt 0}">
-                                       <p:graphicImage rendered="#{profileBean.checkpic(payee.key.username) == true}"
-                                                    alt="#{profileBean.userEntity.name}" cache="false" 
-                                                    style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px"
-                                                    value="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/resources/profile/#{payee.key.username}.png"/>
+                                        <p:graphicImage rendered="#{profileBean.checkpic(payee.key.username) == true}"
+                                                        alt="#{profileBean.userEntity.name}" cache="false" 
+                                                        style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px"
+                                                        value="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/resources/profile/#{payee.key.username}.png"/>
                                         <p:graphicImage rendered="#{profileBean.checkpic(payee.key.username) == false}"
                                                         cache="false" library="profile"
                                                         style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px" 
@@ -239,10 +239,18 @@
                                 <h:outputText value=" does not need to pay anything" rendered="#{l.ascCost == 0.0}"/>
                                 <br/>
                             </ui:repeat>
-                            <p:commandButton rendered="#{viewProjectCostBean.selectedTransaction != null}" id="deleteButton" icon="ui-icon-trash" actionListener="#{viewProjectCostBean.deleteTransaction}" update="emptyLabel2, emptyLabel, projectCostForm, addErrorMsg, summaryForm"/>
+                            <p:commandButton rendered="#{viewProjectCostBean.selectedTransaction != null}" id="deleteButton" icon="ui-icon-trash" actionListener="#{viewProjectCostBean.deleteTransaction}" update="emptyLabel2, emptyLabel, projectCostForm, addErrorMsg, summaryForm">
+                                <p:confirm header="Delete #{viewProjectCostBean.selectedTransaction.activity}" message="Are you sure? Deleted transactions cannot be recovered!" icon="ui-icon-alert" />
+                            </p:commandButton>
+
                         </h:panelGroup>
                     </p:panelGrid>
                 </h:form>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
             </p:fieldset>
         </p:panelGrid>
         <h:form id="initializePageDataForm">
