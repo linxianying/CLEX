@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                 template="/WEB-INF/template.xhtml"
+                 xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">PRISM Whiteboard</ui:define>
+
+    <ui:define name="viewname">Whiteboard</ui:define>
+
+    <ui:define name="content">
+        <p:growl id="messages" showDetail="true"/>        
+        <h:form id="output">           
+
+            <p:signature style="width:1000px;height:500px" widgetVar="sig" 
+                         value="#{whiteboardBean.currentDrawing}" required="true" guideline="false"
+                         valueChangeListener="#{whiteboardBean.onInput}"/>
+
+            <div style="margin:20px 0">
+                <p:commandButton value="Save" icon="fa fa-save" update="output"/>
+                <p:commandButton value="Undo" icon="fa fa-rotate-left" actionListener="#{whiteboardBean.undo}" update="output"/>
+                <p:commandButton value="Clear" icon="fa fa-file-o" update="output" actionListener="#{whiteboardBean.cleardrawing()}" />
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>
+
