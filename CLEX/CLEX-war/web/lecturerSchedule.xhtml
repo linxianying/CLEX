@@ -84,7 +84,8 @@
                     <p:inputText id="venue" value="#{scheduleBean.venue}" required="false" />
 
                     <p:commandButton id="deleteButton" value="delete" actionListener="#{scheduleBean.deleteEvent}" 
-                                     oncomplete="PF('myschedule').update();PF('eventDialog').hide();"/>
+                                     oncomplete="PF('myschedule').update();PF('eventDialog').hide();"
+                                     update="toDoList"/>
                     <p:commandButton style="float: right" id="addButton" value="Save" actionListener="#{scheduleBean.addEvent}" 
                                      oncomplete="PF('myschedule').update();PF('eventDialog').hide();" 
                                      update="toDoList"/>
