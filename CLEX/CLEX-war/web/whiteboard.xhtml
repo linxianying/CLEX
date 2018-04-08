@@ -12,19 +12,26 @@
     <ui:define name="viewname">Whiteboard</ui:define>
 
     <ui:define name="content">
-        <p:growl id="messages" showDetail="true"/>        
-        <h:form id="output">           
+        <p:growl id="messages" showDetail="true"/>
+        <p:outputPanel>
+            <h3><h:outputLabel value="MODULE CODE - ACTIVITY NAME" /></h3> <!-- Selected module will display here, activity name made by lecturer-->
 
-            <p:signature style="width:1000px;height:500px" widgetVar="sig" 
-                         value="#{whiteboardBean.currentDrawing}" required="true" guideline="false"
-                         valueChangeListener="#{whiteboardBean.onInput}"/>
+            <h:form id="output">           
+                <div style="margin:20px 0">
+                    <p:commandButton value="Save" icon="fa fa-save" update="output"/>
+                    <p:commandButton value="Undo" icon="fa fa-rotate-left" actionListener="#{whiteboardBean.undo}" update="output"/>
+                    <p:commandButton value="Clear" icon="fa fa-file-o" update="output" actionListener="#{whiteboardBean.cleardrawing()}" />
+                </div>
+                <p:signature style="width:1000px;height:500px" widgetVar="sig" 
+                             value="#{whiteboardBean.currentDrawing}" required="true" guideline="false"
+                             valueChangeListener="#{whiteboardBean.onInput}" />
+                <div style="margin:20px 0">
+                    <p:commandButton value="Export Drawing" icon="fa fa-file-image-o" update="output" actionListener="#{whiteboardBean.cleardrawing()}"/>
+                </div>
 
-            <div style="margin:20px 0">
-                <p:commandButton value="Save" icon="fa fa-save" update="output"/>
-                <p:commandButton value="Undo" icon="fa fa-rotate-left" actionListener="#{whiteboardBean.undo}" update="output"/>
-                <p:commandButton value="Clear" icon="fa fa-file-o" update="output" actionListener="#{whiteboardBean.cleardrawing()}" />
-            </div>
-        </h:form>
+            </h:form>
+        </p:outputPanel>
+
     </ui:define>
 </ui:composition>
 

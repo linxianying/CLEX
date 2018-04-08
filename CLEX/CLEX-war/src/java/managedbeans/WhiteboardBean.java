@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author lin
+ * @author Jeffrey
  */
 @ManagedBean
 @SessionScoped
