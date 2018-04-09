@@ -225,14 +225,14 @@
                     <div class="ui-g-12 ui-md-12">
                         <ui:repeat var="m" value="#{pollingBean.takingModules}">
                             <p:panelGrid >
-                                <table border="0" width="50%">
+                                <table border="0" width="60%" style="border-spacing: 15px; border-collapse: seperate">
                                     <tr>
                                         <h2>
                                             <h:outputText value="#{m.course.moduleCode}"/>, <h:outputText value="#{m.course.moduleName}" />
                                         </h2>
                                     </tr>
                                     <tr>
-                                        <td width="50%">
+                                        <td width="30%">
                                             <h:outputText value="Lecturer Name:" />
                                         </td>
                                         <td>
