@@ -220,6 +220,106 @@
                     </div>
                 </div>
             </p:tab>
+            <p:tab title="My Modules">
+                <div class="ui-g dashboard">   
+                    <div class="ui-g-12 ui-md-12">
+                        <ui:repeat var="m" value="#{pollingBean.takingModules}">
+                            <p:panelGrid >
+                                <table border="0" width="50%">
+                                    <tr>
+                                        <h2>
+                                            <h:outputText value="#{m.course.moduleCode}"/>, <h:outputText value="#{m.course.moduleName}" />
+                                        </h2>
+                                    </tr>
+<!--                                    <tr>
+                                        <td width="25%">
+                                            <h3><h:outputText value="Module Name:" /></h3>
+                                        </td>
+                                        <td>
+                                            <h3><h:outputText value="#{m.course.moduleName}" /></h3>
+                                            
+                                        </td>
+                                    </tr>-->
+                                    <tr>
+                                        <td width="50%">
+                                            <h:outputText value="Lecturer Name:" />
+                                        </td>
+                                        <td>
+                                            <h:outputText value="" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h:outputText value="Project Group:" />
+                                        </td>
+                                        <td>
+                                            <h:outputText value="This course doesn't have a group" escape="false" 
+                                                          rendered="#{empty m.superGroup}" />
+                                            <p:commandButton value="Group formation in process" 
+                                                             rendered="#{not empty m.superGroup and !m.superGroup.confirm}"
+                                                             action="#{projectBean.goFormGroup(m.course.moduleCode)}" />
+
+                                            <h:outputText value="Your group #{projectBean.getStudentProjectGroupName(m.course.moduleCode)}" escape="false" 
+                                                          rendered="#{not empty m.superGroup and m.superGroup.confirm and
+                                                                      projectBean.hasProjectGroup(m.course.moduleCode)}" />
+                                            <h:panelGroup rendered="#{not empty m.superGroup and m.superGroup.confirm and 
+                                                                      projectBean.hasProjectGroup(m.course.moduleCode)}">
+                                            </h:panelGroup>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h:outputText value="Project Costs:" />
+                                        </td>
+                                        <td>
+                                            <h:outputText value="This course doesn't have project costs" escape="false" 
+                                                          rendered="#{empty m.superGroup}" />
+                                            <h:outputText value="Awaiting group forming closure" 
+                                                          rendered="#{not empty m.superGroup and !m.superGroup.confirm}"/>
+                                            <p:commandButton value="Group Transaction" 
+                                                             rendered="#{not empty m.superGroup and m.superGroup.confirm and 
+                                                                         projectBean.hasProjectGroup(m.course.moduleCode)}" 
+                                                             action="#{projectBean.GoGroupPage(m.course.moduleCode)}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h:outputText value="Peer Reviews:"/>
+                                        </td>
+                                        <td>
+                                            <p:commandButton value="Group Peer Review" 
+                                                             rendered="#{not empty m.superGroup and m.superGroup.confirm and 
+                                                                         projectBean.hasProjectGroup(m.course.moduleCode) and 
+                                                                         not empty m.peerReviewQuestion and m.peerReviewQuestion.status eq 'start'}" 
+                                                             action="#{projectBean.GoPRPage(m.course.moduleCode)}"/>
+                                            <h:outputText value="Awaiting group forming closure" 
+                                                          rendered="#{not empty m.superGroup and !m.superGroup.confirm}"/>
+                                            <h:outputText value="This course doesn't have peer reviews" escape="false" 
+                                                          rendered="#{empty m.superGroup and empty m.peerReviewQuestion}" />
+                                            <h:outputText value="This course doesn't have peer reviews" escape="false" 
+                                                          rendered="#{empty m.peerReviewQuestion and not empty m.superGroup and m.superGroup.confirm and 
+                                                                         projectBean.hasProjectGroup(m.course.moduleCode)}" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h:outputText value= "Polls: "/>
+                                        </td>
+                                        <td>
+                                            <h:outputText value="This course doesn't have a polling" escape="false" 
+                                                          rendered="#{empty m.polls}" />
+                                            <p:commandButton value="View Polls" 
+                                                             rendered="#{not empty m.polls}"
+                                                             actionListener="#{pollingBean.viewPolling(m)}"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <br/>
+                            </p:panelGrid>
+                        </ui:repeat>
+                    </div>
+                </div>
+            </p:tab>
         </p:tabView>
 
     </ui:define>
