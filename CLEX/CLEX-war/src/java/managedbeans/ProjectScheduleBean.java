@@ -9,25 +9,15 @@ import entity.GroupTimeslot;
 import entity.Module;
 import entity.ProjectGroup;
 import entity.Student;
-import entity.Timeslot;
-import entity.User;
-import java.io.File;
-import java.io.InputStream;
 import javax.ejb.EJB;
 import session.ClexSessionBeanLocal;
 import java.io.Serializable;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -35,11 +25,6 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
-import net.fortuna.ical4j.data.CalendarBuilder;
-import net.fortuna.ical4j.model.Component;
-import org.apache.commons.io.FilenameUtils;
-import org.primefaces.event.FileUploadEvent;
-
 import org.primefaces.event.ScheduleEntryMoveEvent;
 import org.primefaces.event.ScheduleEntryResizeEvent;
 import org.primefaces.event.SelectEvent;
@@ -79,6 +64,7 @@ public class ProjectScheduleBean implements Serializable{
     private ScheduleEvent event = new DefaultScheduleEvent();
     private ProjectGroup group;
     private Collection<GroupTask> groupTasks;
+    private Collection<GroupTask> unfinishedGroupTasks;
     private boolean value;
 
     FacesContext context;
@@ -100,9 +86,10 @@ public class ProjectScheduleBean implements Serializable{
         session = (HttpSession) context.getExternalContext().getSession(true);
         group = (ProjectGroup) session.getAttribute("projectGroup");
         module = (Module) session.getAttribute("module");
-
+        unfinishedGroupTasks = new ArrayList<GroupTask>();
         groupTimeslots = group.getGroupTimeslots();
         groupTasks = group.getGroupTasks();
+        
         System.out.println("GroupTask: " + groupTasks.size());
         GroupTimeslot g;
         for(GroupTimeslot group : groupTimeslots){
@@ -112,12 +99,14 @@ public class ProjectScheduleBean implements Serializable{
             System.out.println(g.getDetails());
             eventModel.addEvent(dse);
         }
-        //GroupTask groupTask;
-        //for(GroupTask gt : groupTasks){
-        //    groupTask = gt;
-        //    
-        //}
-        
+        GroupTask groupTask;
+        if(groupTasks!=null){
+            for(GroupTask gt : groupTasks){
+                groupTask = gt;
+                if(gt.getStatus().equals("unfinished"))
+                    unfinishedGroupTasks.add(gt);
+            }
+        }
     }
     
     public void checkGroupTask(GroupTask groupTask){
@@ -370,6 +359,14 @@ public class ProjectScheduleBean implements Serializable{
 
     public void setValue(boolean value) {
         this.value = value;
+    }
+
+    public Collection<GroupTask> getUnfinishedGroupTasks() {
+        return unfinishedGroupTasks;
+    }
+
+    public void setUnfinishedGroupTasks(Collection<GroupTask> unfinishedGroupTasks) {
+        this.unfinishedGroupTasks = unfinishedGroupTasks;
     }
 
     

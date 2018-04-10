@@ -238,6 +238,8 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
                         indGroupTaskEntity.getDeadline().equals(groupTaskEntity.getDeadline())&&
                         indGroupTaskEntity.getDetails().equals(groupTaskEntity.getDetails())){
                     indGroupTaskEntity.setStatus("finished");
+                    em.merge(indGroupTaskEntity);
+                    em.flush();
                 }
                     
             }
@@ -277,6 +279,8 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
                         indGroupTaskEntity.getDeadline().equals(groupTaskEntity.getDeadline())&&
                         indGroupTaskEntity.getDetails().equals(groupTaskEntity.getDetails())){
                     indGroupTaskEntity.setStatus("unfinished");
+                    em.merge(indGroupTaskEntity);
+                    em.flush();
                 }
                     
             }
