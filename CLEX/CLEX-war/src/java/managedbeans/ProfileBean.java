@@ -217,7 +217,10 @@ public class ProfileBean implements Serializable {
         try (InputStream input = new ByteArrayInputStream(data)) {
             Files.copy(input, file, StandardCopyOption.REPLACE_EXISTING);
         }
-
+        if (Files.exists(Paths.get(path + username + ".png"))) {
+            System.out.println("Try Delete and rename");
+            Files.delete(Paths.get(path + username + ".png"));
+        }
         if (Files.exists(Paths.get(path + username + extension))) {
             System.out.println("Try Delete and rename");
             Files.delete(Paths.get(path + username + extension));
@@ -271,10 +274,13 @@ public class ProfileBean implements Serializable {
         FacesMessage message = new FacesMessage("Succes!", event.getFile().getFileName() + " uploaded.");
         FacesContext.getCurrentInstance().addMessage(null, message);
 
+        if (Files.exists(Paths.get(path + username + ".jpg"))) {
+            System.out.println("Try Delete and rename");
+            Files.delete(Paths.get(path + username + ".jpg"));
+        }
         if (Files.exists(Paths.get(path + username + extension))) {
             System.out.println("Try Delete and rename");
             Files.delete(Paths.get(path + username + extension));
-            Files.delete(Paths.get(path + username + ".jpg"));
             Files.move(file, Paths.get(path + username + extension));
         } else {
             System.out.println("Try rename");
