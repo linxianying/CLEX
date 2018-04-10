@@ -13,6 +13,7 @@
     <ui:define name="viewname">Course</ui:define>
 
     <ui:define name="content">
+        <f:event type="preRenderView" listener="#{profileBean.setNoCache}" />
 
         <h:outputStylesheet name="./css/form.css"/>
         <div class="ui-g ui-fluid">
@@ -58,10 +59,14 @@
                      </p:graphicImage>-->
 
                     <h:panelGroup id="profilepic">
-                        <p:graphicImage rendered="#{profileBean.checkpic(profileBean.username) == true}"
-                                        alt="#{profileBean.userEntity.name}" cache="false" library="profile"
+                        <p:graphicImage rendered="#{profileBean.checkpicpng(profileBean.username) == true}"
+                                        alt="#{profileBean.userEntity.name}" cache="false" 
                                         style="background-color: transparent;background: top left no-repeat;background-size: 100px 100px; width: 100px; height: 100px" 
-                                        name="#{profileBean.username}.png"/>
+                                        value="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/resources/profile/#{profileBean.username}.png"/>
+                        <p:graphicImage rendered="#{profileBean.checkpicjpg(profileBean.username) == true}"
+                                        alt="#{profileBean.userEntity.name}" cache="false" 
+                                        style="background-color: transparent;background: top left no-repeat;background-size: 100px 100px; width: 100px; height: 100px" 
+                                        value="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/resources/profile/#{profileBean.username}.jpg"/>
                         <p:graphicImage rendered="#{profileBean.checkpic(profileBean.username) == false}"
                                         alt="#{profileBean.userEntity.name}" cache="false" library="profile"
                                         style="background-color: transparent;background: top left no-repeat;background-size: 100px 100px; width: 100px; height: 100px" 
@@ -72,14 +77,20 @@
                     <h:outputLabel style="font-weight: bold; font-size: 30px" value="#{profileBean.username}"/>
                     <br />
                     <br />
+                    <h:form>        
+                        <p:photoCam photoWidth="640" photoHeight="640"  widgetVar="pc" listener="#{profileBean.oncapture}" />                                
+
+                        <p:commandButton style="width: 100px" type="button" value="Capture" icon="fa fa-camera" onclick="PF('pc').capture()"/>
+                    </h:form>
                     <h:panelGroup>
-                        <h:outputLabel value="Profile photo should be of size (120x120)."/>
+                        <h:outputLabel value="Profile photo should be of size (120x120)/(640x640)."/>
                         <br />
                         <h:outputLabel value="Format must be of PNG format and must not exceed 1024kb."/>
                         <br />
                         <h:outputLabel value="Drag and drop is available on supported browsers."/>
                         <br />
                         <br />
+                        
                         <h:form>
                             <p:fileUpload fileUploadListener="#{profileBean.handleFileUpload}" skinSimple="false" mode="advanced" multiple="false" dragDropSupport="true"
                                           invalidSizeMessage="File size should be smaller than 1024kb"

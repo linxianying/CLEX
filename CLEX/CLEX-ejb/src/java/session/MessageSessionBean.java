@@ -10,6 +10,7 @@ import entity.Message;
 import entity.User;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import javax.ejb.Stateless;
@@ -24,87 +25,82 @@ import javax.persistence.Query;
  */
 @Stateless
 public class MessageSessionBean implements MessageSessionBeanLocal {
-    
+
     @PersistenceContext
     EntityManager em;
-    
+
     User userEntity;
     Conversation convoEntity;
     Message msgEntity;
-    
+
     Collection<Conversation> conversations;
     Collection<Message> messages;
-    
+
     @Override
-    public Conversation createConversation(String username1, String username2){
+    public Conversation createConversation(String username1, String username2) {
         User user1 = findUser(username1);
         User user2 = findUser(username2);
-        
-        if(user1 == null){
-            System.out.println("User1 " + user1.getUsername() +" not found.");
+
+        if (user1 == null) {
+            System.out.println("User1 " + user1.getUsername() + " not found.");
         }
-        
-        if(user2 == null){
-            System.out.println("User2 " + user2.getUsername() +" not found.");
+
+        if (user2 == null) {
+            System.out.println("User2 " + user2.getUsername() + " not found.");
         }
-        
+
         Conversation convo = new Conversation();
         convo.startConversation();
-   
+
         em.persist(convo);
         em.flush();
-        
+
         convo.getUsers().add(user1);
         convo.getUsers().add(user2);
 
         user1.getConversations().add(convo);
         user2.getConversations().add(convo);
-        
+
         em.merge(convo);
         em.merge(user1);
         em.merge(user2);
         em.flush();
-        
+
         return convo;
     }
-    
+
     @Override
-    public boolean createMessage(Long convoId, String username, String message){
+    public boolean createMessage(Long convoId, String username, String rcvUsername, String message) {
         userEntity = findUser(username);
         convoEntity = findConversation(convoId);
         List<User> userList = (List<User>) convoEntity.getUsers();
-        
-        if(userEntity == null){
+
+        if (userEntity == null) {
             System.out.println("User not logged in.");
             return false;
         }
-        
-        if(userList.size() <= 1){
+
+        if (userList.size() <= 1) {
             System.out.println("Unable to create message, a user has already left conversation.");
             return false;
         }
-        
+
         Message msg = new Message();
-        int sentUser; //1: user1, 2: user2
-        
-        if(Objects.equals(userEntity.getId(), userList.get(0).getId())){
-            sentUser = 1;
+
+        if (Objects.equals(userEntity.getId(), userList.get(0).getId())) {
             convoEntity.setSentMsgCount1(convoEntity.getSentMsgCount1() + 1);
-        }
-        else if(Objects.equals(userEntity.getId(), userList.get(1).getId())){
-            sentUser = 2;
+        } else if (Objects.equals(userEntity.getId(), userList.get(1).getId())) {
             convoEntity.setSentMsgCount2(convoEntity.getSentMsgCount2() + 1);
-        }
-        else{
+        } else {
             System.out.println("User not in conversation.");
             return false;
         }
-        
-        msg.createMessage(message, sentUser);
+
+        msg.createMessage(message, username, rcvUsername);
         msg.setConversation(convoEntity);
-        
+
         convoEntity.getMessages().add(msg);
-        
+
         em.merge(convoEntity);
         em.persist(msg);
         em.flush();
@@ -113,108 +109,122 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
     }
 
     @Override
-    public boolean deleteConversation(String username, Long convoId){
+    public boolean deleteConversation(String username, Long convoId) {
         userEntity = findUser(username);
         convoEntity = findConversation(convoId);
         List<User> userList = (List<User>) convoEntity.getUsers();
-        
-        if(userEntity == null){
+
+        if (userEntity == null) {
             System.out.println("User not logged in.");
             return false;
         }
 
-        if(userList.size() == 2){
+        if (userList.size() == 2) {
             //Only 1 side delete, retain convo
-            if(convoEntity.getUsers().remove(userEntity)){
+            if (convoEntity.getUsers().remove(userEntity)) {
                 userEntity.getConversations().remove(convoEntity);
                 em.merge(userEntity);
                 em.merge(convoEntity);
                 em.flush();
                 em.clear();
-                
+
                 System.out.println("Removed user from conversation.");
                 return true;
             }
-        }
-        else{
-            if(convoEntity.getUsers().remove(userEntity)){
+        } else {
+            if (convoEntity.getUsers().remove(userEntity)) {
                 //Both side delete, remove convo
                 userEntity.getConversations().remove(convoEntity);
                 em.merge(userEntity);
                 em.remove(convoEntity);
                 em.flush();
                 em.clear();
-                
+
                 System.out.println("Conversation deleted.");
                 return true;
             }
         }
-        
+
         System.out.println("Failed to delete conversation.");
         return false;
     }
-    
+
     @Override
     public void setReadMsgCount(Long convoId, String username, int readCount) {
         userEntity = findUser(username);
         convoEntity = findConversation(convoId);
         List<User> userList = (List<User>) convoEntity.getUsers();
-    
-        if(Objects.equals(userEntity.getId(), userList.get(0).getId())){
+
+        if (Objects.equals(userEntity.getId(), userList.get(0).getId())) {
             convoEntity.setReadMsgCount1(convoEntity.getReadMsgCount1() + 1);
-        }
-        else if(Objects.equals(userEntity.getId(), userList.get(1).getId())){
+        } else if (Objects.equals(userEntity.getId(), userList.get(1).getId())) {
             convoEntity.setReadMsgCount2(convoEntity.getReadMsgCount2() + 1);
         }
-        
+
         em.merge(convoEntity);
         em.flush();
     }
-   
+
     //For starting conversations
     @Override
-    public Conversation checkUserInSameConversation(String username1, String username2){
+    public Conversation checkUserInSameConversation(String username1, String username2) {
         User user1 = findUser(username1);
         User user2 = findUser(username2);
         Conversation convo = null;
         List<Conversation> convoList = (List) user1.getConversations();
-        
-        for(int i=0; i<convoList.size(); i++){
-            if(user2.getConversations().contains(convoList.get(i))){
+
+        for (int i = 0; i < convoList.size(); i++) {
+            if (user2.getConversations().contains(convoList.get(i))) {
                 convo = convoList.get(i);
             }
         }
-        
+
         return convo;
     }
-    
+
     //For stopping messages from being sent if a user left convo
     @Override
-    public boolean checkEmptyUserInConversation(Long convoId){
+    public boolean checkEmptyUserInConversation(Long convoId) {
         convoEntity = findConversation(convoId);
         List<User> userList = (List<User>) convoEntity.getUsers();
-        
-        if(userList.size() <= 1){
+
+        if (userList.size() <= 1) {
             return true;
         }
-        
+
         return false;
     }
-    
+
     @Override
     public Collection<Conversation> getConversationByUser(String username) {
         userEntity = findUser(username);
         conversations = userEntity.getConversations();
+        List<User> userList;
+        Iterator<Conversation> iter = conversations.iterator();
+        Conversation c;
+        
+        while (iter.hasNext()) {
+            c = iter.next();
+            userList = (List) c.getUsers();
+            if(userList.size() <= 1) {
+                if (c.getMessages().isEmpty()) {
+                    System.out.println("----------------went thru here");
+                    iter.remove();
+                    deleteConversation(username, c.getId());
+                }
+            }
+        }
+
         return conversations;
     }
-    
+
     @Override
     public Collection<Message> getMessageByConversation(Long id) {
         convoEntity = findConversation(id);
         messages = convoEntity.getMessages();
         return messages;
     }
-    
+
     @Override
     public Collection<User> getAllUsers() {
         Collection<User> users = new ArrayList<User>();
@@ -225,7 +235,7 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
         }
         return users;
     }
-            
+
     @Override
     public User findUser(String username) {
         userEntity = null;
@@ -242,7 +252,7 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
         }
         return userEntity;
     }
-    
+
     public Conversation findConversation(Long id) {
         convoEntity = null;
         try {
@@ -258,7 +268,7 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
         }
         return convoEntity;
     }
-    
+
     public Message findMessage(Long id) {
         msgEntity = null;
         try {
@@ -274,5 +284,5 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
         }
         return msgEntity;
     }
-    
+
 }

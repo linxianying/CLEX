@@ -235,12 +235,14 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
     @Override
     public boolean removePoll(String moduleCode, String takenYear, String takenSem, Long id){
         pollEntity = findPoll(id);
-        moduleEntity = null;
-        moduleEntity = findModule(moduleCode, takenYear, takenSem);        
         if(pollEntity==null){
             System.out.println("RemovePoll: Poll does not exist!");
             return false;
         }
+        pollEntity.setModule(null);
+        moduleEntity = null;
+        moduleEntity = findModule(moduleCode, takenYear, takenSem);        
+        
         if(moduleEntity==null){
             System.out.println("RemovePoll: Module does not exist!");
             return false;

@@ -12,12 +12,9 @@
     <ui:define name="viewname">Classroom</ui:define>
 
     <ui:define name="content">
-
-
-
         <div id="content" class="left_content">
             <h3><h:outputText value="Classroom" /></h3>
-
+            <p:growl id="msgmsg" showDetail="true" />
             <p:tabView>
                 <p:tab title="VIEW POLLS">
 
@@ -26,7 +23,6 @@
                         <p:printer target="panel" />
                     </p:commandButton>
                     <h:form id="panel">
-                        
                         <p:panel collapsed="false" styleClass="menuHeader"  header="All Polls of Lecturer" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
 
                             <p:dataTable var="poll" value="#{classroomBean.polls}"
@@ -40,6 +36,8 @@
                                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
                                          {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
                                          rowsPerPageTemplate="10,20,50">
+                                
+                        
                                 <f:facet name="header">
                                     <p:outputPanel>
                                         <h:outputText value="Search all fields:" />
@@ -70,7 +68,14 @@
                                         </h:commandLink>
                                     </div>
                                 </f:facet>
-
+                                <p:column style="width:30%" filterBy="#{poll.content}" sortBy="#{poll.content}" 
+                                          headerText="Content" filterMatchMode="contains">
+                                    <h:outputText value="#{poll.content}" />
+                                    <p:commandButton style="float: right; background: grey" icon="ui-icon-trash"
+                                                     update="msgmsg,@form" actionListener="#{classroomBean.removePoll(poll)}">
+                                        <p:confirm header="Delete Poll Question #{poll.content}" message="Please ensure that no students are linked to this poll!" icon="ui-icon-alert" />
+                                    </p:commandButton>
+                                </p:column>
 
                                 <p:column filterBy="#{poll.type}" headerText="Poll Type" filterMatchMode="in">
                                     <f:facet name="filter">
@@ -84,17 +89,14 @@
                                           headerText="Module Code" filterMatchMode="contains">
                                     <h:outputText value="#{poll.module.course.moduleCode}" />
                                 </p:column>
-
+                                
 
                                 <p:column filterBy="#{poll.datetime}" sortBy="#{poll.datetime}" 
                                           headerText="Datetime" filterMatchMode="contains">
                                     <h:outputText value="#{poll.datetime}" />
                                 </p:column>
 
-                                <p:column filterBy="#{poll.content}" sortBy="#{poll.content}" 
-                                          headerText="Content" filterMatchMode="contains">
-                                    <h:outputText value="#{poll.content}" />
-                                </p:column>
+                                
 
                                 <p:column filterBy="#{poll.topic}" sortBy="#{poll.topic}" 
                                           headerText="Topic" filterMatchMode="contains">
@@ -366,10 +368,14 @@
                                     </td>
 
                                     <td >
-                                        <p:dataList value="#{classroomBean.ans}" id="answers" var="answer" type="ordered">
-
-                                            <p:inputText value="#{answer}"  style="width:300px;"
-                                                         required="true"  />
+                                        <p:dataList value="#{classroomBean.ans}" id="answers" var="an" 
+                                                    type="ordered">
+                                            <h:outputText>
+                                                number : #{classroomBean.ans.indexOf(an)}
+                                            </h:outputText>
+                                            <p:inputText value="#{an}"  style="width:300px;" required="true"  >
+                                                <p:ajax event="keyup"></p:ajax>
+                                            </p:inputText >
 
                                         </p:dataList>
                                     </td>
@@ -379,7 +385,7 @@
                                     <td>
                                         <p:commandButton value="Add"  style="width:200px;"
                                                          rendered="#{classroomBean.addButton}" action="#{classroomBean.addUnfinishedPoll}"
-                                                         update="msg1, @form" onclick="location.reload()"/>
+                                                         update="msg1" />
                                     </td>
                                 </tr>
                             </table>

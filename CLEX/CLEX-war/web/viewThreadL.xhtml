@@ -4,10 +4,10 @@
                  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                  xmlns:h="http://xmlns.jcp.org/jsf/html"
                  xmlns:f="http://xmlns.jcp.org/jsf/core"
-                 template="/WEB-INF/template.xhtml"
+                 template="/WEB-INF/template_lecturer.xhtml"
                  xmlns:p="http://primefaces.org/ui">
 
-    <ui:define name="title">PRISM Student Community Page</ui:define>
+    <ui:define name="title">PRISM Lecturer Community Page</ui:define>
 
     <ui:define name="viewname">Community</ui:define>
 
@@ -52,7 +52,7 @@
                             <h:panelGrid columns="1" >
                                 <h:outputLabel id="positiveThread" style="font-size:18px; font-weight: bold; float: left" value="+#{communityBean.threadEntity.upVote - communityBean.threadEntity.downVote}" rendered="#{(communityBean.threadEntity.upVote - communityBean.threadEntity.downVote) gt 0}"/>
                                 <h:outputLabel id="negativeThead" style="font-size:18px; font-weight: bold; float: left" value="#{communityBean.threadEntity.upVote - communityBean.threadEntity.downVote}" rendered="#{(communityBean.threadEntity.upVote - communityBean.threadEntity.downVote) lt 0}"/>
-                                <!--<h:outputLabel id="zeroThread" style="font-size:18px; font-weight: bold; float: left" value="0" rendered="#{(communityBean.threadEntity.upVote - communityBean.threadEntity.downVote) == 0}"/>-->
+<!--                                <h:outputLabel id="zeroThread" style="font-size:18px; font-weight: bold; float: left" value="0" rendered="#{(communityBean.threadEntity.upVote - communityBean.threadEntity.downVote) == 0}"/>-->
                                 <h:panelGroup>
                                     <p:commandButton icon="fa fa-thumbs-up" style="float: left;" actionListener="#{communityBean.voteThread(communityBean.threadEntity.id, true)}" update="communityTab, messages" rendered="#{communityBean.threadEntity.user != communityBean.userEntity}"/>
                                     <p:commandButton icon="fa fa-thumbs-down" style="float: left;" actionListener="#{communityBean.voteThread(communityBean.threadEntity.id, false)}" update="communityTab, messages" rendered="#{communityBean.threadEntity.user != communityBean.userEntity}"/>

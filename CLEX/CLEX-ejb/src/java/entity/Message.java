@@ -34,7 +34,10 @@ public class Message implements Serializable {
     private String message;
 
     @Column(length = 32, nullable = false)
-    private int sentUser; //1: user1, 2: user2 based on conversation entity
+    private String msgOwner;
+    
+    @Column(length = 32, nullable = false)
+    private String msgReceiver;
     
     @ManyToOne
     private Conversation conversation;
@@ -45,9 +48,10 @@ public class Message implements Serializable {
         this.dateTime = format.format(current);
     }
     
-    public void createMessage(String message, int sentUser){
+    public void createMessage(String message, String msgOwner, String msgReceiver){
         this.message = message;
-        this.sentUser = sentUser;
+        this.msgOwner = msgOwner;
+        this.msgReceiver = msgReceiver;
     }
     
     public Long getId() {
@@ -74,12 +78,20 @@ public class Message implements Serializable {
         this.message = message;
     }
 
-    public int getSentUser() {
-        return sentUser;
+    public String getMsgOwner() {
+        return msgOwner;
     }
 
-    public void setSentUser(int sentUser) {
-        this.sentUser = sentUser;
+    public void setMsgOwner(String msgOwner) {
+        this.msgOwner = msgOwner;
+    }
+    
+        public String getMsgReceiver() {
+        return msgReceiver;
+    }
+
+    public void setMsgReceiver(String msgReceiver) {
+        this.msgReceiver = msgReceiver;
     }
 
     public Conversation getConversation() {

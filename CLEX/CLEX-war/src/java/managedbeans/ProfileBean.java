@@ -8,6 +8,7 @@ package managedbeans;
 import entity.Lecturer;
 import entity.Student;
 import entity.User;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -21,9 +22,14 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import static org.apache.poi.hssf.usermodel.HeaderFooter.file;
+import static org.primefaces.component.contextmenu.ContextMenu.PropertyKeys.event;
+import org.primefaces.event.CaptureEvent;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import session.ClexSessionBeanLocal;
@@ -43,7 +49,7 @@ public class ProfileBean implements Serializable {
 
     @EJB
     CourseMgmtBeanLocal cmbl;
-    
+
     @EJB
     private ClexSessionBeanLocal csbl;
 
@@ -85,8 +91,15 @@ public class ProfileBean implements Serializable {
     FacesMessage fmsg = new FacesMessage();
     FacesContext context = FacesContext.getCurrentInstance();
     private UploadedFile uploadedFile;
+    private byte[] data;
 
     public ProfileBean() {
+    }
+
+    public void setNoCache() {
+        HttpServletResponse response = (HttpServletResponse) FacesContext
+                .getCurrentInstance().getExternalContext().getResponse();
+        response.setHeader("Cache-Control", "no-cache, no-store");
     }
 
     @PostConstruct
@@ -98,7 +111,6 @@ public class ProfileBean implements Serializable {
 
         context = FacesContext.getCurrentInstance();
         String filename = username;
-        String extension = ".png";
 
         String path = session.getServletContext().getRealPath("/");
         int pathlength = path.length();
@@ -106,7 +118,49 @@ public class ProfileBean implements Serializable {
         path = path.substring(0, pathlength);
         path = path + "web/resources/profile/";
         path = path.replaceAll("\\\\", "/");
-        if (Files.exists(Paths.get(path + filename + extension))) {
+        if (Files.exists(Paths.get(path + filename + ".png"))) {
+            return true;
+        } else if (Files.exists(Paths.get(path + filename + ".jpeg"))) {
+            return true;
+        } else if (Files.exists(Paths.get(path + filename + ".jpg"))) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public boolean checkpicpng(String username) {
+
+        context = FacesContext.getCurrentInstance();
+        String filename = username;
+
+        String path = session.getServletContext().getRealPath("/");
+        int pathlength = path.length();
+        pathlength = pathlength - 10;
+        path = path.substring(0, pathlength);
+        path = path + "web/resources/profile/";
+        path = path.replaceAll("\\\\", "/");
+        if (Files.exists(Paths.get(path + filename + ".png"))) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public boolean checkpicjpg(String username) {
+
+        context = FacesContext.getCurrentInstance();
+        String filename = username;
+
+        String path = session.getServletContext().getRealPath("/");
+        int pathlength = path.length();
+        pathlength = pathlength - 10;
+        path = path.substring(0, pathlength);
+        path = path + "web/resources/profile/";
+        path = path.replaceAll("\\\\", "/");
+        if (Files.exists(Paths.get(path + filename + ".jpg"))) {
             return true;
         } else {
             return false;
@@ -144,6 +198,51 @@ public class ProfileBean implements Serializable {
         facultylist = psbl.getSchoolFaculty(school);
     }
 
+    public void oncapture(CaptureEvent captureEvent) throws IOException {
+        data = captureEvent.getData();
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+        String filename = "temp-" + username;
+        String extension = ".jpg";
+        String path = session.getServletContext().getRealPath("/");
+        int pathlength = path.length();
+        pathlength = pathlength - 10;
+        path = path.substring(0, pathlength);
+        path = path + "web/resources/profile/";
+        path = path.replaceAll("\\\\", "/");
+        System.out.println("path " + path);
+        Path folder = Paths.get(path);
+        Path file = Files.createTempFile(folder, filename, extension);
+
+        try (InputStream input = new ByteArrayInputStream(data)) {
+            Files.copy(input, file, StandardCopyOption.REPLACE_EXISTING);
+        }
+
+        if (Files.exists(Paths.get(path + username + extension))) {
+            System.out.println("Try Delete and rename");
+            Files.delete(Paths.get(path + username + extension));
+            Files.move(file, Paths.get(path + username + extension));
+        } else {
+            System.out.println("Try rename");
+            Files.move(file, Paths.get(path + username + extension));
+        }
+        try {
+            Thread.sleep(2000);
+        } catch (Exception e) {
+
+        }
+        context.getExternalContext().getFlash().setKeepMessages(true);
+        if (userEntity.getUserType().equals("Lecturer")) {
+            context.getExternalContext().redirect("lecturerProfile.xhtml");
+        } else if (userEntity.getUserType().equals("Student")) {
+            context.getExternalContext().redirect("profile.xhtml");
+        } else if (userEntity.getUserType().equals("Admin")) {
+            context.getExternalContext().redirect("adminProfile.xhtml");
+        } else {
+            context.getExternalContext().redirect("guestProfile.xhtml");
+        }
+    }
+
     public void handleFileUpload(FileUploadEvent event) throws IOException {
 
         context = FacesContext.getCurrentInstance();
@@ -166,7 +265,6 @@ public class ProfileBean implements Serializable {
         try (InputStream input = event.getFile().getInputstream()) {
             System.out.println("File size: " + event.getFile().getSize());
             Files.copy(input, file, StandardCopyOption.REPLACE_EXISTING);
-
         }
 
         System.out.println("File successfully saved in " + file);
@@ -176,10 +274,17 @@ public class ProfileBean implements Serializable {
         if (Files.exists(Paths.get(path + username + extension))) {
             System.out.println("Try Delete and rename");
             Files.delete(Paths.get(path + username + extension));
+            Files.delete(Paths.get(path + username + ".jpg"));
             Files.move(file, Paths.get(path + username + extension));
         } else {
             System.out.println("Try rename");
             Files.move(file, Paths.get(path + username + extension));
+        }
+
+        try {
+            Thread.sleep(2000);
+        } catch (Exception e) {
+
         }
         context.getExternalContext().getFlash().setKeepMessages(true);
         if (userEntity.getUserType().equals("Lecturer")) {
@@ -540,5 +645,13 @@ public class ProfileBean implements Serializable {
 
     public void setUploadedFile(UploadedFile uploadedFile) {
         this.uploadedFile = uploadedFile;
+    }
+
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
     }
 }

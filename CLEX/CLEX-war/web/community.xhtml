@@ -56,21 +56,21 @@
                                 </p:textEditor>
                                 <!--<p:inputTextarea rows="20" cols="100" title="Content" placeholder="Content" id="content" value="#{forumListBean.tContent}" />-->
                                 <p:inputTextarea rows="1" cols="100" title="Tag" placeholder="Tags - Separate multiple tags with comma (Optional)" id="tag" value="#{forumListBean.tTag}"/>
-                                <p:commandButton icon="fa fa-pencil-square-o" oncomplete="PF('createThreadWidget').hide()" value="Create Thread" actionListener="#{forumListBean.startThread}" update="communityTab:forumForm:forumtable"/>
+                                <p:commandButton icon="fa fa-pencil-square-o" oncomplete="PF('createThreadWidget').hide()" value="Create Thread" actionListener="#{forumListBean.startThread}" update="communityTab:forumForm:forumtable, communityTab:createForm"/>
                             </h:panelGrid>
                         </h:form>
                     </p:overlayPanel>
                 </p:commandButton>
                 <p:commandButton value="Search" id="searchButton" icon="fa fa-search" >
                     <p:overlayPanel for="searchButton" showEffect="fade" hideEffect="fade" widgetVar="searchWidget">
-                        <h:form>
+                        <h:form id="searchForm">
                             <h:panelGrid columns="1">
                                 <p:inputTextarea rows="1" cols="50" title="Title" placeholder="Thread Title" id="searchtitle" value="#{forumListBean.searchTitle}"/>                                    
                                 <p:inputTextarea rows="5" cols="50" title="Content" placeholder="Thread Content" id="searchcontent" value="#{forumListBean.searchContent}" />
                                 <p:inputTextarea rows="1" cols="50" title="Tag" id="searchtag" placeholder="Tags" value="#{forumListBean.searchTag}"/>
                                 <h:panelGroup>
-                                    <p:commandButton oncomplete="PF('searchWidget').hide()" icon="fa fa-search-plus" value="Search Thread" actionListener="#{forumListBean.searchThread}" update="communityTab:forumForm, messages"/>
-                                    <p:commandButton oncomplete="PF('searchWidget').hide()" icon="fa fa-search-minus" value="Clear Search" actionListener="#{forumListBean.refresh()}" update="communityTab:forumForm, messages" />
+                                    <p:commandButton oncomplete="PF('searchWidget').hide()" icon="fa fa-search-plus" value="Search Thread" actionListener="#{forumListBean.searchThread}" update="communityTab:forumForm, messages, communityTab:searchForm"/>
+                                    <p:commandButton oncomplete="PF('searchWidget').hide()" icon="fa fa-search-minus" value="Clear Search" actionListener="#{forumListBean.refresh()}" update="communityTab:forumForm, messages, communityTab:searchForm" />
                                 </h:panelGroup>
                             </h:panelGrid>
                         </h:form>
@@ -118,28 +118,7 @@
                     <h:commandButton value="Test entity" actionListener="#{communityBean.test()}" />
                 </h:form>
 
-                <br></br><!--PRIVATE MESSAGING FUNCTION TEST -->
-                <!--<h:form>
-                    <p:inputText title="Receiver" placeholder="Receiver" id="rUsername" value="#{privateMsgBean.rUsername}" > </p:inputText>   
-                    <p:inputText title="Content" placeholder="Content" id="content" value="#{privateMsgBean.content}" > </p:inputText> 
-                    <h:commandButton value="Start Convo" actionListener="#{privateMsgBean.sendNewMessage}" />
-                </h:form>
-    
-                <h:form>
-                    <p:inputText title="ConvoId" placeholder="ConvoId" id="convoid" value="#{privateMsgBean.cId}" > </p:inputText>   
-                    <p:inputText title="Content" placeholder="Content" id="content" value="#{privateMsgBean.content}" > </p:inputText> 
-                    <h:commandButton value="Send Msg" actionListener="#{privateMsgBean.sendMessage}" />
-                </h:form>
-    
-                <h:form>
-                    <p:inputText title="ConvoId" placeholder="ConvoId" id="convoid" value="#{privateMsgBean.cId}" > </p:inputText>   
-                    <h:commandButton value="Delete Convo" actionListener="#{privateMsgBean.deleteConversation}" />
-                </h:form>
-    
-                <h:form>
-                    <h:commandButton value="Test entity" actionListener="#{privateMsgBean.test()}" />
-                </h:form>-->
-                <!-- TEST CODE STOPS HERE -->
+                <br></br>
             </p:tab>
         </p:tabView>
     </ui:define>

@@ -28,8 +28,10 @@ import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -134,6 +136,21 @@ public class ClassroomBean {
         //modules = cmbl.getModulesFromLecturer(username);
     }
     
+    public void removePoll(Poll p){
+        setCurrentYearSem();
+        
+        boolean deletePoll = crsbl.removePoll(p.getModule().getCourse().getModuleCode(), 
+                p.getModule().getTakenYear(), p.getModule().getTakenSem(), p.getId());
+        System.out.println("delete poll is " + deletePoll);
+        if(deletePoll){
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Poll '" + p.getId() + " is deleted.", "Successfuly");
+            context.addMessage(null, fmsg);
+        }else{
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Poll '" + p.getId() + " is not deleted.", "Unsuccessfuly");
+            context.addMessage(null, fmsg);
+        }
+    }
+    
     public void setCurrentYearSem(){
         Calendar now = Calendar.getInstance();
         currentYear = now.get(Calendar.YEAR);
@@ -208,7 +225,6 @@ public class ClassroomBean {
             System.out.println("ClassroomBean: New Poll id is "+p.getId());
             fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Poll '" + p.getId() + " is created.", "Successfuly");
             context.addMessage(null, fmsg);
-            refresh();
         }
         
     }
@@ -560,7 +576,7 @@ public class ClassroomBean {
         System.out.println("num is set to "+num);
         if(ans.size()<num){
             for(int i = 0;i<num; i++)
-                ans.add("");
+                ans.add(" ");
         }
     }
     

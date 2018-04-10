@@ -3,11 +3,11 @@
 <ui:composition  xmlns="http://www.w3.org/1999/xhtml"
        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
        xmlns:h="http://xmlns.jcp.org/jsf/html"
-       template="/WEB-INF/template_lecturer.xhtml"
+       template="/WEB-INF/template_admin.xhtml"
        xmlns:p="http://primefaces.org/ui"
        xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <ui:define name="title">PRISM Lecturer Community Page</ui:define>
+    <ui:define name="title">PRISM Administrator Community Page</ui:define>
 
     <ui:define name="viewname">Community</ui:define>
     
@@ -15,7 +15,7 @@
         
         <p:growl id="messages" showDetail="true"/>        
         <p:tabView id="communityTab">
-            <p:tab title="COMMUNITY FORUMS - #{forumListBean.userEntity.school}">
+            <p:tab title="COMMUNITY FORUMS - Admin">
                 <p:commandButton icon="fa fa-plus" value="New Thread" id="newThreadButton" >
                     <p:overlayPanel for="newThreadButton" showEffect="fade" hideEffect="fade" widgetVar="createThreadWidget">
                         <h:form id="createForm">
