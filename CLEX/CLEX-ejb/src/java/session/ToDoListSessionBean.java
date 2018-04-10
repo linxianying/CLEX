@@ -227,6 +227,21 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
     public void finishGroupTask(Long taskId){
         groupTaskEntity = findGroupTask(taskId);
         groupTaskEntity.setStatus("finished");
+        Collection<Student> students = groupTaskEntity.getPojectGroup().getGroupMembers();
+        Iterator itr = students.iterator();
+        while(itr.hasNext()){
+            Student s = (Student) itr.next();
+            Iterator i = s.getIndividualGroupTasks().iterator();
+            while(i.hasNext()){
+                indGroupTaskEntity = (IndividualGroupTask) i.next();
+                if(indGroupTaskEntity.getTitle().equals(groupTaskEntity.getTitle())&&
+                        indGroupTaskEntity.getDeadline().equals(groupTaskEntity.getDeadline())&&
+                        indGroupTaskEntity.getDetails().equals(groupTaskEntity.getDetails())){
+                    indGroupTaskEntity.setStatus("finished");
+                }
+                    
+            }
+        }
         em.merge(groupTaskEntity);
         em.flush();
     }
@@ -251,6 +266,21 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
     public void unfinishGroupTask(Long taskId){
         groupTaskEntity = findGroupTask(taskId);
         groupTaskEntity.setStatus("unfinished");
+        Collection<Student> students = groupTaskEntity.getPojectGroup().getGroupMembers();
+        Iterator itr = students.iterator();
+        while(itr.hasNext()){
+            Student s = (Student) itr.next();
+            Iterator i = s.getIndividualGroupTasks().iterator();
+            while(i.hasNext()){
+                indGroupTaskEntity = (IndividualGroupTask) i.next();
+                if(indGroupTaskEntity.getTitle().equals(groupTaskEntity.getTitle())&&
+                        indGroupTaskEntity.getDeadline().equals(groupTaskEntity.getDeadline())&&
+                        indGroupTaskEntity.getDetails().equals(groupTaskEntity.getDetails())){
+                    indGroupTaskEntity.setStatus("unfinished");
+                }
+                    
+            }
+        }
         em.merge(groupTaskEntity);
         em.flush();
     }
