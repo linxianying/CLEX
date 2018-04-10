@@ -21,7 +21,7 @@ public interface GroupFormationSessionBeanLocal {
 
 //    public ArrayList<ProjectGroup> getAllProjectGroups(Module module);
 
-    public boolean joinGroup(Student student, ProjectGroup group);
+    public boolean joinGroup(Long studentId, Long groupId, Long oriGroupId);
 
     public ProjectGroup findProjectGroup(Long id);
 
@@ -52,5 +52,7 @@ public interface GroupFormationSessionBeanLocal {
     public void setStudentGroup(Long studentId, Long projectGroupId);
 
     public void addProjectGroup(Long superGroupId, String name);
+
+    public void leaveGroup(Long studentId, Long groupId);
     
 }

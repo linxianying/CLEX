@@ -40,10 +40,13 @@
                                     <h:outputText value="Your group #{projectBean.getStudentProjectGroupName(m.course.moduleCode)}" escape="false" 
                                                   rendered="#{not empty m.superGroup and m.superGroup.confirm and
                                                               projectBean.hasProjectGroup(m.course.moduleCode)}" />
+                                    <br />
                                     <h:panelGroup rendered="#{not empty m.superGroup and m.superGroup.confirm and 
                                                               projectBean.hasProjectGroup(m.course.moduleCode)}">
-                                        <br />
                                     </h:panelGroup>
+                                    <h:outputText value="The group formation has ended but you do not have any group, please contact the lecturer immediately" escape="false" 
+                                                  rendered="#{not empty m.superGroup and m.superGroup.confirm and
+                                                              !projectBean.hasProjectGroup(m.course.moduleCode)}" />
 
                                     <p:commandButton value="Group Transaction" 
                                                      rendered="#{not empty m.superGroup and m.superGroup.confirm and 
