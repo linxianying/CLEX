@@ -171,9 +171,17 @@ public class ScheduleSessionBean implements ScheduleSessionBeanLocal {
         groupTimeslotEntity = findGroupTimeslot(id);
         studentEntity = student;
         if(groupTimeslotEntity!=null&&studentEntity!=null){
-            studentEntity.getGroupTimeslots().remove(groupTimeslotEntity);
-            em.merge(studentEntity);
+            //studentEntity.getGroupTimeslots().remove(groupTimeslotEntity);          
+            //em.merge(studentEntity);       
             projectGroupEntity = findProjectGroupViaTimeslot(groupTimeslotEntity);
+            Collection<Student> students = projectGroupEntity.getGroupMembers();
+            Iterator itr = students.iterator();
+            while(itr.hasNext()){
+                studentEntity = (Student) itr.next();
+                studentEntity.getGroupTimeslots().remove(groupTimeslotEntity);
+                em.merge(studentEntity);  
+                em.flush();
+            }
             projectGroupEntity.getGroupTimeslots().remove(groupTimeslotEntity);
             em.merge(projectGroupEntity);
             em.remove(groupTimeslotEntity);
