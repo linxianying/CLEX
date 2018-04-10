@@ -7,6 +7,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
 
+    
     <ui:define name="title">PRISM Student Dashboard Page</ui:define>
 
     <ui:define name="viewname">Dashboard</ui:define>
@@ -73,6 +74,7 @@
 
                             </p:timeline>
                         </p:panel>
+                        
                     </div>
                     <div class="ui-g-12 ui-md-4 task-list">
                         <h:form id="taskObject">
@@ -136,7 +138,7 @@
                                 <table>
                                     <tr>
                                         <td style="width:180px">
-                                            Type:
+                                            Type*:
 
                                         </td>
                                         <td>
@@ -149,7 +151,11 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            Deadline:
+                                            <h:outputLink id="grow" value="#">
+                                                <h:outputText value="Deadline:" />
+                                            </h:outputLink>
+                                            <p:tooltip id="toolTipGrow" position="top" for="grow" value="You could leave deadline empty"
+                                                showEffect="clip" hideEffect="explode" />
                                         </td>
                                         <td>
                                             <p:outputLabel/>
@@ -161,7 +167,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            Title:
+                                            Title*:
 
                                         </td>
                                         <td>
@@ -213,7 +219,7 @@
                                     </tr>
                                 </table>
                                 <p:commandButton styleClass="raised-btn" style="width:340px;" value="Add" actionListener="#{tasksBean.addTask}" update="tab:taskObject:tasklist"
-                                                 action="studentMain?faces-redirect=true"/>
+                                                 />
                             </p:panel>
                         </h:form>
                         <!-- END: Add New Poll -->

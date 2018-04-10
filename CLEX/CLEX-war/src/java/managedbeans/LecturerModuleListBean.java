@@ -16,17 +16,18 @@ import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import session.AnnouncementSessionBeanLocal;
 import session.ClassroomSessionBeanLocal;
 import session.CourseMgmtBeanLocal;
 
-@ManagedBean
-@ViewScoped
+@ManagedBean (name = "lecturerModuleListBean")
+@SessionScoped
+
 public class LecturerModuleListBean implements Serializable {
 
     @EJB
@@ -202,13 +203,15 @@ public class LecturerModuleListBean implements Serializable {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
         session.setAttribute("managedModule", module);
-        try {
-        context.getExternalContext().redirect("lecturerUpdatePRform.xhtml");
-        //System.out.println("Form group "+module.getCourse().getModuleCode()+": # of groups:"+numOfGroups+", max:"+maxStudentNum + ", min:" +minStudentNum);
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
+//        System.out.println("!!!!!!!!!!!!!!!!!!!reset managedModule = " + module.getCourse().getModuleCode());
+//        System.out.println("!!!!!!!!!!!!!!!!!!!reset managedModule = " + module.getCourse().getModuleCode());
+//        try {
+//        context.getExternalContext().redirect("lecturerUpdatePRform.xhtml");
+//        //System.out.println("Form group "+module.getCourse().getModuleCode()+": # of groups:"+numOfGroups+", max:"+maxStudentNum + ", min:" +minStudentNum);
+//        }
+//        catch (IOException e){
+//            e.printStackTrace();
+//        }
     }
 
     public List<Module> getModules() {

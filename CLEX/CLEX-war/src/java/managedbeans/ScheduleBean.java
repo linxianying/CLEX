@@ -88,7 +88,6 @@ public class ScheduleBean implements Serializable {
     private String groupInfo;
     private int groupOrPersonal;
 
-
     FacesContext context;
     HttpSession session;
     private UploadedFile uploadedFile;
@@ -156,11 +155,17 @@ public class ScheduleBean implements Serializable {
     public void reset(){
         System.out.println("Reset function begin" + timeslots.size());
         //timeslots = sbl.getAllTimeslots(userEntity);
-        if(timeslots.size()!=0){
+        if(!timeslots.isEmpty()){
             for (Timeslot timeslot : timeslots) {
                 System.out.println(timeslot.getTitle());
                 sbl.deleteTimeslot(timeslot.getId(), userEntity);
 
+            }
+        }
+        if(!groupTimeslots.isEmpty()&&(userType.equals("1"))){
+            System.out.println("begin_________________________");
+            for (GroupTimeslot t : groupTimeslots) {
+                sbl.deleteGroupTimeslot(t.getId(), (Student) userEntity);
             }
         }
         eventModel.clear();
@@ -256,15 +261,15 @@ public class ScheduleBean implements Serializable {
 
     public void addEvent(ActionEvent actionEvent) {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        System.out.println(userType);
+        System.out.println(event.getId() + "/" +groupOrPersonal+"/"+groupInfo);
         if (event.getId() == null&&(groupOrPersonal==1||userType.equals("2"))) {
             Timeslot timeslot = sbl.createTimeslot(username, event.getTitle(), df.format(event.getStartDate()), df.format(event.getEndDate()), details, venue);
             eventModel.addEvent(new DefaultScheduleEvent(timeslot.getTitle(), toCalendar(timeslot.getStartDate()), toCalendar(timeslot.getEndDate()), timeslot));
         } 
         else if(event.getId() == null && groupOrPersonal == 2 && groupInfo != null){
-            if(groupInfo!=null)
-                group = gfsbl.findProjectGroup(Long.parseLong(groupInfo));
-            GroupTimeslot gts = sbl.createGroupTimeslot("", df.format(event.getStartDate()), df.format(event.getEndDate()), 
+            System.out.println("Add GroupTimeslot: " + groupInfo);
+            group = gfsbl.findProjectGroup(Long.parseLong(groupInfo));
+            GroupTimeslot gts = csbl.createProjectGroupTimeslot("", df.format(event.getStartDate()), df.format(event.getEndDate()), 
                 event.getTitle(), details, venue,  group);
             eventModel.addEvent(new DefaultScheduleEvent(gts.getTitle(), toCalendar(gts.getTimeFrom()), toCalendar(gts.getTimeEnd()), gts));
         }
@@ -277,6 +282,7 @@ public class ScheduleBean implements Serializable {
                 eventModel.updateEvent(new DefaultScheduleEvent(timeslot.getTitle(), 
                         toCalendar(timeslot.getStartDate()), toCalendar(timeslot.getEndDate()), timeslot));
             }catch(ClassCastException e){
+                
                 GroupTimeslot t = (GroupTimeslot) event.getData();
                 sbl.updateTimeslot(t.getId(), event.getTitle(), 
                         df.format(event.getStartDate()), df.format(event.getEndDate()), details, venue);
@@ -286,7 +292,7 @@ public class ScheduleBean implements Serializable {
         } 
         event = new DefaultScheduleEvent();
         
-         refresh();
+        refresh();
     }
 
     public void deleteEvent(ActionEvent actionEvent) {
@@ -314,10 +320,12 @@ public class ScheduleBean implements Serializable {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         ScheduleEvent tempEvent = event.getScheduleEvent();
         try{
+            
             Timeslot timeslot = (Timeslot) tempEvent.getData();
             sbl.updateTimeslot(timeslot.getId(), tempEvent.getTitle(), df.format(tempEvent.getStartDate()), df.format(tempEvent.getEndDate()), details, venue);
             eventModel.updateEvent(new DefaultScheduleEvent(timeslot.getTitle(), toCalendar(timeslot.getStartDate()), toCalendar(timeslot.getEndDate()), timeslot));
         } catch(ClassCastException e){
+           
             GroupTimeslot t = (GroupTimeslot) tempEvent.getData();
             sbl.updateGroupTimeslot(t.getId(), tempEvent.getTitle(), df.format(tempEvent.getStartDate()), df.format(tempEvent.getEndDate()), details, venue);
             eventModel.updateEvent(new DefaultScheduleEvent(t.getTitle(), toCalendar(t.getTimeFrom()), toCalendar(t.getTimeEnd()), t));
@@ -331,10 +339,12 @@ public class ScheduleBean implements Serializable {
         ScheduleEvent tempEvent = event.getScheduleEvent();
         try{
             Timeslot timeslot = (Timeslot) tempEvent.getData();
+            
             sbl.updateTimeslot(timeslot.getId(), tempEvent.getTitle(), df.format(tempEvent.getStartDate()), df.format(tempEvent.getEndDate()), details, venue);
             eventModel.updateEvent(new DefaultScheduleEvent(timeslot.getTitle(), toCalendar(timeslot.getStartDate()), toCalendar(timeslot.getEndDate()), timeslot));
         } catch(ClassCastException e){
             GroupTimeslot t = (GroupTimeslot) tempEvent.getData();
+            
             sbl.updateGroupTimeslot(t.getId(), tempEvent.getTitle(), df.format(tempEvent.getStartDate()), df.format(tempEvent.getEndDate()), details, venue);
             eventModel.updateEvent(new DefaultScheduleEvent(t.getTitle(), toCalendar(t.getTimeFrom()), toCalendar(t.getTimeEnd()), t));
         }

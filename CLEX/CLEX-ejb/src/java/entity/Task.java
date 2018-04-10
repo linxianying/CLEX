@@ -24,10 +24,10 @@ public class Task implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(length = 64, nullable = false)
+    @Column(length = 64)
     private String date;
     
-    @Column(length = 256, nullable = false)
+    @Column(length = 256)
     private String deadline;
     
     @Column(length = 64, nullable = false)

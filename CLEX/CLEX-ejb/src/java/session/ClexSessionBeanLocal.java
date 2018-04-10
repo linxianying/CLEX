@@ -7,6 +7,7 @@ package session;
 
 import entity.Admin;
 import entity.Course;
+import entity.GroupTimeslot;
 import entity.Guest;
 import entity.Lecturer;
 import entity.Lesson;
@@ -50,7 +51,7 @@ public interface ClexSessionBeanLocal {
 
     public void createProjectGroup(SuperGroup superGroup, String name, double cost);
 
-    public void createProjectGroupTimeslot(String date, String timeFrom, String timeEnd, 
+    public GroupTimeslot createProjectGroupTimeslot(String date, String timeFrom, String timeEnd, 
                 String title, String details, String venue, ProjectGroup projectGroup);
     
     public void createModule(String takenYear, String takenSem, String prerequisite,

@@ -16,6 +16,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
@@ -28,7 +29,7 @@ import session.PRQuestionSessionBeanLocal;
  * @author caoyu
  */
 @ManagedBean(name = "lecturerPRFormBean")
-@SessionScoped
+@RequestScoped
 
 public class LecturerPRFormBean implements Serializable{
     @EJB
@@ -73,7 +74,7 @@ public class LecturerPRFormBean implements Serializable{
         lecturer = (Lecturer) session.getAttribute("user");
         username = lecturer.getUsername();
         module = (Module) session.getAttribute("managedModule");
-        
+        System.out.println("managedModule is " + module.getCourse().getModuleCode());
         //for test purpose only
 //        module = csbl.findModule("PS2240", "2017", "2");
 //        Date day = new Date();
@@ -84,7 +85,7 @@ public class LecturerPRFormBean implements Serializable{
         title = question.getTitle();
         deadline = question.getDeadline();
         hasDeadline = "no";
-        System.out.println("Finish init");
+        System.out.println("lecturerPRFormBean Finish init");
         
     }
 
