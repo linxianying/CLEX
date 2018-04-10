@@ -24,9 +24,9 @@
                 </div>
                 <p:signature style="width:1000px;height:500px" widgetVar="sig" 
                              value="#{whiteboardBean.currentDrawing}" required="true" guideline="false"
-                             valueChangeListener="#{whiteboardBean.onInput}" />
+                            valueChangeListener="#{whiteboardBean.onInput}" base64Value="#{whiteboardBean.imagevalue}"/>
                 <div style="margin:20px 0">
-                    <p:commandButton value="Export Drawing" icon="fa fa-file-image-o" update="output" actionListener="#{whiteboardBean.cleardrawing()}"/>
+                    <p:commandButton value="Export Drawing" icon="fa fa-file-image-o" update="output" actionListener="#{whiteboardBean.save()}"/>
                 </div>
 
             </h:form>
