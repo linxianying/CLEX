@@ -261,22 +261,21 @@ public class ScheduleBean implements Serializable {
 
     public void addEvent(ActionEvent actionEvent) {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        System.out.println(userType);
+        System.out.println(event.getId() + "/" +groupOrPersonal+"/"+groupInfo);
         if (event.getId() == null&&(groupOrPersonal==1||userType.equals("2"))) {
             Timeslot timeslot = sbl.createTimeslot(username, event.getTitle(), df.format(event.getStartDate()), df.format(event.getEndDate()), details, venue);
             eventModel.addEvent(new DefaultScheduleEvent(timeslot.getTitle(), toCalendar(timeslot.getStartDate()), toCalendar(timeslot.getEndDate()), timeslot));
         } 
         else if(event.getId() == null && groupOrPersonal == 2 && groupInfo != null){
-            if(groupInfo!=null)
-                group = gfsbl.findProjectGroup(Long.parseLong(groupInfo));
-            GroupTimeslot gts = sbl.createGroupTimeslot("", df.format(event.getStartDate()), df.format(event.getEndDate()), 
+            System.out.println("Add GroupTimeslot: " + groupInfo);
+            group = gfsbl.findProjectGroup(Long.parseLong(groupInfo));
+            GroupTimeslot gts = csbl.createProjectGroupTimeslot("", df.format(event.getStartDate()), df.format(event.getEndDate()), 
                 event.getTitle(), details, venue,  group);
             eventModel.addEvent(new DefaultScheduleEvent(gts.getTitle(), toCalendar(gts.getTimeFrom()), toCalendar(gts.getTimeEnd()), gts));
         }
         else{
             
             try{
-                
                 Timeslot timeslot = (Timeslot) event.getData();
                 sbl.updateTimeslot(timeslot.getId(), event.getTitle(), 
                         df.format(event.getStartDate()), df.format(event.getEndDate()), details, venue);
@@ -293,7 +292,7 @@ public class ScheduleBean implements Serializable {
         } 
         event = new DefaultScheduleEvent();
         
-         refresh();
+        refresh();
     }
 
     public void deleteEvent(ActionEvent actionEvent) {

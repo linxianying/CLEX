@@ -303,6 +303,8 @@ public class ScheduleSessionBean implements ScheduleSessionBeanLocal {
                 String title, String details, String venue, ProjectGroup projectGroup) {
         groupTimeslotEntity = new GroupTimeslot();
         groupTimeslotEntity.createGroupTimeslot(date, timeFrom, timeEnd,title, details, venue, projectGroup);
+        projectGroup.getGroupTimeslots().add(groupTimeslotEntity);
+        em.merge(projectGroup);
         em.persist(groupTimeslotEntity);
         em.flush();
         return groupTimeslotEntity;

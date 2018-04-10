@@ -98,7 +98,7 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
     }
     
     @Override
-    public void createProjectGroupTimeslot(String date, String timeFrom, String timeEnd, 
+    public GroupTimeslot createProjectGroupTimeslot(String date, String timeFrom, String timeEnd, 
                 String title, String details, String venue, ProjectGroup projectGroup){
         groupTimeslot = new GroupTimeslot();
         groupTimeslot.createGroupTimeslot(date, timeFrom, timeEnd, title, details, venue, projectGroup);
@@ -116,6 +116,7 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         em.merge(projectGroup);
         em.persist(groupTimeslot);
         em.flush();
+        return groupTimeslot;
     }
     
     

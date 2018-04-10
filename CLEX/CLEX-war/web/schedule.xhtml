@@ -68,6 +68,17 @@
                         <p:ajax update="addTimeslotForm:projectGroup, addTimeslotForm:eventDetails" event="change"/>
                     </p:selectOneButton>
                     
+                    <p:outputLabel id="checkGroup" for="projectGroup" value="Group:" rendered="#{scheduleBean.groupOrPersonal==2}" />
+                    <p:selectOneMenu id="projectGroup" value="#{scheduleBean.groupInfo}"  panelStyle="width:120px" effect="fade" 
+                                     style="width:130px;" filter="true" filterMatchMode="contains" 
+                                    appendTo="@this" rendered="#{scheduleBean.groupOrPersonal==2}" >
+                        <p:ajax event="change"  />
+                        <f:selectItem itemLabel="Select One" itemValue="select"/>
+                        <f:selectItems value="#{scheduleBean.projectGroups}" var="projectGroup" 
+                                      itemValue="#{projectGroup.id}" 
+                                      itemLabel="#{projectGroup.superGroup.module.course.moduleCode}-#{projectGroup.name}" />
+                    </p:selectOneMenu>
+                    
                     <p:outputLabel for="title" value="Titles:" />
                     <p:inputText id="title" value="#{scheduleBean.event.title}" required="true" />
 
@@ -82,18 +93,7 @@
 
                     <p:outputLabel for="venue" value="Venue:" />
                     <p:inputText id="venue" value="#{scheduleBean.venue}" required="false" />
-                    
-                                                      
-                    <p:outputLabel id="checkGroup" for="projectGroup" value="Group:" rendered="#{scheduleBean.groupOrPersonal==2}" />
-                    <p:selectOneMenu id="projectGroup" value="#{scheduleBean.groupInfo}"  panelStyle="width:120px" effect="fade" 
-                                     style="width:130px;" filter="true" filterMatchMode="contains" 
-                                    appendTo="@this" rendered="#{scheduleBean.groupOrPersonal==2}" >
-                        <p:ajax event="change"  />
-                        <f:selectItem itemLabel="Select One" itemValue="select"/>
-                        <f:selectItems value="#{scheduleBean.projectGroups}" var="projectGroup" 
-                                      itemValue="#{projectGroup.id}" 
-                                      itemLabel="#{projectGroup.superGroup.module.course.moduleCode}-#{projectGroup.name}" />
-                    </p:selectOneMenu>
+                        
 
                     <p:commandButton id="deleteButton" value="Delete" actionListener="#{scheduleBean.deleteEvent}" 
                                      oncomplete="PF('myschedule').update();PF('eventDialog').hide();"
