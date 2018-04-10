@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package managedbeans;
+import entity.GroupTask;
 import entity.GroupTimeslot;
 import entity.Module;
 import entity.ProjectGroup;
@@ -77,6 +78,8 @@ public class ProjectScheduleBean implements Serializable{
     private ScheduleModel eventModel = new DefaultScheduleModel();
     private ScheduleEvent event = new DefaultScheduleEvent();
     private ProjectGroup group;
+    private Collection<GroupTask> groupTasks;
+    private boolean value;
 
     FacesContext context;
     HttpSession session;
@@ -99,6 +102,8 @@ public class ProjectScheduleBean implements Serializable{
         module = (Module) session.getAttribute("module");
 
         groupTimeslots = group.getGroupTimeslots();
+        groupTasks = group.getGroupTasks();
+        System.out.println("GroupTask: " + groupTasks.size());
         GroupTimeslot g;
         for(GroupTimeslot group : groupTimeslots){
             g = group;
@@ -106,10 +111,29 @@ public class ProjectScheduleBean implements Serializable{
             dse.setDescription(g.getDetails());
             System.out.println(g.getDetails());
             eventModel.addEvent(dse);
-       }
+        }
+        //GroupTask groupTask;
+        //for(GroupTask gt : groupTasks){
+        //    groupTask = gt;
+        //    
+        //}
         
     }
     
+    public void checkGroupTask(GroupTask groupTask){
+        String summary = value ? "Checked. This group task is finished!" : "Unchecked. This group task is unfinished.";
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(summary));
+        
+        if(value==true){
+            //finished
+            tdsbl.finishGroupTask(groupTask.getId());
+            System.out.println("GroupTask " + groupTask.getId() + " is " + groupTask.getStatus());
+            value = false;
+        }else{
+            tdsbl.unfinishGroupTask(groupTask.getId());
+        }
+        refresh();
+    }
     
 
     //Convert String to Date format
@@ -332,7 +356,21 @@ public class ProjectScheduleBean implements Serializable{
         this.groupTimeslots = groupTimeslots;
     }
 
+    public Collection<GroupTask> getGroupTasks() {
+        return groupTasks;
+    }
 
+    public void setGroupTasks(Collection<GroupTask> groupTasks) {
+        this.groupTasks = groupTasks;
+    }
+
+    public boolean isValue() {
+        return value;
+    }
+
+    public void setValue(boolean value) {
+        this.value = value;
+    }
 
     
 }

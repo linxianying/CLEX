@@ -302,6 +302,10 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
             em.persist(indGroupTaskEntity);
             System.out.println("createGroupTask: individual" + indGroupTaskEntity.getId());
         }
+        projectGroup.getGroupTasks().add(groupTaskEntity);
+        em.merge(projectGroup);
+        em.persist(groupTaskEntity);
+        em.flush();
         System.out.println("createGroupTask: group" + groupTaskEntity.getId());
         return groupTaskEntity;
     }
