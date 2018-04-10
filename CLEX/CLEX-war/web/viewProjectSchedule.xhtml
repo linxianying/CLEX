@@ -63,7 +63,7 @@
                 <h:form id="taskObject1">
 
                     <p:panel header="Group Tasks" style="min-height:320px">
-                        <p:dataList var="groupTask" id="tasklist" value="#{projectScheduleBean.groupTasks}"
+                        <p:dataList var="groupTask" id="tasklist" value="#{projectScheduleBean.unfinishedGroupTasks}"
                                     widgetVar="groupTaskTable" paginatorAlwaysVisible="false"
                                     paginator="true" paginatorPosition="bottom"
                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} 
@@ -73,7 +73,8 @@
                                     emptyMessage="No users found with given criteria." >
                             <p:growl id="msgmsg1" />    
                             <p:selectBooleanCheckbox value="#{projectScheduleBean.value}">
-                                <p:ajax update="msgmsg1" listener="#{projectScheduleBean.checkGroupTask(groupTask)}" />
+                                <p:ajax update="msgmsg1,@form" listener="#{projectScheduleBean.checkGroupTask(groupTask)}" 
+                                        />
                             </p:selectBooleanCheckbox>
                             <h:outputLabel value="#{groupTask.title}"/>
                             <!--<span class="task-name">#{groupTask.title}</span>-->
