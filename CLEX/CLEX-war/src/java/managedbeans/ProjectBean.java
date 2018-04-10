@@ -241,6 +241,19 @@ public class ProjectBean {
         }
     }
     
+    public void GoGroupSchedulePage(String moduleCode) {
+        try {
+            module = csbl.findModule(moduleCode, currentYear, currentSem);
+            session.setAttribute("module", module);
+            projectGroup = psbl.getStudentProjectGroup(student, module);
+            session.setAttribute("projectGroup", projectGroup);
+            context.getExternalContext().redirect("viewProjectSchedule.xhtml");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     public void GoPRPage(String moduleCode){
     try {
             module = csbl.findModule(moduleCode, currentYear, currentSem);

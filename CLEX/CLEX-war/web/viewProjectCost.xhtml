@@ -6,9 +6,10 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 template="/WEB-INF/template.xhtml">
-    <h:head>
-        <title>PRISM Project Cost</title>
-    </h:head>
+    <ui:define name="title">PRISM Student Project Cost Page</ui:define>
+
+    <ui:define name="viewname">Project</ui:define>
+
     <ui:define name="content">
         <p:growl id="addErrorMsg" showDetail="true" />
         <p:panelGrid columns="2" layout="grid">            
