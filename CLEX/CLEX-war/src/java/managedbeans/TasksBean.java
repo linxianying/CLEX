@@ -188,7 +188,7 @@ public class TasksBean {
     }
     
     public void checkGroupTask(IndividualGroupTask groupTask){
-        String summary = value ? "Checked. This task is finished!" : "Unchecked. This task is unfinished.";
+        String summary = value ? "Checked. This group task is finished!" : "Unchecked. This group task is unfinished.";
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(summary));
         
         if(value==true){
@@ -199,6 +199,7 @@ public class TasksBean {
         }else{
             tsbl.unfinishGroupTask(groupTask.getId());
         }
+        refresh();
     }
     
     public void addTask(){
