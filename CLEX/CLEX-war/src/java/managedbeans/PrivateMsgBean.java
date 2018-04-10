@@ -120,6 +120,10 @@ public class PrivateMsgBean {
         return rcvName;
     }
 
+    public List<User> getUsers() {
+        return (List) msbl.getAllUsers();
+    }
+
     public void startConversation() {
         if (msbl.findUser(searchUsername) == null) {
             System.out.println("User does not exist. = " + searchUsername);
@@ -202,7 +206,7 @@ public class PrivateMsgBean {
         } else {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to leave conversation.", "Please ensure you are logged in.");
         }
-        
+
         refresh();
         context.addMessage(null, fmsg);
     }
