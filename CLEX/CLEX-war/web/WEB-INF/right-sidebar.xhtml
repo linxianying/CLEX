@@ -23,22 +23,14 @@
                             <div style=" height: 75vh; overflow-y: scroll; width: 240px">
                                 <div class="search-input">
                                     <h:form id="form1">
-                                        <!--<p:inputText value=""
-                                                     placeholder="Search for user..." styleClass="inputMsg"
-                                                     onkeypress="if (event.keyCode == 13) {
-                                                                 searchUser();
-                                                                 return false;
-                                                             }" />
-                                        <i class="fa fa-search"></i>-->
                                         
                                         <p:selectOneMenu id="userList" value="#{privateMsgBean.searchUsername}"  panelStyle="width:190px" effect="fade" 
-                                                             var="user" style="width:190px" filter="true" filterMatchMode="contains" appendTo="@this">
-                                                <p:ajax event="change" listener="#{privateMsgBean.startConversation}" update="msgTabView:form1"/>
-                                                <f:selectItem itemLabel="Search a contact" itemValue="select"/>
-                                                <f:selectItems value="#{privateMsgBean.getUsers()}" var="users" itemLabel="#{users.name}" itemValue="#{users.username}" />
-                                            </p:selectOneMenu>
+                                                         var="user" style="width:190px" filter="true" filterMatchMode="contains" appendTo="@this">
+                                            <p:ajax event="change" listener="#{privateMsgBean.startConversation}" update="msgTabView:form1"/>
+                                            <f:selectItem itemLabel="Select a contact" itemValue="select"/>
+                                            <f:selectItems value="#{privateMsgBean.getUsers()}" var="users" itemLabel="#{users.name}" itemValue="#{users.username}" />
+                                        </p:selectOneMenu>
 
-                                        
 
                                         <p:dataList rendered="#{not empty privateMsgBean.convoList}" id="myContacts" var="convo" value="#{privateMsgBean.convoList}">
                                             <button type="button" onclick="#{privateMsgBean.getRcvrUsername(convo)}convo()" class="convoBox">
@@ -55,7 +47,6 @@
                                             </button>
                                             <hr style="border: none; height: 1px; background-color: #dddddd"/>
                                         </p:dataList>
-
                                     </h:form>
                                 </div>
                             </div>
@@ -81,7 +72,7 @@
                                     </c:if>
 
                                     <c:if test="#{not empty privateMsgBean.msgList}">
-                                        
+
                                         <p:dataList id="myMessages" var="msg" value="#{privateMsgBean.msgList}">
                                             <h:outputText rendered="#{privateMsgBean.messageIsByUser(msg)}" value="#{msg.getMessage()}" class="chatBubble_left"/>
                                             <br/>
