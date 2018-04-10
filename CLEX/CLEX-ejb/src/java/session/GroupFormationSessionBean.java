@@ -122,14 +122,38 @@ public class GroupFormationSessionBean implements GroupFormationSessionBeanLocal
         return projectGroups;
     }
     
-    //join the student to the group unless the group is full return false
+    //join the student to the group unless the group is full return false and 
     @Override
-    public boolean joinGroup(Student student, ProjectGroup group) {
+    public boolean joinGroup(Long studentId, Long groupId, Long oriGroupId) {
+        student = this.findStudent(studentId);
+        group = this.findProjectGroup(groupId);
         if (!this.checkGroupStatus(group))
             return false;
         else {
-            student.getProjectGroups().add(group);
-            group.getGroupMembers().add(student);
+            if (student.getProjectGroups() == null) {
+                Collection<ProjectGroup> all = new ArrayList<ProjectGroup>();
+                all.add(group);
+                student.setProjectGroups(all);
+            }
+            else {
+                student.getProjectGroups().add(group);
+            }
+            
+            if (group.getGroupMembers() == null) {
+                Collection<Student> allStudents = new ArrayList<Student>();
+                allStudents.add(student);
+                group.setGroupMembers(allStudents);
+            }
+            else {
+                group.getGroupMembers().add(student);
+            }
+            
+            if (oriGroupId != null) {
+                ProjectGroup oriGroup = this.findProjectGroup(oriGroupId);
+                student.getProjectGroups().remove(oriGroup);
+                oriGroup.getGroupMembers().remove(student);
+                em.merge(oriGroup);
+            }
             em.merge(student);
             em.merge(group);
             em.flush();
@@ -137,6 +161,20 @@ public class GroupFormationSessionBean implements GroupFormationSessionBeanLocal
                     + " successfully joins group " + group.getName() + " for "
                     + group.getSuperGroup().getModule().getCourse().getModuleCode());
             return true;
+        }
+    }
+    
+    //let the student leave the group 
+    @Override
+    public void leaveGroup(Long studentId, Long groupId) {
+        student = this.findStudent(studentId);
+        group = this.findProjectGroup(groupId);
+        if (group.getGroupMembers().contains(student)) {
+            student.getProjectGroups().remove(group);
+            group.getGroupMembers().remove(student);
+            em.merge(student);
+            em.merge(group);
+            em.flush();
         }
     }
     

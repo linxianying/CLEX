@@ -1,45 +1,48 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition  xmlns="http://www.w3.org/1999/xhtml"
-       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-       xmlns:h="http://xmlns.jcp.org/jsf/html"
-       template="/WEB-INF/template.xhtml" 
-       xmlns:p="http://primefaces.org/ui">
+                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                 template="/WEB-INF/template.xhtml" 
+                 xmlns:p="http://primefaces.org/ui">
     
     <ui:define name="title">PRISM Student Group Formation Page</ui:define>
-
+    
     <ui:define name="viewname">Group</ui:define>
     
     <ui:define name="content">
-    
+        
         <p:growl id="messages" showDetail="true" />
         <h3>
-        <h:outputText value="Group formation for "/>
-        <h:outputText value="#{groupFormationBean.module.course.moduleCode}"/>
-        <h:outputText value=", AY "/>
-        <h:outputText value="#{groupFormationBean.currentYear}"/>
-        <h:outputText value=" Sem "/>
-        <h:outputText value="#{groupFormationBean.currentSem}"/>
-        <br />
-        <h:outputText value="Group formation requirement: "/>
-        <h:outputText value="#{groupFormationBean.minStudentNum}"/>
-        <h:outputText value=" to " rendered="#{groupFormationBean.minStudentNum != groupFormationBean.maxStudentNum}"/>
-        <h:outputText value="#{groupFormationBean.maxStudentNum}" rendered="#{groupFormationBean.minStudentNum != groupFormationBean.maxStudentNum}"/>
-        <h:outputText value=" people per group"/>
+            <h:outputText value="Group formation for "/>
+            <h:outputText value="#{groupFormationBean.module.course.moduleCode}"/>
+            <h:outputText value=", AY "/>
+            <h:outputText value="#{groupFormationBean.currentYear}"/>
+            <h:outputText value=" Sem "/>
+            <h:outputText value="#{groupFormationBean.currentSem}"/>
+            <br />
+            <h:outputText value="Group formation requirement: #{groupFormationBean.superGroup.avgStudentNum} per group"/>
+            <br />
+            <h:outputText value="Minimum number of members: #{groupFormationBean.superGroup.minStudentNum}" rendered="#{groupFormationBean.superGroup.minStudentNum ne 0}"/>
+            <h:outputText value="Maximum number of members: #{groupFormationBean.superGroup.maxStudentNum}" rendered="#{groupFormationBean.superGroup.maxStudentNum ne 0}"/>
+            <br/>
         </h3>
-        <p:dataList var="group" value="#{groupFormationBean.projectGroups}">
+        <h:outputText id="noGroupMsg" value="You are not in any group!" rendered="#{empty groupFormationBean.currentProjectGroup}"/>
+        <h:outputText id="groupMsg" value="You are in Group #{groupFormationBean.currentProjectGroup.name}" rendered="#{not empty groupFormationBean.currentProjectGroup}"/>
+        
+        <p:dataList id="groupInformation" var="group" value="#{groupFormationBean.projectGroups}">
             <p:accordionPanel multiple="true" activeIndex="1">
-                <p:tab title="#{group.name} (#{group.groupMembers.size()}/#{groupFormationBean.maxStudentNum})">
-                    <h:outputText value="Nobody in this group" rendered="#{empty group.groupMembers}"/>
+                <p:tab title="#{group.name} (#{group.groupMembers.size()})">
+                    <h:outputText value="Nobody in this group" rendered="#{empty group.groupMembers or group.groupMembers.size() eq 0}"/>
                     <h:outputText value="This group is full" rendered="#{(not empty group.groupMembers) and (group.groupMembers.size() == groupFormationBean.maxStudentNum)}"/>
-                    <h:outputText value="Number of students: " rendered="#{not empty group.groupMembers}"/>
-                    <h:outputText value="#{group.groupMembers.size()}" rendered="#{not empty group.groupMembers}"/>
+                    <br/>
+                    <!--<h:outputText value="Number of students: #{group.groupMembers.size()}" rendered="#{not empty group.groupMembers}"/>-->
                     <h:panelGrid rendered="#{not empty group.groupMembers}">
                         <ui:repeat var="student" value="#{group.groupMembers}">
                             <p:graphicImage rendered="#{profileBean.checkpic(student.name) == true}"
-                                                        cache="false" library="profile"
-                                                        style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px" 
-                                                        name="#{student.name}.png"/>
+                                            cache="false" library="profile"
+                                            style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px" 
+                                            name="#{student.name}.png"/>
                             <p:graphicImage rendered="#{profileBean.checkpic(student.name) == false}" 
                                             cache="false" library="profile"
                                             style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px" 
@@ -51,10 +54,14 @@
                             <h:outputText value="#{student.name}" />
                             <br />
                         </ui:repeat>
+                        <p:commandButton value="Leave this group" actionListener="#{groupFormationBean.leaveGroup(group.id)}" update="messages, noGroupMsg, groupMsg, groupInformation"
+                                         rendered="#{(not empty groupFormationBean.currentProjectGroup and group.id eq groupFormationBean.currentProjectGroup.id)}"/>
+                   
+<!--                        <p:commandButton value="Join this group" actionListener="#{groupFormationBean.joinGroup(group.id)}" update="messages, noGroupMsg, groupMsg, groupInformation"
+                                         rendered="#{((empty groupFormationBean.currentProjectGroup or group.id ne groupFormationBean.currentProjectGroup.id)) and group.groupMembers.size() lt groupFormationBean.maxStudentNum}"/>-->
                     </h:panelGrid>
-                    <h:form>
-                    <p:commandButton value="Join this group" rendered="#{group.groupMembers.size() lt groupFormationBean.maxStudentNum}" action="#{groupFormationBean.joinGroup(group.id)}" />
-                    </h:form>
+                    <p:commandButton value="Join this group" actionListener="#{groupFormationBean.joinGroup(group.id)}" update="messages, noGroupMsg, groupMsg, groupInformation"
+                                         rendered="#{((empty groupFormationBean.currentProjectGroup or group.id ne groupFormationBean.currentProjectGroup.id)) and group.groupMembers.size() lt groupFormationBean.maxStudentNum}"/>
                 </p:tab>                
             </p:accordionPanel>
         </p:dataList>

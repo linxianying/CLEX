@@ -94,7 +94,7 @@ public class ProjectSessionBean implements ProjectSessionBeanLocal {
         boolean has= false;
         Collection<ProjectGroup> allGroups = new ArrayList<ProjectGroup>();
         allGroups = student.getProjectGroups();
-        System.out.println("project sb: checkStudentProjectGroup: " + allGroups.size());
+//        System.out.println("project sb: checkStudentProjectGroup: " + allGroups.size());
         for (ProjectGroup pg: allGroups) {
             if (pg.getSuperGroup().getModule().getId().equals(module.getId()))
                 has = true;
