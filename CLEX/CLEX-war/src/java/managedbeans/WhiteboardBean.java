@@ -13,13 +13,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Base64;
-import javax.faces.application.FacesMessage;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpSession;
-import org.primefaces.event.FileUploadEvent;
 
 /**
  *
@@ -36,18 +35,24 @@ public class WhiteboardBean {
     private String previousDrawing;
     private String imagevalue;
 
-    public String getImagevalue() {
-        return imagevalue;
-    }
-
-    public void setImagevalue(String imagevalue) {
-        this.imagevalue = imagevalue;
-    }
+    private String drawingcolor;
+    private String canvascolor;
+    private String canvasheight;
+    private String canvaswidth;
 
     private static final String URL_DATA_PNG_BASE64_PREFIX = "data:image/png;base64,";
 
     public WhiteboardBean() {
     }
+
+    @PostConstruct
+    public void init() {
+        canvascolor = "#ffffff";
+        drawingcolor = "#000000";
+        canvasheight = "800";
+        canvaswidth = "1000";
+    }
+
 
     public void save() throws IOException {
         context = FacesContext.getCurrentInstance();
@@ -115,5 +120,45 @@ public class WhiteboardBean {
 
     public void setPreviousDrawing(String previousDrawing) {
         this.previousDrawing = previousDrawing;
+    }
+
+    public String getImagevalue() {
+        return imagevalue;
+    }
+
+    public void setImagevalue(String imagevalue) {
+        this.imagevalue = imagevalue;
+    }
+
+    public String getDrawingcolor() {
+        return drawingcolor;
+    }
+
+    public void setDrawingcolor(String drawingcolor) {
+        this.drawingcolor = drawingcolor;
+    }
+
+    public String getCanvascolor() {
+        return canvascolor;
+    }
+
+    public void setCanvascolor(String canvascolor) {
+        this.canvascolor = canvascolor;
+    }
+
+    public String getCanvasheight() {
+        return canvasheight;
+    }
+
+    public void setCanvasheight(String canvasheight) {
+        this.canvasheight = canvasheight;
+    }
+
+    public String getCanvaswidth() {
+        return canvaswidth;
+    }
+
+    public void setCanvaswidth(String canvaswidth) {
+        this.canvaswidth = canvaswidth;
     }
 }
