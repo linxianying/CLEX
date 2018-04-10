@@ -284,12 +284,14 @@ public class GroupFormationSessionBean implements GroupFormationSessionBeanLocal
     @Override
     public void deleteProjectGroup(Long projectGroupId){
         group = this.findProjectGroup(projectGroupId);
+        superGroupEntity = this.findSuperGroup(group.getSuperGroup().getId());
         if (group.getGroupMembers() != null && !group.getGroupMembers().isEmpty()) {
             System.out.println("Error: groupFormationSessionBean: deleteProjectGroup: The group has related students");
         }
-        superGroupEntity = group.getSuperGroup();
+//        superGroupEntity = group.getSuperGroup();
         superGroupEntity.getProjectGroups().remove(group);
         em.merge(superGroupEntity);
+        group.setSuperGroup(null);
         em.remove(group);
         em.flush();
     }
