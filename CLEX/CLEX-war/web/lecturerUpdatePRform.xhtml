@@ -17,6 +17,8 @@
             <p:tab id="formTab" title="Peer Review Form">
         
                 <h:form id="title">
+                    <h:outputText value="Peer Review form for #{lecturerPRFormBean.module.course.moduleCode}" />
+                    <br/>
                     <h:outputText value="Title: "/>
                         <p:inplace id="check" editor="true">
                             <p:inputText value="#{lecturerPRFormBean.title}" required="true" label="text" />
