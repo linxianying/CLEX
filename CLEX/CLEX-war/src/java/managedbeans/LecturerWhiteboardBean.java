@@ -127,7 +127,9 @@ public class LecturerWhiteboardBean {
         String[] fList = directory.list();
         List<String> filesInDirectory = new ArrayList<String>(fList.length);
         for (String file : fList) {
-            filesInDirectory.add(file);
+            if (file.endsWith(".png")) {
+                filesInDirectory.add(file);
+            }
         }
         return filesInDirectory;
     }
@@ -155,6 +157,34 @@ public class LecturerWhiteboardBean {
             foldersInDirectory.add(directoryAsFile.getName());
         }
         return foldersInDirectory;
+    }
+
+    public void closeActivity(String foldername) throws IOException {
+        String path = session.getServletContext().getRealPath("/");
+        int pathlength = path.length();
+        pathlength = pathlength - 10;
+        path = path.substring(0, pathlength);
+        path = path + "web/resources/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + foldername + "/";
+        path = path.replaceAll("\\\\", "/");
+        Path folder = Paths.get(path);
+        Path file = Files.createTempFile(folder, foldername + "-Closed", ".txt");
+        Files.move(file, Paths.get(path, foldername + "-Closed.txt"));
+    }
+
+    public boolean checkActivity(String foldername) {
+        String path = session.getServletContext().getRealPath("/");
+        int pathlength = path.length();
+        pathlength = pathlength - 10;
+        path = path.substring(0, pathlength);
+        path = path + "web/resources/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + foldername + "/";
+        path = path.replaceAll("\\\\", "/");
+        path = path + foldername + "-Closed.txt";
+        Path folder = Paths.get(path);
+        if(Files.exists(folder)) {
+            return true;
+        }
+        else { return false; }
+
     }
 
     public void removeFolder(String foldername) throws IOException {
@@ -204,7 +234,7 @@ public class LecturerWhiteboardBean {
 
         String zipFile = System.getProperty("user.home") + "/Desktop/" + foldername + ".zip";
         System.out.println(zipFile);
-  
+
         try {
             byte[] buffer = new byte[1024];
             FileOutputStream fos = new FileOutputStream(zipFile);
@@ -224,7 +254,7 @@ public class LecturerWhiteboardBean {
 
         } catch (IOException ioe) {
             System.out.println("Error creating zip file: " + ioe);
-        }  
+        }
     }
 
     public StreamedContent getFile() {

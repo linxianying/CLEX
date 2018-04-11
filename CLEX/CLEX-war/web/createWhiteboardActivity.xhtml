@@ -31,15 +31,20 @@
                                 emptyMessage="No files has been uploaded yet!">
                                 <p:column >
                                     <h:outputLabel value="#{itemlist} " />
+                                    
                                 </p:column>
                             </p:dataList>
                         </h:panelGrid>
                     </p:panel>
                     <br />
                     <h:panelGroup style="float: right">
-                        <p:commandButton value="Download all files" icon="fa fa-download"                                     
+                        <p:commandButton value="Download all files" icon="fa fa-download"  rendered="#{lecturerWhiteboardBean.checkActivity(folderlist)}"                             
                                          actionListener="#{lecturerWhiteboardBean.downloadallfiles(folderlist)}"/>
-                        <p:commandButton value="Remove Activity" icon="fa fa-trash-o" 
+                        <p:commandButton value="Close Activity" icon="fa fa-close" rendered="#{lecturerWhiteboardBean.checkActivity(folderlist) == false}"
+                                         actionListener="#{lecturerWhiteboardBean.closeActivity(folderlist)}" update="foldertable">
+                            <p:confirm header="Close #{folderlist}" message="Closed activities cannot be re-opened! Are you sure?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                        <p:commandButton value="Remove Activity" icon="fa fa-trash-o" rendered="#{lecturerWhiteboardBean.checkActivity(folderlist)}"
                                          actionListener="#{lecturerWhiteboardBean.removeFolder(folderlist)}" update="foldertable, messages">
                             <p:confirm header="Delete #{folderlist}" message="Associated folders and files cannot be recovered! Are you sure?" icon="ui-icon-alert" />
                         </p:commandButton>
