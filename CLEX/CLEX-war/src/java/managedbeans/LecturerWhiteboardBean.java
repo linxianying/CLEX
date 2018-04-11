@@ -233,6 +233,7 @@ public class LecturerWhiteboardBean {
         }
 
         String zipFile = System.getProperty("user.home") + "/Desktop/" + foldername + ".zip";
+        zipFile = zipFile.replaceAll("\\\\", "/");
         System.out.println(zipFile);
 
         try {
