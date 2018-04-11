@@ -9,13 +9,16 @@ import entity.Module;
 import entity.User;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -112,7 +115,7 @@ public class LecturerWhiteboardBean {
         path = path.substring(0, pathlength);
         path = path + "web/resources/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + foldername + "/";
         path = path.replaceAll("\\\\", "/");
-        System.out.println(path);
+
         List<String> items = new ArrayList<String>();
         items = listFiles(path);
         return items;
@@ -146,13 +149,11 @@ public class LecturerWhiteboardBean {
                 return file.isDirectory();
             }
         };
-
         File[] directoryListAsFile = directory.listFiles(directoryFileFilter);
         List<String> foldersInDirectory = new ArrayList<String>(directoryListAsFile.length);
         for (File directoryAsFile : directoryListAsFile) {
             foldersInDirectory.add(directoryAsFile.getName());
         }
-
         return foldersInDirectory;
     }
 
@@ -185,8 +186,45 @@ public class LecturerWhiteboardBean {
         }
         folder.delete();
     }
+
     public void downloadallfiles(String foldername) {
-        
+        String path = session.getServletContext().getRealPath("/");
+        int pathlength = path.length();
+        pathlength = pathlength - 10;
+        path = path.substring(0, pathlength);
+        path = path + "web/resources/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + foldername + "/";
+        path = path.replaceAll("\\\\", "/");
+        List<String> items = new ArrayList<String>();
+        List<String> itemswithpath = new ArrayList<String>();
+        items = listFiles(path);
+        for (int i = 0; i < items.size(); i++) {
+            System.out.println(path + items.get(i));
+            itemswithpath.add(path + items.get(i));
+        }
+
+        String zipFile = System.getProperty("user.home") + "/Desktop/" + foldername + ".zip";
+        System.out.println(zipFile);
+  
+        try {
+            byte[] buffer = new byte[1024];
+            FileOutputStream fos = new FileOutputStream(zipFile);
+            ZipOutputStream zos = new ZipOutputStream(fos);
+            for (int i = 0; i < itemswithpath.size(); i++) {
+                File srcFile = new File(itemswithpath.get(i));
+                FileInputStream fis = new FileInputStream(srcFile);
+                zos.putNextEntry(new ZipEntry(srcFile.getName()));
+                int length;
+                while ((length = fis.read(buffer)) > 0) {
+                    zos.write(buffer, 0, length);
+                }
+                zos.closeEntry();
+                fis.close();
+            }
+            zos.close();
+
+        } catch (IOException ioe) {
+            System.out.println("Error creating zip file: " + ioe);
+        }  
     }
 
     public StreamedContent getFile() {
@@ -280,4 +318,5 @@ public class LecturerWhiteboardBean {
     public void setSelectedActivity(String selectedActivity) {
         this.selectedActivity = selectedActivity;
     }
+
 }
