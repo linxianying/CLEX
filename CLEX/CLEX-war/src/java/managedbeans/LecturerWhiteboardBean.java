@@ -44,8 +44,6 @@ public class LecturerWhiteboardBean {
     private List<String> list;
     Module moduleEntity;
     private List<String> itemlist;
-    private String selectedItem;
-    private String selectedActivity;
     private String semester;
     private String year;
     private String schoolname;
@@ -180,11 +178,11 @@ public class LecturerWhiteboardBean {
         path = path.replaceAll("\\\\", "/");
         path = path + foldername + "-Closed.txt";
         Path folder = Paths.get(path);
-        if(Files.exists(folder)) {
+        if (Files.exists(folder)) {
             return true;
+        } else {
+            return false;
         }
-        else { return false; }
-
     }
 
     public void removeFolder(String foldername) throws IOException {
@@ -332,22 +330,6 @@ public class LecturerWhiteboardBean {
 
     public void setSchoolname(String schoolname) {
         this.schoolname = schoolname;
-    }
-
-    public String getSelectedItem() {
-        return selectedItem;
-    }
-
-    public void setSelectedItem(String selectedItem) {
-        this.selectedItem = selectedItem;
-    }
-
-    public String getSelectedActivity() {
-        return selectedActivity;
-    }
-
-    public void setSelectedActivity(String selectedActivity) {
-        this.selectedActivity = selectedActivity;
     }
 
 }
