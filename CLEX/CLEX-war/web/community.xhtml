@@ -104,13 +104,8 @@
                     </h:panelGroup>
                 </h:form>
                 <br /><br />
-            </p:tab>
-
-            <p:tab title="#{forumListBean.userEntity.school} MODULE REVIEWS">
-                <!-- search by user? search by keyword-->
-                <h1>FOR TESTING ONLY, CAN REUSE THEM FOR FRONTEND IF POSSIBLE</h1>
                 <!-- BUTTONS FOR TESTING BACKEND -->
-                <h:form>
+                <!--h:form>
                     <h:commandButton value="Test sorting" actionListener="#{communityBean.sort()}" />
                 </h:form>
 
@@ -118,7 +113,56 @@
                     <h:commandButton value="Test entity" actionListener="#{communityBean.test()}" />
                 </h:form>
 
-                <br></br>
+                <br></br-->
+            </p:tab>
+
+            <p:tab title="#{forumListBean.userEntity.school} MODULE REVIEWS">
+                <p:commandButton value="Search Module Code" id="searchButton2" icon="fa fa-search" >
+                    <p:overlayPanel for="searchButton2" showEffect="fade" hideEffect="fade" widgetVar="searchWidget"  style="width: 300px; height: 333px">
+                        <h:form id="searchForm2">
+                            <h:panelGrid columns="1">
+                                <p:outputLabel id="viewLabel" for="moduleCode" value="Module Code:" />
+                                    <p:selectOneMenu id="moduleCode" value="#{forumListBean.searchModuleCode}"  panelStyle="width:180px" effect="fade" 
+                                                     var="course" style="width:160px" filter="true" filterMatchMode="contains" appendTo="@this">
+                                        <!--p:ajax event="change" listener="#{forumListBean.searchReview()}" update="communityTab:forumForm2, messages, communityTab:searchForm2"  /-->
+                                        <f:selectItem itemLabel="Select One" itemValue="select"/>
+                                        <f:selectItems value="#{forumListBean.courses}" var="course" itemLabel="#{course.moduleCode}" itemValue="#{course.moduleCode}" />
+                                    </p:selectOneMenu>                                 
+                                <h:panelGroup>
+                                    <p:commandButton oncomplete="PF('searchWidget').hide()" icon="fa fa-search-plus" value="Search Review" actionListener="#{forumListBean.searchReview}" update="communityTab:forumForm2, messages, communityTab:searchForm2"/>
+                                    <p:commandButton oncomplete="PF('searchWidget').hide()" icon="fa fa-search-minus" value="Clear Search" actionListener="#{forumListBean.refresh()}" update="communityTab:forumForm2, messages, communityTab:searchForm2" />
+                                </h:panelGroup>
+                            </h:panelGrid>
+                        </h:form>
+                    </p:overlayPanel>
+                </p:commandButton>
+                <br /><br />
+                <h:form id="forumForm2">
+                    <h:panelGroup>
+                        <p:dataTable selectionMode="single" selection="#{forumListBean.selectedThread}" rowKey="#{threads.id}"
+                                     id="forumtable" value="#{forumListBean.reviewThreads}" 
+                                     var="threads" paginator="true" 
+                                     rows="15" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
+                                     emptyMessage="No reviews has been created yet!">
+                            <p:ajax event="rowSelect" listener="#{forumListBean.onRowSelect}" update="messages" />                            
+                            <p:column style="height:40px" headerText="Review" >                                
+                                <h:outputLabel style="font-size: 16px" value="#{threads.title}"/>
+                                <br />
+                                <h:outputLabel style="font-size: 11px" value="#{threads.user.name} - #{forumListBean.dayTime(threads)}" />   
+                                <br />
+                                <h:outputLabel style="font-size: 11px" value=" Last post: #{forumListBean.latestReplyDayTime(threads.latestReplyDateTime)}" /> 
+                            </p:column>
+                            <p:column style="width: 11%;height:40px" headerText="Replies" >
+                                <h:outputLabel style="font-size: 16px" value="#{threads.replies.size()}"/> 
+                            </p:column>
+                            <p:column style="width: 11%;height:40px" headerText="Votes" >
+                                <h:outputLabel id="positiveThread" style="font-size:16px; font-weight: bold; float: left" value="+#{threads.upVote - threads.downVote}" rendered="#{(threads.upVote - threads.downVote) gt 0}"/>
+                                <h:outputLabel id="negativeThead" style="font-size:16px; font-weight: bold; float: left" value="#{threads.upVote - threads.downVote}" rendered="#{(threads.upVote - threads.downVote) lt 0}"/>
+                                <h:outputLabel id="zeroThread" style="font-size:16px; font-weight: bold; float: left" value="0" rendered="#{(threads.upVote - threads.downVote) == 0}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGroup>
+                </h:form>
             </p:tab>
         </p:tabView>
     </ui:define>

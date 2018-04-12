@@ -68,6 +68,8 @@ public interface CommunitySessionBeanLocal {
 
     public List<VoteReply> getVotesFromReply(Long replyId);
 
+    public Thread getExistingReview(String title, String school);
+            
     public User findUser(String username);
 
     public VoteThread findVoteByUserThread(Long userId, Long threadId);

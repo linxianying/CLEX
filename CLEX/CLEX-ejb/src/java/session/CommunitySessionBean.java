@@ -361,7 +361,7 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         threads = this.sortThreadByLatestReply(threads);
         return threads;
     }
-
+    
     @Override
     public List<VoteThread> getAllVoteThreads() {
         List<VoteThread> voteThreads = new ArrayList<VoteThread>();
@@ -404,7 +404,14 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         List<Reply> replies = (List) threadEntity.getReplies();
         return replies;
     }
-
+    
+    @Override
+    public Thread getExistingReview(String title, String school){
+        List<Thread> threadList = searchThreadByTitle(title, school);
+        threadEntity = threadList.get(0);
+        return threadEntity;
+    }
+    
     @Override
     public List<Thread> searchThreadByTitle(String searchTitle, String schoolname) {
         List<Thread> threadList = new ArrayList<Thread>();

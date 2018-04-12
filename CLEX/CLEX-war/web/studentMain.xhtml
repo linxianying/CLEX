@@ -77,6 +77,7 @@
                         
                     </div>
                     <div class="ui-g-12 ui-md-4 task-list">
+                        
                         <h:form id="taskObject">
                             <p:panel header="Unfinished Tasks" style="min-height:320px">
                                 <p:dataList var="task" id="tasklist" value="#{tasksBean.unfinishedTasks}"
@@ -92,7 +93,7 @@
                                         <p:ajax update="msgmsg" listener="#{tasksBean.checkTask(task)}" />
                                     </p:selectBooleanCheckbox>
                                     <h:outputLabel value="#{task.title}"/>
-                                    <!--<span class="task-name">#{task.title}</span>-->
+                                        #{task.title}
                                     <i class="fa fa-user"></i>
                                 </p:dataList>    
                             </p:panel>
@@ -149,6 +150,22 @@
                                             </p:selectOneButton>
                                         </td>
                                     </tr>
+                                    <tr >
+                                        <td>
+                                            <p:outputLabel for="projectGroup" value="Project Group:" 
+                                                           rendered="#{tasksBean.groupOrPersonal==2}"/>
+                                        </td>
+                                        <td>
+                                            <p:selectOneMenu id="projectGroup" value="#{tasksBean.groupInfo}"  panelStyle="width:180px" effect="fade" 
+                                                             style="width:80%" filter="true" filterMatchMode="contains" 
+                                                             appendTo="@this" rendered="#{tasksBean.groupOrPersonal==2}" >
+                                                <p:ajax event="change" update="msgs"  />
+                                                <f:selectItem itemLabel="Select One" itemValue="select"/>
+                                                <f:selectItems value="#{tasksBean.projectGroups}" var="projectGroup" 
+                                                               itemValue="#{projectGroup.id}" itemLabel="#{projectGroup.superGroup.module.course.moduleCode}-#{projectGroup.name}" />
+                                            </p:selectOneMenu>
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td>
                                             <h:outputLink id="grow" value="#">
@@ -196,29 +213,14 @@
                                         </td>
                                     </tr>
 
-                                    <tr >
-                                        <td>
-                                            <p:outputLabel for="projectGroup" value="Project Group:" 
-                                                           rendered="#{tasksBean.groupOrPersonal==2}"/>
-                                        </td>
-                                        <td>
-                                            <p:selectOneMenu id="projectGroup" value="#{tasksBean.groupInfo}"  panelStyle="width:180px" effect="fade" 
-                                                             style="width:160px" filter="true" filterMatchMode="contains" 
-                                                             appendTo="@this" rendered="#{tasksBean.groupOrPersonal==2}" >
-                                                <p:ajax event="change" update="msgs"  />
-                                                <f:selectItem itemLabel="Select One" itemValue="select"/>
-                                                <f:selectItems value="#{tasksBean.projectGroups}" var="projectGroup" 
-                                                               itemValue="#{projectGroup.id}" itemLabel="#{projectGroup.superGroup.module.course.moduleCode}-#{projectGroup.name}" />
-                                            </p:selectOneMenu>
-                                        </td>
-                                    </tr>
+                                    
                                     <tr>
                                         <td>
 
                                         </td>
                                     </tr>
                                 </table>
-                                <p:commandButton styleClass="raised-btn" style="width:340px;" value="Add" actionListener="#{tasksBean.addTask}" update="tab:taskObject:tasklist"
+                                <p:commandButton styleClass="raised-btn" style="width:100%;" value="Add" actionListener="#{tasksBean.addTask}" update="tab:taskObject:tasklist"
                                                  />
                             </p:panel>
                         </h:form>

@@ -227,6 +227,23 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
     public void finishGroupTask(Long taskId){
         groupTaskEntity = findGroupTask(taskId);
         groupTaskEntity.setStatus("finished");
+        Collection<Student> students = groupTaskEntity.getPojectGroup().getGroupMembers();
+        Iterator itr = students.iterator();
+        while(itr.hasNext()){
+            Student s = (Student) itr.next();
+            Iterator i = s.getIndividualGroupTasks().iterator();
+            while(i.hasNext()){
+                indGroupTaskEntity = (IndividualGroupTask) i.next();
+                if(indGroupTaskEntity.getTitle().equals(groupTaskEntity.getTitle())&&
+                        indGroupTaskEntity.getDeadline().equals(groupTaskEntity.getDeadline())&&
+                        indGroupTaskEntity.getDetails().equals(groupTaskEntity.getDetails())){
+                    indGroupTaskEntity.setStatus("finished");
+                    em.merge(indGroupTaskEntity);
+                    em.flush();
+                }
+                    
+            }
+        }
         em.merge(groupTaskEntity);
         em.flush();
     }
@@ -251,6 +268,23 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
     public void unfinishGroupTask(Long taskId){
         groupTaskEntity = findGroupTask(taskId);
         groupTaskEntity.setStatus("unfinished");
+        Collection<Student> students = groupTaskEntity.getPojectGroup().getGroupMembers();
+        Iterator itr = students.iterator();
+        while(itr.hasNext()){
+            Student s = (Student) itr.next();
+            Iterator i = s.getIndividualGroupTasks().iterator();
+            while(i.hasNext()){
+                indGroupTaskEntity = (IndividualGroupTask) i.next();
+                if(indGroupTaskEntity.getTitle().equals(groupTaskEntity.getTitle())&&
+                        indGroupTaskEntity.getDeadline().equals(groupTaskEntity.getDeadline())&&
+                        indGroupTaskEntity.getDetails().equals(groupTaskEntity.getDetails())){
+                    indGroupTaskEntity.setStatus("unfinished");
+                    em.merge(indGroupTaskEntity);
+                    em.flush();
+                }
+                    
+            }
+        }
         em.merge(groupTaskEntity);
         em.flush();
     }
@@ -302,6 +336,10 @@ public class ToDoListSessionBean implements ToDoListSessionBeanLocal {
             em.persist(indGroupTaskEntity);
             System.out.println("createGroupTask: individual" + indGroupTaskEntity.getId());
         }
+        projectGroup.getGroupTasks().add(groupTaskEntity);
+        em.merge(projectGroup);
+        em.persist(groupTaskEntity);
+        em.flush();
         System.out.println("createGroupTask: group" + groupTaskEntity.getId());
         return groupTaskEntity;
     }

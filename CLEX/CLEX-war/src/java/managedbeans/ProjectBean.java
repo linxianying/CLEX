@@ -228,6 +228,19 @@ public class ProjectBean {
         }
     }
     
+    public void goModuleInfoPage (String moduleCode){
+        try {
+            module = csbl.findModule(moduleCode, currentYear, currentSem);
+            session.setAttribute("module", module);
+            session.setAttribute("currentYear", currentYear);
+            session.setAttribute("currentSem", currentSem);
+            context.getExternalContext().redirect("projectDetails.xhtml");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     public void GoGroupPage(String moduleCode) {
         try {
             module = csbl.findModule(moduleCode, currentYear, currentSem);
@@ -235,6 +248,19 @@ public class ProjectBean {
             projectGroup = psbl.getStudentProjectGroup(student, module);
             session.setAttribute("projectGroup", projectGroup);
             context.getExternalContext().redirect("viewProjectCost.xhtml");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void GoGroupSchedulePage(String moduleCode) {
+        try {
+            module = csbl.findModule(moduleCode, currentYear, currentSem);
+            session.setAttribute("module", module);
+            projectGroup = psbl.getStudentProjectGroup(student, module);
+            session.setAttribute("projectGroup", projectGroup);
+            context.getExternalContext().redirect("viewProjectSchedule.xhtml");
         }
         catch (Exception e) {
             e.printStackTrace();
