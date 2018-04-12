@@ -31,18 +31,18 @@
                         <table>
                             <tr>
                                 <td width="50%">
-                                    <h:outputText value="Project Group:" />
+                                    <h:outputText value="Group: " />
                                 </td>
                                 <td>
-                                    <h:outputText value="This course doesn't have a group" escape="false" 
+                                    <h:outputText value="This module doesn't have a group" escape="false" 
                                                   rendered="#{empty m.superGroup}" />
-                                    <p:commandButton value="Group formation in process" 
+                                    <p:commandButton value="Group formation in process" icon="fa fa-group"
                                                      rendered="#{not empty m.superGroup and !m.superGroup.confirm}"
                                                      action="#{projectBean.goFormGroup(m.course.moduleCode)}" />
 
                                     <b><h:outputText value="Your group #{projectBean.getStudentProjectGroupName(m.course.moduleCode)}" escape="false" 
-                                                  rendered="#{not empty m.superGroup and m.superGroup.confirm and
-                                                              projectBean.hasProjectGroup(m.course.moduleCode)}" /></b>
+                                                     rendered="#{not empty m.superGroup and m.superGroup.confirm and
+                                                                 projectBean.hasProjectGroup(m.course.moduleCode)}" /></b>
                                     <h:panelGroup rendered="#{not empty m.superGroup and m.superGroup.confirm and 
                                                               projectBean.hasProjectGroup(m.course.moduleCode)}">
                                     </h:panelGroup>
@@ -50,29 +50,31 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <h:outputText value="Group Schedule"/>
+                                    <h:outputText value="Group Schedule: " rendered="#{not empty m.superGroup and 
+                                                                                       projectBean.hasProjectGroup(m.course.moduleCode)}"/>
                                 </td>
                                 <td>
-                                    <p:commandButton value="Group Schedule" 
+                                    <p:commandButton value="Group Schedule" icon="fa fa-calendar-o"
                                                      rendered="#{not empty m.superGroup and m.superGroup.confirm and 
-                                projectBean.hasProjectGroup(m.course.moduleCode)}" 
+                                                                 projectBean.hasProjectGroup(m.course.moduleCode)}" 
                                                      action="#{projectBean.GoGroupSchedulePage(m.course.moduleCode)}"/>
-                                    <h:outputText value="This course doesn't have group schedule enabled" escape="false" 
-                                                  rendered="#{empty m.superGroup}" />
+
                                     <h:outputText value="Awaiting group forming closure" 
-                                                  rendered="#{not empty m.superGroup and !m.superGroup.confirm}"/>
+                                                  rendered="#{not empty m.superGroup and !m.superGroup.confirm and 
+                                                              projectBean.hasProjectGroup(m.course.moduleCode)}"/>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <h:outputText value="Project Costs:" />
+                                    <h:outputText value="Project Costs: " rendered="#{not empty m.superGroup and 
+                                                                                      projectBean.hasProjectGroup(m.course.moduleCode)}" />
                                 </td>
                                 <td>
-                                    <h:outputText value="This course doesn't have project costs" escape="false" 
-                                                  rendered="#{empty m.superGroup}" />
+
                                     <h:outputText value="Awaiting group forming closure" 
-                                                  rendered="#{not empty m.superGroup and !m.superGroup.confirm}"/>
-                                    <p:commandButton value="Group Transaction" 
+                                                  rendered="#{not empty m.superGroup and !m.superGroup.confirm 
+                                                              and projectBean.hasProjectGroup(m.course.moduleCode)}"/>
+                                    <p:commandButton value="View Transactions" icon="fa fa-dollar"
                                                      rendered="#{not empty m.superGroup and m.superGroup.confirm and 
                                                                  projectBean.hasProjectGroup(m.course.moduleCode)}" 
                                                      action="#{projectBean.GoGroupPage(m.course.moduleCode)}"/>
@@ -80,37 +82,48 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <h:outputText value="Peer Reviews:"/>
+                                    <h:outputText value="Peer Reviews: " rendered="#{not empty m.superGroup}"/>
                                 </td>
                                 <td>
-                                    <p:commandButton value="Group Peer Review" 
+                                    <p:commandButton value="Group Peer Review" icon="fa fa-clipboard"
                                                      rendered="#{not empty m.superGroup and m.superGroup.confirm and 
                                                                  projectBean.hasProjectGroup(m.course.moduleCode) and 
                                                                  not empty m.peerReviewQuestion and m.peerReviewQuestion.status eq 'start'}" 
                                                      action="#{projectBean.GoPRPage(m.course.moduleCode)}"/>
                                     <h:outputText value="Awaiting group forming closure" 
                                                   rendered="#{not empty m.superGroup and !m.superGroup.confirm}"/>
-                                    <h:outputText value="This course doesn't have peer reviews" escape="false" 
-                                                  rendered="#{empty m.superGroup and empty m.peerReviewQuestion}" />
-                                    <h:outputText value="This course doesn't have peer reviews" escape="false" 
+                                    <h:outputText value="This module doesn't have peer reviews" escape="false" 
                                                   rendered="#{empty m.peerReviewQuestion and not empty m.superGroup and m.superGroup.confirm and 
                                                               projectBean.hasProjectGroup(m.course.moduleCode)}" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <h:outputText value= "Polls: "/>
+                                    <h:outputText value= "Polls: " rendered="#{not empty m.polls}"/>
                                 </td>
                                 <td>
-                                    <h:outputText value="This course doesn't have a polling" escape="false" 
-                                                  rendered="#{empty m.polls}" />
-                                    <p:commandButton value="View Polls" 
+                                    <p:commandButton value="View Polls" icon="fa fa-line-chart"
                                                      rendered="#{not empty m.polls}"
                                                      actionListener="#{pollingBean.viewPolling(m)}"/>
                                 </td>
                             </tr>
                         </table>
                     </p:dataList>
+
+                    <p:separator/>
+                    <h:outputLabel style="font-weight: bold; font-size: 12px" value="Classroom Activities" />
+
+                    <h:form id="folderform">
+                        <p:dataList id="foldertable" value="#{projectDetailsBean.list}" 
+                                    var="folderlist" paginator="true" paginatorPosition="bottom"
+                                    rows="10" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
+                                    emptyMessage="No activities found! Hooray!" >
+                            <p:column >
+                                <h:outputText value="#{folderlist}"/>
+                                <p:commandButton icon="fa fa-pencil-square-o" actionListener="#{projectDetailsBean.enterActivity(folderlist)}"/>
+                            </p:column>
+                        </p:dataList>
+                    </h:form>
 
 
 <!--                    <ui:repeat var="m" value="#{projectBean.takingModules}">
