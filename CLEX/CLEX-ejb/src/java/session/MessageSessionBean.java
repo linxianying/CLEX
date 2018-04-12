@@ -166,7 +166,30 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
     }
 
     @Override
-    public boolean checkReadStatus(Long convoId, String username) {
+    public int getMsgViewCount(List<Conversation> convoList, String username) {
+        userEntity = findUser(username);
+        int count = 0;
+        int temp = 0;
+        List<User> userList;
+
+        for (Conversation c : convoList) {
+            userList = (List<User>) c.getUsers();
+
+            if (Objects.equals(userEntity.getId(), userList.get(0).getId())) {
+                temp = c.getSentMsgCount2() - c.getReadMsgCount1();
+                count += temp;
+            } else if (Objects.equals(userEntity.getId(), userList.get(1).getId())) {
+                temp = c.getSentMsgCount1() - c.getReadMsgCount2();
+                count += temp;
+            }
+        }
+
+        return count;
+    }
+
+    @Override
+    public boolean checkReadStatus(Long convoId, String username
+    ) {
         userEntity = findUser(username);
         convoEntity = findConversation(convoId);
         List<User> userList = (List<User>) convoEntity.getUsers();
@@ -186,7 +209,8 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
 
     //For starting conversations
     @Override
-    public Conversation checkUserInSameConversation(String username1, String username2) {
+    public Conversation checkUserInSameConversation(String username1, String username2
+    ) {
         User user1 = findUser(username1);
         User user2 = findUser(username2);
         Conversation convo = null;
@@ -203,7 +227,8 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
 
     //For stopping messages from being sent if a user left convo
     @Override
-    public boolean checkEmptyUserInConversation(Long convoId) {
+    public boolean checkEmptyUserInConversation(Long convoId
+    ) {
         convoEntity = findConversation(convoId);
         List<User> userList = (List<User>) convoEntity.getUsers();
 
@@ -215,7 +240,8 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
     }
 
     @Override
-    public Collection<Conversation> getConversationByUser(String username) {
+    public Collection<Conversation> getConversationByUser(String username
+    ) {
         userEntity = findUser(username);
         conversations = userEntity.getConversations();
         List<User> userList;
@@ -238,7 +264,8 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
     }
 
     @Override
-    public Collection<Message> getMessageByConversation(Long id) {
+    public Collection<Message> getMessageByConversation(Long id
+    ) {
         convoEntity = findConversation(id);
         messages = convoEntity.getMessages();
         return messages;
@@ -256,7 +283,8 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
     }
 
     @Override
-    public User findUser(String username) {
+    public User findUser(String username
+    ) {
         userEntity = null;
         try {
             Query q = em.createQuery("SELECT u FROM BasicUser u WHERE u.username = :username");

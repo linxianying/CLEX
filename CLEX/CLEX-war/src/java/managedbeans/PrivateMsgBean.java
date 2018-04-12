@@ -49,6 +49,7 @@ public class PrivateMsgBean {
     private boolean readStatus;
     private boolean isUser;
     private boolean convoExist;
+    private int viewCount;
 
     FacesContext context;
     HttpSession session;
@@ -73,6 +74,11 @@ public class PrivateMsgBean {
         msgList = null;
         convoExist = false;
         convoList = (List) msbl.getConversationByUser(sndUsername);
+        viewCount = getMsgViewCount();
+    }
+
+    public int getMsgViewCount() {
+       return msbl.getMsgViewCount(convoList, sndUsername);
     }
 
     public String getRcvrUsername(Conversation convo) {
@@ -109,9 +115,7 @@ public class PrivateMsgBean {
                 rcvName = msbl.findUser(rcvUsername).getName();
                 break;
             }
-
         }
-
         return rcvName;
     }
 
@@ -163,6 +167,7 @@ public class PrivateMsgBean {
         convo = selectedConvo;
         msgList = (List) convo.getMessages();
         msbl.setReadMsgCount(convo.getId(), sndUsername);
+        viewCount = getMsgViewCount();
         tabIndex = 1;
     }
 
@@ -367,5 +372,13 @@ public class PrivateMsgBean {
 
     public void setReadStatus(boolean readStatus) {
         this.readStatus = readStatus;
+    }
+
+    public int getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
     }
 }
