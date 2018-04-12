@@ -42,11 +42,11 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
         User user2 = findUser(username2);
 
         if (user1 == null) {
-            System.out.println("User1 " + user1.getUsername() + " not found.");
+            //System.out.println("User1 " + user1.getUsername() + " not found.");
         }
 
         if (user2 == null) {
-            System.out.println("User2 " + user2.getUsername() + " not found.");
+            //System.out.println("User2 " + user2.getUsername() + " not found.");
         }
 
         Conversation convo = new Conversation();
@@ -262,7 +262,7 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
             Query q = em.createQuery("SELECT u FROM BasicUser u WHERE u.username = :username");
             q.setParameter("username", username);
             userEntity = (User) q.getSingleResult();
-            System.out.println("User " + username + " found.");
+            //System.out.println("User " + username + " found.");
         } catch (NoResultException e) {
             System.out.println("User " + username + " does not exist.");
             userEntity = null;
@@ -278,7 +278,7 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
             Query q = em.createQuery("SELECT c FROM Conversation c WHERE c.id = :id");
             q.setParameter("id", id);
             convoEntity = (Conversation) q.getSingleResult();
-            System.out.println("Conversation " + id + " found.");
+            //System.out.println("Conversation " + id + " found.");
         } catch (NoResultException e) {
             System.out.println("Conversation " + id + " does not exist.");
             convoEntity = null;
