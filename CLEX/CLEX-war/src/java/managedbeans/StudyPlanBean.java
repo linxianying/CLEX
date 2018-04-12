@@ -169,16 +169,11 @@ public class StudyPlanBean {
         showWorkload = courseEntity.getWorkload();
         //remove comment below once backend is fixed 
         //remove if else once backend is fixed
-//        String moduleName;
-//        String moduleCode1 = courseEntity.getModuleCode();
-//        moduleName = courseEntity.getModuleName();
-//        System.out.println("Searching reviews for " + moduleCode1 + " " + moduleName + "...");
-//        moduleReviews = cmsbl.searchThreadByTitle(moduleCode1 + " " + moduleName, courseEntity.getSchool());
-//        if (moduleReviews.isEmpty()) { 
-//            System.out.println("empty");
-//        } else {
-//            System.out.println("not empty");
-//        }
+        String moduleName;
+        String moduleCode1 = courseEntity.getModuleCode();
+        System.out.println("Searching reviews for " + moduleCode1 + "...");
+        moduleReviews = cmsbl.searchThreadByTitle(moduleCode1, courseEntity.getSchool());
+        moduleReviews = cmsbl.filterNonTagCourseReview(moduleReviews);
     }
 
     public int checkGrading() {

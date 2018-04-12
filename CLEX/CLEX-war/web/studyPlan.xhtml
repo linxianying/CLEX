@@ -82,7 +82,7 @@
                                                 <h:panelGrid columns="2" style="box-sizing: border-box;" >
                                                     <h:outputText value="Module Info:" />
                                                     <p:inputTextarea value="#{studyPlanBean.showModuleInfo}" 
-                                                                     rows="10" cols="200" readonly="true" autoResize="false"/> 
+                                                                     rows="10" cols="93" readonly="true" autoResize="false"/> 
                                                     <h:outputText value="Workload:" />
                                                     <h:outputLabel value="#{studyPlanBean.showWorkload}" />
                                                     <h:outputLabel value="Module Review:" />
@@ -103,7 +103,6 @@
                                                             </p:column>
                                                         </p:dataTable>
                                                     </h:panelGroup>
-                                                    <!--EDITED END HERE-->
                                                 </h:panelGrid>
                                             </h:panelGroup>
 
@@ -327,6 +326,48 @@
                                                                 <p:inputTextarea value="#{grade.module.preclusions}" 
                                                                                  rows="5" cols="50" readonly="true" autoResize="false"> 
                                                                 </p:inputTextarea>
+                                                                <!--EDITED HERE-->
+                                                                <h:outputText value="Click to Create Review:" />
+                                                                <!--<p:commandLink value="#{sp.course.moduleCode}" action="studyPlan?faces-redirect=false" onclick="PF('reviewoverlay').show()" /> -->
+                                                                <p:commandButton icon="fa fa-plus" value="New Review" id="newReviewButton"  action="studyPlan?faces-redirect=false" onclick="PF('createReviewWidget').show()">
+                                                                    <p:overlayPanel for="newReviewButton" showEffect="fade" hideEffect="fade" widgetVar="createReviewWidget">
+                                                                        <h:form id="createReviewForm">
+                                                                            <h:panelGrid columns="1">
+                                                                                <p:inputTextarea rows="1" cols="100" title="Review" placeholder="Review Title" id="title" value="#{courseReviewBean.threadTitle}"/>
+                                                                                <p:textEditor widgetVar="editor" value="#{courseReviewBean.content}" height="300" style="margin-bottom:10px" placeholder="Enter your review">
+                                                                                    <f:facet name="toolbar">
+                                                                                        <span class="ql-formats">
+                                                                                            <span class="ql-formats">
+                                                                                                <button class="ql-bold" />
+                                                                                                <button class="ql-italic" />
+                                                                                                <button class="ql-underline" />
+                                                                                                <button class="ql-strike" />
+                                                                                            </span>
+                                                                                            <span class="ql-formats">
+                                                                                                <select class="ql-color" />
+                                                                                                <select class="ql-background" />
+                                                                                            </span>
+                                                                                            <span class="ql-formats">
+                                                                                                <button class="ql-script" value="sub" />
+                                                                                                <button class="ql-script" value="super" />
+                                                                                            </span>
+                                                                                            <span class="ql-formats">
+                                                                                                <button class="ql-header" value="1" />
+                                                                                                <button class="ql-header" value="2" />
+                                                                                            </span>                        
+                                                                                            <span class="ql-formats">
+                                                                                                <button class="ql-clean" />
+                                                                                            </span>
+                                                                                        </span>    
+                                                                                    </f:facet>
+                                                                                </p:textEditor>
+                                                                                <!--p:inputTextarea rows="1" cols="100" title="Tag" placeholder="Tags - Separate multiple tags with comma (Optional)" id="tag" value="#{forumListBean.tTag}"/-->
+                                                                                <p:commandButton icon="fa fa-pencil-square-o" oncomplete="PF('createReviewWidget').hide()" value="Create Thread" actionListener="#{courseReviewBean.createReview}" />
+                                                                            </h:panelGrid>
+                                                                        </h:form>
+                                                                    </p:overlayPanel>
+                                                                </p:commandButton>
+                                                                <!--EDITED END HERE-->
                                                             </p:panelGrid>
                                                         </p:panel>
                                                     </p:overlayPanel>

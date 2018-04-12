@@ -106,6 +106,7 @@ public class ForumListBean {
         username = (String) session.getAttribute("username");
         userEntity = (User) session.getAttribute("user");
         threads = (ArrayList) cmsbl.getAllThreadsBySchool(userEntity.getSchool());
+        threads = (ArrayList) cmsbl.filterTagCourseReview(threads);
         reviewThreads = (ArrayList) cmsbl.getThreadsByTag("Course Review", userEntity.getSchool());
     }
 
@@ -116,6 +117,7 @@ public class ForumListBean {
         userEntity = (User) session.getAttribute("user");
         if (!searchTitle.equals("") && searchContent.equals("") && searchTag.equals("")) {
             threads = (ArrayList) cmsbl.searchThreadByTitle(searchTitle, userEntity.getSchool());
+            threads = (ArrayList) cmsbl.filterTagCourseReview(threads);
             if (threads.isEmpty()) {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No Threads found!", "Try refining your search terms.");
             } else {
@@ -124,8 +126,10 @@ public class ForumListBean {
             }
         } else if (searchTitle.equals("") && !searchContent.equals("") && searchTag.equals("")) {
             threads = (ArrayList) cmsbl.searchThreadByContent(searchContent, userEntity.getSchool());
+            threads = (ArrayList) cmsbl.filterTagCourseReview(threads);
             if (threads.isEmpty()) {
                 threads = (ArrayList) cmsbl.getAllThreadsBySchool(userEntity.getSchool());
+                threads = (ArrayList) cmsbl.filterTagCourseReview(threads);
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No Threads found!", "Try refining your search terms.");
             } else {
                 int searchcount = threads.size();
@@ -133,8 +137,10 @@ public class ForumListBean {
             }
         } else if (searchTitle.equals("") && searchContent.equals("") && !searchTag.equals("")) {
             threads = (ArrayList) cmsbl.getThreadsByTag(searchTag, userEntity.getSchool());
+            threads = (ArrayList) cmsbl.filterTagCourseReview(threads);
             if (threads.isEmpty()) {
                 threads = (ArrayList) cmsbl.getAllThreadsBySchool(userEntity.getSchool());
+                threads = (ArrayList) cmsbl.filterTagCourseReview(threads);
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No Threads found!", "Try refining your search terms.");
             } else {
                 int searchcount = threads.size();
@@ -156,10 +162,9 @@ public class ForumListBean {
         userEntity = (User) session.getAttribute("user");
         if (!searchModuleCode.equals("")) {
             reviewThreads = (ArrayList) cmsbl.searchThreadByTitle(searchModuleCode, userEntity.getSchool());
-            for(int i=0; i < reviewThreads.size(); i++){
-                if(!reviewThreads.get(i).getTag().equals("Course Review")){
-                    reviewThreads.remove(i);
-                }
+            reviewThreads = (ArrayList) cmsbl.filterNonTagCourseReview(reviewThreads);
+            for(int i=0; i<reviewThreads.size(); i++){
+                System.out.println(i + ": " + reviewThreads.get(i).getTitle());
             }
             if (reviewThreads.isEmpty()) {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No reviews found!", "");

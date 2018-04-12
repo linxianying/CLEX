@@ -413,10 +413,31 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
     }
     
     @Override
+    public List<Thread> filterTagCourseReview(List<Thread> threads){
+        List<Thread> filterThreads = new ArrayList<Thread>();
+        //Remove all threads WITH course review tags
+        for(int i=0; i < threads.size(); i++){
+            if(!threads.get(i).getTag().equals("Course Review")){
+                filterThreads.add(threads.get(i));
+            }
+        }
+        return filterThreads;
+    }
+    
+    @Override
+    public List<Thread> filterNonTagCourseReview(List<Thread> threads){
+        List<Thread> filterThreads = new ArrayList<Thread>();
+        //Remove all threads WITHOUT course review tags
+        for(int i=0; i < threads.size(); i++){
+            if(threads.get(i).getTag().equals("Course Review")){
+                filterThreads.add(threads.get(i));
+            }
+        }
+        return filterThreads;
+    }
+    
+    @Override
     public List<Thread> searchThreadByTitle(String searchTitle, String schoolname) {
-        
-        // remove println once this is fixed
-        System.out.println(searchTitle + " " + schoolname);
         List<Thread> threadList = new ArrayList<Thread>();
         List<Thread> threads = getAllThreadsBySchool(schoolname);
         for (int i = 0; i < threads.size(); i++) {
@@ -425,10 +446,6 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
                 threadList.add(threads.get(i));
             }
         }
-        System.out.println(threads.get(0).getTitle());
-        threadList = sortThreadByLatestReply(threadList);
-        System.out.println(threadList.get(0).getTitle());
-        
         return threadList;
     }
 

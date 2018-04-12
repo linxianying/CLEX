@@ -118,7 +118,7 @@
 
             <p:tab title="#{forumListBean.userEntity.school} MODULE REVIEWS">
                 <p:commandButton value="Search Module Code" id="searchButton2" icon="fa fa-search" >
-                    <p:overlayPanel for="searchButton2" showEffect="fade" hideEffect="fade" widgetVar="searchWidget"  style="width: 300px; height: 333px">
+                    <p:overlayPanel for="searchButton2" showEffect="fade" hideEffect="fade" widgetVar="searchWidget2"  style="width: 300px; height: 333px">
                         <h:form id="searchForm2">
                             <h:panelGrid columns="1">
                                 <p:outputLabel id="viewLabel" for="moduleCode" value="Module Code:" />
@@ -129,8 +129,8 @@
                                         <f:selectItems value="#{forumListBean.courses}" var="course" itemLabel="#{course.moduleCode}" itemValue="#{course.moduleCode}" />
                                     </p:selectOneMenu>                                 
                                 <h:panelGroup>
-                                    <p:commandButton oncomplete="PF('searchWidget').hide()" icon="fa fa-search-plus" value="Search Review" actionListener="#{forumListBean.searchReview}" update="communityTab:forumForm2, messages, communityTab:searchForm2"/>
-                                    <p:commandButton oncomplete="PF('searchWidget').hide()" icon="fa fa-search-minus" value="Clear Search" actionListener="#{forumListBean.refresh()}" update="communityTab:forumForm2, messages, communityTab:searchForm2" />
+                                    <p:commandButton oncomplete="PF('searchWidget2').hide()" icon="fa fa-search-plus" value="Search Review" actionListener="#{forumListBean.searchReview}" update="communityTab:forumForm2, messages, communityTab:searchForm2"/>
+                                    <p:commandButton oncomplete="PF('searchWidget2').hide()" icon="fa fa-search-minus" value="Clear Search" actionListener="#{forumListBean.refresh()}" update="communityTab:forumForm2, messages, communityTab:searchForm2" />
                                 </h:panelGroup>
                             </h:panelGrid>
                         </h:form>
