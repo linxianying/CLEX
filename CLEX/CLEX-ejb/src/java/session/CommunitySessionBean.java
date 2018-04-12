@@ -414,6 +414,9 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
     
     @Override
     public List<Thread> searchThreadByTitle(String searchTitle, String schoolname) {
+        
+        // remove println once this is fixed
+        System.out.println(searchTitle + " " + schoolname);
         List<Thread> threadList = new ArrayList<Thread>();
         List<Thread> threads = getAllThreadsBySchool(schoolname);
         for (int i = 0; i < threads.size(); i++) {
@@ -422,7 +425,10 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
                 threadList.add(threads.get(i));
             }
         }
+        System.out.println(threads.get(0).getTitle());
         threadList = sortThreadByLatestReply(threadList);
+        System.out.println(threadList.get(0).getTitle());
+        
         return threadList;
     }
 

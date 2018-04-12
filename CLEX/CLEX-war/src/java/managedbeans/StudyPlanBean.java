@@ -12,10 +12,10 @@ import entity.Student;
 import entity.StudyPlan;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import entity.Thread;
 import javax.ejb.EJB;
 import session.ClexSessionBeanLocal;
 import session.StudyPlanSessionBeanLocal;
@@ -25,6 +25,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import org.primefaces.event.SelectEvent;
+import session.CommunitySessionBeanLocal;
 import session.CourseMgmtBeanLocal;
 
 /**
@@ -41,6 +43,8 @@ public class StudyPlanBean {
     private ClexSessionBeanLocal csbl;
     @EJB
     CourseMgmtBeanLocal cmbl;
+    @EJB
+    CommunitySessionBeanLocal cmsbl;
 
     FacesContext context;
     HttpSession session;
@@ -90,8 +94,12 @@ public class StudyPlanBean {
     private int addGradePickYear;
     private int addGradePickSem;
     private String addGradeModuleGrade;
+    private List<Thread> moduleReviews;
 
     private String addCurrentModuleCode;
+    private String showModuleInfo;
+    private String showWorkload;
+    private Thread selectedReview;
 
     public StudyPlanBean() {
     }
@@ -139,6 +147,38 @@ public class StudyPlanBean {
         addGradeModuleCode = null;
         addGradeModuleGrade = null;
         System.out.println("finish to render StudyPlanBean");
+    }
+
+    public void onReviewSelect(SelectEvent event) {
+        System.out.println("Selected Review ID: " + selectedReview.getId());
+        try {
+            int usertype = (int) session.getAttribute("userType");
+            session.setAttribute("id", selectedReview.getId());
+            context.getExternalContext().redirect("viewThread.xhtml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void getModuleReviewsList(Course courseEntity) {
+        moduleReviews = null;
+        showModuleInfo = "";
+        showWorkload = "";
+        showModuleInfo = courseEntity.getModuleInfo();
+        showWorkload = courseEntity.getWorkload();
+        //remove comment below once backend is fixed 
+        //remove if else once backend is fixed
+//        String moduleName;
+//        String moduleCode1 = courseEntity.getModuleCode();
+//        moduleName = courseEntity.getModuleName();
+//        System.out.println("Searching reviews for " + moduleCode1 + " " + moduleName + "...");
+//        moduleReviews = cmsbl.searchThreadByTitle(moduleCode1 + " " + moduleName, courseEntity.getSchool());
+//        if (moduleReviews.isEmpty()) { 
+//            System.out.println("empty");
+//        } else {
+//            System.out.println("not empty");
+//        }
     }
 
     public int checkGrading() {
@@ -605,6 +645,22 @@ public class StudyPlanBean {
         this.addModuleCode = addModuleCode.toUpperCase();
     }
 
+    public String getShowModuleInfo() {
+        return showModuleInfo;
+    }
+
+    public void setShowModuleInfo(String showModuleInfo) {
+        this.showModuleInfo = showModuleInfo;
+    }
+
+    public String getShowWorkload() {
+        return showWorkload;
+    }
+
+    public void setShowWorkload(String showWorkload) {
+        this.showWorkload = showWorkload;
+    }
+
     public ArrayList<Grade> getGrades() {
         return grades;
     }
@@ -931,6 +987,22 @@ public class StudyPlanBean {
 
     public void setGrading(int grading) {
         this.grading = grading;
+    }
+
+    public List<Thread> getModuleReviews() {
+        return moduleReviews;
+    }
+
+    public void setModuleReviews(List<Thread> moduleReviews) {
+        this.moduleReviews = moduleReviews;
+    }
+
+    public Thread getSelectedReview() {
+        return selectedReview;
+    }
+
+    public void setSelectedReview(Thread selectedReview) {
+        this.selectedReview = selectedReview;
     }
 
 }

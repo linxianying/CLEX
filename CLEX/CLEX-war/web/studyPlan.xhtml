@@ -25,10 +25,10 @@
                     <p:tabView id="tab">
                         <p:ajax event="tabChange" listener="#{newStudyPlanBean.onTabChange}" update="tab:studyPlanForm tab:modulesTakingForm tab:modulesTaken tab:overviewForm" />
                         <p:tab id="subtab" title="Academic Plans">
-                            <h:form id="studyPlanForm">
-                                <p:fieldset id="studyPlan" legend="Modules To Take" toggleable="false" collapsed="false">
-                                    <h:outputText value="You do not have any Study Plans currently" rendered="#{empty studyPlanBean.studyPlansInOrer}"/>
-                                    <h:panelGroup>
+                            <p:fieldset id="studyPlan" legend="Modules To Take" toggleable="false" collapsed="false">
+                                <h:outputText value="You do not have any Study Plans currently" rendered="#{empty studyPlanBean.studyPlansInOrer}"/>
+                                <h:panelGroup>
+                                    <h:form id="studyPlanForm">
                                         <p:dataGrid columns="2" layout="grid" var="studyPlans" styleClass="academicStyle"
                                                     value="#{studyPlanBean.studyPlansInOrer}" id="studyPlansList" emptyMessage="Start a plan by adding a module!" >
                                             <p:dataTable id="spTable" var="sp" value="#{studyPlans}" rendered="#{not empty studyPlanBean.studyPlansInOrer}">
@@ -37,51 +37,15 @@
                                                     <h:outputText value="SEMESTER: #{studyPlans.get(0).pickSem}"/>
                                                 </f:facet>
                                                 <p:column style="width: 20%" headerText="Module Code">
-                                                    <p:commandLink action="studyPlan?faces-redirect=false" id="modulecode" >
-                                                 <!--EDITED HERE-->  <p:ajax update="tab:studyPlanForm:studyPlansList:0:spTable:0:modulecode" listener="#{courseReviewBean.getModuleReviews(sp.course.moduleCode)}" />
-                                                        <h:outputText value="#{sp.course.moduleCode}" />
-                                                    </p:commandLink>
+                                                    <p:commandLink value="#{sp.course.moduleCode}" action="studyPlan?faces-redirect=false" onclick="PF('reviewoverlay').show()" update="tab:reviewForm:moduleinfobox" actionListener="#{studyPlanBean.getModuleReviewsList(sp.course)}"/> 
                                                     <p:commandButton icon="ui-icon-trash" style="background: grey; float: right" id="deleteStudyPlan-button" >
-                                                        <p:ajax update="tab:studyPlanForm:studyPlansList, tab:studyPlanForm:addForm:addSPButton" listener="#{studyPlanBean.deleteStudyPlan(sp.course.moduleCode)}" />
+                                                        <p:ajax update="tab:studyPlanForm:studyPlansList, tab:addForm:addSPButton" listener="#{studyPlanBean.deleteStudyPlan(sp.course.moduleCode)}" />
                                                         <p:confirm header="Delete #{sp.course.moduleCode}" message="Are you sure?" icon="ui-icon-alert" />
                                                     </p:commandButton>
                                                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                                                         <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                                                         <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                                                    </p:confirmDialog>
-                                                    <p:overlayPanel style="box-sizing: border-box;" for="modulecode" hideEffect="fade">
-                                                        <p:panel style="box-sizing: border-box;" header="#{sp.course.moduleCode} - #{sp.course.moduleName}">
-                                                            <p:panelGrid columns="2" style="box-sizing: border-box;">
-                                                                <h:outputText value="Module Info:" />
-                                                                <p:inputTextarea value="#{sp.course.moduleInfo}" 
-                                                                                 rows="10" cols="50" readonly="true" autoResize="false"> 
-                                                                </p:inputTextarea>
-                                                                <h:outputText value="Workload:" />
-                                                                <h:outputText value="#{sp.course.workload}" />
-                                                                <!--EDITED HERE-->
-                                                                <h:outputText value="Module Review:" />
-                                                                <h:form id="reviewForm">
-                                                                    <h:panelGroup>
-                                                                        <p:dataTable selectionMode="single" selection="#{courseReviewBean.moduleReviews}" rowKey="#{review.id}"
-                                                                                     id="reviewtable" value="#{courseReviewBean.moduleReviews}" 
-                                                                                     var="review" paginator="true" 
-                                                                                     rows="15" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
-                                                                                     emptyMessage="No reviews has been created yet!">                         
-                                                                            <p:column style="height:40px" headerText="Module Reviews" >                                
-                                                                                <h:outputLabel style="font-size: 16px" value="#{review.title}"/>
-                                                                            </p:column>
-                                                                            <p:column style="width: 11%;height:40px" headerText="Votes" >
-                                                                                <h:outputLabel id="positiveThread" style="font-size:16px; font-weight: bold; float: left" value="+#{review.upVote - review.downVote}" rendered="#{(review.upVote - review.downVote) gt 0}"/>
-                                                                                <h:outputLabel id="negativeThead" style="font-size:16px; font-weight: bold; float: left" value="#{review.upVote - review.downVote}" rendered="#{(review.upVote - review.downVote) lt 0}"/>
-                                                                                <h:outputLabel id="zeroThread" style="font-size:16px; font-weight: bold; float: left" value="0" rendered="#{(review.upVote - review.downVote) == 0}"/>
-                                                                            </p:column>
-                                                                        </p:dataTable>
-                                                                    </h:panelGroup>
-                                                                </h:form>
-                                                                <!--EDITED END HERE-->
-                                                            </p:panelGrid>
-                                                        </p:panel>
-                                                    </p:overlayPanel>
+                                                    </p:confirmDialog>                                                    
                                                 </p:column>
                                                 <p:column headerText="Module Name">
                                                     <h:outputText value="#{sp.course.moduleName}" />
@@ -110,59 +74,95 @@
                                                 </p:column>
                                             </p:dataTable>
                                         </p:dataGrid>
-                                    </h:panelGroup>
-                                </p:fieldset>
-                                <h:form id="addForm">
-                                    <br/>
-                                    <p:commandLink value="Add a new study plan entry * :" onclick="PF('disclaim').show()" style="font-size: 1.2em"/>
+                                    </h:form>
 
-                                    <p:panelGrid columns="2" style="border: none">
-                                        <p:panelGrid columns="2">
-                                            <p:outputLabel id="viewLabel" for="moduleCode" value="Module Code:" />
-                                            <p:selectOneMenu id="moduleCode" value="#{studyPlanBean.addModuleCode}"  panelStyle="width:180px" effect="fade" 
-                                                             var="course" style="width:160px" filter="true" filterMatchMode="contains" appendTo="@this">
-                                                <p:ajax event="change" listener="#{studyPlanBean.checkStudyPlan}" update="tab:studyPlanForm:addForm:addSPButton, tab:studyPlanForm:addForm:moduleInfoBox, tab:studyPlanForm:addForm:addSPPickSem, addErrorMsg"  />
-                                                <f:selectItem itemLabel="Select One" itemValue="select"/>
-                                                <f:selectItems value="#{studyPlanBean.courses}" var="course" itemLabel="#{course.moduleCode}" itemValue="#{course.moduleCode}" />
-                                            </p:selectOneMenu>
+                                    <p:overlayPanel style="box-sizing: border-box;" hideEffect="fade" widgetVar="reviewoverlay">
+                                        <h:form id="reviewForm">
+                                            <h:panelGroup id="moduleinfobox" >
+                                                <h:panelGrid columns="2" style="box-sizing: border-box;" >
+                                                    <h:outputText value="Module Info:" />
+                                                    <p:inputTextarea value="#{studyPlanBean.showModuleInfo}" 
+                                                                     rows="10" cols="200" readonly="true" autoResize="false"/> 
+                                                    <h:outputText value="Workload:" />
+                                                    <h:outputLabel value="#{studyPlanBean.showWorkload}" />
+                                                    <h:outputLabel value="Module Review:" />
+                                                    <h:panelGroup>
+                                                        <p:dataTable selectionMode="single" selection="#{studyPlanBean.selectedReview}" rowKey="#{review.id}"
+                                                                     id="reviewtable" value="#{studyPlanBean.moduleReviews}" 
+                                                                     var="review" paginator="true" paginatorPosition="bottom"
+                                                                     rows="15" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
+                                                                     emptyMessage="No reviews has been created yet!">                  
+                                                            <p:ajax event="rowSelect" listener="#{studyPlanBean.onReviewSelect}" />
+                                                            <p:column style="height:40px" headerText="Module Reviews" >                                
+                                                                <h:outputLabel style="font-size: 16px" value="#{review.title}"/>
+                                                            </p:column>
+                                                            <p:column style="width: 11%;height:40px" headerText="Votes" >
+                                                                <h:outputLabel id="positiveThread" style="font-size:16px; font-weight: bold; float: left" value="+#{review.upVote - review.downVote}" rendered="#{(review.upVote - review.downVote) gt 0}"/>
+                                                                <h:outputLabel id="negativeThead" style="font-size:16px; font-weight: bold; float: left" value="#{review.upVote - review.downVote}" rendered="#{(review.upVote - review.downVote) lt 0}"/>
+                                                                <h:outputLabel id="zeroThread" style="font-size:16px; font-weight: bold; float: left" value="0" rendered="#{(review.upVote - review.downVote) == 0}"/>
+                                                            </p:column>
+                                                        </p:dataTable>
+                                                    </h:panelGroup>
+                                                    <!--EDITED END HERE-->
+                                                </h:panelGrid>
+                                            </h:panelGroup>
 
-                                            <h:outputLabel for="addSPPickYear" value="Year: " />
-                                            <p:inputNumber id="addSPPickYear" value="#{studyPlanBean.addPickYear}" required="true" decimalPlaces="0" 
-                                                           placeholder="Enter #{studyPlanBean.currentYear+1-studyPlanBean.matricYear}-4 "
-                                                           minValue="#{studyPlanBean.currentYear+1-studyPlanBean.matricYear}" maxValue="4" />
-                                            <p>Semester<sup>+</sup>:</p>
-                                            <p:selectOneButton id="addSPPickSem" value="#{studyPlanBean.addPickSem}" required="true">
-                                                <f:selectItem itemLabel="1" itemValue="1" />
-                                                <f:selectItem itemLabel="2" itemValue="2" />
-                                            </p:selectOneButton>  
-                                        </p:panelGrid>
-                                        <h:panelGroup id="moduleInfoBox">
-                                            <p:panelGrid columns ="2">
-                                                <h:outputText value="Module Information:" />
-                                                <p:inputTextarea value="#{studyPlanBean.courseFront.moduleInfo}" style="width: 96%;" rows="3" cols="100" readonly="true" 
-                                                                 autoResize="false" >
-                                                </p:inputTextarea>
-                                                <h:outputText value="Credit Unit(s): "/>
-                                                <h:outputText value="#{studyPlanBean.courseFront.modularCredits}"/>
-                                                <h:outputText value="Workload: "/>
-                                                <h:outputText value="#{studyPlanBean.courseFront.workload}"/>
-                                            </p:panelGrid>
-                                        </h:panelGroup>
+                                        </h:form>
+                                    </p:overlayPanel>
+
+                                </h:panelGroup>
+                            </p:fieldset>
+                            <h:form id="addForm">
+                                <br/>
+                                <p:commandLink value="Add a new study plan entry * :" onclick="PF('disclaim').show()" style="font-size: 1.2em"/>
+
+                                <p:panelGrid columns="2" style="border: none">
+                                    <p:panelGrid columns="2">
+                                        <p:outputLabel id="viewLabel" for="moduleCode" value="Module Code:" />
+                                        <p:selectOneMenu id="moduleCode" value="#{studyPlanBean.addModuleCode}"  panelStyle="width:180px" effect="fade" 
+                                                         var="course" style="width:160px" filter="true" filterMatchMode="contains" appendTo="@this">
+                                            <p:ajax event="change" listener="#{studyPlanBean.checkStudyPlan}" update="tab:addForm:addSPButton, tab:addForm:moduleInfoBox, tab:addForm:addSPPickSem, addErrorMsg"  />
+                                            <f:selectItem itemLabel="Select One" itemValue="select"/>
+                                            <f:selectItems value="#{studyPlanBean.courses}" var="course" itemLabel="#{course.moduleCode}" itemValue="#{course.moduleCode}" />
+                                        </p:selectOneMenu>
+
+                                        <h:outputLabel for="addSPPickYear" value="Year: " />
+                                        <p:inputNumber id="addSPPickYear" value="#{studyPlanBean.addPickYear}" required="true" decimalPlaces="0" 
+                                                       placeholder="Enter #{studyPlanBean.currentYear+1-studyPlanBean.matricYear}-4 "
+                                                       minValue="#{studyPlanBean.currentYear+1-studyPlanBean.matricYear}" maxValue="4" />
+                                        <p>Semester<sup>+</sup>:</p>
+                                        <p:selectOneButton id="addSPPickSem" value="#{studyPlanBean.addPickSem}" required="true">
+                                            <f:selectItem itemLabel="1" itemValue="1" />
+                                            <f:selectItem itemLabel="2" itemValue="2" />
+                                        </p:selectOneButton>  
                                     </p:panelGrid>
-                                    <h:panelGroup id="addSPButton">
-                                        <p:commandButton value="Add" id="addStudyPlanButton" 
-                                                         rendered="#{studyPlanBean.addButton}" 
-                                                         actionListener="#{studyPlanBean.addStudyPlan()}"
-                                                         update="tab:studyPlanForm addErrorMsg">
-                                            <p:confirm header="Add #{studyPlanBean.addModuleCode}" message="Are you sure?" icon="ui-icon-alert" />
-                                        </p:commandButton>
-                                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                                            <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                                        </p:confirmDialog>
+                                    <h:panelGroup id="moduleInfoBox">
+                                        <p:panelGrid columns ="2">
+                                            <h:outputText value="Module Information:" />
+                                            <p:inputTextarea value="#{studyPlanBean.courseFront.moduleInfo}" style="width: 96%;" rows="3" cols="100" readonly="true" 
+                                                             autoResize="false" >
+                                            </p:inputTextarea>
+                                            <h:outputText value="Credit Unit(s): "/>
+                                            <h:outputText value="#{studyPlanBean.courseFront.modularCredits}"/>
+                                            <h:outputText value="Workload: "/>
+                                            <h:outputText value="#{studyPlanBean.courseFront.workload}"/>
+                                        </p:panelGrid>
                                     </h:panelGroup>
-                                </h:form>
+                                </p:panelGrid>
+                                <h:panelGroup id="addSPButton">
+                                    <p:commandButton value="Add" id="addStudyPlanButton" 
+                                                     rendered="#{studyPlanBean.addButton}" 
+                                                     actionListener="#{studyPlanBean.addStudyPlan()}"
+                                                     update="tab:studyPlanForm addErrorMsg">
+                                        <p:confirm header="Add #{studyPlanBean.addModuleCode}" message="Are you sure?" icon="ui-icon-alert" />
+                                    </p:commandButton>
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                        <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    </p:confirmDialog>
+                                </h:panelGroup>
                             </h:form>
+
                             <h3>
                                 Expected Cap: 
                                 <h:outputText id="expectedCap2" value="#{studyPlanBean.expectedCap}">
