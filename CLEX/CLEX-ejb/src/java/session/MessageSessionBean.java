@@ -150,19 +150,38 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
     }
 
     @Override
-    public void setReadMsgCount(Long convoId, String username, int readCount) {
+    public void setReadMsgCount(Long convoId, String username) {
         userEntity = findUser(username);
         convoEntity = findConversation(convoId);
         List<User> userList = (List<User>) convoEntity.getUsers();
 
         if (Objects.equals(userEntity.getId(), userList.get(0).getId())) {
-            convoEntity.setReadMsgCount1(convoEntity.getReadMsgCount1() + 1);
+            convoEntity.setReadMsgCount1(convoEntity.getSentMsgCount2());
         } else if (Objects.equals(userEntity.getId(), userList.get(1).getId())) {
-            convoEntity.setReadMsgCount2(convoEntity.getReadMsgCount2() + 1);
+            convoEntity.setReadMsgCount2(convoEntity.getSentMsgCount1());
         }
 
         em.merge(convoEntity);
         em.flush();
+    }
+
+    @Override
+    public boolean checkReadStatus(Long convoId, String username) {
+        userEntity = findUser(username);
+        convoEntity = findConversation(convoId);
+        List<User> userList = (List<User>) convoEntity.getUsers();
+
+        if (Objects.equals(userEntity.getId(), userList.get(0).getId())) {
+            if (convoEntity.getReadMsgCount1() == convoEntity.getSentMsgCount2()) {
+                return false;
+            }
+        } else if (Objects.equals(userEntity.getId(), userList.get(1).getId())) {
+            if (convoEntity.getReadMsgCount2() == convoEntity.getSentMsgCount1()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     //For starting conversations
@@ -202,11 +221,11 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
         List<User> userList;
         Iterator<Conversation> iter = conversations.iterator();
         Conversation c;
-        
+
         while (iter.hasNext()) {
             c = iter.next();
             userList = (List) c.getUsers();
-            if(userList.size() <= 1) {
+            if (userList.size() <= 1) {
                 if (c.getMessages().isEmpty()) {
                     System.out.println("----------------went thru here");
                     iter.remove();

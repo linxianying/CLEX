@@ -23,7 +23,8 @@ public interface MessageSessionBeanLocal {
 
     public boolean deleteConversation(String username, Long convoId);
 
-    public void setReadMsgCount(Long convoId, String username, int readCount);
+    public void setReadMsgCount(Long convoId, String username);
+    public boolean checkReadStatus(Long convoId, String username);
     
     public Conversation checkUserInSameConversation(String username1, String username2);
     public boolean checkEmptyUserInConversation(Long convoId);

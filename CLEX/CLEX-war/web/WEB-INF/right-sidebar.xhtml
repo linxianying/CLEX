@@ -23,10 +23,10 @@
                             <div style=" height: 75vh; overflow-y: scroll; width: 240px">
                                 <div class="search-input">
                                     <h:form id="form1">
-                                        
+
                                         <p:selectOneMenu id="userList" value="#{privateMsgBean.searchUsername}"  panelStyle="width:190px" effect="fade" 
                                                          var="user" style="width:190px" filter="true" filterMatchMode="contains" appendTo="@this">
-                                            <p:ajax event="change" listener="#{privateMsgBean.startConversation}" update="msgTabView:form1"/>
+                                            <p:ajax event="change" listener="#{privateMsgBean.startConversation}" update="msgTabView"/>
                                             <f:selectItem itemLabel="Select a contact" itemValue="select"/>
                                             <f:selectItems value="#{privateMsgBean.getUsers()}" var="users" itemLabel="#{users.name}" itemValue="#{users.username}" />
                                         </p:selectOneMenu>
@@ -35,18 +35,20 @@
                                         <p:dataList rendered="#{not empty privateMsgBean.convoList}" id="myContacts" var="convo" value="#{privateMsgBean.convoList}">
                                             <button type="button" onclick="#{privateMsgBean.getRcvrUsername(convo)}convo()" class="convoBox">
                                                 <p:remoteCommand name="#{privateMsgBean.getRcvrUsername(convo)}convo" update="msgTabView"
-                                                                 action="#{privateMsgBean.selectConversation(convo)}"/>
+                                                                 action="#{privateMsgBean.selectConversation(convo)}" oncomplete="scrollToBottom()"/>
 
-                                                <h:outputText value="#{privateMsgBean.rcvName}"/>
+                                                <h:outputText value="#{privateMsgBean.getRcvName(convo)}"/>
+                                                <ui:fragment rendered="#{privateMsgBean.checkRead(convo)}"><i class="fa fa-circle" style="float:right; color: #2288dd; margin-top: 5px; font-size: 0.8em;"/></ui:fragment>
                                                 <br/>
 
                                                 <h:outputText rendered="#{empty convo.messages}" style="color: #777777" value=" "/>
-                                                <h:outputText rendered="#{not empty convo.messages}" style="color: #777777" value="#{convo.messages.get(convo.messages.size()-1).getMessage()}"/>
+                                                <h:outputText rendered="#{not empty convo.messages}" style="color: #777777" value="#{privateMsgBean.truncateMessage(convo)}"/>
 
                                                 <i class="fa fa-angle-right" style="float:right; color: #777777; font-size: 1.5em"/>
                                             </button>
                                             <hr style="border: none; height: 1px; background-color: #dddddd"/>
                                         </p:dataList>
+                                        <p:poll interval="9" listener="#{privateMsgBean.getConvoByUser()}" update="form1:myContacts"/>
                                     </h:form>
                                 </div>
                             </div>
@@ -54,7 +56,7 @@
                     </p:tab>
 
                     <p:tab title="Chat">
-                        <div style="overflow: hidden; overflow-wrap:break-word; height:90vh;">
+                        <div style="overflow: hidden; height:90vh; clear:both">
                             <h:form id="form2">
                                 <c:if test="#{not empty privateMsgBean.convo}">
                                     <h:outputText style="margin-top:5px;float:left;" value="#{privateMsgBean.getRcvName(privateMsgBean.convo)}"/>
@@ -66,19 +68,19 @@
                                     <br/><br/><hr style="margin-bottom: 1px; border: none; height: 1px; background-color: #dddddd"/>
                                 </c:if>
 
-                                <div style=" height: 60vh; overflow-y: scroll; width: 240px;">
+                                <div id="myMessages" style=" height: 60vh; overflow-y: scroll; width: 240px;">
                                     <c:if test="#{empty privateMsgBean.convo}">
                                         <h:outputText value="Please select a contact first!" />
                                     </c:if>
 
                                     <c:if test="#{not empty privateMsgBean.msgList}">
 
-                                        <p:dataList id="myMessages" var="msg" value="#{privateMsgBean.msgList}">
+                                        <p:dataList id="msgData" var="msg" value="#{privateMsgBean.msgList}">
                                             <h:outputText rendered="#{privateMsgBean.messageIsByUser(msg)}" value="#{msg.getMessage()}" class="chatBubble_left"/>
-                                            <br/>
                                             <h:outputText rendered="#{not privateMsgBean.messageIsByUser(msg)}" value="#{msg.getMessage()}" class="chatBubble_right"/>
                                             <br/>
                                         </p:dataList>
+                                        <p:poll interval="9" listener="#{privateMsgBean.getMsgByConvo()}" update="form2:msgData"/>
                                     </c:if>
 
 
@@ -92,7 +94,7 @@
                                                                              return false;
                                                                          }"/>
                                                 <p:commandButton type="submit" icon="fa fa-paper-plane-o" update="msgTabView" styleClass="sendMsg" action="#{privateMsgBean.sendMessage}"></p:commandButton>
-                                                <p:remoteCommand name="submitMsg" update="msgTabView" actionListener="#{privateMsgBean.sendMessage}"/>
+                                                <p:remoteCommand name="submitMsg" update="msgTabView" actionListener="#{privateMsgBean.sendMessage}" oncomplete="scrollToBottom()"/>
                                             </h:panelGrid>
                                             <h:outputText rendered="#{privateMsgBean.checkEmptyUser()}" value="User has left the conversation."/>
                                         </div>
@@ -114,6 +116,9 @@
     <style type="text/css">
         .ui-datalist-content{
             border: none !important;
+        }
+        .ui-datalist-item{
+            overflow:hidden;
         }
         .convoBox{
             background: #ffffff;
@@ -142,7 +147,8 @@
             text-decoration: none;
             float: left;
             max-width: 150px;
-            word-wrap: break-word;
+            overflow-wrap: break-word;
+            margin-bottom: 10px;
         }
         .chatBubble_right{
             -webkit-border-radius: 20;
@@ -151,11 +157,12 @@
             color: #ffffff;
             background: #32ebc6;
             padding: 5px 10px 5px 10px;
-            margin-right: 5px; 
+            margin-right: 5px;
+            margin-bottom: 10px;
             text-decoration: none;
             float: right;
             max-width: 150px;
-            word-wrap: break-word;
+            overflow-wrap: break-word
         }
         .columnItems {
             margin: 0px -10px 0px -10px !important; 
@@ -179,7 +186,8 @@
 
     <script>
         function scrollToBottom() {
-            $('.ui-datalist-scrollable-body').scrollTop(100000)
+            var d = $('#myMessages');
+            d.scrollTop(d.prop("scrollHeight"));
         }
     </script>
 
