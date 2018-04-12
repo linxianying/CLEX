@@ -92,13 +92,13 @@
                                 <br />
                                 <h:outputLabel style="font-size: 11px" value=" Last post: #{forumListBean.latestReplyDayTime(threads.latestReplyDateTime)}" /> 
                             </p:column>
-                            <p:column style="width: 11%;height:40px" headerText="Replies" >
+                            <p:column style="text-align: center;width: 11%;height:40px" headerText="Replies" >
                                 <h:outputLabel style="font-size: 16px" value="#{threads.replies.size()}"/> 
                             </p:column>
-                            <p:column style="width: 11%;height:40px" headerText="Votes" >
-                                <h:outputLabel id="positiveThread" style="font-size:16px; font-weight: bold; float: left" value="+#{threads.upVote - threads.downVote}" rendered="#{(threads.upVote - threads.downVote) gt 0}"/>
-                                <h:outputLabel id="negativeThead" style="font-size:16px; font-weight: bold; float: left" value="#{threads.upVote - threads.downVote}" rendered="#{(threads.upVote - threads.downVote) lt 0}"/>
-                                <h:outputLabel id="zeroThread" style="font-size:16px; font-weight: bold; float: left" value="0" rendered="#{(threads.upVote - threads.downVote) == 0}"/>
+                            <p:column style="text-align: center;width: 11%;height:40px" headerText="Votes" >
+                                <h:outputLabel id="positiveThread" style="font-size:16px; font-weight: bold;" value="+#{threads.upVote - threads.downVote}" rendered="#{(threads.upVote - threads.downVote) gt 0}"/>
+                                <h:outputLabel id="negativeThead" style="font-size:16px; font-weight: bold;" value="#{threads.upVote - threads.downVote}" rendered="#{(threads.upVote - threads.downVote) lt 0}"/>
+                                <h:outputLabel id="zeroThread" style="font-size:16px; font-weight: bold;" value="0" rendered="#{(threads.upVote - threads.downVote) == 0}"/>
                             </p:column>
                         </p:dataTable>
                     </h:panelGroup>
@@ -122,12 +122,12 @@
                         <h:form id="searchForm2">
                             <h:panelGrid columns="1">
                                 <p:outputLabel id="viewLabel" for="moduleCode" value="Module Code:" />
-                                    <p:selectOneMenu id="moduleCode" value="#{forumListBean.searchModuleCode}"  panelStyle="width:180px" effect="fade" 
-                                                     var="course" style="width:160px" filter="true" filterMatchMode="contains" appendTo="@this">
-                                        <!--p:ajax event="change" listener="#{forumListBean.searchReview()}" update="communityTab:forumForm2, messages, communityTab:searchForm2"  /-->
-                                        <f:selectItem itemLabel="Select One" itemValue="select"/>
-                                        <f:selectItems value="#{forumListBean.courses}" var="course" itemLabel="#{course.moduleCode}" itemValue="#{course.moduleCode}" />
-                                    </p:selectOneMenu>                                 
+                                <p:selectOneMenu id="moduleCode" value="#{forumListBean.searchModuleCode}"  panelStyle="width:180px" effect="fade" 
+                                                 var="course" style="width:160px" filter="true" filterMatchMode="contains" appendTo="@this">
+                                    <!--p:ajax event="change" listener="#{forumListBean.searchReview()}" update="communityTab:forumForm2, messages, communityTab:searchForm2"  /-->
+                                    <f:selectItem itemLabel="Select One" itemValue="select"/>
+                                    <f:selectItems value="#{forumListBean.courses}" var="course" itemLabel="#{course.moduleCode}" itemValue="#{course.moduleCode}" />
+                                </p:selectOneMenu>                                 
                                 <h:panelGroup>
                                     <p:commandButton oncomplete="PF('searchWidget2').hide()" icon="fa fa-search-plus" value="Search Review" actionListener="#{forumListBean.searchReview}" update="communityTab:forumForm2, messages, communityTab:searchForm2"/>
                                     <p:commandButton oncomplete="PF('searchWidget2').hide()" icon="fa fa-search-minus" value="Clear Search" actionListener="#{forumListBean.refresh()}" update="communityTab:forumForm2, messages, communityTab:searchForm2" />
@@ -152,13 +152,13 @@
                                 <br />
                                 <h:outputLabel style="font-size: 11px" value=" Last post: #{forumListBean.latestReplyDayTime(threads.latestReplyDateTime)}" /> 
                             </p:column>
-                            <p:column style="width: 11%;height:40px" headerText="Replies" >
+                            <p:column style="text-align: center;width: 11%;height:40px" headerText="Replies" >
                                 <h:outputLabel style="font-size: 16px" value="#{threads.replies.size()}"/> 
                             </p:column>
-                            <p:column style="width: 11%;height:40px" headerText="Votes" >
-                                <h:outputLabel id="positiveThread" style="font-size:16px; font-weight: bold; float: left" value="+#{threads.upVote - threads.downVote}" rendered="#{(threads.upVote - threads.downVote) gt 0}"/>
-                                <h:outputLabel id="negativeThead" style="font-size:16px; font-weight: bold; float: left" value="#{threads.upVote - threads.downVote}" rendered="#{(threads.upVote - threads.downVote) lt 0}"/>
-                                <h:outputLabel id="zeroThread" style="font-size:16px; font-weight: bold; float: left" value="0" rendered="#{(threads.upVote - threads.downVote) == 0}"/>
+                            <p:column style="text-align: center;width: 11%;height:40px" headerText="Votes" >
+                                <h:outputLabel id="positiveThread" style="font-size:16px; font-weight: bold" value="+#{threads.upVote - threads.downVote}" rendered="#{(threads.upVote - threads.downVote) gt 0}"/>
+                                <h:outputLabel id="negativeThead" style="font-size:16px; font-weight: bold;" value="#{threads.upVote - threads.downVote}" rendered="#{(threads.upVote - threads.downVote) lt 0}"/>
+                                <h:outputLabel id="zeroThread" style="font-size:16px; font-weight: bold;" value="0" rendered="#{(threads.upVote - threads.downVote) == 0}"/>
                             </p:column>
                         </p:dataTable>
                     </h:panelGroup>

@@ -100,6 +100,9 @@ public class StudyPlanBean {
     private String addCurrentModuleCode;
     private String showModuleInfo;
     private String showWorkload;
+    private String showPrerequisite;
+    private String showPreclusions;
+    private Module showModule;
 
     //for reviews:
     private Thread selectedReview;
@@ -108,18 +111,9 @@ public class StudyPlanBean {
     private String content;
     private Thread threadEntity;
     private String threadTitle;
-    private String moduleName;
     private String moduleYear;
     private String moduleSem;
     private Course courseEntity;
-
-    public Course getCourseEntity() {
-        return courseEntity;
-    }
-
-    public void setCourseEntity(Course courseEntity) {
-        this.courseEntity = courseEntity;
-    }
 
     public StudyPlanBean() {
     }
@@ -169,10 +163,8 @@ public class StudyPlanBean {
         addGradeModuleGrade = null;
         System.out.println("finish to render StudyPlanBean");
     }
-    
-    //UNCOMMENT ALL THE COMMENTS AFTER FIXING THE GRADE IN STUDY PLAN
-    //public void createReview(Grade grade) {
-    public void createReview() {    
+
+    public void createReview(Module moduleEntity) {
         FacesMessage fmsg = new FacesMessage();
         context = FacesContext.getCurrentInstance();
         username = (String) session.getAttribute("username");
@@ -181,7 +173,7 @@ public class StudyPlanBean {
             if (content.equals("")) {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contents needed.", "Please fill up the content field.");
             } else {
-                //threadTitle = createReviewTitle(grade); 
+                threadTitle = createReviewTitle(moduleEntity);
                 threadEntity = cmsbl.getExistingReview(threadTitle, userEntity.getSchool());
                 if (threadEntity != null) {
                     if (cmsbl.createReply(threadEntity.getId(), username, content)) {
@@ -190,32 +182,30 @@ public class StudyPlanBean {
                         fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to create review.", "Please ensure you are logged in.");
                     }
                 } else {
-                    //createNewReview(grade, threadTitle, content, fmsg);
-                    createNewReview(threadTitle, content, fmsg);
+                    createNewReview(moduleEntity, threadTitle, content, fmsg);
                 }
             }
             createThreadCheck = false;
+            content = "";
+            threadTitle = "";
         } else {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to review module.", "Please ensure you are logged in.");
         }
     }
 
-    //public void createNewReview(Grade grade, String threadTitle, String content, FacesMessage fmsg) {
-    public void createNewReview(String threadTitle, String content, FacesMessage fmsg) {    
-        //if (cmsbl.createThread(username, content, threadTitle, "Course Review", grade.getModule().getCourse().getSchool())) {
-        if (cmsbl.createThread(username, content, threadTitle, "Course Review", "NUS")) {
+    public void createNewReview(Module moduleEntity, String threadTitle, String content, FacesMessage fmsg) {
+        if (cmsbl.createThread(username, content, threadTitle, "Course Review", moduleEntity.getCourse().getSchool())) {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Review created.");
         } else {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to create review.", "Please ensure you are logged in.");
         }
     }
 
-    public String createReviewTitle(Grade grade) {
-        Module tempModule = grade.getModule();
-        Course tempCourse = tempModule.getCourse();
-        return tempCourse.getModuleCode() + " " + tempCourse.getModuleName() + " - Year " + tempModule.getTakenYear() + " Sem " + tempModule.getTakenSem();
+    public String createReviewTitle(Module moduleEntity) {
+        Course tempCourse = moduleEntity.getCourse();
+        return tempCourse.getModuleCode() + " " + tempCourse.getModuleName() + " - Year " + moduleEntity.getTakenYear() + " Sem " + moduleEntity.getTakenSem();
     }
-    
+
     public void onReviewSelect(SelectEvent event) {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
@@ -228,15 +218,24 @@ public class StudyPlanBean {
         }
     }
 
+    public void getTakenModuleInfo(Module moduleEntity) {
+        showModuleInfo = "";
+        showWorkload = "";
+        showPrerequisite = "";
+        showPreclusions = "";
+        showModuleInfo = moduleEntity.getCourse().getModuleInfo();
+        showWorkload = moduleEntity.getCourse().getWorkload();
+        showPrerequisite = moduleEntity.getPrerequisite();
+        showPreclusions = moduleEntity.getPreclusions();
+        showModule = moduleEntity;
+    }
+
     public void getModuleReviewsList(Course courseEntity) {
         moduleReviews = null;
         showModuleInfo = "";
         showWorkload = "";
         showModuleInfo = courseEntity.getModuleInfo();
         showWorkload = courseEntity.getWorkload();
-        //remove comment below once backend is fixed 
-        //remove if else once backend is fixed
-        String moduleName;
         String moduleCode1 = courseEntity.getModuleCode();
         System.out.println("Searching reviews for " + moduleCode1 + "...");
         moduleReviews = cmsbl.searchThreadByTitle(moduleCode1, courseEntity.getSchool());
@@ -1107,14 +1106,6 @@ public class StudyPlanBean {
         this.threadTitle = threadTitle;
     }
 
-    public String getModuleName() {
-        return moduleName;
-    }
-
-    public void setModuleName(String moduleName) {
-        this.moduleName = moduleName;
-    }
-
     public String getModuleYear() {
         return moduleYear;
     }
@@ -1129,6 +1120,38 @@ public class StudyPlanBean {
 
     public void setModuleSem(String moduleSem) {
         this.moduleSem = moduleSem;
+    }
+
+    public String getShowPrerequisite() {
+        return showPrerequisite;
+    }
+
+    public void setShowPrerequisite(String showPrerequisite) {
+        this.showPrerequisite = showPrerequisite;
+    }
+
+    public String getShowPreclusions() {
+        return showPreclusions;
+    }
+
+    public void setShowPreclusions(String showPreclusions) {
+        this.showPreclusions = showPreclusions;
+    }
+
+    public Module getShowModule() {
+        return showModule;
+    }
+
+    public void setShowModule(Module showModule) {
+        this.showModule = showModule;
+    }
+
+    public Course getCourseEntity() {
+        return courseEntity;
+    }
+
+    public void setCourseEntity(Course courseEntity) {
+        this.courseEntity = courseEntity;
     }
 
 }

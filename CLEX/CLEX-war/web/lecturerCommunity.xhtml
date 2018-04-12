@@ -87,13 +87,13 @@
                                 <br />
                                 <h:outputLabel style="font-size: 11px" value=" Last post: #{forumListBean.latestReplyDayTime(threads.latestReplyDateTime)}" /> 
                             </p:column>
-                            <p:column style="width: 11%;height:40px" headerText="Replies" >
+                            <p:column style="text-align: center;width: 11%;height:40px" headerText="Replies" >
                                 <h:outputLabel style="font-size: 16px" value="#{threads.replies.size()}"/> 
                             </p:column>
-                            <p:column style="width: 11%;height:40px" headerText="Votes" >
-                                <h:outputLabel id="positiveThread" style="font-size:16px; font-weight: bold; float: left" value="+#{threads.upVote - threads.downVote}" rendered="#{(threads.upVote - threads.downVote) gt 0}"/>
-                                <h:outputLabel id="negativeThead" style="font-size:16px; font-weight: bold; float: left" value="#{threads.upVote - threads.downVote}" rendered="#{(threads.upVote - threads.downVote) lt 0}"/>
-                                <h:outputLabel id="zeroThread" style="font-size:16px; font-weight: bold; float: left" value="0" rendered="#{(threads.upVote - threads.downVote) == 0}"/>
+                            <p:column style="text-align: center;width: 11%;height:40px" headerText="Votes" >
+                                <h:outputLabel id="positiveThread" style="font-size:16px; font-weight: bold;" value="+#{threads.upVote - threads.downVote}" rendered="#{(threads.upVote - threads.downVote) gt 0}"/>
+                                <h:outputLabel id="negativeThead" style="font-size:16px; font-weight: bold;" value="#{threads.upVote - threads.downVote}" rendered="#{(threads.upVote - threads.downVote) lt 0}"/>
+                                <h:outputLabel id="zeroThread" style="font-size:16px; font-weight: bold;" value="0" rendered="#{(threads.upVote - threads.downVote) == 0}"/>
                             </p:column>
                         </p:dataTable>
                     </h:panelGroup>
@@ -131,13 +131,13 @@
                                 <br />
                                 <h:outputLabel style="font-size: 11px" value=" Last post: #{forumListBean.latestReplyDayTime(threads.latestReplyDateTime)}" /> 
                             </p:column>
-                            <p:column style="width: 11%;height:40px" headerText="Replies" >
+                            <p:column style="text-align: center;width: 11%;height:40px" headerText="Replies" >
                                 <h:outputLabel style="font-size: 16px" value="#{threads.replies.size()}"/> 
                             </p:column>
-                            <p:column style="width: 11%;height:40px" headerText="Votes" >
-                                <h:outputLabel id="positiveThread" style="font-size:16px; font-weight: bold; float: left" value="+#{threads.upVote - threads.downVote}" rendered="#{(threads.upVote - threads.downVote) gt 0}"/>
-                                <h:outputLabel id="negativeThead" style="font-size:16px; font-weight: bold; float: left" value="#{threads.upVote - threads.downVote}" rendered="#{(threads.upVote - threads.downVote) lt 0}"/>
-                                <h:outputLabel id="zeroThread" style="font-size:16px; font-weight: bold; float: left" value="0" rendered="#{(threads.upVote - threads.downVote) == 0}"/>
+                            <p:column style="text-align: center;width: 11%;height:40px" headerText="Votes" >
+                                <h:outputLabel id="positiveThread" style="font-size:16px; font-weight: bold;" value="+#{threads.upVote - threads.downVote}" rendered="#{(threads.upVote - threads.downVote) gt 0}"/>
+                                <h:outputLabel id="negativeThead" style="font-size:16px; font-weight: bold;" value="#{threads.upVote - threads.downVote}" rendered="#{(threads.upVote - threads.downVote) lt 0}"/>
+                                <h:outputLabel id="zeroThread" style="font-size:16px; font-weight: bold;" value="0" rendered="#{(threads.upVote - threads.downVote) == 0}"/>
                             </p:column>
                         </p:dataTable>
                     </h:panelGroup>
