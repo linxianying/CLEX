@@ -27,6 +27,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import org.primefaces.event.SelectEvent;
 import session.CommunitySessionBeanLocal;
+import session.CourseMgmtBeanLocal;
 
 /**
  *
@@ -38,7 +39,10 @@ public class ForumListBean {
 
     @EJB
     private CommunitySessionBeanLocal cmsbl;
-
+    
+    @EJB
+    private CourseMgmtBeanLocal cmbl;
+    
     private ArrayList<Thread> threads;
     private ArrayList<Reply> replies;
     private ArrayList<Vote> votes;
@@ -81,7 +85,8 @@ public class ForumListBean {
 
     //search review
     private String searchModuleCode;
-            
+    private List<Course> courses;
+    
     FacesContext context;
     HttpSession session;
 
@@ -91,6 +96,7 @@ public class ForumListBean {
     //Use this to search, collect and display, use communitybean for other functions
     @PostConstruct
     public void init() {
+        courses = cmbl.getAllCourses();
         refresh();
     }
 
@@ -494,6 +500,14 @@ public class ForumListBean {
 
     public void setSearchModuleCode(String searchModuleCode) {
         this.searchModuleCode = searchModuleCode;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
     }
 
 }
