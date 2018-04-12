@@ -27,7 +27,7 @@
             <br />
             <div>
                 <div id="content" class="left_content">
-                    <p:dataList var="m" value="#{projectDetailsBean.module}">
+                    <p:dataList var="m" value="#{projectDetailsBean.module}" style="width: 800px">
                         <table>
                             <tr>
                                 <td width="50%">
@@ -93,8 +93,8 @@
                                     <h:outputText value="Awaiting group forming closure" 
                                                   rendered="#{not empty m.superGroup and !m.superGroup.confirm}"/>
                                     <h:outputText value="This module doesn't have peer reviews" escape="false" 
-                                                  rendered="#{empty m.peerReviewQuestion and not empty m.superGroup and m.superGroup.confirm and 
-                                                              projectBean.hasProjectGroup(m.course.moduleCode)}" />
+                                                  rendered="#{empty m.peerReviewQuestion and m.superGroup.confirm and 
+                                                              projectBean.hasProjectGroup(m.course.moduleCode) and not empty m.superGroup}" />
                                 </td>
                             </tr>
                             <tr>
@@ -110,19 +110,21 @@
                         </table>
                     </p:dataList>
 
-                    <p:separator/>
+                    <p:separator style="float: left;width: 800px"/>
+                    <br />
                     <h:outputLabel style="font-weight: bold; font-size: 12px" value="Classroom Activities" />
 
                     <h:form id="folderform">
-                        <p:dataList id="foldertable" value="#{projectDetailsBean.list}" 
+                        <p:dataTable style="width: 400px"
+                            id="foldertable" value="#{projectDetailsBean.list}" 
                                     var="folderlist" paginator="true" paginatorPosition="bottom"
                                     rows="10" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
                                     emptyMessage="No activities found! Hooray!" >
                             <p:column >
-                                <h:outputText value="#{folderlist}"/>
-                                <p:commandButton icon="fa fa-pencil-square-o" actionListener="#{projectDetailsBean.enterActivity(folderlist)}"/>
+                                <h:outputText value="#{folderlist} "/>
+                                <p:commandButton style="float: right;margin-left: 50px" icon="fa fa-pencil-square-o" actionListener="#{projectDetailsBean.enterActivity(folderlist)}"/>
                             </p:column>
-                        </p:dataList>
+                        </p:dataTable>
                     </h:form>
 
 
