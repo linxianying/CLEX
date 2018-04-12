@@ -6,9 +6,15 @@
 package managedbeans;
 
 import entity.Module;
-import entity.ProjectGroup;
 import entity.Student;
+import entity.User;
+import java.io.File;
+import java.io.FileFilter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -33,20 +39,28 @@ public class ProjectDetailsBean {
     private ClexSessionBeanLocal csbl;
     @EJB
     private ProjectSessionBeanLocal psbl;
-    
+
     FacesContext context;
     HttpSession session;
-    
+
     private String username;
     private Student student;
     private Module module;
-    
+    private List<String> list;
+
+    private String activityname;
+    private User userEntity;
+    private String moduleCode;
+    private String semester;
+    private String year;
+    private String schoolname;
+
     //for test
     private boolean check;
-    
+
     public ProjectDetailsBean() {
     }
-    
+
     @PostConstruct
     public void init() {
         //for test purpose
@@ -58,13 +72,78 @@ public class ProjectDetailsBean {
         System.out.println("ProjectDetailsBean start initialization");
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
-        
+        userEntity = (User) session.getAttribute("user");
+        module = (Module) session.getAttribute("module");
+        moduleCode = module.getCourse().getModuleCode();
+        semester = module.getTakenSem();
+        year = module.getTakenYear();
+        schoolname = userEntity.getSchool();
         setUsername((String) session.getAttribute("username"));
         setStudent(csbl.findStudent(getUsername()));
-        
-        module = (Module) session.getAttribute("module");
 
         System.out.println("ProjectDetailsBean Finish initialization");
+        getAllActivities();
+    }
+
+    public void getAllActivities() {
+        String path = session.getServletContext().getRealPath("/");
+        int pathlength = path.length();
+        pathlength = pathlength - 10;
+        path = path.substring(0, pathlength);
+        path = path + "web/resources/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester;
+        path = path.replaceAll("\\\\", "/");
+        Path check = Paths.get(path);
+        if (Files.exists(check)) {
+            list = findFoldersInDirectory(path);
+        } else {
+            //do nothing
+        }
+    }
+
+    public List<String> findFoldersInDirectory(String directoryPath) {
+        File directory = new File(directoryPath);
+        FileFilter directoryFileFilter = new FileFilter() {
+            public boolean accept(File file) {
+                return file.isDirectory();
+            }
+        };
+        File[] directoryListAsFile = directory.listFiles(directoryFileFilter);
+        List<String> foldersInDirectory = new ArrayList<String>(directoryListAsFile.length);
+        for (File directoryAsFile : directoryListAsFile) {
+            if (checkActivity(directoryAsFile.getName())) {
+                //dont add
+            } else {
+                foldersInDirectory.add(directoryAsFile.getName());
+            }
+        }
+        return foldersInDirectory;
+    }
+
+    public boolean checkActivity(String foldername) {
+        String path = session.getServletContext().getRealPath("/");
+        int pathlength = path.length();
+        pathlength = pathlength - 10;
+        path = path.substring(0, pathlength);
+        path = path + "web/resources/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + foldername + "/";
+        path = path.replaceAll("\\\\", "/");
+        path = path + foldername + "-Closed.txt";
+        Path folder = Paths.get(path);
+        if (Files.exists(folder)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void enterActivity(String foldername) {
+        System.out.println("Selected Activity: " + foldername);
+        try {
+            session.setAttribute("module", module);
+            session.setAttribute("activity", foldername);
+            context.getExternalContext().redirect("whiteboard.xhtml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -107,5 +186,61 @@ public class ProjectDetailsBean {
      */
     public void setModule(Module module) {
         this.module = module;
+    }
+
+    public List<String> getList() {
+        return list;
+    }
+
+    public void setList(List<String> list) {
+        this.list = list;
+    }
+
+    public String getActivityname() {
+        return activityname;
+    }
+
+    public void setActivityname(String activityname) {
+        this.activityname = activityname;
+    }
+
+    public User getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(User userEntity) {
+        this.userEntity = userEntity;
+    }
+
+    public String getModuleCode() {
+        return moduleCode;
+    }
+
+    public void setModuleCode(String moduleCode) {
+        this.moduleCode = moduleCode;
+    }
+
+    public String getSemester() {
+        return semester;
+    }
+
+    public void setSemester(String semester) {
+        this.semester = semester;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getSchoolname() {
+        return schoolname;
+    }
+
+    public void setSchoolname(String schoolname) {
+        this.schoolname = schoolname;
     }
 }
