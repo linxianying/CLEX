@@ -18,7 +18,6 @@
             <p:printer target="panel" />
         </p:commandButton>
         <h:form id="panel">
-            <h3><h:outputText value="Modules" /></h3>
             <p:tabView id="lecturerModule">
                 <p:tab title="MANAGE CURRENT MODULE">
                     <p:dataTable var="module" value="#{lecturerModuleListBean.currentModules}" id="currentModules" rows="5"
@@ -70,23 +69,18 @@
                         </p:column>
                         <p:column style="width: 20%" headerText="Groups" >
                             <h:outputText value="Status: Group formation not statrted" rendered="#{empty module.superGroup}"/>
-                            <br/>
-                            <!--<p:commandButton value="Start group formation" onclick="PF('dlg1').show();" update=":panel:lecturerModule:currentModules:dlg1" />-->
-                            <!--<p:commandButton value="Start group formation" oncomplete="PF('dlg1').show();" update=":panel:currentModules:groupDialog" />-->
-                            <p:commandButton value="Manage groups" actionListener="#{lecturerModuleListBean.formGroup(module)}" />
-                            <br />
-                            <h:outputText value="Polls:#{module.polls.size()}" />
+                            <p:commandButton icon="fa fa-cogs" value="Manage Groups" actionListener="#{lecturerModuleListBean.formGroup(module)}" />
                         </p:column>
                         <p:column style="width: 20%" headerText="Peer Review">
-                            <p:commandButton value="Add Peer Review Form" actionListener="#{lecturerModuleListBean.startPR(module)}" 
+                            <p:commandButton icon="fa fa-align-justify" value="Add Peer Review Form" actionListener="#{lecturerModuleListBean.startPR(module)}" 
                                              rendered="#{not empty module.superGroup and module.superGroup.confirm and empty module.peerReviewQuestion}"/>
-                            <p:commandButton value="Manage Peer Review" actionListener="#{lecturerModuleListBean.goPRPage(module)}" action="lecturerUpdatePRform?faces-redirect=rtue" 
+                            <p:commandButton icon="fa fa-cogs" value="Manage Peer Review" actionListener="#{lecturerModuleListBean.goPRPage(module)}" action="lecturerUpdatePRform?faces-redirect=rtue" 
                                              rendered="#{not empty module.superGroup and module.superGroup.confirm and not empty module.peerReviewQuestion}"/>
                             <br /><br />
-                            <p:commandButton value="View submitted Peer Review Forms" action="lecturerUpdatePRform?faces-redirect=true" 
+                            <p:commandButton icon="fa fa-user" value="View submitted Peer Review Forms" action="lecturerUpdatePRform?faces-redirect=true" 
                                              rendered="#{not empty module.superGroup and module.superGroup.confirm and not empty module.peerReviewQuestion and not empty module.peerReviewQuestion.answer}"/>
                             <br /><br />
-                            <p:commandButton value="view Groups' Peer Review Results" action="lecturerUpdatePRform?faces-redirect=true"
+                            <p:commandButton icon="fa fa-groups" value="View Groups' Peer Review Results" action="lecturerUpdatePRform?faces-redirect=true"
                                              rendered="#{not empty module.superGroup and module.superGroup.confirm and not empty module.peerReviewQuestion and not empty module.peerReviewQuestion.answer}"/>
                         </p:column>
                         <!--                        <p:dialog header="Start group Formation" widgetVar="dlg1" id="dlg1">
@@ -105,8 +99,8 @@
                                                     </h:form>
                                                 </p:dialog>-->
                         <p:column style="width: 20%" headerText="Activities">
-                            <p:commandButton value="Manage Activities" actionListener="#{lecturerModuleListBean.manageActivities(module)}" icon="fa fa-search-plus"/>
-                            </p:column>
+                            <p:commandButton value="Manage Activities" actionListener="#{lecturerModuleListBean.manageActivities(module)}" icon="fa fa-search"/>
+                        </p:column>
                     </p:dataTable>
                 </p:tab>
                 <p:tab title="VIEW MODULES">

@@ -84,7 +84,7 @@ public class LecturerPRFormBean implements Serializable{
         groupQuestions = question.getGroupQuestions();
         title = question.getTitle();
         deadline = question.getDeadline();
-        hasDeadline = "no";
+        hasDeadline = "No";
         System.out.println("lecturerPRFormBean Finish init");
         
     }
@@ -130,7 +130,7 @@ public class LecturerPRFormBean implements Serializable{
     
     public void deleteGrQuestion(int grIndex) {
         System.out.println("index=" + grIndex);
-        System.out.println("question number is " + groupQuestions.get(grIndex).getQuestion());
+        System.out.println("Question number is " + groupQuestions.get(grIndex).getQuestion());
         prqsbl.deleteGrQuestion(question, grIndex);
 //        groupQuestions.remove(indIndex);
     }
