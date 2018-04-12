@@ -304,7 +304,7 @@
                                                     <p:commandButton icon="ui-icon-trash" style="background: grey; float: right" id="deleteStudyPlan-button" update="tab:reporttab" >
                                                         <p:ajax update="tab:modulesTaken" listener="#{studyPlanBean.deleteGrade(grade)}" />
                                                         <p:confirm header="Delete #{grade.module.course.moduleCode}" message="Are you sure?" icon="ui-icon-alert" />
-                                                    </p:commandButton>
+                                                    </p:commandButton> 
                                                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                                                         <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                                                         <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
@@ -346,11 +346,12 @@
                                                             <p:commandButton icon="fa fa-plus" value="New Review" update="infoform"
                                                                              id="newReviewButton"  actionListener="#{studyPlanBean.setCreateThreadCheck(true)}" />
 
-                                                            <!--EDITED END HERE-->
                                                         </p:panelGrid>
                                                         <h:panelGrid columns="1" rendered="#{studyPlanBean.createThreadCheck}">
-                                                            <p:inputTextarea rows="1" cols="100" title="Review" placeholder="Review Title" id="title" value="#{courseReviewBean.threadTitle}"/>
-                                                            <p:textEditor widgetVar="editor" value="#{courseReviewBean.content}" height="300" style="margin-bottom:10px" placeholder="Enter your review">
+                                                            <!--UNCOMMENT AFTER FIXING GRADEp:inputTextarea rows="1" cols="100" title="Review" placeholder="Review Title" id="title" value="#{grade.module.course.moduleCode} - #{grade.module.course.moduleName} 
+                                                                             - Year #{grade.module.takenYear} Sem #{grade.module.takenSem}"/-->
+                                                            <p:inputTextarea rows="1" cols="100" title="Review" placeholder="Review Title" id="title" value="#{studyPlanBean.threadTitle}"/>
+                                                            <p:textEditor widgetVar="editor" value="#{studyPlanBean.content}" height="300" style="margin-bottom:10px" placeholder="Enter your review">
                                                                 <f:facet name="toolbar">
                                                                     <span class="ql-formats">
                                                                         <span class="ql-formats">
@@ -377,9 +378,11 @@
                                                                     </span>    
                                                                 </f:facet>
                                                             </p:textEditor>
-                                                            <!--p:inputTextarea rows="1" cols="100" title="Tag" placeholder="Tags - Separate multiple tags with comma (Optional)" id="tag" value="#{forumListBean.tTag}"/-->
+                                                            
+                                                            <!--UNCOMMENT AFTER FIXING GRADEp:commandButton icon="fa fa-pencil-square-o" update="infoform"
+                                                                             oncomplete="PF('infooverlay').hide()" value="Create Review" actionListener="#{studyPlanBean.createReview(grade)}" /-->
                                                             <p:commandButton icon="fa fa-pencil-square-o" update="infoform"
-                                                                             oncomplete="PF('infooverlay').hide()" value="Create Review" actionListener="#{studyPlanBean.createReview}" />
+                                                                             oncomplete="PF('infooverlay').hide()" value="Create Review" actionListener="#{studyPlanBean.createReview()}" />
                                                         </h:panelGrid>
                                                     </h:form>
                                                 </h:panelGroup>

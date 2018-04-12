@@ -133,45 +133,6 @@ public class StudyPlanBean {
         grading = this.checkGrading();
     }
 
-    public void createReview() {
-        FacesMessage fmsg = new FacesMessage();
-        context = FacesContext.getCurrentInstance();
-        username = (String) session.getAttribute("username");
-        userEntity = (User) session.getAttribute("user");
-        if (userEntity != null) {
-            if (content.equals("")) {
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contents needed.", "Please fill up the content field.");
-            } else {
-                threadTitle = createReviewTitle();
-                threadEntity = cmsbl.getExistingReview(threadTitle, username);
-                if (threadEntity != null) {
-                    if (cmsbl.createReply(threadEntity.getId(), username, content)) {
-                        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Review created.");
-                    } else {
-                        fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to create review.", "Please ensure you are logged in.");
-                    }
-                } else {
-                    createNewReview(threadTitle, content, fmsg);
-                }
-            }
-            createThreadCheck = false;
-        } else {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to review module.", "Please ensure you are logged in.");
-        }
-    }
-
-    public void createNewReview(String threadTitle, String content, FacesMessage fmsg) {
-        if (cmsbl.createThread(username, content, threadTitle, "Course Review", courseEntity.getSchool())) {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Review created.");
-        } else {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to create review.", "Please ensure you are logged in.");
-        }
-    }
-
-    public String createReviewTitle() {
-        return moduleCode + " " + moduleName + " - Year " + moduleYear + " Sem " + moduleSem;
-    }
-
     public void refresh() {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
@@ -208,7 +169,53 @@ public class StudyPlanBean {
         addGradeModuleGrade = null;
         System.out.println("finish to render StudyPlanBean");
     }
+    
+    //UNCOMMENT ALL THE COMMENTS AFTER FIXING THE GRADE IN STUDY PLAN
+    //public void createReview(Grade grade) {
+    public void createReview() {    
+        FacesMessage fmsg = new FacesMessage();
+        context = FacesContext.getCurrentInstance();
+        username = (String) session.getAttribute("username");
+        userEntity = (User) session.getAttribute("user");
+        if (userEntity != null) {
+            if (content.equals("")) {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contents needed.", "Please fill up the content field.");
+            } else {
+                //threadTitle = createReviewTitle(grade); 
+                threadEntity = cmsbl.getExistingReview(threadTitle, userEntity.getSchool());
+                if (threadEntity != null) {
+                    if (cmsbl.createReply(threadEntity.getId(), username, content)) {
+                        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Review created.");
+                    } else {
+                        fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to create review.", "Please ensure you are logged in.");
+                    }
+                } else {
+                    //createNewReview(grade, threadTitle, content, fmsg);
+                    createNewReview(threadTitle, content, fmsg);
+                }
+            }
+            createThreadCheck = false;
+        } else {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to review module.", "Please ensure you are logged in.");
+        }
+    }
 
+    //public void createNewReview(Grade grade, String threadTitle, String content, FacesMessage fmsg) {
+    public void createNewReview(String threadTitle, String content, FacesMessage fmsg) {    
+        //if (cmsbl.createThread(username, content, threadTitle, "Course Review", grade.getModule().getCourse().getSchool())) {
+        if (cmsbl.createThread(username, content, threadTitle, "Course Review", "NUS")) {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Review created.");
+        } else {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to create review.", "Please ensure you are logged in.");
+        }
+    }
+
+    public String createReviewTitle(Grade grade) {
+        Module tempModule = grade.getModule();
+        Course tempCourse = tempModule.getCourse();
+        return tempCourse.getModuleCode() + " " + tempCourse.getModuleName() + " - Year " + tempModule.getTakenYear() + " Sem " + tempModule.getTakenSem();
+    }
+    
     public void onReviewSelect(SelectEvent event) {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);

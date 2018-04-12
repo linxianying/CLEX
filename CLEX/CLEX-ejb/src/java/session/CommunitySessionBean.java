@@ -407,9 +407,14 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
     
     @Override
     public Thread getExistingReview(String title, String school){
-        List<Thread> threadList = searchThreadByTitle(title, school);
-        threadEntity = threadList.get(0);
-        return threadEntity;
+        List<Thread> tempThreadList = searchThreadByTitle(title, school);
+        Thread tempThread = null;
+
+        if(!tempThreadList.isEmpty()){
+            tempThread = tempThreadList.get(0);
+        }
+        
+        return tempThread;
     }
     
     @Override
