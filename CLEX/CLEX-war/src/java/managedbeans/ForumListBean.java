@@ -44,6 +44,8 @@ public class ForumListBean {
     private ArrayList<Vote> votes;
     private ArrayList<VoteThread> voteThreads;
     private ArrayList<VoteReply> voteReplies;
+    
+    private ArrayList<Thread> reviewThreads;
 
     //User
     private User userEntity;
@@ -59,7 +61,7 @@ public class ForumListBean {
     private Thread selectedThread;
     private String dateTimeCompare;
     private String dayDisplay;
-
+    
     //Reply
     private Reply replyEntity;
     private Long rId;
@@ -77,6 +79,9 @@ public class ForumListBean {
     private String searchTitle;
     private String searchTag;
 
+    //search review
+    private String searchModuleCode;
+            
     FacesContext context;
     HttpSession session;
 
@@ -95,6 +100,7 @@ public class ForumListBean {
         username = (String) session.getAttribute("username");
         userEntity = (User) session.getAttribute("user");
         threads = (ArrayList) cmsbl.getAllThreadsBySchool(userEntity.getSchool());
+        reviewThreads = (ArrayList) cmsbl.getThreadsByTag("Course Review", userEntity.getSchool());
     }
 
     public void searchThread() throws IOException {
@@ -136,7 +142,32 @@ public class ForumListBean {
         searchTag = "";
         context.addMessage(null, fmsg);
     }
-
+    
+    public void searchReview() throws IOException {
+        FacesMessage fmsg = new FacesMessage();
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+        userEntity = (User) session.getAttribute("user");
+        if (!searchModuleCode.equals("")) {
+            reviewThreads = (ArrayList) cmsbl.searchThreadByTitle(searchModuleCode, userEntity.getSchool());
+            for(int i=0; i < reviewThreads.size(); i++){
+                if(!reviewThreads.get(i).getTag().equals("Course Review")){
+                    reviewThreads.remove(i);
+                }
+            }
+            if (reviewThreads.isEmpty()) {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No reviews found!", "");
+            } else {
+                int searchcount = reviewThreads.size();
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", searchcount + " Review(s) found.");
+            }
+        } else {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Please fill in the module code field.");
+        }
+        searchModuleCode = "";
+        context.addMessage(null, fmsg);
+    }
+    
     public void startThread() throws IOException {
         FacesMessage fmsg = new FacesMessage();
         context = FacesContext.getCurrentInstance();
@@ -447,6 +478,22 @@ public class ForumListBean {
 
     public void setSession(HttpSession session) {
         this.session = session;
+    }
+
+    public ArrayList<Thread> getReviewThreads() {
+        return reviewThreads;
+    }
+
+    public void setReviewThreads(ArrayList<Thread> reviewThreads) {
+        this.reviewThreads = reviewThreads;
+    }
+
+    public String getSearchModuleCode() {
+        return searchModuleCode;
+    }
+
+    public void setSearchModuleCode(String searchModuleCode) {
+        this.searchModuleCode = searchModuleCode;
     }
 
 }

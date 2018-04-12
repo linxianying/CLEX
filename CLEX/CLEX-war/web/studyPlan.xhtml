@@ -38,6 +38,7 @@
                                                 </f:facet>
                                                 <p:column style="width: 20%" headerText="Module Code">
                                                     <p:commandLink action="studyPlan?faces-redirect=false" id="modulecode" >
+                                                 <!--EDITED HERE-->  <p:ajax update="tab:studyPlanForm:studyPlansList:0:spTable:0:modulecode" listener="#{courseReviewBean.getModuleReviews(sp.course.moduleCode)}" />
                                                         <h:outputText value="#{sp.course.moduleCode}" />
                                                     </p:commandLink>
                                                     <p:commandButton icon="ui-icon-trash" style="background: grey; float: right" id="deleteStudyPlan-button" >
@@ -57,6 +58,27 @@
                                                                 </p:inputTextarea>
                                                                 <h:outputText value="Workload:" />
                                                                 <h:outputText value="#{sp.course.workload}" />
+                                                                <!--EDITED HERE-->
+                                                                <h:outputText value="Module Review:" />
+                                                                <h:form id="reviewForm">
+                                                                    <h:panelGroup>
+                                                                        <p:dataTable selectionMode="single" selection="#{courseReviewBean.moduleReviews}" rowKey="#{review.id}"
+                                                                                     id="reviewtable" value="#{courseReviewBean.moduleReviews}" 
+                                                                                     var="review" paginator="true" 
+                                                                                     rows="15" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
+                                                                                     emptyMessage="No reviews has been created yet!">                         
+                                                                            <p:column style="height:40px" headerText="Module Reviews" >                                
+                                                                                <h:outputLabel style="font-size: 16px" value="#{review.title}"/>
+                                                                            </p:column>
+                                                                            <p:column style="width: 11%;height:40px" headerText="Votes" >
+                                                                                <h:outputLabel id="positiveThread" style="font-size:16px; font-weight: bold; float: left" value="+#{review.upVote - review.downVote}" rendered="#{(review.upVote - review.downVote) gt 0}"/>
+                                                                                <h:outputLabel id="negativeThead" style="font-size:16px; font-weight: bold; float: left" value="#{review.upVote - review.downVote}" rendered="#{(review.upVote - review.downVote) lt 0}"/>
+                                                                                <h:outputLabel id="zeroThread" style="font-size:16px; font-weight: bold; float: left" value="0" rendered="#{(review.upVote - review.downVote) == 0}"/>
+                                                                            </p:column>
+                                                                        </p:dataTable>
+                                                                    </h:panelGroup>
+                                                                </h:form>
+                                                                <!--EDITED END HERE-->
                                                             </p:panelGrid>
                                                         </p:panel>
                                                     </p:overlayPanel>
