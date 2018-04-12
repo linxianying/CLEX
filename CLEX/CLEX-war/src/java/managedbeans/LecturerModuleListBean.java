@@ -25,7 +25,7 @@ import session.AnnouncementSessionBeanLocal;
 import session.ClassroomSessionBeanLocal;
 import session.CourseMgmtBeanLocal;
 
-@ManagedBean (name = "lecturerModuleListBean")
+@ManagedBean(name = "lecturerModuleListBean")
 @SessionScoped
 
 public class LecturerModuleListBean implements Serializable {
@@ -49,7 +49,7 @@ public class LecturerModuleListBean implements Serializable {
     private int numOfGroups;
     private int minStudentNum;
     private int maxStudentNum;
-    
+
     private Lecturer lecturerEntity;
     private ArrayList<Student> students;
     private List<String> moduleCodes;
@@ -92,7 +92,7 @@ public class LecturerModuleListBean implements Serializable {
         currentModules = cmbl.getCurrentModulesFromLecturer(username, Integer.toString(currentYear), Integer.toString(currentSem));
     }
 
-    public void setCurrentYearSem(){
+    public void setCurrentYearSem() {
         Calendar now = Calendar.getInstance();
         currentYear = now.get(Calendar.YEAR);
         // month starts from 0 to 11
@@ -104,7 +104,7 @@ public class LecturerModuleListBean implements Serializable {
             currentSem = 1;
         }
     }
-    
+
     public void viewModule(Module module) throws IOException {
         FacesMessage fmsg = new FacesMessage();
         context = FacesContext.getCurrentInstance();
@@ -170,21 +170,19 @@ public class LecturerModuleListBean implements Serializable {
             context.addMessage(null, fmsg);
         }
     }
-    
-            
+
     public void formGroup(Module module) {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
         session.setAttribute("managedModule", module);
         try {
-        context.getExternalContext().redirect("lecturerModuleGroup.xhtml");
-        //System.out.println("Form group "+module.getCourse().getModuleCode()+": # of groups:"+numOfGroups+", max:"+maxStudentNum + ", min:" +minStudentNum);
-        }
-        catch (IOException e){
+            context.getExternalContext().redirect("lecturerModuleGroup.xhtml");
+            //System.out.println("Form group "+module.getCourse().getModuleCode()+": # of groups:"+numOfGroups+", max:"+maxStudentNum + ", min:" +minStudentNum);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
+
     //add the peer review template to this module
     public void startPR(Module module) {
         cmbl.addPRForm(module);
@@ -192,13 +190,13 @@ public class LecturerModuleListBean implements Serializable {
         session = (HttpSession) context.getExternalContext().getSession(true);
         session.setAttribute("managedModule", module);
         try {
-        context.getExternalContext().redirect("lecturerUpdatePRform.xhtml");
-        //System.out.println("Form group "+module.getCourse().getModuleCode()+": # of groups:"+numOfGroups+", max:"+maxStudentNum + ", min:" +minStudentNum);
-        }
-        catch (IOException e){
+            context.getExternalContext().redirect("lecturerUpdatePRform.xhtml");
+            //System.out.println("Form group "+module.getCourse().getModuleCode()+": # of groups:"+numOfGroups+", max:"+maxStudentNum + ", min:" +minStudentNum);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     public void goPRPage(Module module) {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
@@ -212,6 +210,13 @@ public class LecturerModuleListBean implements Serializable {
 //        catch (IOException e){
 //            e.printStackTrace();
 //        }
+    }
+
+    public void manageActivities(Module module) throws IOException{
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+        session.setAttribute("module", module);
+        context.getExternalContext().redirect("createWhiteboardActivity.xhtml");
     }
 
     public List<Module> getModules() {

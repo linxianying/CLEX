@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                 template="/WEB-INF/template_lecturer.xhtml"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">PRISM Lecturer Community Page</ui:define>
+
+    <ui:define name="viewname">Community</ui:define>
+
+    <ui:define name="content">
+        <p:growl id="messages" />
+        <p:fieldset legend="#{lecturerWhiteboardBean.moduleCode} - Activities">
+
+            <h:form id="folderform">
+
+                <p:dataGrid style="width: 1200px" layout="grid" columns="3"
+                            id="foldertable" value="#{lecturerWhiteboardBean.list}" 
+                            var="folderlist" paginator="true" paginatorPosition="bottom"
+                            rows="10" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
+                            emptyMessage="No activity has been created yet!" >
+                    <p:panel header="#{folderlist}">
+                        <h:panelGrid columns="1" style="width:100%">
+                            <p:dataList 
+                                id="itemtable" value="#{lecturerWhiteboardBean.getAllItemsInFolder(folderlist)}" 
+                                var="itemlist" paginator="true" paginatorPosition="bottom"
+                                rows="10" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
+                                emptyMessage="No files has been uploaded yet!">
+                                <p:column >
+                                    <h:outputLabel value="#{itemlist} " />
+                                    
+                                </p:column>
+                            </p:dataList>
+                        </h:panelGrid>
+                    </p:panel>
+                    <br />
+                    <h:panelGroup style="float: right">
+                        <p:commandButton value="Download all files" icon="fa fa-download"  rendered="#{lecturerWhiteboardBean.checkActivity(folderlist)}"                             
+                                         actionListener="#{lecturerWhiteboardBean.downloadallfiles(folderlist)}"/>
+                        <p:commandButton value="Close Activity" icon="fa fa-close" rendered="#{lecturerWhiteboardBean.checkActivity(folderlist) == false}"
+                                         actionListener="#{lecturerWhiteboardBean.closeActivity(folderlist)}" update="foldertable">
+                            <p:confirm header="Close #{folderlist}" message="Closed activities cannot be re-opened! Are you sure?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                        <p:commandButton value="Remove Activity" icon="fa fa-trash-o" rendered="#{lecturerWhiteboardBean.checkActivity(folderlist)}"
+                                         actionListener="#{lecturerWhiteboardBean.removeFolder(folderlist)}" update="foldertable, messages">
+                            <p:confirm header="Delete #{folderlist}" message="Associated folders and files cannot be recovered! Are you sure?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                    </h:panelGroup>                    
+                </p:dataGrid>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+            </h:form>
+            <br />            
+            <br />
+            <h:form >
+                <h4>
+                    Create a new activity
+                </h4>
+                <h:outputLabel value="Activity name: "/>
+                <p:inputText style="width: 250px" value="#{lecturerWhiteboardBean.activityname}" id="nameinput" />
+                <p:commandButton icon="fa fa-plus" value="Create" actionListener="#{lecturerWhiteboardBean.createActivity}" update="nameinput, folderform:foldertable"/>
+            </h:form>
+        </p:fieldset>
+
+
+        <h:form id="initializePageDataForm">
+            <p:remoteCommand name="initializePageDataCommand" autoRun="true" action="#{lecturerWhiteboardBean.init()}"/>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

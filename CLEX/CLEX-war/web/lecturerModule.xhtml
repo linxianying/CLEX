@@ -7,13 +7,13 @@
                 xmlns:p="http://primefaces.org/ui" 
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="title">PRISM Lecturer Module Page</ui:define>
-    
+
     <ui:define name="viewname">Module</ui:define>
-    
+
     <ui:define name="content">
-        
+
         <p:growl id="messages" showDetail="true" />
-        
+
         <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
             <p:printer target="panel" />
         </p:commandButton>
@@ -26,7 +26,7 @@
                                  paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
                                  rowsPerPageTemplate="5,10,20">
-                        
+
                         <f:facet name="header">
                             <p:outputPanel>
                                 <h:outputText value="Search all fields:" />
@@ -39,17 +39,17 @@
                                     <p:graphicImage name="/demo/images/excel.png" width="24"/>
                                     <p:dataExporter type="xls" target="modules" fileName="modules"  />
                                 </h:commandLink>
-                                
+
                                 <h:commandLink>
                                     <p:graphicImage name="/demo/images/pdf.png" width="24"/>
                                     <p:dataExporter type="pdf" target="modules" fileName="modules" />
                                 </h:commandLink>
-                                
+
                                 <h:commandLink>
                                     <p:graphicImage name="/demo/images/csv.png" width="24"/>
                                     <p:dataExporter type="csv" target="modules" fileName="modules"  />
                                 </h:commandLink>
-                                
+
                                 <h:commandLink>
                                     <p:graphicImage name="/demo/images/xml.png" width="24"/>
                                     <p:dataExporter type="xml" target="modules" fileName="modules"/>
@@ -104,6 +104,9 @@
                                                         <p:commandButton value="submit" actionListener="#{lecturerModuleListBean.formGroup(module)}" update=":panel:currentModules"/>
                                                     </h:form>
                                                 </p:dialog>-->
+                        <p:column style="width: 20%" headerText="Activities">
+                            <p:commandButton value="Manage Activities" actionListener="#{lecturerModuleListBean.manageActivities(module)}" icon="fa fa-search-plus"/>
+                            </p:column>
                     </p:dataTable>
                 </p:tab>
                 <p:tab title="VIEW MODULES">
@@ -117,13 +120,13 @@
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
                                  {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
                                  rowsPerPageTemplate="5,10,20">
-                        
+
                         <f:facet name="header">
                             <p:outputPanel>
                                 <h:outputText value="Search all fields:" />
                                 <p:inputText id="globalFilter" onkeyup="PF('modulesTable').filter()" style="width:150px" placeholder="Enter keyword"/>
                             </p:outputPanel>
-                            
+
                         </f:facet>  
                         <f:facet name="{Exporters}">
                             <div style="float:right;">
@@ -132,17 +135,17 @@
                                     <p:graphicImage name="/demo/images/excel.png" width="24"/>
                                     <p:dataExporter type="xls" target="modules" fileName="modules"  />
                                 </h:commandLink>
-                                
+
                                 <h:commandLink>
                                     <p:graphicImage name="/demo/images/pdf.png" width="24"/>
                                     <p:dataExporter type="pdf" target="modules" fileName="modules" />
                                 </h:commandLink>
-                                
+
                                 <h:commandLink>
                                     <p:graphicImage name="/demo/images/csv.png" width="24"/>
                                     <p:dataExporter type="csv" target="modules" fileName="modules"  />
                                 </h:commandLink>
-                                
+
                                 <h:commandLink>
                                     <p:graphicImage name="/demo/images/xml.png" width="24"/>
                                     <p:dataExporter type="xml" target="modules" fileName="modules"/>
@@ -151,10 +154,10 @@
                         </f:facet>
                         <p:column style="width: 15%" filterBy="#{module.course.moduleCode}" sortBy="#{module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
                             <h:outputText value="#{module.course.moduleCode} " >
-                                
+
                             </h:outputText>
                             <p:commandButton style="float: right" icon="ui-icon-search" actionListener="#{lecturerModuleListBean.viewModule(module)}" />
-                            
+
                         </p:column>
                         <p:column style="width: 30%" filterBy="#{module.course.moduleName}" sortBy="#{module.course.moduleName}" headerText="Title" filterMatchMode="contains">
                             <h:outputText value="#{module.course.moduleName}" />
@@ -177,12 +180,13 @@
                             </f:facet>
                             <h:outputText value="#{module.takenSem}" />
                         </p:column>
+
                     </p:dataTable>
-                    
+
                     <!--<h:form id="moduleTab"><h:form id="lessonTab"></h:form>-->
                 </p:tab>
                 <p:tab title="VIEW LESSONS">
-                    
+
                     <p:dataTable editable="true" editMode="cell" 
                                  var="lesson" value="#{lecturerModuleListBean.lessons}" 
                                  widgetVar="lessonsTable"

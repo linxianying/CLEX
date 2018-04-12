@@ -228,6 +228,19 @@ public class ProjectBean {
         }
     }
     
+    public void goModuleInfoPage (String moduleCode){
+        try {
+            module = csbl.findModule(moduleCode, currentYear, currentSem);
+            session.setAttribute("module", module);
+            session.setAttribute("currentYear", currentYear);
+            session.setAttribute("currentSem", currentSem);
+            context.getExternalContext().redirect("projectDetails.xhtml");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     public void GoGroupPage(String moduleCode) {
         try {
             module = csbl.findModule(moduleCode, currentYear, currentSem);
