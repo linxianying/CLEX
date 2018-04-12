@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import entity.Thread;
+import entity.User;
 import javax.ejb.EJB;
 import session.ClexSessionBeanLocal;
 import session.StudyPlanSessionBeanLocal;
@@ -99,17 +100,76 @@ public class StudyPlanBean {
     private String addCurrentModuleCode;
     private String showModuleInfo;
     private String showWorkload;
+
+    //for reviews:
     private Thread selectedReview;
+    private boolean createThreadCheck;
+    private User userEntity;
+    private String content;
+    private Thread threadEntity;
+    private String threadTitle;
+    private String moduleName;
+    private String moduleYear;
+    private String moduleSem;
+    private Course courseEntity;
+
+    public Course getCourseEntity() {
+        return courseEntity;
+    }
+
+    public void setCourseEntity(Course courseEntity) {
+        this.courseEntity = courseEntity;
+    }
 
     public StudyPlanBean() {
     }
 
     @PostConstruct
     public void init() {
+        createThreadCheck = false;
         refresh();
         setYearSem();
         courses = cpsbl.getAllCourses();
         grading = this.checkGrading();
+    }
+
+    public void createReview() {
+        FacesMessage fmsg = new FacesMessage();
+        context = FacesContext.getCurrentInstance();
+        username = (String) session.getAttribute("username");
+        userEntity = (User) session.getAttribute("user");
+        if (userEntity != null) {
+            if (content.equals("")) {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contents needed.", "Please fill up the content field.");
+            } else {
+                threadTitle = createReviewTitle();
+                threadEntity = cmsbl.getExistingReview(threadTitle, username);
+                if (threadEntity != null) {
+                    if (cmsbl.createReply(threadEntity.getId(), username, content)) {
+                        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Review created.");
+                    } else {
+                        fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to create review.", "Please ensure you are logged in.");
+                    }
+                } else {
+                    createNewReview(threadTitle, content, fmsg);
+                }
+            }
+            createThreadCheck = false;
+        } else {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to review module.", "Please ensure you are logged in.");
+        }
+    }
+
+    public void createNewReview(String threadTitle, String content, FacesMessage fmsg) {
+        if (cmsbl.createThread(username, content, threadTitle, "Course Review", courseEntity.getSchool())) {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Review created.");
+        } else {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to create review.", "Please ensure you are logged in.");
+        }
+    }
+
+    public String createReviewTitle() {
+        return moduleCode + " " + moduleName + " - Year " + moduleYear + " Sem " + moduleSem;
     }
 
     public void refresh() {
@@ -150,16 +210,16 @@ public class StudyPlanBean {
     }
 
     public void onReviewSelect(SelectEvent event) {
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
         System.out.println("Selected Review ID: " + selectedReview.getId());
         try {
-            int usertype = (int) session.getAttribute("userType");
             session.setAttribute("id", selectedReview.getId());
             context.getExternalContext().redirect("viewThread.xhtml");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
     public void getModuleReviewsList(Course courseEntity) {
         moduleReviews = null;
@@ -998,6 +1058,70 @@ public class StudyPlanBean {
 
     public void setSelectedReview(Thread selectedReview) {
         this.selectedReview = selectedReview;
+    }
+
+    public boolean isCreateThreadCheck() {
+        return createThreadCheck;
+    }
+
+    public void setCreateThreadCheck(boolean createThreadCheck) {
+        this.createThreadCheck = createThreadCheck;
+    }
+
+    public User getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(User userEntity) {
+        this.userEntity = userEntity;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Thread getThreadEntity() {
+        return threadEntity;
+    }
+
+    public void setThreadEntity(Thread threadEntity) {
+        this.threadEntity = threadEntity;
+    }
+
+    public String getThreadTitle() {
+        return threadTitle;
+    }
+
+    public void setThreadTitle(String threadTitle) {
+        this.threadTitle = threadTitle;
+    }
+
+    public String getModuleName() {
+        return moduleName;
+    }
+
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
+    }
+
+    public String getModuleYear() {
+        return moduleYear;
+    }
+
+    public void setModuleYear(String moduleYear) {
+        this.moduleYear = moduleYear;
+    }
+
+    public String getModuleSem() {
+        return moduleSem;
+    }
+
+    public void setModuleSem(String moduleSem) {
+        this.moduleSem = moduleSem;
     }
 
 }
