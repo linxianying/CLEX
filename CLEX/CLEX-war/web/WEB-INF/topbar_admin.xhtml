@@ -87,11 +87,11 @@
                     </ul>
                 </li>
                 <li>
-                    <a id="right-sidebar-button-open" href="#">
+                    <a href="#" id="right-sidebar-button-open">
                         <i class="topbar-icon material-icons animated swing fa fa-fw fa-envelope-o"></i>
-                        <span class="topbar-badge animated rubberBand">1</span>
+                        <span class="topbar-badge animated rubberBand">#{privateMsgBean.viewCount}</span>
                         <span class="topbar-item-name">Private Messenger</span>
-                    </a>     
+                    </a>
                 </li>
                 <li>
                     <a href="#" onclick="setViewCount()">       
@@ -102,17 +102,17 @@
                             <p:remoteCommand name="setViewCount" update="out1" actionListener="#{announcementBean.setAnncViewCount()}"/>
                         </h:form>
                     </a>
-                    <ul  style="overflow: auto; height: 500%; width: 700%">
+                    <ul style="overflow-y: scroll; max-height:200px">
                         <span style="color: #e33f3f">Notifications</span>
                         <br/>
                         <p:dataList var="annc" value="#{announcementBean.announcements}">
                             <button type="button" disabled="disabled" class="anncBox">
-                                <h:outputText value="#{annc.type} posted a new announcement" />
+                                <h:outputText value="#{annc.type} posted a new announcement:" />
                                 <br/>
                                 <h:outputText style="font-weight:bold; text-transform:uppercase;" value="#{annc.title}" />
-                                <br/>
+                                <br/><br/>
                                 <h:outputText value="#{annc.message}" />
-                                <br/>
+                                <br/><br/>
                                 <h:outputText value="by: #{annc.getUser().getName()}" />
                                 <br/>
                                 <h:outputText value="#{annc.createdDate}" />
