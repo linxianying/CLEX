@@ -361,7 +361,7 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         threads = this.sortThreadByLatestReply(threads);
         return threads;
     }
-    
+
     @Override
     public List<VoteThread> getAllVoteThreads() {
         List<VoteThread> voteThreads = new ArrayList<VoteThread>();
@@ -404,43 +404,93 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         List<Reply> replies = (List) threadEntity.getReplies();
         return replies;
     }
-    
+
     @Override
-    public Thread getExistingReview(String title, String school){
+    public Thread getExistingReview(String title, String school) {
         List<Thread> tempThreadList = searchThreadByTitle(title, school);
         Thread tempThread = null;
 
-        if(!tempThreadList.isEmpty()){
+        if (!tempThreadList.isEmpty()) {
             tempThread = tempThreadList.get(0);
         }
-        
+
         return tempThread;
     }
-    
+
     @Override
-    public List<Thread> filterTagCourseReview(List<Thread> threads){
+    public List<Thread> filterTagCourseReview(List<Thread> threads) {
         List<Thread> filterThreads = new ArrayList<Thread>();
-        //Remove all threads WITH course review tags
-        for(int i=0; i < threads.size(); i++){
-            if(!threads.get(i).getTag().equals("Course Review")){
+        //Get all threads WITH course review tags
+        for (int i = 0; i < threads.size(); i++) {
+            if (threads.get(i).getTag().equals("Course Review")) {
                 filterThreads.add(threads.get(i));
             }
         }
         return filterThreads;
     }
-    
+
     @Override
-    public List<Thread> filterNonTagCourseReview(List<Thread> threads){
+    public List<Thread> filterNonTagCourseReview(List<Thread> threads) {
         List<Thread> filterThreads = new ArrayList<Thread>();
-        //Remove all threads WITHOUT course review tags
-        for(int i=0; i < threads.size(); i++){
-            if(threads.get(i).getTag().equals("Course Review")){
+        //Get all threads WITHOUT course review tags
+        for (int i = 0; i < threads.size(); i++) {
+            if (!threads.get(i).getTag().equals("Course Review")) {
                 filterThreads.add(threads.get(i));
             }
         }
         return filterThreads;
     }
-    
+
+    @Override
+    public List<Thread> filterTagMarketplace(List<Thread> threads) {
+        List<Thread> filterThreads = new ArrayList<Thread>();
+        //Get all threads WITH bazaar tags
+        for (int i = 0; i < threads.size(); i++) {
+            if (threads.get(i).getTag().equals("Bazaar")) {
+                filterThreads.add(threads.get(i));
+            }
+        }
+        return filterThreads;
+    }
+
+    @Override
+    public List<Thread> filterNonTagMarketplace(List<Thread> threads) {
+        List<Thread> filterThreads = new ArrayList<Thread>();
+        //Get all threads WITHOUT bazaar tags
+        for (int i = 0; i < threads.size(); i++) {
+            if (!threads.get(i).getTag().equals("Bazaar")) {
+                filterThreads.add(threads.get(i));
+            }
+        }
+        return filterThreads;
+    }
+
+    @Override
+    public List<Thread> filterThreadByTitle(List<Thread> threads, String searchTitle) {
+        List<Thread> filterThreads = new ArrayList<Thread>();
+        for (int i = 0; i < threads.size(); i++) {
+            threadEntity = threads.get(i);
+            if (threadEntity.getTitle().toLowerCase().contains(searchTitle.toLowerCase())) {
+                filterThreads.add(threads.get(i));
+            }
+        }
+        filterThreads = sortThreadByLatestReply(filterThreads);
+        return filterThreads;
+    }
+
+    @Override
+    public List<Thread> filterThreadByContent(List<Thread> threads, String searchContent) {
+        List<Thread> filterThreads = new ArrayList<Thread>();
+        for (int i = 0; i < threads.size(); i++) {
+            threadEntity = threads.get(i);
+            if (threadEntity.getContent().toLowerCase().contains(searchContent.toLowerCase())) {
+                filterThreads.add(threads.get(i));
+            }
+        }
+        filterThreads = sortThreadByLatestReply(filterThreads);
+        return filterThreads;
+    }
+
     @Override
     public List<Thread> searchThreadByTitle(String searchTitle, String schoolname) {
         List<Thread> threadList = new ArrayList<Thread>();
@@ -466,6 +516,19 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         }
         threadList = sortThreadByLatestReply(threadList);
         return threadList;
+    }
+
+    @Override
+    public List<Thread> filterThreadByTag(List<Thread> threads, String tag) {
+        List<Thread> filterThreads = new ArrayList<Thread>();
+        for (int i = 0; i < threads.size(); i++) {
+            threadEntity = threads.get(i);
+            if (threadEntity.getTag().toLowerCase().contains(tag.toLowerCase())) {
+                filterThreads.add(threads.get(i));
+            }
+        }
+        filterThreads = sortThreadByLatestReply(filterThreads);
+        return filterThreads;
     }
 
     @Override
@@ -637,8 +700,5 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         });
         return threadList;
     }
-
-
-
 
 }

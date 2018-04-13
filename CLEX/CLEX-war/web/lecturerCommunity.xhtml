@@ -1,28 +1,44 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition  xmlns="http://www.w3.org/1999/xhtml"
-       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-       xmlns:h="http://xmlns.jcp.org/jsf/html"
-       template="/WEB-INF/template_lecturer.xhtml"
-       xmlns:p="http://primefaces.org/ui"
-       xmlns:f="http://xmlns.jcp.org/jsf/core">
+                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                 template="/WEB-INF/template_lecturer.xhtml"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="title">PRISM Lecturer Community Page</ui:define>
 
     <ui:define name="viewname">Community</ui:define>
-    
+
     <ui:define name="content">
-        
+
         <p:growl id="messages" showDetail="true"/>        
         <p:tabView id="communityTab">
             <p:tab title="COMMUNITY FORUMS - #{forumListBean.userEntity.school}">
                 <p:commandButton icon="fa fa-plus" value="New Thread" id="newThreadButton" >
-                    <p:overlayPanel for="newThreadButton" showEffect="fade" hideEffect="fade" widgetVar="createThreadWidget">
+                    <p:overlayPanel id="createthreadwidget" for="newThreadButton" showEffect="fade" hideEffect="fade" widgetVar="createThreadWidget">
                         <h:form id="createForm">
                             <h:panelGrid columns="1">
-                                
+                                <h:panelGrid columns="2">
+                                    <h:outputLabel for="tag2" value="Tags: " />
+                                    <p:selectOneMenu title="Select a tag from the list (Optional)"
+                                                     value="#{forumListBean.tTag}" required="false"
+                                                     id="tag" >
+                                        <f:selectItem itemLabel="General" itemValue="general" />
+                                        <f:selectItem itemLabel="Group Formation" itemValue="groupformation"  />
+                                        <f:selectItem itemLabel="Tutorial Help" itemValue="tutorial"  />
+                                        <f:selectItem itemLabel="Voluntary Work" itemValue="volunteer"  />
+                                        <f:selectItem itemLabel="Degree-related" itemValue="degree"  />
+                                        <f:selectItem itemLabel="Module-related" itemValue="module"  />
+                                        <f:selectItem itemLabel="Study Plan" itemValue="studyplan"  />
+                                        <f:selectItem itemLabel="Teaching Assistant" itemValue="searchta" />
+                                    </p:selectOneMenu>
+                                </h:panelGrid>
+                                <br />
                                 <p:inputTextarea rows="1" cols="100" title="Title" placeholder="Thread Title" id="title" value="#{forumListBean.tTitle}"/>
-                                <p:textEditor widgetVar="editor2" value="#{forumListBean.tContent}" height="300" style="margin-bottom:10px" placeholder="Enter your content">
+                                <br />
+                                <p:textEditor widgetVar="editor1" value="#{forumListBean.tContent}" height="300" style="margin-bottom:10px" placeholder="Enter your content">
                                     <f:facet name="toolbar">
                                         <span class="ql-formats">
                                             <span class="ql-formats">
@@ -49,25 +65,43 @@
                                         </span>    
                                     </f:facet>
                                 </p:textEditor>
-                                <!--<p:inputTextarea rows="20" cols="100" title="Content" placeholder="Content" id="content" value="#{forumListBean.tContent}" />-->
-                                <p:inputTextarea rows="1" cols="100" title="Tag" placeholder="Tags - Separate multiple tags with comma (Optional)" id="tag" value="#{forumListBean.tTag}"/>
-                                <p:commandButton icon="fa fa-pencil-square-o" oncomplete="PF('createThreadWidget').hide()" value="Create Thread" actionListener="#{forumListBean.startThread}" update="communityTab:forumForm:forumtable, communityTab:createForm"/>
+                                <br />
+                                <p:commandButton id="createtthread" icon="fa fa-pencil-square-o" oncomplete="PF('createThreadWidget').hide()" value="Create Thread" actionListener="#{forumListBean.startThread}" update="messages, communityTab:forumForm:forumtable, communityTab:createForm"/>
                             </h:panelGrid>
                         </h:form>
                     </p:overlayPanel>
                 </p:commandButton>
                 <p:commandButton value="Search" id="searchButton" icon="fa fa-search" >
-                    <p:overlayPanel for="searchButton" showEffect="fade" hideEffect="fade" widgetVar="searchWidget">
+                    <p:overlayPanel dynamic="true" id="searchthreadwidget" for="searchButton" showEffect="fade" hideEffect="fade" widgetVar="searchWidget">
                         <h:form id="searchForm">
                             <h:panelGrid columns="1">
+                                <h:panelGrid columns="2">
+                                    <h:outputLabel for="tag2" value="Tags: " />
+                                    <p:selectOneMenu title="Select a tag from the list (Optional)"
+                                                     value="#{forumListBean.searchTag}" required="false"
+                                                     id="tag2" >
+                                        <f:selectItem itemLabel="Optional" itemValue=" " />
+                                        <f:selectItem itemLabel="General" itemValue="general" />
+                                        <f:selectItem itemLabel="Group Formation" itemValue="groupformation"  />
+                                        <f:selectItem itemLabel="Tutorial Help" itemValue="tutorial"  />
+                                        <f:selectItem itemLabel="Voluntary Work" itemValue="volunteer"  />
+                                        <f:selectItem itemLabel="Degree-related" itemValue="degree"  />
+                                        <f:selectItem itemLabel="Module-related" itemValue="module"  />
+                                        <f:selectItem itemLabel="Study Plan" itemValue="studyplan"  />
+                                        <f:selectItem itemLabel="Teaching Assistant" itemValue="searchta" />
+                                    </p:selectOneMenu>
+                                </h:panelGrid>
+                                <br />
                                 <p:inputTextarea rows="1" cols="50" title="Title" placeholder="Thread Title" id="searchtitle" value="#{forumListBean.searchTitle}"/>                                    
+                                <br />
                                 <p:inputTextarea rows="5" cols="50" title="Content" placeholder="Thread Content" id="searchcontent" value="#{forumListBean.searchContent}" />
-                                <p:inputTextarea rows="1" cols="50" title="Tag" id="searchtag" placeholder="Tags" value="#{forumListBean.searchTag}"/>
-                                <h:panelGroup>
-                                    <p:commandButton oncomplete="PF('searchWidget').hide()" icon="fa fa-search-plus" value="Search Thread" actionListener="#{forumListBean.searchThread}" update="communityTab:forumForm, messages, communityTab:searchForm"/>
-                                    <p:commandButton oncomplete="PF('searchWidget').hide()" icon="fa fa-search-minus" value="Clear Search" actionListener="#{forumListBean.refresh()}" update="communityTab:forumForm, messages, communityTab:searchForm" />
-                                </h:panelGroup>
+
                             </h:panelGrid>
+                            <p:spacer/>
+                            <br />
+                            <p:commandButton id="searchthread" oncomplete="PF('searchWidget').hide()" icon="fa fa-search-plus" value="Search Thread" actionListener="#{forumListBean.searchThread}" update="communityTab:forumForm, messages, communityTab:searchForm"/>
+                            <p:commandButton id="clearsearchthread" oncomplete="PF('searchWidget').hide()" icon="fa fa-search-minus" value="Clear Search" actionListener="#{forumListBean.refresh()}" update="communityTab:forumForm, messages, communityTab:searchForm" />
+
                         </h:form>
                     </p:overlayPanel>
                 </p:commandButton>
@@ -142,6 +176,108 @@
                         </p:dataTable>
                     </h:panelGroup>
                 </h:form>
+            </p:tab>
+            <p:tab title="BAZAAR CORNER - #{forumListBean.userEntity.school}">
+                <p:commandButton icon="fa fa-plus" value="Buy/Sell" id="newSalesButton" >
+                    <p:overlayPanel id="createsaleswidget" for="newSalesButton" showEffect="fade" hideEffect="fade" widgetVar="createSalesWidget">
+                        <h:form id="salesForm">
+                            <h:panelGrid columns="1">     
+                                <p:selectOneRadio id="buysell" value="#{forumListBean.buysell}" >
+                                    <p:ajax update="salegroup" event="change" />
+                                    <f:selectItem itemLabel="Sell" itemValue="sell" />
+                                    <f:selectItem itemLabel="Buy" itemValue="buy" />
+                                </p:selectOneRadio>
+                                <!--<p:inputTextarea rows="1" cols="100" title="Title" placeholder="Thread Title" id="title2" value="#{forumListBean.tTitle}"/>-->
+                                <h:panelGrid columns="4" id="salegroup">
+                                    <h:panelGroup >
+                                        <h:outputText value="Item for sale: " rendered="#{forumListBean.buysell == 'sell'}"/>
+                                        <h:outputText value="Looking for: " rendered="#{forumListBean.buysell == 'buy'}"/>
+                                    </h:panelGroup>
+                                    <p:inputText value="#{forumListBean.bazaaritem}" required="true" requiredMessage="Please enter an item name"/>
+                                    <h:outputText value="Price (SGD$): "/>
+                                    <p:inputNumber minValue="0.01" value="#{forumListBean.bazaarprice}" required="true" requiredMessage="Please enter a price"/>
+                                    <h:outputText value="Condition: "/>
+                                    <p:selectOneRadio id="condition" value="#{forumListBean.bazaarcondition}" required="true">
+                                        <f:selectItem itemLabel="Brand New" itemValue="Brand New" />
+                                        <f:selectItem itemLabel="Like New" itemValue="Like New" />
+                                        <f:selectItem itemLabel="Used" itemValue="Used" />
+                                    </p:selectOneRadio>
+                                </h:panelGrid>
+                                <p:textEditor id="content2" widgetVar="editor2" value="#{forumListBean.tContent}" height="150" style="margin-bottom:10px" placeholder="Other details about the Item">
+                                    <f:facet name="toolbar">
+                                        <span class="ql-formats">
+                                            <span class="ql-formats">
+                                                <button class="ql-bold" />
+                                                <button class="ql-italic" />
+                                                <button class="ql-underline" />
+                                                <button class="ql-strike" />
+                                            </span>
+                                            <span class="ql-formats">
+                                                <select class="ql-color" />
+                                                <select class="ql-background" />
+                                            </span>
+                                            <span class="ql-formats">
+                                                <button class="ql-script" value="sub" />
+                                                <button class="ql-script" value="super" />
+                                            </span>
+                                            <span class="ql-formats">
+                                                <button class="ql-header" value="1" />
+                                                <button class="ql-header" value="2" />
+                                            </span>                        
+                                            <span class="ql-formats">
+                                                <button class="ql-clean" />
+                                            </span>
+                                        </span>    
+                                    </f:facet>
+                                </p:textEditor>
+                                
+                                <p:commandButton id="createsales" icon="fa fa-dollar" oncomplete="PF('createSalesWidget').hide()" value="Create Thread" actionListener="#{forumListBean.startSales}" update="messages, communityTab:salesForum:salestable, communityTab:salesForm"/>
+                            </h:panelGrid>
+                        </h:form>
+                    </p:overlayPanel>
+                </p:commandButton>
+                <p:commandButton value="Search" id="searchButton3" icon="fa fa-search" >
+                    <p:overlayPanel for="searchButton3" showEffect="fade" hideEffect="fade" widgetVar="searchWidget3">
+                        <h:form id="searchForm3">
+                            <h:panelGrid columns="1">
+                                <p:selectOneRadio id="buysell2" value="#{forumListBean.buysell}">
+                                    <f:selectItem itemLabel="Sell" itemValue="sell" />
+                                    <f:selectItem itemLabel="Buy" itemValue="buy" />
+                                </p:selectOneRadio>
+                                <p:inputTextarea rows="1" cols="50" title="Title" placeholder="Sales Title (Optional)" id="searchtitle3" value="#{forumListBean.searchTitle}"/>                                    
+                                <p:inputTextarea rows="5" cols="50" title="Content" placeholder="Sales Content (Optional)" id="searchcontent3" value="#{forumListBean.searchContent}" />
+                                <h:panelGroup>
+                                    <p:commandButton id="searchsales" oncomplete="PF('searchWidget3').hide()" icon="fa fa-search" value="Sales" actionListener="#{forumListBean.searchSales}" update="communityTab:salesForum, messages, communityTab:searchForm3"/>
+                                    <p:commandButton id="clearsearchsales" oncomplete="PF('searchWidget3').hide()" icon="fa fa-search-minus" value="Clear" actionListener="#{forumListBean.refresh()}" update="communityTab:salesForum, messages, communityTab:searchForm3" />
+                                </h:panelGroup>
+                            </h:panelGrid>
+                        </h:form>
+                    </p:overlayPanel>
+                </p:commandButton>
+                <br /><br />
+                <h:form id="salesForum">
+                    <h:panelGroup>
+                        <p:dataTable selectionMode="single" selection="#{forumListBean.selectedThread}" rowKey="#{sales.id}"
+                                     id="salestable" value="#{forumListBean.bazaar}" 
+                                     var="sales" paginator="true" 
+                                     rows="15" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
+                                     emptyMessage="No bargains has been made yet!">
+                            <p:ajax event="rowSelect" listener="#{forumListBean.onRowSelect}" update="messages" />                            
+                            <p:column style="height:40px" headerText="Thread / Thread Starter" >                                
+                                <h:outputLabel style="font-size: 16px" value="#{sales.title}"/>
+                                <br />
+                                <h:outputLabel style="font-size: 11px" value="#{sales.user.name} - #{forumListBean.dayTime(sales)}" />   
+                                <br />
+                                <h:outputLabel style="font-size: 11px" value=" Last post: #{forumListBean.latestReplyDayTime(sales.latestReplyDateTime)}" /> 
+                            </p:column>
+                            <p:column style="text-align: center;width: 11%;height:40px" headerText="Replies" >
+                                <h:outputLabel style="font-size: 16px" value="#{sales.replies.size()}"/> 
+                            </p:column>
+
+                        </p:dataTable>
+                    </h:panelGroup>
+                </h:form>
+                <br /><br />
             </p:tab>
         </p:tabView>
 
