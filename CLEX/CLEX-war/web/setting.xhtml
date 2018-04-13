@@ -13,23 +13,20 @@
 
     <ui:define name="content">
         <p:tabView>       
-            
-                <p:tab title="Change Menu Mode">
-                    <div>
+            <p:tab title="Change Menu Mode">
+                <div>
                     <h:panelGrid columns="3">
                         <p:commandButton  value="Static"  actionListener="#{guestPreferences.setMenuLayout('static')}"  action="setting?faces-redirect=true"/>
 
                         <p:commandButton  value="Overlay"  actionListener="#{guestPreferences.setMenuLayout('overlay')}" action="setting?faces-redirect=true"/>
 
                         <p:commandButton  value="Horizontal"  actionListener="#{guestPreferences.setMenuLayout('horizontal')}" action="setting?faces-redirect=true"/>
-                    
                     </h:panelGrid>
-                        </div>
-                </p:tab>
-   
-           
-                <p:tab title="Change Theme">
-                    <div>
+                </div>
+            </p:tab>
+
+            <p:tab title="Change Theme">
+                <div>
                     <h:panelGrid columns="3">
                         <p:commandButton value="Turquoise"  actionListener="#{guestPreferences.setTheme('turquoise')}" styleClass="turquoise-btn raised-btn" action="setting?faces-redirect=true"/>
 
@@ -47,10 +44,9 @@
 
                         <p:commandButton value="Violet"  actionListener="#{guestPreferences.setTheme('deep-purple')}" styleClass="deep-purple-btn raised-btn" action="setting?faces-redirect=true"/>
                     </h:panelGrid>
-                        </div>
-                </p:tab>
-            </p:tabView>
-        
+                </div>
+            </p:tab>
+        </p:tabView>
 
         <style type="text/css">
             .table{

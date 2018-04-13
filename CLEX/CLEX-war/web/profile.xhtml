@@ -17,58 +17,9 @@
         <f:event type="preRenderView" listener="#{profileBean.setNoCache}" />
 
         <div class="ui-g ui-fluid">
+            
             <div class="ui-g-12 ui-lg-6">
-                <p:growl id="messages" showDetail="true" />
-                <h:form>
-
-                    <!-- Left Side -->
-                    <div class="card card-w-title">
-                        <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
-                            <span>Full Name</span>
-                            <p:inputText id="newName" value="#{profileBean.name}" />
-                            <span>Email</span>
-                            <p:inputText id="newEmail" value="#{profileBean.email}" />
-
-                            <span>Contact Number</span>
-                            <p:inputText id="newContactNum" value="#{profileBean.contactNum}" />
-
-                            <span>School</span>
-                            <p:inputText id="newSchool" disabled="true" value="#{profileBean.school}" readonly="true"/>
-                            <span>Faculty</span>
-                            <p:selectOneMenu style="padding: 0%; width: 100%;" disabled="true"  required="true" id="newFaculty" value="#{profileBean.faculty}" 
-                                             placeholder="Faculty">
-                                <f:selectItems value="#{profileBean.facultylist}" />
-                            </p:selectOneMenu>
-                            <span>Major</span>
-                            <p:inputText disabled="true" id="newMajor" value="#{profileBean.major}" />
-                            <span>Matriculated Year</span>
-                            <p:selectOneMenu disabled="true" style="padding: 0%; width: 100%" id="maticYear" value="#{profileBean.matricYear}" 
-                                             editable="true" placeholder="Matriculated Year">
-                                <f:selectItem itemLabel="2014" itemValue="2014" />
-                                <f:selectItem itemLabel="2015" itemValue="2015" />
-                                <f:selectItem itemLabel="2016" itemValue="2016" />
-                                <f:selectItems value="#{profileBean.yearlist}" />
-                            </p:selectOneMenu>
-                            <span>Matriculated Semester</span>
-                            <p:selectOneButton disabled="true" style="padding: 0%; width: 100%" id="maticSem" value="#{profileBean.matricSem}">
-                                <f:selectItem itemLabel="1" itemValue="1" />
-                                <f:selectItem itemLabel="2" itemValue="2" />
-                            </p:selectOneButton>
-                        </p:panelGrid>
-                        <p:commandButton value="Save Profile Details" actionListener="#{profileBean.editStudentProfile}" id="editBasicButton" update="messages">
-                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
-                        </p:commandButton>
-                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                            <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                        </p:confirmDialog>
-
-                    </div>
-                </h:form>
-            </div>
-            <br />
-            <div class="ui-g-12 ui-lg-6">
-                <div class="card card-w-title">
+                <div class="card card-w-title" style="padding-bottom:105px">
                     <h:panelGroup id="profilepic">
                         <p:graphicImage rendered="#{profileBean.checkpicpng(profileBean.username) == true}"
                                         alt="#{profileBean.userEntity.name}" cache="false" 
@@ -121,7 +72,56 @@
 
                 </div>
             </div>
+            
             <div class="ui-g-12 ui-lg-6">
+                <p:growl id="messages" showDetail="true" />
+                <h:form>
+
+                    <!-- Left Side -->
+                    <div class="card card-w-title">
+                        <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
+                            <span>Full Name</span>
+                            <p:inputText id="newName" value="#{profileBean.name}" />
+                            <span>Email</span>
+                            <p:inputText id="newEmail" value="#{profileBean.email}" />
+
+                            <span>Contact Number</span>
+                            <p:inputText id="newContactNum" value="#{profileBean.contactNum}" />
+
+                            <span>School</span>
+                            <p:inputText id="newSchool" disabled="true" value="#{profileBean.school}" readonly="true"/>
+                            <span>Faculty</span>
+                            <p:selectOneMenu style="padding: 0%; width: 100%;" disabled="true"  required="true" id="newFaculty" value="#{profileBean.faculty}" 
+                                             placeholder="Faculty">
+                                <f:selectItems value="#{profileBean.facultylist}" />
+                            </p:selectOneMenu>
+                            <span>Major</span>
+                            <p:inputText disabled="true" id="newMajor" value="#{profileBean.major}" />
+                            <span>Matriculated Year</span>
+                            <p:selectOneMenu disabled="true" style="padding: 0%; width: 100%" id="maticYear" value="#{profileBean.matricYear}" 
+                                             editable="true" placeholder="Matriculated Year">
+                                <f:selectItem itemLabel="2014" itemValue="2014" />
+                                <f:selectItem itemLabel="2015" itemValue="2015" />
+                                <f:selectItem itemLabel="2016" itemValue="2016" />
+                                <f:selectItems value="#{profileBean.yearlist}" />
+                            </p:selectOneMenu>
+                            <span>Matriculated Semester</span>
+                            <p:selectOneButton disabled="true" style="padding: 0%; width: 100%" id="maticSem" value="#{profileBean.matricSem}">
+                                <f:selectItem itemLabel="1" itemValue="1" />
+                                <f:selectItem itemLabel="2" itemValue="2" />
+                            </p:selectOneButton>
+                        </p:panelGrid>
+                        <p:commandButton value="Save Profile Details" actionListener="#{profileBean.editStudentProfile}" id="editBasicButton" update="messages">
+                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+
+                    </div>
+                </h:form>
+
                 <div class="card card-w-title">
                     <h1>Change Password</h1>
                     <h:form >

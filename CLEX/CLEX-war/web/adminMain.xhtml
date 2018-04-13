@@ -7,7 +7,7 @@
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:f="http://xmlns.jcp.org/jsf/core"
                  xmlns:pe="http://primefaces.org/ui">
-    <ui:define name="title">PRISM Administrator Main Page</ui:define>
+    <ui:define name="title">Dashboard</ui:define>
 
     <ui:define name="viewname">Main</ui:define>
     
@@ -20,21 +20,21 @@
                 <p:growl id="messages" showDetail="true" />
                 <h:form id="submitForm">
                     <p:tabView id="outerTab">
-                        <p:tab title="Create Announcement">
+                        <p:tab title="New Announcement">
                             <!-- putting on main page just for testing only-->
-                            <h1 style="margin-top:0">Create announcement:</h1>
+                            <h1 style="margin-top:0">Create Announcement:</h1>
 
                             <h:panelGrid id="pGrid1" columns="1" cellpadding="5" style="align: left">
                                 <p:inputText title="Announcement Title"
                                              placeholder="title"
                                              id="title" value="#{announcementBean.title}" 
-                                             maxlength="80" >
+                                             maxlength="80" style="width:100%">
                                 </p:inputText>    
                                 <p:inputTextarea id="message" value="#{announcementBean.message}"
                                                  title="Announcement Body"
                                                  placeholder="message" 
                                                  rows="4" cols="30" counter="display" maxlength="300" 
-                                                 counterTemplate="{0} characters remaining." autoResize="true" />
+                                                 counterTemplate="{0} characters remaining." autoResize="true" style="width:100%"/>
                                 <h:outputText id="display" />
                                 <!--Input "1": all, "2": students only, "3": lecturers only, "4": guests only, "5": 2&3 (admin can use any, lecturer's default use 2)-->
                                 <p:selectOneMenu styleClass="textInput"  
@@ -57,8 +57,8 @@
                                 </p:commandButton>
                             </h:panelGrid>
                         </p:tab>
-                        <p:tab title="Announcements by you">
-                            <h1 style="margin-top:0">Announcements by you</h1>
+                        <p:tab title="Your Announcements">
+                            <h1 style="margin-top:0">Your Announcements</h1>
                             <h:panelGrid columns="1" cellpadding="10">
                                 <h:panelGrid id="panelOuter2" columns="2" width="100%">
                                     <p:dataList var="adminAnnouncementList" value="#{announcementBean.announcements}" id="adminAnncList">
@@ -71,14 +71,14 @@
                                                     <p:inputText title="Announcement Title"
                                                                  placeholder="title"
                                                                  id="title2" value="#{adminAnnouncementList.title}" 
-                                                                 maxlength="80" >
+                                                                 maxlength="80" style="width:100%">
                                                     </p:inputText>    
                                                     <h:outputText value="Announcement Message:" />
                                                     <p:inputTextarea id="message2" value="#{adminAnnouncementList.message}"
                                                                      title="Announcement Body"
                                                                      placeholder="message" 
                                                                      rows="4" cols="30" counter="display" maxlength="300" 
-                                                                     counterTemplate="{0} characters remaining." autoResize="true"/>
+                                                                     counterTemplate="{0} characters remaining." autoResize="true" style="width:100%"/>
                                                     <br></br>
                                                     <h:outputText id="display" />
                                                     <h:outputText value="Recipient:" />
@@ -93,7 +93,7 @@
                                                         <f:selectItem itemLabel="Lecturers and Students" itemValue="5" itemDescription="Send to all lecturers and students"/>
                                                     </p:selectOneMenu> 
                                                     <br></br><br></br><br></br>
-                                                    <h:panelGrid columns="2" width="100%">
+                                                    <h:panelGrid columns="2" >
 
                                                         <p:commandButton  value="Update" update="@form"
                                                                           action="adminMain?faces-redirect=true"
@@ -102,7 +102,7 @@
                                                         <p:commandButton  value="Delete" update="@form"
                                                                           action="adminMain?faces-redirect=true"
                                                                           actionListener="#{announcementBean.deleteAnnouncement(loginBean.username, adminAnnouncementList.id)}" 
-                                                                          id="deleteAnnouncement-button" />
+                                                                          id="deleteAnnouncement-button"/>
                                                     </h:panelGrid>
                                                 </h:panelGrid>
                                             </p:tab>
@@ -111,8 +111,8 @@
                                 </h:panelGrid>
                             </h:panelGrid>
                         </p:tab>
-                        <p:tab title="All other Announcements">
-                            <h1 style="margin-top:0">Announcements by others</h1>
+                        <p:tab title="Other Announcements">
+                            <h1 style="margin-top:0">Other Announcements</h1>
                             <h:panelGrid columns="1" cellpadding="10">
                                 <h:panelGrid id="panelOuter3" columns="2" width="100%">
                                     <p:dataList var="otherAnnouncementList" value="#{announcementBean.announcements2}" id="otherAnncList">

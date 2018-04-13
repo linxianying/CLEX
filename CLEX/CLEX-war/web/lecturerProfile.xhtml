@@ -16,46 +16,9 @@
         <f:event type="preRenderView" listener="#{profileBean.setNoCache}" />
 
         <div class="ui-g ui-fluid">
+            
             <div class="ui-g-12 ui-lg-6">
-                <p:growl id="messages" showDetail="true" />
-                <h:form>
-
-                    <!-- Left Side -->
-                    <div class="card card-w-title">
-                        <h1>Basic Profile</h1>
-                        <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
-                            <span>Username</span>
-                            <p:inputText id="username" disabled="true" value="#{profileBean.username}" readonly="true" />
-                            <span>Full Name</span>
-                            <p:inputText id="newName" value="#{profileBean.name}" />
-                            <span>Email</span>
-                            <p:inputText id="newEmail" value="#{profileBean.email}" />
-
-                            <span>Contact Number</span>
-                            <p:inputText id="newContactNum" value="#{profileBean.contactNum}" />
-
-                            <span>School</span>
-                            <p:inputText id="newSchool" disabled="true" value="#{profileBean.school}" readonly="true"/>
-                            <span>Faculty</span>
-                            <p:selectOneMenu disabled="true" style="padding: 0%; width: 100%" required="true" id="newFaculty" value="#{profileBean.faculty}" 
-                                             editable="true" placeholder="Faculty">
-                                <f:selectItems value="#{profileBean.facultylist}" />
-                            </p:selectOneMenu>
-                        </p:panelGrid>
-                        <p:commandButton value="Save Profile Details" actionListener="#{profileBean.editLecturerProfile}" id="editBasicButton" update="messages" >
-                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
-                        </p:commandButton>
-                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                            <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                        </p:confirmDialog>
-
-                    </div>
-                </h:form>
-            </div>
-            <br />
-            <div class="ui-g-12 ui-lg-6">
-                <div class="card card-w-title">
+                <div class="card card-w-title" style="padding-bottom:67px">
 
                     <h:panelGroup id="profilepic">
                         <p:graphicImage rendered="#{profileBean.checkpicpng(profileBean.username) == true}"
@@ -109,6 +72,42 @@
             </div>
 
             <div class="ui-g-12 ui-lg-6">
+                <p:growl id="messages" showDetail="true" />
+                <h:form>
+
+                    <!-- Left Side -->
+                    <div class="card card-w-title">
+                        <h1>Basic Profile</h1>
+                        <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
+                            <span>Username</span>
+                            <p:inputText id="username" disabled="true" value="#{profileBean.username}" readonly="true" />
+                            <span>Full Name</span>
+                            <p:inputText id="newName" value="#{profileBean.name}" />
+                            <span>Email</span>
+                            <p:inputText id="newEmail" value="#{profileBean.email}" />
+
+                            <span>Contact Number</span>
+                            <p:inputText id="newContactNum" value="#{profileBean.contactNum}" />
+
+                            <span>School</span>
+                            <p:inputText id="newSchool" disabled="true" value="#{profileBean.school}" readonly="true"/>
+                            <span>Faculty</span>
+                            <p:selectOneMenu disabled="true" style="padding: 0%; width: 100%" required="true" id="newFaculty" value="#{profileBean.faculty}" 
+                                             editable="true" placeholder="Faculty">
+                                <f:selectItems value="#{profileBean.facultylist}" />
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                        <p:commandButton value="Save Profile Details" actionListener="#{profileBean.editLecturerProfile}" id="editBasicButton" update="messages" >
+                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+
+                    </div>
+                </h:form>
+
                 <div class="card card-w-title">
                     <h1>Change Password</h1>
                     <h:form >

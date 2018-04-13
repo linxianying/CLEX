@@ -17,40 +17,7 @@
 
         <h:outputStylesheet name="./css/form.css"/>
         <div class="ui-g ui-fluid">
-            <div class="ui-g-12 ui-lg-6">
-                <p:growl id="messages" showDetail="true" />
-                <h:form>
-
-                    <!-- Left Side -->
-                    <div class="card card-w-title">
-                        <h1>Basic Profile</h1>
-                        <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
-                            <span>Username</span>
-                            <p:inputText id="username" disabled="true" value="#{profileBean.username}" readonly="true" />
-                            <span>Full Name</span>
-                            <p:inputText id="newName" value="#{profileBean.name}" />
-                            <span>Email</span>
-                            <p:inputText id="newEmail" value="#{profileBean.email}" />
-
-                            <span>Contact Number</span>
-                            <p:inputText id="newContactNum" value="#{profileBean.contactNum}" />
-
-                            <span>School</span>
-                            <p:inputText id="newSchool" disabled="true" value="#{profileBean.school}" readonly="true"/>
-
-                        </p:panelGrid>
-                        <p:commandButton value="Save Profile Details" actionListener="#{profileBean.editAdminProfile}" id="editBasicButton" update="messages" >
-                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
-                        </p:commandButton>
-                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                            <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                        </p:confirmDialog>
-
-                    </div>
-                </h:form>
-            </div>
-            <br />
+             
             <div class="ui-g-12 ui-lg-6">
                 <div class="card card-w-title">
                     <!-- <p:graphicImage style="background: top left no-repeat;background-size: 120px 120px; width: 120px; height: 120px" 
@@ -108,9 +75,40 @@
 
                 </div>
             </div>
-
+            
             <div class="ui-g-12 ui-lg-6">
-                <div class="card card-w-title">
+                <p:growl id="messages" showDetail="true" />
+                <h:form>
+                    <!-- Left Side -->
+                    <div class="card card-w-title">
+                        <h1>Basic Profile</h1>
+                        <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
+                            <span>Username</span>
+                            <p:inputText id="username" disabled="true" value="#{profileBean.username}" readonly="true" />
+                            <span>Full Name</span>
+                            <p:inputText id="newName" value="#{profileBean.name}" />
+                            <span>Email</span>
+                            <p:inputText id="newEmail" value="#{profileBean.email}" />
+
+                            <span>Contact Number</span>
+                            <p:inputText id="newContactNum" value="#{profileBean.contactNum}" />
+
+                            <span>School</span>
+                            <p:inputText id="newSchool" disabled="true" value="#{profileBean.school}" readonly="true"/>
+
+                        </p:panelGrid>
+                        <p:commandButton value="Save Profile Details" actionListener="#{profileBean.editAdminProfile}" id="editBasicButton" update="messages" >
+                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+
+                    </div>
+                </h:form>
+                
+                <div class="card card-w-title" style="margin-top:25px">
                     <h1>Change Password</h1>
                     <h:form >
                         <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">

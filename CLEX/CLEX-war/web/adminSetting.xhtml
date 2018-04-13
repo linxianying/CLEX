@@ -7,43 +7,65 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template_admin.xhtml">
 
-    <ui:define name="title">PRISM Student Settings Page</ui:define>
+    <ui:define name="title">PRISM Settings</ui:define>
 
     <ui:define name="viewname">Settings</ui:define>
 
     <ui:define name="content">
-        <div class="ui-g dashboard">            
-            <div class="ui-g-12 ui-md-6 ui-lg-3">
-                <p:panel header="Menu Mode" style="min-height:160px" >
-                    <p:commandButton  value="Static Menu"  actionListener="#{guestPreferences.setMenuLayout('static')}"  action="adminSetting?faces-redirect=true"/>
-                    <br></br><br></br>
-                    <p:commandButton  value="Overlay Menu"  actionListener="#{guestPreferences.setMenuLayout('overlay')}" action="adminSetting?faces-redirect=true"/>
-                    <br></br><br></br>
-                    <p:commandButton  value="Horizontal Menu"  actionListener="#{guestPreferences.setMenuLayout('horizontal')}" action="adminSetting?faces-redirect=true"/>
-                </p:panel>
-            </div>
-            <div class="ui-g-12 ui-md-6 ui-lg-3">
-                <p:panel header="Change Theme" style="min-height:160px" >
-                    <p:commandButton value="Turquoise Theme"  actionListener="#{guestPreferences.setTheme('turquoise')}" styleClass="turquoise-btn raised-btn" action="setting?faces-redirect=true"/>
-                    <br></br><br></br>
-                    <p:commandButton value="Blue Theme"  actionListener="#{guestPreferences.setTheme('blue')}" styleClass="blue-btn raised-btn" action="setting?faces-redirect=true"/>
-                    <br></br><br></br>
-                    <p:commandButton type="button" value="Purple Theme"  actionListener="#{guestPreferences.setTheme('purple')}" styleClass="purple-btn raised-btn" action="setting?faces-redirect=true"/>
-                    <br></br><br></br>
-                    <p:commandButton type="button" value="Orange Theme"  actionListener="#{guestPreferences.setTheme('orange')}"  styleClass="orange-btn raised-btn" action="setting?faces-redirect=true"/>
-                    <br></br><br></br>
-                    <p:commandButton type="button" value="Pink Theme"  actionListener="#{guestPreferences.setTheme('pink')}" styleClass="pink-btn raised-btn"  action="setting?faces-redirect=true"/>
-                    <br></br><br></br>
-                    <p:commandButton type="button" value="Light Blue Theme"  actionListener="#{guestPreferences.setTheme('light-blue')}" styleClass="light-blue-btn raised-btn" action="setting?faces-redirect=true"/>
-                    <br></br><br></br>
-                    <p:commandButton type="button" value="Green Theme"  actionListener="#{guestPreferences.setTheme('green')}" styleClass="green-btn raised-btn" action="setting?faces-redirect=true"/>
-                    <br></br><br></br>
-                    <p:commandButton type="button" value="Deep Purple Theme"  actionListener="#{guestPreferences.setTheme('deep-purple')}" styleClass="deep-purple-btn raised-btn" action="setting?faces-redirect=true"/>
-                
-                </p:panel>
-            </div>
-        </div>
-        
+        <p:tabView>       
+            <p:tab title="Change Menu Mode">
+                <div>
+                    <h:panelGrid columns="3">
+                        <p:commandButton  value="Static Menu"  actionListener="#{guestPreferences.setMenuLayout('static')}"  action="adminSetting?faces-redirect=true"/>
+                        
+                        <p:commandButton  value="Overlay Menu"  actionListener="#{guestPreferences.setMenuLayout('overlay')}" action="adminSetting?faces-redirect=true"/>
+                        
+                        <p:commandButton  value="Horizontal Menu"  actionListener="#{guestPreferences.setMenuLayout('horizontal')}" action="adminSetting?faces-redirect=true"/>
+                    </h:panelGrid>
+                </div>
+            </p:tab>
+
+            <p:tab title="Change Theme">
+                <div>
+                    <h:panelGrid columns="3">
+                        <p:commandButton value="Turquoise Theme"  actionListener="#{guestPreferences.setTheme('turquoise')}" styleClass="turquoise-btn raised-btn" action="setting?faces-redirect=true"/>
+                        
+                        <p:commandButton value="Blue Theme"  actionListener="#{guestPreferences.setTheme('blue')}" styleClass="blue-btn raised-btn" action="setting?faces-redirect=true"/>
+                        
+                        <p:commandButton type="button" value="Purple Theme"  actionListener="#{guestPreferences.setTheme('purple')}" styleClass="purple-btn raised-btn" action="setting?faces-redirect=true"/>
+                        
+                        <p:commandButton type="button" value="Orange Theme"  actionListener="#{guestPreferences.setTheme('orange')}"  styleClass="orange-btn raised-btn" action="setting?faces-redirect=true"/>
+                        
+                        <p:commandButton type="button" value="Pink Theme"  actionListener="#{guestPreferences.setTheme('pink')}" styleClass="pink-btn raised-btn"  action="setting?faces-redirect=true"/>
+                        
+                        <p:commandButton type="button" value="Light Blue Theme"  actionListener="#{guestPreferences.setTheme('light-blue')}" styleClass="light-blue-btn raised-btn" action="setting?faces-redirect=true"/>
+                        
+                        <p:commandButton type="button" value="Green Theme"  actionListener="#{guestPreferences.setTheme('green')}" styleClass="green-btn raised-btn" action="setting?faces-redirect=true"/>
+                        
+                        <p:commandButton type="button" value="Deep Purple Theme"  actionListener="#{guestPreferences.setTheme('deep-purple')}" styleClass="deep-purple-btn raised-btn" action="setting?faces-redirect=true"/>
+                    </h:panelGrid>
+                </div>
+            </p:tab>
+        </p:tabView>
+
+        <style type="text/css">
+            .table{
+                display: table;
+            }
+            .ui-button{
+                width: 100px;
+                height: 100px;
+                display: table-cell;
+                margin: 0px 5px 0px 0px;
+            }
+            .light-blue-btn{
+                background-color: #63c9f1 !important;
+            }
+            .light-blue-btn:hover{
+                background-color: #34b9ed !important;
+            }
+        </style>
+
     </ui:define>
 </ui:composition>
 
