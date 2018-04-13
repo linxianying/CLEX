@@ -74,7 +74,7 @@ public class LecturerPRFormBean implements Serializable{
         lecturer = (Lecturer) session.getAttribute("user");
         username = lecturer.getUsername();
         module = (Module) session.getAttribute("managedModule");
-        System.out.println("managedModule is " + module.getCourse().getModuleCode());
+//        System.out.println("managedModule is " + module.getCourse().getModuleCode());
         //for test purpose only
 //        module = csbl.findModule("PS2240", "2017", "2");
 //        Date day = new Date();
