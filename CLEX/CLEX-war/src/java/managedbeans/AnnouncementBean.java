@@ -204,10 +204,8 @@ public class AnnouncementBean {
 
     //updates the counter above the notification icon upon closing it
     public void setAnncViewCount() {
-        System.out.println("annc size = " + getAnncSize());
         asbl.setViewAnncCount(userEntity.getUsername(), getAnncSize());
         userEntity.setViewAnncCount(getAnncSize());
-        System.out.println("view Count= " + userEntity.getViewAnncCount());
         setLatestCount(anncSize - userEntity.getViewAnncCount());
     }
 

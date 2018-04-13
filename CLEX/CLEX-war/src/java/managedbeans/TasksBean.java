@@ -197,7 +197,7 @@ public class TasksBean {
             System.out.println("GroupTask " + groupTask.getId() + " is " + groupTask.getStatus());
             value = false;
         }else{
-            tsbl.unfinishGroupTask(groupTask.getId());
+            tsbl.unfinishIndGroupTask(groupTask.getId());
         }
         refresh();
     }

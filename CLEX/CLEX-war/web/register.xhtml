@@ -91,7 +91,7 @@
                         <!-- User Type -->
                         <div class="ui-g-12 chkbox-container" style="margin-bottom: -30px; padding-bottom: -20px !important;"> 
                             <p:selectOneButton required="true" requiredMessage="User Type Required" styleClass="menuSelect" id="userType" value="#{registerBean.userType}">
-                                <p:ajax event="change" update="registerForm:yeargroup, registerForm:semgroup" />
+                                <p:ajax event="change" update="registerForm:yeargroup, registerForm:semgroup, registerForm:yearmsg, registerForm:semmsg " />
                                 <f:selectItem itemValue="1" itemLabel="STU" />
                                 <f:selectItem itemValue="2" itemLabel="LEC" />
                                 <f:selectItem itemValue="3" itemLabel="GUE" />

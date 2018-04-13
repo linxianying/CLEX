@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+                xmlns:h="http://xmlns.jcp.org/jsf/html" 
+                template="/WEB-INF/template.xhtml"
+                xmlns:p="http://primefaces.org/ui" 
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                >
+
+    <ui:define name="title">PRISM Student Project page</ui:define>
+
+    <ui:define name="viewname">Project</ui:define>
+
+    <ui:define name="content">
+
+        <h:outputStylesheet name="./css/default.css" />
+        <h:outputStylesheet name="./css/cssLayout.css" />
+
+        <h:body>
+
+            <p:growl id="messages" showDetail="true" />
+            <div id="top" class="top">
+                <h3><ui:insert name="top"><h:outputText value="#{projectDetailsBean.module.course.moduleCode}"/>, <h:outputText value="#{projectDetailsBean.module.course.moduleName}"/></ui:insert></h3>
+            </div>
+            <br />
+            <div>
+                <div id="content" class="left_content">
+                    <p:dataList var="m" value="#{projectDetailsBean.module}" style="width: 800px">
+                        <table>
+                            <tr>
+                                <td width="50%">
+                                    <h:outputText value="Group: " />
+                                </td>
+                                <td>
+                                    <h:outputText value="This module doesn't have a group" escape="false" 
+                                                  rendered="#{empty m.superGroup}" />
+                                    <p:commandButton value="Group formation in process" icon="fa fa-group"
+                                                     rendered="#{not empty m.superGroup and !m.superGroup.confirm}"
+                                                     action="#{projectBean.goFormGroup(m.course.moduleCode)}" />
+
+                                    <b><h:outputText value="Your group #{projectBean.getStudentProjectGroupName(m.course.moduleCode)}" escape="false" 
+                                                     rendered="#{not empty m.superGroup and m.superGroup.confirm and
+                                                                 projectBean.hasProjectGroup(m.course.moduleCode)}" /></b>
+                                    <h:panelGroup rendered="#{not empty m.superGroup and m.superGroup.confirm and 
+                                                              projectBean.hasProjectGroup(m.course.moduleCode)}">
+                                    </h:panelGroup>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:outputText value="Group Schedule: " rendered="#{not empty m.superGroup and 
+                                                                                       projectBean.hasProjectGroup(m.course.moduleCode)}"/>
+                                </td>
+                                <td>
+                                    <p:commandButton value="Group Schedule" icon="fa fa-calendar-o"
+                                                     rendered="#{not empty m.superGroup and m.superGroup.confirm and 
+                                                                 projectBean.hasProjectGroup(m.course.moduleCode)}" 
+                                                     action="#{projectBean.GoGroupSchedulePage(m.course.moduleCode)}"/>
+
+                                    <h:outputText value="Awaiting group forming closure" 
+                                                  rendered="#{not empty m.superGroup and !m.superGroup.confirm and 
+                                                              projectBean.hasProjectGroup(m.course.moduleCode)}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:outputText value="Project Costs: " rendered="#{not empty m.superGroup and 
+                                                                                      projectBean.hasProjectGroup(m.course.moduleCode)}" />
+                                </td>
+                                <td>
+
+                                    <h:outputText value="Awaiting group forming closure" 
+                                                  rendered="#{not empty m.superGroup and !m.superGroup.confirm 
+                                                              and projectBean.hasProjectGroup(m.course.moduleCode)}"/>
+                                    <p:commandButton value="View Transactions" icon="fa fa-dollar"
+                                                     rendered="#{not empty m.superGroup and m.superGroup.confirm and 
+                                                                 projectBean.hasProjectGroup(m.course.moduleCode)}" 
+                                                     action="#{projectBean.GoGroupPage(m.course.moduleCode)}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:outputText value="Peer Reviews: " rendered="#{not empty m.superGroup}"/>
+                                </td>
+                                <td>
+                                    <p:commandButton value="Group Peer Review" icon="fa fa-clipboard"
+                                                     rendered="#{not empty m.superGroup and m.superGroup.confirm and 
+                                                                 projectBean.hasProjectGroup(m.course.moduleCode) and 
+                                                                 not empty m.peerReviewQuestion and m.peerReviewQuestion.status eq 'start'}" 
+                                                     action="#{projectBean.GoPRPage(m.course.moduleCode)}"/>
+                                    <h:outputText value="Awaiting group forming closure" 
+                                                  rendered="#{not empty m.superGroup and !m.superGroup.confirm}"/>
+                                    <h:outputText value="This module doesn't have peer reviews" escape="false" 
+                                                  rendered="#{empty m.peerReviewQuestion and m.superGroup.confirm and 
+                                                              projectBean.hasProjectGroup(m.course.moduleCode) and not empty m.superGroup}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:outputText value= "Polls: " rendered="#{not empty m.polls}"/>
+                                </td>
+                                <td>
+                                    <p:commandButton value="View Polls" icon="fa fa-line-chart"
+                                                     rendered="#{not empty m.polls}"
+                                                     actionListener="#{pollingBean.viewPolling(m)}"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </p:dataList>
+
+                    <p:separator style="float: left;width: 800px"/>
+                    <br />
+                    <h:outputLabel style="font-weight: bold; font-size: 12px" value="Classroom Activities" />
+
+                    <h:form id="folderform">
+                        <p:dataTable style="width: 400px"
+                            id="foldertable" value="#{projectDetailsBean.list}" 
+                                    var="folderlist" paginator="true" paginatorPosition="bottom"
+                                    rows="10" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
+                                    emptyMessage="No activities found! Hooray!" >
+                            <p:column >
+                                <h:outputText value="#{folderlist} "/>
+                                <p:commandButton style="float: right;margin-left: 50px" icon="fa fa-pencil-square-o" actionListener="#{projectDetailsBean.enterActivity(folderlist)}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+
+
+<!--                    <ui:repeat var="m" value="#{projectBean.takingModules}">
+    <p:column>
+        <p:panel header="#{m.course.moduleCode}">
+            <h:panelGroup>
+                <h:outputText value="This course doesn't have a group" escape="false" 
+                              rendered="#{empty m.superGroup}" />
+                <p:commandButton value="Group formation in process" 
+                                 rendered="#{not empty m.superGroup and !m.superGroup.confirm}"
+                                 action="#{projectBean.goFormGroup(m.course.moduleCode)}" />
+
+                <h:outputText value="Your group #{projectBean.getStudentProjectGroupName(m.course.moduleCode)}" escape="false" 
+                              rendered="#{not empty m.superGroup and m.superGroup.confirm and
+                                projectBean.hasProjectGroup(m.course.moduleCode)}" />
+                                    <br />
+                                    <h:panelGroup rendered="#{not empty m.superGroup and m.superGroup.confirm and 
+                                              projectBean.hasProjectGroup(m.course.moduleCode)}">
+                                    </h:panelGroup>
+                                    <h:outputText value="The group formation has ended but you do not have any group, please contact the lecturer immediately" escape="false" 
+                                                  rendered="#{not empty m.superGroup and m.superGroup.confirm and
+                                !projectBean.hasProjectGroup(m.course.moduleCode)}" />
+
+                                    <p:commandButton value="Group Transaction" 
+                                                     rendered="#{not empty m.superGroup and m.superGroup.confirm and 
+                                projectBean.hasProjectGroup(m.course.moduleCode)}" 
+                                                     action="#{projectBean.GoGroupPage(m.course.moduleCode)}"/>
+                                    <p:commandButton value="Group Schedule" 
+                                                     rendered="#{not empty m.superGroup and m.superGroup.confirm and 
+                                projectBean.hasProjectGroup(m.course.moduleCode)}" 
+                                                     action="#{projectBean.GoGroupSchedulePage(m.course.moduleCode)}"/>
+                                    <h:panelGroup rendered="#{not empty m.superGroup and m.superGroup.confirm and 
+                                              projectBean.hasProjectGroup(m.course.moduleCode) and 
+                                              not empty m.peerReviewQuestion and m.peerReviewQuestion.status eq 'start'}">
+                                        <br />
+                                    </h:panelGroup>
+                                    <p:commandButton value="Group Peer Review" 
+                                                     rendered="#{not empty m.superGroup and m.superGroup.confirm and 
+                                projectBean.hasProjectGroup(m.course.moduleCode) and 
+                                not empty m.peerReviewQuestion and m.peerReviewQuestion.status eq 'start'}" 
+                                                     action="#{projectBean.GoPRPage(m.course.moduleCode)}"/>
+                                </h:panelGroup>
+
+
+
+
+                                <h:panelGroup>
+                                    <h:outputText value="This course doesn't have a group" escape="false" 
+                                                  rendered="#{empty m.superGroup}" />                                    
+                                    <h:outputText value="You have yet to join a group" escape="false" 
+                                                  rendered="#{not empty m.superGroup and 
+                                !projectBean.hasProjectGroup(m.course.moduleCode)}" />
+                                    <h:outputText value="Your group" escape="false" 
+                                                  rendered="#{not empty m.superGroup and 
+                                projectBean.hasProjectGroup(m.course.moduleCode)}" />                                   
+                                    <h:panelGroup>
+                                        <br />
+                                        <p:commandButton value="Group formation" 
+                                                         rendered="#{not empty m.superGroup and 
+                                !projectBean.hasProjectGroup(m.course.moduleCode)}" 
+                                                         action="#{projectBean.goFormGroup(m.course.moduleCode)}" />
+                                        <p:commandButton value="#{projectBean.getStudentProjectGroupName(m.course.moduleCode)}" 
+                                                         rendered="#{not empty m.superGroup and 
+                                projectBean.hasProjectGroup(m.course.moduleCode)}" 
+                                                         action="#{projectBean.GoGroupPage(m.course.moduleCode)}"/>
+                                    </h:panelGroup>
+                                </h:panelGroup>
+                            </p:panel>
+                        </p:column>
+                    </ui:repeat>-->
+                </div>
+            </div>
+        </h:body>
+    </ui:define>
+</ui:composition>

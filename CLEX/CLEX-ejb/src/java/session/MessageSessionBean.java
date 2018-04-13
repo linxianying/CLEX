@@ -42,11 +42,11 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
         User user2 = findUser(username2);
 
         if (user1 == null) {
-            System.out.println("User1 " + user1.getUsername() + " not found.");
+            //System.out.println("User1 " + user1.getUsername() + " not found.");
         }
 
         if (user2 == null) {
-            System.out.println("User2 " + user2.getUsername() + " not found.");
+            //System.out.println("User2 " + user2.getUsername() + " not found.");
         }
 
         Conversation convo = new Conversation();
@@ -150,24 +150,67 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
     }
 
     @Override
-    public void setReadMsgCount(Long convoId, String username, int readCount) {
+    public void setReadMsgCount(Long convoId, String username) {
         userEntity = findUser(username);
         convoEntity = findConversation(convoId);
         List<User> userList = (List<User>) convoEntity.getUsers();
 
         if (Objects.equals(userEntity.getId(), userList.get(0).getId())) {
-            convoEntity.setReadMsgCount1(convoEntity.getReadMsgCount1() + 1);
+            convoEntity.setReadMsgCount1(convoEntity.getSentMsgCount2());
         } else if (Objects.equals(userEntity.getId(), userList.get(1).getId())) {
-            convoEntity.setReadMsgCount2(convoEntity.getReadMsgCount2() + 1);
+            convoEntity.setReadMsgCount2(convoEntity.getSentMsgCount1());
         }
 
         em.merge(convoEntity);
         em.flush();
     }
 
+    @Override
+    public int getMsgViewCount(List<Conversation> convoList, String username) {
+        userEntity = findUser(username);
+        int count = 0;
+        int temp = 0;
+        List<User> userList;
+
+        for (Conversation c : convoList) {
+            userList = (List<User>) c.getUsers();
+
+            if (Objects.equals(userEntity.getId(), userList.get(0).getId())) {
+                temp = c.getSentMsgCount2() - c.getReadMsgCount1();
+                count += temp;
+            } else if (Objects.equals(userEntity.getId(), userList.get(1).getId())) {
+                temp = c.getSentMsgCount1() - c.getReadMsgCount2();
+                count += temp;
+            }
+        }
+
+        return count;
+    }
+
+    @Override
+    public boolean checkReadStatus(Long convoId, String username
+    ) {
+        userEntity = findUser(username);
+        convoEntity = findConversation(convoId);
+        List<User> userList = (List<User>) convoEntity.getUsers();
+
+        if (Objects.equals(userEntity.getId(), userList.get(0).getId())) {
+            if (convoEntity.getReadMsgCount1() == convoEntity.getSentMsgCount2()) {
+                return false;
+            }
+        } else if (Objects.equals(userEntity.getId(), userList.get(1).getId())) {
+            if (convoEntity.getReadMsgCount2() == convoEntity.getSentMsgCount1()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     //For starting conversations
     @Override
-    public Conversation checkUserInSameConversation(String username1, String username2) {
+    public Conversation checkUserInSameConversation(String username1, String username2
+    ) {
         User user1 = findUser(username1);
         User user2 = findUser(username2);
         Conversation convo = null;
@@ -184,7 +227,8 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
 
     //For stopping messages from being sent if a user left convo
     @Override
-    public boolean checkEmptyUserInConversation(Long convoId) {
+    public boolean checkEmptyUserInConversation(Long convoId
+    ) {
         convoEntity = findConversation(convoId);
         List<User> userList = (List<User>) convoEntity.getUsers();
 
@@ -196,17 +240,18 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
     }
 
     @Override
-    public Collection<Conversation> getConversationByUser(String username) {
+    public Collection<Conversation> getConversationByUser(String username
+    ) {
         userEntity = findUser(username);
         conversations = userEntity.getConversations();
         List<User> userList;
         Iterator<Conversation> iter = conversations.iterator();
         Conversation c;
-        
+
         while (iter.hasNext()) {
             c = iter.next();
             userList = (List) c.getUsers();
-            if(userList.size() <= 1) {
+            if (userList.size() <= 1) {
                 if (c.getMessages().isEmpty()) {
                     System.out.println("----------------went thru here");
                     iter.remove();
@@ -219,7 +264,8 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
     }
 
     @Override
-    public Collection<Message> getMessageByConversation(Long id) {
+    public Collection<Message> getMessageByConversation(Long id
+    ) {
         convoEntity = findConversation(id);
         messages = convoEntity.getMessages();
         return messages;
@@ -237,13 +283,14 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
     }
 
     @Override
-    public User findUser(String username) {
+    public User findUser(String username
+    ) {
         userEntity = null;
         try {
             Query q = em.createQuery("SELECT u FROM BasicUser u WHERE u.username = :username");
             q.setParameter("username", username);
             userEntity = (User) q.getSingleResult();
-            System.out.println("User " + username + " found.");
+            //System.out.println("User " + username + " found.");
         } catch (NoResultException e) {
             System.out.println("User " + username + " does not exist.");
             userEntity = null;
@@ -259,7 +306,7 @@ public class MessageSessionBean implements MessageSessionBeanLocal {
             Query q = em.createQuery("SELECT c FROM Conversation c WHERE c.id = :id");
             q.setParameter("id", id);
             convoEntity = (Conversation) q.getSingleResult();
-            System.out.println("Conversation " + id + " found.");
+            //System.out.println("Conversation " + id + " found.");
         } catch (NoResultException e) {
             System.out.println("Conversation " + id + " does not exist.");
             convoEntity = null;

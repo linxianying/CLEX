@@ -27,6 +27,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import org.primefaces.event.SelectEvent;
 import session.CommunitySessionBeanLocal;
+import session.CourseMgmtBeanLocal;
 
 /**
  *
@@ -38,12 +39,17 @@ public class ForumListBean {
 
     @EJB
     private CommunitySessionBeanLocal cmsbl;
-
+    
+    @EJB
+    private CourseMgmtBeanLocal cmbl;
+    
     private ArrayList<Thread> threads;
     private ArrayList<Reply> replies;
     private ArrayList<Vote> votes;
     private ArrayList<VoteThread> voteThreads;
     private ArrayList<VoteReply> voteReplies;
+    
+    private ArrayList<Thread> reviewThreads;
 
     //User
     private User userEntity;
@@ -59,7 +65,7 @@ public class ForumListBean {
     private Thread selectedThread;
     private String dateTimeCompare;
     private String dayDisplay;
-
+    
     //Reply
     private Reply replyEntity;
     private Long rId;
@@ -77,6 +83,10 @@ public class ForumListBean {
     private String searchTitle;
     private String searchTag;
 
+    //search review
+    private String searchModuleCode;
+    private List<Course> courses;
+    
     FacesContext context;
     HttpSession session;
 
@@ -86,6 +96,7 @@ public class ForumListBean {
     //Use this to search, collect and display, use communitybean for other functions
     @PostConstruct
     public void init() {
+        courses = cmbl.getAllCourses();
         refresh();
     }
 
@@ -95,6 +106,8 @@ public class ForumListBean {
         username = (String) session.getAttribute("username");
         userEntity = (User) session.getAttribute("user");
         threads = (ArrayList) cmsbl.getAllThreadsBySchool(userEntity.getSchool());
+        threads = (ArrayList) cmsbl.filterTagCourseReview(threads);
+        reviewThreads = (ArrayList) cmsbl.getThreadsByTag("Course Review", userEntity.getSchool());
     }
 
     public void searchThread() throws IOException {
@@ -104,6 +117,7 @@ public class ForumListBean {
         userEntity = (User) session.getAttribute("user");
         if (!searchTitle.equals("") && searchContent.equals("") && searchTag.equals("")) {
             threads = (ArrayList) cmsbl.searchThreadByTitle(searchTitle, userEntity.getSchool());
+            threads = (ArrayList) cmsbl.filterTagCourseReview(threads);
             if (threads.isEmpty()) {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No Threads found!", "Try refining your search terms.");
             } else {
@@ -112,8 +126,10 @@ public class ForumListBean {
             }
         } else if (searchTitle.equals("") && !searchContent.equals("") && searchTag.equals("")) {
             threads = (ArrayList) cmsbl.searchThreadByContent(searchContent, userEntity.getSchool());
+            threads = (ArrayList) cmsbl.filterTagCourseReview(threads);
             if (threads.isEmpty()) {
                 threads = (ArrayList) cmsbl.getAllThreadsBySchool(userEntity.getSchool());
+                threads = (ArrayList) cmsbl.filterTagCourseReview(threads);
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No Threads found!", "Try refining your search terms.");
             } else {
                 int searchcount = threads.size();
@@ -121,8 +137,10 @@ public class ForumListBean {
             }
         } else if (searchTitle.equals("") && searchContent.equals("") && !searchTag.equals("")) {
             threads = (ArrayList) cmsbl.getThreadsByTag(searchTag, userEntity.getSchool());
+            threads = (ArrayList) cmsbl.filterTagCourseReview(threads);
             if (threads.isEmpty()) {
                 threads = (ArrayList) cmsbl.getAllThreadsBySchool(userEntity.getSchool());
+                threads = (ArrayList) cmsbl.filterTagCourseReview(threads);
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No Threads found!", "Try refining your search terms.");
             } else {
                 int searchcount = threads.size();
@@ -136,7 +154,31 @@ public class ForumListBean {
         searchTag = "";
         context.addMessage(null, fmsg);
     }
-
+    
+    public void searchReview() throws IOException {
+        FacesMessage fmsg = new FacesMessage();
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+        userEntity = (User) session.getAttribute("user");
+        if (!searchModuleCode.equals("")) {
+            reviewThreads = (ArrayList) cmsbl.searchThreadByTitle(searchModuleCode, userEntity.getSchool());
+            reviewThreads = (ArrayList) cmsbl.filterNonTagCourseReview(reviewThreads);
+            for(int i=0; i<reviewThreads.size(); i++){
+                System.out.println(i + ": " + reviewThreads.get(i).getTitle());
+            }
+            if (reviewThreads.isEmpty()) {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No reviews found!", "");
+            } else {
+                int searchcount = reviewThreads.size();
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", searchcount + " Review(s) found.");
+            }
+        } else {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Please fill in the module code field.");
+        }
+        searchModuleCode = "";
+        context.addMessage(null, fmsg);
+    }
+    
     public void startThread() throws IOException {
         FacesMessage fmsg = new FacesMessage();
         context = FacesContext.getCurrentInstance();
@@ -447,6 +489,30 @@ public class ForumListBean {
 
     public void setSession(HttpSession session) {
         this.session = session;
+    }
+
+    public ArrayList<Thread> getReviewThreads() {
+        return reviewThreads;
+    }
+
+    public void setReviewThreads(ArrayList<Thread> reviewThreads) {
+        this.reviewThreads = reviewThreads;
+    }
+
+    public String getSearchModuleCode() {
+        return searchModuleCode;
+    }
+
+    public void setSearchModuleCode(String searchModuleCode) {
+        this.searchModuleCode = searchModuleCode;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
     }
 
 }

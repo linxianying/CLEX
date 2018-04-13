@@ -17,7 +17,7 @@
             <p:tab title="COMMUNITY FORUMS - #{communityBean.userEntity.school}">       
                 <h:panelGrid columns="1">
                     <h:panelGroup>
-                        <p:commandButton value="Back to Forums" action="community?faces-redirect=true" id="backButton" icon="fa fa-arrow-left" />                        
+                        <p:commandButton value="Back to Forums" action="lecturerCommunity?faces-redirect=true" id="backButton" icon="fa fa-arrow-left" />                        
                         <p:commandButton value="Post Reply" id="newReplyButton" >
                             <p:overlayPanel style="width: 650px" id="replyOverlay" for="newReplyButton" showEffect="fade" hideEffect="fade" widgetVar="replyWidget">
                                 <h:form id="replyForm">
@@ -37,9 +37,7 @@
                                 </h:form>
                             </p:overlayPanel>
                         </p:commandButton>
-                        <p:commandButton icon="fa fa-trash" value="Delete Thread" actionListener="#{communityBean.removeThread(communityBean.threadEntity.id)}" rendered="#{communityBean.userEntity.userType == 'Admin'}">
-                            <p:confirm header="Delete Thread" message="Deleted threads cannot be recovered! Are you sure?" icon="ui-icon-alert" />
-                        </p:commandButton>                        
+                                               
                         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                             <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                             <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />

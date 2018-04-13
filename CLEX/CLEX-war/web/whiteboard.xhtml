@@ -14,27 +14,41 @@
     <ui:define name="content">
         <p:growl id="messages" showDetail="true"/>
         <p:outputPanel>
-            <h3><h:outputLabel value="MODULE CODE - ACTIVITY NAME" /></h3> <!-- Selected module will display here, activity name made by lecturer-->
-
+            <h3><h:outputLabel value="#{whiteboardBean.moduleCode} - #{whiteboardBean.activityname} - " /> <p:commandLink id="help" value="Help" onclick="PF('overlay').show()"/> </h3> 
+            <p:overlayPanel widgetVar="overlay">
+                <p:outputPanel>
+                    * Please save your work before changing the size of the drawing area! <br></br>
+                    ** To undo wrong drawings, it is required to save the current state of the drawing first. <br></br>
+                    *** Please save your work before submitting!
+                </p:outputPanel>
+            </p:overlayPanel>
+            <div style="margin:20px 0">
+                <p:commandButton value="Width*" icon="fa fa-plus" actionListener="#{whiteboardBean.enlargewidth}" update="output:output2"/>
+                <p:commandButton value="Width" icon="fa fa-minus" actionListener="#{whiteboardBean.shrinkwidth}" update="output:output2"/>
+                <p:commandButton value="Height*" icon="fa fa-plus" actionListener="#{whiteboardBean.enlargeheight}" update="output:output2"/>
+                <p:commandButton value="Height" icon="fa fa-minus" actionListener="#{whiteboardBean.shrinkheight}" update="output:output2"/>
+                <br />
+            </div>
             <h:form id="output">           
                 <div style="margin:20px 0">
-                    <p:commandButton value="Save" icon="fa fa-save" update="output"/>
+                    <p:commandButton value="Save**" icon="fa fa-save" update="output"/>
                     <p:commandButton value="Undo" icon="fa fa-rotate-left" actionListener="#{whiteboardBean.undo}" update="output"/>
                     <p:commandButton value="Clear" icon="fa fa-file-o" update="output" actionListener="#{whiteboardBean.cleardrawing()}" />
-
+                    <p:commandButton value="Submit***" icon="fa fa-upload" update="output" actionListener="#{whiteboardBean.save()}"/>
+                    <br />
                 </div>
-                <p:signature style="width: #{whiteboardBean.canvaswidth}px;height:#{whiteboardBean.canvaswidth}px" widgetVar="sig" id="output2"
+
+
+                <p:signature style="width: #{whiteboardBean.canvaswidth}px;height: #{whiteboardBean.canvasheight}px;" 
+                             widgetVar="sig" id="output2"
                              backgroundColor="#{whiteboardBean.canvascolor}"
                              thickness="1"
                              color="#{whiteboardBean.drawingcolor}"
                              value="#{whiteboardBean.currentDrawing}" required="true" guideline="false"
                              valueChangeListener="#{whiteboardBean.onInput}" base64Value="#{whiteboardBean.imagevalue}"/>
-                <div style="margin:20px 0">
-                    <p:commandButton value="Export Drawing" icon="fa fa-file-image-o" update="output" actionListener="#{whiteboardBean.save()}"/>
-                </div>
-
             </h:form>
         </p:outputPanel>
+
 
     </ui:define>
 </ui:composition>

@@ -7,18 +7,17 @@
                 xmlns:p="http://primefaces.org/ui" 
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="title">PRISM Lecturer Module Page</ui:define>
-    
+
     <ui:define name="viewname">Module</ui:define>
-    
+
     <ui:define name="content">
-        
+
         <p:growl id="messages" showDetail="true" />
-        
+
         <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
             <p:printer target="panel" />
         </p:commandButton>
         <h:form id="panel">
-            <h3><h:outputText value="Modules" /></h3>
             <p:tabView id="lecturerModule">
                 <p:tab title="MANAGE CURRENT MODULE">
                     <p:dataTable var="module" value="#{lecturerModuleListBean.currentModules}" id="currentModules" rows="5"
@@ -26,7 +25,7 @@
                                  paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
                                  rowsPerPageTemplate="5,10,20">
-                        
+
                         <f:facet name="header">
                             <p:outputPanel>
                                 <h:outputText value="Search all fields:" />
@@ -39,54 +38,50 @@
                                     <p:graphicImage name="/demo/images/excel.png" width="24"/>
                                     <p:dataExporter type="xls" target="modules" fileName="modules"  />
                                 </h:commandLink>
-                                
+
                                 <h:commandLink>
                                     <p:graphicImage name="/demo/images/pdf.png" width="24"/>
                                     <p:dataExporter type="pdf" target="modules" fileName="modules" />
                                 </h:commandLink>
-                                
+
                                 <h:commandLink>
                                     <p:graphicImage name="/demo/images/csv.png" width="24"/>
                                     <p:dataExporter type="csv" target="modules" fileName="modules"  />
                                 </h:commandLink>
-                                
+
                                 <h:commandLink>
                                     <p:graphicImage name="/demo/images/xml.png" width="24"/>
                                     <p:dataExporter type="xml" target="modules" fileName="modules"/>
                                 </h:commandLink>
                             </div>
                         </f:facet>
-                        <p:column style="width: 15%" filterBy="#{module.course.moduleCode}" sortBy="#{module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
+                        <p:column style="text-align: center;width: 15%" filterBy="#{module.course.moduleCode}" sortBy="#{module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
                             <h:outputText value="#{module.course.moduleCode} " />
                             <!--<p:commandButton style="float: right" icon="ui-icon-search" actionListener="#{lecturerModuleListBean.viewModule(module)}" />-->
                         </p:column>
                         <p:column style="width: 30%" filterBy="#{module.course.moduleName}" sortBy="#{module.course.moduleName}" headerText="Title" filterMatchMode="contains">
                             <h:outputText value="#{module.course.moduleName}" />
                         </p:column>
-                        <p:column style="width: 20%" headerText="Students" >
+                        <p:column style="text-align: center;width: 20%;" headerText="Students" >
                             <h:outputText value="Students:#{module.students.size()} " />
                             <br />
                             <h:outputText value="Polls:#{module.polls.size()}" />
                         </p:column>
-                        <p:column style="width: 20%" headerText="Groups" >
-                            <h:outputText value="Status: Group formation not statrted" rendered="#{empty module.superGroup}"/>
-                            <br/>
-                            <!--<p:commandButton value="Start group formation" onclick="PF('dlg1').show();" update=":panel:lecturerModule:currentModules:dlg1" />-->
-                            <!--<p:commandButton value="Start group formation" oncomplete="PF('dlg1').show();" update=":panel:currentModules:groupDialog" />-->
-                            <p:commandButton value="Manage groups" actionListener="#{lecturerModuleListBean.formGroup(module)}" />
+                        <p:column style="text-align: center;width: 20%" headerText="Groups" >
+                            <p:commandButton style="background: transparent; color: black" icon="fa fa-user-times" value="Group formation not started" rendered="#{empty module.superGroup}"/>
                             <br />
-                            <h:outputText value="Polls:#{module.polls.size()}" />
+                            <p:commandButton icon="fa fa-cogs" value="Manage Groups" actionListener="#{lecturerModuleListBean.formGroup(module)}" />
                         </p:column>
-                        <p:column style="width: 20%" headerText="Peer Review">
-                            <p:commandButton value="Add Peer Review Form" actionListener="#{lecturerModuleListBean.startPR(module)}" 
+                        <p:column style="text-align: center;width: 20%" headerText="Peer Review">
+                            <p:commandButton icon="fa fa-align-justify" value="Add Peer Review Form" actionListener="#{lecturerModuleListBean.startPR(module)}" 
                                              rendered="#{not empty module.superGroup and module.superGroup.confirm and empty module.peerReviewQuestion}"/>
-                            <p:commandButton value="Manage Peer Review" actionListener="#{lecturerModuleListBean.goPRPage(module)}" action="lecturerUpdatePRform?faces-redirect=rtue" 
+                            <p:commandButton icon="fa fa-cogs" value="Manage Peer Review" actionListener="#{lecturerModuleListBean.goPRPage(module)}" action="lecturerUpdatePRform?faces-redirect=rtue" 
                                              rendered="#{not empty module.superGroup and module.superGroup.confirm and not empty module.peerReviewQuestion}"/>
                             <br /><br />
-                            <p:commandButton value="View submitted Peer Review Forms" action="lecturerUpdatePRform?faces-redirect=true" 
+                            <p:commandButton icon="fa fa-user" value="View submitted Peer Review Forms" action="lecturerUpdatePRform?faces-redirect=true" 
                                              rendered="#{not empty module.superGroup and module.superGroup.confirm and not empty module.peerReviewQuestion and not empty module.peerReviewQuestion.answer}"/>
                             <br /><br />
-                            <p:commandButton value="view Groups' Peer Review Results" action="lecturerUpdatePRform?faces-redirect=true"
+                            <p:commandButton icon="fa fa-groups" value="View Groups' Peer Review Results" action="lecturerUpdatePRform?faces-redirect=true"
                                              rendered="#{not empty module.superGroup and module.superGroup.confirm and not empty module.peerReviewQuestion and not empty module.peerReviewQuestion.answer}"/>
                         </p:column>
                         <!--                        <p:dialog header="Start group Formation" widgetVar="dlg1" id="dlg1">
@@ -104,6 +99,9 @@
                                                         <p:commandButton value="submit" actionListener="#{lecturerModuleListBean.formGroup(module)}" update=":panel:currentModules"/>
                                                     </h:form>
                                                 </p:dialog>-->
+                        <p:column style="text-align: center;width: 20%" headerText="Activities">
+                            <p:commandButton value="Manage Activities" actionListener="#{lecturerModuleListBean.manageActivities(module)}" icon="fa fa-search"/>
+                        </p:column>
                     </p:dataTable>
                 </p:tab>
                 <p:tab title="VIEW MODULES">
@@ -117,13 +115,13 @@
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
                                  {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
                                  rowsPerPageTemplate="5,10,20">
-                        
+
                         <f:facet name="header">
                             <p:outputPanel>
                                 <h:outputText value="Search all fields:" />
                                 <p:inputText id="globalFilter" onkeyup="PF('modulesTable').filter()" style="width:150px" placeholder="Enter keyword"/>
                             </p:outputPanel>
-                            
+
                         </f:facet>  
                         <f:facet name="{Exporters}">
                             <div style="float:right;">
@@ -132,42 +130,42 @@
                                     <p:graphicImage name="/demo/images/excel.png" width="24"/>
                                     <p:dataExporter type="xls" target="modules" fileName="modules"  />
                                 </h:commandLink>
-                                
+
                                 <h:commandLink>
                                     <p:graphicImage name="/demo/images/pdf.png" width="24"/>
                                     <p:dataExporter type="pdf" target="modules" fileName="modules" />
                                 </h:commandLink>
-                                
+
                                 <h:commandLink>
                                     <p:graphicImage name="/demo/images/csv.png" width="24"/>
                                     <p:dataExporter type="csv" target="modules" fileName="modules"  />
                                 </h:commandLink>
-                                
+
                                 <h:commandLink>
                                     <p:graphicImage name="/demo/images/xml.png" width="24"/>
                                     <p:dataExporter type="xml" target="modules" fileName="modules"/>
                                 </h:commandLink>
                             </div>
                         </f:facet>
-                        <p:column style="width: 15%" filterBy="#{module.course.moduleCode}" sortBy="#{module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
+                        <p:column style="text-align: center;width: 15%" filterBy="#{module.course.moduleCode}" sortBy="#{module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
                             <h:outputText value="#{module.course.moduleCode} " >
-                                
+
                             </h:outputText>
                             <p:commandButton style="float: right" icon="ui-icon-search" actionListener="#{lecturerModuleListBean.viewModule(module)}" />
-                            
+
                         </p:column>
                         <p:column style="width: 30%" filterBy="#{module.course.moduleName}" sortBy="#{module.course.moduleName}" headerText="Title" filterMatchMode="contains">
                             <h:outputText value="#{module.course.moduleName}" />
                         </p:column>
-                        <p:column style="width: 20%" headerText="Students" >
+                        <p:column style="text-align: center;width: 20%" headerText="Students" >
                             <h:outputText value="Students:#{module.students.size()} " />
                             <br />
                             <h:outputText value="Polls:#{module.polls.size()}" />
                         </p:column>
-                        <p:column style="width: 15%" filterBy="#{module.takenYear}" sortBy="#{module.takenYear}" headerText="Teaching Year" filterMatchMode="contains">
+                        <p:column style="text-align: center;width: 15%" filterBy="#{module.takenYear}" sortBy="#{module.takenYear}" headerText="Teaching Year" filterMatchMode="contains">
                             <h:outputText value="#{module.takenYear}" />
                         </p:column>
-                        <p:column style="width: 15%" filterBy="#{module.takenSem}" sortBy="#{module.takenSem}" headerText="Teaching Sem" filterMatchMode="contains">
+                        <p:column style="text-align: center;width: 15%" filterBy="#{module.takenSem}" sortBy="#{module.takenSem}" headerText="Teaching Sem" filterMatchMode="contains">
                             <f:facet name="filter">
                                 <p:selectOneButton onchange="PF('modulesTable').filter()">
                                     <f:selectItem itemLabel="All" itemValue="" />
@@ -177,12 +175,13 @@
                             </f:facet>
                             <h:outputText value="#{module.takenSem}" />
                         </p:column>
+
                     </p:dataTable>
-                    
+
                     <!--<h:form id="moduleTab"><h:form id="lessonTab"></h:form>-->
                 </p:tab>
                 <p:tab title="VIEW LESSONS">
-                    
+
                     <p:dataTable editable="true" editMode="cell" 
                                  var="lesson" value="#{lecturerModuleListBean.lessons}" 
                                  widgetVar="lessonsTable"
@@ -225,13 +224,13 @@
                             </div>
                         </f:facet>
                         <p:ajax event="cellEdit" listener="#{lecturerModuleListBean.lectEditLesson(lesson)}" update="messages"/>
-                        <p:column filterBy="#{lesson.module.course.moduleCode}" sortBy="#{lesson.module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
+                        <p:column style="text-align: center;" filterBy="#{lesson.module.course.moduleCode}" sortBy="#{lesson.module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
                             <h:outputText value="#{lesson.module.course.moduleCode}" />
                         </p:column>
-                        <p:column filterBy="#{lesson.module.takenYear}" sortBy="#{lesson.module.takenYear}" headerText="Teaching Year" filterMatchMode="contains">
+                        <p:column style="text-align: center;" filterBy="#{lesson.module.takenYear}" sortBy="#{lesson.module.takenYear}" headerText="Teaching Year" filterMatchMode="contains">
                             <h:outputText value="#{lesson.module.takenYear}" />
                         </p:column>
-                        <p:column filterBy="#{lesson.module.takenSem}" sortBy="#{lesson.module.takenSem}" headerText="Teaching Sem" filterMatchMode="contains">
+                        <p:column style="text-align: center;" filterBy="#{lesson.module.takenSem}" sortBy="#{lesson.module.takenSem}" headerText="Teaching Sem" filterMatchMode="contains">
                             <f:facet name="filter">
                                 <p:selectOneButton onchange="PF('lessonsTable').filter()">
                                     <f:selectItem itemLabel="All" itemValue="" />
@@ -241,7 +240,7 @@
                             </f:facet>
                             <h:outputText style="text-align: center !important;" value="#{lesson.module.takenSem}" />
                         </p:column>
-                        <p:column filterBy="#{lesson.day}" sortBy="#{lesson.day}" headerText="Day" filterMatchMode="contains">
+                        <p:column style="text-align: center;" filterBy="#{lesson.day}" sortBy="#{lesson.day}" headerText="Day" filterMatchMode="contains">
                             <f:facet name="filter">
                                 <p:selectOneMenu onchange="PF('lessonsTable').filter()">
                                     <f:selectItem itemLabel="All" itemValue="" />
@@ -250,7 +249,7 @@
                             </f:facet>
                             <h:outputText value="#{lesson.day}" />
                         </p:column>
-                        <p:column filterBy="#{lesson.timeFrom}" sortBy="#{lesson.timeFrom}" headerText="Time Start" filterMatchMode="contains">
+                        <p:column style="text-align: center;" filterBy="#{lesson.timeFrom}" sortBy="#{lesson.timeFrom}" headerText="Time Start" filterMatchMode="contains">
                             <f:facet name="filter">
                                 <p:selectOneMenu onchange="PF('lessonsTable').filter()">
                                     <f:selectItem itemLabel="All" itemValue="" />
@@ -259,7 +258,7 @@
                             </f:facet>
                             <h:outputText value="#{lesson.timeFrom}" />
                         </p:column>
-                        <p:column filterBy="#{lesson.timeEnd}" sortBy="#{lesson.timeEnd}" headerText="Time End" filterMatchMode="contains">
+                        <p:column style="text-align: center;" filterBy="#{lesson.timeEnd}" sortBy="#{lesson.timeEnd}" headerText="Time End" filterMatchMode="contains">
                             <f:facet name="filter">
                                 <p:selectOneMenu onchange="PF('lessonsTable').filter()">
                                     <f:selectItem itemLabel="All" itemValue="" />
@@ -268,7 +267,7 @@
                             </f:facet>
                             <h:outputText value="#{lesson.timeEnd}" />
                         </p:column>
-                        <p:column filterBy="#{lesson.type}" sortBy="#{lesson.type}" headerText="Type" filterMatchMode="contains">
+                        <p:column style="text-align: center;" filterBy="#{lesson.type}" sortBy="#{lesson.type}" headerText="Type" filterMatchMode="contains">
                             <p:cellEditor>
                                 <f:facet name="output">
                                     <h:outputText value="#{lesson.type}" />
@@ -284,7 +283,7 @@
                                     </p:selectOneMenu></f:facet>
                             </p:cellEditor>
                         </p:column>
-                        <p:column filterBy="#{lesson.venue}" sortBy="#{lesson.venue}" headerText="Venue" filterMatchMode="contains">
+                        <p:column style="text-align: center;" filterBy="#{lesson.venue}" sortBy="#{lesson.venue}" headerText="Venue" filterMatchMode="contains">
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{lesson.venue}" /></f:facet>
                                 <f:facet name="input"><p:inputText id="venueInput" value="#{lesson.venue}" style="width:96%"/></f:facet>

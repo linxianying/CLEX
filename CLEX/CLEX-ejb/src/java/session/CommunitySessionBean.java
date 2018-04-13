@@ -361,7 +361,7 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         threads = this.sortThreadByLatestReply(threads);
         return threads;
     }
-
+    
     @Override
     public List<VoteThread> getAllVoteThreads() {
         List<VoteThread> voteThreads = new ArrayList<VoteThread>();
@@ -404,7 +404,43 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
         List<Reply> replies = (List) threadEntity.getReplies();
         return replies;
     }
+    
+    @Override
+    public Thread getExistingReview(String title, String school){
+        List<Thread> tempThreadList = searchThreadByTitle(title, school);
+        Thread tempThread = null;
 
+        if(!tempThreadList.isEmpty()){
+            tempThread = tempThreadList.get(0);
+        }
+        
+        return tempThread;
+    }
+    
+    @Override
+    public List<Thread> filterTagCourseReview(List<Thread> threads){
+        List<Thread> filterThreads = new ArrayList<Thread>();
+        //Remove all threads WITH course review tags
+        for(int i=0; i < threads.size(); i++){
+            if(!threads.get(i).getTag().equals("Course Review")){
+                filterThreads.add(threads.get(i));
+            }
+        }
+        return filterThreads;
+    }
+    
+    @Override
+    public List<Thread> filterNonTagCourseReview(List<Thread> threads){
+        List<Thread> filterThreads = new ArrayList<Thread>();
+        //Remove all threads WITHOUT course review tags
+        for(int i=0; i < threads.size(); i++){
+            if(threads.get(i).getTag().equals("Course Review")){
+                filterThreads.add(threads.get(i));
+            }
+        }
+        return filterThreads;
+    }
+    
     @Override
     public List<Thread> searchThreadByTitle(String searchTitle, String schoolname) {
         List<Thread> threadList = new ArrayList<Thread>();
@@ -415,7 +451,6 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
                 threadList.add(threads.get(i));
             }
         }
-        threadList = sortThreadByLatestReply(threadList);
         return threadList;
     }
 

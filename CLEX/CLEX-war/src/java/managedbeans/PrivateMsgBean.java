@@ -22,10 +22,6 @@ import javax.faces.view.ViewScoped;
 import javax.servlet.http.HttpSession;
 import session.MessageSessionBeanLocal;
 
-/**
- *
- * @author eeren
- */
 @ManagedBean
 @SessionScoped
 public class PrivateMsgBean {
@@ -50,8 +46,10 @@ public class PrivateMsgBean {
     private List<Conversation> convoList;
     private List<Message> msgList;
     private int tabIndex;
+    private boolean readStatus;
     private boolean isUser;
     private boolean convoExist;
+    private int viewCount;
 
     FacesContext context;
     HttpSession session;
@@ -76,6 +74,11 @@ public class PrivateMsgBean {
         msgList = null;
         convoExist = false;
         convoList = (List) msbl.getConversationByUser(sndUsername);
+        viewCount = getMsgViewCount();
+    }
+
+    public int getMsgViewCount() {
+       return msbl.getMsgViewCount(convoList, sndUsername);
     }
 
     public String getRcvrUsername(Conversation convo) {
@@ -104,24 +107,34 @@ public class PrivateMsgBean {
 
     public String getRcvName(Conversation convo) {
         msgList = (List) convo.getMessages();
-        if (rcvUsername != null) {
-            rcvName = msbl.findUser(rcvUsername).getName();
-        } else {
-            for (int i = 0; i < msgList.size(); i++) {
-                Message temp = msgList.get(i);
-                if (sndUsername.equals(temp.getMsgOwner())) {
-                    rcvUsername = temp.getMsgReceiver();
-                    rcvName = msbl.findUser(rcvUsername).getName();
-                    break;
-                }
+
+        for (int i = 0; i < msgList.size(); i++) {
+            Message temp = msgList.get(i);
+            if (sndUsername.equals(temp.getMsgOwner())) {
+                rcvUsername = temp.getMsgReceiver();
+                rcvName = msbl.findUser(rcvUsername).getName();
+                break;
             }
         }
-
         return rcvName;
     }
 
     public List<User> getUsers() {
         return (List) msbl.getAllUsers();
+    }
+
+    public boolean checkRead(Conversation convo) {
+        readStatus = msbl.checkReadStatus(convo.getId(), sndUsername);
+        return readStatus;
+    }
+
+    public String truncateMessage(Conversation convo) {
+        List<Message> msgs = (List) convo.getMessages();
+        String tempMsg = msgs.get(msgs.size() - 1).getMessage();
+        if (tempMsg.length() <= 25) {
+            return tempMsg;
+        }
+        return tempMsg.substring(0, 25);
     }
 
     public void startConversation() {
@@ -139,7 +152,12 @@ public class PrivateMsgBean {
 
             }
             rcvName = msbl.findUser(searchUsername).getName();
-            refresh();
+            convoList = (List) msbl.getConversationByUser(sndUsername);
+            if (convo != null) {
+                rcvUsername = searchUsername;
+                selectConversation(convo);
+                tabIndex = 1;
+            }
         }
     }
 
@@ -148,7 +166,19 @@ public class PrivateMsgBean {
         rcvUsername = getRcvrUsername(selectedConvo);
         convo = selectedConvo;
         msgList = (List) convo.getMessages();
+        msbl.setReadMsgCount(convo.getId(), sndUsername);
+        viewCount = getMsgViewCount();
         tabIndex = 1;
+    }
+
+    public void getMsgByConvo() {
+        if (convo != null) {
+            msgList = (List) msbl.getMessageByConversation(convo.getId());
+        }
+    }
+
+    public void getConvoByUser() {
+        convoList = (List) msbl.getConversationByUser(sndUsername);
     }
 
     public boolean messageIsByUser(Message msg) {
@@ -209,14 +239,6 @@ public class PrivateMsgBean {
 
         refresh();
         context.addMessage(null, fmsg);
-    }
-
-    public boolean getConversation(Long convoId) {
-        msgList = (ArrayList<Message>) msbl.getMessageByConversation(convoId);
-        if (convoId == null) {
-            return false;
-        }
-        return true;
     }
 
     public boolean checkEmptyUser() {
@@ -342,5 +364,21 @@ public class PrivateMsgBean {
 
     public void setConvoExist(boolean convoExist) {
         this.convoExist = convoExist;
+    }
+
+    public boolean getReadStatus() {
+        return readStatus;
+    }
+
+    public void setReadStatus(boolean readStatus) {
+        this.readStatus = readStatus;
+    }
+
+    public int getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
     }
 }
