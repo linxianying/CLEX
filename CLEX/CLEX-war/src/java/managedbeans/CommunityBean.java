@@ -386,7 +386,7 @@ public class CommunityBean {
 
         context.addMessage(null, fmsg);
         try {
-            context.getExternalContext().redirect("community.xhtml");
+            context.getExternalContext().redirect("adminCommunity.xhtml");
         } catch (Exception e) {
             e.printStackTrace();
         }

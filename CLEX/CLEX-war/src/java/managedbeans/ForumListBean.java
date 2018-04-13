@@ -39,17 +39,18 @@ public class ForumListBean {
 
     @EJB
     private CommunitySessionBeanLocal cmsbl;
-    
+
     @EJB
     private CourseMgmtBeanLocal cmbl;
-    
+
     private ArrayList<Thread> threads;
     private ArrayList<Reply> replies;
     private ArrayList<Vote> votes;
     private ArrayList<VoteThread> voteThreads;
     private ArrayList<VoteReply> voteReplies;
-    
+
     private ArrayList<Thread> reviewThreads;
+    private ArrayList<Thread> bazaar;
 
     //User
     private User userEntity;
@@ -65,7 +66,7 @@ public class ForumListBean {
     private Thread selectedThread;
     private String dateTimeCompare;
     private String dayDisplay;
-    
+
     //Reply
     private Reply replyEntity;
     private Long rId;
@@ -83,10 +84,14 @@ public class ForumListBean {
     private String searchTitle;
     private String searchTag;
 
+    private String buysell;
+    private String bazaarprice;
+    private String bazaaritem;
+    private String bazaarcondition;
     //search review
     private String searchModuleCode;
     private List<Course> courses;
-    
+
     FacesContext context;
     HttpSession session;
 
@@ -106,8 +111,14 @@ public class ForumListBean {
         username = (String) session.getAttribute("username");
         userEntity = (User) session.getAttribute("user");
         threads = (ArrayList) cmsbl.getAllThreadsBySchool(userEntity.getSchool());
-        threads = (ArrayList) cmsbl.filterTagCourseReview(threads);
+        threads = (ArrayList) cmsbl.filterNonTagCourseReview(threads);
+        threads = (ArrayList) cmsbl.filterNonTagMarketplace(threads);
         reviewThreads = (ArrayList) cmsbl.getThreadsByTag("Course Review", userEntity.getSchool());
+        tTag = "";
+        if (!userEntity.getUserType().equals("Guest")) {
+            bazaar = (ArrayList) cmsbl.getThreadsByTag("Bazaar", userEntity.getSchool());
+            buysell = "sell";
+        }
     }
 
     public void searchThread() throws IOException {
@@ -115,46 +126,54 @@ public class ForumListBean {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
         userEntity = (User) session.getAttribute("user");
-        if (!searchTitle.equals("") && searchContent.equals("") && searchTag.equals("")) {
-            threads = (ArrayList) cmsbl.searchThreadByTitle(searchTitle, userEntity.getSchool());
-            threads = (ArrayList) cmsbl.filterTagCourseReview(threads);
-            if (threads.isEmpty()) {
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No Threads found!", "Try refining your search terms.");
-            } else {
-                int searchcount = threads.size();
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", searchcount + " Thread(s) found.");
-            }
-        } else if (searchTitle.equals("") && !searchContent.equals("") && searchTag.equals("")) {
-            threads = (ArrayList) cmsbl.searchThreadByContent(searchContent, userEntity.getSchool());
-            threads = (ArrayList) cmsbl.filterTagCourseReview(threads);
-            if (threads.isEmpty()) {
-                threads = (ArrayList) cmsbl.getAllThreadsBySchool(userEntity.getSchool());
-                threads = (ArrayList) cmsbl.filterTagCourseReview(threads);
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No Threads found!", "Try refining your search terms.");
-            } else {
-                int searchcount = threads.size();
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", searchcount + " Thread(s) found.");
-            }
-        } else if (searchTitle.equals("") && searchContent.equals("") && !searchTag.equals("")) {
-            threads = (ArrayList) cmsbl.getThreadsByTag(searchTag, userEntity.getSchool());
-            threads = (ArrayList) cmsbl.filterTagCourseReview(threads);
-            if (threads.isEmpty()) {
-                threads = (ArrayList) cmsbl.getAllThreadsBySchool(userEntity.getSchool());
-                threads = (ArrayList) cmsbl.filterTagCourseReview(threads);
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No Threads found!", "Try refining your search terms.");
-            } else {
-                int searchcount = threads.size();
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", searchcount + " Thread(s) found.");
-            }
+        threads.clear();
+        if (searchTitle.equals("") && searchContent.equals("") && searchTag.equals(" ")) {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error!", "Please enter a Title or Content to start searching!");
+            threads = (ArrayList) cmsbl.getAllThreadsBySchool(userEntity.getSchool());
+            threads = (ArrayList) cmsbl.filterNonTagCourseReview(threads);
+            threads = (ArrayList) cmsbl.filterNonTagMarketplace(threads);
+            context.addMessage(null, fmsg);
         } else {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Please search by Title, Content OR Tag only.");
+            if (!searchTitle.equals("") && !searchContent.equals("") && !searchTag.equals(" ")) {
+                threads = (ArrayList) cmsbl.getAllThreadsBySchool(userEntity.getSchool());
+                threads = (ArrayList) cmsbl.filterNonTagCourseReview(threads);
+                threads = (ArrayList) cmsbl.filterNonTagMarketplace(threads);
+                threads = (ArrayList) cmsbl.filterThreadByTitle(threads, searchTitle);
+                threads = (ArrayList) cmsbl.filterThreadByContent(threads, searchContent);
+                threads = (ArrayList) cmsbl.filterThreadByTag(threads, searchTag);
+            } else if (!searchTitle.equals("") && searchContent.equals("") && searchTag.equals(" ")) {
+                threads = (ArrayList) cmsbl.getAllThreadsBySchool(userEntity.getSchool());
+                threads = (ArrayList) cmsbl.filterNonTagCourseReview(threads);
+                threads = (ArrayList) cmsbl.filterNonTagMarketplace(threads);
+                threads = (ArrayList) cmsbl.filterThreadByTitle(threads, searchTitle);
+            } else if (searchTitle.equals("") && !searchContent.equals("") && searchTag.equals(" ")) {
+                threads = (ArrayList) cmsbl.getAllThreadsBySchool(userEntity.getSchool());
+                threads = (ArrayList) cmsbl.filterNonTagCourseReview(threads);
+                threads = (ArrayList) cmsbl.filterNonTagMarketplace(threads);
+                threads = (ArrayList) cmsbl.filterThreadByContent(threads, searchContent);
+            } else if (searchTitle.equals("") && searchContent.equals("") && !searchTag.equals(" ")) {
+                threads = (ArrayList) cmsbl.getAllThreadsBySchool(userEntity.getSchool());
+                threads = (ArrayList) cmsbl.filterNonTagCourseReview(threads);
+                threads = (ArrayList) cmsbl.filterNonTagMarketplace(threads);
+                threads = (ArrayList) cmsbl.filterThreadByTag(threads, searchTag);
+            }
+            if (threads.isEmpty()) {
+                threads = (ArrayList) cmsbl.getAllThreadsBySchool(userEntity.getSchool());
+                threads = (ArrayList) cmsbl.filterNonTagCourseReview(threads);
+                threads = (ArrayList) cmsbl.filterNonTagMarketplace(threads);
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No Threads found!", "Try refining your search terms.");
+                context.addMessage(null, fmsg);
+            } else {
+                int searchcount = threads.size();
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", searchcount + " Thread(s) found.");
+                context.addMessage(null, fmsg);
+            }
         }
         searchTitle = "";
         searchContent = "";
         searchTag = "";
-        context.addMessage(null, fmsg);
     }
-    
+
     public void searchReview() throws IOException {
         FacesMessage fmsg = new FacesMessage();
         context = FacesContext.getCurrentInstance();
@@ -163,11 +182,11 @@ public class ForumListBean {
         if (!searchModuleCode.equals("")) {
             reviewThreads = (ArrayList) cmsbl.searchThreadByTitle(searchModuleCode, userEntity.getSchool());
             reviewThreads = (ArrayList) cmsbl.filterNonTagCourseReview(reviewThreads);
-            for(int i=0; i<reviewThreads.size(); i++){
+            for (int i = 0; i < reviewThreads.size(); i++) {
                 System.out.println(i + ": " + reviewThreads.get(i).getTitle());
             }
             if (reviewThreads.isEmpty()) {
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No reviews found!", "");
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_WARN, "No reviews found!", "");
             } else {
                 int searchcount = reviewThreads.size();
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", searchcount + " Review(s) found.");
@@ -178,28 +197,119 @@ public class ForumListBean {
         searchModuleCode = "";
         context.addMessage(null, fmsg);
     }
-    
+
     public void startThread() throws IOException {
         FacesMessage fmsg = new FacesMessage();
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
         username = (String) session.getAttribute("username");
         userEntity = (User) session.getAttribute("user");
-        if (this.tTitle.equals("")) {
+        if (tTitle.equals("")) {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Thread title needed.", "Please fill up the title field.");
-        } else if (this.tContent.equals("")) {
+            context.addMessage(null, fmsg);
+        } else if (tContent.equals("")) {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Thread contents needed.", "Please fill up the content field.");
+            context.addMessage(null, fmsg);
         } else {
             if (cmsbl.createThread(username, tContent, tTitle, tTag, userEntity.getSchool())) {
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Thread created.");
                 refresh();
+                tTitle = "";
+                tContent = "";
+                tTag = "";
             } else {
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to create thread.", "Please ensure you are logged in.");
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Failed to create thread.", "Please ensure you are logged in.");
+                context.addMessage(null, fmsg);
             }
         }
-        tTitle = "";
-        tContent = "";
-        tTag = "";
+    }
+
+    public void startSales() throws IOException {
+
+        FacesMessage fmsg = new FacesMessage();
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+        username = (String) session.getAttribute("username");
+        userEntity = (User) session.getAttribute("user");
+
+        if (buysell.equals("buy")) {
+            tTitle = "WTB: " + bazaaritem;
+            String otherdetails = tContent;
+            if (tContent.equals("")) {
+                otherdetails = "NIL";
+            }
+            tContent = "Looking to buy " + bazaaritem + " at <strong>SGD$" + bazaarprice + "</strong> with a <strong>" + bazaarcondition.toUpperCase() + "</strong> condition"
+                    + "!" + " </p><p>" + "Other details: " + "</p><p>" + otherdetails;
+        } else if (buysell.equals("sell")) {
+            tTitle = "WTS: " + bazaaritem;
+            tContent = "Selling " + bazaaritem + " at <strong>SGD$" + bazaarprice + "</strong> !"
+                    + "</p><p>" + "Other details about the item: " + "</p><p>" + "Condition is <strong>" + bazaarcondition.toUpperCase() + "</strong></p><p>" + tContent;
+        }
+        if (cmsbl.createThread(username, tContent, tTitle, "Bazaar", userEntity.getSchool())) {
+            refresh();
+            tTitle = "";
+            tContent = "";
+        } else {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to create thread.", "Please ensure you are logged in.");
+            context.addMessage(null, fmsg);
+        }
+
+    }
+
+    public void searchSales() throws IOException {
+        FacesMessage fmsg = new FacesMessage();
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+        userEntity = (User) session.getAttribute("user");
+        bazaar.clear();
+        if (searchTitle.equals("") && searchContent.equals("")) {
+            if (buysell.equals("buy")) {
+                searchTitle = "WTB: " + searchTitle;
+            } else if (buysell.equals("sell")) {
+                searchTitle = "WTS: " + searchTitle;
+            }
+            bazaar = (ArrayList) cmsbl.getThreadsByTag("Bazaar", userEntity.getSchool());
+            bazaar = (ArrayList) cmsbl.filterThreadByTitle(bazaar, searchTitle);
+            bazaar = (ArrayList) cmsbl.filterThreadByContent(bazaar, searchContent);
+        } else {
+            if (!searchTitle.equals("") && !searchContent.equals("")) {
+                if (buysell.equals("buy")) {
+                    searchTitle = "WTB: " + searchTitle;
+                } else if (buysell.equals("sell")) {
+                    searchTitle = "WTS: " + searchTitle;
+                }
+                bazaar = (ArrayList) cmsbl.getThreadsByTag("Bazaar", userEntity.getSchool());
+                bazaar = (ArrayList) cmsbl.filterThreadByTitle(bazaar, searchTitle);
+                bazaar = (ArrayList) cmsbl.filterThreadByContent(bazaar, searchContent);
+            } else if (!searchTitle.equals("") && searchContent.equals("")) {
+                if (buysell.equals("buy")) {
+                    searchTitle = "WTB: " + searchTitle;
+                } else if (buysell.equals("sell")) {
+                    searchTitle = "WTS: " + searchTitle;
+                }
+                bazaar = (ArrayList) cmsbl.getThreadsByTag("Bazaar", userEntity.getSchool());
+                bazaar = (ArrayList) cmsbl.filterThreadByTitle(bazaar, searchTitle);
+            } else if (searchTitle.equals("") && !searchContent.equals("")) {
+                if (buysell.equals("buy")) {
+                    searchTitle = "WTB: ";
+                } else if (buysell.equals("sell")) {
+                    searchTitle = "WTS: ";
+                }
+                bazaar = (ArrayList) cmsbl.getThreadsByTag("Bazaar", userEntity.getSchool());
+                bazaar = (ArrayList) cmsbl.filterThreadByContent(bazaar, searchContent);
+                bazaar = (ArrayList) cmsbl.filterThreadByTitle(bazaar, searchTitle);
+            }
+
+        }
+        if (bazaar.isEmpty()) {
+            bazaar = (ArrayList) cmsbl.getThreadsByTag("Bazaar", userEntity.getSchool());
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No Threads found!", "Try refining your search terms.");
+        } else {
+            int searchcount = bazaar.size();
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", searchcount + " Thread(s) found.");
+        }
+
+        searchTitle = "";
+        searchContent = "";
         context.addMessage(null, fmsg);
     }
 
@@ -513,6 +623,46 @@ public class ForumListBean {
 
     public void setCourses(List<Course> courses) {
         this.courses = courses;
+    }
+
+    public ArrayList<Thread> getBazaar() {
+        return bazaar;
+    }
+
+    public void setBazaar(ArrayList<Thread> bazaar) {
+        this.bazaar = bazaar;
+    }
+
+    public String getBuysell() {
+        return buysell;
+    }
+
+    public void setBuysell(String buysell) {
+        this.buysell = buysell;
+    }
+
+    public String getBazaarprice() {
+        return bazaarprice;
+    }
+
+    public void setBazaarprice(String bazaarprice) {
+        this.bazaarprice = bazaarprice;
+    }
+
+    public String getBazaaritem() {
+        return bazaaritem;
+    }
+
+    public void setBazaaritem(String bazaaritem) {
+        this.bazaaritem = bazaaritem;
+    }
+
+    public String getBazaarcondition() {
+        return bazaarcondition;
+    }
+
+    public void setBazaarcondition(String bazaarcondition) {
+        this.bazaarcondition = bazaarcondition;
     }
 
 }
