@@ -546,6 +546,32 @@ public class CommunitySessionBean implements CommunitySessionBeanLocal {
     }
 
     @Override
+    public List<Thread> getThreadsStickiedByAdmin(String schoolname) {
+        List<Thread> threadList = new ArrayList<Thread>();
+        List<Thread> threads = getAllThreadsBySchool(schoolname);
+        for (int i = 0; i < threads.size(); i++) {
+            threadEntity = threads.get(i);
+            if (threadEntity.getTag().toLowerCase().equals("important") || threadEntity.getTag().toLowerCase().equals("faq") || threadEntity.getTag().toLowerCase().equals("rules")) {
+                threadList.add(threads.get(i));
+            }
+        }
+        threadList = sortThreadByLatestReply(threadList);
+        return threadList;
+    }
+
+    @Override
+    public List<Thread> filterNonStickied(List<Thread> threads) {
+        List<Thread> filterThreads = new ArrayList<Thread>();
+        //Get all non stickied threads
+        for (int i = 0; i < threads.size(); i++) {
+            if (!threads.get(i).getTag().equals("important") && !threads.get(i).getTag().equals("faq") && !threads.get(i).getTag().equals("rules")) {
+                filterThreads.add(threads.get(i));
+            }
+        }
+        return filterThreads;
+    }
+
+    @Override
     public List<VoteThread> getVotesFromThread(Long threadId) {
         threadEntity = findThread(threadId);
         List<VoteThread> voteThreads = (List) threadEntity.getVoteThreads();

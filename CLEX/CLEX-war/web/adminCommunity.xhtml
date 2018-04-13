@@ -1,18 +1,18 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition  xmlns="http://www.w3.org/1999/xhtml"
-       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-       xmlns:h="http://xmlns.jcp.org/jsf/html"
-       template="/WEB-INF/template_admin.xhtml"
-       xmlns:p="http://primefaces.org/ui"
-       xmlns:f="http://xmlns.jcp.org/jsf/core">
+                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                 template="/WEB-INF/template_admin.xhtml"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="title">PRISM Administrator Community Page</ui:define>
 
     <ui:define name="viewname">Community</ui:define>
-    
+
     <ui:define name="content">
-        
+
         <p:growl id="messages" showDetail="true"/>        
         <p:tabView id="communityTab">
             <p:tab title="COMMUNITY FORUMS - #{forumListBean.userEntity.school}">
@@ -20,12 +20,16 @@
                     <p:overlayPanel id="createthreadwidget" for="newThreadButton" showEffect="fade" hideEffect="fade" widgetVar="createThreadWidget">
                         <h:form id="createForm">
                             <h:panelGrid columns="1">
-                                <h:panelGrid columns="2">
+                                <h:panelGrid columns="4">
                                     <h:outputLabel for="tag2" value="Tags: " />
                                     <p:selectOneMenu title="Select a tag from the list (Optional)"
                                                      value="#{forumListBean.tTag}" required="false"
                                                      id="tag" >
+                                        <p:ajax update="importantgroup" event="change" />
                                         <f:selectItem itemLabel="General" itemValue="general" />
+                                        <f:selectItem itemLabel="IMPORTANT" itemValue="important" />
+                                        <f:selectItem itemLabel="RULES" itemValue="rules" />
+                                        <f:selectItem itemLabel="FAQ(s)" itemValue="faq" />
                                         <f:selectItem itemLabel="Group Formation" itemValue="groupformation"  />
                                         <f:selectItem itemLabel="Tutorial Help" itemValue="tutorial"  />
                                         <f:selectItem itemLabel="Voluntary Work" itemValue="volunteer"  />
@@ -34,7 +38,19 @@
                                         <f:selectItem itemLabel="Study Plan" itemValue="studyplan"  />
                                         <f:selectItem itemLabel="Teaching Assistant" itemValue="searchta" />
                                     </p:selectOneMenu>
+                                    <h:outputText value=" "/>
+                                    <h:panelGroup id="importantgroup">
+                                        <p:inputTextarea value="Please indicate which section this pinned thread is for" style="float: right; border-width: 0px;"
+                                                         rows="1" cols="50" readonly="true" autoResize="true" 
+                                                         rendered="#{forumListBean.tTag == 'important' or forumListBean.tTag == 'rules' or forumListBean.tTag == 'faq'}"/>
+                                        <br />
+                                        <p:inputTextarea value="Eg. &lt;Title&gt; (Module Review), &lt;Title&gt; (Bazaar Corner)" style="float: right; border-width: 0px;"
+                                                         rows="1" cols="50" readonly="true" autoResize="true" 
+                                                         rendered="#{forumListBean.tTag == 'important' or forumListBean.tTag == 'rules' or forumListBean.tTag == 'faq'}"/> 
+                                    </h:panelGroup>
                                 </h:panelGrid>
+
+
                                 <br />
                                 <p:inputTextarea rows="1" cols="100" title="Title" placeholder="Thread Title" id="title" value="#{forumListBean.tTitle}"/>
                                 <br />
@@ -66,7 +82,7 @@
                                     </f:facet>
                                 </p:textEditor>
                                 <br />
-                                <p:commandButton id="createtthread" icon="fa fa-pencil-square-o" oncomplete="PF('createThreadWidget').hide()" value="Create Thread" actionListener="#{forumListBean.startThread}" update="messages, communityTab:forumForm:forumtable, communityTab:createForm"/>
+                                <p:commandButton id="createtthread" icon="fa fa-pencil-square-o" oncomplete="PF('createThreadWidget').hide()" value="Create Thread" actionListener="#{forumListBean.startThread}" update="messages, communityTab:forumForm, communityTab:createForm"/>
                             </h:panelGrid>
                         </h:form>
                     </p:overlayPanel>
@@ -107,6 +123,39 @@
                 </p:commandButton>
                 <br /><br />
                 <h:form id="forumForm">
+                    <h:panelGroup>
+                        <p:dataTable selectionMode="single" selection="#{forumListBean.selectedThread}" rowKey="#{important.id}"
+                                     id="importanttable" value="#{forumListBean.important}" 
+                                     var="important" paginator="true" 
+                                     rows="15" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
+                                     emptyMessage="No threads has been stickied yet!">
+                            <p:ajax event="rowSelect" listener="#{forumListBean.onRowSelect}" update="messages" />                            
+                            <p:column style="height:40px" headerText="Pinned Threads (Includes Module Reviews and Bazaar Corner)" >                                
+                                <h:panelGroup>
+                                    <h:panelGroup>
+                                        <h:outputLabel style="font-size: 16px; font-weight: bold" value="**IMPORTANT** - " rendered="#{important.tag eq 'important'}"/>
+                                        <h:outputLabel style="font-size: 16px; font-weight: bold" value="(FAQ) - " rendered="#{important.tag eq 'faq'}"/>
+                                        <h:outputLabel style="font-size: 16px; font-weight: bold" value="##RULES## - " rendered="#{important.tag eq 'rules'}"/>
+                                    </h:panelGroup>                                    
+                                    <h:outputLabel style="font-size: 16px; font-weight: bold" value="#{important.title}"/>
+                                </h:panelGroup>
+                                <br />
+                                <h:outputLabel style="font-size: 11px" value="#{important.user.name} - #{forumListBean.dayTime(important)}" />   
+                                <br />
+                                <h:outputLabel style="font-size: 11px" value=" Last edited: #{forumListBean.latestReplyDayTime(important.editDateTime)}" rendered="#{important.edited == true}"/> 
+
+                                <h:outputLabel style="font-size: 11px" value=" Last post: #{forumListBean.latestReplyDayTime(important.latestReplyDateTime)}" /> 
+                            </p:column>
+                            <p:column style="text-align: center;width: 11%;height:40px" headerText="Replies" >
+                                <h:outputLabel style="font-size: 16px" value="#{important.replies.size()}"/> 
+                            </p:column>
+                            <p:column style="text-align: center;width: 11%;height:40px" headerText="Votes" >
+                                <h:outputLabel id="positiveThread" style="font-size:16px; font-weight: bold;" value="+#{important.upVote - threads.downVote}" rendered="#{(important.upVote - important.downVote) gt 0}"/>
+                                <h:outputLabel id="negativeThead" style="font-size:16px; font-weight: bold;" value="#{important.upVote - threads.downVote}" rendered="#{(important.upVote - important.downVote) lt 0}"/>
+                                <h:outputLabel id="zeroThread" style="font-size:16px; font-weight: bold;" value="0" rendered="#{(important.upVote - important.downVote) == 0}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGroup>
                     <h:panelGroup>
                         <p:dataTable selectionMode="single" selection="#{forumListBean.selectedThread}" rowKey="#{threads.id}"
                                      id="forumtable" value="#{forumListBean.threads}" 
@@ -230,7 +279,7 @@
                                         </span>    
                                     </f:facet>
                                 </p:textEditor>
-                                
+
                                 <p:commandButton id="createsales" icon="fa fa-dollar" oncomplete="PF('createSalesWidget').hide()" value="Create Thread" actionListener="#{forumListBean.startSales}" update="messages, communityTab:salesForum:salestable, communityTab:salesForm"/>
                             </h:panelGrid>
                         </h:form>

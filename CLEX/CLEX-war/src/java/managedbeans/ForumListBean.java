@@ -51,6 +51,7 @@ public class ForumListBean {
 
     private ArrayList<Thread> reviewThreads;
     private ArrayList<Thread> bazaar;
+    private ArrayList<Thread> important;
 
     //User
     private User userEntity;
@@ -88,6 +89,7 @@ public class ForumListBean {
     private String bazaarprice;
     private String bazaaritem;
     private String bazaarcondition;
+
     //search review
     private String searchModuleCode;
     private List<Course> courses;
@@ -113,6 +115,8 @@ public class ForumListBean {
         threads = (ArrayList) cmsbl.getAllThreadsBySchool(userEntity.getSchool());
         threads = (ArrayList) cmsbl.filterNonTagCourseReview(threads);
         threads = (ArrayList) cmsbl.filterNonTagMarketplace(threads);
+        threads = (ArrayList) cmsbl.filterNonStickied(threads);
+        important = (ArrayList) cmsbl.getThreadsStickiedByAdmin(userEntity.getSchool());
         reviewThreads = (ArrayList) cmsbl.getThreadsByTag("Course Review", userEntity.getSchool());
         tTag = "";
         if (!userEntity.getUserType().equals("Guest")) {
@@ -354,6 +358,14 @@ public class ForumListBean {
             dayDisplay = dayTime;
         }
         return dayDisplay;
+    }
+
+    public ArrayList<Thread> getImportant() {
+        return important;
+    }
+
+    public void setImportant(ArrayList<Thread> important) {
+        this.important = important;
     }
 
     public void listRepliesForThread(Long tId) {

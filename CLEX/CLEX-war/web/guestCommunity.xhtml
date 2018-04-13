@@ -107,6 +107,39 @@
             <br /><br />
             <h:form id="forumForm">
                 <h:panelGroup>
+                    <p:dataTable selectionMode="single" selection="#{forumListBean.selectedThread}" rowKey="#{important.id}"
+                                 id="importanttable" value="#{forumListBean.important}" 
+                                 var="important" paginator="true" 
+                                 rows="15" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
+                                 emptyMessage="No threads has been stickied yet!">
+                        <p:ajax event="rowSelect" listener="#{forumListBean.onRowSelect}" update="messages" />                            
+                        <p:column style="height:40px" headerText="Pinned Threads (Includes Module Reviews and Bazaar Corner)" >                                
+                            <h:panelGroup>
+                                <h:panelGroup>
+                                    <h:outputLabel style="font-size: 16px; font-weight: bold" value="**IMPORTANT** - " rendered="#{important.tag eq 'important'}"/>
+                                    <h:outputLabel style="font-size: 16px; font-weight: bold" value="(FAQ) - " rendered="#{important.tag eq 'faq'}"/>
+                                    <h:outputLabel style="font-size: 16px; font-weight: bold" value="##RULES## - " rendered="#{important.tag eq 'rules'}"/>
+                                </h:panelGroup>
+                                <h:outputLabel style="font-size: 16px; font-weight: bold" value="#{important.title}"/>
+                            </h:panelGroup>
+                            <br />
+                            <h:outputLabel style="font-size: 11px" value="#{important.user.name} - #{forumListBean.dayTime(important)}" />   
+                            <br />
+                            <h:outputLabel style="font-size: 11px" value=" Last edited: #{forumListBean.latestReplyDayTime(important.editDateTime)}" rendered="#{important.edited == true}"/> 
+
+                            <h:outputLabel style="font-size: 11px" value=" Last post: #{forumListBean.latestReplyDayTime(important.latestReplyDateTime)}" /> 
+                        </p:column>
+                        <p:column style="text-align: center;width: 11%;height:40px" headerText="Replies" >
+                            <h:outputLabel style="font-size: 16px" value="#{important.replies.size()}"/> 
+                        </p:column>
+                        <p:column style="text-align: center;width: 11%;height:40px" headerText="Votes" >
+                            <h:outputLabel id="positiveThread" style="font-size:16px; font-weight: bold;" value="+#{important.upVote - threads.downVote}" rendered="#{(important.upVote - important.downVote) gt 0}"/>
+                            <h:outputLabel id="negativeThead" style="font-size:16px; font-weight: bold;" value="#{important.upVote - threads.downVote}" rendered="#{(important.upVote - important.downVote) lt 0}"/>
+                            <h:outputLabel id="zeroThread" style="font-size:16px; font-weight: bold;" value="0" rendered="#{(important.upVote - important.downVote) == 0}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGroup>
+                <h:panelGroup>
                     <p:dataTable selectionMode="single" selection="#{forumListBean.selectedThread}" rowKey="#{threads.id}"
                                  id="forumtable" value="#{forumListBean.threads}" 
                                  var="threads" paginator="true" 

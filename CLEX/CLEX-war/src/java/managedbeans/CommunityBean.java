@@ -61,7 +61,8 @@ public class CommunityBean {
     private Long rId;
     private String rContent;
     private String dayDisplay2; //for reply
-
+    
+    private String forumtype;
     //Vote
     private Vote voteEntity;
     private boolean voteFor; //false - reply, true - thread
@@ -73,8 +74,17 @@ public class CommunityBean {
     public CommunityBean() {
     }
 
-    public void init() {
+    public void init() {        
         refresh();
+        forumtype = threadEntity.getTag();
+        if(forumtype.equals("Bazaar")) {
+            forumtype = "BAZAAR CORNER";
+        } else if (forumtype.equals("Course Review")) {
+            forumtype = "MODULE REVIEW";
+        } else {
+            forumtype = "COMMUNITY FORUMS";
+        }
+        
     }
 
     public void refresh() {
@@ -87,6 +97,7 @@ public class CommunityBean {
         userEntity = (User) session.getAttribute("user");
         check();
         replies = cmsbl.getRepliesFromThread(threadEntity.getId());
+        
     }
 
     public void check() {
@@ -625,5 +636,13 @@ public class CommunityBean {
 
     public void setDayDisplay2(String dayDisplay2) {
         this.dayDisplay2 = dayDisplay2;
+    }
+
+    public String getForumtype() {
+        return forumtype;
+    }
+
+    public void setForumtype(String forumtype) {
+        this.forumtype = forumtype;
     }
 }

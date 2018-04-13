@@ -62,6 +62,10 @@ public interface CommunitySessionBeanLocal {
 
     public List<Thread> getThreadsByTag(String tag, String schoolname);
 
+    public List<Thread> getThreadsStickiedByAdmin(String schoolname);
+
+    public List<Thread> filterNonStickied(List<Thread> threads);
+
     public List<Thread> getAllThreadsBySchool(String school);
 
     public List<VoteThread> getVotesFromThread(Long threadId);
