@@ -29,6 +29,7 @@ public class GroupFormationSessionBean implements GroupFormationSessionBeanLocal
             EntityManager em;
     private Student student;
     private String username;
+    private Module module;
     private ProjectGroup group;
     private ArrayList<ProjectGroup> projectGroups;
     private SuperGroup superGroupEntity;
@@ -52,6 +53,20 @@ public class GroupFormationSessionBean implements GroupFormationSessionBeanLocal
             e.printStackTrace();
         }
         return student;
+    }
+    
+    @Override
+    public Module findModule(Long id) {
+        Module m = new Module();
+        m = null;
+        try {
+            Query q = em.createQuery("SELECT m FROM SchoolModule m WHERE m.id=:id");
+            q.setParameter("id", id);
+            m = (Module) q.getSingleResult();
+        } catch (NoResultException e) {
+            e.printStackTrace();
+        }
+        return m;
     }
     
     @Override
@@ -282,6 +297,24 @@ public class GroupFormationSessionBean implements GroupFormationSessionBeanLocal
     }
     
     @Override
+    public ProjectGroup createProjectGroup(Long superGroupId, String name){
+        superGroupEntity = this.findSuperGroup(superGroupId);
+        group = new ProjectGroup();
+        group.createProjectGroup(superGroupEntity, name, 0.0);
+        em.persist(group);
+        if (superGroupEntity.getProjectGroups() != null)
+            superGroupEntity.getProjectGroups().add(group);
+        else {
+            Collection<ProjectGroup> all = new ArrayList<ProjectGroup>();
+            all.add(group);
+            superGroupEntity.getProjectGroups().add(group);
+        }
+        em.merge(superGroupEntity);
+        em.flush();
+        return group;
+    }
+    
+    @Override
     public void deleteProjectGroup(Long projectGroupId){
         group = this.findProjectGroup(projectGroupId);
         superGroupEntity = this.findSuperGroup(group.getSuperGroup().getId());
@@ -341,5 +374,142 @@ public class GroupFormationSessionBean implements GroupFormationSessionBeanLocal
         em.merge(group);
         em.merge(student);
         em.flush();
+    }
+    
+    @Override
+    public int autoAssign(Long moduleId, Long superGroupId) {
+        module = this.findModule(moduleId);
+        superGroupEntity = this.findSuperGroup(superGroupId);
+        ArrayList<Student> noGroupStudents = this.getStudentNoGroup(module);
+        int index = 0;
+        int numberOfNogroupStudents = noGroupStudents.size();
+        if (numberOfNogroupStudents == 0)
+            return 0;
+        
+        //go through all the group, assign students in if the group has not reached the avg limit
+        for (ProjectGroup group: superGroupEntity.getProjectGroups()) {
+            while (group.getGroupMembers().size() < superGroupEntity.getAvgStudentNum() && index < noGroupStudents.size()) {
+                this.joinStudentGroup(noGroupStudents.get(index).getId(), group.getId());
+                index++;
+                System.out.println("Assign " + student.getName() + " to group " + group.getName());
+            }
+        }
+        if (index == noGroupStudents.size())
+            return numberOfNogroupStudents;
+        
+        // if there are still students left, we need to assign them to the groups that havnt reach max
+        if (superGroupEntity.getMaxStudentNum() > superGroupEntity.getAvgStudentNum()) {
+            for (ProjectGroup group: superGroupEntity.getProjectGroups()) {
+                while (group.getGroupMembers().size() < superGroupEntity.getMaxStudentNum() && index < noGroupStudents.size()) {
+                    this.joinStudentGroup(noGroupStudents.get(index).getId(), group.getId());
+                    index++;
+                    System.out.println("Assign " + student.getName() + " to group " + group.getName());
+                }
+            }
+        }
+        if (index == noGroupStudents.size())
+            return numberOfNogroupStudents;
+        
+        //if there are still students left, we need to create new projectGroup to hold them
+        int numOfGroups = 1;
+        // the number of groups needed for holding the rest students
+        numOfGroups += noGroupStudents.size()/superGroupEntity.getAvgStudentNum();
+        ArrayList<ProjectGroup> newGroups = new ArrayList<ProjectGroup>();
+        int n = superGroupEntity.getProjectGroups().size() +1;
+        for (int i=1; i<=numOfGroups; i++) {
+            newGroups.add(this.createProjectGroup(superGroupEntity.getId(), "N"+n));
+            n++;
+        }
+        
+        int m = 0;
+        int i = superGroupEntity.getAvgStudentNum();
+        for (int iterator = index; iterator < noGroupStudents.size(); iterator++) {
+            this.joinStudentGroup(noGroupStudents.get(iterator).getId(), newGroups.get(m).getId());
+            System.out.println("Assign " + student.getName() + " to group " +  newGroups.get(m).getName());
+            i--;
+            if (i==0) {
+                m++;
+                i = superGroupEntity.getAvgStudentNum();
+            }
+        }
+        return getStudentNoGroup(module).size();
+    }
+    
+    @Override
+    //auto assign all students
+    public void autoAssignAll(Long moduleId, Long superGroupId, int avg) {
+        module = this.findModule(moduleId);
+        superGroupEntity = this.findSuperGroup(superGroupId);
+        ArrayList<Student> students = new ArrayList<Student>();
+        
+        // in case no stduents in the module
+        if (module.getStudents() == null || module.getStudents().size() == 0)
+            return;
+        
+        for (Student s: module.getStudents()) {
+            students.add(s);
+        }
+        
+        int numOfStudents = students.size();
+        int numOfGroups;
+        if (numOfStudents%avg == 0)
+            numOfGroups = numOfStudents/avg;
+        else 
+            numOfGroups = numOfStudents/avg+1;
+        
+        //create groups
+        ArrayList<ProjectGroup> newGroups = new ArrayList<ProjectGroup>();
+        for (int i=1; i<=numOfGroups; i++) {
+            newGroups.add(this.createProjectGroup(superGroupEntity.getId(), "N"+i));
+        }
+        
+        int studentIndex = 0;
+        for (int i=0; i<numOfGroups; i++) {
+            ProjectGroup group = newGroups.get(i);
+            for (int k=1; k<=avg && studentIndex<students.size();k++) {
+                this.joinStudentGroup(students.get(studentIndex).getId(), group.getId());
+                System.out.println("Assign " + students.get(studentIndex).getName() + " to group " +  group.getName());
+                studentIndex++;
+            }
+        }
+    }
+    
+    //get all students who do not have a project group
+    public ArrayList<Student> getStudentNoGroup(Module module) {
+         ArrayList<Student> all = new ArrayList<Student>();
+        for (Student s: module.getStudents())
+            all.add(s);
+        for (ProjectGroup group: module.getSuperGroup().getProjectGroups()) {
+            for (Student student: group.getGroupMembers()) {
+                if (all.contains(student)) {
+                    all.remove(student);
+                }
+            }
+        }
+        return all;
+    }
+    
+    
+    //join an stident with no group to certain group
+    public void joinStudentGroup(Long studentId, Long groupId) {
+        student = this.findStudent(studentId);
+        group = this.findProjectGroup(groupId);
+        if (student.getProjectGroups() == null) {
+                Collection<ProjectGroup> all = new ArrayList<ProjectGroup>();
+                all.add(group);
+                student.setProjectGroups(all);
+            }
+            else {
+                student.getProjectGroups().add(group);
+            }
+            
+            if (group.getGroupMembers() == null) {
+                Collection<Student> allStudents = new ArrayList<Student>();
+                allStudents.add(student);
+                group.setGroupMembers(allStudents);
+            }
+            else {
+                group.getGroupMembers().add(student);
+            }
     }
 }

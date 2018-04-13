@@ -18,9 +18,9 @@
         <p:tabView id="tab">
             <!--<p:ajax event="tabChange"  update="tab:studyPlanForm tab:modulesTakingForm tab:modulesTaken tab:overviewForm" />-->
             <p:tab id="formGroupTab" title="Start Group Formation" rendered="#{empty lecturerModuleGroupBean.superGroup}">
-                <!-- Start: Group Formation Settings -->
+                 Start: Group Formation Settings 
                 <h:form id="formGroupForm">
-                    <p:fieldset legend="Group Formation Settings" rendered="#{empty lecturerModuleGroupBean.superGroup}">
+                    <p:fieldset id="field" legend="Group Formation Settings" rendered="#{empty lecturerModuleGroupBean.superGroup}">
                         <table>
                             <tr>
                                 <td>
@@ -36,6 +36,8 @@
                                 </td>
                                 <td>
                                     <p:selectOneMenu id="formMethod" value="#{lecturerModuleGroupBean.formMethod}" style="width: 100%">
+                                        <!--<p:ajax event="change" update="tab:formGroupForm:numOfGroup, tab:formGroupForm:numOfGroups, tab:formGroupForm:minStu, tab:formGroupForm:minStudentNum, tab:formGroupForm:maxStu, tab:formGroupForm:maxStudentNum, tab:formGroupForm:deadl, tab:formGroupForm:deadline"/>-->
+                                        <p:ajax event="change" update="tab:formGroupForm"/>
                                         <f:selectItem itemLabel="Students" itemValue="student"/>
                                         <f:selectItem itemLabel="Auto-Assign" itemValue="auto"/>
                                     </p:selectOneMenu>
@@ -43,10 +45,10 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <p:outputLabel id="numOfGroup" for="numOfGroups" value="# of Groups: " />
+                                    <p:outputLabel id="numOfGroup" for="numOfGroups" value="# of Groups: " rendered="#{lecturerModuleGroupBean.formMethod eq 'student'}" />
                                 </td>
                                 <td>
-                                    <p:inputNumber id="numOfGroups" value="#{lecturerModuleGroupBean.numOfGroups}" required="true" minValue="1" style="width: 100%" decimalPlaces="0" />
+                                    <p:inputNumber id="numOfGroups" value="#{lecturerModuleGroupBean.numOfGroups}" required="true" minValue="1" style="width: 100%" decimalPlaces="0" rendered="#{lecturerModuleGroupBean.formMethod eq 'student' }"/>
                                 </td>
                             </tr>
                             <tr>
@@ -59,36 +61,36 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <p:outputLabel id="minStu" for="minStudentNum" value="Minimum # of Students in each Group: " />
+                                    <p:outputLabel id="minStu" for="minStudentNum" value="(Optional) Minimum # of Students in each Group: " rendered="#{lecturerModuleGroupBean.formMethod eq 'student'}"/>
                                 </td>
                                 <td>
-                                    <p:inputNumber id="minStudentNum" value="#{lecturerModuleGroupBean.minStudentNum}" minValue="1" decimalPlaces="0"/>
+                                    <p:inputNumber id="minStudentNum" value="#{lecturerModuleGroupBean.minStudentNum}" minValue="1" decimalPlaces="0" rendered="#{lecturerModuleGroupBean.formMethod eq 'student'}"/>
                                 </td>
-                                <td>
+<!--                                <td>
                                     (Optional)
-                                </td>
+                                </td>-->
                             </tr>
                             <tr>
                                 <td>
-                                    <p:outputLabel id="maxStu" for="maxStudentNum" value="Maximum # of Students in each Group: " />
+                                    <p:outputLabel id="maxStu" for="maxStudentNum" value="(Optional) Maximum # of Students in each Group: " rendered="#{lecturerModuleGroupBean.formMethod eq 'student'}"/>
                                 </td>
                                 <td>
-                                    <p:inputNumber id="maxStudentNum" value="#{lecturerModuleGroupBean.maxStudentNum}" minValue="1" decimalPlaces="0"/>
+                                    <p:inputNumber id="maxStudentNum" value="#{lecturerModuleGroupBean.maxStudentNum}" minValue="1" decimalPlaces="0" rendered="#{lecturerModuleGroupBean.formMethod eq 'student'}"/>
                                 </td>
-                                <td>
+<!--                                <td>
                                     (Optional)
-                                </td>
+                                </td>-->
                             </tr>
                             <tr>
                                 <td>
-                                    <p:outputLabel id="deadl" for="maxStudentNum" value="Deadline for Group Formation: " />
+                                    <p:outputLabel id="deadl" for="maxStudentNum" value="(Optional) Deadline for Group Formation: " rendered="#{lecturerModuleGroupBean.formMethod eq 'student'}"/>
                                 </td>
                                 <td>
-                                    <p:calendar id="deadline" value="#{lecturerModuleGroupBean.deadline}" pattern="MM/dd/yyyy HH:mm:ss" />
+                                    <p:calendar id="deadline" value="#{lecturerModuleGroupBean.deadline}" pattern="MM/dd/yyyy HH:mm:ss" mindate="#{lecturerModuleGroupBean.currentDate}" rendered="#{lecturerModuleGroupBean.formMethod eq 'student'}"/>
                                 </td>
-                                <td>
+<!--                                <td>
                                     (Optional)
-                                </td>
+                                </td>-->
                             </tr>
                             <tr>
                                 <td>
@@ -98,7 +100,7 @@
                         </table>
                     </p:fieldset>
                 </h:form>
-                <!-- End: Group Formation Settings -->
+                 End: Group Formation Settings 
             </p:tab>
             
             <p:tab title="View Group Formation" rendered="#{not empty lecturerModuleGroupBean.superGroup and !lecturerModuleGroupBean.superGroup.confirm}">
@@ -161,6 +163,7 @@
             </p:tab>
             
             <p:tab title="Change student's group" rendered="#{not empty lecturerModuleGroupBean.superGroup and lecturerModuleGroupBean.superGroup.confirm}">
+                <p:commandButton value="Random assign unassigned students" actionListener="#{lecturerModuleGroupBean.autoAssign()}" update="@all"/>
                 <p:dataTable var="student" value="#{lecturerModuleGroupBean.students}" id="studentGroupTable" widgetVar="studentGroupTable" 
                                          emptyMessage="No students for this module." paginator="true" paginatorPosition="bottom" rows="15"
                                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -193,6 +196,7 @@
                     </p:column>
                 </p:dataTable>
             </p:tab>
+            
         </p:tabView>
     </ui:define>
     

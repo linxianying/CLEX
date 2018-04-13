@@ -131,10 +131,10 @@ public class PrivateMsgBean {
     public String truncateMessage(Conversation convo) {
         List<Message> msgs = (List) convo.getMessages();
         String tempMsg = msgs.get(msgs.size() - 1).getMessage();
-        if (tempMsg.length() <= 55) {
+        if (tempMsg.length() <= 25) {
             return tempMsg;
         }
-        return tempMsg.substring(0, 55);
+        return tempMsg.substring(0, 25);
     }
 
     public void startConversation() {

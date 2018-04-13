@@ -48,7 +48,7 @@ public class LecturerModuleGroupBean implements Serializable {
     private SuperGroup superGroup;
     private Collection<ProjectGroup> groups;
     private Collection<Student> students;
-    
+    private Date currentDate;
     //for enable group formation process
     //whether is to form groups by stduents themselves or auto assign them
     private String formMethod;
@@ -74,13 +74,14 @@ public class LecturerModuleGroupBean implements Serializable {
         module = (Module) session.getAttribute("managedModule");
         students = module.getStudents();
         superGroup = module.getSuperGroup();
+        currentDate = new Date();
         refresh();
     }
     
     public void refresh() {
         if (superGroup != null)
             groups = gfsbl.getAllProjectGroups(superGroup.getId());
-        formMethod = null;
+        formMethod = "student";
         numOfGroups = 1;
         avgStudentNum = 1;
         minStudentNum = 0;
@@ -91,9 +92,43 @@ public class LecturerModuleGroupBean implements Serializable {
     }
 
     public void formGroup(){
-        if (formMethod.equals("auto"))
-            this.autoAssign();
+        //checking input
+        if (minStudentNum != 0 && minStudentNum>avgStudentNum) {
+            context = FacesContext.getCurrentInstance();
+            FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, numOfGroups + "minimum number > average","Simply set minimum to 0 if no need");
+            context.addMessage(null, fmsg);
+        }
+        if (maxStudentNum != 0 && maxStudentNum<avgStudentNum) {
+            context = FacesContext.getCurrentInstance();
+            FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, numOfGroups + "maximum number < average","Simply set maximum to 0 if no need");
+            context.addMessage(null, fmsg);
+        }
+        
+        if (formMethod.equals("auto")) {
+            this.autoAssignAll();
+            this.closeGroupFormation();
+        }
         else if (formMethod.equals("student")) {
+            if (maxStudentNum != 0 && maxStudentNum*numOfGroups<module.getStudents().size()) {
+                int num = module.getStudents().size()/maxStudentNum;
+                if (module.getStudents().size()%maxStudentNum != 0)
+                    num++;
+                context = FacesContext.getCurrentInstance();
+                FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, numOfGroups + " groups not enough","At least " + num + " groups needed");
+                context.addMessage(null, fmsg);
+                return;
+            }
+            
+            if (maxStudentNum == 0 && avgStudentNum*numOfGroups<module.getStudents().size()) {
+                int num = module.getStudents().size()/avgStudentNum;
+                if (module.getStudents().size()%avgStudentNum != 0)
+                    num++;
+                context = FacesContext.getCurrentInstance();
+                FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, numOfGroups + " groups not enough","At least " + num + " groups needed");
+                context.addMessage(null, fmsg);
+                return;
+            }
+            
             if (minStudentNum != 0 && maxStudentNum != 0)
                 superGroup = gfsbl.createSuperGroup(numOfGroups, avgStudentNum, minStudentNum, maxStudentNum, module);
             else if (minStudentNum == 0 && maxStudentNum == 0)
@@ -111,13 +146,24 @@ public class LecturerModuleGroupBean implements Serializable {
         this.refresh();
     }
     
-    public void autoAssign() {
-        //--------------------------------------------Havn't implement--------------------------------------------
+    public void autoAssignAll() {
+        superGroup = gfsbl.createSuperGroup(0, avgStudentNum, module);
+        gfsbl.autoAssignAll(module.getId(), superGroup.getId(), avgStudentNum);
         context = FacesContext.getCurrentInstance();
-        FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Auto assign error","Cannot assign the group as required");
+        FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Success","Random assign all the students");
         context.addMessage(null, fmsg);
         this.refresh();
     }
+    
+    //assign students who havnt joined any group to a random group
+    public void autoAssign() {
+        int numberOfStudent = gfsbl.autoAssign(module.getId(), superGroup.getId());
+        context = FacesContext.getCurrentInstance();
+        FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Success","Random assign the " + numberOfStudent + " students");
+        context.addMessage(null, fmsg);
+//        this.refresh();
+    }
+    
     public void closeGroupFormation() {
         gfsbl.closeGroupFormation(superGroup.getId());
         superGroup = gfsbl.findSuperGroup(superGroup.getId());
@@ -344,7 +390,12 @@ public class LecturerModuleGroupBean implements Serializable {
         this.toGroupId = toGroupId;
     }
 
-    
-    
-    
+    public Date getCurrentDate() {
+        return currentDate;
+    }
+
+    public void setCurrentDate(Date currentDate) {
+        this.currentDate = currentDate;
+    }
+
 }
