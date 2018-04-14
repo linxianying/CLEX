@@ -511,6 +511,9 @@
                                     <p:panel header="Unofficial Transcript" rendered="#{not empty studyPlanBean.student.grades}">
                                         <p:commandButton value="Generate Report" actionListener="#{reportManagedBean.generateReport}" ajax="false" />
                                     </p:panel>
+                                    <p:panel header="No Grades For Transcript " rendered="#{ empty studyPlanBean.student.grades}">
+                                         <h:outputText value="Sorry, you do not have any grades to be generated currently." />
+                                    </p:panel>
                                 </h:form>
                             </h:panelGroup>
 
