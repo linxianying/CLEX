@@ -6,6 +6,7 @@
 package session;
 
 import entity.Files;
+import entity.Module;
 import javax.ejb.Local;
 
 /**
@@ -16,4 +17,6 @@ import javax.ejb.Local;
 public interface FilesManagementSessionBeanLocal {
     public Files createFile(String username, Long id) ;
     public Files getFile(Long id);
+
+    public Module findModule(Long id);
 }

@@ -7,9 +7,15 @@ package managedbeans;
 
 import entity.Module;
 import entity.User;
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,6 +26,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -40,15 +47,12 @@ public class WhiteboardBean {
     private String drawingcolor;
 
     private String canvascolor;
-    private String canvasheight;
-    private String canvaswidth;
 
     private String activityname;
     private String moduleCode;
     private String semester;
     private String year;
     private String schoolname;
-
     private User userEntity;
     Module moduleEntity;
 
@@ -61,8 +65,6 @@ public class WhiteboardBean {
     public void init() {
         drawingcolor = "#000000";
         canvascolor = "#ffffff";
-        canvasheight = "800";
-        canvaswidth = "1200";
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
         userEntity = (User) session.getAttribute("user");
@@ -74,57 +76,22 @@ public class WhiteboardBean {
         schoolname = userEntity.getSchool();
     }
 
-    public void enlargewidth() {
-        int width = Integer.parseInt(canvaswidth);
-        if (width > 1600) {
-            System.out.println("maximum width");
-        } else {
-            width = width + 200;
-            canvaswidth = Integer.toString(width);
-        }
-    }
-
-    public void enlargeheight() {
-        System.out.println(canvasheight);
-        int height = Integer.parseInt(canvasheight);
-        if (height > 1200) {
-            System.out.println("maximum height");
-        } else {
-            height = height + 200;
-            canvasheight = Integer.toString(height);
-        }
-    }
-
-    public void shrinkwidth() {
-        int width = Integer.parseInt(canvaswidth);
-        if (width < 800) {
-            System.out.println("minimum width");
-        } else {
-            width = width - 200;
-            canvaswidth = Integer.toString(width);
-        }
-    }
-
-    public void shrinkheight() {
-        int height = Integer.parseInt(canvasheight);
-        if (height < 800) {
-            System.out.println("minimum height");
-        } else {
-            height = height - 200;
-            canvasheight = Integer.toString(height);
-        }
+    public void setNoCache() {
+        HttpServletResponse response = (HttpServletResponse) FacesContext
+                .getCurrentInstance().getExternalContext().getResponse();
+        response.setHeader("Cache-Control", "no-cache, no-store");
     }
 
     public void save() throws IOException {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
-        String filename = session.getAttribute("username").toString();
+        String filename = userEntity.getName();
         String extension = ".png";
         String path = session.getServletContext().getRealPath("/");
         int pathlength = path.length();
         pathlength = pathlength - 10;
         path = path.substring(0, pathlength);
-        path = path + "web/resources/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + activityname + "/";
+        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + activityname + "/submitted/";
         path = path.replaceAll("\\\\", "/");
         System.out.println("path " + path);
         Path folder = Paths.get(path);
@@ -149,8 +116,31 @@ public class WhiteboardBean {
         currentDrawing = previousDrawing;
     }
 
-    public void onInput(ValueChangeEvent e) {
+    public void onInput2() throws IOException {
+        System.out.println("save drawing to folder");
+        String filename = userEntity.getName();
+        String extension = ".txt";
+        String path = session.getServletContext().getRealPath("/");
+        int pathlength = path.length();
+        pathlength = pathlength - 10;
+        path = path.substring(0, pathlength);
+        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + activityname + "/";
+        path = path.replaceAll("\\\\", "/");
+        System.out.println("path " + path);
+        path = path + filename + extension;
+        try {
+            File file = new File(path);
+            FileWriter fileWriter = new FileWriter(file);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.print(currentDrawing);
+            fileWriter.flush();
+            fileWriter.close();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
 
+    public void onInput(ValueChangeEvent e) {
         previousDrawing = currentDrawing;
         currentDrawing = e.getNewValue().toString();
 
@@ -231,22 +221,6 @@ public class WhiteboardBean {
 
     public void setCanvascolor(String canvascolor) {
         this.canvascolor = canvascolor;
-    }
-
-    public String getCanvasheight() {
-        return canvasheight;
-    }
-
-    public void setCanvasheight(String canvasheight) {
-        this.canvasheight = canvasheight;
-    }
-
-    public String getCanvaswidth() {
-        return canvaswidth;
-    }
-
-    public void setCanvaswidth(String canvaswidth) {
-        this.canvaswidth = canvaswidth;
     }
 
     public String getSemester() {

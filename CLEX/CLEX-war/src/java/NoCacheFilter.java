@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Jeffrey
  */
 @WebFilter(
-        urlPatterns = "/resources/profile/*",
+        urlPatterns = "/serverfiles/profile/*",
         dispatcherTypes = {DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC, DispatcherType.ERROR, DispatcherType.INCLUDE})
 public class NoCacheFilter implements Filter {
 
@@ -36,12 +36,9 @@ public class NoCacheFilter implements Filter {
             response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
             response.setHeader("Cache-directive", "no-cache");
             response.setHeader("Pragma-directive", "no-cache");
-            System.out.println("###IN HERE!!!! ");
 
             StringBuffer requestURL = request.getRequestURL();
             String queryString = request.getQueryString();
-            System.out.println(requestURL);
-            System.out.println(queryString);
 
         }
 

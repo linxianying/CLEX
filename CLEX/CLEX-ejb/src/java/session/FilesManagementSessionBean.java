@@ -55,17 +55,10 @@ public class FilesManagementSessionBean implements FilesManagementSessionBeanLoc
         return fileEntity;
     }
     
+    @Override
     public Module findModule(Long id) {
         moduleEntity = null;
-        try {
-            Query q = em.createQuery("SELECT c FROM Module c WHERE c.id=:id");
-            q.setParameter("id", id);
-            moduleEntity = (Module) q.getSingleResult();
-            System.out.println("Module " + id + " found.");
-        } catch (NoResultException e) {
-            System.out.println("Module " + id + " does not exist.");
-            moduleEntity = null;
-        }
+        moduleEntity = em.find(Module.class, id);
         return moduleEntity;
     }
     

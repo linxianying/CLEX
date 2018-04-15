@@ -30,11 +30,11 @@
                         <p:graphicImage rendered="#{profileBean.checkpicpng(profileBean.username) == true}"
                                         alt="#{profileBean.userEntity.name}" cache="false" 
                                         style="background-color: transparent;background: top left no-repeat;background-size: 100px 100px; width: 100px; height: 100px" 
-                                        value="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/resources/profile/#{profileBean.username}.png"/>
+                                        value="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/serverfiles/profile/#{profileBean.username}.png"/>
                         <p:graphicImage rendered="#{profileBean.checkpicjpg(profileBean.username) == true}"
                                         alt="#{profileBean.userEntity.name}" cache="false" 
                                         style="background-color: transparent;background: top left no-repeat;background-size: 100px 100px; width: 100px; height: 100px" 
-                                        value="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/resources/profile/#{profileBean.username}.jpg"/>
+                                        value="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/serverfiles/profile/#{profileBean.username}.jpg"/>
                         <p:graphicImage rendered="#{profileBean.checkpic(profileBean.username) == false}"
                                         alt="#{profileBean.userEntity.name}" cache="false" library="profile"
                                         style="background-color: transparent;background: top left no-repeat;background-size: 100px 100px; width: 100px; height: 100px" 
