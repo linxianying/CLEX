@@ -10,7 +10,6 @@
     <link rel="icon" 
           type="image/png" 
           href="https://i.imgur.com/SN8wqcu.png" />
-
     <div class="topbar clearfix">
         <div class="topbar-left">            
             <div class="logo"></div>
@@ -31,11 +30,11 @@
                             <p:graphicImage rendered="#{profileBean.checkpicjpg(loginBean.username) == true}"
                                             alt="#{profileBean.userEntity.name}" cache="false" 
                                             style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px"
-                                            value="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/resources/profile/#{loginBean.username}.jpg"/>
+                                            value="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/serverfiles/profile/#{loginBean.username}.jpg"/>
                             <p:graphicImage rendered="#{profileBean.checkpicpng(loginBean.username) == true}"
                                             alt="#{profileBean.userEntity.name}" cache="false" 
                                             style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px"
-                                            value="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/resources/profile/#{loginBean.username}.png"/>
+                                            value="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/serverfiles/profile/#{loginBean.username}.png"/>
                             <p:graphicImage rendered="#{profileBean.checkpic(loginBean.username) == false}"
                                             alt="#{profileBean.userEntity.name}" cache="false" library="profile"
                                             style="background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px" 

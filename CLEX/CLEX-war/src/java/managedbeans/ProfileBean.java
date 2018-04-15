@@ -116,7 +116,7 @@ public class ProfileBean implements Serializable {
         int pathlength = path.length();
         pathlength = pathlength - 10;
         path = path.substring(0, pathlength);
-        path = path + "web/resources/profile/";
+        path = path + "web/serverfiles/profile/";
         path = path.replaceAll("\\\\", "/");
         if (Files.exists(Paths.get(path + filename + ".png"))) {
             return true;
@@ -139,7 +139,7 @@ public class ProfileBean implements Serializable {
         int pathlength = path.length();
         pathlength = pathlength - 10;
         path = path.substring(0, pathlength);
-        path = path + "web/resources/profile/";
+        path = path + "web/serverfiles/profile/";
         path = path.replaceAll("\\\\", "/");
         if (Files.exists(Paths.get(path + filename + ".png"))) {
             return true;
@@ -158,7 +158,7 @@ public class ProfileBean implements Serializable {
         int pathlength = path.length();
         pathlength = pathlength - 10;
         path = path.substring(0, pathlength);
-        path = path + "web/resources/profile/";
+        path = path + "web/serverfiles/profile/";
         path = path.replaceAll("\\\\", "/");
         if (Files.exists(Paths.get(path + filename + ".jpg"))) {
             return true;
@@ -208,7 +208,7 @@ public class ProfileBean implements Serializable {
         int pathlength = path.length();
         pathlength = pathlength - 10;
         path = path.substring(0, pathlength);
-        path = path + "web/resources/profile/";
+        path = path + "web/serverfiles/profile/";
         path = path.replaceAll("\\\\", "/");
         System.out.println("path " + path);
         Path folder = Paths.get(path);
@@ -257,7 +257,7 @@ public class ProfileBean implements Serializable {
         int pathlength = path.length();
         pathlength = pathlength - 10;
         path = path.substring(0, pathlength);
-        path = path + "web/resources/profile/";
+        path = path + "web/serverfiles/profile/";
         path = path.replaceAll("\\\\", "/");
         System.out.println("path " + path);
 

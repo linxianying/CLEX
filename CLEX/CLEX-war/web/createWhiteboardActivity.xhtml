@@ -13,59 +13,111 @@
 
     <ui:define name="content">
         <p:growl id="messages" />
-        <p:fieldset legend="#{lecturerWhiteboardBean.moduleCode} - Activities">
-
-            <h:form id="folderform">
-
-                <p:dataGrid style="width: 1200px" layout="grid" columns="3"
-                            id="foldertable" value="#{lecturerWhiteboardBean.list}" 
-                            var="folderlist" paginator="true" paginatorPosition="bottom"
-                            rows="10" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
-                            emptyMessage="No activity has been created yet!" >
-                    <p:panel header="#{folderlist}">
-                        <h:panelGrid columns="1" style="width:100%">
-                            <p:dataList 
-                                id="itemtable" value="#{lecturerWhiteboardBean.getAllItemsInFolder(folderlist)}" 
-                                var="itemlist" paginator="true" paginatorPosition="bottom"
-                                rows="10" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
-                                emptyMessage="No files has been uploaded yet!">
-                                <p:column >
-                                    <h:outputLabel value="#{itemlist} " />
-                                    
+        <p:tabView id="acttab">
+            <p:tab title="#{lecturerWhiteboardBean.moduleCode} - Ongoing Activities">
+                <p:fieldset legend="OVERVIEW" toggleable="true" collapsed="false">
+                    <h:panelGrid columns="2">
+                        <p:dataTable id="activitytable" value="#{lecturerWhiteboardBean.ongoinglist}" 
+                                     var="activity" paginator="true" 
+                                     rows="5" pageLinks="5" paginatorAlwaysVisible="false" 
+                                     emptyMessage="No ongoing activities!">
+                            <p:column headerText="Activity" style="text-align:center; width: 100px">                                
+                                <h:outputLabel value="#{activity}"/>
+                                <p:commandButton value="Close Activity" icon="fa fa-close" style="float: right"
+                                                 rendered="#{lecturerWhiteboardBean.checkActivity(activity) == false}"
+                                                 actionListener="#{lecturerWhiteboardBean.closeActivity(activity)}" update="acttab:activitytable ,acttab:folderform:foldertable">
+                                    <p:confirm header="Close #{activity}" message="Closed activities cannot be re-opened! Are you sure?" icon="ui-icon-alert" />
+                                </p:commandButton>
+                                <p:commandButton update="acttab:studentgroup" style="float: right" icon="fa fa-search" actionListener="#{lecturerWhiteboardBean.selectActivity(activity)}"/>
+                            </p:column>
+                        </p:dataTable>
+                        <p:confirmDialog id="firstdialog" global="false" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+                        <h:panelGroup id="studentgroup" > 
+                            <!--rendered="#{lecturerWhiteboardBean.displayStudentlist}"-->
+                            <p:dataTable id="studenttable" value="#{lecturerWhiteboardBean.ongoingstudent}" 
+                                         var="student" paginator="true" 
+                                         rows="10" pageLinks="5" paginatorAlwaysVisible="false" 
+                                         emptyMessage="No students have participated yet!">
+                                <p:column headerText="Participants" style="text-align:center; width: 100px">                                
+                                    <h:outputLabel value="#{student}"/>
+                                    <p:commandButton update="acttab:drawingoutput:output" style="float: right" icon="fa fa-search" actionListener="#{lecturerWhiteboardBean.selectStudent(student)}"/>
                                 </p:column>
-                            </p:dataList>
-                        </h:panelGrid>
-                    </p:panel>
-                    <br />
-                    <h:panelGroup style="float: right">
-                        <p:commandButton value="Download all files" icon="fa fa-download"  rendered="#{lecturerWhiteboardBean.checkActivity(folderlist)}"                             
-                                         actionListener="#{lecturerWhiteboardBean.downloadallfiles(folderlist)}"/>
-                        <p:commandButton value="Close Activity" icon="fa fa-close" rendered="#{lecturerWhiteboardBean.checkActivity(folderlist) == false}"
-                                         actionListener="#{lecturerWhiteboardBean.closeActivity(folderlist)}" update="foldertable">
-                            <p:confirm header="Close #{folderlist}" message="Closed activities cannot be re-opened! Are you sure?" icon="ui-icon-alert" />
-                        </p:commandButton>
-                        <p:commandButton value="Remove Activity" icon="fa fa-trash-o" rendered="#{lecturerWhiteboardBean.checkActivity(folderlist)}"
-                                         actionListener="#{lecturerWhiteboardBean.removeFolder(folderlist)}" update="foldertable, messages">
-                            <p:confirm header="Delete #{folderlist}" message="Associated folders and files cannot be recovered! Are you sure?" icon="ui-icon-alert" />
-                        </p:commandButton>
-                    </h:panelGroup>                    
-                </p:dataGrid>
-                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                    <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                </p:confirmDialog>
-            </h:form>
-            <br />            
-            <br />
-            <h:form >
-                <h4>
-                    Create a new activity
-                </h4>
-                <h:outputLabel value="Activity name: "/>
-                <p:inputText style="width: 250px" value="#{lecturerWhiteboardBean.activityname}" id="nameinput" />
-                <p:commandButton icon="fa fa-plus" value="Create" actionListener="#{lecturerWhiteboardBean.createActivity}" update="nameinput, folderform:foldertable"/>
-            </h:form>
-        </p:fieldset>
+                            </p:dataTable>
+                        </h:panelGroup>
+                    </h:panelGrid>
+
+
+                </p:fieldset>
+                <br />
+                <p:outputPanel>
+                    <h:form id="drawingoutput">           
+                        <p:signature style="width: 80vw;height: 100vh" 
+                                     widgetVar="sig" id="output"
+                                     backgroundColor="#ffffff" color="#000000"
+                                     thickness="1"                                      
+                                     value="#{lecturerWhiteboardBean.selectedDrawing}" required="true" guideline="false"/>
+                        <p:poll interval="3" listener="#{lecturerWhiteboardBean.updateDrawing()}" update="output"/>
+                    </h:form>
+                </p:outputPanel>
+
+            </p:tab>
+            <p:tab title="#{lecturerWhiteboardBean.moduleCode} - Completed Activities">
+                <h:form id="folderform">
+
+                    <p:dataGrid style="width: 1200px" layout="grid" columns="3"
+                                id="foldertable" value="#{lecturerWhiteboardBean.list}" 
+                                var="folderlist" paginator="true" paginatorPosition="bottom"
+                                rows="10" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
+                                emptyMessage="No activity has been created yet!" >
+                        <p:panel header="#{folderlist}">
+                            <h:panelGrid columns="1" style="width:100%">
+                                <p:dataList 
+                                    id="itemtable" value="#{lecturerWhiteboardBean.getAllItemsInFolder(folderlist)}" 
+                                    var="itemlist" paginator="true" paginatorPosition="bottom"
+                                    rows="10" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
+                                    emptyMessage="No files has been uploaded yet!">
+                                    <p:column >
+                                        <h:outputLabel value="#{itemlist} " />
+
+                                    </p:column>
+                                </p:dataList>
+                            </h:panelGrid>
+                        </p:panel>
+                        <br />
+                        <h:panelGroup style="float: right">
+                            <p:commandButton value="Download all files" icon="fa fa-download"  rendered="#{lecturerWhiteboardBean.checkActivity(folderlist)}"                             
+                                             actionListener="#{lecturerWhiteboardBean.downloadallfiles(folderlist)}">
+                                <p:confirm header="Note" message="Downloaded files are zipped (#{folderlist}.zip) and placed on your Desktop folder!" icon="ui-icon-alert" />                                
+                            </p:commandButton>
+                            <p:commandButton value="Remove Activity" icon="fa fa-trash-o" rendered="#{lecturerWhiteboardBean.checkActivity(folderlist)}"
+                                             actionListener="#{lecturerWhiteboardBean.removeFolder(folderlist)}" update="acttab:activitytable, foldertable, messages">
+                                <p:confirm header="Delete #{folderlist}" message="#{folderlist} and all associated files cannot be recovered! Are you sure?" icon="ui-icon-alert" />
+                            </p:commandButton>
+                            <p:confirmDialog id="thirddialog" global="false" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            </p:confirmDialog>
+                        </h:panelGroup>                    
+                    </p:dataGrid>
+
+                </h:form>
+                <br />            
+                <br />
+                <h:form >
+                    <h4>
+                        Create a new activity
+                    </h4>
+                    <h:outputLabel value="Activity name: "/>
+                    <p:inputText style="width: 250px" value="#{lecturerWhiteboardBean.activityname}" id="nameinput" />
+                    <p:commandButton icon="fa fa-plus" value="Create" actionListener="#{lecturerWhiteboardBean.createActivity}" update="nameinput, acttab:activitytable"/>
+                </h:form>
+            </p:tab>
+        </p:tabView>
+
+
 
 
         <h:form id="initializePageDataForm">
