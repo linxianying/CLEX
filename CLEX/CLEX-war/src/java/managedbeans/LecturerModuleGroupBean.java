@@ -157,10 +157,18 @@ public class LecturerModuleGroupBean implements Serializable {
     
     //assign students who havnt joined any group to a random group
     public void autoAssign() {
-        int numberOfStudent = gfsbl.autoAssign(module.getId(), superGroup.getId());
-        context = FacesContext.getCurrentInstance();
-        FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Success","Random assign the " + numberOfStudent + " students");
-        context.addMessage(null, fmsg);
+        if (gfsbl.getStudentNoGroup(module).isEmpty()) {
+            System.out.println("No students with no group");
+            context = FacesContext.getCurrentInstance();
+            FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Please check","Currently every student has a group");
+            context.addMessage(null, fmsg);
+        }
+        else {
+            int numberOfStudent = gfsbl.autoAssign(module.getId(), superGroup.getId());
+            context = FacesContext.getCurrentInstance();
+            FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Success","Random assign the " + numberOfStudent + " students");
+            context.addMessage(null, fmsg);
+        }
 //        this.refresh();
     }
     

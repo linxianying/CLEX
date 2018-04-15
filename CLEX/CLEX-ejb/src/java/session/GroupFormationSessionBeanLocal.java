@@ -62,5 +62,9 @@ public interface GroupFormationSessionBeanLocal {
     public ProjectGroup createProjectGroup(Long superGroupId, String name);
 
     public void autoAssignAll(Long moduleId, Long superGroupId, int avg);
+
+    public void joinStudentGroup(Long studentId, Long groupId);
+
+    public ArrayList<Student> getStudentNoGroup(Module module);
     
 }

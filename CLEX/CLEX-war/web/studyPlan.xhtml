@@ -69,7 +69,7 @@
                                                         <f:selectItem itemLabel="F" itemValue="F" />
                                                         <f:selectItem itemLabel="S" itemValue="S" />
                                                         <f:selectItem itemLabel="U" itemValue="U" />
-                                                        <p:ajax event="change" update="tab:expectedCap, tab:expectedCap2" listener="#{studyPlanBean.updateExpectedCap(sp.course.modularCredits, sp.course.moduleCode)}" />
+                                                        <p:ajax event="change" update="tab: tab:expectedCap, tab:expectedCap2" listener="#{studyPlanBean.updateExpectedCap(sp.course.modularCredits, sp.course.moduleCode)}" />
                                                     </p:selectOneMenu>
                                                 </p:column>
                                             </p:dataTable>
@@ -526,7 +526,6 @@
                         <!--<p:remoteCommand name="initializePageDataCommand" autoRun="true" action="#{studyPlanBean.init()}" update="@all"/>-->
                     </h:form>
 
-                    <p:commandButton value="newStudyPlanPage" action="newStudyPlan?faces-redirect=true"/>
                     <br />
                 </div>
             </div>

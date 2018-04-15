@@ -475,7 +475,10 @@ public class GroupFormationSessionBean implements GroupFormationSessionBeanLocal
     }
     
     //get all students who do not have a project group
+    @Override
     public ArrayList<Student> getStudentNoGroup(Module module) {
+        Long moduleId = module.getId();
+        module = this.findModule(moduleId);
          ArrayList<Student> all = new ArrayList<Student>();
         for (Student s: module.getStudents())
             all.add(s);
@@ -491,6 +494,7 @@ public class GroupFormationSessionBean implements GroupFormationSessionBeanLocal
     
     
     //join an stident with no group to certain group
+    @Override
     public void joinStudentGroup(Long studentId, Long groupId) {
         student = this.findStudent(studentId);
         group = this.findProjectGroup(groupId);

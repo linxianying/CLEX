@@ -24,6 +24,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import org.primefaces.event.SelectEvent;
@@ -35,7 +36,7 @@ import session.CourseMgmtBeanLocal;
  * @author caoyu
  */
 @ManagedBean(name = "studyPlanBean")
-@SessionScoped
+@ViewScoped
 public class StudyPlanBean {
 
     @EJB
@@ -43,9 +44,9 @@ public class StudyPlanBean {
     @EJB
     private ClexSessionBeanLocal csbl;
     @EJB
-    CourseMgmtBeanLocal cmbl;
+    private CourseMgmtBeanLocal cmbl;
     @EJB
-    CommunitySessionBeanLocal cmsbl;
+    private CommunitySessionBeanLocal cmsbl;
 
     FacesContext context;
     HttpSession session;
@@ -125,6 +126,7 @@ public class StudyPlanBean {
         setYearSem();
         courses = cpsbl.getAllCourses();
         grading = this.checkGrading();
+        this.refresh();
     }
 
     public void refresh() {
@@ -134,6 +136,7 @@ public class StudyPlanBean {
         username = (String) session.getAttribute("username");
         student = csbl.findStudent(username);
         cap = cpsbl.findStudent(username).getCap();
+        expectedCap = cap;
 //        if (student.getGrades().size() > 0) {
 //            System.out.println(student.getGrades().size());
         gradesInOrder = cpsbl.getAllGradesInOrder(student);
@@ -142,11 +145,8 @@ public class StudyPlanBean {
         if (student.getStudyPlan() != null) {
             studyPlansInOrer = cpsbl.getStudyPlanInOrder(student);
             expectedCourseGrade = cpsbl.getExpectedCourseGrade(username);
-            expectedCap = cap;
-            System.out.println("Expected Cap reset to " + expectedCap);
-        } else {
-            expectedCap = 0.0;
-        }
+            System.out.println("StudyPlanBean: Expected Cap reset to " + expectedCap);
+        } 
         this.setNewModuleGrade("select");
         //newModuleGrade = "A+";
         this.setNewCurrentModuleGrade("select");
@@ -408,7 +408,6 @@ public class StudyPlanBean {
     }
 
     public void addGrade() {
-        System.out.println("!!!!!!!!!!!!!!add " + addGradeModuleCode);
         if (checkAddGradeYearSem()) {
             cpsbl.addGrade(Integer.toString(addGradePickYear + matricYear - 1), Integer.toString(addGradePickSem), addGradeModuleCode, student, addGradeModuleGrade);
         }
