@@ -110,7 +110,7 @@
                                 <c:if test="#{privateMsgBean.convoExist}">
                                     <div style="position: relative; width:100%">
                                         <h:panelGrid rendered="#{not privateMsgBean.checkEmptyUser()}" columns="2" styleClass="columnItems">
-                                            <p:inputTextarea value="#{privateMsgBean.content}" placeholder="type your message..." rows="1" cols="20" maxlength="300" styleClass="inputMsg"
+                                            <p:inputTextarea value="#{privateMsgBean.content}" placeholder="type your message..." rows="1" cols="20" maxlength="254" styleClass="inputMsg"
                                                              onkeypress="if (event.keyCode == 13) {
                                                                      submitMsg();
                                                                      return false;
