@@ -23,7 +23,7 @@
                 <div id="content" class="left_content">
                     <h3><h:outputText value="My Study Plan" /></h3><br></br>
                     <p:tabView id="tab">
-                        <p:ajax event="tabChange" listener="#{newStudyPlanBean.onTabChange}" update="tab:studyPlanForm tab:modulesTakingForm tab:modulesTaken tab:overviewForm" />
+                        <p:ajax event="tabChange" listener="#{newStudyPlanBean.onTabChange}" update="tab:studyPlanForm tab:modulesTakingForm tab:modulesTaken tab:overviewForm tab:expectedCap, tab:expectedCap2" />
                         <p:tab id="subtab" title="ACADEMIC PLANS">
                             <p:fieldset id="studyPlan" legend="Modules To Take" toggleable="false" collapsed="false">
                                 <h:outputText value="You do not have any Study Plans currently" rendered="#{empty studyPlanBean.studyPlansInOrer}"/>
@@ -69,7 +69,7 @@
                                                         <f:selectItem itemLabel="F" itemValue="F" />
                                                         <f:selectItem itemLabel="S" itemValue="S" />
                                                         <f:selectItem itemLabel="U" itemValue="U" />
-                                                        <p:ajax event="change" update="tab: tab:expectedCap, tab:expectedCap2" listener="#{studyPlanBean.updateExpectedCap(sp.course.modularCredits, sp.course.moduleCode)}" />
+                                                        <p:ajax event="change" update="tab:expectedCap, tab:expectedCap2" listener="#{studyPlanBean.updateExpectedCap(sp.course.modularCredits, sp.course.moduleCode)}" />
                                                     </p:selectOneMenu>
                                                 </p:column>
                                             </p:dataTable>
