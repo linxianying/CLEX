@@ -17,18 +17,12 @@ import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.el.MethodExpression;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.component.UISelectItem;
-import org.primefaces.behavior.ajax.AjaxBehavior;
-import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.component.html.HtmlOutputText;
-import org.primefaces.component.selectonemenu.SelectOneMenu;
 import javax.faces.context.FacesContext;
-import javax.faces.event.MethodExpressionActionListener;
-import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpSession;
 import org.primefaces.component.dashboard.Dashboard;
 import org.primefaces.component.panel.Panel;
@@ -60,7 +54,7 @@ public class NewStudyPlanBean implements Serializable {
     @EJB
     private ClexSessionBeanLocal csbl;
     @EJB
-    CourseMgmtBeanLocal cmbl;
+    private CourseMgmtBeanLocal cmbl;
 
     FacesContext context;
     HttpSession session;
@@ -112,7 +106,7 @@ public class NewStudyPlanBean implements Serializable {
         courses = spsbl.getAllCourses();
 
         cap = student.getCap();
-
+        expectedCap = cap;
         if (student.getGrades().size() > 0) {
             grades = spsbl.getAllGrades(student);
 //            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!# of taken Moduless: " + grades.size());
@@ -207,7 +201,7 @@ public class NewStudyPlanBean implements Serializable {
                 Panel panel = (Panel) application.createComponent(context, "org.primefaces.component.Panel", "org.primefaces.component.PanelRenderer");
                 panel.setId("g" + g.getId());
                 if (g.getModule() == null) {
-                    System.out.println("!!!!!!!!!!!!!!!!!! NULL g:" + g.getId());
+                    System.out.println("NewStudyPlanBean: NULL g:" + g.getId());
                 }
                 panel.setHeader(g.getModule().getCourse().getModuleCode());
                 panel.setToggleable(true);

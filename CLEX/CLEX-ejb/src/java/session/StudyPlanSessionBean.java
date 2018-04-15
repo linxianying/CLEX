@@ -791,8 +791,8 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
             for (Grade g : all) {
                 grades.add(g);
             }
-            System.out.println("StudyPlanSessionbean: getAllGrades: student:"
-                + username + "'s taken module:" + grades.size());
+            //System.out.println("StudyPlanSessionbean: getAllGrades: student:"
+                //+ username + "'s taken module:" + grades.size());
         }
         catch(NoResultException e){
             System.out.println("User " + username + " does not have any taken modules.");
@@ -876,10 +876,10 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
             for (Module m : all) {
                 takingModules.add(m);
             }
-            System.out.println("StudyPlanSessionbean: getCurrentModules: student:"
-                + username + "'s taking module using get methods:" + student.getModules().size());
-            System.out.println("StudyPlanSessionbean: getCurrentModules: student:"
-                + username + "'s taking module:" + takingModules.size());
+            //System.out.println("StudyPlanSessionbean: getCurrentModules: student:"
+                //+ username + "'s taking module using get methods:" + student.getModules().size());
+            //System.out.println("StudyPlanSessionbean: getCurrentModules: student:"
+                //+ username + "'s taking module:" + takingModules.size());
         }
         catch(NoResultException e){
             System.out.println("User " + username + " does not have any current modules.");
@@ -904,8 +904,8 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
             for (StudyPlan s : all) {
                 studyPlans.add(s);
             }
-            System.out.println("StudyPlanSessionbean: getAllStudyPlans: student:"
-                + username + "'s studyPlans:" + studyPlans.size());
+//            System.out.println("StudyPlanSessionbean: getAllStudyPlans: student:"
+//                + username + "'s studyPlans:" + studyPlans.size());
         }
         catch(NoResultException e){
             System.out.println("User " + username + " does not have any study plan.");
