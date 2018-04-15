@@ -75,6 +75,103 @@ public class ProjectBean {
         System.out.println("ProjectBean Finish initialization");
     }  
 
+        public void setCurrentYearSem() {
+        Calendar now = Calendar.getInstance();
+        int year = now.get(Calendar.YEAR);
+        // month starts from 0 to 11
+        int currentMonth = now.get(Calendar.MONTH);
+        if (currentMonth < 6) {
+            currentSem = "2";
+            year--;
+        }
+        else {
+            currentSem = "1";
+        }
+        currentYear = Integer.toString(year);
+        //System.out.println("projectBean: Current Year:" + currentYear + ", current sem:" + currentSem);
+    }
+    
+    public boolean hasProjectGroup(String moduleCode) {
+        module = csbl.findModule(moduleCode, currentYear, currentSem);
+        return psbl.checkStudentProjectGroup(student, module);
+    }
+    
+    public ProjectGroup getStudentProjectGroup(String moduleCode) {
+        module = csbl.findModule(moduleCode, currentYear, currentSem);
+        projectGroup = psbl.getStudentProjectGroup(student, module);
+        return projectGroup;
+    }
+    
+     public String getStudentProjectGroupName(String moduleCode) {
+        module = csbl.findModule(moduleCode, currentYear, currentSem);
+        projectGroup = psbl.getStudentProjectGroup(student, module);
+        return projectGroup.getName();
+    }
+    
+    public void goFormGroup(String moduleCode) {
+        try {
+            module = csbl.findModule(moduleCode, currentYear, currentSem);
+            session.setAttribute("module", module);
+            session.setAttribute("currentYear", currentYear);
+            session.setAttribute("currentSem", currentSem);
+            context.getExternalContext().redirect("groupFormation.xhtml");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void goModuleInfoPage (String moduleCode){
+        try {
+            module = csbl.findModule(moduleCode, currentYear, currentSem);
+            session.setAttribute("module", module);
+            session.setAttribute("currentYear", currentYear);
+            session.setAttribute("currentSem", currentSem);
+            context.getExternalContext().redirect("projectDetails.xhtml");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void GoGroupPage(String moduleCode) {
+        try {
+            module = csbl.findModule(moduleCode, currentYear, currentSem);
+            session.setAttribute("module", module);
+            projectGroup = psbl.getStudentProjectGroup(student, module);
+            session.setAttribute("projectGroup", projectGroup);
+            context.getExternalContext().redirect("viewProjectCost.xhtml");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void GoGroupSchedulePage(String moduleCode) {
+        try {
+            module = csbl.findModule(moduleCode, currentYear, currentSem);
+            session.setAttribute("module", module);
+            projectGroup = psbl.getStudentProjectGroup(student, module);
+            session.setAttribute("projectGroup", projectGroup);
+            context.getExternalContext().redirect("viewProjectSchedule.xhtml");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void GoPRPage(String moduleCode){
+    try {
+            module = csbl.findModule(moduleCode, currentYear, currentSem);
+            session.setAttribute("module", module);
+            projectGroup = psbl.getStudentProjectGroup(student, module);
+            session.setAttribute("PRProjectGroup", projectGroup);
+            context.getExternalContext().redirect("studentPeerReview.xhtml");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
     public boolean isCheck() {
         return check;
@@ -182,101 +279,5 @@ public class ProjectBean {
         this.student = student;
     }
     
-    public void setCurrentYearSem() {
-        Calendar now = Calendar.getInstance();
-        int year = now.get(Calendar.YEAR);
-        // month starts from 0 to 11
-        int currentMonth = now.get(Calendar.MONTH);
-        if (currentMonth < 6) {
-            currentSem = "2";
-            year--;
-        }
-        else {
-            currentSem = "1";
-        }
-        currentYear = Integer.toString(year);
-        //System.out.println("projectBean: Current Year:" + currentYear + ", current sem:" + currentSem);
-    }
-    
-    public boolean hasProjectGroup(String moduleCode) {
-        module = csbl.findModule(moduleCode, currentYear, currentSem);
-        return psbl.checkStudentProjectGroup(student, module);
-    }
-    
-    public ProjectGroup getStudentProjectGroup(String moduleCode) {
-        module = csbl.findModule(moduleCode, currentYear, currentSem);
-        projectGroup = psbl.getStudentProjectGroup(student, module);
-        return projectGroup;
-    }
-    
-     public String getStudentProjectGroupName(String moduleCode) {
-        module = csbl.findModule(moduleCode, currentYear, currentSem);
-        projectGroup = psbl.getStudentProjectGroup(student, module);
-        return projectGroup.getName();
-    }
-    
-    public void goFormGroup(String moduleCode) {
-        try {
-            module = csbl.findModule(moduleCode, currentYear, currentSem);
-            session.setAttribute("module", module);
-            session.setAttribute("currentYear", currentYear);
-            session.setAttribute("currentSem", currentSem);
-            context.getExternalContext().redirect("groupFormation.xhtml");
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    public void goModuleInfoPage (String moduleCode){
-        try {
-            module = csbl.findModule(moduleCode, currentYear, currentSem);
-            session.setAttribute("module", module);
-            session.setAttribute("currentYear", currentYear);
-            session.setAttribute("currentSem", currentSem);
-            context.getExternalContext().redirect("projectDetails.xhtml");
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    public void GoGroupPage(String moduleCode) {
-        try {
-            module = csbl.findModule(moduleCode, currentYear, currentSem);
-            session.setAttribute("module", module);
-            projectGroup = psbl.getStudentProjectGroup(student, module);
-            session.setAttribute("projectGroup", projectGroup);
-            context.getExternalContext().redirect("viewProjectCost.xhtml");
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    public void GoGroupSchedulePage(String moduleCode) {
-        try {
-            module = csbl.findModule(moduleCode, currentYear, currentSem);
-            session.setAttribute("module", module);
-            projectGroup = psbl.getStudentProjectGroup(student, module);
-            session.setAttribute("projectGroup", projectGroup);
-            context.getExternalContext().redirect("viewProjectSchedule.xhtml");
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    public void GoPRPage(String moduleCode){
-    try {
-            module = csbl.findModule(moduleCode, currentYear, currentSem);
-            session.setAttribute("module", module);
-            projectGroup = psbl.getStudentProjectGroup(student, module);
-            session.setAttribute("projectGroup", projectGroup);
-            context.getExternalContext().redirect("studentPeerReview.xhtml");
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
 }

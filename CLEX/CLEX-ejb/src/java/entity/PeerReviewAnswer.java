@@ -38,9 +38,8 @@ public class PeerReviewAnswer implements Serializable {
     @ManyToOne
     private ProjectGroup projectGroup;
 
-    public void createPeerReviewAnswer(Student reviewer, Student reviewee, PeerReviewQuestion question, ProjectGroup projectGroup) {
+    public void createPeerReviewAnswer(Student reviewer, PeerReviewQuestion question, ProjectGroup projectGroup) {
         this.reviewer = reviewer;
-        this.reviewee = reviewee;
         this.question = question;
         this.projectGroup = projectGroup;
         submit=false;

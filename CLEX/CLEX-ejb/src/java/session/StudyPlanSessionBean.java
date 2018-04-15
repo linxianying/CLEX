@@ -70,7 +70,7 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
             Query q = em.createQuery("SELECT u FROM Student u WHERE u.username=:username");
             q.setParameter("username", username);
             u = (Student) q.getSingleResult();
-            System.out.println("Student " + username + " found.");
+            //System.out.println("Student " + username + " found.");
         } catch (NoResultException e) {
             System.out.println("Student " + username + " does not exist.");
             u = null;

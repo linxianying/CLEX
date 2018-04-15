@@ -145,45 +145,28 @@ public class ProjectDetailsBean {
             e.printStackTrace();
         }
     }
-
-    /**
-     * @return the username
-     */
+    
     public String getUsername() {
         return username;
     }
 
-    /**
-     * @param username the username to set
-     */
     public void setUsername(String username) {
         this.username = username;
     }
 
-    /**
-     * @return the student
-     */
+
     public Student getStudent() {
         return student;
     }
 
-    /**
-     * @param student the student to set
-     */
     public void setStudent(Student student) {
         this.student = student;
     }
 
-    /**
-     * @return the module
-     */
     public Module getModule() {
         return module;
     }
 
-    /**
-     * @param module the module to set
-     */
     public void setModule(Module module) {
         this.module = module;
     }

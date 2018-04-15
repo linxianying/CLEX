@@ -122,6 +122,14 @@ public class ProjectGroup implements Serializable {
         this.name = name;
     }
 
+    public Collection<PeerReviewAnswer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(Collection<PeerReviewAnswer> answers) {
+        this.answers = answers;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
