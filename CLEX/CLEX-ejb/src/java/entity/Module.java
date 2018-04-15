@@ -8,6 +8,7 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -64,6 +65,9 @@ public class Module implements Serializable {
 
     @OneToOne(cascade = {CascadeType.ALL})
     private PeerReviewQuestion peerReviewQuestion;
+    
+    @OneToMany(cascade={CascadeType.PERSIST},mappedBy="module")
+    private List<Files> fileLists;
 
     public void createModule(String takenYear,
             String takenSem, String prerequisite, String preclusions, Course course) {
@@ -170,6 +174,15 @@ public class Module implements Serializable {
         this.peerReviewQuestion = peerReviewQuestion;
     }
 
+    public List<Files> getFileLists() {
+        return fileLists;
+    }
+
+    public void setFileLists(List<Files> fileLists) {
+        this.fileLists = fileLists;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 0;
