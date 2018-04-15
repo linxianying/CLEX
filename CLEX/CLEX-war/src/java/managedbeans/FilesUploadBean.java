@@ -60,9 +60,11 @@ public class FilesUploadBean implements Serializable {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
         username = (String) session.getAttribute("username"); 
+        module = (Module) session.getAttribute("module");
+        id = module.getId();
         id = (Long) session.getAttribute("id");
         user = asbl.findUser(username);
-        module = fmsbl.findModule(id);
+
     }
     
     public void handleFileUpload(FileUploadEvent event)

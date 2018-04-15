@@ -107,6 +107,15 @@
             </p:fieldset>
             <br />
         </h:form>
+        <h2>Upload Files</h2>
+        <h:form id="formUploadFile" enctype="multipart/form-data">
+            <p:panel header="File Upload">
+                <p:messages autoUpdate="true" redisplay="false" />
+                <p:fileUpload fileUploadListener="#{filesUploadBean.handleFileUpload}"
+                              mode="advanced" dragDropSupport="false"  
+                              update="@form" sizeLimit="100000000" fileLimit="3"/>
+            </p:panel>
+        </h:form>
         <p:commandButton value="test pr form" action="lecturerUpdatePRform?faces-redirect=true"/>
     </ui:define>
 </ui:composition>

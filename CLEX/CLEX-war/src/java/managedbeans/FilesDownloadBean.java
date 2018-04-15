@@ -14,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
@@ -30,7 +31,7 @@ import session.FilesManagementSessionBeanLocal;
  * @author lin
  */
 @Named(value = "filesDownloadBean")
-@ViewScoped
+@SessionScoped
 public class FilesDownloadBean {
 
     /**
@@ -64,7 +65,8 @@ public class FilesDownloadBean {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
         username = (String) session.getAttribute("username"); 
-        id = (Long) session.getAttribute("id");
+        module = (Module) session.getAttribute("module");
+        id = module.getId();
         user = asbl.findUser(username);
         module = fmsbl.findModule(id);
         files = module.getFileLists();
