@@ -94,7 +94,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <p:commandButton value="Form Group" actionListener="#{lecturerModuleGroupBean.formGroup}" update="@all"/>
+                                    <p:commandButton value="Form Group" actionListener="#{lecturerModuleGroupBean.formGroup}" update="@all, messages"/>
                                 </td>
                             </tr>
                         </table>
@@ -163,7 +163,8 @@
             </p:tab>
             
             <p:tab title="Change student's group" rendered="#{not empty lecturerModuleGroupBean.superGroup and lecturerModuleGroupBean.superGroup.confirm}">
-                <p:commandButton value="Random assign unassigned students" actionListener="#{lecturerModuleGroupBean.autoAssign()}" update="@all"/>
+                <p:commandButton id="randomAssignButton" value="Random assign unassigned students" actionListener="#{lecturerModuleGroupBean.autoAssign()}" update="messages, tab:groupInfo, tab:studentGroupTable"/>
+                <br/>
                 <p:dataTable var="student" value="#{lecturerModuleGroupBean.students}" id="studentGroupTable" widgetVar="studentGroupTable" 
                                          emptyMessage="No students for this module." paginator="true" paginatorPosition="bottom" rows="15"
                                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
