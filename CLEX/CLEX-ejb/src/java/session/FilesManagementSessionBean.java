@@ -55,6 +55,7 @@ public class FilesManagementSessionBean implements FilesManagementSessionBeanLoc
         return fileEntity;
     }
     
+    @Override
     public Module findModule(Long id) {
         moduleEntity = null;
         try {

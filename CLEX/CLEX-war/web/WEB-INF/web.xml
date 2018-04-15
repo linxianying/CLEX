@@ -114,4 +114,8 @@
         <error-code>500</error-code>
         <location>/error.xhtml</location> 
     </error-page>
+    <context-param>
+        <param-name>alternatedocroot_1</param-name>
+        <param-value>/Applications/NetBeans/glassfish-4.1.1-uploadedfiles/uploadedFiles</param-value>
+    </context-param>
 </web-app>
