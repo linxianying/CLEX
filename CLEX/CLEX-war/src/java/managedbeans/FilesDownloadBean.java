@@ -74,7 +74,9 @@ public class FilesDownloadBean {
     
      public StreamedContent retrieveStreamedContent() {
         
-        String filePath = (String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("downloadFilePath");
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+        String filePath = (String)session.getAttribute("downloadFilePath");
         
         if(filePath != null && filePath.trim().length() > 0)
         {
