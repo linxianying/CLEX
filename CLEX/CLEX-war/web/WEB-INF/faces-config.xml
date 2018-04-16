@@ -23,4 +23,16 @@
         <managed-bean-class>java.util.Date</managed-bean-class>
         <managed-bean-scope>request</managed-bean-scope>
     </managed-bean> 
+    
+    <application>
+        <locale-config>
+            <default-locale>en_US</default-locale>
+            <supported-locale>en_SG</supported-locale>
+            <supported-locale>zh_CN</supported-locale>
+        </locale-config>
+        <resource-bundle>
+            <base-name>web.messages.Messages</base-name>
+            <var>bundle</var>
+        </resource-bundle>
+    </application>
 </faces-config>
