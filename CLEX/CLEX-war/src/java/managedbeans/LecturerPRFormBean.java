@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package managedbeans;
 
 import entity.Lecturer;
@@ -36,7 +36,7 @@ public class LecturerPRFormBean implements Serializable{
     private ClexSessionBeanLocal csbl;
     @EJB
     private PRQuestionSessionBeanLocal prqsbl;
-            
+    
     FacesContext context;
     HttpSession session;
     
@@ -88,38 +88,41 @@ public class LecturerPRFormBean implements Serializable{
         System.out.println("lecturerPRFormBean Finish init");
         
     }
-
+    
     
     public int[] getRating(Question q) {
         int[] rating = new int[q.getLevelOfRating()];
         for (int index=1; index <= q.getLevelOfRating(); index++)
             rating[index-1] = index;
-        return rating; 
+        return rating;
     }
     
     public void addQuestion() {
-        newQuestion = new Question(addQuestion, questionType);
-        if (questionType.equals("rating")) {
-            newQuestion.setLevelOfRating(levelOfRating);
+        if (questionType.equals("ranking") && addType.equals("indQuestion")){
+            FacesMessage message = new FacesMessage();
+            message.setSummary("Attention!");
+            message.setDetail("Meaningless to set a ranking question as an individual question, please change");
+            addMessage(message);
         }
-        prqsbl.addPRQuestion(question, newQuestion, addType);
-        
-        question = module.getPeerReviewQuestion();
-        individualQuestions = question.getIndividualQuestions();
-        groupQuestions = question.getGroupQuestions();
-        System.out.println("group size = " + groupQuestions.size());
+        else {
+            newQuestion = new Question(addQuestion, questionType);
+            if (questionType.equals("rating")) {
+                newQuestion.setLevelOfRating(levelOfRating);
+            }
+            prqsbl.addPRQuestion(question, newQuestion, addType);
+            
+            question = module.getPeerReviewQuestion();
+            individualQuestions = question.getIndividualQuestions();
+            groupQuestions = question.getGroupQuestions();
+        }
     }
     
     //the value will be changed automatically
     public void editIndQuestion(int indIndex){
-//        System.out.println("change question " + indIndex);
-//        System.out.println(individualQuestions.get(0).getQuestion());
         prqsbl.editIndQuestion(question, individualQuestions);
     }
     
     public void editGrQuestion(int indIndex){
-//        System.out.println("change question " + indIndex);
-//        System.out.println(groupQuestions.get(0).getQuestion());
         prqsbl.editGrQuestion(question, groupQuestions);
     }
     
@@ -174,176 +177,166 @@ public class LecturerPRFormBean implements Serializable{
         addMessage(message);
     }
     
-    public void testUpdatePRForm() {
-        System.out.println("Strat to update");
-    }
-    
-    public void test() {
-//        this.questionType = 
-        System.out.println("Question type= " + this.questionType);
-        
-    }
-
     public ClexSessionBeanLocal getCsbl() {
         return csbl;
     }
-
+    
     public void setCsbl(ClexSessionBeanLocal csbl) {
         this.csbl = csbl;
     }
-
+    
     public PRQuestionSessionBeanLocal getPrqsbl() {
         return prqsbl;
     }
-
+    
     public void setPrqsbl(PRQuestionSessionBeanLocal prqsbl) {
         this.prqsbl = prqsbl;
     }
-
+    
     public FacesContext getContext() {
         return context;
     }
-
+    
     public void setContext(FacesContext context) {
         this.context = context;
     }
-
+    
     public HttpSession getSession() {
         return session;
     }
-
+    
     public void setSession(HttpSession session) {
         this.session = session;
     }
-
+    
     public Lecturer getLecturer() {
         return lecturer;
     }
-
+    
     public void setLecturer(Lecturer lecturer) {
         this.lecturer = lecturer;
     }
-
+    
     public String getUsername() {
         return username;
     }
-
+    
     public void setUsername(String username) {
         this.username = username;
     }
-
+    
     public Module getModule() {
         return module;
     }
-
+    
     public void setModule(Module module) {
         this.module = module;
     }
-
+    
     public PeerReviewQuestion getQuestion() {
         return question;
     }
-
+    
     public void setQuestion(PeerReviewQuestion question) {
         this.question = question;
     }
-
+    
     public ArrayList<Question> getIndividualQuestions() {
         return individualQuestions;
     }
-
+    
     public void setIndividualQuestions(ArrayList<Question> individualQuestions) {
         this.individualQuestions = individualQuestions;
     }
-
+    
     public ArrayList<Question> getGroupQuestions() {
         return groupQuestions;
     }
-
+    
     public void setGroupQuestions(ArrayList<Question> groupQuestions) {
         this.groupQuestions = groupQuestions;
     }
-
+    
     public String getTitle() {
         return title;
     }
-
+    
     public void setTitle(String title) {
         this.title = title;
     }
-
+    
     public Question getNewQuestion() {
         return newQuestion;
     }
-
+    
     public void setNewQuestion(Question newQuestion) {
         this.newQuestion = newQuestion;
     }
-
+    
     public String getAddQuestion() {
         return addQuestion;
     }
-
+    
     public void setAddQuestion(String addQuestion) {
         this.addQuestion = addQuestion;
     }
-
+    
     public String getAddType() {
         return addType;
     }
-
+    
     public void setAddType(String addType) {
         this.addType = addType;
     }
-
+    
     public String getQuestionType() {
         return questionType;
     }
-
+    
     public void setQuestionType(String questionType) {
         this.questionType = questionType;
     }
-
+    
     public int getLevelOfRating() {
         return levelOfRating;
     }
-
+    
     public void setLevelOfRating(int levelOfRating) {
         this.levelOfRating = levelOfRating;
     }
-
+    
     public String getTest() {
         return test;
     }
-
+    
     public void setTest(String test) {
         this.test = test;
     }
-
+    
     public Date getDeadline() {
         return deadline;
     }
-
+    
     public void setDeadline(Date deadline) {
         this.deadline = deadline;
     }
-
+    
     public String getHasDeadline() {
         return hasDeadline;
     }
-
+    
     public void setHasDeadline(String hasDeadline) {
         this.hasDeadline = hasDeadline;
     }
-
+    
     public Date getNewDeadline() {
         return newDeadline;
     }
-
+    
     public void setNewDeadline(Date newDeadline) {
         this.newDeadline = newDeadline;
     }
-
+    
     private void addMessage(FacesMessage message) {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
