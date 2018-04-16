@@ -6,6 +6,7 @@
 package managedbeans;
 
 
+import entity.Answer;
 import entity.Course;
 import entity.Lecturer;
 import entity.Module;
@@ -92,7 +93,7 @@ public class ClassroomBean {
     private String finish;
     private int currentYear;
     private int currentSem;
-    private ArrayList<String> ans = new ArrayList<String>();
+    private ArrayList<Answer> ans;
     private ArrayList<Module> currentModules;
     int num;
     private int total;
@@ -543,13 +544,15 @@ public class ClassroomBean {
         this.barModelByType = barModelByType;
     }
 
-    public ArrayList<String> getAns() {
+    public ArrayList<Answer> getAns() {
         return ans;
     }
 
-    public void setAns(ArrayList<String> ans) {
+    public void setAns(ArrayList<Answer> ans) {
         this.ans = ans;
     }
+
+  
 
     public int getTotal() {
         return total;
@@ -575,8 +578,22 @@ public class ClassroomBean {
         this.num = num;
         System.out.println("num is set to "+num);
         if(ans.size()<num){
-            for(int i = 0;i<num; i++)
-                ans.add(" ");
+            for(int i = 0;i<num; i++){
+                Answer answer = new Answer();
+                answer.createAnswer("");
+                ans.add(answer);
+            }
+        }
+    }
+    public void setNum(String number) {
+        this.num = Integer.parseInt(number);
+        System.out.println("num is set to "+num);
+        if(ans.size()<num){
+            for(int i = 0;i<num; i++){
+                Answer answer = new Answer();
+                answer.createAnswer("");
+                ans.add(answer);
+            }
         }
     }
     

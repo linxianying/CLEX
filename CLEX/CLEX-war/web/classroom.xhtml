@@ -370,10 +370,7 @@
                                     <td >
                                         <p:dataList value="#{classroomBean.ans}" id="answers" var="an" 
                                                     type="ordered">
-                                            <h:outputText>
-                                                number : #{classroomBean.ans.indexOf(an)}
-                                            </h:outputText>
-                                            <p:inputText value="#{an}"  style="width:300px;" required="true"  >
+                                            <p:inputText value="#{an.answer}"  style="width:300px;" required="true"  >
                                                 <p:ajax event="keyup"></p:ajax>
                                             </p:inputText >
 

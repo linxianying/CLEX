@@ -5,6 +5,7 @@
  */
 package managedbeans;
 
+import entity.Answer;
 import entity.Module;
 import entity.Poll;
 import entity.Student;
@@ -14,6 +15,7 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -47,7 +49,7 @@ public class PollingBean implements Serializable {
     private String currentYear;
     private String currentSem;
     private Module module;
-    private ArrayList<String> ans = new ArrayList<String>();
+    private List<Answer> ans;
     private int correctAns;
     private Poll poll;
     private String answer;
@@ -207,13 +209,15 @@ public class PollingBean implements Serializable {
         this.module = module;
     }
 
-    public ArrayList<String> getAns() {
+    public List<Answer> getAns() {
         return ans;
     }
 
-    public void setAns(ArrayList<String> ans) {
+    public void setAns(List<Answer> ans) {
         this.ans = ans;
     }
+
+
 
     public int getCorrectAns() {
         return correctAns;

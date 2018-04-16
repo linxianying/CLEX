@@ -5,6 +5,8 @@
  */
 package managedbeans;
 
+import entity.Answer;
+import entity.Poll;
 import entity.ProjectGroup;
 import entity.Student;
 import java.util.Iterator;
@@ -733,19 +735,19 @@ public class indexBean {
         crsbl.createPoll("PC2193", "2017", "2", "2017-12-07", "topic3", 0.71, "type3", "How is your learning experience?");
         crsbl.createPoll("PC2193", "2017", "2", "2017-12-11", "topic3", 0.38, "type4", "How is your learning experience?");
         crsbl.createPoll("PC2193", "2017", "2", "2017-12-17", "topic4", 0.10, "type5", "How is your learning experience?");
-        ArrayList<String> ans = new ArrayList<String>();
-        ans.add("A.Very Likely");
-        ans.add("B.Likely");
-        ans.add("C.Not Likely");
-        ans.add("D.Never");
-        ArrayList<String> ans1 = new ArrayList<String>();
-        ans1.add("A.Understand all the materials");
-        ans1.add("B.Understand some parts of the materials");
-        ans1.add("C.Not Understand");
+        ArrayList<Answer> ans = new ArrayList<Answer>();      
+        
+        ans.add(crsbl.createAnswer("A.Very Likely"));
+        ans.add(crsbl.createAnswer("B.Likely"));
+        ans.add(crsbl.createAnswer("C.Not Likely"));
+        ans.add(crsbl.createAnswer("D.Never"));
+        
+        ArrayList<Answer> ans1 = new ArrayList<Answer>();
+        ans1.add(crsbl.createAnswer("A.Understand all the materials"));
+        ans1.add(crsbl.createAnswer("B.Understand some parts of the materials"));
+        ans1.add(crsbl.createAnswer("C.Not Understand"));
         crsbl.createUnfinishedPoll("PC2193", "2017", "2", "2018-01-01", "topic4", 0.0, "type5", "Would you like to take next level physics course again?", ans, 0);
         crsbl.createUnfinishedPoll("PC2193", "2017", "2", "2018-02-01", "topic1", 0.0, "type1", "Do you understand this week's new concepts?", ans1, 0);
-        crsbl.createUnfinishedPoll("CS2100", "2016", "2", "2016-09-27", "Computer Organization", 0.0, "type1", "How do you find the OOP? ", ans1, 0);
-        crsbl.createUnfinishedPoll("CS2100", "2016", "2", "2016-10-27", "Computer Organization", 0.0, "type6", "Are you familiar with OOP?", ans1, 0);
         
         
         

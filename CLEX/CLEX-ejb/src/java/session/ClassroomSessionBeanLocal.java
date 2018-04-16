@@ -5,6 +5,7 @@
  */
 package session;
 
+import entity.Answer;
 import entity.Course;
 import entity.Lecturer;
 import entity.Module;
@@ -27,7 +28,7 @@ public interface ClassroomSessionBeanLocal {
     
     public Poll createUnfinishedPoll(String moduleCode, String takenYear, String takenSem, 
             String datetime, String topic, double correctRate, String type, String content, 
-            ArrayList<String> ans, int correctAns);
+            ArrayList<Answer> ans, int correctAns);
     
     public void updatePoll(Module module, Long id, String datetime, String topic, 
             double correctRate, String type, String content);
@@ -53,5 +54,7 @@ public interface ClassroomSessionBeanLocal {
     public double getCorrectRateByTopic(ArrayList<Poll> polls, String topic);
     
     public double getCorrectRateByType(ArrayList<Poll> polls, String type);
+
+    public Answer createAnswer(String answer);
     
 }

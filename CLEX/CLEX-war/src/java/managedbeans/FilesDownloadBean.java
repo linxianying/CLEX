@@ -52,6 +52,7 @@ public class FilesDownloadBean {
     private Files file;
     private List<Files> files;
     private StreamedContent streamedContent;
+    private int num = 0;
     
     FacesContext context;
     HttpSession session;
@@ -70,6 +71,7 @@ public class FilesDownloadBean {
         user = asbl.findUser(username);
         module = fmsbl.findModule(id);
         files = module.getFileLists();
+        num = files.size();
     }
     
      public StreamedContent retrieveStreamedContent() {
@@ -205,6 +207,14 @@ public class FilesDownloadBean {
 
     public void setStreamedContent(StreamedContent streamedContent) {
         this.streamedContent = streamedContent;
+    }
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
     }
     
     

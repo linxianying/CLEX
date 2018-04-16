@@ -7,12 +7,15 @@ package entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -43,12 +46,15 @@ public class Poll implements Serializable {
     @Column(length = 32)
     private String status;
     
-    private ArrayList<String> answers = new ArrayList<String>();
+    //private ArrayList<String> answers = new ArrayList<String>();
     
     private int correctAns;
     
     private int total;
     private int correct;
+    
+    @OneToMany(mappedBy="poll")
+    private List<Answer> answers = new ArrayList<Answer>();
     
     @ManyToOne
     private Module module;
@@ -138,13 +144,14 @@ public class Poll implements Serializable {
         this.status = status;
     }
 
-    public ArrayList<String> getAnswers() {
+    public List<Answer> getAnswers() {
         return answers;
     }
 
-    public void setAnswers(ArrayList<String> answers) {
+    public void setAnswers(List<Answer> answers) {
         this.answers = answers;
     }
+
 
     public int getTotal() {
         return total;

@@ -7,6 +7,7 @@ package session;
 
 import javax.ejb.Stateless;
 import entity.Admin;
+import entity.Answer;
 import entity.Student;
 import entity.Module;
 import entity.Course;
@@ -67,6 +68,7 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
     private VoteThread voteThreadEntity;
     private Poll pollEntity;
     private Thread threadEntity;
+    private Answer answerEntity;
     
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
@@ -100,9 +102,19 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
     }
     
     @Override
+    public Answer createAnswer(String answer){
+        //pollEntity = findPoll(id);
+        answerEntity = new Answer();
+        answerEntity.createAnswer(answer);
+        em.persist(answerEntity);
+        em.flush();
+        return answerEntity;
+    }
+    
+    @Override
     public Poll createUnfinishedPoll(String moduleCode, String takenYear, String takenSem, 
             String datetime, String topic, double correctRate, String type, String content, 
-            ArrayList<String> ans, int correctAns){
+            ArrayList<Answer> ans, int correctAns){
         moduleEntity = null;
         pollEntity = null;
         moduleEntity = findModule(moduleCode, takenYear, takenSem);
@@ -119,8 +131,17 @@ public class ClassroomSessionBean implements ClassroomSessionBeanLocal {
             pollEntity.setType(type);
             pollEntity.setModule(moduleEntity);
             pollEntity.setStatus(null);
-            pollEntity.setAnswers(ans);
+            //pollEntity.setAnswers(ans);
+            Iterator itr = ans.iterator();
+            while(itr.hasNext()){
+                Answer a = (Answer) itr.next();
+                a.setPoll(pollEntity);
+                em.merge(a);
+                em.flush();
+                pollEntity.getAnswers().add(a);  
+            }
             pollEntity.setCorrectAns(correctAns);
+            
             em.persist(pollEntity);
             em.flush();
             moduleEntity.getPolls().add(pollEntity);
