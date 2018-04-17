@@ -91,7 +91,7 @@ public class ProjectDetailsBean {
         int pathlength = path.length();
         pathlength = pathlength - 10;
         path = path.substring(0, pathlength);
-        path = path + "web/resources/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester;
+        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/Activities/";
         path = path.replaceAll("\\\\", "/");
         Path check = Paths.get(path);
         if (Files.exists(check)) {
@@ -125,7 +125,7 @@ public class ProjectDetailsBean {
         int pathlength = path.length();
         pathlength = pathlength - 10;
         path = path.substring(0, pathlength);
-        path = path + "web/resources/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + foldername + "/";
+        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/Activities/" + foldername + "/";
         path = path.replaceAll("\\\\", "/");
         path = path + foldername + "-Closed.txt";
         Path folder = Paths.get(path);

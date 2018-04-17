@@ -52,7 +52,7 @@ public class LecturerMindmapBean implements Serializable {
         semester = moduleEntity.getTakenSem();
         year = moduleEntity.getTakenYear();
         schoolname = userEntity.getSchool();
-        root = new DefaultMindmapNode("google.com", "Google WebSite", "FFCC00", false);
+        root = new DefaultMindmapNode("google.com", "Google WebSite", "00acac", false);
 
         MindmapNode ips = new DefaultMindmapNode("IPs", "IP Numbers", "6e9ebf", true);
         MindmapNode ns = new DefaultMindmapNode("NS(s)", "Namespaces", "6e9ebf", true);
