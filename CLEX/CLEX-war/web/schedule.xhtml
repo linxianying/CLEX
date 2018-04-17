@@ -12,18 +12,25 @@
     <ui:define name="viewname">#{bundle['schedule']}</ui:define>
 
     <ui:define name="content">
-        <p:commandButton value="#{bundle['reset']}" actionListener="#{scheduleBean.reset()}" 
+        <h3 style="margin:10px">#{bundle['schedule']}</h3>
 
-                    action="schedule?faces-redirect=true">
-            <p:confirm header="Confirmation" 
-                  message="Are you sure you want to reset the schedule? This action will delete all your timeslots."
-                  icon="ui-icon-alert" />
-        </p:commandButton>
-        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-            <p:commandButton value="#{bundle['yes']}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-            <p:commandButton value="#{bundle['no']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-        </p:confirmDialog>
         <h:form id="addTimeslotForm">
+            <p:commandButton value="#{bundle['reset']}" actionListener="#{scheduleBean.reset()}" 
+                             action="schedule?faces-redirect=true">
+                <p:confirm header="Confirmation" 
+                           message="Are you sure you want to reset the schedule? This action will delete all your timeslots."
+                           icon="ui-icon-alert" />
+            </p:commandButton>
+
+            <p:commandButton value="#{bundle['Print']}" type="button" icon="ui-icon-print">
+                <p:printer target="cal" />
+            </p:commandButton>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="#{bundle['yes']}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="#{bundle['no']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+
             <p:growl id="messages" showDetail="true" />
             <!--
             <h:commandLink>
@@ -32,22 +39,17 @@
             </h:commandLink>
             -->
             <h:panelGrid id="cal" columnClasses="value">
-                <h3>#{bundle['schedule']}</h3>
 
-                <p:outputPanel style=" margin-bottom: 20px;">
-                    <p:schedule style="float: left; width: 75%" id="schedule" value="#{scheduleBean.eventModel}" widgetVar="myschedule" timeZone="GMT+8">
+                <p:outputPanel class="ui-g dashboard">
+                    <p:schedule class="ui-g-12 ui-md-8" id="schedule" value="#{scheduleBean.eventModel}" widgetVar="myschedule" timeZone="GMT+8">
                         <p:ajax event="dateSelect" listener="#{scheduleBean.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
                         <p:ajax event="eventSelect" listener="#{scheduleBean.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
                         <p:ajax event="eventMove" listener="#{scheduleBean.onEventMove}" update="messages" />
                         <p:ajax event="eventResize" listener="#{scheduleBean.onEventResize}" update="messages" />
                     </p:schedule>
-                    
-                    <p:commandButton value="#{bundle['Print']}" type="button" icon="ui-icon-print" style="margin-bottom: 20px; float: right">
-                        <p:printer target="cal" />
-                    </p:commandButton>
-                    
-                    <div class="task-list">
-                        <p:panel header="#{bundle['Coming Events']}" style="float: right; width: 24%; min-height:150px;">
+
+                    <div class="ui-g-12 ui-md-4 task-list" style="margin-top:50px">
+                        <p:panel header="#{bundle['Coming Events']}">
                             <p:dataList id="toDoList" var="todo" value="#{scheduleBean.timeslots}">
                                 <p:selectBooleanCheckbox>
                                     <p:ajax event="change" update="toDoList" listener="#{scheduleBean.timeslots}" />
@@ -67,18 +69,18 @@
                         <f:selectItem itemLabel="#{bundle['Group']}" itemValue="2" />
                         <p:ajax update="addTimeslotForm:projectGroup, addTimeslotForm:eventDetails" event="change"/>
                     </p:selectOneButton>
-                    
+
                     <p:outputLabel id="checkGroup" for="projectGroup" value="Group:" rendered="#{scheduleBean.groupOrPersonal==2}" />
                     <p:selectOneMenu id="projectGroup" value="#{scheduleBean.groupInfo}"  panelStyle="width:120px" effect="fade" 
                                      style="width:130px;" filter="true" filterMatchMode="contains" 
-                                    appendTo="@this" rendered="#{scheduleBean.groupOrPersonal==2}" >
+                                     appendTo="@this" rendered="#{scheduleBean.groupOrPersonal==2}" >
                         <p:ajax event="change"  />
                         <f:selectItem itemLabel="Select One" itemValue="select"/>
                         <f:selectItems value="#{scheduleBean.projectGroups}" var="projectGroup" 
-                                      itemValue="#{projectGroup.id}" 
-                                      itemLabel="#{projectGroup.superGroup.module.course.moduleCode}-#{projectGroup.name}" />
+                                       itemValue="#{projectGroup.id}" 
+                                       itemLabel="#{projectGroup.superGroup.module.course.moduleCode}-#{projectGroup.name}" />
                     </p:selectOneMenu>
-                    
+
                     <p:outputLabel for="title" value="Titles:" />
                     <p:inputText id="title" value="#{scheduleBean.event.title}" required="true" />
 
@@ -93,15 +95,14 @@
 
                     <p:outputLabel for="venue" value="Venue:" />
                     <p:inputText id="venue" value="#{scheduleBean.venue}" required="false" />
-                        
 
-                    <p:commandButton id="deleteButton" value="Delete" actionListener="#{scheduleBean.deleteEvent}" 
+
+                    <p:commandButton id="deleteButton" icon="ui-icon-trash" value="Delete" actionListener="#{scheduleBean.deleteEvent}" 
                                      oncomplete="PF('myschedule').update();PF('eventDialog').hide();"
                                      update="toDoList"/>
                     <p:commandButton style="float: right" id="addButton" value="Save" actionListener="#{scheduleBean.addEvent}" 
                                      oncomplete="PF('myschedule').update();PF('eventDialog').hide();"
                                      update="toDoList"/>
-
                 </h:panelGrid>
             </p:dialog>
         </h:form>

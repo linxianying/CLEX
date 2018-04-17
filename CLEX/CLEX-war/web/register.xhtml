@@ -192,12 +192,12 @@
                         </p:confirmDialog>-->
                         <!-- T&C -->
                         <div class="ui-g-12" style="margin-bottom: -30px; padding-bottom: -20px !important;">
-                            <p:lightBox >
-                                <p:commandButton icon="fa fa-file-text-o" styleClass="termsBtn" ajax="false" value="Read Terms &amp; Conditions">
-                                    <p:confirm  message="Terms &amp; Conditions" icon="ui-icon-alert" />
+                            
+                                <p:commandButton onclick="PF('termsCond').show();" icon="fa fa-file-text-o" styleClass="termsBtn" value="Read Terms &amp; Conditions">
+                                    
                                 </p:commandButton>
-                                <f:facet name="inline">
-                                    <p:fieldset toggleable="false" collapsed="false" legend="Terms &amp; Conditions" style="width: 800px">
+                            <p:dialog responsive="true" widgetVar="termsCond">
+                                    <p:fieldset toggleable="false" collapsed="false" legend="Terms &amp; Conditions" style="max-width: 80vw; max-height: 80vh;">
                                         <h:panelGroup>
                                             <h:outputText value="1. Terms:"/>
                                             <br/>
@@ -220,8 +220,7 @@
                                             <h:outputText value="These terms and conditions are governed by and construed in accordance with the laws of Singapore and you irrevocably submit to the exclusive jurisdiction of the courts in that State or location."/>
                                         </h:panelGroup>
                                     </p:fieldset>
-                                </f:facet>
-                            </p:lightBox>
+                            </p:dialog>
 
                             <h:panelGrid styleClass="form-title-row" columns="2" style="margin: auto">
                                 <h:outputText value="I agree to the terms &amp; conditions"></h:outputText>

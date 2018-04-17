@@ -49,23 +49,25 @@
         </style>
     </ui:define>
     <ui:define name="content">
+
         <h3><h:outputText value="#{bundle['welcome']}, #{loginBean.userEntity.name}" /></h3><br></br>
         
         <p:tabView id="tab">
             <p:tab title="#{bundle['modules']}">
                 <p:growl id="messages" showDetail="true" />
                 <div>
-                    <div id="content" class="left_content" styleClass="noBorder">
-<!--                        <p:dataGrid columns="3" layout="grid" var="m" value="#{projectBean.takingModules}">
-                            
-                        </p:dataGrid>-->
-                        <p:panelGrid columns="2" >
+                    <h:form>
+                        <p:panelGrid columns="3" >
                             <ui:repeat var="m" value="#{projectBean.takingModules}">
-                                <p:commandButton styleClass="canvasBtn" action="#{projectBean.goModuleInfoPage(m.course.moduleCode)}" 
-                                                 value="#{m.course.moduleCode}"/>
+                                <button type="button" onclick="#{m.course.moduleCode}Details()" class="canvasBtn">
+                                    <h:outputText value="#{m.course.moduleCode}"/>
+                                    <br/>
+                                    <h:outputText value="#{m.course.moduleName}"/>
+                                    <p:remoteCommand name="#{m.course.moduleCode}Details" actionListener="#{projectBean.goModuleInfoPage(m.course.moduleCode)}"/>
+                                </button>
                             </ui:repeat>
                         </p:panelGrid>
-                    </div>
+                    </h:form>
                 </div>
             </p:tab>
             <p:tab title="#{bundle['ViewTasks']}">
@@ -244,30 +246,28 @@
                     </div>
                 </div>
             </p:tab>
-            
+
         </p:tabView>
         <style type="text/css">
             .canvasBtn {
-                width: 40%;
+                width: 200px;
                 height: 100px;
-                margin: 10px;
-
+                margin: 5px;
                 -webkit-border-radius: 10;
                 -moz-border-radius: 10;
-                border-radius: 10px;
+                border-radius: 5px;
                 font-family: Arial;
                 color: #ffffff;
                 font-size: 15px;
-                background: #3ac2bd;
-                text-decoration: none;
-                text-align: center;
+                background: #588fc5;
+                vertical-align:bottom;
+                border-style: none;
             }
             .canvasBtn:hover{
 
                 background: #35b3ad;
                 text-decoration: none;    
             }
-
         </style>
     </ui:define>
 
