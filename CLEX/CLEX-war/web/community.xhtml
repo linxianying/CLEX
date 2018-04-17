@@ -70,7 +70,7 @@
                         </h:form>
                     </p:overlayPanel>
                 </p:commandButton>
-                <p:commandButton value="Search" id="searchButton" icon="fa fa-search" >
+                <p:commandButton value="#{bundle['Search']}" id="searchButton" icon="fa fa-search" >
                     <p:overlayPanel dynamic="true" id="searchthreadwidget" for="searchButton" showEffect="fade" hideEffect="fade" widgetVar="searchWidget">
                         <h:form id="searchForm">
                             <h:panelGrid columns="1">
@@ -79,7 +79,7 @@
                                     <p:selectOneMenu title="Select a tag from the list (Optional)"
                                                      value="#{forumListBean.searchTag}" required="false"
                                                      id="tag2" >
-                                        <f:selectItem itemLabel="Optional" itemValue=" " />
+                                        <f:selectItem itemLabel="#{bundle['Optional']}" itemValue=" " />
                                          <f:selectItem itemLabel="#{bundle['General']}" itemValue="general" />
                                         <f:selectItem itemLabel="#{bundle['Group Formation']}" itemValue="groupformation"  />
                                         <f:selectItem itemLabel="#{bundle['Tutorial Help']}" itemValue="tutorial"  />
@@ -91,9 +91,9 @@
                                     </p:selectOneMenu>
                                 </h:panelGrid>
                                 <br />
-                                <p:inputTextarea rows="1" cols="50" title="Title" placeholder="Thread Title" id="searchtitle" value="#{forumListBean.searchTitle}"/>                                    
+                                <p:inputTextarea rows="1" cols="50" title="#{bundle['Title']}" placeholder="Thread Title" id="searchtitle" value="#{forumListBean.searchTitle}"/>                                    
                                 <br />
-                                <p:inputTextarea rows="5" cols="50" title="Content" placeholder="Thread Content" id="searchcontent" value="#{forumListBean.searchContent}" />
+                                <p:inputTextarea rows="5" cols="50" title="#{bundle['Content']}" placeholder="Thread Content" id="searchcontent" value="#{forumListBean.searchContent}" />
 
                             </h:panelGrid>
                             <p:spacer/>
@@ -167,7 +167,7 @@
                 <br /><br />
             </p:tab>
 
-            <p:tab title="#{forumListBean.userEntity.school} MODULE REVIEWS">
+            <p:tab title="#{bundle['MODULE REVIEWS']} - #{forumListBean.userEntity.school}">
                 <p:commandButton value="Search Module Code" id="searchButton2" icon="fa fa-search" >
                     <p:overlayPanel id="searchreviewwidget" for="searchButton2" showEffect="fade" hideEffect="fade" widgetVar="searchWidget2"  style="width: 300px; height: 333px">
                         <h:form id="searchForm2">

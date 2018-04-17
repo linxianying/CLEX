@@ -11,7 +11,7 @@
 
     <ui:define name="title">PRISM Student Project page</ui:define>
 
-    <ui:define name="viewname">Project</ui:define>
+    <ui:define name="viewname">#{bundle['Project']}</ui:define>
 
     <ui:define name="content">
 
@@ -31,7 +31,7 @@
                         <table>
                             <tr>
                                 <td width="50%">
-                                    <h:outputText value="Group: " />
+                                    <h:outputText value="#{bundle['Group']}: " />
                                 </td>
                                 <td>
                                     <h:outputText value="This module doesn't have a group" escape="false" 
