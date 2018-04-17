@@ -85,7 +85,7 @@ public class LecturerWhiteboardBean {
         int pathlength = path.length();
         pathlength = pathlength - 10;
         path = path.substring(0, pathlength);
-        path = path + "web/resources/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + selectedActivity + "/";
+        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + selectedActivity + "/";
         path = path.replaceAll("\\\\", "/");
         String stu;
         List<String> items;
@@ -114,7 +114,7 @@ public class LecturerWhiteboardBean {
         int pathlength = path.length();
         pathlength = pathlength - 10;
         path = path.substring(0, pathlength);
-        path = path + "web/resources/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester;
+        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester;
         path = path.replaceAll("\\\\", "/");
         List<String> items;
         items = findFoldersInDirectory(path);
@@ -151,7 +151,7 @@ public class LecturerWhiteboardBean {
         int pathlength = path.length();
         pathlength = pathlength - 10;
         path = path.substring(0, pathlength);
-        path = path + "web/resources/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + selectedActivity + "/";
+        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + selectedActivity + "/";
         path = path.replaceAll("\\\\", "/");
         path = path + studentName + extension;
         BufferedReader br = null;
@@ -188,25 +188,25 @@ public class LecturerWhiteboardBean {
         int pathlength = path.length();
         pathlength = pathlength - 10;
         path = path.substring(0, pathlength);
-        path = path + "web/resources/school/" + schoolname + "/" + moduleCode + "/";
+        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/";
         path = path.replaceAll("\\\\", "/");
 
         int pathlength2 = path2.length();
         pathlength2 = pathlength2 - 10;
         path2 = path2.substring(0, pathlength2);
-        path2 = path2 + "web/resources/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/";
+        path2 = path2 + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/";
         path2 = path2.replaceAll("\\\\", "/");
 
         int pathlength3 = path3.length();
         pathlength3 = pathlength3 - 10;
         path3 = path3.substring(0, pathlength3);
-        path3 = path3 + "web/resources/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + activityname + "/";
+        path3 = path3 + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + activityname + "/";
         path3 = path3.replaceAll("\\\\", "/");
 
         int pathlength4 = path4.length();
         pathlength4 = pathlength4 - 10;
         path4 = path4.substring(0, pathlength4);
-        path4 = path4 + "web/resources/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + activityname + "/submitted/";
+        path4 = path4 + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + activityname + "/submitted/";
         path4 = path4.replaceAll("\\\\", "/");
 
         Path folder1 = Paths.get(path);
@@ -236,7 +236,7 @@ public class LecturerWhiteboardBean {
         int pathlength = path.length();
         pathlength = pathlength - 10;
         path = path.substring(0, pathlength);
-        path = path + "web/resources/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + foldername + "/submitted/";
+        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + foldername + "/submitted/";
         path = path.replaceAll("\\\\", "/");
         List<String> items = new ArrayList<String>();
         items = listFiles(path);
@@ -287,7 +287,7 @@ public class LecturerWhiteboardBean {
         int pathlength = path.length();
         pathlength = pathlength - 10;
         path = path.substring(0, pathlength);
-        path = path + "web/resources/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + foldername + "/";
+        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + foldername + "/";
         path = path.replaceAll("\\\\", "/");
         Path folder = Paths.get(path);
         Path file = Files.createTempFile(folder, foldername + "-Closed", ".prism");
@@ -301,7 +301,7 @@ public class LecturerWhiteboardBean {
         int pathlength = path.length();
         pathlength = pathlength - 10;
         path = path.substring(0, pathlength);
-        path = path + "web/resources/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + foldername + "/";
+        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + foldername + "/";
         path = path.replaceAll("\\\\", "/");
         path = path + foldername + "-Closed.prism";
         Path folder = Paths.get(path);
@@ -317,7 +317,7 @@ public class LecturerWhiteboardBean {
         int pathlength = path.length();
         pathlength = pathlength - 10;
         path = path.substring(0, pathlength);
-        path = path + "web/resources/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + foldername + "/";
+        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + foldername + "/";
         path = path.replaceAll("\\\\", "/");
         File folder1 = new File(path);
         deleteFolder(folder1); //remove all items inside and the folder itself
@@ -348,7 +348,7 @@ public class LecturerWhiteboardBean {
         int pathlength = path.length();
         pathlength = pathlength - 10;
         path = path.substring(0, pathlength);
-        path = path + "web/resources/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + foldername + "/submitted/";
+        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + foldername + "/submitted/";
         path = path.replaceAll("\\\\", "/");
         List<String> items = new ArrayList<String>();
         List<String> itemswithpath = new ArrayList<String>();

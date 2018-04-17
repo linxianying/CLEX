@@ -9,8 +9,13 @@ import entity.Lecturer;
 import entity.Lesson;
 import entity.Module;
 import entity.Student;
+import entity.User;
+import static facebook4j.BackdatedTimeGranularity.year;
 import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -212,11 +217,54 @@ public class LecturerModuleListBean implements Serializable {
 //        }
     }
 
-    public void manageActivities(Module module) throws IOException{
+    public boolean checkFolder(Module module) {
+        User userEntity = (User) session.getAttribute("user");
+        String schoolname = userEntity.getSchool();
+        String moduleCode = module.getCourse().getModuleCode();
+        String year = module.getTakenYear();
+        String semester = module.getTakenSem();
+        String path = session.getServletContext().getRealPath("/");
+        int pathlength = path.length();
+        pathlength = pathlength - 10;
+        path = path.substring(0, pathlength);
+        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/";
+        path = path.replaceAll("\\\\", "/");
+        Path folder = Paths.get(path);
+        if (Files.exists(folder)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void manageActivities(Module module) throws IOException {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
         session.setAttribute("module", module);
-        context.getExternalContext().redirect("createWhiteboardActivity.xhtml");
+        User userEntity = (User) session.getAttribute("user");
+        String schoolname = userEntity.getSchool();
+        String moduleCode = module.getCourse().getModuleCode();
+        String year = module.getTakenYear();
+        String semester = module.getTakenSem();
+        String path = session.getServletContext().getRealPath("/");
+        int pathlength = path.length();
+        pathlength = pathlength - 10;
+        path = path.substring(0, pathlength);
+        String path2 = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/";
+        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/";
+        path = path.replaceAll("\\\\", "/");
+        if (checkFolder(module)) {
+            context.getExternalContext().redirect("createWhiteboardActivity.xhtml");
+        } else {
+            Path folder2 = Paths.get(path2);
+            Path folder = Paths.get(path);
+            if (!Files.exists(folder2)) {
+                Files.createDirectories(folder2);
+                Files.createDirectory(folder);
+                context.getExternalContext().redirect("createWhiteboardActivity.xhtml");
+            }
+
+        }
     }
 
     public List<Module> getModules() {
