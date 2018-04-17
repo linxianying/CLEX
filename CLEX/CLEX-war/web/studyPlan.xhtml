@@ -52,10 +52,10 @@
                                                 <p:column headerText="#{bundle['modName']}">
                                                     <h:outputText value="#{sp.course.moduleName}" />
                                                 </p:column>
-                                                <p:column style="text-align: center;width: 15%" headerText="#{bundle['CreditUnit']}">
+                                                <p:column headerText="#{bundle['CreditUnit']}">
                                                     <h:outputText value="#{sp.course.modularCredits}" />
                                                 </p:column>
-                                                <p:column style="text-align: center;width: 30%" headerText="#{bundle['ExpectedGrade']}">
+                                                <p:column headerText="#{bundle['ExpectedGrade']}">
                                                     <p:selectOneMenu id="newGrade" value="#{studyPlanBean.newModuleGrade}" >
                                                         <f:selectItem itemLabel="#{bundle['SelectOne']}" itemValue="select" />  
                                                         <f:selectItem itemLabel="A+" itemValue="A+" />

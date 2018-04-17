@@ -124,7 +124,7 @@
                 <br /><br />
                 <h:form id="forumForm">
                     <h:panelGroup>
-                        <p:dataTable selectionMode="single" selection="#{forumListBean.selectedThread}" rowKey="#{important.id}"
+                        <p:dataTable selectionMode="single" selection="#{forumListBean.selectedThread}" rowKey="#{important.id}" tableStyle="table-layout: auto !important"
                                      id="importanttable" value="#{forumListBean.important}" 
                                      var="important" paginator="true" 
                                      rows="15" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
@@ -157,7 +157,7 @@
                         </p:dataTable>
                     </h:panelGroup>
                     <h:panelGroup>
-                        <p:dataTable selectionMode="single" selection="#{forumListBean.selectedThread}" rowKey="#{threads.id}"
+                        <p:dataTable selectionMode="single" selection="#{forumListBean.selectedThread}" rowKey="#{threads.id}" tableStyle="table-layout: auto !important"
                                      id="forumtable" value="#{forumListBean.threads}" 
                                      var="threads" paginator="true" 
                                      rows="15" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
@@ -201,7 +201,7 @@
                 <br /><br />
                 <h:form id="forumForm2">
                     <h:panelGroup>
-                        <p:dataTable selectionMode="single" selection="#{forumListBean.selectedThread}" rowKey="#{threads.id}"
+                        <p:dataTable selectionMode="single" selection="#{forumListBean.selectedThread}" rowKey="#{threads.id}" tableStyle="table-layout: auto !important"
                                      id="forumtable" value="#{forumListBean.reviewThreads}" 
                                      var="threads" paginator="true" 
                                      rows="15" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
@@ -306,7 +306,7 @@
                 <br /><br />
                 <h:form id="salesForum">
                     <h:panelGroup>
-                        <p:dataTable selectionMode="single" selection="#{forumListBean.selectedThread}" rowKey="#{sales.id}"
+                        <p:dataTable selectionMode="single" selection="#{forumListBean.selectedThread}" rowKey="#{sales.id}" tableStyle="table-layout: auto !important"
                                      id="salestable" value="#{forumListBean.bazaar}" 
                                      var="sales" paginator="true" 
                                      rows="15" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 

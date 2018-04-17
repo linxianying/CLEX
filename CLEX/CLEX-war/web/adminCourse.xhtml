@@ -7,10 +7,6 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <h:head>
-        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-    </h:head>
-
     <ui:define name="title">Course Management</ui:define>
 
     <ui:define name="viewname">#{bundle['Course']}</ui:define>
@@ -28,7 +24,7 @@
                 <p:tabView id="tabView1">                    
                     <p:tab title="#{bundle['COURSES']}" >
                         <h:form id="panel">
-                            <p:dataTable id="coursetable" reflow="true" tableStyle="table-layout: auto ! important"
+                            <p:dataTable id="coursetable" reflow="true" tableStyle="table-layout: auto !important"
                                          editable="true" editMode="cell" 
                                          var="course" value="#{adminCourseListBean.courses}" 
                                          widgetVar="coursesTable"
@@ -209,7 +205,7 @@
                     </p:tab>            
                     <p:tab title="MODULES" >
                         <h:form id="panel1">
-                            <p:dataTable id="moduletable" reflow="true" tableStyle="table-layout: auto ! important" 
+                            <p:dataTable id="moduletable" reflow="true" tableStyle="table-layout: auto !important" 
                                          editable="true" editMode="cell" 
                                          var="module" value="#{adminCourseListBean.modules}" 
                                          widgetVar="modulesTable"
@@ -298,7 +294,7 @@
                     </p:tab>
                     <p:tab title="LESSONS">
                         <h:form id="panel2">
-                            <p:dataTable id="lessontable" editable="true" editMode="cell" reflow="true" tableStyle="table-layout: auto ! important" 
+                            <p:dataTable id="lessontable" editable="true" editMode="cell" reflow="true" tableStyle="table-layout: auto !important" 
                                          var="lesson" value="#{adminCourseListBean.lessons}" 
                                          widgetVar="lessonsTable" emptyMessage="No lessons found with given criteria." 
                                          filteredValue="#{adminCourseListBean.filteredLessons}"
