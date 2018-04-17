@@ -2,7 +2,15 @@ package managedbeans;
 
 import entity.Module;
 import entity.User;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -26,7 +34,7 @@ public class LecturerMindmapBean implements Serializable {
     private MindmapNode root;
 
     private MindmapNode selectedNode;
-
+    private ArrayList<String> allWeeks = new ArrayList<String>();
     FacesContext context;
     HttpSession session;
 
@@ -52,15 +60,49 @@ public class LecturerMindmapBean implements Serializable {
         semester = moduleEntity.getTakenSem();
         year = moduleEntity.getTakenYear();
         schoolname = userEntity.getSchool();
-        root = new DefaultMindmapNode("google.com", "Google WebSite", "00acac", false);
+        root = new DefaultMindmapNode(moduleEntity.getCourse().getModuleCode(), moduleEntity.getCourse().getModuleCode(), "00acac", false);
+        allWeeks.clear();
+        retrieveAllWeeks();
+        createSubNodes();
+    }
 
-        MindmapNode ips = new DefaultMindmapNode("IPs", "IP Numbers", "6e9ebf", true);
-        MindmapNode ns = new DefaultMindmapNode("NS(s)", "Namespaces", "6e9ebf", true);
-        MindmapNode malware = new DefaultMindmapNode("Malware", "Malicious Software", "6e9ebf", true);
+    public void createSubNodes() {
+        for (int i = 0; i < allWeeks.size(); i++) {
+            MindmapNode subnode = new DefaultMindmapNode(allWeeks.get(i), allWeeks.get(i), "62f442", true);
+            root.addNode(subnode);
+            System.out.println(allWeeks.get(i));
+        }
+    }
 
-        root.addNode(ips);
-        root.addNode(ns);
-        root.addNode(malware);
+    public void retrieveAllWeeks() {
+        String path = session.getServletContext().getRealPath("/");
+        int pathlength = path.length();
+        pathlength = pathlength - 10;
+        path = path.substring(0, pathlength);
+        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/Materials/";
+        path = path.replaceAll("\\\\", "/");
+        List<String> items;
+        items = findFoldersInDirectory(path);
+        String tempweek;
+        for (int i = 0; i < items.size(); i++) {
+            tempweek = items.get(i);
+            allWeeks.add(tempweek);
+        }
+    }
+
+    public List<String> findFoldersInDirectory(String directoryPath) {
+        File directory = new File(directoryPath);
+        FileFilter directoryFileFilter = new FileFilter() {
+            public boolean accept(File file) {
+                return file.isDirectory();
+            }
+        };
+        File[] directoryListAsFile = directory.listFiles(directoryFileFilter);
+        List<String> foldersInDirectory = new ArrayList<String>(directoryListAsFile.length);
+        for (File directoryAsFile : directoryListAsFile) {
+            foldersInDirectory.add(directoryAsFile.getName());
+        }
+        return foldersInDirectory;
     }
 
     public MindmapNode getRoot() {
@@ -76,27 +118,37 @@ public class LecturerMindmapBean implements Serializable {
     }
 
     public void onNodeSelect(SelectEvent event) {
+
         MindmapNode node = (MindmapNode) event.getObject();
+        if (!node.getLabel().equals(moduleEntity.getCourse().getModuleCode())) {
+            String path = session.getServletContext().getRealPath("/");
+            int pathlength = path.length();
+            pathlength = pathlength - 10;
+            path = path.substring(0, pathlength);
+            path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/Materials/" + node.getLabel() + "/";
+            path = path.replaceAll("\\\\", "/");
+            ArrayList<String> subFolders = new ArrayList<String>();
+            List<String> items;
+            items = findFoldersInDirectory(path);
+            String tempweek;
+            for (int i = 0; i < items.size(); i++) {
+                tempweek = items.get(i);
+                subFolders.add(tempweek);
+            }
+            for (int i = 0; i < subFolders.size(); i++) {
+                node.addNode(new DefaultMindmapNode(subFolders.get(i), subFolders.get(i), "82c542", true));
 
-        //populate if not already loaded
-        if (node.getChildren().isEmpty()) {
-            Object label = node.getLabel();
-
-            if (label.equals("NS(s)")) {
-                for (int i = 0; i < 25; i++) {
-                    node.addNode(new DefaultMindmapNode("ns" + i + ".google.com", "Namespace " + i + " of Google", "82c542", false));
-                }
-            } else if (label.equals("IPs")) {
-                for (int i = 0; i < 18; i++) {
-                    node.addNode(new DefaultMindmapNode("1.1.1." + i, "IP Number: 1.1.1." + i, "fce24f", false));
-                }
-            } else if (label.equals("Malware")) {
-                for (int i = 0; i < 18; i++) {
-                    String random = UUID.randomUUID().toString();
-                    node.addNode(new DefaultMindmapNode("Malware-" + random, "Malicious Software: " + random, "3399ff", false));
-                }
             }
         }
+
+    }
+
+    public ArrayList<String> getAllWeeks() {
+        return allWeeks;
+    }
+
+    public void setAllWeeks(ArrayList<String> allWeeks) {
+        this.allWeeks = allWeeks;
     }
 
     public void onNodeDblselect(SelectEvent event) {

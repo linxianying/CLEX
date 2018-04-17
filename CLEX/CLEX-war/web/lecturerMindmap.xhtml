@@ -14,12 +14,15 @@
     <ui:define name="content">
         <p:growl id="messages" />
         <h:form>
+            
+            
             <p:mindmap value="#{lecturerMindmapBean.root}" style="width: 100%;height: 600px;border: 1px solid black;">
                 <p:ajax event="select" listener="#{lecturerMindmapBean.onNodeSelect}" />
                 <p:ajax event="dblselect" listener="#{lecturerMindmapBean.onNodeDblselect}" update="output" oncomplete="PF('details').show();" />
             </p:mindmap>
 
-            <p:dialog widgetVar="details" header="Node Details" resizable="false" modal="true" showEffect="fade" hideEffect="fade">
+            <p:dialog responsive="true" widgetVar="details" closable="true" closeOnEscape="true" 
+                      header="#{lecturerMindmapBean.selectedNode.data}" resizable="false" modal="true" showEffect="fade" hideEffect="fade">
                 <h:outputText id="output" value="#{lecturerMindmapBean.selectedNode.data}" />
             </p:dialog> 
         </h:form>
