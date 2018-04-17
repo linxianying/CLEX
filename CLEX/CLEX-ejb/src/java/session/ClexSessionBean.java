@@ -782,4 +782,11 @@ public class ClexSessionBean implements ClexSessionBeanLocal {
         em.merge(module);
         em.flush();
     }
+    
+    @Override
+    public List<Course> retrieveAllCourse() {
+        Query query = em.createQuery("SELECT c FROM Course c");
+        List<Course> courses = query.getResultList();
+        return courses;
+    }
 }

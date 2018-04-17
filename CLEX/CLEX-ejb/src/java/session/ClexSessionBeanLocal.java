@@ -137,5 +137,7 @@ public interface ClexSessionBeanLocal {
     public void createSuperGroupWithMax(int numOfGroups, int avgStudentNum, int maxStudentNum, Module module);
 
     public void createSuperGroupWithMin(int numOfGroups, int avgStudentNum, int minStudentNum, Module module);
+
+    public List<Course> retrieveAllCourse();
     
 }

@@ -136,41 +136,51 @@
 
                 </div>
             </div>
-
+            
+            <h2>Files Can Download For this Module</h2>
             <h:form>
-                <!--<h:outputText value="#{filesDownloadBean.files.toString}"/>-->
+                <h:outputText value="#{filesDownloadBean.files.size()}"/>
                 <p:repeat value="#{filesDownloadBean.files}" var="file" >
 
                     <p:panelGrid style="margin-top:20px">
                         <f:facet name="header">
                             <p:row>
                                 <p:column colspan="3">
-                                    <h:outputText value="#{files.name}" />
+                                    <h:outputText value="#{file.name}" />
                                 </p:column>
                             </p:row>
                         </f:facet>
 
                         <p:row>
-                            <p:column rowspan="2">
-                                <p:graphicImage value="/uploadedFiles/#{file.module.course.moduleCode}/#{file.name}"  width="300"/> 
-                            </p:column>
-
                             <p:column>
-                                <p:commandButton value="1.selectFile" actionListener="#{filesDownloadBean.handleDownload}" update="@form">
+                                <p:commandButton value="SelectFile" actionListener="#{filesDownloadBean.handleDownload}" update="@form">
                                     <f:attribute name="fileId" value="#{file.id}"  />
                                 </p:commandButton>
                             </p:column>
 
                             <p:column>
-                                <p:commandButton value="2.download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+                                <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
                                     <p:fileDownload value="#{filesDownloadBean.file}" />
                                 </p:commandButton>
                             </p:column>
+
                         </p:row>
                     </p:panelGrid>
                     <hr/>
                 </p:repeat>
-            </h:form>
+          
+            
+        </h:form>
+            <script type="text/javascript">
+                function start() {
+                    PF('statusDialog').show();
+                }
+
+                function stop() {
+                    PF('statusDialog').hide();
+                }
+            </script>
+            
         </h:body>
     </ui:define>
 </ui:composition>

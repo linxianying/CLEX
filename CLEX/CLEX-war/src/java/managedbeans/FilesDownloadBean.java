@@ -72,6 +72,7 @@ public class FilesDownloadBean {
         module = fmsbl.findModule(id);
         files = module.getFileLists();
         num = files.size();
+        System.out.println("FileDownloadBean: num of files" + num);
     }
     
      public StreamedContent retrieveStreamedContent() {
@@ -95,7 +96,28 @@ public class FilesDownloadBean {
         
         return streamedContent;
     }
+     
+     public StreamedContent getFile() {
+        
+        String filePath = (String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("downloadFilePath");
+        
+        if(filePath != null && filePath.trim().length() > 0)
+        {
+            try
+            {            
+                FileInputStream stream = new FileInputStream(new File(filePath));
+                streamedContent = new DefaultStreamedContent(stream, "image/png", file.getName());
+            }
+            catch(FileNotFoundException ex)
+            {
+                
+            }
+        }
+        
+        return streamedContent;
+    }
     
+     
     public void handleDownload(ActionEvent event) {
         try {
             id = (Long) event.getComponent().getAttributes().get("fileId");
@@ -103,9 +125,9 @@ public class FilesDownloadBean {
 
             String filePath = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("alternatedocroot_1")
                     + System.getProperty("file.separator") + 
-                    file.getModule().getCourse().getModuleCode() + 
+                    module.getCourse().getModuleCode() + 
                     System.getProperty("file.separator") + file.getName();
-
+            System.out.println(filePath);
             session.setAttribute("downloadFilePath", filePath);
             
         } catch (Exception ex) {
@@ -193,9 +215,6 @@ public class FilesDownloadBean {
         this.session = session;
     }
 
-    public Files getFile() {
-        return file;
-    }
 
     public void setFile(Files file) {
         this.file = file;

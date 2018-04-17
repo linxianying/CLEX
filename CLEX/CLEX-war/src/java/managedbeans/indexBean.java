@@ -6,13 +6,17 @@
 package managedbeans;
 
 import entity.Answer;
+import entity.Course;
+import entity.Module;
 import entity.Poll;
 import entity.ProjectGroup;
 import entity.Student;
 import java.util.Iterator;
 import entity.Transaction;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -345,6 +349,15 @@ public class indexBean {
         //for test group formation function of lecturer
 //        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("IS4231"));
         csbl.linkLecturerModule("hsianghui", "IS4231", "2017", "2");
+        
+        List<Course> courses = csbl.retrieveAllCourse();
+
+        for (Course each : courses) {
+            Boolean success = (new File("/Applications/NetBeans/files/" + each.getModuleCode())).mkdirs();
+            if (!success) {
+                System.err.println("The new folder is not created successfully!");
+            }
+        }
         
         //set peer review form for hsianghui2 PC2193 TEST
         Date day = new Date();
