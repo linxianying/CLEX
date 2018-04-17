@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+                xmlns:h="http://xmlns.jcp.org/jsf/html" 
+                template="/WEB-INF/template.xhtml"
+                xmlns:p="http://primefaces.org/ui" 
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                >
+    
+    <ui:define name="title">PRISM Student Project page</ui:define>
+        
+    <ui:define name="viewname">Project</ui:define>
+        
+    <ui:define name="content">
+        <h:form id="PRForm">
+            <h:panelGroup id="individualQuestions">
+                <h3>Individual Question</h3>
+                <ui:repeat value="#{studentPeerReviewBean.individualAnswers}" var="inner" varStatus="outIndex">
+                    <h3><h:outputText value="For Group Member #{studentPeerReviewBean.groupMembers.get(outIndex.index).getName()}"/></h3>
+                    <h3><h:outputText value="(Myself)" rendered="#{studentPeerReviewBean.username eq studentPeerReviewBean.groupMembers.get(outIndex.index).getUsername()}"/></h3>
+                        <ui:repeat value="#{studentPeerReviewBean.individualAnswers[outIndex.index]}" var="indAnswer" varStatus="indIndex">
+                        <h:outputText value="Q#{indIndex.index+1}. "/>
+                        <h:outputText value="#{studentPeerReviewBean.individualQuestions.get(indIndex.index).getQuestion()}"/>
+                        <br/>
+                        <p:inputTextarea rows="5" cols="30" maxlength="20000" autoResize="false" rendered="#{studentPeerReviewBean.individualQuestions.get(indIndex.index).type eq 'open'}" 
+                                         value="#{studentPeerReviewBean.individualAnswers[outIndex.index][indIndex.index]}" /> 
+                        <p:selectOneMenu id="rating"  panelStyle="width:180px" effect="fade" style="width:160px" rendered="#{studentPeerReviewBean.individualQuestions.get(indIndex.index).type eq 'rating'}" 
+                                         value="#{studentPeerReviewBean.individualAnswers[outIndex.index][indIndex.index]}">
+                            <f:selectItem itemLabel="Select One" itemValue="select"/>
+                            <f:selectItems value="#{studentPeerReviewBean.getRating(studentPeerReviewBean.individualQuestions.get(indIndex.index))}" var="rate" itemLabel="#{rate}" itemValue="#{Integer.toString(rate)}" />
+                        </p:selectOneMenu>
+                        <br />
+                    </ui:repeat>
+                </ui:repeat>
+                    
+                <br/>
+                    
+            </h:panelGroup>
+            <h:panelGroup id="groupQuestions"> 
+                <h3>Group Question</h3>
+                <ui:repeat value="#{studentPeerReviewBean.groupAnswers}" var="grAnswer" varStatus="grIndex" id="grpRepeat">
+                    <h:outputText value="Q#{grIndex.index+1}. "/>
+                    <h:outputText value="#{studentPeerReviewBean.groupQuestions.get(grIndex.index).getQuestion()}"/>
+                    <br/>
+                    <ui:repeat value="#{studentPeerReviewBean.groupAnswers[grIndex.index]}" var="ans" rendered="#{studentPeerReviewBean.groupQuestions.get(grIndex.index).type eq 'open'}" varStatus="n">
+                        <p:inputTextarea rows="5" cols="30" maxlength="20000" autoResize="false" rendered="#{studentPeerReviewBean.groupQuestions.get(grIndex.index).type eq 'open'}" 
+                                         value="#{studentPeerReviewBean.groupAnswers[grIndex.index][n.index]}"/>   
+                    </ui:repeat>                  
+                    
+                    <ui:repeat value="#{grAnswer}" var="ans" rendered="#{studentPeerReviewBean.groupQuestions.get(grIndex.index).type eq 'rating'}" varStatus="n">
+                        <p:selectOneMenu id="rating"  panelStyle="width:180px" effect="fade" style="width:160px" 
+                                         rendered="#{studentPeerReviewBean.groupQuestions.get(grIndex.index).type eq 'rating'}" 
+                                         value="#{studentPeerReviewBean.groupAnswers[grIndex.index][n.index]}">
+                            <f:selectItem itemLabel="Select One" itemValue="select"/>
+                            <f:selectItems value="#{studentPeerReviewBean.getRating(studentPeerReviewBean.groupQuestions.get(grIndex.index))}" var="rate" itemLabel="#{rate}" itemValue="#{Integer.toString(rate)}" />
+                        </p:selectOneMenu>
+                    </ui:repeat>
+                    
+                    <p:dataTable var="groupMemberUsername" value="#{studentPeerReviewBean.groupAnswers[grIndex.index]}" draggableRows="true" rowIndexVar="indIndex" style="margin-bottom:20px"
+                                 rendered="#{studentPeerReviewBean.groupQuestions.get(grIndex.index).type eq 'ranking'}" id="rankingTable">
+                        <p:ajax event="rowReorder"  process="@none" partialSubmit="true" update="@this"/>
+                        <f:facet name="header">
+                            Rank the student, the top one the best
+                        </f:facet>
+                        <p:column>
+                            <!--<h:outputText value="No. #{indIndex+1} "/>-->
+                            <h:outputText value="#{studentPeerReviewBean.getStudentInfo(groupMemberUsername)}"/>
+                        </p:column>                                
+                    </p:dataTable>
+                    <br />
+                </ui:repeat>
+            </h:panelGroup>
+<!--            <ui:repeat value="#{studentPeerReviewBean.a}" var="b" varStatus="status">
+                <h:inputText value="#{studentPeerReviewBean.a[status.index]}"/>
+            </ui:repeat>-->
+            <p:commandButton value="submit" actionListener="#{studentPeerReviewBean.submitPRForm()}" action="projectDetails?faces-redirect=true"/>
+            <br/>
+        </h:form>
+        <p:commandButton value="cancel" action="projectDetails?faces-redirect=true"/>
+    </ui:define>
+</ui:composition>

@@ -22,6 +22,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import session.ClexSessionBeanLocal;
+import session.PRAnswerSessionBeanLocal;
 import session.ProjectSessionBeanLocal;
 
 /**
@@ -39,7 +40,9 @@ public class ProjectDetailsBean {
     private ClexSessionBeanLocal csbl;
     @EJB
     private ProjectSessionBeanLocal psbl;
-
+    @EJB
+    private PRAnswerSessionBeanLocal prasbl;
+    
     FacesContext context;
     HttpSession session;
 
@@ -144,6 +147,10 @@ public class ProjectDetailsBean {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public boolean checkPRFormSubmit(Module m) {
+        return prasbl.checkPRFormSubmit(student,m);
     }
     
     public String getUsername() {

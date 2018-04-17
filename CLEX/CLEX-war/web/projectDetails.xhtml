@@ -97,10 +97,10 @@
                                                               projectBean.hasProjectGroup(m.course.moduleCode) and (empty m.peerReviewQuestion or m.peerReviewQuestion.status eq 'notStart')}" />
                                     <p:commandButton value="Fill peer review form" icon="fa fa-clipboard" action="#{projectBean.GoPRPage(m.course.moduleCode)}"
                                                   rendered="#{not empty m.superGroup and m.superGroup.confirm and 
-                                                              projectBean.hasProjectGroup(m.course.moduleCode) and not empty m.peerReviewQuestion and m.peerReviewQuestion.status eq 'start'}" />
+                                                              projectBean.hasProjectGroup(m.course.moduleCode) and not empty m.peerReviewQuestion and m.peerReviewQuestion.status eq 'start' and !projectDetailsBean.checkPRFormSubmit(m)}" />
                                     <p:commandButton value="View submitted peer review form" icon="fa fa-clipboard" action="#{projectBean.GoPRPage(m.course.moduleCode)}"
                                                   rendered="#{not empty m.superGroup and m.superGroup.confirm and 
-                                                              projectBean.hasProjectGroup(m.course.moduleCode) and not empty m.peerReviewQuestion and m.peerReviewQuestion.status eq 'end'}" />
+                                                              projectBean.hasProjectGroup(m.course.moduleCode) and not empty m.peerReviewQuestion and projectDetailsBean.checkPRFormSubmit(m)}" />
                                 </td>
                             </tr>
                             <tr>
