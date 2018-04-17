@@ -106,15 +106,6 @@ public class GroupFormationSessionBean implements GroupFormationSessionBeanLocal
         return superGroupEntity;
     }
     
-//    @Override
-//    public ArrayList<ProjectGroup> getAllProjectGroups(Module module) {
-//        projectGroups = new ArrayList<ProjectGroup>();
-//        Collection<ProjectGroup> all = module.getSuperGroup().getProjectGroups();
-//        for (ProjectGroup pg: all)
-//            projectGroups.add(pg);
-//        return projectGroups;
-//    }
-    
     @Override
     public ArrayList<ProjectGroup> getAllProjectGroups(Long superGroupId) {
         projectGroups = new ArrayList<ProjectGroup>();
@@ -164,6 +155,7 @@ public class GroupFormationSessionBean implements GroupFormationSessionBeanLocal
             }
             
             if (oriGroupId != null) {
+                System.out.println("Start to remove original group");
                 ProjectGroup oriGroup = this.findProjectGroup(oriGroupId);
                 student.getProjectGroups().remove(oriGroup);
                 oriGroup.getGroupMembers().remove(student);
@@ -199,7 +191,7 @@ public class GroupFormationSessionBean implements GroupFormationSessionBeanLocal
     private boolean checkGroupStatus(ProjectGroup group) {
         boolean check = false;
         int max = group.getSuperGroup().getMaxStudentNum();
-        if (group.getGroupMembers().size() < max) {
+        if (max == 0 || group.getGroupMembers().size() < max) {
             check = true;
             System.out.println("gf Session bean: checkGroupStatus: proejctGroup "
                     + group.getName() + " for "
