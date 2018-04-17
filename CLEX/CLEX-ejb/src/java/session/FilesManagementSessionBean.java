@@ -32,7 +32,7 @@ public class FilesManagementSessionBean implements FilesManagementSessionBeanLoc
     
     
     @Override
-    public Files createFile(String username, Long id) {
+    public Files createFile(String fileName, Long id) {
         moduleEntity = findModule(id);
 
         if (moduleEntity == null) {
@@ -42,15 +42,15 @@ public class FilesManagementSessionBean implements FilesManagementSessionBeanLoc
 
         fileEntity = new Files();
 
-        System.out.println("Id: " + fileEntity.getId());
-        fileEntity.createFile(username);
+        
+        fileEntity.createFile(fileName);
         fileEntity.setModule(moduleEntity);
         moduleEntity.getFileLists().add(fileEntity);
 
-        em.merge(userEntity);
+        em.merge(moduleEntity);
+        em.flush();
         em.persist(fileEntity);
         em.flush();
-
         System.out.println("File " + fileEntity.getId() + " created.");
         return fileEntity;
     }

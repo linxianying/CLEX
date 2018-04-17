@@ -36,9 +36,9 @@
                                     </p:selectOneMenu>
                                 </h:panelGrid>
                                 <br />
-                                <p:inputTextarea rows="1" cols="100" title="Title" placeholder="Thread Title" id="title" value="#{forumListBean.tTitle}"/>
+                                <p:inputTextarea style="width:100%" rows="1" cols="100" title="Title" placeholder="Thread Title" id="title" value="#{forumListBean.tTitle}"/>
                                 <br />
-                                <p:textEditor widgetVar="editor1" value="#{forumListBean.tContent}" height="300" style="margin-bottom:10px" placeholder="Enter your content">
+                                <p:textEditor widgetVar="editor1" value="#{forumListBean.tContent}" height="100" style="margin-bottom:10px; max-width: 60vw;" placeholder="Enter your content">
                                     <f:facet name="toolbar">
                                         <span class="ql-formats">
                                             <span class="ql-formats">
@@ -108,7 +108,7 @@
                 <br /><br />
                 <h:form id="forumForm">
                     <h:panelGroup>
-                        <p:dataTable selectionMode="single" selection="#{forumListBean.selectedThread}" rowKey="#{important.id}"
+                        <p:dataTable selectionMode="single" selection="#{forumListBean.selectedThread}" rowKey="#{important.id}" tableStyle="table-layout: auto !important"
                                      id="importanttable" value="#{forumListBean.important}" 
                                      var="important" paginator="true" 
                                      rows="15" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
@@ -141,7 +141,7 @@
                         </p:dataTable>
                     </h:panelGroup>
                     <h:panelGroup>
-                        <p:dataTable selectionMode="single" selection="#{forumListBean.selectedThread}" rowKey="#{threads.id}"
+                        <p:dataTable selectionMode="single" selection="#{forumListBean.selectedThread}" rowKey="#{threads.id}" tableStyle="table-layout: auto !important"
                                      id="forumtable" value="#{forumListBean.threads}" 
                                      var="threads" paginator="true" 
                                      rows="15" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
@@ -185,7 +185,7 @@
                 <br /><br />
                 <h:form id="forumForm2">
                     <h:panelGroup>
-                        <p:dataTable selectionMode="single" selection="#{forumListBean.selectedThread}" rowKey="#{threads.id}"
+                        <p:dataTable selectionMode="single" selection="#{forumListBean.selectedThread}" rowKey="#{threads.id}" tableStyle="table-layout: auto !important"
                                      id="forumtable" value="#{forumListBean.reviewThreads}" 
                                      var="threads" paginator="true" 
                                      rows="15" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
@@ -290,7 +290,7 @@
                 <br /><br />
                 <h:form id="salesForum">
                     <h:panelGroup>
-                        <p:dataTable selectionMode="single" selection="#{forumListBean.selectedThread}" rowKey="#{sales.id}"
+                        <p:dataTable selectionMode="single" selection="#{forumListBean.selectedThread}" rowKey="#{sales.id}" tableStyle="table-layout: auto !important"
                                      id="salestable" value="#{forumListBean.bazaar}" 
                                      var="sales" paginator="true" 
                                      rows="15" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 

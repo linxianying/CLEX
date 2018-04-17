@@ -7,17 +7,14 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <h:head>
-        <meta name="viewport" content="width=device-width"/>
-    </h:head>
-
-    <ui:define name="title">PRISM Administrator Course Management Page</ui:define>
+    <ui:define name="title">Course Management</ui:define>
 
     <ui:define name="viewname">#{bundle['Course']}</ui:define>
 
     <ui:define name="content">
         <p:growl id="messages" showDetail="true" />
-        <h1 style="margin-top:0">#{bundle['CourseManagementPage']}</h1>
+
+        <h1 style="margin-top:0">Course Management</h1>
 
         <p:commandButton value="#{bundle['Print']}" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
             <p:printer target="panelForm" />
@@ -27,7 +24,7 @@
                 <p:tabView id="tabView1">                    
                     <p:tab title="#{bundle['COURSES']}" >
                         <h:form id="panel">
-                            <p:dataTable id="coursetable" reflow="true" tableStyle="table-layout: auto ! important"
+                            <p:dataTable id="coursetable" reflow="true" tableStyle="table-layout: auto !important"
                                          editable="true" editMode="cell" 
                                          var="course" value="#{adminCourseListBean.courses}" 
                                          widgetVar="coursesTable"
@@ -45,7 +42,7 @@
                                     </p:outputPanel>
                                 </f:facet>  
                                 <f:facet name="{Exporters}">
-                                    <div style="float:right;">
+                                    <div>
                                         <!--could add pageOnly="true" to make the exporter only export one page -->
                                         <h:commandLink>
                                             <p:graphicImage name="/demo/images/excel.png" width="24"/>
@@ -89,7 +86,7 @@
                                 </p:column>
                                 <p:column style="min-width: 120px" filterBy="#{course.moduleCode}" headerText="Module Code" sortBy="#{course.moduleCode}" filterMatchMode="contains">
                                     <div><h:outputText style="text-align: center" value="#{course.moduleCode}" />
-                                    <p:commandButton style="color:black; background: transparent" icon="ui-icon-trash"
+                                    <p:commandButton style="color:black; background: transparent; float:right" icon="ui-icon-trash"
                                                      update="messages" actionListener="#{adminCourseListBean.removeCourse(course)}">
                                         <p:confirm header="Delete #{course.moduleCode}" message="Please ensure that no modules are linked to #{course.moduleCode}!" icon="ui-icon-alert" />
                                     </p:commandButton></div>
@@ -142,12 +139,12 @@
                                 </p:column>
                                 <p:column filterBy="#{course.discontinuedBool}" headerText="Discontinued" sortBy="#{course.discontinuedBool}" filterMatchMode="equals">
                                     <div><f:facet name="filter">
-                                        <p:selectOneButton onchange="PF('coursesTable').filter()">
+                                        <p:selectOneMenu onchange="PF('coursesTable').filter()">
                                             <f:converter converterId="javax.faces.Boolean" />
                                             <f:selectItem itemLabel="All" itemValue="" />
                                             <f:selectItem itemLabel="Yes" itemValue="true" />
                                             <f:selectItem itemLabel="No" itemValue="false" />
-                                        </p:selectOneButton>
+                                        </p:selectOneMenu>
                                     </f:facet>
                                     <p:inputSwitch onLabel="Yes" offLabel="No" value="#{course.discontinuedBool}" >
                                         <p:ajax listener="#{adminCourseListBean.editCourse(course)}" update="messages"/>
@@ -170,11 +167,11 @@
                                 </p:column>
                                 <p:column filterBy="#{course.discountinuedSem}" headerText="Discontinued Semester" sortBy="#{course.discountinuedSem}" filterMatchMode="contains">
                                     <f:facet name="filter">
-                                        <p:selectOneButton onchange="PF('coursesTable').filter()">
+                                        <p:selectOneMenu onchange="PF('coursesTable').filter()">
                                             <f:selectItem itemLabel="All" itemValue="" />
                                             <f:selectItem itemLabel="1" itemValue="1" />
                                             <f:selectItem itemLabel="2" itemValue="2" />                                
-                                        </p:selectOneButton>
+                                        </p:selectOneMenu>
                                     </f:facet>
                                     <h:outputText rendered="#{course.discontinuedBool eq false}" 
                                                   style="color:black;font-weight:normal;" value="N/A" />
@@ -187,11 +184,11 @@
                                 </p:column>
                                 <p:column filterBy="#{course.offeredSem}" headerText="Offered Semester" sortBy="#{course.offeredSem}" filterMatchMode="contains">
                                     <f:facet name="filter">
-                                        <p:selectOneButton onchange="PF('coursesTable').filter()">
+                                        <p:selectOneMenu onchange="PF('coursesTable').filter()">
                                             <f:selectItem itemLabel="All" itemValue="" />
                                             <f:selectItem itemLabel="1" itemValue="1" />
                                             <f:selectItem itemLabel="2" itemValue="2" />                                
-                                        </p:selectOneButton>
+                                        </p:selectOneMenu>
                                     </f:facet>
                                     <p:selectOneButton value="#{course.offeredSem}" >
                                         <f:selectItem itemLabel="1" itemValue="1" />
@@ -208,7 +205,7 @@
                     </p:tab>            
                     <p:tab title="MODULES" >
                         <h:form id="panel1">
-                            <p:dataTable id="moduletable" reflow="true" tableStyle="table-layout: auto ! important" 
+                            <p:dataTable id="moduletable" reflow="true" tableStyle="table-layout: auto !important" 
                                          editable="true" editMode="cell" 
                                          var="module" value="#{adminCourseListBean.modules}" 
                                          widgetVar="modulesTable"
@@ -224,7 +221,7 @@
                                     </p:outputPanel>
                                 </f:facet>
                                 <p:ajax event="cellEdit" listener="#{adminCourseListBean.editModule(module)}" update="messages"/>
-                                <p:column style="text-align: center;width: 8%" filterBy="#{module.course.school}" headerText="School" sortBy="#{module.course.school}" filterMatchMode="contains">
+                                <p:column filterBy="#{module.course.school}" headerText="School" sortBy="#{module.course.school}" filterMatchMode="contains">
                                     <f:facet name="filter">
                                         <p:selectOneMenu style="text-transform: uppercase;" editable="true" onchange="PF('modulesTable').filter()">
                                             <f:selectItem itemLabel="" itemValue="" />
@@ -240,9 +237,9 @@
                                             </p:selectOneMenu></f:facet>
                                     </p:cellEditor>
                                 </p:column>
-                                <p:column filterBy="#{module.course.moduleCode}" headerText="Module Code" sortBy="#{module.course.moduleCode}" filterMatchMode="contains">
+                                <p:column style="min-width: 120px" filterBy="#{module.course.moduleCode}" headerText="Module Code" sortBy="#{module.course.moduleCode}" filterMatchMode="contains">
                                     <h:outputText value="#{module.course.moduleCode}" />
-                                    <p:commandButton style="color:black; background: transparent" icon="ui-icon-trash" >
+                                    <p:commandButton style="color:black; background: transparent; float:right" icon="ui-icon-trash" >
                                         <p:confirm header="Delete #{module.course.moduleCode}" message="Please ensure that no lessons/students/lecturers are linked to #{module.course.moduleCode}!" icon="ui-icon-alert" />
                                         <p:ajax update="messages, panelForm:tabView1:assignform:modulelistbyschoolmenu, panelForm:tabView1:assignform:moduleNameLabelAssign" listener="#{adminCourseListBean.removeModule(module)}" />
                                     </p:commandButton>
@@ -250,13 +247,13 @@
                                 <p:column filterBy="#{module.takenYear}" headerText="Taken Year" sortBy="#{module.takenYear}" filterMatchMode="contains">
                                     <h:outputText value="#{module.takenYear}" />
                                 </p:column>
-                                <p:column style="text-align: center;width: 10%" filterBy="#{module.takenSem}" headerText="Taken Sem" sortBy="#{module.takenSem}" filterMatchMode="contains">
+                                <p:column filterBy="#{module.takenSem}" headerText="Taken Sem" sortBy="#{module.takenSem}" filterMatchMode="contains">
                                     <f:facet name="filter">
-                                        <p:selectOneButton onchange="PF('modulesTable').filter()">
+                                        <p:selectOneMenu onchange="PF('modulesTable').filter()">
                                             <f:selectItem itemLabel="All" itemValue="" />
                                             <f:selectItem itemLabel="1" itemValue="1" />
                                             <f:selectItem itemLabel="2" itemValue="2" />                             
-                                        </p:selectOneButton>
+                                        </p:selectOneMenu>
                                     </f:facet>
                                     <h:outputText value="#{module.takenSem}" />
                                 </p:column>
@@ -297,7 +294,7 @@
                     </p:tab>
                     <p:tab title="LESSONS">
                         <h:form id="panel2">
-                            <p:dataTable id="lessontable" editable="true" editMode="cell" reflow="true" tableStyle="table-layout: auto ! important" 
+                            <p:dataTable id="lessontable" editable="true" editMode="cell" reflow="true" tableStyle="table-layout: auto !important" 
                                          var="lesson" value="#{adminCourseListBean.lessons}" 
                                          widgetVar="lessonsTable" emptyMessage="No lessons found with given criteria." 
                                          filteredValue="#{adminCourseListBean.filteredLessons}"
@@ -327,9 +324,9 @@
                                             </p:selectOneMenu></f:facet>
                                     </p:cellEditor>
                                 </p:column>
-                                <p:column filterBy="#{lesson.module.course.moduleCode}" headerText="Module Code" sortBy="#{lesson.module.course.moduleCode}" filterMatchMode="contains">
+                                <p:column style="min-width: 120px" filterBy="#{lesson.module.course.moduleCode}" headerText="Module Code" sortBy="#{lesson.module.course.moduleCode}" filterMatchMode="contains">
                                     <h:outputText value="#{lesson.module.course.moduleCode}" />
-                                    <p:commandButton style="color:black; background: transparent" icon="ui-icon-trash">
+                                    <p:commandButton style="color:black; background: transparent; float:right" icon="ui-icon-trash">
                                         <p:confirm header="Delete #{lesson.module.course.moduleCode}" message="Are you sure?" icon="ui-icon-alert" />
                                         <p:ajax update="messages" listener="#{adminCourseListBean.removeLesson(lesson)}" />
                                     </p:commandButton>
@@ -339,15 +336,15 @@
                                 </p:column>
                                 <p:column filterBy="#{lesson.module.takenSem}" headerText="Offered Sem" sortBy="#{lesson.module.takenSem}" filterMatchMode="contains">
                                     <f:facet name="filter">
-                                        <p:selectOneButton onchange="PF('lessonsTable').filter()">
+                                        <p:selectOneMenu onchange="PF('lessonsTable').filter()">
                                             <f:selectItem itemLabel="All" itemValue="" />
                                             <f:selectItem itemLabel="1" itemValue="1" />
                                             <f:selectItem itemLabel="2" itemValue="2" />                             
-                                        </p:selectOneButton>
+                                        </p:selectOneMenu>
                                     </f:facet>
                                     <h:outputText value="#{lesson.module.takenSem}" />
                                 </p:column>
-                                <p:column style="text-align: center;width: 10%" filterBy="#{lesson.day}" headerText="Day" sortBy="#{lesson.day}" filterMatchMode="contains">
+                                <p:column filterBy="#{lesson.day}" headerText="Day" sortBy="#{lesson.day}" filterMatchMode="contains">
                                     <f:facet name="filter">
                                         <p:selectOneMenu onchange="PF('lessonsTable').filter()">
                                             <f:selectItem itemLabel="All" itemValue="" />
@@ -356,7 +353,7 @@
                                     </f:facet>
                                     <h:outputText value="#{lesson.day}" />
                                 </p:column>
-                                <p:column style="text-align: center;width: 10%" filterBy="#{lesson.timeFrom}" headerText="Time Start" sortBy="#{lesson.timeFrom}" filterMatchMode="contains">
+                                <p:column filterBy="#{lesson.timeFrom}" headerText="Time Start" sortBy="#{lesson.timeFrom}" filterMatchMode="contains">
                                     <f:facet name="filter">
                                         <p:selectOneMenu onchange="PF('lessonsTable').filter()">
                                             <f:selectItem itemLabel="All" itemValue="" />
@@ -365,7 +362,7 @@
                                     </f:facet>
                                     <h:outputText value="#{lesson.timeFrom}" />
                                 </p:column>
-                                <p:column style="text-align: center;width: 10%" filterBy="#{lesson.timeEnd}" headerText="Time End" sortBy="#{lesson.timeEnd}" filterMatchMode="contains">
+                                <p:column filterBy="#{lesson.timeEnd}" headerText="Time End" sortBy="#{lesson.timeEnd}" filterMatchMode="contains">
                                     <f:facet name="filter">
                                         <p:selectOneMenu onchange="PF('lessonsTable').filter()">
                                             <f:selectItem itemLabel="All" itemValue="" />
@@ -374,11 +371,11 @@
                                     </f:facet>
                                     <h:outputText value="#{lesson.timeEnd}" />
                                 </p:column>
-                                <p:column style="text-align: center;width: 10%" filterBy="#{lesson.type}" headerText="Type" sortBy="#{lesson.type}" filterMatchMode="contains">
+                                <p:column filterBy="#{lesson.type}" headerText="Type" sortBy="#{lesson.type}" filterMatchMode="contains">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{lesson.type}" /></f:facet>
                                         <f:facet name="input">
-                                            <p:selectOneMenu required="true" value="#{lesson.type}" editable="true">
+                                            <p:selectOneMenu required="true" value="#{lesson.type}" editable="true" >
                                                 <f:selectItem itemLabel="Enter or select a lesson type" itemValue=""/>
                                                 <f:selectItem itemLabel="Lecture" itemValue="LECTURE" />
                                                 <f:selectItem itemLabel="Tutorial" itemValue="TUTORIAL" />
@@ -387,7 +384,7 @@
                                             </p:selectOneMenu></f:facet>
                                     </p:cellEditor>
                                 </p:column>
-                                <p:column style="text-align: center;width: 10%" filterBy="#{lesson.venue}" headerText="Venue" sortBy="#{lesson.venue}" filterMatchMode="contains">
+                                <p:column filterBy="#{lesson.venue}" headerText="Venue" sortBy="#{lesson.venue}" filterMatchMode="contains">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{lesson.venue}" /></f:facet>
                                         <f:facet name="input"><p:inputText id="venueInput" value="#{lesson.venue}" style="width:96%"/></f:facet>
@@ -606,7 +603,7 @@
                         <h:panelGrid columns="4" cellpadding="5">
                             <h:outputLabel value="SELECT SCHOOL"/>
                             <p:selectOneMenu id="selectSchool2" value="#{adminCourseListBean.schoolname}"
-                                             title="Select a School" >
+                                             title="Select a School" style="width:80%">
                                 <p:ajax event="change" listener="#{adminCourseListBean.onSchoolChange}" 
                                         update="createTab:createLessonForm, messages" /> 
                                 <f:selectItem itemLabel="Select a school" itemValue="" noSelectionOption="true"/>
@@ -617,7 +614,7 @@
                             <h:outputLabel for= "moduleCodeForLesson" value="MODULE CODE:"/>
                             <p:selectOneMenu id="moduleCodeForLesson" value="#{adminCourseListBean.bigString}" 
                                              editable="false" filter="true" filterMatchMode="contains" effect="fade"
-                                             title="Select a module" required="true" requiredMessage="Module Code is required!">
+                                             title="Select a module" required="true" requiredMessage="Module Code is required!" style="width:80%">
                                 <p:ajax event="change" listener="#{adminCourseListBean.onModuleChange()}" 
                                         update="createTab:createLessonForm, messages" /> 
                                 <f:selectItem itemLabel="Select a module" itemValue=""/>
@@ -629,8 +626,8 @@
                             <h:outputLabel id="nameLabel2" value="#{adminCourseListBean.moduleNameText}"/> 
                             <h:outputLabel for= "day" value="DAY:"/>
                             <p:selectOneMenu required="true" id="day" value="#{adminCourseListBean.day}"  requiredMessage="Day is required!"
-                                             editable="false" title="Please select a day for the lesson">
-                                <f:selectItem itemLabel="Select a day for the lesson" itemValue="" noSelectionOption="true"/>
+                                             editable="false" title="Please select a lesson day" style="width:80%">
+                                <f:selectItem itemLabel="Select a lesson day" itemValue="" noSelectionOption="true"/>
                                 <f:selectItems value="#{adminCourseListBean.daylist}" />
                             </p:selectOneMenu>
                             <h:outputLabel for= "takenYearForLesson" value="OFFERED YEAR:"/>
@@ -639,8 +636,8 @@
                             <h:outputLabel for= "timeFrom" value="TIME START:"/>
                             <p:selectOneMenu id="timeFrom" value="#{adminCourseListBean.timeFrom}" 
                                              editable="false" requiredMessage="Time Start is required!"
-                                             title="Select a start time" required="true">
-                                <f:selectItem itemLabel="Select a start time" itemValue="" noSelectionOption="true"/>
+                                             title="Select a start time" required="true" style="width:80%">
+                                <f:selectItem itemLabel="Select a start time" itemValue="" noSelectionOption="true" />
                                 <f:selectItems value="#{adminCourseListBean.timelist}" />
                             </p:selectOneMenu>
                             <h:outputLabel for= "takenSemForLesson" value="OFFERED SEM:"/>
@@ -652,7 +649,7 @@
                             <h:outputLabel for= "timeEnd" value="TIME END:"/>
                             <p:selectOneMenu id="timeEnd" value="#{adminCourseListBean.timeEnd}" 
                                              editable="false" requiredMessage="Time End is required!"
-                                             title="Select an end time" required="true">
+                                             title="Select an end time" required="true" style="width:80%">
                                 <f:selectItem itemLabel="Select an end time" itemValue="" noSelectionOption="true"/>
                                 <f:selectItems value="#{adminCourseListBean.timelist}" />
                             </p:selectOneMenu>
@@ -661,7 +658,7 @@
                             <h:outputLabel for= "type" value="LESSON TYPE:"/>
                             <p:selectOneMenu required="true" id="type" value="#{adminCourseListBean.type}" 
                                              editable="true" title="Please select a lesson type"
-                                             requiredMessage="Lesson Type is required!">
+                                             requiredMessage="Lesson Type is required!" style="width:80%">
                                 <f:selectItem itemLabel="Please select a lesson type" itemValue="" noSelectionOption="true"/>
                                 <f:selectItem itemLabel="Lecture" itemValue="LECTURE" />
                                 <f:selectItem itemLabel="Tutorial" itemValue="TUTORIAL" />
@@ -671,7 +668,7 @@
                             <h:outputLabel value=""/>
                             <h:outputLabel value=""/>
                             <h:outputLabel for= "venue" value="VENUE:"/>
-                            <p:inputText id="venue" value="#{adminCourseListBean.venue}" required="true" /> 
+                            <p:inputText id="venue" value="#{adminCourseListBean.venue}" required="true" style="width:95%"/> 
                             <h:outputLabel value=""/>
                             <h:outputLabel value=""/>
                             <p:commandButton value="Submit" actionListener="#{adminCourseListBean.enterLesson}" update="messages" >

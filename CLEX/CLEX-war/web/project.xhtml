@@ -26,104 +26,34 @@
             </div>
             <br />
             <div>
-                <div id="content" class="left_content">
-                    <p:panelGrid columns="2">
+                <h:form>
+                    <p:panelGrid columns="3">
                         <ui:repeat var="m" value="#{projectBean.takingModules}">
-<!--                            <h:button class="canvasBtn" outcome="projectDetails">
+                            <button type="button" onclick="#{m.course.moduleCode}Details()" class="canvasBtn">
                                 <h:outputText value="#{m.course.moduleCode}"/>
-                                <hr/>
+                                <br/>
                                 <h:outputText value="#{m.course.moduleName}"/>
-                            </h:button>-->
-                            <p:commandButton styleClass="canvasBtn" action="#{projectBean.goModuleInfoPage(m.course.moduleCode)}" value="#{m.course.moduleCode}"/>
+                                <p:remoteCommand name="#{m.course.moduleCode}Details" actionListener="#{projectBean.goModuleInfoPage(m.course.moduleCode)}"/>
+                            </button>
                         </ui:repeat>
                     </p:panelGrid>
-
-<!--                    <ui:repeat var="m" value="#{projectBean.takingModules}">
-    <p:column>
-        <p:panel header="#{m.course.moduleCode}">
-            <h:panelGroup>
-                <h:outputText value="This course doesn't have a group" escape="false" 
-                              rendered="#{empty m.superGroup}" />
-                <p:commandButton value="Group formation in process" 
-                                 rendered="#{not empty m.superGroup and !m.superGroup.confirm}"
-                                 action="#{projectBean.goFormGroup(m.course.moduleCode)}" />
-                
-                <h:outputText value="Your group #{projectBean.getStudentProjectGroupName(m.course.moduleCode)}" escape="false" 
-                              rendered="#{not empty m.superGroup and m.superGroup.confirm and
-                                projectBean.hasProjectGroup(m.course.moduleCode)}" />
-      <br />
-      <h:panelGroup rendered="#{not empty m.superGroup and m.superGroup.confirm and 
-                                              projectBean.hasProjectGroup(m.course.moduleCode)}">
-                    </h:panelGroup>
-                    <h:outputText value="The group formation has ended but you do not have any group, please contact the lecturer immediately" escape="false" 
-                                  rendered="#{not empty m.superGroup and m.superGroup.confirm and
-                                !projectBean.hasProjectGroup(m.course.moduleCode)}" />
-
-      <p:commandButton value="Group Transaction" 
-                       rendered="#{not empty m.superGroup and m.superGroup.confirm and 
-                                projectBean.hasProjectGroup(m.course.moduleCode)}" 
-                    action="#{projectBean.GoGroupPage(m.course.moduleCode)}"/>
-   <p:commandButton value="Group Schedule" 
-                    rendered="#{not empty m.superGroup and m.superGroup.confirm and 
-                                projectBean.hasProjectGroup(m.course.moduleCode)}" 
-                    action="#{projectBean.GoGroupSchedulePage(m.course.moduleCode)}"/>
-   <h:panelGroup rendered="#{not empty m.superGroup and m.superGroup.confirm and 
-                                              projectBean.hasProjectGroup(m.course.moduleCode) and 
-                                              not empty m.peerReviewQuestion and m.peerReviewQuestion.status eq 'start'}">
-                        <br />
-                    </h:panelGroup>
-                    <p:commandButton value="Group Peer Review" 
-                                     rendered="#{not empty m.superGroup and m.superGroup.confirm and 
-                                projectBean.hasProjectGroup(m.course.moduleCode) and 
-                                not empty m.peerReviewQuestion and m.peerReviewQuestion.status eq 'start'}" 
-                    action="#{projectBean.GoPRPage(m.course.moduleCode)}"/>
-</h:panelGroup>
-
-
-
-
-                               <h:panelGroup>
-                                   <h:outputText value="This course doesn't have a group" escape="false" 
-                                                 rendered="#{empty m.superGroup}" />                                    
-                                   <h:outputText value="You have yet to join a group" escape="false" 
-                                                 rendered="#{not empty m.superGroup and 
-                                !projectBean.hasProjectGroup(m.course.moduleCode)}" />
-      <h:outputText value="Your group" escape="false" 
-                    rendered="#{not empty m.superGroup and 
-                                projectBean.hasProjectGroup(m.course.moduleCode)}" />                                   
-                                                        <h:panelGroup>
-                                                            <br />
-                                                            <p:commandButton value="Group formation" 
-                                                                             rendered="#{not empty m.superGroup and 
-                                !projectBean.hasProjectGroup(m.course.moduleCode)}" 
-                    action="#{projectBean.goFormGroup(m.course.moduleCode)}" />
-   <p:commandButton value="#{projectBean.getStudentProjectGroupName(m.course.moduleCode)}" 
-                    rendered="#{not empty m.superGroup and 
-                                projectBean.hasProjectGroup(m.course.moduleCode)}" 
-                    action="#{projectBean.GoGroupPage(m.course.moduleCode)}"/>
-</h:panelGroup>
-                    </h:panelGroup>
-                </p:panel>
-            </p:column>
-        </ui:repeat>-->
-                </div>
+                </h:form>
             </div>
         </h:body>
         <style type="text/css">
             .canvasBtn {
-                width: 40%;
+                width: 200px;
                 height: 100px;
-                margin: 10px;
-
+                margin: 5px;
                 -webkit-border-radius: 10;
                 -moz-border-radius: 10;
-                border-radius: 10px;
+                border-radius: 5px;
                 font-family: Arial;
                 color: #ffffff;
                 font-size: 15px;
-                background: #3ac2bd;
-                text-decoration: none;
-                text-align: center;
+                background: #588fc5;
+                vertical-align:bottom;
+                border-style: none;
             }
             .canvasBtn:hover{
 
