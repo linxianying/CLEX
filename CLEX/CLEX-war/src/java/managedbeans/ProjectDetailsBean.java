@@ -17,10 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.inject.Named;
-import javax.enterprise.context.Dependent;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import session.ClexSessionBeanLocal;
@@ -31,7 +29,7 @@ import session.ProjectSessionBeanLocal;
  * @author Joseph
  */
 @ManagedBean(name = "projectDetailsBean")
-@SessionScoped
+@RequestScoped
 public class ProjectDetailsBean {
 
     /**
