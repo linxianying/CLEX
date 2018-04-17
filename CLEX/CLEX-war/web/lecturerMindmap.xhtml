@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                 template="/WEB-INF/template_lecturer.xhtml"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">PRISM Lecturer Module Page</ui:define>
+
+    <ui:define name="viewname">#{lecturerMindmapBean.moduleEntity.course.moduleCode} - Mindmap</ui:define>
+
+    <ui:define name="content">
+        <p:growl id="messages" />
+        <h:form>
+            
+            
+            <p:mindmap value="#{lecturerMindmapBean.root}" style="width: 100%;height: 600px;border: 1px solid black;">
+                <p:ajax event="select" listener="#{lecturerMindmapBean.onNodeSelect}" />
+                <p:ajax event="dblselect" listener="#{lecturerMindmapBean.onNodeDblselect}" update="output" oncomplete="PF('details').show();" />
+            </p:mindmap>
+
+            <p:dialog responsive="true" widgetVar="details" closable="true" closeOnEscape="true" 
+                      header="#{lecturerMindmapBean.selectedNode.data}" resizable="false" modal="true" showEffect="fade" hideEffect="fade">
+                <h:outputText id="output" value="#{lecturerMindmapBean.selectedNode.data}" />
+            </p:dialog> 
+        </h:form>
+
+
+
+
+        <h:form id="initializePageDataForm">
+            <p:remoteCommand name="initializePageDataCommand" autoRun="true" action="#{lecturerMindmapBean.init()}"/>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

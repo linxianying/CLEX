@@ -12,7 +12,7 @@
     <ui:define name="viewname">#{bundle['schedule']}</ui:define>
 
     <ui:define name="content">
-        <p:commandButton value="Reset Calendar" actionListener="#{scheduleBean.reset()}" 
+        <p:commandButton value="#{bundle['reset']}" actionListener="#{scheduleBean.reset()}" 
 
                     action="schedule?faces-redirect=true">
             <p:confirm header="Confirmation" 
@@ -20,8 +20,8 @@
                   icon="ui-icon-alert" />
         </p:commandButton>
         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            <p:commandButton value="#{bundle['yes']}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+            <p:commandButton value="#{bundle['no']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
         <h:form id="addTimeslotForm">
             <p:growl id="messages" showDetail="true" />
@@ -61,7 +61,7 @@
 
             <p:dialog widgetVar="eventDialog" header="#{bundle['Event Details']}" showEffect="clip" hideEffect="clip">
                 <h:panelGrid id="eventDetails" columns="2">
-                    <p:outputLabel for="type" value="Type:" />
+                    <p:outputLabel for="type" value="#{bundle['type']}:" />
                     <p:selectOneButton id="type" style="padding: 0%; width: 100%" value="#{scheduleBean.groupOrPersonal}">
                         <f:selectItem itemLabel="#{bundle['Personal']}" itemValue="1" />
                         <f:selectItem itemLabel="#{bundle['Group']}" itemValue="2" />

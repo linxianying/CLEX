@@ -217,7 +217,10 @@ public class LecturerModuleListBean implements Serializable {
 //        }
     }
 
-    public boolean checkFolder(Module module) {
+    public void manageMaterials(Module module) throws IOException {
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+        session.setAttribute("module", module);
         User userEntity = (User) session.getAttribute("user");
         String schoolname = userEntity.getSchool();
         String moduleCode = module.getCourse().getModuleCode();
@@ -227,14 +230,15 @@ public class LecturerModuleListBean implements Serializable {
         int pathlength = path.length();
         pathlength = pathlength - 10;
         path = path.substring(0, pathlength);
-        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/";
+        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/Materials/";
         path = path.replaceAll("\\\\", "/");
         Path folder = Paths.get(path);
         if (Files.exists(folder)) {
-            return true;
+            //do nothing
         } else {
-            return false;
+            Files.createDirectories(folder);
         }
+        context.getExternalContext().redirect("lecturerMindmap.xhtml");
     }
 
     public void manageActivities(Module module) throws IOException {
@@ -250,21 +254,15 @@ public class LecturerModuleListBean implements Serializable {
         int pathlength = path.length();
         pathlength = pathlength - 10;
         path = path.substring(0, pathlength);
-        String path2 = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/";
-        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/";
+        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/Activities/";
         path = path.replaceAll("\\\\", "/");
-        if (checkFolder(module)) {
-            context.getExternalContext().redirect("createWhiteboardActivity.xhtml");
+        Path folder = Paths.get(path);
+        if (Files.exists(folder)) {
+            //do nothing
         } else {
-            Path folder2 = Paths.get(path2);
-            Path folder = Paths.get(path);
-            if (!Files.exists(folder2)) {
-                Files.createDirectories(folder2);
-                Files.createDirectory(folder);
-                context.getExternalContext().redirect("createWhiteboardActivity.xhtml");
-            }
-
+            Files.createDirectories(folder);
         }
+        context.getExternalContext().redirect("createWhiteboardActivity.xhtml");
     }
 
     public List<Module> getModules() {
