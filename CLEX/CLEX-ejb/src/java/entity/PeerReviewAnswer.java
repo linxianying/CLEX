@@ -23,14 +23,17 @@ public class PeerReviewAnswer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private ArrayList<String> answers = new ArrayList<String>();
+    
+    private ArrayList<String> indAnswers = new ArrayList<String>();
+    //there are ranking questions whose answer is an AL<String username>; others answer is the get(question index).get(0)
+    private ArrayList<ArrayList<String>> grpAnswers = new ArrayList<ArrayList<String>>();
     //whether the student submit or not, decides whether the lecturer can view or not
     private boolean submit;
     @ManyToOne
     private Student reviewer;
-    
-    @ManyToOne
-    private Student reviewee;
+//    
+//    @ManyToOne
+//    private Student reviewee;
     
     @ManyToOne
     private PeerReviewQuestion question;
@@ -53,28 +56,12 @@ public class PeerReviewAnswer implements Serializable {
         this.id = id;
     }
 
-    public ArrayList<String> getAnswers() {
-        return answers;
-    }
-
-    public void setAnswers(ArrayList<String> answers) {
-        this.answers = answers;
-    }
-
     public Student getReviewer() {
         return reviewer;
     }
 
     public void setReviewer(Student reviewer) {
         this.reviewer = reviewer;
-    }
-
-    public Student getReviewee() {
-        return reviewee;
-    }
-
-    public void setReviewee(Student reviewee) {
-        this.reviewee = reviewee;
     }
 
     public PeerReviewQuestion getQuestion() {
@@ -101,6 +88,21 @@ public class PeerReviewAnswer implements Serializable {
         this.submit = submit;
     }
 
+    public ArrayList<String> getIndAnswers() {
+        return indAnswers;
+    }
+
+    public void setIndAnswers(ArrayList<String> indAnswers) {
+        this.indAnswers = indAnswers;
+    }
+
+    public ArrayList<ArrayList<String>> getGrpAnswers() {
+        return grpAnswers;
+    }
+
+    public void setGrpAnswers(ArrayList<ArrayList<String>> grpAnswers) {
+        this.grpAnswers = grpAnswers;
+    }
 
     @Override
     public int hashCode() {
