@@ -5,6 +5,7 @@
  */
 package managedbeans;
 
+import entity.Files;
 import entity.Module;
 import entity.User;
 import java.io.File;
@@ -74,7 +75,7 @@ public class FilesUploadBean implements Serializable {
             String newFilePath = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("alternatedocroot_1") + 
                     System.getProperty("file.separator") + module.getCourse().getModuleCode() + System.getProperty("file.separator") + 
                     event.getFile().getFileName();
-
+            
             System.err.println("handleFileUpload(): File name: " + event.getFile().getFileName());
             System.err.println("handleFileUpload(): newFilePath: " + newFilePath);
 
@@ -100,6 +101,8 @@ public class FilesUploadBean implements Serializable {
                 fileOutputStream.flush();
             }
 
+            fmsbl.createFile(event.getFile().getFileName(), module.getId());
+            
             fileOutputStream.close();
             inputStream.close();
             
