@@ -26,9 +26,9 @@
     
     <application>
         <locale-config>
-            <default-locale>en_US</default-locale>
+            <default-locale>zh_CN</default-locale>
             <supported-locale>en_SG</supported-locale>
-            <supported-locale>zh_CN</supported-locale>
+            <supported-locale>en_US</supported-locale>
         </locale-config>
         <resource-bundle>
             <base-name>web.messages.Messages</base-name>
