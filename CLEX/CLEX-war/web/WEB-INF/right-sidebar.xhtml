@@ -20,12 +20,12 @@
                 <p:tabView id="msgTabView" activeIndex="#{privateMsgBean.tabIndex}" style="width:100% !important">
                     <p:tab title="Contacts">
                         <div style="overflow: hidden; overflow-wrap:break-word; height:90vh;">
-                            <div style=" height: 70vh; overflow-y: scroll; width: 240px">
+                            <div class="contactDiv">
                                 <div class="search-input">
                                     <h:form id="form1">
 
-                                        <p:selectOneMenu id="userList" value="#{privateMsgBean.searchUsername}"  panelStyle="width:190px" effect="fade" 
-                                                         var="user" style="width:190px" filter="true" filterMatchMode="contains" appendTo="@this">
+                                        <p:selectOneMenu id="userList" value="#{privateMsgBean.searchUsername}" style="width:85%" effect="fade" 
+                                                         var="user" filter="true" filterMatchMode="contains" appendTo="@this">
                                             <p:ajax event="change" listener="#{privateMsgBean.startConversation}" update="msgTabView"/>
                                             <f:selectItem itemLabel="Select a contact" itemValue="select"/>
                                             <f:selectItems value="#{privateMsgBean.getUsers()}" var="users" itemLabel="#{users.name}" itemValue="#{users.username}" />
@@ -217,7 +217,12 @@
             box-sizing: content-box; 
             padding-right: 17px;
         }
-        @media (max-width:640px){
+        .contactDiv{
+            height: 70vh; 
+            overflow-y: scroll; 
+            width: 240px;
+        }
+        @media (max-width:680px){
             .chatBubble_right{
                 margin-right: 10px;
             }
@@ -229,6 +234,9 @@
             }
             .chatBox{
                 height: calc(100% - 85px);
+            }
+            .contactDiv{
+                width:100%
             }
         }
     </style>
