@@ -176,7 +176,7 @@
                                                              style="width:80%" filter="true" filterMatchMode="contains" 
                                                              appendTo="@this" rendered="#{tasksBean.groupOrPersonal==2}" >
                                                 <p:ajax event="change" update="msgs"  />
-                                                <f:selectItem itemLabel="Select One" itemValue="select"/>
+                                                <f:selectItem itemLabel="#{bundle['SelectOne']}" itemValue="select"/>
                                                 <f:selectItems value="#{tasksBean.projectGroups}" var="projectGroup" 
                                                                itemValue="#{projectGroup.id}" itemLabel="#{projectGroup.superGroup.module.course.moduleCode}-#{projectGroup.name}" />
                                             </p:selectOneMenu>
