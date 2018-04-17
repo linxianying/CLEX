@@ -122,5 +122,17 @@ public class PRAnswerSessionBean implements PRAnswerSessionBeanLocal {
         }
         return false;
     }
+    
+    @Override
+    public ArrayList<ArrayList<String>> getIndAnswers(ArrayList<Student> groupMembers, PeerReviewAnswer answers) {
+        ArrayList<ArrayList<String>> individualAnswers = new ArrayList<ArrayList<String>>();
+        indAnswers = answers.getIndAnswers();
+        for (Student s: groupMembers) {
+            ArrayList<String> oneAnswer;
+            oneAnswer = indAnswers.get(s);
+            individualAnswers.add(oneAnswer);
+        }
+        return individualAnswers;
+    }
 }
 

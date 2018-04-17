@@ -30,4 +30,6 @@ public interface PRAnswerSessionBeanLocal {
 
     public boolean checkPRFormSubmit(Student student, Module module);
 
+    public ArrayList<ArrayList<String>> getIndAnswers(ArrayList<Student> groupMembers, PeerReviewAnswer answers);
+
 }
