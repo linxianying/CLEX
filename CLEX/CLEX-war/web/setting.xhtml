@@ -9,42 +9,53 @@
 
     <ui:define name="title">PRISM Settings</ui:define>
 
-    <ui:define name="viewname">Settings</ui:define>
+    <ui:define name="viewname">#{bundle['settings']}</ui:define>
 
     <ui:define name="content">
         <p:tabView>       
-            <p:tab title="Change Menu Mode">
+            <p:tab title="#{bundle['changeMode']}">
                 <div>
                     <h:panelGrid columns="3">
-                        <p:commandButton  value="Static"  actionListener="#{guestPreferences.setMenuLayout('static')}"  action="setting?faces-redirect=true"/>
+                        <p:commandButton  value="#{bundle['static']}"  actionListener="#{guestPreferences.setMenuLayout('static')}"  action="setting?faces-redirect=true"/>
 
-                        <p:commandButton  value="Overlay"  actionListener="#{guestPreferences.setMenuLayout('overlay')}" action="setting?faces-redirect=true"/>
+                        <p:commandButton  value="#{bundle['overlay']}"  actionListener="#{guestPreferences.setMenuLayout('overlay')}" action="setting?faces-redirect=true"/>
 
-                        <p:commandButton  value="Horizontal"  actionListener="#{guestPreferences.setMenuLayout('horizontal')}" action="setting?faces-redirect=true"/>
+                        <p:commandButton  value="#{bundle['horizontal']}"  actionListener="#{guestPreferences.setMenuLayout('horizontal')}" action="setting?faces-redirect=true"/>
                     </h:panelGrid>
                 </div>
             </p:tab>
 
-            <p:tab title="Change Theme">
+            <p:tab title="#{bundle['changeTheme']}">
                 <div>
                     <h:panelGrid columns="3">
-                        <p:commandButton value="Turquoise"  actionListener="#{guestPreferences.setTheme('turquoise')}" styleClass="turquoise-btn raised-btn" action="setting?faces-redirect=true"/>
+                        <p:commandButton value="#{bundle['Turquoise']}"  actionListener="#{guestPreferences.setTheme('turquoise')}" styleClass="turquoise-btn raised-btn" action="setting?faces-redirect=true"/>
 
-                        <p:commandButton value="Blue"  actionListener="#{guestPreferences.setTheme('blue')}" styleClass="blue-btn raised-btn" action="setting?faces-redirect=true"/>
+                        <p:commandButton value="#{bundle['Blue']}"  actionListener="#{guestPreferences.setTheme('blue')}" styleClass="blue-btn raised-btn" action="setting?faces-redirect=true"/>
 
-                        <p:commandButton value="Purple"  actionListener="#{guestPreferences.setTheme('purple')}" styleClass="purple-btn raised-btn" action="setting?faces-redirect=true"/>
+                        <p:commandButton value="#{bundle['Purple']}"  actionListener="#{guestPreferences.setTheme('purple')}" styleClass="purple-btn raised-btn" action="setting?faces-redirect=true"/>
 
-                        <p:commandButton value="Orange"  actionListener="#{guestPreferences.setTheme('orange')}"  styleClass="orange-btn raised-btn" action="setting?faces-redirect=true"/>
+                        <p:commandButton value="#{bundle['Orange']}"  actionListener="#{guestPreferences.setTheme('orange')}"  styleClass="orange-btn raised-btn" action="setting?faces-redirect=true"/>
 
-                        <p:commandButton value="Pink"  actionListener="#{guestPreferences.setTheme('pink')}" styleClass="pink-btn raised-btn"  action="setting?faces-redirect=true"/>
+                        <p:commandButton value="#{bundle['Pink']}"  actionListener="#{guestPreferences.setTheme('pink')}" styleClass="pink-btn raised-btn"  action="setting?faces-redirect=true"/>
 
-                        <p:commandButton value="Cyan"  actionListener="#{guestPreferences.setTheme('light-blue')}" styleClass="light-blue-btn raised-btn" action="setting?faces-redirect=true"/>
+                        <p:commandButton value="#{bundle['Cyan']}"  actionListener="#{guestPreferences.setTheme('light-blue')}" styleClass="light-blue-btn raised-btn" action="setting?faces-redirect=true"/>
 
-                        <p:commandButton value="Green"  actionListener="#{guestPreferences.setTheme('green')}" styleClass="green-btn raised-btn" action="setting?faces-redirect=true"/>
+                        <p:commandButton value="#{bundle['Green']}"  actionListener="#{guestPreferences.setTheme('green')}" styleClass="green-btn raised-btn" action="setting?faces-redirect=true"/>
 
-                        <p:commandButton value="Violet"  actionListener="#{guestPreferences.setTheme('deep-purple')}" styleClass="deep-purple-btn raised-btn" action="setting?faces-redirect=true"/>
+                        <p:commandButton value="#{bundle['Violet']}"  actionListener="#{guestPreferences.setTheme('deep-purple')}" styleClass="deep-purple-btn raised-btn" action="setting?faces-redirect=true"/>
                     </h:panelGrid>
                 </div>
+            </p:tab>
+            
+            <p:tab title="#{bundle['changeLan']}">
+                
+                <h:panelGrid columns="3">
+
+                    <p:commandButton value="#{bundle['chinese']}"  actionListener="#{languageManagedBean.setChinese()}"  action="setting?faces-redirect=true"/>
+                    <p:commandButton value="#{bundle['english']}"  actionListener="#{languageManagedBean.setEnglish()}"  action="setting?faces-redirect=true"/>
+
+                </h:panelGrid>
+                
             </p:tab>
         </p:tabView>
 

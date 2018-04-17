@@ -15,7 +15,7 @@
         <div id="content" class="left_content">
             <h3><h:outputText value="Classroom" /></h3>
             <p:growl id="msgmsg" showDetail="true" />
-            <p:tabView>
+            <p:tabView id="maintab">
                 <p:tab title="VIEW POLLS">
 
                     <!-- START: View All Polls -->
@@ -36,8 +36,8 @@
                                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
                                          {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
                                          rowsPerPageTemplate="10,20,50">
-                                
-                        
+
+
                                 <f:facet name="header">
                                     <p:outputPanel>
                                         <h:outputText value="Search all fields:" />
@@ -72,7 +72,7 @@
                                           headerText="Content" filterMatchMode="contains">
                                     <h:outputText value="#{poll.content}" />
                                     <p:commandButton style="float: right; background: grey" icon="ui-icon-trash"
-                                                     update="msgmsg,@form" actionListener="#{classroomBean.removePoll(poll)}">
+                                                     update="msgmsg, tbl" actionListener="#{classroomBean.removePoll(poll)}">
                                         <p:confirm header="Delete Poll Question #{poll.content}" message="Please ensure that no students are linked to this poll!" icon="ui-icon-alert" />
                                     </p:commandButton>
                                 </p:column>
@@ -89,14 +89,14 @@
                                           headerText="Module Code" filterMatchMode="contains">
                                     <h:outputText value="#{poll.module.course.moduleCode}" />
                                 </p:column>
-                                
+
 
                                 <p:column filterBy="#{poll.datetime}" sortBy="#{poll.datetime}" 
                                           headerText="Datetime" filterMatchMode="contains">
                                     <h:outputText value="#{poll.datetime}" />
                                 </p:column>
 
-                                
+
 
                                 <p:column filterBy="#{poll.topic}" sortBy="#{poll.topic}" 
                                           headerText="Topic" filterMatchMode="contains">
@@ -172,220 +172,154 @@
                         <p:growl id="msg" showDetail="true" />
                         <p:panel collapsed="false" styleClass="menuHeader"  header="Add New Finished Poll" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
 
-                            <table>
-                                <!--
-                                <tr>
-                                    <td>
-                                        <p:outputLabel for="finish" value="Finished Or Not" />
-                                    </td>
+                            <!--
+                            <tr>
+                                <td>
+                                    <p:outputLabel for="finish" value="Finished Or Not" />
+                                </td>
 
-                                    <td>
-                                        <p:selectOneButton id="finish" style="width: 300px;" required="true" value="#{classroomBean.finish}" >
-                                            <f:selectItem itemLabel="Finished" itemValue="1" />
-                                            <f:selectItem itemLabel="Not Finished" itemValue="2" />
-                                            <p:ajax update="addForm" event="change"/>
-                                        </p:selectOneButton>
-                                    </td>
-                                </tr>
-                                -->
-                                <tr>
-                                    <td>
-                                        <p:outputLabel id="viewLabel" for="moduleCode" value="Module Code:" />
-                                    </td>
-                                    <td>
+                                <td>
+                                    <p:selectOneButton id="finish" style="width: 300px;" required="true" value="#{classroomBean.finish}" >
+                                        <f:selectItem itemLabel="Finished" itemValue="1" />
+                                        <f:selectItem itemLabel="Not Finished" itemValue="2" />
+                                        <p:ajax update="addForm" event="change"/>
+                                    </p:selectOneButton>
+                                </td>
+                            </tr>
+                            -->
+                            <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
+                                <p:outputLabel id="viewLabel" for="moduleCode" value="Module Code:" />
+                                <p:selectOneMenu id="moduleCode" value="#{classroomBean.addModuleCode}"  panelStyle="width:180px" effect="fade" 
+                                                 style="width:280px" filter="true" filterMatchMode="contains" appendTo="@this">
+                                    <f:selectItem itemLabel="Select One" itemValue="select"/>
+                                    <f:selectItems value="#{classroomBean.currentModules}" var="module" itemLabel="#{module.course.moduleCode}" itemValue="#{module.course.moduleCode}" />
+                                </p:selectOneMenu>
+                                <p:outputLabel id="viewLabel2" value="Type of Poll:" />
+                                <p:inputText value="#{classroomBean.addPollType}" style="width:300px;"
+                                             required="true" requiredMessage="Please enter the poll type!"  />
+                                <p:outputLabel id="viewLabel3" value="Topic of Poll:" />
+                                <p:inputText value="#{classroomBean.addPollTopic}" style="width:300px;"
+                                             required="true" requiredMessage="Please enter the poll topic!" />
+                                <p:outputLabel id="viewLabel4" value="Content of Poll:" />
+                                <p:inputText value="#{classroomBean.addPollContent}"  style="width:300px;"
+                                             required="true" requiredMessage="Please enter the poll content!" />
+                                <p:outputLabel for="correctRate" value="Correct Rate:"/>
+                                <p:inputNumber style="width: 100%" value="#{classroomBean.addPollCorrectRate}" required="true" 
+                                               requiredMessage="Please enter a number range from 0 to 1 only." 
+                                               minValue="0.00" maxValue="1.00" id="correctRate"
+                                               placeholder="Number from 0 to 1"/>
+                            </p:panelGrid>
+                            <p:commandButton value="Add" id="addPollButton"  style="width:200px;"
+                                             rendered="#{classroomBean.addButton}" action="#{classroomBean.addPoll}"
+                                             update="msg, maintab:panel:tbl" onclick="location.reload()"/>
 
 
-                                        <p:selectOneMenu id="moduleCode" value="#{classroomBean.addModuleCode}"  panelStyle="width:180px" effect="fade" 
-                                                         style="width:280px" filter="true" filterMatchMode="contains" appendTo="@this">
-                                            <f:selectItem itemLabel="Select One" itemValue="select"/>
-                                            <f:selectItems value="#{classroomBean.currentModules}" var="module" itemLabel="#{module.course.moduleCode}" itemValue="#{module.course.moduleCode}" />
-                                        </p:selectOneMenu>
-                                    </td>
+                            <!--
+                            <tr>
+                                <td>
+                                    <p:outputLabel for="num" value=" Number Of Answers:" 
+                                                   rendered="#{classroomBean.finish==2}" />
+                                   
+                                </td>
 
-                                </tr>
+                                <td >
+                                    <p:inputNumber value="#{classroomBean.num}" required="true" 
+                                                   requiredMessage="Please enter an integer number" 
+                                                   minValue="0" maxValue="10"
+                                                   rendered="#{classroomBean.finish==2}" 
+                                                   placeholder="0 - 10"
+                                                   id="num"
+                                                   />
+                                    <p:commandButton value="Confirm" partialSubmit="true" update="answers" process="num"
+                                                     rendered="#{classroomBean.finish==2}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:outputLabel value="Answers:" 
+                                                   rendered="#{classroomBean.finish==2}" />
+                                </td>
 
-                                <tr>
-                                    <td>
-                                        Type of Poll:
-                                    </td>
+                                <td >
+                                    <p:dataList rendered="#{classroomBean.finish==2}" 
+                                        value="#{classroomBean.ans}" id="answers" var="answer" type="ordered">
 
-                                    <td>
-                                        <p:inputText value="#{classroomBean.addPollType}" style="width:300px;"
-                                                     required="true" requiredMessage="Please enter the poll type!"  />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Topic of Poll:
-                                    </td>
+                                        <p:inputText value="#{answer}"  style="width:300px;"
+                                                     required="true"  />
 
-                                    <td>
-                                        <p:inputText value="#{classroomBean.addPollTopic}" style="width:300px;"
-                                                     required="true" requiredMessage="Please enter the poll topic!" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Content of Poll:
-                                    </td>
-
-                                    <td>
-                                        <p:inputText value="#{classroomBean.addPollContent}"  style="width:300px;"
-                                                     required="true" requiredMessage="Please enter the poll content!" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p:outputLabel for="correctRate" value="Correct Rate:" 
-                                                       />
-
-                                    </td>
-
-                                    <td >
-                                        <p:inputNumber style="width: 100%" value="#{classroomBean.addPollCorrectRate}" required="true" 
-                                                       requiredMessage="Please enter a number range from 0 to 1 only." 
-                                                       minValue="0.00" maxValue="1.00" id="correctRate"
-                                                       placeholder="Number from 0 to 1"
-
-                                                       />
-                                    </td>
-                                </tr>
-                                <!--
-                                <tr>
-                                    <td>
-                                        <p:outputLabel for="num" value=" Number Of Answers:" 
-                                                       rendered="#{classroomBean.finish==2}" />
-                                       
-                                    </td>
-
-                                    <td >
-                                        <p:inputNumber value="#{classroomBean.num}" required="true" 
-                                                       requiredMessage="Please enter an integer number" 
-                                                       minValue="0" maxValue="10"
-                                                       rendered="#{classroomBean.finish==2}" 
-                                                       placeholder="0 - 10"
-                                                       id="num"
-                                                       />
-                                        <p:commandButton value="Confirm" partialSubmit="true" update="answers" process="num"
-                                                         rendered="#{classroomBean.finish==2}" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p:outputLabel value="Answers:" 
-                                                       rendered="#{classroomBean.finish==2}" />
-                                    </td>
-
-                                    <td >
-                                        <p:dataList rendered="#{classroomBean.finish==2}" 
-                                            value="#{classroomBean.ans}" id="answers" var="answer" type="ordered">
-
-                                            <p:inputText value="#{answer}"  style="width:300px;"
-                                                         required="true"  />
-
-                                        </p:dataList>
-                                    </td>
-                                </tr>
-                                -->
-                                <tr>
-                                    <td>
-                                        <p:commandButton value="Add" id="addPollButton"  style="width:200px;"
-                                                         rendered="#{classroomBean.addButton}" action="#{classroomBean.addPoll}"
-                                                         update="msg" onclick="location.reload()"/>
-                                    </td>
-                                </tr>
-                            </table>
+                                    </p:dataList>
+                                </td>
+                            </tr>
+                            -->
                         </p:panel>
                     </h:form>
                     <h:form id="addForm1">
 
                         <p:growl id="msg1" showDetail="true" />
                         <p:panel collapsed="false" styleClass="menuHeader"  header="Add New Unfinished Poll" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <p:outputLabel id="viewLabel" for="moduleCode" value="Module Code:" />
-                                    </td>
-                                    <td>
+                            <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
+                                <p:outputLabel id="viewLabel1" for="moduleCode" value="Module Code:" />
+
+                                <p:selectOneMenu id="moduleCode" value="#{classroomBean.addModuleCode}"  panelStyle="width:180px" effect="fade" 
+                                                 style="width:280px" filter="true" filterMatchMode="contains" appendTo="@this">
+                                    <f:selectItem itemLabel="Select One" itemValue="select"/>
+                                    <f:selectItems value="#{classroomBean.currentModules}" var="module" itemLabel="#{module.course.moduleCode}" itemValue="#{module.course.moduleCode}" />
+                                </p:selectOneMenu>
+
+                                <p:outputLabel id="viewLabel2" value="Type of Poll:" />
 
 
-                                        <p:selectOneMenu id="moduleCode" value="#{classroomBean.addModuleCode}"  panelStyle="width:180px" effect="fade" 
-                                                         style="width:280px" filter="true" filterMatchMode="contains" appendTo="@this">
-                                            <f:selectItem itemLabel="Select One" itemValue="select"/>
-                                            <f:selectItems value="#{classroomBean.currentModules}" var="module" itemLabel="#{module.course.moduleCode}" itemValue="#{module.course.moduleCode}" />
-                                        </p:selectOneMenu>
-                                    </td>
+                                <p:inputText value="#{classroomBean.addPollType}" style="width:300px;"
+                                             required="true" requiredMessage="Please enter the poll type!"  />
 
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Type of Poll:
-                                    </td>
+                                <p:outputLabel id="viewLabel3" value="Topic of Poll:" />
 
-                                    <td>
-                                        <p:inputText value="#{classroomBean.addPollType}" style="width:300px;"
-                                                     required="true" requiredMessage="Please enter the poll type!"  />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Topic of Poll:
-                                    </td>
+                                <p:inputText value="#{classroomBean.addPollTopic}" style="width:300px;"
+                                             required="true" requiredMessage="Please enter the poll topic!" />
 
-                                    <td>
-                                        <p:inputText value="#{classroomBean.addPollTopic}" style="width:300px;"
-                                                     required="true" requiredMessage="Please enter the poll topic!" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Content of Poll:
-                                    </td>
+                                <p:outputLabel id="viewLabel4" value="Content of Poll:" />
 
-                                    <td>
-                                        <p:inputText value="#{classroomBean.addPollContent}"  style="width:300px;"
-                                                     required="true" requiredMessage="Please enter the poll content!" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Number Of Answers:
-                                    </td>
+                                <p:inputText value="#{classroomBean.addPollContent}"  style="width:300px;"
+                                             required="true" requiredMessage="Please enter the poll content!" />
+                                <p:outputLabel id="viewLabel5" value="No. of Answers:" />
+                                <h:panelGroup>
+                                    <p:inputNumber value="#{classroomBean.num}" required="true" 
+                                                   requiredMessage="Please enter an integer number" 
+                                                   minValue="0" maxValue="10" placeholder="0 - 10" id="num" />
+                                    <p:commandButton value="Confirm" partialSubmit="true" update="answersgroup" process="num"/>
+                                </h:panelGroup>
 
-                                    <td >
-                                        <p:inputNumber value="#{classroomBean.num}" required="true" 
-                                                       requiredMessage="Please enter an integer number" 
-                                                       minValue="0" maxValue="10"
-                                                       placeholder="0 - 10"
-                                                       id="num"
-                                                       />
-                                        <p:commandButton value="Confirm" partialSubmit="true" update="answers" process="num" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Answers:
-                                    </td>
+                                <p:outputLabel id="viewLabel6" value="Answer(s):" />
+                                <h:panelGroup id="answersgroup">
+                                    <ui:repeat value="#{classroomBean.anslist}" var="ans" id="answers">
+                                        <p:inputText value="#{classroomBean.answer}" id="answer" style="width:300px;" required="true" >
+                                        <!--<p:ajax event="keyup" listener="#{classroomBean.addAnswer}"/>-->
 
-                                    <td >
-                                        <p:dataList value="#{classroomBean.ans}" id="answers" var="an" 
-                                                    type="ordered">
-                                            <p:inputText value="#{an.answer}"  style="width:300px;" required="true"  >
-                                                <p:ajax event="keyup"></p:ajax>
-                                            </p:inputText >
+                                            <!--do not use ajax onkeyup, will have issues if the lecturer accidentally adds an answer-->
+                                        </p:inputText>
+                                        <p:commandButton value="Add" actionListener="#{classroomBean.addAnswer}"/>  
+                                        <br />
+                                    </ui:repeat>
 
-                                        </p:dataList>
-                                    </td>
-                                </tr>
+                                </h:panelGroup>
 
-                                <tr>
-                                    <td>
-                                        <p:commandButton value="Add"  style="width:200px;"
-                                                         rendered="#{classroomBean.addButton}" action="#{classroomBean.addUnfinishedPoll}"
-                                                         update="msg1" />
-                                    </td>
-                                </tr>
-                            </table>
+
+
+
+                               <p:dataList value="#{classroomBean.ans}" id="answers" var="an" 
+                                            type="ordered">
+                                    <p:inputText value="#{an.answer}"  style="width:300px;" required="true"  >
+                                        <p:ajax event="keyup"></p:ajax>
+                                    </p:inputText >
+
+                                </p:dataList>-->
+
+                                <p:commandButton value="Add"  style="width:200px;"
+                                                 rendered="#{classroomBean.addButton}" action="#{classroomBean.addUnfinishedPoll}"
+                                                 update="msg1, maintab:panel:tbl" />
+                            </p:panelGrid>
+
+
                         </p:panel>
 
                     </h:form>
@@ -398,9 +332,7 @@
 
                     <h:form id="formJasperReport">
                         <p:panel header="Test JasperReport Generation">
-
                             <p:commandButton value="Generate" actionListener="#{classroomBean.generateReport}" ajax="false" />
-
                         </p:panel>
                     </h:form>
 

@@ -12,10 +12,10 @@
         <h:outputStylesheet name="./css/cssLayout.css"/>
         <div id="top">
             <h:form>
-                <p:commandLink title="Logout" style="text-decoration: none;" styleClass="logoutBtn" action="#{acctMgmtBean.logout}" ></p:commandLink>
-                <p:commandLink title="Settings" style="text-decoration: none;" styleClass="settingsBtn" action="#{acctMgmtBean.editProfile}"></p:commandLink>
-                <p:commandLink title="Private Message" style="text-decoration: none;" styleClass="msgBtn"></p:commandLink>
-                <p:commandLink title="Notifications" style="text-decoration: none;" styleClass="notiBtn"
+                <p:commandLink title="#{bundle['logout']}" style="text-decoration: none;" styleClass="logoutBtn" action="#{acctMgmtBean.logout}" ></p:commandLink>
+                <p:commandLink title="#{bundle['settings']}" style="text-decoration: none;" styleClass="settingsBtn" action="#{acctMgmtBean.editProfile}"></p:commandLink>
+                <p:commandLink title="#{bundle['privateMessage']}" style="text-decoration: none;" styleClass="msgBtn"></p:commandLink>
+                <p:commandLink title="#{bundle['notification']}" style="text-decoration: none;" styleClass="notiBtn"
                                onclick="PF('announcementsDialog').show()"></p:commandLink>    
             </h:form>
         </div>
@@ -30,37 +30,37 @@
                         <li>
                             <a href="studentMain.xhtml">
                                 <i class="fa fa-home fa-lg"></i>
-                                <span class="nav-text">Dashboard</span>
+                                <span class="nav-text">#{bundle['dashboard']}</span>
                             </a>
                         </li>
                         <li>
                             <a href="schedule.xhtml">
                                 <i class="fa fa-calendar fa-lg"></i>
-                                <span class="nav-text">Schedule</span>
+                                <span class="nav-text">#{bundle['schedule']}</span>
                             </a>
                         </li>
                         <li>
                             <a href="studyPlan.xhtml">
                                 <i class="fa fa-graduation-cap fa-lg"></i>
-                                <span class="nav-text">Study Plan</span>
+                                <span class="nav-text">#{bundle['study plan']}</span>
                             </a>
                         </li>
                         <li>
                             <a href="project.xhtml">
                                 <i class="fa fa-users fa-lg"></i>
-                                <span class="nav-text">Project</span>
+                                <span class="nav-text">#{bundle['project']}</span>
                             </a>
                         </li>
                         <li>
                             <a href="community.xhtml">
                                 <i class="fa fa-globe fa-lg"></i>
-                                <span class="nav-text">Community</span>
+                                <span class="nav-text">#{bundle['community']}</span>
                             </a>
                         </li>
                         <li>
                             <a href="polling.xhtml">
                                 <i class="fa fa-bar-chart fa-lg"></i>
-                                <span class="nav-text">Polling</span>
+                                <span class="nav-text">#{bundle['polling']}</span>
                             </a>
                         </li>
                     </ul>
@@ -79,8 +79,8 @@
                       style="box-sizing: border-box; overflow: auto; max-height: 40%; max-width: 40%; position: absolute">
 
                 <p:tabView>
-                    <p:tab title="Announcements by Admin">
-                        <h1 style="margin-top:0">Announcements by Admin</h1>
+                    <p:tab title="#{bundle['adminAnn']}">
+                        <h1 style="margin-top:0">#{bundle['adminAnn']}</h1>
                         <h:panelGrid columns="2" cellpadding="5" >
                             <h:panelGrid id="panelOuter1" columns="2" width="100%">
                                 <p:dataList var="adminAnnouncementList" value="#{announcementBean.announcements}" id="adminAnncList">
@@ -101,8 +101,8 @@
                             </h:panelGrid>
                         </h:panelGrid>
                     </p:tab>
-                    <p:tab title="Announcements by Lecturers">
-                        <h1 style="margin-top:0">Announcements by Lecturers</h1>
+                    <p:tab title="#{bundle['lecAnn']}">
+                        <h1 style="margin-top:0">#{bundle['lecAnn']}</h1>
                         <h:panelGrid id="panelOuter" columns="2" width="100%">
                             <p:dataList var="moduleCode" value="#{announcementBean.takingModules}" id="moduleCodeList">
                                 <p:accordionPanel multiple="true" activeIndex="1">

@@ -48,6 +48,7 @@ public class LecturerModuleGroupBean implements Serializable {
     private SuperGroup superGroup;
     private Collection<ProjectGroup> groups;
     private Collection<Student> students;
+    private Collection<Student> filteredstudents;
     private Date currentDate;
     //for enable group formation process
     //whether is to form groups by stduents themselves or auto assign them
@@ -229,6 +230,14 @@ public class LecturerModuleGroupBean implements Serializable {
             gfsbl.deleteProjectGroup(deleteGroup.getId());
             this.refresh();
         }
+    }
+
+    public Collection<Student> getFilteredstudents() {
+        return filteredstudents;
+    }
+
+    public void setFilteredstudents(Collection<Student> filteredstudents) {
+        this.filteredstudents = filteredstudents;
     }
     
     

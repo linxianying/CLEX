@@ -10,7 +10,7 @@
 
     <ui:define name="title">PRISM Student Dashboard Page</ui:define>
 
-    <ui:define name="viewname">Dashboard</ui:define>
+    <ui:define name="viewname">#{bundle['dashboard']}</ui:define>
 
     <ui:define name="head">
         <script type="text/javascript">
@@ -49,10 +49,10 @@
         </style>
     </ui:define>
     <ui:define name="content">
-        <h3><h:outputText value="Welcome to PRISM, #{loginBean.userEntity.name}" /></h3><br></br>
+        <h3><h:outputText value="#{bundle['welcome']}, #{loginBean.userEntity.name}" /></h3><br></br>
         
         <p:tabView id="tab">
-            <p:tab title="My Modules">
+            <p:tab title="#{bundle['modules']}">
                 <p:growl id="messages" showDetail="true" />
                 <div>
                     <div id="content" class="left_content" styleClass="noBorder">
@@ -68,11 +68,11 @@
                     </div>
                 </div>
             </p:tab>
-            <p:tab title="View Tasks">
+            <p:tab title="#{bundle['ViewTasks']}">
                 <div class="ui-g dashboard">   
                     <div class="ui-g-12 ui-md-12">
 
-                        <p:panel header="Your Timeline Of To-Do List" style="min-height:320px">
+                        <p:panel header="#{bundle['timeline']}" style="min-height:320px">
 
                             <p:growl id="growl" showSummary="true" showDetail="true"></p:growl>
 
@@ -95,7 +95,7 @@
                     <div class="ui-g-12 ui-md-4 task-list">
 
                         <h:form id="taskObject">
-                            <p:panel header="Unfinished Tasks" style="min-height:320px">
+                            <p:panel header="#{bundle['UnfinishedTasks']} " style="min-height:320px">
                                 <p:dataList var="task" id="tasklist" value="#{tasksBean.unfinishedTasks}"
                                             widgetVar="tasksTable"  paginatorAlwaysVisible="false"
                                             paginator="true" paginatorPosition="bottom"
@@ -118,7 +118,7 @@
                     <div class="ui-g-12 ui-md-8 task-list">
                         <h:form id="taskObject1">
 
-                            <p:panel header="Group Tasks" style="min-height:320px">
+                            <p:panel header="#{bundle['groupTask']}" style="min-height:320px">
                                 <p:dataList var="groupTask" id="tasklist" value="#{tasksBean.unfinishedIndGroupTasks}"
                                             widgetVar="groupTaskTable" paginatorAlwaysVisible="false"
                                             paginator="true" paginatorPosition="bottom"
@@ -143,7 +143,7 @@
                 </div>
             </p:tab>
 
-            <p:tab title="Add Tasks">
+            <p:tab title="#{bundle['addTask']}">
                 <div class="ui-g dashboard"> 
                     <div class="ui-g-12 ui-md-8">
                         <h:form id="addTaskForm">
@@ -160,8 +160,8 @@
                                         </td>
                                         <td>
                                             <p:selectOneButton id="select" style="padding: 0%; width: 100%" value="#{tasksBean.groupOrPersonal}">
-                                                <f:selectItem itemLabel="Personal" itemValue="1" />
-                                                <f:selectItem itemLabel="Group" itemValue="2" />
+                                                <f:selectItem itemLabel="#{bundle['Personal']}" itemValue="1" />
+                                                <f:selectItem itemLabel="#{bundle['Group']}" itemValue="2" />
                                                 <p:ajax update="tab:addTaskForm:projectGroup, tab:addTaskForm" event="change"/>
                                             </p:selectOneButton>
                                         </td>
@@ -185,7 +185,7 @@
                                     <tr>
                                         <td>
                                             <h:outputLink id="grow" value="#">
-                                                <h:outputText value="Deadline:" />
+                                                <h:outputText value="#{bundle['Deadline']}:" />
                                             </h:outputLink>
                                             <p:tooltip id="toolTipGrow" position="top" for="grow" value="You could leave deadline empty"
                                                        showEffect="clip" hideEffect="explode" />
@@ -200,7 +200,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            Title*:
+                                            #{bundle['Title']}*:
 
                                         </td>
                                         <td>
@@ -210,7 +210,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            Details:
+                                            #{bundle['Details']}:
 
                                         </td>
                                         <td>
@@ -221,7 +221,7 @@
 
                                     <tr>
                                         <td>
-                                            Urgency:
+                                            #{bundle['Urgency']}:
 
                                         </td>
                                         <td>
@@ -236,7 +236,7 @@
                                         </td>
                                     </tr>
                                 </table>
-                                <p:commandButton styleClass="raised-btn" style="width:100%;" value="Add" actionListener="#{tasksBean.addTask}" update="tab:taskObject:tasklist"
+                                <p:commandButton styleClass="raised-btn" style="width:100%;" value="#{bundle['Add']}" actionListener="#{tasksBean.addTask}" update="tab:taskObject:tasklist"
                                                  />
                             </p:panel>
                         </h:form>

@@ -12,10 +12,10 @@
         <h:outputStylesheet name="./css/cssLayout.css"/>
         <div id="top">
             <h:form>
-                <p:commandLink title="Logout" style="text-decoration: none;" styleClass="logoutBtn" action="#{acctMgmtBean.logout}" ></p:commandLink>
-                <p:commandLink title="Settings" style="text-decoration: none;" styleClass="settingsBtn" action="#{acctMgmtBean.editProfile}"></p:commandLink>
-                <p:commandLink title="Private Message" style="text-decoration: none;" styleClass="msgBtn"></p:commandLink>
-                <p:commandLink title="Notifications" style="text-decoration: none;" styleClass="notiBtn"
+                <p:commandLink title="#{bundle['logout']}" style="text-decoration: none;" styleClass="logoutBtn" action="#{acctMgmtBean.logout}" ></p:commandLink>
+                <p:commandLink title="#{bundle['settings']}" style="text-decoration: none;" styleClass="settingsBtn" action="#{acctMgmtBean.editProfile}"></p:commandLink>
+                <p:commandLink title="#{bundle['privateMessage']}" style="text-decoration: none;" styleClass="msgBtn"></p:commandLink>
+                <p:commandLink title="#{bundle['notification']}" style="text-decoration: none;" styleClass="notiBtn"
                                onclick="PF('announcementsDialog').show()"></p:commandLink>
             </h:form>
         </div>
@@ -30,13 +30,13 @@
                         <li>
                             <a href="guestMain.xhtml">
                                 <i class="fa fa-home fa-lg"></i>
-                                <span class="nav-text">Dashboard</span>
+                                <span class="nav-text">#{bundle['dashboard']}</span>
                             </a>
                         </li>
                         <li>
                             <a href="guestCommunity.xhtml">
                                 <i class="fa fa-globe fa-lg"></i>
-                                <span class="nav-text">Community</span>
+                                <span class="nav-text">#{bundle['community']}</span>
                             </a>
                         </li>
                     </ul>
@@ -53,7 +53,7 @@
                       position="left top" draggable="true" resizable="false"
                       closeOnEscape="true" appendTo="@(body)" modal="true" 
                       style="box-sizing: border-box; overflow: auto; max-height: 40%; max-width: 40%; position: absolute">
-                <h1 style="margin-top:0">Announcements by Admin</h1>
+                <h1 style="margin-top:0">#{bundle['adminAnn']}</h1>
                 <h:panelGrid columns="2" cellpadding="5" >
                     <h:panelGrid id="panelOuter1" columns="2" width="100%">
                         <p:dataList var="adminAnnouncementList" value="#{announcementBean.announcements}" id="adminAnncList">
