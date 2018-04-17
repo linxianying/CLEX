@@ -7,7 +7,7 @@
                 xmlns:p="http://primefaces.org/ui" 
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <ui:define name="title">PRISM Test Pag</ui:define>
+    <ui:define name="title">PRISM Set Test Entities Page</ui:define>
 
     <ui:define name="viewname">Test</ui:define>
 
@@ -15,20 +15,31 @@
         
         <h:body>
 
-            <br>SetEntities will populate the necessary data (eg: user accounts, courses, modules etc.)</br>
-            <br>For testing: do testRegister in register page first, or to register first using student identity</br>
+            <br>This page shall populate the necessary data such as - user accounts, courses, modules etc.</br>
             <br>Successful login requires:</br>
-            <br>for Student: namename, Password: 123456, Student</br>
+            <br>*****************Student******************************</br>
+            <br>for Student 1: peterparker, Password: 123456, Student</br>
+            <br>for Student 2: brucebanner, Password: 123456, Student</br>
+            <br>for Student 3: steverogers, Password: 123456, Student</br>
+            <br>for Student 4: tonystark, Password: 123456, Student</br>
+            <br>for Student 5: nickfury, Password: 123456, Student</br>
+            <br>*****************Lecturer*****************************</br>
             <br>for Lecturer: hsianghui, Password: 123456, Lecturer</br>
-            <br>for Guest: aguest, Password: 123456, Guest</br>
-            <br>for Admin: theadmin, Password: 123, Admin </br>
+            <br>for Lecturer: dingyi, Password: 123456, Lecturer</br>
+            <br>for Lecturer: lifeng, Password: 123456, Lecturer</br>
+            <br>for Lecturer: lecturer, Password: 123456, Lecturer</br>
+            <br>***************Guest**********************************</br>
+            <br>for Guest: guesta, Password: 123456, Guest</br>
+            <br>**************Admin***********************************</br>
+            <br>for Admin: adminadmin, Password: 123456, Admin </br>
+            <br>******************************************************</br>
             <br>Other inputs will fail</br>
             <br>Note: if you want to test reset password, make sure the email you register is a real email</br>
             <br>--------------------------------------</br>
             <h:form>
                 <h:commandButton styleClass="" value="setEntites" actionListener="#{indexBean.createEntities}" action="login?faces-redirect=true" />
                 <br/>
-                <h:commandButton value="TestRegisterStudent" actionListener="#{registerBean.testRegisterStudent}"/>
+<!--                <h:commandButton value="TestRegisterStudent" actionListener="#{registerBean.testRegisterStudent}"/>
 
                 <h:commandButton value="TestRegisterLecturer" actionListener="#{registerBean.testRegisterLecturer}"/>
 
@@ -36,7 +47,7 @@
 
                 <h:commandButton value="CreateManyUsers" actionListener="#{registerBean.testusercase}"/>
 
-                <h:commandButton value="CreateAdmin" actionListener="#{registerBean.registerAdmin}"/>
+                <h:commandButton value="CreateAdmin" actionListener="#{registerBean.registerAdmin}"/>-->
             </h:form>
         </h:body>
 
