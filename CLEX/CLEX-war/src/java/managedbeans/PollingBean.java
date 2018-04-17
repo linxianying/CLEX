@@ -89,7 +89,9 @@ public class PollingBean implements Serializable {
         ans = poll.getAnswers();
         correctAns = poll.getCorrectAns();
         this.poll = poll;
-        
+        for(int i=0;i<ans.size();i++) {
+            System.out.println(ans.get(i).getAnswer());
+        }
     
     }
     

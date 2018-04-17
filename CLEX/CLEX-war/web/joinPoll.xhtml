@@ -20,13 +20,13 @@
             
                
             <p:growl id="messages" showDetail="true" />
-            <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
+            <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
                 <span>Question</span>
                 <h:outputText value="#{pollingBean.poll.content} " />
                 <span>Answer</span>
                 <p:selectOneMenu style=" width: 80%" id="ans" value="#{pollingBean.answer}" 
                                  editable="true" placeholder="Answer">
-                    <f:selectItems value="#{pollingBean.ans}" />
+                    <f:selectItems var="ans" value="#{pollingBean.ans}" itemLabel="#{ans.answer}" itemValue="#{ans}"/>
                 </p:selectOneMenu>
             </p:panelGrid>
             <p:commandButton value="Submit Answer" actionListener="#{pollingBean.submitAnswer}" id="editBasicButton" update="messages">
