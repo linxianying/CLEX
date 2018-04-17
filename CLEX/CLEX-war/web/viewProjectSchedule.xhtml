@@ -8,7 +8,7 @@
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">PRISM Student Project Schedule Page</ui:define>
 
-    <ui:define name="viewname">Project</ui:define>
+    <ui:define name="viewname">#{bundle['groupSchedule']}</ui:define>
 
     <ui:define name="content">
         <div class="ui-g dashboard">
@@ -32,26 +32,26 @@
                     <p:dialog widgetVar="eventDialog" header="Event Details" showEffect="clip" hideEffect="clip">
                         <h:panelGrid id="eventDetails" columns="2">
 
-                            <p:outputLabel for="title" value="Titles:" />
+                            <p:outputLabel for="title" value="#{bundle['Titles']}:" />
                             <p:inputText id="title" value="#{projectScheduleBean.event.title}" required="true" />
 
-                            <p:outputLabel for="from" value="From:" />
+                            <p:outputLabel for="from" value="#{bundle['from']}:" />
                             <p:calendar id="from" value="#{projectScheduleBean.event.startDate}" timeZone="GMT+8" pattern="dd/MM/yyyy HH:mm"/>
 
-                            <p:outputLabel for="to" value="To:" />
+                            <p:outputLabel for="to" value="#{bundle['To']}:" />
                             <p:calendar id="to" value="#{projectScheduleBean.event.endDate}" timeZone="GMT+8" pattern="dd/MM/yyyy HH:mm"/>
 
-                            <p:outputLabel for="details" value="Details:" />
+                            <p:outputLabel for="details" value="#{bundle['details']}:" />
                             <p:inputText id="details" value="#{projectScheduleBean.event.description}" required="false" />
 
-                            <p:outputLabel for="venue" value="Venue:" />
+                            <p:outputLabel for="venue" value="#{bundle['Venue']}:" />
                             <p:inputText id="venue" value="#{projectScheduleBean.venue}" required="false" />
 
 
-                            <p:commandButton id="deleteButton" value="Delete" actionListener="#{projectScheduleBean.deleteEvent}" 
+                            <p:commandButton id="deleteButton" value="#{bundle['Delete']}" actionListener="#{projectScheduleBean.deleteEvent}" 
                                              oncomplete="PF('myschedule').update();PF('eventDialog').hide();"
                                              />
-                            <p:commandButton style="float: right" id="addButton" value="Save" actionListener="#{projectScheduleBean.addEvent}" 
+                            <p:commandButton style="float: right" id="addButton" value="#{bundle['Save']}" actionListener="#{projectScheduleBean.addEvent}" 
                                              oncomplete="PF('myschedule').update();PF('eventDialog').hide();"
                                              />
 
@@ -62,7 +62,7 @@
             <div class="ui-g-12 ui-md-4 task-list">
                 <h:form id="taskObject1">
 
-                    <p:panel header="Group Tasks" style="min-height:320px">
+                    <p:panel header="#{bundle['groupTask']}" style="min-height:320px">
                         <p:dataList var="groupTask" id="tasklist" value="#{projectScheduleBean.unfinishedGroupTasks}"
                                     widgetVar="groupTaskTable" paginatorAlwaysVisible="false"
                                     paginator="true" paginatorPosition="bottom"
@@ -70,7 +70,7 @@
                                     {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                     rowsPerPageTemplate="4,6,10"
                                     rows="6"
-                                    emptyMessage="No users found with given criteria." >
+                                    emptyMessage="#{bundle['noUser']}." >
                             <p:growl id="msgmsg1" />    
                             <p:selectBooleanCheckbox value="#{projectScheduleBean.value}">
                                 <p:ajax update="msgmsg1,@form" listener="#{projectScheduleBean.checkGroupTask(groupTask)}" 

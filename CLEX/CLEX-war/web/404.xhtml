@@ -23,9 +23,9 @@
         
         <div class="exception-bottom">
             <div class="exception-wrapper">
-                <span class="exception-summary">Page Not Found</span>
-                <span class="exception-detail">The resource you are looking for does not exist.</span>
-                <p:button outcome="/login" value="Login" icon="fa fa-home" styleClass="turquoise-btn"/>
+                <span class="exception-summary">#{bundle['noPage']}</span>
+                <span class="exception-detail">#{bundle['noPageFound']}</span>
+                <p:button outcome="/login" value="#{bundle['login']}" icon="fa fa-home" styleClass="turquoise-btn"/>
                 <p:graphicImage name="images/logo-icon-white.png" library="poseidon-layout" styleClass="logo-icon"/>
                 <span class="exception-footer">PRISM Official</span>
             </div>

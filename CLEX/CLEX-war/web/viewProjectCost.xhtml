@@ -7,19 +7,18 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">PRISM Student Project Cost Page</ui:define>
-
-    <ui:define name="viewname">Project</ui:define>
-
+    
+    <ui:define name="viewname">#{bundle['viewTransaction']}</ui:define>
+    
     <ui:define name="content">
         <p:growl id="addErrorMsg" showDetail="true" />
         <p:panelGrid columns="2" layout="grid">            
-            <p:fieldset collapsed="false" styleClass="menuHeader" id="balance" legend="Summary" toggleable="false" toggleSpeed="500" >
-                <h:outputText id="emptyLabel2" value="No member in your group owes anyone anything! Hooray!" rendered="#{empty viewProjectCostBean.sortedTransactions}"/>
+            <p:fieldset collapsed="false" styleClass="menuHeader" id="balance" legend="#{bundle['Summary']}" toggleable="false" toggleSpeed="500" >
+                <h:outputText id="emptyLabel2" value="#{bundle['balance']}" rendered="#{empty viewProjectCostBean.sortedTransactions}"/>
                 <h:panelGrid columns="2">
                     <h:form id="summaryForm">
                         <p:dataTable value="#{viewProjectCostBean.balances}" var="balance" rendered="#{not empty viewProjectCostBean.sortedTransactions}">
-                            <p:column headerText="Members">
-
+                            <p:column headerText="#{bundle['Members']}">
                                 <h:panelGroup>
                                     <p:graphicImage rendered="#{profileBean.checkpic(balance.student.username) == true}"
                                                     alt="#{profileBean.userEntity.name}" cache="false" 
@@ -30,39 +29,39 @@
                                                     style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px" 
                                                     name="default.png"/>
                                 </h:panelGroup> 
-
+                                
                                 <h:outputText style="font-weight: bold;" value=" #{balance.student.name} "/>
-                                <h:outputText value="has zero balance" rendered="#{balance.totalAmount eq 0}"/>
-                                <h:outputText value="to pay " rendered="#{balance.totalAmount lt 0}"/>
+                                <h:outputText value="#{bundle['zeroBalance']}" rendered="#{balance.totalAmount eq 0}"/>
+                                <h:outputText value="#{bundle['toPay']} " rendered="#{balance.totalAmount lt 0}"/>
                                 <h:outputText style="text-decoration: underline;font-weight: bold" value="$" rendered="#{balance.totalAmount lt 0}"/>
-                                <h:outputText value="to receive back " rendered="#{balance.totalAmount gt 0}"/>
+                                <h:outputText value="#{bundle['receive']} " rendered="#{balance.totalAmount gt 0}"/>
                                 <h:outputText style="text-decoration: underline;font-weight: bold" value="$" rendered="#{balance.totalAmount gt 0}"/>
                                 <h:outputText style="text-decoration: underline;font-weight: bold" value="#{(balance.totalAmount lt 0) ? -balance.totalAmount : balance.totalAmount}" rendered="#{balance.totalAmount ne 0}">
                                     <f:convertNumber pattern="#0.00" />
                                 </h:outputText>
-                                <h:outputText value=" in total" rendered="#{balance.totalAmount ne 0}"/>
+                                <h:outputText value=" #{bundle['total']}" rendered="#{balance.totalAmount ne 0}"/>
                             </p:column>
-                            <p:column headerText="Details">                                
+                            <p:column headerText="#{bundle['details']}">                                
                                 <ui:repeat value="#{balance.getBalances()}" var="payee" >
                                     <h:panelGroup rendered="#{balance.totalAmount gt 0}">
                                         <p:graphicImage rendered="#{profileBean.checkpic(balance.student.username) == true}"
                                                         alt="#{profileBean.userEntity.name}" cache="false" 
                                                         style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px"
                                                         value="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/serverfiles/profile/#{balance.student.username}.png"/>
-
+                                        
                                         <p:graphicImage rendered="#{profileBean.checkpic(balance.student.username) == false}"
                                                         cache="false" library="profile"
                                                         style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px" 
                                                         name="default.png"/>
                                     </h:panelGroup> 
-
+                                    
                                     <h:outputText style="font-weight: bold" value=" #{balance.student.name}" rendered="#{balance.totalAmount gt 0}"/>
-                                    <h:outputText value=" to receive " rendered="#{balance.totalAmount gt 0}"/>
+                                    <h:outputText value=" #{bundle['receive']} " rendered="#{balance.totalAmount gt 0}"/>
                                     <h:outputText style="text-decoration: underline;font-weight: bold" value="$" rendered="#{balance.totalAmount gt 0}"/>
                                     <h:outputText style="text-decoration: underline;font-weight: bold" value="#{payee.value}" rendered="#{balance.totalAmount gt 0}">
                                         <f:convertNumber pattern="#0.00" />
                                     </h:outputText>
-                                    <h:outputText value=" from " rendered="#{balance.totalAmount gt 0}"/>
+                                    <h:outputText value=" #{bundle['from']} " rendered="#{balance.totalAmount gt 0}"/>
                                     <h:panelGroup rendered="#{balance.totalAmount gt 0}">
                                         <p:graphicImage rendered="#{profileBean.checkpic(payee.key.username) == true}"
                                                         alt="#{profileBean.userEntity.name}" cache="false" 
@@ -73,9 +72,9 @@
                                                         style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px" 
                                                         name="default.png"/>
                                     </h:panelGroup> 
-
+                                    
                                     <h:outputText style="font-weight: bold" value=" #{payee.key.name}" rendered="#{balance.totalAmount gt 0}"/>
-
+                                    
                                     <h:panelGroup rendered="#{balance.totalAmount lt 0}">
                                         <p:graphicImage rendered="#{profileBean.checkpic(balance.student.username) == true}"
                                                         alt="#{profileBean.userEntity.name}" cache="false" 
@@ -86,16 +85,16 @@
                                                         style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px" 
                                                         name="default.png"/>
                                     </h:panelGroup> 
-
+                                    
                                     <h:outputText style="font-weight: bold" value=" #{balance.student.name} " rendered="#{balance.totalAmount lt 0}"/>
-                                    <h:outputText value="to pay " rendered="#{balance.totalAmount lt 0}"/>
+                                    <h:outputText value="#{bundle['toPay']} " rendered="#{balance.totalAmount lt 0}"/>
                                     <h:outputText style="text-decoration: underline;font-weight: bold" value="$" rendered="#{balance.totalAmount lt 0}"/>
                                     <h:outputText style="text-decoration: underline;font-weight: bold" value="#{payee.value}" rendered="#{balance.totalAmount lt 0}">
                                         <f:convertNumber pattern="#0.00" />
                                     </h:outputText>
-
-                                    <h:outputText value=" to " rendered="#{balance.totalAmount lt 0}"/>
-
+                                    
+                                    <h:outputText value=" #{bundle['to']} " rendered="#{balance.totalAmount lt 0}"/>
+                                    
                                     <h:panelGroup rendered="#{balance.totalAmount lt 0}">
                                         <p:graphicImage rendered="#{profileBean.checkpic(payee.key.username) == true}"
                                                         alt="#{profileBean.userEntity.name}" cache="false" 
@@ -106,47 +105,47 @@
                                                         style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px" 
                                                         name="default.png"/>
                                     </h:panelGroup> 
-
+                                    
                                     <h:outputText style="font-weight: bold" value=" #{payee.key.name}" rendered="#{balance.totalAmount lt 0}"/>
-
+                                    
                                     <br />
                                 </ui:repeat>
                             </p:column>
                         </p:dataTable> 
-
+                        
                     </h:form>
                 </h:panelGrid>
             </p:fieldset>
-            <p:fieldset legend="#{viewProjectCostBean.module.course.moduleCode} Group #{viewProjectCostBean.group.name} - Transactions" toggleable="false" collapsed="false">
+            <p:fieldset legend="#{viewProjectCostBean.module.course.moduleCode} #{bundle['Group']} #{viewProjectCostBean.group.name} - #{bundle['viewTransaction']}" toggleable="false" collapsed="false">
                 <h:panelGroup>
                     <h:panelGrid columns="1">
-                        <h:outputText id="emptyLabel" value="Your group yet to add any transactions!" rendered="#{empty viewProjectCostBean.sortedTransactions}"/>
-                        <p:commandButton icon="fa fa-plus" value="New Transaction" id="addnewbutton" >
+                        <h:outputText id="emptyLabel" value="#{bundle['noTransaction']}" rendered="#{empty viewProjectCostBean.sortedTransactions}"/>
+                        <p:commandButton icon="fa fa-plus" value="#{bundle['newTransaction']}" id="addnewbutton" >
                             <p:overlayPanel style="width: 650px" id="addOverlay" for="addnewbutton" showEffect="fade" hideEffect="fade" widgetVar="addWidget">
                                 <h:form id="addTransactionForm">
                                     <h:panelGrid columns="2">
                                         <h:panelGrid columns="2" id="addBasicInfo">
-                                            <h:outputLabel for="activity" value="Activity: " /> 
+                                            <h:outputLabel for="activity" value="#{bundle['Activity']}: " /> 
                                             <p:inputText id="activity" value="#{viewProjectCostBean.activity}" required="true"/>
-                                            <h:outputLabel for="totalCost" value="Total Cost: " /> 
+                                            <h:outputLabel for="totalCost" value="#{bundle['totalCost']}: " /> 
                                             <p:inputNumber id="totalCost" value="#{viewProjectCostBean.totalCost}" symbol="$" symbolPosition="p" minValue="0.00" />
-                                            <p:outputLabel for="addDate" value="Date:"/>
-                                            <p:calendar id="addDate" value="#{viewProjectCostBean.date}" placeholder="Today"/>
+                                            <p:outputLabel for="addDate" value="#{bundle['Date']}:"/>
+                                            <p:calendar id="addDate" value="#{viewProjectCostBean.date}" placeholder="#{bundle['Today']}"/>
                                         </h:panelGrid>
                                         <h:panelGrid columns="2" id="indPayer">
-                                            <h:outputLabel for="paidBy" value="Paid by: " /> 
+                                            <h:outputLabel for="paidBy" value="#{bundle['paidBy']}: " /> 
                                             <p:selectOneMenu id="paidBy" value="#{viewProjectCostBean.paidBy}" >
                                                 <p:ajax event="change" update="addTransactionForm:indPayer, addTransactionForm:multiplePayers" />
                                                 <f:selectItem itemLabel="Individual" itemValue="Individual"/>
                                                 <f:selectItem itemLabel="Multiple People" itemValue="Multiple People"/>
                                             </p:selectOneMenu>
-                                            <h:outputText id="individualPayerLabel" value="Payer: " rendered="#{viewProjectCostBean.paidBy == 'Individual'}"/>
+                                            <h:outputText id="individualPayerLabel" value="#{bundle['Payer']}: " rendered="#{viewProjectCostBean.paidBy == 'Individual'}"/>
                                             <p:selectOneMenu id="individualPayer" value="#{viewProjectCostBean.individualPayerId}" rendered="#{viewProjectCostBean.paidBy == 'Individual'}" >
                                                 <f:selectItems value="#{viewProjectCostBean.groupMembers}" var="student" itemLabel="#{student.name}" itemValue="#{student.id}"/> 
                                             </p:selectOneMenu>
                                         </h:panelGrid>
                                         <h:panelGrid id="multiplePayers" >
-                                            <h:outputText value="Enter the amount each member has paid" rendered="#{viewProjectCostBean.paidBy == 'Multiple People'}"/>
+                                            <h:outputText value="#{bundle['eachPay']}" rendered="#{viewProjectCostBean.paidBy == 'Multiple People'}"/>
                                             <ui:repeat value="#{viewProjectCostBean.all}" var="payer" rendered="#{viewProjectCostBean.paidBy == 'Multiple People'}"> 
                                                 <p:inputNumber value="#{payer.pay}" minValue="0.00" symbol="$" symbolPosition="p" >
                                                     <p:ajax event="keyup" update="addTransactionForm:totalCost" listener="#{viewProjectCostBean.totalCostAdd}"/>
@@ -157,9 +156,9 @@
                                         </h:panelGrid>
                                     </h:panelGrid>
                                     <br />
-
+                                    
                                     <h:panelGrid columns="2">
-                                        <h:outputLabel for="splitBy" value="Split by: " /> 
+                                        <h:outputLabel for="splitBy" value="#{bundle['splitBy']}: " /> 
                                         <p:selectOneMenu id="splitBy" value="#{viewProjectCostBean.splitBy}" >
                                             <p:ajax event="change" update="addTransactionForm:splitbygroup"  />
                                             <f:selectItem itemLabel="Equally" itemValue="Equally"/>
@@ -170,8 +169,8 @@
                                     <h:panelGroup id="splitbygroup">
                                         <p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
                                             <h:panelGroup>
-                                                <h:outputText value="Enter the exact amount each member must pay" rendered="#{viewProjectCostBean.splitBy == 'Exact Amount'}"/>
-                                                <h:outputText value="Enter the percentage each member must pay" rendered="#{viewProjectCostBean.splitBy == 'Percentage'}"/>
+                                                <h:outputText value="#{bundle['exactSpend']}" rendered="#{viewProjectCostBean.splitBy == 'Exact Amount'}"/>
+                                                <h:outputText value="#{bundle['percentSpend']}" rendered="#{viewProjectCostBean.splitBy == 'Percentage'}"/>
                                             </h:panelGroup>
                                             <br />
                                             <h:panelGroup>
@@ -189,7 +188,7 @@
                                             <br />
                                         </p:panelGrid>
                                     </h:panelGroup>
-                                    <p:commandButton oncomplete="PF('addWidget').toggle();" id ="addtransactionButton" value="Add Transaction" action="#{viewProjectCostBean.addTransaction()}" update="emptyLabel, emptyLabel2, projectCostForm, addErrorMsg, summaryForm, addTransactionForm"/> 
+                                    <p:commandButton oncomplete="PF('addWidget').toggle();" id ="addtransactionButton" value="#{bundle['addTransaction']}" action="#{viewProjectCostBean.addTransaction()}" update="emptyLabel, emptyLabel2, projectCostForm, addErrorMsg, summaryForm, addTransactionForm"/> 
                                 </h:form>
                             </p:overlayPanel>
                         </p:commandButton>
@@ -197,13 +196,13 @@
                 </h:panelGroup>
                 <h:form id="projectCostForm">
                     <p:panelGrid columns="2" layout="grid" rendered="#{not empty viewProjectCostBean.sortedTransactions}">
-                        <h:outputLabel value="Activity" />
-                        <h:outputLabel value="Information" />
+                        <h:outputLabel value="#{bundle['Activity']}" />
+                        <h:outputLabel value="#{bundle['details']}" />
                         <p:separator/>
                         <p:separator/>
                         <p:dataTable selectionMode="single" selection="#{viewProjectCostBean.selectedTransaction}" rowKey="#{transaction.id}"
                                      id="transactiontable" rendered="#{not empty viewProjectCostBean.sortedTransactions}"
-                                     emptyMessage="No transactions found."                                          
+                                     emptyMessage="#{bundle['noTransaction']}."                                          
                                      paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom"
                                      rows="10" 
                                      paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -226,31 +225,31 @@
                             </h4>
                             <ui:repeat var="l" value="#{viewProjectCostBean.selectedTransaction.ledgers}">
                                 <h:outputText value="#{l.student.name}" />
-                                <h:outputText value=" paid " rendered="#{l.pay != 0.0}"/>
+                                <h:outputText value=" #{bundle['paid']} " rendered="#{l.pay != 0.0}"/>
                                 <h:outputText value="#{l.pay}" rendered="#{l.pay != 0.0}">
                                     <f:convertNumber pattern="#0.00" />
                                 </h:outputText>
-                                <h:outputText value=" dollars " rendered="#{l.pay != 0.0}"/>
-                                <h:outputText value="  and  " rendered="#{l.pay != 0.0 and l.ascCost != 0.0}"/>
-                                <h:outputText value=" owes " rendered="#{l.ascCost != 0.0}"/>
+                                <h:outputText value=" #{bundle['dollars']} " rendered="#{l.pay != 0.0}"/>
+                                <h:outputText value="  #{bundle['and']}  " rendered="#{l.pay != 0.0 and l.ascCost != 0.0}"/>
+                                <h:outputText value=" #{bundle['owes']} " rendered="#{l.ascCost != 0.0}"/>
                                 <h:outputText value="#{l.ascCost}" rendered="#{l.ascCost != 0.0}">
                                     <f:convertNumber pattern="#0.00" />
                                 </h:outputText>
-                                <h:outputText value=" dollars " rendered="#{l.ascCost != 0.0}"/>
-                                <h:outputText value=" does not need to pay anything" rendered="#{l.ascCost == 0.0}"/>
+                                <h:outputText value=" #{bundle['dollars']} " rendered="#{l.ascCost != 0.0}"/>
+                                <h:outputText value=" #{bundle['noPay']}" rendered="#{l.ascCost == 0.0}"/>
                                 <br/>
                             </ui:repeat>
                             <p:commandButton rendered="#{viewProjectCostBean.selectedTransaction != null}" id="deleteButton" icon="ui-icon-trash" actionListener="#{viewProjectCostBean.deleteTransaction}" update="emptyLabel2, emptyLabel, projectCostForm, addErrorMsg, summaryForm">
-                                <p:confirm header="Delete #{viewProjectCostBean.selectedTransaction.activity}" message="Are you sure? Deleted transactions cannot be recovered!" icon="ui-icon-alert" />
+                                <p:confirm header="#{bundle['Delete']} #{viewProjectCostBean.selectedTransaction.activity}" message="#{bundle['deleteTransactionMsg']}" icon="ui-icon-alert" />
                             </p:commandButton>
-
+                            
                         </h:panelGroup>
                     </p:panelGrid>
                 </h:form>
-
+                
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                    <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    <p:commandButton value="#{bundle['yes']}" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="#{bundle['no']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                 </p:confirmDialog>
             </p:fieldset>
         </p:panelGrid>

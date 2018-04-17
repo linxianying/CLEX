@@ -24,7 +24,7 @@
                     <h3><h:outputText value="#{bundle['study plan']}" /></h3><br></br>
                     <p:tabView id="tab">
                         <p:ajax event="tabChange" listener="#{newStudyPlanBean.onTabChange}" update="tab:studyPlanForm tab:modulesTakingForm tab:modulesTaken tab:overviewForm tab:expectedCap, tab:expectedCap2" />
-                        <p:tab id="subtab" title="ACADEMIC PLANS">
+                        <p:tab id="subtab" title="#{bundle['academicPlan']}">
                             <p:fieldset id="studyPlan" legend="#{bundle['ModulesToTake']}" toggleable="false" collapsed="false">
                                 <h:outputText value="#{bundle['noStudyPlan']}" rendered="#{empty studyPlanBean.studyPlansInOrer}"/>
                                 <h:panelGroup>
@@ -160,7 +160,7 @@
                             </h:form>
 
                             <h3>
-                                Expected Cap: 
+                                #{bundle['expectCap']}: 
                                 <h:outputText id="expectedCap2" value="#{studyPlanBean.expectedCap}">
                                     <f:convertNumber pattern="#0.00" />
                                 </h:outputText>
@@ -273,7 +273,7 @@
                                 </h:form>
                             </h:form>
                             <h3>
-                                Expected Cap: 
+                                #{bundle['expectCap']}: 
                                 <h:outputText id="expectedCap" value="#{studyPlanBean.expectedCap}">
                                     <f:convertNumber pattern="#0.00" />
                                 </h:outputText>
