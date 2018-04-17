@@ -88,13 +88,9 @@
                                                               projectBean.hasProjectGroup(m.course.moduleCode) and (empty m.peerReviewQuestion or m.peerReviewQuestion.status eq 'notStart')}" />
                                     <p:commandButton class= "canvasBtn" value="Fill peer review form" icon="fa fa-clipboard" action="#{projectBean.GoPRPage(m.course.moduleCode)}"
                                                   rendered="#{not empty m.superGroup and m.superGroup.confirm and 
-<<<<<<< HEAD
-                                                              projectBean.hasProjectGroup(m.course.moduleCode) and not empty m.peerReviewQuestion and m.peerReviewQuestion.status eq 'start'}" />
-                                    <p:commandButton class= "canvasBtn" value="View submitted peer review form" icon="fa fa-clipboard" action="#{projectBean.GoPRPage(m.course.moduleCode)}"
-=======
                                                               projectBean.hasProjectGroup(m.course.moduleCode) and not empty m.peerReviewQuestion and m.peerReviewQuestion.status eq 'start' and !projectDetailsBean.checkPRFormSubmit(m)}" />
+                                    
                                     <p:commandButton value="View submitted peer review form" icon="fa fa-clipboard" action="#{projectBean.GoViewPRPage(m.course.moduleCode)}"
->>>>>>> d5ebd5574f93555fc756f59c49274d0865480a53
                                                   rendered="#{not empty m.superGroup and m.superGroup.confirm and 
                                                               projectBean.hasProjectGroup(m.course.moduleCode) and not empty m.peerReviewQuestion and projectDetailsBean.checkPRFormSubmit(m)}" />
                                 </td>
@@ -114,28 +110,12 @@
 
                     <hr/>
                     <br />
-<<<<<<< HEAD
-                    <h:outputLabel style="font-weight: bold; font-size: 12px" value="Classroom Activities" />
-
-                    <h:form id="folderform">
-                        <p:dataTable style="width: 100%"
-                            id="foldertable" value="#{projectDetailsBean.list}" 
-                                    var="folderlist" paginator="true" paginatorPosition="bottom"
-                                    rows="10" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
-                                    emptyMessage="No activities found! Hooray!" >
-                            <p:column >
-                                <h:outputText value="#{folderlist} "/>
-                                <p:commandButton style="float: right;margin-left: 50px" icon="fa fa-pencil-square-o" actionListener="#{projectDetailsBean.enterActivity(folderlist)}"/>
-                            </p:column>
-                        </p:dataTable>
-                    </h:form>
-=======
                     <h:panelGrid columns="2">
                         <h:outputLabel style="font-weight: bold; font-size: 12px" value="Classroom Materials" />
                         <p:commandButton value="View Materials" actionListener="#{projectDetailsBean.viewMaterials}" icon="fa fa-book"/>
                         <h:outputLabel style="font-weight: bold; font-size: 12px" value="Classroom Activities" />   
                         <h:form id="folderform">
-                            <p:dataTable style="width: 400px"
+                            <p:dataTable style="width: 100%"
                                          id="foldertable" value="#{projectDetailsBean.list}" 
                                          var="folderlist" paginator="true" paginatorPosition="bottom"
                                          rows="10" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
@@ -147,11 +127,6 @@
                             </p:dataTable>
                         </h:form>
                     </h:panelGrid>
-
-
-
->>>>>>> d5ebd5574f93555fc756f59c49274d0865480a53
-
                 </div>
             </div>
 

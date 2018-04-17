@@ -36,11 +36,8 @@
                                                     <h:outputText value="#{bundle['year']}: #{studyPlanBean.convertPickYear(studyPlans.get(0).pickYear)} " />
                                                     <h:outputText value="#{bundle['sem']}: #{studyPlans.get(0).pickSem}"/>
                                                 </f:facet>
-<<<<<<< HEAD
-                                                <p:column headerText="Module Code" style="min-width: 100px">
-=======
-                                                <p:column style="text-align: center;width: 20%" headerText="#{bundle['modCode']}">
->>>>>>> d5ebd5574f93555fc756f59c49274d0865480a53
+
+                                                <p:column style="min-width: 100px" headerText="#{bundle['modCode']}">
                                                     <p:commandLink value="#{sp.course.moduleCode}" action="studyPlan?faces-redirect=false" onclick="PF('reviewoverlay').show()" update="tab:reviewForm:moduleinfobox" actionListener="#{studyPlanBean.getModuleReviewsList(sp.course)}"/> 
                                                     <p:commandButton icon="ui-icon-trash" style="color:black; background: transparent; float: right" id="deleteStudyPlan-button" >
                                                         <p:ajax update="tab:studyPlanForm:studyPlansList, tab:addForm:addSPButton" listener="#{studyPlanBean.deleteStudyPlan(sp.course.moduleCode)}" />
@@ -51,15 +48,7 @@
                                                         <p:commandButton value="#{bundle['no']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                                                     </p:confirmDialog>                                                    
                                                 </p:column>
-<<<<<<< HEAD
-                                                <p:column headerText="Module Name">
-                                                    <div><h:outputText value="#{sp.course.moduleName}" /></div>
-                                                </p:column>
-                                                <p:column headerText="Credit Unit(s)">
-                                                    <h:outputText value="#{sp.course.modularCredits}" />
-                                                </p:column>
-                                                <p:column headerText="Expected Grade">
-=======
+
                                                 <p:column headerText="#{bundle['modName']}">
                                                     <h:outputText value="#{sp.course.moduleName}" />
                                                 </p:column>
@@ -67,7 +56,6 @@
                                                     <h:outputText value="#{sp.course.modularCredits}" />
                                                 </p:column>
                                                 <p:column style="text-align: center;width: 30%" headerText="#{bundle['ExpectedGrade']}">
->>>>>>> d5ebd5574f93555fc756f59c49274d0865480a53
                                                     <p:selectOneMenu id="newGrade" value="#{studyPlanBean.newModuleGrade}" >
                                                         <f:selectItem itemLabel="#{bundle['SelectOne']}" itemValue="select" />  
                                                         <f:selectItem itemLabel="A+" itemValue="A+" />
@@ -124,15 +112,11 @@
                             </p:fieldset>
                             <h:form id="addForm">
                                 <br/>
-<<<<<<< HEAD
-                                <p:commandLink value="Add a new study plan entry * :" onclick="PF('disclaim').show()" style="font-size: 1.2em"/>
-                                <br/><br/>
-                                <div class="ui-g-12 ui-md-4">
-=======
-                                <p:commandLink value="#{bundle['addStudyPlan']} * :" onclick="PF('disclaim').show()" style="font-size: 1.2em"/>
 
-                                <h:panelGrid columns="2" >
->>>>>>> d5ebd5574f93555fc756f59c49274d0865480a53
+                                <p:commandLink value="#{bundle['addStudyPlan']} * :" onclick="PF('disclaim').show()" style="font-size: 1.2em"/>
+                                <br/><br/>
+                                <div class="ui-g-12 ui-md-4">                     
+
                                     <p:panelGrid columns="2">
                                         <p:outputLabel id="viewLabel" for="moduleCode" value="#{bundle['modCode']}:" />
                                         <p:selectOneMenu id="moduleCode" value="#{studyPlanBean.addModuleCode}"  panelStyle="width:180px" effect="fade" 
@@ -174,15 +158,10 @@
                                                      update="tab:studyPlanForm addErrorMsg">
                                         <p:confirm header="Add #{studyPlanBean.addModuleCode}" message="Are you sure?" icon="ui-icon-alert" />
                                     </p:commandButton>
-<<<<<<< HEAD
+
                                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true">
-                                        <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-=======
-                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                                         <p:commandButton value="#{bundle['yes']}" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                                         <p:commandButton value="#{bundle['no']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
->>>>>>> d5ebd5574f93555fc756f59c49274d0865480a53
                                     </p:confirmDialog>
                                 </h:panelGroup>
                             </h:form>
@@ -224,11 +203,8 @@
                                                 <h:outputText value="#{bundle['year']}: #{studyPlanBean.currentYear-studyPlanBean.matricYear+1} " />
                                                 <h:outputText value="#{bundle['sem']}: #{studyPlanBean.takingModules.get(0).takenSem}"/>
                                             </f:facet>
-<<<<<<< HEAD
-                                            <p:column headerText="Module Code">
-=======
-                                            <p:column style="text-align: center;width: 20%" headerText="#{bundle['modCode']}">
->>>>>>> d5ebd5574f93555fc756f59c49274d0865480a53
+
+                                            <p:column headerText="#{bundle['modCode']}">
                                                 <p:commandLink action="studyPlan?faces-redirect=false" id="modulecode" >
                                                     <h:outputText value="#{module.course.moduleCode}" />
                                                 </p:commandLink>
@@ -261,23 +237,13 @@
                                                     </p:panel>
                                                 </p:overlayPanel>
                                             </p:column>
-<<<<<<< HEAD
-                                            <p:column headerText="Module Name">
-                                                <div><h:outputText value="#{module.course.moduleName}"/></div>
-                                            </p:column>
-                                            <p:column headerText="Credit Unit(s)">
-                                                <h:outputText value="#{module.course.modularCredits}" />
-                                            </p:column>
-                                            <p:column headerText="Expected Grade">
-=======
                                             <p:column headerText="#{bundle['ModuleName']} ">
                                                 <h:outputText value="#{module.course.moduleName}" />
                                             </p:column>
-                                            <p:column style="text-align: center;width: 20%" headerText="#{bundle['CreditUnit']}">
+                                            <p:column headerText="#{bundle['CreditUnit']}">
                                                 <h:outputText value="#{module.course.modularCredits}" />
                                             </p:column>
-                                            <p:column style="text-align: center;width: 20%" headerText="#{bundle['ExpectedGrade']}">
->>>>>>> d5ebd5574f93555fc756f59c49274d0865480a53
+                                            <p:column headerText="#{bundle['ExpectedGrade']}">
                                                 <p:selectOneMenu id="newCurrentGrade" value="#{studyPlanBean.newCurrentModuleGrade}" >
                                                     <f:selectItem itemLabel="#{bundle['SelectOne']}" itemValue="select" />  
                                                     <f:selectItem itemLabel="A+" itemValue="A+" />
@@ -397,11 +363,9 @@
                                                         <h:outputText value="#{bundle['year']}: #{studyPlanBean.convertPickYear(grades.get(0).module.takenYear)} " />
                                                         <h:outputText value="#{bundle['sem']}: #{grades.get(0).module.takenSem}"/>
                                                     </f:facet>                                                
-<<<<<<< HEAD
-                                                    <p:column headerText="Module Code" style="min-width:100px">
-=======
-                                                    <p:column style="text-align: center;width: 20%" headerText="#{bundle['modCode']}">
->>>>>>> d5ebd5574f93555fc756f59c49274d0865480a53
+
+                                                    <p:column style="min-width:100px" headerText="#{bundle['modCode']}">
+
                                                         <p:commandLink action="studyPlan?faces-redirect=false" actionListener="#{studyPlanBean.getTakenModuleInfo(grade.module)}" value="#{grade.module.course.moduleCode}"
                                                                        id="modulecode" onclick="PF('infooverlay').show()" update="tab:infoform"/> 
                                                         <p:commandButton style="color:black; background: transparent; float:right" icon="ui-icon-trash" id="deleteStudyPlan-button" update="tab:reporttab" >
@@ -413,23 +377,13 @@
                                                             <p:commandButton value="#{bundle['no']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                                                         </p:confirmDialog>         
                                                     </p:column>
-<<<<<<< HEAD
-                                                    <p:column headerText="Module Name">
-                                                        <div><h:outputText value="#{grade.module.course.moduleName}"/></div>
-                                                    </p:column>
-                                                    <p:column headerText="Credit Unit(s)">
-                                                        <h:outputText value="#{grade.module.course.modularCredits}"/>
-                                                    </p:column>
-                                                    <p:column headerText="Grade">
-=======
                                                     <p:column headerText="#{bundle['modName']}">
                                                         <h:outputText value="#{grade.module.course.moduleName}" />
                                                     </p:column>
-                                                    <p:column style="text-align: center;width: 20%" headerText="#{bundle['CreditUnit']}">
+                                                    <p:column headerText="#{bundle['CreditUnit']}">
                                                         <h:outputText value="#{grade.module.course.modularCredits}" />
                                                     </p:column>
-                                                    <p:column style="text-align: center;width: 20%" headerText="#{bundle['Grade']}">
->>>>>>> d5ebd5574f93555fc756f59c49274d0865480a53
+                                                    <p:column headerText="#{bundle['Grade']}">
                                                         <h:outputText value="#{grade.moduleGrade}"/>
                                                     </p:column>
                                                 </p:dataTable>
