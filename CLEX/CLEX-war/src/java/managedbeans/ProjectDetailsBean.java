@@ -10,6 +10,7 @@ import entity.Student;
 import entity.User;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -145,7 +146,12 @@ public class ProjectDetailsBean {
             e.printStackTrace();
         }
     }
-    
+
+    public void viewMaterials() throws IOException {
+        session.setAttribute("module", module);
+        context.getExternalContext().redirect("studentMindmap.xhtml");
+    }
+
     public String getUsername() {
         return username;
     }
@@ -153,7 +159,6 @@ public class ProjectDetailsBean {
     public void setUsername(String username) {
         this.username = username;
     }
-
 
     public Student getStudent() {
         return student;
