@@ -84,24 +84,11 @@
                             <p:commandButton icon="fa fa-groups" value="View Groups' Peer Review Results" action="lecturerUpdatePRform?faces-redirect=true"
                                              rendered="#{not empty module.superGroup and module.superGroup.confirm and not empty module.peerReviewQuestion and not empty module.peerReviewQuestion.answer}"/>
                         </p:column>
-                        <!--                        <p:dialog header="Start group Formation" widgetVar="dlg1" id="dlg1">
-                                                    <h:outputText value="Check!"/>
-                                                    <h:form id="formGroupForm">
-                                                        <p:outputLabel for="numOfGroups" value="Max numbers of groups in total"/>
-                                                        <p:inputText id="numOfGroups" value="#{lecturerModuleListBean.numOfGroups}"/>
-                                                        <br/>
-                                                        <p:outputLabel for="minStudentNum" value="Min numbers of students in a group"/>
-                                                        <p:inputText id="minStudentNum" value="#{lecturerModuleListBean.minStudentNum}"/>
-                                                        <br/>
-                                                        <p:outputLabel for="maxStudentNum" value="Max numbers of students in a group"/>
-                                                        <p:inputText id="maxStudentNum" value="#{lecturerModuleListBean.maxStudentNum}"/>
-                                                        <br/>
-                                                        <p:commandButton value="submit" actionListener="#{lecturerModuleListBean.formGroup(module)}" update=":panel:currentModules"/>
-                                                    </h:form>
-                                                </p:dialog>-->
-                        <p:column style="text-align: center;width: 20%" headerText="Activities">
-                            <p:commandButton value="Manage Activities" actionListener="#{lecturerModuleListBean.manageActivities(module)}" icon="fa fa-search"/>
+                        <p:column style="text-align: center;width: 20%" headerText="Materials/Activities">
+                            <p:commandButton value="Manage Materials" actionListener="#{lecturerModuleListBean.manageMaterials(module)}" icon="fa fa-book"/>
+                            <p:commandButton value="Manage Activities" actionListener="#{lecturerModuleListBean.manageActivities(module)}" icon="fa fa-search"/>                            
                         </p:column>
+                        
                     </p:dataTable>
                 </p:tab>
                 <p:tab title="VIEW MODULES">

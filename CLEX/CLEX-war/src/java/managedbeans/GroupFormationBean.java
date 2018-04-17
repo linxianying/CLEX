@@ -76,18 +76,19 @@ public class GroupFormationBean {
         //student current project group, can be null
         if (gfsbl.checkStudentGroupId(student.getId(), superGroup.getId()) != null)
             currentProjectGroup = gfsbl.findProjectGroup(gfsbl.checkStudentGroupId(student.getId(), superGroup.getId()));
-        else 
+        else
             currentProjectGroup = null;
     }
     
     public void refresh(){
         superGroup = gfsbl.findSuperGroup(superGroup.getId());
+        projectGroups = gfsbl.getAllProjectGroups(superGroup.getId());
         minStudentNum = superGroup.getMinStudentNum();
         maxStudentNum = superGroup.getMaxStudentNum();
         //student current project group, can be null
         if (gfsbl.checkStudentGroupId(student.getId(), superGroup.getId()) != null)
             currentProjectGroup = gfsbl.findProjectGroup(gfsbl.checkStudentGroupId(student.getId(), superGroup.getId()));
-        else 
+        else
             currentProjectGroup = null;
         
         projectGroups = gfsbl.getAllProjectGroups(superGroup.getId());
@@ -95,51 +96,56 @@ public class GroupFormationBean {
     
     //student already have a group; leave a group and join another group
     public void joinGroup(Long id) throws IOException{
+        System.out.println("Current group " + currentProjectGroup + ", supergroup " +this.superGroup.getId());
         FacesMessage fmsg = new FacesMessage();
 //        System.out.println("first step start");
         projectGroup = gfsbl.findProjectGroup(id);
 //        System.out.println("first step finish");
         if (currentProjectGroup != null) {
+            boolean full = !gfsbl.joinGroup(student.getId(),id,currentProjectGroup.getId());
             // if the group is full ,refresh the page
-            if (!gfsbl.joinGroup(student.getId(),id,this.currentProjectGroup.getId())) {
-    //            context.getExternalContext().redirect("groupFormation.xhtml");
+            if (full) {
+                //            context.getExternalContext().redirect("groupFormation.xhtml");
                 fmsg = new FacesMessage("Error", "The group "+ projectGroup.getName() + " is full!");
                 context.addMessage(null, fmsg);
             }
             else {
                 fmsg = new FacesMessage("Successful", "You have changed to the project group "
-                    + projectGroup.getName() + " for module "
-                    + projectGroup.getSuperGroup().getModule().getCourse().getModuleCode());
+                        + projectGroup.getName() + " for module "
+                        + projectGroup.getSuperGroup().getModule().getCourse().getModuleCode());
                 context.addMessage(null, fmsg);
                 context.getExternalContext().getFlash().setKeepMessages(true);
                 context.getExternalContext().redirect("project.xhtml");
+                this.refresh();
             }
         }
         else if (currentProjectGroup == null) {
             this.joinNewGroup(id);
+            this.refresh();
         }
     }
     
     //student does not have group yet, join a group
     public void joinNewGroup(Long id) throws IOException{
         FacesMessage fmsg = new FacesMessage();
-//        System.out.println("first step start");
         projectGroup = gfsbl.findProjectGroup(id);
-//        System.out.println("first step finish");
         // if the group is full ,refresh the page
-        if (!gfsbl.joinGroup(student.getId(),id,null)) {
+        boolean full = !gfsbl.joinGroup(student.getId(),id,null);
+        if (full) {
+            System.out.println("first step start");
             fmsg = new FacesMessage("Error", "The group "+ projectGroup.getName() + " is full!");
-                context.addMessage(null, fmsg);
-            context.getExternalContext().redirect("groupFormation.xhtml");
+            context.addMessage(null, fmsg);
+//            context.getExternalContext().redirect("groupFormation.xhtml");
         }
-        //if sucessfully join the group, redeirect to the project page
         else {
+            //if sucessfully join the group
+            System.out.println("join new group ");
             fmsg = new FacesMessage("Successful", "You have changed to the project group "
                     + projectGroup.getName() + " for module "
                     + projectGroup.getSuperGroup().getModule().getCourse().getModuleCode());
             context.addMessage(null, fmsg);
             context.getExternalContext().getFlash().setKeepMessages(true);
-            context.getExternalContext().redirect("project.xhtml");
+//            context.getExternalContext().redirect("project.xhtml");
         }
     }
     
@@ -241,8 +247,8 @@ public class GroupFormationBean {
     }
     
     public ArrayList<ProjectGroup> getProjectGroups() {
-        System.out.println("groupFormationBean: projectGroups" +  projectGroups.size());
-        System.out.println( projectGroups);
+//        System.out.println("groupFormationBean: projectGroups" +  projectGroups.size());
+//        System.out.println( projectGroups);
         return projectGroups;
     }
     
@@ -273,11 +279,11 @@ public class GroupFormationBean {
     public void setMaxStudentNum(int maxStudentNum) {
         this.maxStudentNum = maxStudentNum;
     }
-
+    
     public ProjectGroup getCurrentProjectGroup() {
         return currentProjectGroup;
     }
-
+    
     public void setCurrentProjectGroup(ProjectGroup currentProjectGroup) {
         this.currentProjectGroup = currentProjectGroup;
     }

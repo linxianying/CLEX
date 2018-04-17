@@ -22,6 +22,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Base64;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -83,6 +84,7 @@ public class WhiteboardBean {
     }
 
     public void save() throws IOException {
+        FacesMessage fmsg = new FacesMessage();
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
         String filename = userEntity.getName();
@@ -91,7 +93,7 @@ public class WhiteboardBean {
         int pathlength = path.length();
         pathlength = pathlength - 10;
         path = path.substring(0, pathlength);
-        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + activityname + "/submitted/";
+        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/Activities/" + activityname + "/submitted/";
         path = path.replaceAll("\\\\", "/");
         System.out.println("path " + path);
         Path folder = Paths.get(path);
@@ -109,6 +111,8 @@ public class WhiteboardBean {
         } else {
             Files.move(file, Paths.get(path + filename + extension));
         }
+        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Submission Success!", "");
+        context.addMessage(null, fmsg);
 
     }
 
@@ -124,7 +128,7 @@ public class WhiteboardBean {
         int pathlength = path.length();
         pathlength = pathlength - 10;
         path = path.substring(0, pathlength);
-        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + activityname + "/";
+        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/Activities/" + activityname + "/";
         path = path.replaceAll("\\\\", "/");
         System.out.println("path " + path);
         path = path + filename + extension;

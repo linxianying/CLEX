@@ -82,7 +82,7 @@
                                         <p:selectOneMenu id="moduleCode" value="#{newStudyPlanBean.addModuleCode}"  panelStyle="width:180px" effect="fade" 
                                                              var="course" style="width:160px" filter="true" filterMatchMode="contains" appendTo="@this">
                                             <!--<p:ajax event="change" listener="#{studyPlanBean.checkStudyPlan}" update="tab:studyPlanForm:addForm:addSPButton, tab:studyPlanForm:addForm:moduleInfoBox, tab:studyPlanForm:addForm:addPickSemLabel, addErrorMsg"  />-->
-                                            <f:selectItem itemLabel="Select One" itemValue="select"/>
+                                            <f:selectItem itemLabel="#{bundle['SelectOne']}" itemValue="select"/>
                                             <f:selectItems value="#{newStudyPlanBean.courses}" var="course" itemLabel="#{course.moduleCode}" itemValue="#{course.moduleCode}" />
                                         </p:selectOneMenu>
 

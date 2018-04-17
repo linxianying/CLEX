@@ -9,10 +9,24 @@
 
     <ui:define name="title">PRISM Student Schedule page</ui:define>
 
-    <ui:define name="viewname">Schedule</ui:define>
+    <ui:define name="viewname">#{bundle['schedule']}</ui:define>
 
     <ui:define name="content">
+<<<<<<< HEAD
         <h3 style="margin:10px">My Schedule</h3>
+=======
+        <p:commandButton value="#{bundle['reset']}" actionListener="#{scheduleBean.reset()}" 
+
+                    action="schedule?faces-redirect=true">
+            <p:confirm header="Confirmation" 
+                  message="Are you sure you want to reset the schedule? This action will delete all your timeslots."
+                  icon="ui-icon-alert" />
+        </p:commandButton>
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+            <p:commandButton value="#{bundle['yes']}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+            <p:commandButton value="#{bundle['no']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
+>>>>>>> d5ebd5574f93555fc756f59c49274d0865480a53
         <h:form id="addTimeslotForm">
             <p:commandButton style="margin:10px" value="Reset Calendar" actionListener="#{scheduleBean.reset()}" 
 
@@ -39,7 +53,11 @@
             </h:commandLink>
             -->
             <h:panelGrid id="cal" columnClasses="value">
+<<<<<<< HEAD
                 
+=======
+                <h3>#{bundle['schedule']}</h3>
+>>>>>>> d5ebd5574f93555fc756f59c49274d0865480a53
 
                 <p:outputPanel class="ui-g dashboard">
                     <p:schedule class="ui-g-12 ui-md-8" id="schedule" value="#{scheduleBean.eventModel}" widgetVar="myschedule" timeZone="GMT+8">
@@ -48,10 +66,20 @@
                         <p:ajax event="eventMove" listener="#{scheduleBean.onEventMove}" update="messages" />
                         <p:ajax event="eventResize" listener="#{scheduleBean.onEventResize}" update="messages" />
                     </p:schedule>
+<<<<<<< HEAD
 
 
                     <div class="ui-g-12 ui-md-4 task-list" style="margin-top:50px">
                         <p:panel header="Coming Events">
+=======
+                    
+                    <p:commandButton value="#{bundle['Print']}" type="button" icon="ui-icon-print" style="margin-bottom: 20px; float: right">
+                        <p:printer target="cal" />
+                    </p:commandButton>
+                    
+                    <div class="task-list">
+                        <p:panel header="#{bundle['Coming Events']}" style="float: right; width: 24%; min-height:150px;">
+>>>>>>> d5ebd5574f93555fc756f59c49274d0865480a53
                             <p:dataList id="toDoList" var="todo" value="#{scheduleBean.timeslots}">
                                 <p:selectBooleanCheckbox>
                                     <p:ajax event="change" update="toDoList" listener="#{scheduleBean.timeslots}" />
@@ -63,12 +91,12 @@
                 </p:outputPanel>
             </h:panelGrid>
 
-            <p:dialog widgetVar="eventDialog" header="Event Details" showEffect="clip" hideEffect="clip">
+            <p:dialog widgetVar="eventDialog" header="#{bundle['Event Details']}" showEffect="clip" hideEffect="clip">
                 <h:panelGrid id="eventDetails" columns="2">
-                    <p:outputLabel for="type" value="Type:" />
+                    <p:outputLabel for="type" value="#{bundle['type']}:" />
                     <p:selectOneButton id="type" style="padding: 0%; width: 100%" value="#{scheduleBean.groupOrPersonal}">
-                        <f:selectItem itemLabel="Personal" itemValue="1" />
-                        <f:selectItem itemLabel="Group" itemValue="2" />
+                        <f:selectItem itemLabel="#{bundle['Personal']}" itemValue="1" />
+                        <f:selectItem itemLabel="#{bundle['Group']}" itemValue="2" />
                         <p:ajax update="addTimeslotForm:projectGroup, addTimeslotForm:eventDetails" event="change"/>
                     </p:selectOneButton>
 
@@ -110,7 +138,7 @@
         </h:form>
         <h:form id="formFileUpload" enctype="multipart/form-data">
 
-            <p:panel header="ICS File Upload">
+            <p:panel header="#{bundle['icsUpload']}">
 
                 <p:growl id="msg"></p:growl>
                 <p:fileUpload   fileUploadListener="#{scheduleBean.handleFileUpload}" 

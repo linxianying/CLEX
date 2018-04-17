@@ -28,6 +28,7 @@ import javax.persistence.OneToOne;
 public class Student extends User implements Serializable {
     @OneToMany(mappedBy = "reviewer")
     private List<PeerReviewAnswer> peerReviewAnswers;
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -84,12 +85,6 @@ public class Student extends User implements Serializable {
     @ManyToMany(cascade={CascadeType.PERSIST})
     @JoinTable(name="Student_GroupTimeSlot")
     private Collection<GroupTimeslot> groupTimeslots = new ArrayList<GroupTimeslot>();
-    
-    @OneToMany(mappedBy = "reviewer")
-    private Collection<PeerReviewAnswer> asReviewer;
-    
-    @OneToMany(mappedBy = "reviewee")
-    private Collection<PeerReviewAnswer> asReviewee;
     
     public void createStudent(String username, String password, String name, String studentId,
                 String email, String school, Long contactNum, String salt,
@@ -230,22 +225,6 @@ public class Student extends User implements Serializable {
 
     public void setPeerReviewAnswers(List<PeerReviewAnswer> peerReviewAnswers) {
         this.peerReviewAnswers = peerReviewAnswers;
-    }
-
-    public Collection<PeerReviewAnswer> getAsReviewer() {
-        return asReviewer;
-    }
-
-    public void setAsReviewer(Collection<PeerReviewAnswer> asReviewer) {
-        this.asReviewer = asReviewer;
-    }
-
-    public Collection<PeerReviewAnswer> getAsReviewee() {
-        return asReviewee;
-    }
-
-    public void setAsReviewee(Collection<PeerReviewAnswer> asReviewee) {
-        this.asReviewee = asReviewee;
     }
 
     public String getStudentId() {

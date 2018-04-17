@@ -49,23 +49,23 @@
                         <span class="fa fa-bars"></span>
                     </a>
                     <ul id="menu" class="animated">
-                        <li><a href="#"><span>Home</span></a></li>
-                        <li><a href="#features"><span>Features</span></a></li>
+                        <li><a href="#"><span>#{bundle['Home']}</span></a></li>
+                        <li><a href="#features"><span>#{bundle['Features']}</span></a></li>
                         <!--
                         <li><a href="#promotion"><span>Promotion</span></a></li>
                         <li><a href="#contactUs"><span>Pricing</span></a></li>
                         -->
-                        <li><a href="#video"><span>Video</span></a></li>
-                        <li><a href="#promotion"><span>Contact Us</span></a></li>
+                        <li><a href="#video"><span>#{bundle['video']}</span></a></li>
+                        <li><a href="#promotion"><span>#{bundle['contact']}</span></a></li>
                     </ul>
                 </div>
 
                 <div class="header-content clearfix">
                     <h2>Project Integrated Student Management</h2>
                     <br/><br/><br/><br/><br/><br/>
-                    <p:button outcome="/login" value="Login" style="width: 150px; margin: 0px 5px 5px 0px"/>
+                    <p:button outcome="/login" value="#{bundle['login']}" style="width: 150px; margin: 0px 5px 5px 0px"/>
                     
-                    <p:button outcome="/register" value="Sign Up" style="width: 150px"/>
+                    <p:button outcome="/register" value="#{bundle['Sign']}" style="width: 150px"/>
                 </div>
             </div>
 
@@ -75,44 +75,44 @@
                         <div class="feature-icon">
                             <p:graphicImage name="images/landing/landing-1.png" library="poseidon-layout" />
                         </div>
-                        <h3>Mobile-Friendly</h3>
-                        <p>PRISM application readily available on the Apple App Store or Google Play Store</p>
+                        <h3>#{bundle['Mobile-Friendly']}</h3>
+                        <p>#{bundle['intro1']}</p>
                     </div>
                     <div class="ui-g-12 ui-md-4">
                         <div class="feature-icon">
                             <p:graphicImage name="images/landing/landing-2.png" library="poseidon-layout" />
                         </div>
-                        <h3>Study Plan</h3>
-                        <p>Students plan modules for university curriculum</p>
+                        <h3>#{bundle['StudyPlan']}</h3>
+                        <p>#{bundle['intro2']}</p>
                     </div>
                     <div class="ui-g-12 ui-md-4">
                         <div class="feature-icon">
                             <p:graphicImage name="images/landing/landing-3.png" library="poseidon-layout" />
                         </div>
-                        <h3>Project</h3>
-                        <p>Students can choose their respective project groups</p>
+                        <h3>#{bundle['Project']}</h3>
+                        <p>#{bundle['intro3']}</p>
                     </div>
 
                     <div class="ui-g-12 ui-md-4">
                         <div class="feature-icon">
                             <p:graphicImage name="images/landing/landing-4.png" library="poseidon-layout" />
                         </div>
-                        <h3>Free Timeslots</h3>
-                        <p>Students can utilize system to find common timeslots within a project group</p>
+                        <h3>#{bundle['FreeTimeslots']}</h3>
+                        <p>#{bundle['intro4']}</p>
                     </div>
                     <div class="ui-g-12 ui-md-4">
                         <div class="feature-icon">
                             <p:graphicImage name="images/landing/landing-5.png" library="poseidon-layout" />
                         </div>
-                        <h3>Project Costing</h3>
-                        <p>Students can submit and split costs of a project</p>
+                        <h3>#{bundle['ProjectCosting']}</h3>
+                        <p>#{bundle['intro5']}</p>
                     </div>
                     <div class="ui-g-12 ui-md-4">
                         <div class="feature-icon">
                             <p:graphicImage name="images/landing/landing-6.png" library="poseidon-layout" />
                         </div>
-                        <h3>Community</h3>
-                        <p>Community forum to allow different users to connect</p>
+                        <h3>#{bundle['community']}</h3>
+                        <p>#{bundle['intro6']}</p>
                     </div>
                 </div>
             </div>
@@ -196,17 +196,17 @@
 
             <div id="video">
                 <div class="video-content">
-                    <h2>SG Secure</h2>
-                    <p>Be Secure with SG Secure</p>
+                    <h2>PRISM</h2>
+                    <p>#{bundle['intro7']}</p>
                     <div class="video-container">
-                        <iframe src="https://www.youtube.com/embed/wEt1o5cYtvs?rel=0" frameborder="0" width="560" height="330"></iframe>
+                        <iframe src="https://www.youtube.com/embed/7_dCYLOTuiw" frameborder="0" width="560" height="330"></iframe>
                     </div>
                 </div>
             </div>
 
             <div id="promotion" class="clearfix">
                 <div class="promotion-content">
-                    <h2>Contact Us</h2>
+                    <h2>#{bundle['contact']}</h2>
 
                     <h:form>
                         <h:outputLink value="mailto:prismeduc@gmail.com">

@@ -11,7 +11,7 @@
 
     <ui:define name="title">PRISM Student Project page</ui:define>
 
-    <ui:define name="viewname">Project</ui:define>
+    <ui:define name="viewname">#{bundle['Project']}</ui:define>
 
     <ui:define name="content">
 
@@ -22,7 +22,7 @@
 
             <p:growl id="messages" showDetail="true" />
             <div id="top" class="top">
-                <h3><ui:insert name="top">My Modules</ui:insert></h3>
+                <h3><ui:insert name="top">#{bundle['modules']}</ui:insert></h3>
             </div>
             <br />
             <div>

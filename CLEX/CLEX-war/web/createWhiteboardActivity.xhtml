@@ -57,8 +57,8 @@
                         <p:signature style="width: 80vw;height: 100vh" 
                                      widgetVar="sig" id="output"
                                      backgroundColor="#ffffff" color="#000000"
-                                     thickness="1"                                      
-                                     value="#{lecturerWhiteboardBean.selectedDrawing}" required="true" guideline="false"/>
+                                     thickness="1" readonly="true"                                   
+                                     value="#{lecturerWhiteboardBean.selectedDrawing}" guideline="false"/>
                         <p:poll interval="3" listener="#{lecturerWhiteboardBean.updateDrawing()}" update="output"/>
                     </h:form>
                 </p:outputPanel>

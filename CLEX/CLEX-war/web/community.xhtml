@@ -9,29 +9,29 @@
 
     <ui:define name="title">PRISM Student Community Page</ui:define>
 
-    <ui:define name="viewname">Community</ui:define>
+    <ui:define name="viewname">#{bundle['community']}</ui:define>
 
     <ui:define name="content">
         <p:growl id="messages" showDetail="true"/>        
         <p:tabView id="communityTab">
-            <p:tab title="COMMUNITY FORUMS - #{forumListBean.userEntity.school}">
-                <p:commandButton icon="fa fa-plus" value="New Thread" id="newThreadButton" >
+            <p:tab title="#{bundle['community']} - #{forumListBean.userEntity.school}">
+                <p:commandButton icon="fa fa-plus" value="#{bundle['newThread']}" id="newThreadButton" >
                     <p:overlayPanel id="createthreadwidget" for="newThreadButton" showEffect="fade" hideEffect="fade" widgetVar="createThreadWidget">
                         <h:form id="createForm">
                             <h:panelGrid columns="1">
                                 <h:panelGrid columns="2">
-                                    <h:outputLabel for="tag2" value="Tags: " />
-                                    <p:selectOneMenu title="Select a tag from the list (Optional)"
+                                    <h:outputLabel for="tag2" value="#{bundle['tag']}: " />
+                                    <p:selectOneMenu title="#{bundle['selectTag']}"
                                                      value="#{forumListBean.tTag}" required="false"
                                                      id="tag" >
-                                        <f:selectItem itemLabel="General" itemValue="general" />
-                                        <f:selectItem itemLabel="Group Formation" itemValue="groupformation"  />
-                                        <f:selectItem itemLabel="Tutorial Help" itemValue="tutorial"  />
-                                        <f:selectItem itemLabel="Voluntary Work" itemValue="volunteer"  />
-                                        <f:selectItem itemLabel="Degree-related" itemValue="degree"  />
-                                        <f:selectItem itemLabel="Module-related" itemValue="module"  />
-                                        <f:selectItem itemLabel="Study Plan" itemValue="studyplan"  />
-                                        <f:selectItem itemLabel="Teaching Assistant" itemValue="searchta" />
+                                         <f:selectItem itemLabel="#{bundle['General']}" itemValue="general" />
+                                        <f:selectItem itemLabel="#{bundle['Group Formation']}" itemValue="groupformation"  />
+                                        <f:selectItem itemLabel="#{bundle['Tutorial Help']}" itemValue="tutorial"  />
+                                        <f:selectItem itemLabel="#{bundle['Voluntary Work']}" itemValue="volunteer"  />
+                                        <f:selectItem itemLabel="#{bundle['Degree-related']}" itemValue="degree"  />
+                                        <f:selectItem itemLabel="#{bundle['Module-related']}" itemValue="module"  />
+                                        <f:selectItem itemLabel="#{bundle['study plan']}" itemValue="studyplan"  />
+                                        <f:selectItem itemLabel="#{bundle['Teaching Assistant']}" itemValue="searchta" />
                                     </p:selectOneMenu>
                                 </h:panelGrid>
                                 <br />
@@ -70,7 +70,7 @@
                         </h:form>
                     </p:overlayPanel>
                 </p:commandButton>
-                <p:commandButton value="Search" id="searchButton" icon="fa fa-search" >
+                <p:commandButton value="#{bundle['Search']}" id="searchButton" icon="fa fa-search" >
                     <p:overlayPanel dynamic="true" id="searchthreadwidget" for="searchButton" showEffect="fade" hideEffect="fade" widgetVar="searchWidget">
                         <h:form id="searchForm">
                             <h:panelGrid columns="1">
@@ -79,21 +79,21 @@
                                     <p:selectOneMenu title="Select a tag from the list (Optional)"
                                                      value="#{forumListBean.searchTag}" required="false"
                                                      id="tag2" >
-                                        <f:selectItem itemLabel="Optional" itemValue=" " />
-                                        <f:selectItem itemLabel="General" itemValue="general" />
-                                        <f:selectItem itemLabel="Group Formation" itemValue="groupformation"  />
-                                        <f:selectItem itemLabel="Tutorial Help" itemValue="tutorial"  />
-                                        <f:selectItem itemLabel="Voluntary Work" itemValue="volunteer"  />
-                                        <f:selectItem itemLabel="Degree-related" itemValue="degree"  />
-                                        <f:selectItem itemLabel="Module-related" itemValue="module"  />
-                                        <f:selectItem itemLabel="Study Plan" itemValue="studyplan"  />
-                                        <f:selectItem itemLabel="Teaching Assistant" itemValue="searchta" />
+                                        <f:selectItem itemLabel="#{bundle['Optional']}" itemValue=" " />
+                                         <f:selectItem itemLabel="#{bundle['General']}" itemValue="general" />
+                                        <f:selectItem itemLabel="#{bundle['Group Formation']}" itemValue="groupformation"  />
+                                        <f:selectItem itemLabel="#{bundle['Tutorial Help']}" itemValue="tutorial"  />
+                                        <f:selectItem itemLabel="#{bundle['Voluntary Work']}" itemValue="volunteer"  />
+                                        <f:selectItem itemLabel="#{bundle['Degree-related']}" itemValue="degree"  />
+                                        <f:selectItem itemLabel="#{bundle['Module-related']}" itemValue="module"  />
+                                        <f:selectItem itemLabel="#{bundle['study plan']}" itemValue="studyplan"  />
+                                        <f:selectItem itemLabel="#{bundle['Teaching Assistant']}" itemValue="searchta" />
                                     </p:selectOneMenu>
                                 </h:panelGrid>
                                 <br />
-                                <p:inputTextarea rows="1" cols="50" title="Title" placeholder="Thread Title" id="searchtitle" value="#{forumListBean.searchTitle}"/>                                    
+                                <p:inputTextarea rows="1" cols="50" title="#{bundle['Title']}" placeholder="Thread Title" id="searchtitle" value="#{forumListBean.searchTitle}"/>                                    
                                 <br />
-                                <p:inputTextarea rows="5" cols="50" title="Content" placeholder="Thread Content" id="searchcontent" value="#{forumListBean.searchContent}" />
+                                <p:inputTextarea rows="5" cols="50" title="#{bundle['Content']}" placeholder="Thread Content" id="searchcontent" value="#{forumListBean.searchContent}" />
 
                             </h:panelGrid>
                             <p:spacer/>
@@ -167,16 +167,16 @@
                 <br /><br />
             </p:tab>
 
-            <p:tab title="#{forumListBean.userEntity.school} MODULE REVIEWS">
-                <p:commandButton value="Search Module Code" id="searchButton2" icon="fa fa-search" >
+            <p:tab title="#{bundle['MODULE REVIEWS']} - #{forumListBean.userEntity.school}">
+                <p:commandButton value="#{bundle['searchModCode']}" id="searchButton2" icon="fa fa-search" >
                     <p:overlayPanel id="searchreviewwidget" for="searchButton2" showEffect="fade" hideEffect="fade" widgetVar="searchWidget2"  style="width: 300px; height: 333px">
                         <h:form id="searchForm2">
                             <h:panelGrid columns="1">
-                                <p:outputLabel id="viewLabel" for="moduleCode" value="Module Code:" />
+                                <p:outputLabel id="viewLabel" for="moduleCode" value="#{bundle['modCode']}" />
                                 <p:selectOneMenu id="moduleCode" value="#{forumListBean.searchModuleCode}"  panelStyle="width:180px" effect="fade" 
                                                  var="course" style="width:160px" filter="true" filterMatchMode="contains" appendTo="@this">
                                     <!--p:ajax event="change" listener="#{forumListBean.searchReview()}" update="communityTab:forumForm2, messages, communityTab:searchForm2"  /-->
-                                    <f:selectItem itemLabel="Select One" itemValue="select"/>
+                                    <f:selectItem itemLabel="#{bundle['SelectOne']}" itemValue="select"/>
                                     <f:selectItems value="#{forumListBean.courses}" var="course" itemLabel="#{course.moduleCode}" itemValue="#{course.moduleCode}" />
                                 </p:selectOneMenu>                                 
                                 <h:panelGroup>
@@ -216,7 +216,7 @@
                 </h:form>
                 <br /><br />
             </p:tab>
-            <p:tab title="BAZAAR CORNER - #{forumListBean.userEntity.school}">
+            <p:tab title="#{bundle['BAZAAR CORNER']} - #{forumListBean.userEntity.school}">
                 <p:commandButton icon="fa fa-plus" value="Buy/Sell" id="newSalesButton" >
                     <p:overlayPanel id="createsaleswidget" for="newSalesButton" showEffect="fade" hideEffect="fade" widgetVar="createSalesWidget">
                         <h:form id="salesForm">

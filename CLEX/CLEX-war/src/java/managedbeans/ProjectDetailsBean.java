@@ -10,6 +10,7 @@ import entity.Student;
 import entity.User;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -17,19 +18,20 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.inject.Named;
-import javax.enterprise.context.Dependent;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import session.ClexSessionBeanLocal;
+import session.PRAnswerSessionBeanLocal;
 import session.ProjectSessionBeanLocal;
 
 /**
  *
  * @author Joseph
  */
-@Named(value = "projectDetailsBean")
-@Dependent
+@ManagedBean(name = "projectDetailsBean")
+@RequestScoped
 public class ProjectDetailsBean {
 
     /**
@@ -39,7 +41,9 @@ public class ProjectDetailsBean {
     private ClexSessionBeanLocal csbl;
     @EJB
     private ProjectSessionBeanLocal psbl;
-
+    @EJB
+    private PRAnswerSessionBeanLocal prasbl;
+    
     FacesContext context;
     HttpSession session;
 
@@ -90,7 +94,7 @@ public class ProjectDetailsBean {
         int pathlength = path.length();
         pathlength = pathlength - 10;
         path = path.substring(0, pathlength);
-        path = path + "web/resources/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester;
+        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/Activities/";
         path = path.replaceAll("\\\\", "/");
         Path check = Paths.get(path);
         if (Files.exists(check)) {
@@ -124,7 +128,7 @@ public class ProjectDetailsBean {
         int pathlength = path.length();
         pathlength = pathlength - 10;
         path = path.substring(0, pathlength);
-        path = path + "web/resources/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/" + foldername + "/";
+        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/Activities/" + foldername + "/";
         path = path.replaceAll("\\\\", "/");
         path = path + foldername + "-Closed.txt";
         Path folder = Paths.get(path);
@@ -146,6 +150,15 @@ public class ProjectDetailsBean {
         }
     }
     
+    public boolean checkPRFormSubmit(Module m) {
+        return prasbl.checkPRFormSubmit(student,m);
+    }
+    
+    public void viewMaterials() throws IOException {
+        session.setAttribute("module", module);
+        context.getExternalContext().redirect("studentMindmap.xhtml");
+    }
+
     public String getUsername() {
         return username;
     }
@@ -153,7 +166,6 @@ public class ProjectDetailsBean {
     public void setUsername(String username) {
         this.username = username;
     }
-
 
     public Student getStudent() {
         return student;

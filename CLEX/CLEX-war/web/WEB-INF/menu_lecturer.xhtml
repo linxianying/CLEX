@@ -15,11 +15,11 @@
                         <i class="fa fa-search"></i>
                     </div>
                     <pp:menu widgetVar="me">
-                        <p:menuitem id="om_dashboard" value="Dashboard" icon="fa fa-fw fa-home" outcome="/lecturerMain"/>
-                        <p:menuitem id="om_rtl" value="Schedule" icon="fa fa-fw fa-list-alt" outcome="/lecturerSchedule"/>
-                        <p:menuitem id="om_ltr" value="Module" icon="fa fa-fw fa-table" outcome="/lecturerModule"/>
-                        <p:menuitem id="om_sample" value="Classroom" icon="fa fa-fw fa-code" outcome="/classroom"/>
-                        <p:menuitem id="om_forms" value="Community" icon="fa fa-fw fa-circle-o-notch" outcome="/lecturerCommunity"/>
+                        <p:menuitem id="om_dashboard" value="#{bundle['dashboard']}" icon="fa fa-fw fa-home" outcome="/lecturerMain"/>
+                        <p:menuitem id="om_rtl" value="#{bundle['schedule']}" icon="fa fa-fw fa-list-alt" outcome="/lecturerSchedule"/>
+                        <p:menuitem id="om_ltr" value="#{bundle['modules']}" icon="fa fa-fw fa-table" outcome="/lecturerModule"/>
+                        <p:menuitem id="om_sample" value="#{bundle['classroom']}" icon="fa fa-fw fa-code" outcome="/classroom"/>
+                        <p:menuitem id="om_forms" value="#{bundle['community']}" icon="fa fa-fw fa-circle-o-notch" outcome="/lecturerCommunity"/>
                         
                         
                         <!--

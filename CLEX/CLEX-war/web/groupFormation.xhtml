@@ -58,11 +58,10 @@
                         <p:commandButton value="Leave this group" actionListener="#{groupFormationBean.leaveGroup(group.id)}" update="messages, noGroupMsg, groupMsg, groupInformation"
                                          rendered="#{(not empty groupFormationBean.currentProjectGroup and group.id eq groupFormationBean.currentProjectGroup.id)}"/>
                    
-<!--                        <p:commandButton value="Join this group" actionListener="#{groupFormationBean.joinGroup(group.id)}" update="messages, noGroupMsg, groupMsg, groupInformation"
-                                         rendered="#{((empty groupFormationBean.currentProjectGroup or group.id ne groupFormationBean.currentProjectGroup.id)) and group.groupMembers.size() lt groupFormationBean.maxStudentNum}"/>-->
                     </h:panelGrid>
                     <p:commandButton value="Join this group" actionListener="#{groupFormationBean.joinGroup(group.id)}" update="messages, noGroupMsg, groupMsg, groupInformation"
-                                         rendered="#{((empty groupFormationBean.currentProjectGroup or group.id ne groupFormationBean.currentProjectGroup.id)) and group.groupMembers.size() lt groupFormationBean.maxStudentNum}"/>
+                                         rendered="#{((empty groupFormationBean.currentProjectGroup or group.id ne groupFormationBean.currentProjectGroup.id)) 
+                                                     and (groupFormationBean.maxStudentNum eq 0 or (group.groupMembers.size() lt groupFormationBean.maxStudentNum))}"/>
                 </p:tab>                
             </p:accordionPanel>
         </p:dataList>
