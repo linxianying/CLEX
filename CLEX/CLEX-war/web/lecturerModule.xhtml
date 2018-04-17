@@ -84,9 +84,11 @@
                             <p:commandButton icon="fa fa-groups" value="View Groups' Peer Review Results" action="lecturerUpdatePRform?faces-redirect=true"
                                              rendered="#{not empty module.superGroup and module.superGroup.confirm and not empty module.peerReviewQuestion and not empty module.peerReviewQuestion.answer}"/>
                         </p:column>
-                        <p:column style="text-align: center;width: 20%" headerText="Activities">
-                            <p:commandButton value="Manage Activities" actionListener="#{lecturerModuleListBean.manageActivities(module)}" icon="fa fa-search"/>
+                        <p:column style="text-align: center;width: 20%" headerText="Materials/Activities">
+                            <p:commandButton value="Manage Materials" actionListener="#{lecturerModuleListBean.manageMaterials(module)}" icon="fa fa-book"/>
+                            <p:commandButton value="Manage Activities" actionListener="#{lecturerModuleListBean.manageActivities(module)}" icon="fa fa-search"/>                            
                         </p:column>
+                        
                     </p:dataTable>
                 </p:tab>
                 <p:tab title="VIEW MODULES">

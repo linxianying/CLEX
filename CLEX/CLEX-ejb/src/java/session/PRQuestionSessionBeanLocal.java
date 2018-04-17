@@ -6,7 +6,10 @@
 package session;
 
 import entity.Module;
+import entity.PeerReviewAnswer;
 import entity.PeerReviewQuestion;
+import entity.ProjectGroup;
+import entity.Student;
 import java.util.ArrayList;
 import java.util.Date;
 import javaClass.Question;
@@ -49,5 +52,18 @@ public interface PRQuestionSessionBeanLocal {
 
     public void stopPR(Module module);
 
+    public PeerReviewAnswer getPRAnswer(Module module, Student student, ProjectGroup group);
+
+    public Student findStudent(String username);
+
+    public ProjectGroup findProjectGroup(Long id);
+
+    public ArrayList<PeerReviewAnswer> getAllSubmittedAnswer(Module module);
+    
+    public PeerReviewAnswer createPeerReviewAnswer(String username, Long groupId, Module module);
+
+    public String getStudentInfo(String username);
+
+    public PeerReviewQuestion findPRQuestionById(Long id);
     
 }
