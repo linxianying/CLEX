@@ -9,17 +9,17 @@
 
     <ui:define name="title">PRISM Lecturer Classroom Page</ui:define>
 
-    <ui:define name="viewname">Classroom</ui:define>
+    <ui:define name="viewname">#{bundle['classroom']}</ui:define>
 
     <ui:define name="content">
         <div id="content" class="left_content">
-            <h3><h:outputText value="Classroom" /></h3>
+            <h3><h:outputText value="#{bundle['classroom']}" /></h3>
             <p:growl id="msgmsg" showDetail="true" />
             <p:tabView id="maintab">
-                <p:tab title="VIEW POLLS">
+                <p:tab title="#{bundle['viewPoll']}">
 
                     <!-- START: View All Polls -->
-                    <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+                    <p:commandButton value="#{bundle['Print']}" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
                         <p:printer target="panel" />
                     </p:commandButton>
                     <h:form id="panel">
@@ -29,7 +29,7 @@
                                          filteredValue="#{classroomBean.filteredPolls}"
                                          id="tbl"
                                          widgetVar="pollsTable" 
-                                         emptyMessage="No polls found with given criteria."
+                                         emptyMessage="#{bundle['noPoll']}"
                                          paginator="true"
                                          paginatorPosition="bottom"
                                          rows="10"
@@ -40,7 +40,7 @@
 
                                 <f:facet name="header">
                                     <p:outputPanel>
-                                        <h:outputText value="Search all fields:" />
+                                        <h:outputText value="#{bundle['Search']}" />
                                         <p:inputText id="globalFilter" onkeyup="PF('pollsTable').filter()" style="width:150px" placeholder="Enter keyword" />
                                     </p:outputPanel>
                                 </f:facet>  
@@ -77,35 +77,35 @@
                                     </p:commandButton>
                                 </p:column>
 
-                                <p:column filterBy="#{poll.type}" headerText="Poll Type" filterMatchMode="in">
+                                <p:column filterBy="#{poll.type}" headerText="#{bundle['pollType']}" filterMatchMode="in">
                                     <f:facet name="filter">
-                                        <p:selectCheckboxMenu label="Poll Types" onchange="PF('pollsTable').filter()" panelStyle="width:125px" scrollHeight="150">
+                                        <p:selectCheckboxMenu label="#{bundle['pollType']}" onchange="PF('pollsTable').filter()" panelStyle="width:125px" scrollHeight="150">
                                             <f:selectItems value="test" />
                                         </p:selectCheckboxMenu>
                                     </f:facet>
                                     <h:outputText value="#{poll.type}" />
                                 </p:column>
                                 <p:column filterBy="#{poll.module.course.moduleCode}" sortBy="#{poll.module.course.moduleCode}" 
-                                          headerText="Module Code" filterMatchMode="contains">
+                                          headerText="#{bundle['modCode']}" filterMatchMode="contains">
                                     <h:outputText value="#{poll.module.course.moduleCode}" />
                                 </p:column>
 
 
                                 <p:column filterBy="#{poll.datetime}" sortBy="#{poll.datetime}" 
-                                          headerText="Datetime" filterMatchMode="contains">
+                                          headerText="#{bundle['datetime']}" filterMatchMode="contains">
                                     <h:outputText value="#{poll.datetime}" />
                                 </p:column>
 
 
 
                                 <p:column filterBy="#{poll.topic}" sortBy="#{poll.topic}" 
-                                          headerText="Topic" filterMatchMode="contains">
+                                          headerText="#{bundle['topic']}" filterMatchMode="contains">
                                     <h:outputText value="#{poll.topic}" />
                                 </p:column>
 
                                 <p:column filterBy="#{poll.correctRate}" sortBy="#{poll.correctRate}" 
-                                          headerText="Correct Rate" filterMatchMode="contains">
-                                    <p:commandButton value="Finish Poll" 
+                                          headerText="#{bundle['CorrectRate']}" filterMatchMode="contains">
+                                    <p:commandButton value="#{bundle['FinishPoll']}" 
                                                      rendered="#{empty poll.status}" 
                                                      actionListener="#{classroomBean.stopPoll(poll)}"
                                                      action="classroom?faces-redirect=true"/>
@@ -121,13 +121,13 @@
                     <!-- END: View All Polls -->
                 </p:tab>
 
-                <p:tab title="VIEW ANALYZATION">
+                <p:tab title="#{bundle['viewAna']}">
 
 
                     <h:form id="analysis">
                         <p:growl id="msgmsg" showDetail="true" />
 
-                        <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px" onclick="window.print()">
+                        <p:commandButton value="#{bundle['Print']}" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px" onclick="window.print()">
                             <!--<p:printer target="chart" />-->
                         </p:commandButton>
                         <!--<p:commandButton type="button" value="Export" icon="ui-icon-extlink" onclick="exportChart1()"/>-->
@@ -166,11 +166,11 @@
                     </h:form>
                 </p:tab>
 
-                <p:tab title="ADD NEW POLL">
+                <p:tab title="#{bundle['addPoll']}">
                     <!-- START: Add New Poll -->
                     <h:form id="addForm">
                         <p:growl id="msg" showDetail="true" />
-                        <p:panel collapsed="false" styleClass="menuHeader"  header="Add New Finished Poll" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
+                        <p:panel collapsed="false" styleClass="menuHeader"  header="#{bundle['addFinishedPoll']}" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
 
                             <!--
                             <tr>
@@ -194,69 +194,33 @@
                                     <f:selectItem itemLabel="Select One" itemValue="select"/>
                                     <f:selectItems value="#{classroomBean.currentModules}" var="module" itemLabel="#{module.course.moduleCode}" itemValue="#{module.course.moduleCode}" />
                                 </p:selectOneMenu>
-                                <p:outputLabel id="viewLabel2" value="Type of Poll:" />
+                                <p:outputLabel id="viewLabel2" value="#{bundle['pollType']}:" />
                                 <p:inputText value="#{classroomBean.addPollType}" style="width:300px;"
                                              required="true" requiredMessage="Please enter the poll type!"  />
-                                <p:outputLabel id="viewLabel3" value="Topic of Poll:" />
+                                <p:outputLabel id="viewLabel3" value="#{bundle['pollTopic']}" />
                                 <p:inputText value="#{classroomBean.addPollTopic}" style="width:300px;"
                                              required="true" requiredMessage="Please enter the poll topic!" />
-                                <p:outputLabel id="viewLabel4" value="Content of Poll:" />
+                                <p:outputLabel id="viewLabel4" value="#{bundle['pollContent']}:" />
                                 <p:inputText value="#{classroomBean.addPollContent}"  style="width:300px;"
                                              required="true" requiredMessage="Please enter the poll content!" />
-                                <p:outputLabel for="correctRate" value="Correct Rate:"/>
+                                <p:outputLabel for="correctRate" value="#{bundle['CorrectRate']}:"/>
                                 <p:inputNumber style="width: 100%" value="#{classroomBean.addPollCorrectRate}" required="true" 
                                                requiredMessage="Please enter a number range from 0 to 1 only." 
                                                minValue="0.00" maxValue="1.00" id="correctRate"
                                                placeholder="Number from 0 to 1"/>
                             </p:panelGrid>
-                            <p:commandButton value="Add" id="addPollButton"  style="width:200px;"
+                            <p:commandButton value="#{bundle['Add']}" id="addPollButton"  style="width:200px;"
                                              rendered="#{classroomBean.addButton}" action="#{classroomBean.addPoll}"
                                              update="msg, maintab:panel:tbl" onclick="location.reload()"/>
 
 
-                            <!--
-                            <tr>
-                                <td>
-                                    <p:outputLabel for="num" value=" Number Of Answers:" 
-                                                   rendered="#{classroomBean.finish==2}" />
-                                   
-                                </td>
-
-                                <td >
-                                    <p:inputNumber value="#{classroomBean.num}" required="true" 
-                                                   requiredMessage="Please enter an integer number" 
-                                                   minValue="0" maxValue="10"
-                                                   rendered="#{classroomBean.finish==2}" 
-                                                   placeholder="0 - 10"
-                                                   id="num"
-                                                   />
-                                    <p:commandButton value="Confirm" partialSubmit="true" update="answers" process="num"
-                                                     rendered="#{classroomBean.finish==2}" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p:outputLabel value="Answers:" 
-                                                   rendered="#{classroomBean.finish==2}" />
-                                </td>
-
-                                <td >
-                                    <p:dataList rendered="#{classroomBean.finish==2}" 
-                                        value="#{classroomBean.ans}" id="answers" var="answer" type="ordered">
-
-                                        <p:inputText value="#{answer}"  style="width:300px;"
-                                                     required="true"  />
-
-                                    </p:dataList>
-                                </td>
-                            </tr>
-                            -->
+                            
                         </p:panel>
                     </h:form>
                     <h:form id="addForm1">
 
                         <p:growl id="msg1" showDetail="true" />
-                        <p:panel collapsed="false" styleClass="menuHeader"  header="Add New Unfinished Poll" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
+                        <p:panel collapsed="false" styleClass="menuHeader"  header="#{bundle['addUnfinishedPoll']}" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
                             <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
                                 <p:outputLabel id="viewLabel1" for="moduleCode" value="Module Code:" />
 
@@ -266,7 +230,7 @@
                                     <f:selectItems value="#{classroomBean.currentModules}" var="module" itemLabel="#{module.course.moduleCode}" itemValue="#{module.course.moduleCode}" />
                                 </p:selectOneMenu>
 
-                                <p:outputLabel id="viewLabel2" value="Type of Poll:" />
+                                <p:outputLabel id="viewLabel2" value="#{bundle['type']}:" />
 
 
                                 <p:inputText value="#{classroomBean.addPollType}" style="width:300px;"
@@ -327,7 +291,7 @@
                 </p:tab>
                 <!-- END: Add New Poll -->
 
-                <!-- START: Jasper Report Generator -->
+                <!-- START: Jasper Report Generator 
                 <p:tab title="VIEW JASPER REPORT">
 
                     <h:form id="formJasperReport">

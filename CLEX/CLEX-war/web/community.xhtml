@@ -9,13 +9,13 @@
 
     <ui:define name="title">PRISM Student Community Page</ui:define>
 
-    <ui:define name="viewname">Community</ui:define>
+    <ui:define name="viewname">#{bundle['community']}</ui:define>
 
     <ui:define name="content">
         <p:growl id="messages" showDetail="true"/>        
         <p:tabView id="communityTab">
-            <p:tab title="COMMUNITY FORUMS - #{forumListBean.userEntity.school}">
-                <p:commandButton icon="fa fa-plus" value="New Thread" id="newThreadButton" >
+            <p:tab title="#{bundle['community']} - #{forumListBean.userEntity.school}">
+                <p:commandButton icon="fa fa-plus" value="#{bundle['newThread']}" id="newThreadButton" >
                     <p:overlayPanel id="createthreadwidget" for="newThreadButton" showEffect="fade" hideEffect="fade" widgetVar="createThreadWidget">
                         <h:form id="createForm">
                             <h:panelGrid columns="1">
@@ -24,14 +24,14 @@
                                     <p:selectOneMenu title="Select a tag from the list (Optional)"
                                                      value="#{forumListBean.tTag}" required="false"
                                                      id="tag" >
-                                        <f:selectItem itemLabel="General" itemValue="general" />
-                                        <f:selectItem itemLabel="Group Formation" itemValue="groupformation"  />
-                                        <f:selectItem itemLabel="Tutorial Help" itemValue="tutorial"  />
-                                        <f:selectItem itemLabel="Voluntary Work" itemValue="volunteer"  />
-                                        <f:selectItem itemLabel="Degree-related" itemValue="degree"  />
-                                        <f:selectItem itemLabel="Module-related" itemValue="module"  />
-                                        <f:selectItem itemLabel="Study Plan" itemValue="studyplan"  />
-                                        <f:selectItem itemLabel="Teaching Assistant" itemValue="searchta" />
+                                         <f:selectItem itemLabel="#{bundle['General']}" itemValue="general" />
+                                        <f:selectItem itemLabel="#{bundle['Group Formation']}" itemValue="groupformation"  />
+                                        <f:selectItem itemLabel="#{bundle['Tutorial Help']}" itemValue="tutorial"  />
+                                        <f:selectItem itemLabel="#{bundle['Voluntary Work']}" itemValue="volunteer"  />
+                                        <f:selectItem itemLabel="#{bundle['Degree-related']}" itemValue="degree"  />
+                                        <f:selectItem itemLabel="#{bundle['Module-related']}" itemValue="module"  />
+                                        <f:selectItem itemLabel="#{bundle['study plan']}" itemValue="studyplan"  />
+                                        <f:selectItem itemLabel="#{bundle['Teaching Assistant']}" itemValue="searchta" />
                                     </p:selectOneMenu>
                                 </h:panelGrid>
                                 <br />
@@ -80,14 +80,14 @@
                                                      value="#{forumListBean.searchTag}" required="false"
                                                      id="tag2" >
                                         <f:selectItem itemLabel="Optional" itemValue=" " />
-                                        <f:selectItem itemLabel="General" itemValue="general" />
-                                        <f:selectItem itemLabel="Group Formation" itemValue="groupformation"  />
-                                        <f:selectItem itemLabel="Tutorial Help" itemValue="tutorial"  />
-                                        <f:selectItem itemLabel="Voluntary Work" itemValue="volunteer"  />
-                                        <f:selectItem itemLabel="Degree-related" itemValue="degree"  />
-                                        <f:selectItem itemLabel="Module-related" itemValue="module"  />
-                                        <f:selectItem itemLabel="Study Plan" itemValue="studyplan"  />
-                                        <f:selectItem itemLabel="Teaching Assistant" itemValue="searchta" />
+                                         <f:selectItem itemLabel="#{bundle['General']}" itemValue="general" />
+                                        <f:selectItem itemLabel="#{bundle['Group Formation']}" itemValue="groupformation"  />
+                                        <f:selectItem itemLabel="#{bundle['Tutorial Help']}" itemValue="tutorial"  />
+                                        <f:selectItem itemLabel="#{bundle['Voluntary Work']}" itemValue="volunteer"  />
+                                        <f:selectItem itemLabel="#{bundle['Degree-related']}" itemValue="degree"  />
+                                        <f:selectItem itemLabel="#{bundle['Module-related']}" itemValue="module"  />
+                                        <f:selectItem itemLabel="#{bundle['study plan']}" itemValue="studyplan"  />
+                                        <f:selectItem itemLabel="#{bundle['Teaching Assistant']}" itemValue="searchta" />
                                     </p:selectOneMenu>
                                 </h:panelGrid>
                                 <br />
