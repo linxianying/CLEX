@@ -22,7 +22,7 @@
                             <h:panelGrid columns="1">
                                 <h:panelGrid columns="4">
                                     <h:outputLabel for="tag2" value="#{bundle['tag']}: " />
-                                    <p:selectOneMenu title="Select a tag from the list (Optional)"
+                                    <p:selectOneMenu title="#{bundle['selectTag']}"
                                                      value="#{forumListBean.tTag}" required="false"
                                                      id="tag" >
                                         <p:ajax update="importantgroup" event="change" />
@@ -92,8 +92,8 @@
                         <h:form id="searchForm">
                             <h:panelGrid columns="1">
                                 <h:panelGrid columns="2">
-                                    <h:outputLabel for="tag2" value="Tags: " />
-                                    <p:selectOneMenu title="Select a tag from the list (Optional)"
+                                    <h:outputLabel for="tag2" value="#{bundle['tag']}: " />
+                                    <p:selectOneMenu title="#{bundle['selectTag']}"
                                                      value="#{forumListBean.searchTag}" required="false"
                                                      id="tag2" >
                                         <f:selectItem itemLabel="#{bundle['Optional']}" itemValue="general" />
@@ -185,11 +185,11 @@
             </p:tab>
 
             <p:tab title="#{bundle['MODULE REVIEWS']} - #{forumListBean.userEntity.school}">
-                <p:commandButton value="#{bundle['Search Module Code']}" id="searchButton2" icon="fa fa-search" >
+                <p:commandButton value="#{bundle['searchModCode']}" id="searchButton2" icon="fa fa-search" >
                     <p:overlayPanel for="searchButton2" showEffect="fade" hideEffect="fade" widgetVar="searchWidget">
                         <h:form id="searchForm2">
                             <h:panelGrid columns="1">
-                                <p:inputTextarea rows="1" cols="50" title="Module Code" placeholder="Module Code" id="searchtitle" value="#{forumListBean.searchModuleCode}"/>                                    
+                                <p:inputTextarea rows="1" cols="50" title="#{bundle['modCode']}" placeholder="#{bundle['modCode']}" id="searchtitle" value="#{forumListBean.searchModuleCode}"/>                                    
                                 <h:panelGroup>
                                     <p:commandButton oncomplete="PF('searchWidget').hide()" icon="fa fa-search-plus" value="Search Review" actionListener="#{forumListBean.searchReview}" update="communityTab:forumForm2, messages, communityTab:searchForm2"/>
                                     <p:commandButton oncomplete="PF('searchWidget').hide()" icon="fa fa-search-minus" value="Clear Search" actionListener="#{forumListBean.refresh()}" update="communityTab:forumForm2, messages, communityTab:searchForm2" />
@@ -233,8 +233,8 @@
                             <h:panelGrid columns="1">     
                                 <p:selectOneRadio id="buysell" value="#{forumListBean.buysell}" >
                                     <p:ajax update="salegroup" event="change" />
-                                    <f:selectItem itemLabel="Sell" itemValue="sell" />
-                                    <f:selectItem itemLabel="Buy" itemValue="buy" />
+                                    <f:selectItem itemLabel="#{bundle['Sell']}" itemValue="sell" />
+                                    <f:selectItem itemLabel="#{bundle['Buy']}" itemValue="buy" />
                                 </p:selectOneRadio>
                                 <!--<p:inputTextarea rows="1" cols="100" title="Title" placeholder="Thread Title" id="title2" value="#{forumListBean.tTitle}"/>-->
                                 <h:panelGrid columns="4" id="salegroup">

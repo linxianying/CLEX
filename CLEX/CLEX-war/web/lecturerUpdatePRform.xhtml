@@ -43,7 +43,7 @@
                             <p:inputTextarea id="open" rows="5" cols="30" maxlength="20000" autoResize="false" rendered="#{indQuestion.type == 'open'}"  />
                             
                             <p:selectOneMenu id="rating"  panelStyle="width:180px" effect="fade" style="width:160px" rendered="#{indQuestion.type == 'rating'}" >
-                                <f:selectItem itemLabel="Select One" itemValue="select"/>
+                                <f:selectItem itemLabel="#{bundle['SelectOne']}" itemValue="select"/>
                                 <f:selectItems value="#{lecturerPRFormBean.getRating(indQuestion)}" var="rate" itemLabel="#{rate}" itemValue="#{rate}" />
                             </p:selectOneMenu>
                             
@@ -74,12 +74,12 @@
                             <p:inputTextarea rows="5" cols="30" maxlength="20000" autoResize="false" rendered="#{grQuestion.type == 'open'}" />
                             
                             <p:selectOneMenu id="rating"  panelStyle="width:180px" effect="fade" style="width:160px" rendered="#{grQuestion.type == 'rating'}" >
-                                <f:selectItem itemLabel="Select One" itemValue="select"/>
+                                <f:selectItem itemLabel="#{bundle['SelectOne']}" itemValue="select"/>
                                 <f:selectItems value="#{lecturerPRFormBean.getRating(grQuestion)}" var="rate" itemLabel="#{rate}" itemValue="#{rate}" />
                             </p:selectOneMenu>
                             
                             <p:selectOneMenu id="ranking"  panelStyle="width:180px" effect="fade" style="width:160px" rendered="#{grQuestion.type == 'ranking'}" >
-                                <f:selectItem itemLabel="Select One" itemValue="select"/>
+                                <f:selectItem itemLabel="#{bundle['SelectOne']}" itemValue="select"/>
                             </p:selectOneMenu>
                             <br /><br />
                             <p:commandButton value="Delete" icon="fa fa-trash" actionListener="#{lecturerPRFormBean.deleteGrQuestion(grIndex)}" update="tab:group "/>

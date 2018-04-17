@@ -191,7 +191,7 @@
                                 <p:outputLabel id="viewLabel" for="moduleCode" value="Module Code:" />
                                 <p:selectOneMenu id="moduleCode" value="#{classroomBean.addModuleCode}"  panelStyle="width:180px" effect="fade" 
                                                  style="width:280px" filter="true" filterMatchMode="contains" appendTo="@this">
-                                    <f:selectItem itemLabel="Select One" itemValue="select"/>
+                                    <f:selectItem itemLabel="#{bundle['SelectOne']}" itemValue="select"/>
                                     <f:selectItems value="#{classroomBean.currentModules}" var="module" itemLabel="#{module.course.moduleCode}" itemValue="#{module.course.moduleCode}" />
                                 </p:selectOneMenu>
                                 <p:outputLabel id="viewLabel2" value="#{bundle['pollType']}:" />
@@ -226,7 +226,7 @@
 
                                 <p:selectOneMenu id="moduleCode" value="#{classroomBean.addModuleCode}"  panelStyle="width:180px" effect="fade" 
                                                  style="width:280px" filter="true" filterMatchMode="contains" appendTo="@this">
-                                    <f:selectItem itemLabel="Select One" itemValue="select"/>
+                                    <f:selectItem itemLabel="#{bundle['SelectOne']}" itemValue="select"/>
                                     <f:selectItems value="#{classroomBean.currentModules}" var="module" itemLabel="#{module.course.moduleCode}" itemValue="#{module.course.moduleCode}" />
                                 </p:selectOneMenu>
 

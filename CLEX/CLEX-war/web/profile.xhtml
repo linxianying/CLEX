@@ -11,7 +11,7 @@
 
     <ui:define name="title">PRISM Student Profile page</ui:define>
 
-    <ui:define name="viewname">Profile</ui:define>
+    <ui:define name="viewname">#{bundle['project']}</ui:define>
 
     <ui:define name="content">
         <f:event type="preRenderView" listener="#{profileBean.setNoCache}" />
@@ -111,19 +111,19 @@
                                 <f:selectItem itemLabel="2" itemValue="2" />
                             </p:selectOneButton>
                         </p:panelGrid>
-                        <p:commandButton value="Save Profile Details" actionListener="#{profileBean.editStudentProfile}" id="editBasicButton" update="messages">
-                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                        <p:commandButton value="#{bundle['saveProfile']}" actionListener="#{profileBean.editStudentProfile}" id="editBasicButton" update="messages">
+                            <p:confirm header="#{bundle['Confirmation']}" message="#{bundle['sure']}" icon="ui-icon-alert" />
                         </p:commandButton>
                         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                            <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            <p:commandButton value="#{bundle['yes']}" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="#{bundle['no']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                         </p:confirmDialog>
 
                     </div>
                 </h:form>
 
                 <div class="card card-w-title">
-                    <h1>Change Password</h1>
+                    <h1>#{bundle['ChangePassword']}</h1>
                     <h:form >
                         <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
                             <span>Current Password</span>

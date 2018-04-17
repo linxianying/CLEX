@@ -173,6 +173,19 @@ public class ProjectBean {
         }
     }
     
+    public void GoViewPRPage(String moduleCode){
+    try {
+            module = csbl.findModule(moduleCode, currentYear, currentSem);
+            session.setAttribute("module", module);
+            projectGroup = psbl.getStudentProjectGroup(student, module);
+            session.setAttribute("PRProjectGroup", projectGroup);
+            context.getExternalContext().redirect("studentViewPRForm.xhtml");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     public boolean isCheck() {
         return check;
     }

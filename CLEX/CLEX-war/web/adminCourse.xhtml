@@ -13,25 +13,25 @@
 
     <ui:define name="title">PRISM Administrator Course Management Page</ui:define>
 
-    <ui:define name="viewname">Course</ui:define>
+    <ui:define name="viewname">#{bundle['Course']}</ui:define>
 
     <ui:define name="content">
         <p:growl id="messages" showDetail="true" />
-        <h1 style="margin-top:0">Course Management Page</h1>
+        <h1 style="margin-top:0">#{bundle['CourseManagementPage']}</h1>
 
-        <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+        <p:commandButton value="#{bundle['Print']}" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
             <p:printer target="panelForm" />
         </p:commandButton>
         <h:form id="panelForm">
             <p:fieldset legend="VIEW" collapsed="false" toggleable="true" >
                 <p:tabView id="tabView1">                    
-                    <p:tab title="COURSES" >
+                    <p:tab title="#{bundle['COURSES']}" >
                         <h:form id="panel">
                             <p:dataTable id="coursetable" reflow="true" tableStyle="table-layout: auto ! important"
                                          editable="true" editMode="cell" 
                                          var="course" value="#{adminCourseListBean.courses}" 
                                          widgetVar="coursesTable"
-                                         emptyMessage="No courses found with given criteria." 
+                                         emptyMessage="#{bundle['noCourse']}" 
                                          filteredValue="#{adminCourseListBean.filteredCourses}"
                                          paginator="true" paginatorAlwaysVisible="false"
                                          rows="10"

@@ -55,7 +55,7 @@
                                                 </p:column>
                                                 <p:column style="text-align: center;width: 30%" headerText="#{bundle['ExpectedGrade']}">
                                                     <p:selectOneMenu id="newGrade" value="#{studyPlanBean.newModuleGrade}" >
-                                                        <f:selectItem itemLabel="Select One" itemValue="select" />  
+                                                        <f:selectItem itemLabel="#{bundle['SelectOne']}" itemValue="select" />  
                                                         <f:selectItem itemLabel="A+" itemValue="A+" />
                                                         <f:selectItem itemLabel="A" itemValue="A" />
                                                         <f:selectItem itemLabel="A-" itemValue="A-" />
@@ -118,7 +118,7 @@
                                         <p:selectOneMenu id="moduleCode" value="#{studyPlanBean.addModuleCode}"  panelStyle="width:180px" effect="fade" 
                                                          var="course" style="width:160px" filter="true" filterMatchMode="contains" appendTo="@this">
                                             <p:ajax event="change" listener="#{studyPlanBean.checkStudyPlan}" update="tab:addForm:addSPButton, tab:addForm:moduleInfoBox, tab:addForm:addSPPickSem, addErrorMsg"  />
-                                            <f:selectItem itemLabel="Select One" itemValue="select"/>
+                                            <f:selectItem itemLabel="#{bundle['SelectOne']}" itemValue="select"/>
                                             <f:selectItems value="#{studyPlanBean.courses}" var="course" itemLabel="#{course.moduleCode}" itemValue="#{course.moduleCode}" />
                                         </p:selectOneMenu>
 
@@ -134,7 +134,7 @@
                                     </p:panelGrid>
                                     <h:panelGroup id="moduleInfoBox">
                                         <p:panelGrid columns ="2">
-                                            <h:outputText value="#{bundle['modInformation:']} " />
+                                            <h:outputText value="#{bundle['modInformation']}: " />
                                             <p:inputTextarea value="#{studyPlanBean.courseFront.moduleInfo}" style="width: 96%; border-width: 0px;" rows="3" cols="100" readonly="true" 
                                                              autoResize="false" >
                                             </p:inputTextarea>
@@ -237,7 +237,7 @@
                                             </p:column>
                                             <p:column style="text-align: center;width: 20%" headerText="#{bundle['ExpectedGrade']}">
                                                 <p:selectOneMenu id="newCurrentGrade" value="#{studyPlanBean.newCurrentModuleGrade}" >
-                                                    <f:selectItem itemLabel="Select One" itemValue="select" />  
+                                                    <f:selectItem itemLabel="#{bundle['SelectOne']}" itemValue="select" />  
                                                     <f:selectItem itemLabel="A+" itemValue="A+" />
                                                     <f:selectItem itemLabel="A" itemValue="A" />
                                                     <f:selectItem itemLabel="A-" itemValue="A-" />
@@ -265,7 +265,7 @@
                                         <p:selectOneMenu id="CurrentModuleCode" value="#{studyPlanBean.addCurrentModuleCode}"  panelStyle="width:180px" effect="fade" 
                                                          var="course" style="width:160px" filter="true" filterMatchMode="contains" appendTo="@this">
                                             <p:ajax event="change" listener="#{studyPlanBean.checkAddModule()}" update="tab:modulesTakingForm, addErrorMsg"  />
-                                            <f:selectItem itemLabel="Select One" itemValue="select"/>
+                                            <f:selectItem itemLabel="#{bundle['SelectOne']}" itemValue="select"/>
                                             <f:selectItems value="#{studyPlanBean.courses}" var="course" itemLabel="#{course.moduleCode}" itemValue="#{course.moduleCode}" />
                                         </p:selectOneMenu>
                                     </p:panelGrid>
@@ -392,14 +392,14 @@
                                 </h3>                               
                             </p:fieldset> 
 
-                            <p:commandLink value="Add a module you took before:" style="font-size: 1.2em"/>
+                            <p:commandLink value="#{bundle['addTookMod']}:" style="font-size: 1.2em"/>
                             <h:form id="addGradeForm">
                                 <p:panelGrid columns="2">
                                     <p:outputLabel id="viewLabel" for="GradeModuleCode" value="#{bundle['modCode']}:" />
                                     <p:selectOneMenu id="GradeModuleCode" value="#{studyPlanBean.addGradeModuleCode}"  panelStyle="width:180px" effect="fade" 
                                                      var="course" style="width:160px" filter="true" filterMatchMode="contains" appendTo="@this">
                                         <p:ajax event="change" listener="#{studyPlanBean.checkAddGrade}" update="tab:addGradeForm, addErrorMsg"  />
-                                        <f:selectItem itemLabel="Select One" itemValue="select"/>
+                                        <f:selectItem itemLabel="#{bundle['SelectOne']}" itemValue="select"/>
                                         <f:selectItems value="#{studyPlanBean.courses}" var="course" itemLabel="#{course.moduleCode}" itemValue="#{course.moduleCode}" />
                                     </p:selectOneMenu>
 
@@ -407,7 +407,7 @@
                                     <p:inputNumber id="addGradePickYear" value="#{studyPlanBean.addGradePickYear}" required="true" decimalPlaces="0" 
                                                    placeholder="Enter 1-#{studyPlanBean.currentYear+1-studyPlanBean.matricYear}"
                                                    minValue="1" maxValue="#{studyPlanBean.currentYear+1-studyPlanBean.matricYear}" />
-                                    <p>Semester<sup>+</sup>:</p>
+                                    <p>#{bundle['sem']}<sup>+</sup>:</p>
                                     <p:selectOneButton id="addGradePickSem" value="#{studyPlanBean.addGradePickSem}" required="true">
                                         <f:selectItem itemLabel="1" itemValue="1" />
                                         <f:selectItem itemLabel="2" itemValue="2" />

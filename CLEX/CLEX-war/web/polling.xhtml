@@ -9,12 +9,12 @@
 
     <ui:define name="title">PRISM Student Polling Page</ui:define>
 
-    <ui:define name="viewname">Polling</ui:define>
+    <ui:define name="viewname">#{bundle['polling']}</ui:define>
     
     <ui:define name="content">
         <p:growl id="messages" showDetail="true" />
             <div id="top" class="top">
-                <h3><ui:insert name="top">My Polls</ui:insert></h3>
+                <h3><ui:insert name="top">#{bundle['polling']}</ui:insert></h3>
             </div>
             <br />
             <div>
@@ -24,10 +24,10 @@
                     <ui:repeat var="m" value="#{pollingBean.takingModules}">
                         <p:column>
                             <p:panel header="#{m.course.moduleCode}">
-                                <h:outputText value="This course doesn't have a polling" escape="false" 
+                                <h:outputText value="#{bundle['noPoll']}" escape="false" 
                                               rendered="#{empty m.polls}" />
                                 <br />
-                                <p:commandButton value="See Polls" 
+                                <p:commandButton value="#{bundle['seePoll']}" 
                                                 rendered="#{not empty m.polls}"
                                                 actionListener="#{pollingBean.viewPolling(m)}"/>
                                 

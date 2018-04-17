@@ -20,8 +20,8 @@
                         <h:form id="createForm">
                             <h:panelGrid columns="1">
                                 <h:panelGrid columns="2">
-                                    <h:outputLabel for="tag2" value="Tags: " />
-                                    <p:selectOneMenu title="Select a tag from the list (Optional)"
+                                    <h:outputLabel for="tag2" value="#{bundle['tag']}: " />
+                                    <p:selectOneMenu title="#{bundle['selectTag']}"
                                                      value="#{forumListBean.tTag}" required="false"
                                                      id="tag" >
                                          <f:selectItem itemLabel="#{bundle['General']}" itemValue="general" />
@@ -168,15 +168,15 @@
             </p:tab>
 
             <p:tab title="#{bundle['MODULE REVIEWS']} - #{forumListBean.userEntity.school}">
-                <p:commandButton value="Search Module Code" id="searchButton2" icon="fa fa-search" >
+                <p:commandButton value="#{bundle['searchModCode']}" id="searchButton2" icon="fa fa-search" >
                     <p:overlayPanel id="searchreviewwidget" for="searchButton2" showEffect="fade" hideEffect="fade" widgetVar="searchWidget2"  style="width: 300px; height: 333px">
                         <h:form id="searchForm2">
                             <h:panelGrid columns="1">
-                                <p:outputLabel id="viewLabel" for="moduleCode" value="Module Code:" />
+                                <p:outputLabel id="viewLabel" for="moduleCode" value="#{bundle['modCode']}" />
                                 <p:selectOneMenu id="moduleCode" value="#{forumListBean.searchModuleCode}"  panelStyle="width:180px" effect="fade" 
                                                  var="course" style="width:160px" filter="true" filterMatchMode="contains" appendTo="@this">
                                     <!--p:ajax event="change" listener="#{forumListBean.searchReview()}" update="communityTab:forumForm2, messages, communityTab:searchForm2"  /-->
-                                    <f:selectItem itemLabel="Select One" itemValue="select"/>
+                                    <f:selectItem itemLabel="#{bundle['SelectOne']}" itemValue="select"/>
                                     <f:selectItems value="#{forumListBean.courses}" var="course" itemLabel="#{course.moduleCode}" itemValue="#{course.moduleCode}" />
                                 </p:selectOneMenu>                                 
                                 <h:panelGroup>
@@ -216,7 +216,7 @@
                 </h:form>
                 <br /><br />
             </p:tab>
-            <p:tab title="BAZAAR CORNER - #{forumListBean.userEntity.school}">
+            <p:tab title="#{bundle['BAZAAR CORNER']} - #{forumListBean.userEntity.school}">
                 <p:commandButton icon="fa fa-plus" value="Buy/Sell" id="newSalesButton" >
                     <p:overlayPanel id="createsaleswidget" for="newSalesButton" showEffect="fade" hideEffect="fade" widgetVar="createSalesWidget">
                         <h:form id="salesForm">

@@ -191,7 +191,7 @@
                             <h:form id="changeGroupForm">
                                 <h:outputText value="Change the student to group" />
                                 <p:selectOneMenu value="#{lecturerModuleGroupBean.toGroupId}" >
-                                    <f:selectItem itemLabel="Select One" itemValue="#{null}" />
+                                    <f:selectItem itemLabel="#{bundle['SelectOne']}" itemValue="#{null}" />
                                     <f:selectItems value="#{lecturerModuleGroupBean.groups}" var="group" itemLabel="#{group.name}" itemValue="#{group.id}" />
                                 </p:selectOneMenu>
                                 <br/>
