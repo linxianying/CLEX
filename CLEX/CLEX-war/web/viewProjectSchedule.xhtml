@@ -7,83 +7,73 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 template="/WEB-INF/template.xhtml">
     <ui:define name="title">PRISM Student Project Schedule Page</ui:define>
-
+    
     <ui:define name="viewname">#{bundle['groupSchedule']}</ui:define>
-
+    
     <ui:define name="content">
         <div class="ui-g dashboard">
-            <div class="ui-g-12 ui-md-8 ">
-                <h:form id="addTimeslotForm">
-                    <p:growl id="messages" showDetail="true" />
-                    <h:panelGrid id="cal" columnClasses="value">
-                        <h3>Schedule of Group #{projectScheduleBean.group.name} in #{projectScheduleBean.module.course.moduleCode}</h3>
-
-                        <p:outputPanel >
-                            <p:schedule  id="schedule" value="#{projectScheduleBean.eventModel}" widgetVar="myschedule" timeZone="GMT+8">
-                                <p:ajax event="dateSelect" listener="#{projectScheduleBean.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
-                                <p:ajax event="eventSelect" listener="#{projectScheduleBean.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
-                                <p:ajax event="eventMove" listener="#{projectScheduleBean.onEventMove}" update="messages" />
-                                <p:ajax event="eventResize" listener="#{projectScheduleBean.onEventResize}" update="messages" />
-                            </p:schedule>
-
-                        </p:outputPanel>
+            <h:form id="addTimeslotForm">
+                <p:growl id="messages" showDetail="true" />
+                <h:panelGrid id="cal" columnClasses="value">
+                    <h3>Schedule of Group #{projectScheduleBean.group.name} in #{projectScheduleBean.module.course.moduleCode}</h3>
+                    
+                    <p:outputPanel >
+                        <p:schedule  class="ui-g-12 ui-md-8" id="schedule" value="#{projectScheduleBean.eventModel}" widgetVar="myschedule" timeZone="GMT+8">
+                            <p:ajax event="dateSelect" listener="#{projectScheduleBean.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
+                            <p:ajax event="eventSelect" listener="#{projectScheduleBean.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
+                            <p:ajax event="eventMove" listener="#{projectScheduleBean.onEventMove}" update="messages" />
+                            <p:ajax event="eventResize" listener="#{projectScheduleBean.onEventResize}" update="messages" />
+                        </p:schedule>
+                        
+                        <div class="ui-g-12 ui-md-4 task-list" style="margin-top:50px">
+                            <h:form id="taskObject1">
+                                <p:panel header="#{bundle['groupTask']}">
+                                    <p:dataList var="groupTask" id="tasklist" value="#{projectScheduleBean.unfinishedGroupTasks}"
+                                                widgetVar="groupTaskTable" paginatorAlwaysVisible="false"
+                                                paginator="true" paginatorPosition="bottom"
+                                                paginatorTemplate="{CurrentPageReport} {FirstPageLink} 
+                                                {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                rowsPerPageTemplate="4,6,10"
+                                                rows="6"
+                                                emptyMessage="No users found with given criteria." >
+                                        <p:growl id="msgmsg1" />    
+                                        <p:selectBooleanCheckbox value="#{projectScheduleBean.value}">
+                                            <p:ajax update="msgmsg1,@form" listener="#{projectScheduleBean.checkGroupTask(groupTask)}" 
+                                                    />
+                                        </p:selectBooleanCheckbox>
+                                        <h:outputLabel value="#{groupTask.title}"/>
+                                        <!--<span class="task-name">#{groupTask.title}</span>-->
+                                        <i class="fa fa-group"></i>
+                                    </p:dataList>                                  
+                                </p:panel>
+                            </h:form>
+                        </div>
+                    </p:outputPanel>
+                </h:panelGrid>
+                
+                <p:dialog widgetVar="eventDialog" header="#{bundle['Event Details']}" showEffect="clip" hideEffect="clip">
+                    <h:panelGrid id="eventDetails" columns="2">
+                        <p:outputLabel for="title" value="#{bundle['Titles']}:" />
+                        <p:inputText id="title" value="#{projectScheduleBean.event.title}" required="true" />
+                        
+                        <p:outputLabel for="from" value="#{bundle['from']}:" />
+                        <p:calendar id="from" value="#{projectScheduleBean.event.startDate}" timeZone="GMT+8" pattern="dd/MM/yyyy HH:mm"/>
+                        
+                        <p:outputLabel for="to" value="#{bundle['To']}:" />
+                        <p:calendar id="to" value="#{projectScheduleBean.event.endDate}" timeZone="GMT+8" pattern="dd/MM/yyyy HH:mm"/>
+                        
+                        <p:outputLabel for="details" value="#{bundle['details']}:" />
+                        <p:inputText id="details" value="#{projectScheduleBean.event.description}" required="false" />
+                        
+                        <p:outputLabel for="venue" value="#{bundle['Venue']}:" />
+                        <p:inputText id="venue" value="#{projectScheduleBean.venue}" required="false" />
+                        <p:commandButton id="deleteButton" value="#{bundle['Delete']}" actionListener="#{projectScheduleBean.deleteEvent}" 
+                                         oncomplete="PF('myschedule').update();PF('eventDialog').hide();"/>
+                        <p:commandButton style="float: right" id="addButton" value="#{bundle['Save']}" actionListener="#{projectScheduleBean.addEvent}" 
+                                         oncomplete="PF('myschedule').update();PF('eventDialog').hide();"/>
                     </h:panelGrid>
-
-                    <p:dialog widgetVar="eventDialog" header="Event Details" showEffect="clip" hideEffect="clip">
-                        <h:panelGrid id="eventDetails" columns="2">
-
-                            <p:outputLabel for="title" value="#{bundle['Titles']}:" />
-                            <p:inputText id="title" value="#{projectScheduleBean.event.title}" required="true" />
-
-                            <p:outputLabel for="from" value="#{bundle['from']}:" />
-                            <p:calendar id="from" value="#{projectScheduleBean.event.startDate}" timeZone="GMT+8" pattern="dd/MM/yyyy HH:mm"/>
-
-                            <p:outputLabel for="to" value="#{bundle['To']}:" />
-                            <p:calendar id="to" value="#{projectScheduleBean.event.endDate}" timeZone="GMT+8" pattern="dd/MM/yyyy HH:mm"/>
-
-                            <p:outputLabel for="details" value="#{bundle['details']}:" />
-                            <p:inputText id="details" value="#{projectScheduleBean.event.description}" required="false" />
-
-                            <p:outputLabel for="venue" value="#{bundle['Venue']}:" />
-                            <p:inputText id="venue" value="#{projectScheduleBean.venue}" required="false" />
-
-
-                            <p:commandButton id="deleteButton" value="#{bundle['Delete']}" actionListener="#{projectScheduleBean.deleteEvent}" 
-                                             oncomplete="PF('myschedule').update();PF('eventDialog').hide();"
-                                             />
-                            <p:commandButton style="float: right" id="addButton" value="#{bundle['Save']}" actionListener="#{projectScheduleBean.addEvent}" 
-                                             oncomplete="PF('myschedule').update();PF('eventDialog').hide();"
-                                             />
-
-                        </h:panelGrid>
-                    </p:dialog>
-                </h:form>
-            </div>
-            <div class="ui-g-12 ui-md-4 task-list">
-                <h:form id="taskObject1">
-
-                    <p:panel header="#{bundle['groupTask']}" style="min-height:320px">
-                        <p:dataList var="groupTask" id="tasklist" value="#{projectScheduleBean.unfinishedGroupTasks}"
-                                    widgetVar="groupTaskTable" paginatorAlwaysVisible="false"
-                                    paginator="true" paginatorPosition="bottom"
-                                    paginatorTemplate="{CurrentPageReport} {FirstPageLink} 
-                                    {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                    rowsPerPageTemplate="4,6,10"
-                                    rows="6"
-                                    emptyMessage="#{bundle['noUser']}." >
-                            <p:growl id="msgmsg1" />    
-                            <p:selectBooleanCheckbox value="#{projectScheduleBean.value}">
-                                <p:ajax update="msgmsg1,@form" listener="#{projectScheduleBean.checkGroupTask(groupTask)}" 
-                                        />
-                            </p:selectBooleanCheckbox>
-                            <h:outputLabel value="#{groupTask.title}"/>
-                            <!--<span class="task-name">#{groupTask.title}</span>-->
-                            <i class="fa fa-group"></i>
-                        </p:dataList>                                  
-                    </p:panel>
-
-                </h:form>
-            </div>
+                </p:dialog>
+            </h:form>
         </div>
     </ui:define>
 </ui:composition>
