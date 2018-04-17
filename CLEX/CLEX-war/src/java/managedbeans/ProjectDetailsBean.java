@@ -149,20 +149,16 @@ public class ProjectDetailsBean {
             e.printStackTrace();
         }
     }
-<<<<<<< HEAD
     
     public boolean checkPRFormSubmit(Module m) {
         return prasbl.checkPRFormSubmit(student,m);
     }
     
-=======
-
     public void viewMaterials() throws IOException {
         session.setAttribute("module", module);
         context.getExternalContext().redirect("studentMindmap.xhtml");
     }
 
->>>>>>> 8704668c92c429ded66037aafd92cd636568486f
     public String getUsername() {
         return username;
     }

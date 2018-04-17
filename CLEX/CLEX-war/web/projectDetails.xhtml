@@ -85,30 +85,17 @@
                                     <h:outputText value="Peer Reviews: " rendered="#{not empty m.superGroup}"/>
                                 </td>
                                 <td>
-                                    <!--                                    <p:commandButton value="Group Peer Review" icon="fa fa-clipboard"
-                                                                                         rendered="#{not empty m.superGroup and m.superGroup.confirm and 
-                                                projectBean.hasProjectGroup(m.course.moduleCode) and 
-                                                not empty m.peerReviewQuestion and m.peerReviewQuestion.status eq 'start'}" 
-                                    action="#{projectBean.GoPRPage(m.course.moduleCode)}"/>-->
                                     <h:outputText value="Awaiting group forming closure" 
                                                   rendered="#{not empty m.superGroup and !m.superGroup.confirm}"/>
                                     <h:outputText value="This module doesn't have peer reviews" escape="false" 
                                                   rendered="#{not empty m.superGroup and m.superGroup.confirm and 
                                                               projectBean.hasProjectGroup(m.course.moduleCode) and (empty m.peerReviewQuestion or m.peerReviewQuestion.status eq 'notStart')}" />
                                     <p:commandButton value="Fill peer review form" icon="fa fa-clipboard" action="#{projectBean.GoPRPage(m.course.moduleCode)}"
-<<<<<<< HEAD
                                                   rendered="#{not empty m.superGroup and m.superGroup.confirm and 
                                                               projectBean.hasProjectGroup(m.course.moduleCode) and not empty m.peerReviewQuestion and m.peerReviewQuestion.status eq 'start' and !projectDetailsBean.checkPRFormSubmit(m)}" />
                                     <p:commandButton value="View submitted peer review form" icon="fa fa-clipboard" action="#{projectBean.GoViewPRPage(m.course.moduleCode)}"
                                                   rendered="#{not empty m.superGroup and m.superGroup.confirm and 
                                                               projectBean.hasProjectGroup(m.course.moduleCode) and not empty m.peerReviewQuestion and projectDetailsBean.checkPRFormSubmit(m)}" />
-=======
-                                                     rendered="#{not empty m.superGroup and m.superGroup.confirm and 
-                                                                 projectBean.hasProjectGroup(m.course.moduleCode) and not empty m.peerReviewQuestion and m.peerReviewQuestion.status eq 'start'}" />
-                                    <p:commandButton value="View submitted peer review form" icon="fa fa-clipboard" action="#{projectBean.GoPRPage(m.course.moduleCode)}"
-                                                     rendered="#{not empty m.superGroup and m.superGroup.confirm and 
-                                                                 projectBean.hasProjectGroup(m.course.moduleCode) and not empty m.peerReviewQuestion and m.peerReviewQuestion.status eq 'end'}" />
->>>>>>> 8704668c92c429ded66037aafd92cd636568486f
                                 </td>
                             </tr>
                             <tr>
