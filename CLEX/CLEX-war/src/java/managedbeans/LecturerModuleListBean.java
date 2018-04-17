@@ -236,6 +236,12 @@ public class LecturerModuleListBean implements Serializable {
             return false;
         }
     }
+    public void manageMaterials(Module module) throws IOException {
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+        session.setAttribute("module", module);
+        context.getExternalContext().redirect("lecturerMindmap.xhtml");
+    }
 
     public void manageActivities(Module module) throws IOException {
         context = FacesContext.getCurrentInstance();

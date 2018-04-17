@@ -85,7 +85,7 @@
                                              rendered="#{not empty module.superGroup and module.superGroup.confirm and not empty module.peerReviewQuestion and not empty module.peerReviewQuestion.answer}"/>
                         </p:column>
                         <p:column style="text-align: center;width: 20%" headerText="Materials/Activities">
-                            <p:commandButton value="Manage Materials" actionListener="#{lecturerModuleListBean.manageActivities(module)}" icon="fa fa-book"/>
+                            <p:commandButton value="Manage Materials" actionListener="#{lecturerModuleListBean.manageMaterials(module)}" icon="fa fa-book"/>
                             <p:commandButton value="Manage Activities" actionListener="#{lecturerModuleListBean.manageActivities(module)}" icon="fa fa-search"/>                            
                         </p:column>
                         
