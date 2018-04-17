@@ -297,7 +297,7 @@
 
                                             <!--do not use ajax onkeyup, will have issues if the lecturer accidentally adds an answer-->
                                         </p:inputText>
-                                        <p:commandButton value="Add" actionListener="#{classroomBean.addAnswer}/>  
+                                        <p:commandButton value="Add" actionListener="#{classroomBean.addAnswer}"/>  
                                         <br />
                                     </ui:repeat>
 
@@ -306,7 +306,7 @@
 
 
 
-<!--                                <p:dataList value="#{classroomBean.ans}" id="answers" var="an" 
+                               <p:dataList value="#{classroomBean.ans}" id="answers" var="an" 
                                             type="ordered">
                                     <p:inputText value="#{an.answer}"  style="width:300px;" required="true"  >
                                         <p:ajax event="keyup"></p:ajax>
