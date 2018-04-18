@@ -23,7 +23,8 @@
                     <p:dataTable var="module" value="#{lecturerModuleListBean.currentModules}" id="currentModules" rows="5"
                                  emptyMessage="#{bundle['noMod']}" 
                                  paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
-                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} 
+                                 {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
                                  rowsPerPageTemplate="5,10,20">
 
                         <f:facet name="header">
@@ -36,22 +37,22 @@
                             <div style="float:right;">
                                 <h:commandLink>
                                     <p:graphicImage name="/demo/images/excel.png" width="24"/>
-                                    <p:dataExporter type="xls" target="modules" fileName="modules"  />
+                                    <p:dataExporter type="xls" target="currentModules" fileName="modules"  />
                                 </h:commandLink>
 
                                 <h:commandLink>
                                     <p:graphicImage name="/demo/images/pdf.png" width="24"/>
-                                    <p:dataExporter type="pdf" target="modules" fileName="modules" />
+                                    <p:dataExporter type="pdf" target="currentModules" fileName="modules" />
                                 </h:commandLink>
 
                                 <h:commandLink>
                                     <p:graphicImage name="/demo/images/csv.png" width="24"/>
-                                    <p:dataExporter type="csv" target="modules" fileName="modules"  />
+                                    <p:dataExporter type="csv" target="currentModules" fileName="modules"  />
                                 </h:commandLink>
 
                                 <h:commandLink>
                                     <p:graphicImage name="/demo/images/xml.png" width="24"/>
-                                    <p:dataExporter type="xml" target="modules" fileName="modules"/>
+                                    <p:dataExporter type="xml" target="currentModules" fileName="modules"/>
                                 </h:commandLink>
                             </div>
                         </f:facet>
