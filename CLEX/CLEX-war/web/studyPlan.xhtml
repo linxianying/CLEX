@@ -311,9 +311,9 @@
                                                                  rows="2" cols="50" readonly="true" autoResize="true"> 
                                                 </p:inputTextarea>
                                                 <!--EDITED HERE-->
-                                                <h:outputText value="#{bundle['createReview:']}" />
+                                                <h:outputText value="#{bundle['createReview']}" />
                                                 <!--<p:commandLink value="#{sp.course.moduleCode}" action="studyPlan?faces-redirect=false" onclick="PF('reviewoverlay').show()" /> -->
-                                                <p:commandButton icon="fa fa-plus" value="New Review" update="infoform"
+                                                <p:commandButton icon="fa fa-plus" value="#{bundle['Add']}" update="infoform"
                                                                  id="newReviewButton"  actionListener="#{studyPlanBean.setCreateThreadCheck(true)}" />
                                             </p:panelGrid>
                                             <h:panelGrid columns="1" rendered="#{studyPlanBean.createThreadCheck}">
