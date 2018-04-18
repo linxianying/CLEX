@@ -14,30 +14,29 @@
         
         <p:growl id="messages" showDetail="true" />
         <h3>
-            <h:outputText value="Group formation for "/>
+            <h:outputText value="#{bundle['grpFormation']}"/>
             <h:outputText value="#{groupFormationBean.module.course.moduleCode}"/>
             <h:outputText value=", AY "/>
             <h:outputText value="#{groupFormationBean.currentYear}"/>
-            <h:outputText value=" Sem "/>
+            <h:outputText value=" #{bundle['sem']} "/>
             <h:outputText value="#{groupFormationBean.currentSem}"/>
             <br />
-            <h:outputText value="Group formation requirement: #{groupFormationBean.superGroup.avgStudentNum} per group"/>
+            <h:outputText value="#{bundle['grpRequire']}: #{groupFormationBean.superGroup.avgStudentNum} per group"/>
             <br />
-            <h:outputText value="Minimum no. of members: #{groupFormationBean.superGroup.minStudentNum}" rendered="#{groupFormationBean.superGroup.minStudentNum ne 0}"/>
+            <h:outputText value="#{bundle['min']}: #{groupFormationBean.superGroup.minStudentNum}" rendered="#{groupFormationBean.superGroup.minStudentNum ne 0}"/>
             <br/>
-            <h:outputText value="Maximum no. of members: #{groupFormationBean.superGroup.maxStudentNum}" rendered="#{groupFormationBean.superGroup.maxStudentNum ne 0}"/>
+            <h:outputText value="#{bundle['max']}: #{groupFormationBean.superGroup.maxStudentNum}" rendered="#{groupFormationBean.superGroup.maxStudentNum ne 0}"/>
             <br/>
         </h3>
-        <h:outputText id="noGroupMsg" value="You are not in any group!" rendered="#{empty groupFormationBean.currentProjectGroup}"/>
-        <h:outputText id="groupMsg" value="You are in Group #{groupFormationBean.currentProjectGroup.name}" rendered="#{not empty groupFormationBean.currentProjectGroup}"/>
+        <h:outputText id="noGroupMsg" value="#{bundle['noneGroup']}" rendered="#{empty groupFormationBean.currentProjectGroup}"/>
+        <h:outputText id="groupMsg" value="#{bundle['yourGroup']} #{groupFormationBean.currentProjectGroup.name}" rendered="#{not empty groupFormationBean.currentProjectGroup}"/>
         
         <p:dataList id="groupInformation" var="group" value="#{groupFormationBean.projectGroups}">
             <p:accordionPanel multiple="true" activeIndex="1">
                 <p:tab title="#{group.name} (#{group.groupMembers.size()})">
-                    <h:outputText value="Nobody in this group" rendered="#{empty group.groupMembers or group.groupMembers.size() eq 0}"/>
-                    <h:outputText value="This group is full" rendered="#{(not empty group.groupMembers) and (group.groupMembers.size() == groupFormationBean.maxStudentNum)}"/>
+                    <h:outputText value="#{bundle['zeroGrp']}" rendered="#{empty group.groupMembers or group.groupMembers.size() eq 0}"/>
+                    <h:outputText value="#{bundle['fullGrp']}" rendered="#{(not empty group.groupMembers) and (group.groupMembers.size() == groupFormationBean.maxStudentNum)}"/>
                     <br/>
-                    <!--<h:outputText value="Number of students: #{group.groupMembers.size()}" rendered="#{not empty group.groupMembers}"/>-->
                     <h:panelGrid rendered="#{not empty group.groupMembers}">
                         <ui:repeat var="student" value="#{group.groupMembers}">
                             <p:graphicImage rendered="#{profileBean.checkpic(student.name) == true}"
@@ -48,18 +47,18 @@
                                             cache="false" library="profile"
                                             style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px" 
                                             name="default.png"/>
-                            <h:outputText value="Student ID: "/>
+                            <h:outputText value="#{bundle['studentId']}: "/>
                             <h:outputText value="#{student.id}" />
                             <h:outputText value="   "/>
-                            <h:outputText value="Student name: "/>
+                            <h:outputText value="#{bundle['name']}: "/>
                             <h:outputText value="#{student.name}" />
                             <br />
                         </ui:repeat>
-                        <p:commandButton value="Leave this group" actionListener="#{groupFormationBean.leaveGroup(group.id)}" update="messages, noGroupMsg, groupMsg, groupInformation"
+                        <p:commandButton value="#{bundle['leaveGrp']}" actionListener="#{groupFormationBean.leaveGroup(group.id)}" update="messages, noGroupMsg, groupMsg, groupInformation"
                                          rendered="#{(not empty groupFormationBean.currentProjectGroup and group.id eq groupFormationBean.currentProjectGroup.id)}"/>
                    
                     </h:panelGrid>
-                    <p:commandButton value="Join this group" actionListener="#{groupFormationBean.joinGroup(group.id)}" update="messages, noGroupMsg, groupMsg, groupInformation"
+                    <p:commandButton value="#{bundle['joinGrp']}" actionListener="#{groupFormationBean.joinGroup(group.id)}" update="messages, noGroupMsg, groupMsg, groupInformation"
                                          rendered="#{((empty groupFormationBean.currentProjectGroup or group.id ne groupFormationBean.currentProjectGroup.id)) 
                                                      and (groupFormationBean.maxStudentNum eq 0 or (group.groupMembers.size() lt groupFormationBean.maxStudentNum))}"/>
                 </p:tab>                

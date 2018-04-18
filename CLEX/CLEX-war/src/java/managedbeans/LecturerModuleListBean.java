@@ -206,8 +206,6 @@ public class LecturerModuleListBean implements Serializable {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
         session.setAttribute("managedModule", module);
-//        System.out.println("!!!!!!!!!!!!!!!!!!!reset managedModule = " + module.getCourse().getModuleCode());
-//        System.out.println("!!!!!!!!!!!!!!!!!!!reset managedModule = " + module.getCourse().getModuleCode());
 //        try {
 //        context.getExternalContext().redirect("lecturerUpdatePRform.xhtml");
 //        //System.out.println("Form group "+module.getCourse().getModuleCode()+": # of groups:"+numOfGroups+", max:"+maxStudentNum + ", min:" +minStudentNum);
