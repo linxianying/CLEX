@@ -285,8 +285,8 @@
                                     <f:selectItem itemLabel="#{bundle['Sell']}" itemValue="sell" />
                                     <f:selectItem itemLabel="#{bundle['Buy']}" itemValue="buy" />
                                 </p:selectOneRadio>
-                                <p:inputTextarea rows="1" cols="50" title="Title" placeholder="#{bundle['optionalTitle']}" id="searchtitle3" value="#{forumListBean.searchTitle}"/>                                    
-                                <p:inputTextarea rows="5" cols="50" title="Content" placeholder="#{bundle['optionalContent']}" id="searchcontent3" value="#{forumListBean.searchContent}" />
+                                <p:inputTextarea rows="1" cols="50" title="#{bundle['Title']}" placeholder="#{bundle['optionalTitle']}" id="searchtitle3" value="#{forumListBean.searchTitle}"/>                                    
+                                <p:inputTextarea rows="5" cols="50" title="#{bundle['Content']}" placeholder="#{bundle['optionalContent']}" id="searchcontent3" value="#{forumListBean.searchContent}" />
                                 <h:panelGroup>
                                     <p:commandButton id="searchsales" oncomplete="PF('searchWidget3').hide()" icon="fa fa-search" value="#{bundle['Search']}" actionListener="#{forumListBean.searchSales}" update="communityTab:salesForum, messages, communityTab:searchForm3"/>
                                     <p:commandButton id="clearsearchsales" oncomplete="PF('searchWidget3').hide()" icon="fa fa-search-minus" value="#{bundle['clearSearch']}" actionListener="#{forumListBean.refresh()}" update="communityTab:salesForum, messages, communityTab:searchForm3" />
