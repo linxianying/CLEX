@@ -187,7 +187,9 @@ public class StudentMindmapBean implements Serializable {
         path = path.replaceAll("\\\\", "/");
         ArrayList<String> items = (ArrayList<String>) listFiles(path);
         for (int i = 0; i < items.size(); i++) {
-            listoffiles.add(items.get(i));
+            if (!items.get(i).endsWith(".prism")) {
+                listoffiles.add(items.get(i));
+            }
         }
     }
 

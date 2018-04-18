@@ -63,6 +63,21 @@
                     </h:panelGroup>
 
                 </h:form>
+                <h:form id="setdeadlineform" >
+                    <h:outputLabel value="You have not added any assignments yet!" rendered="#{empty lecturerMindmapBean.allAssignmentFolders}"/>
+                    <h:panelGroup rendered="#{not empty lecturerMindmapBean.allAssignmentFolders}">
+                        <h:outputLabel style="font-weight: bold" value="Set deadline for: " />
+                        <p:selectOneMenu required="true" title="Select an assignment."
+                                         id="folderlist" value="#{lecturerMindmapBean.selectedFolder}">
+                            <f:selectItems value="#{lecturerMindmapBean.allAssignmentFolders}" />
+                        </p:selectOneMenu>   
+                        <p:outputLabel for="date" value="Date:" />
+                        <p:calendar id="date" value="#{lecturerMindmapBean.endDate}" timeZone="GMT+8" pattern="dd/MM/yyyy HH:mm"/>
+                        <p:commandButton actionListener="#{lecturerMindmapBean.setDeadline}" value="Set closing date" icon="fa fa-calendar" update="mindmapform, @form, detailgroup"/>
+
+                    </h:panelGroup>
+
+                </h:form>
             </h:panelGrid>
 
 
