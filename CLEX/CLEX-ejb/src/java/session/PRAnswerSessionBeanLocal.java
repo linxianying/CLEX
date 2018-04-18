@@ -32,4 +32,8 @@ public interface PRAnswerSessionBeanLocal {
 
     public ArrayList<ArrayList<String>> getIndAnswers(ArrayList<Student> groupMembers, PeerReviewAnswer answers);
 
+    public PeerReviewQuestion findPRQuestion(Module module);
+
+    public PeerReviewAnswer getPRAnswer(Module module, Student student);
+
 }

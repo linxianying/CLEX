@@ -1,6 +1,8 @@
 package managedbeans;
 
 import entity.Module;
+import entity.Student;
+import entity.Timeslot;
 import entity.User;
 import java.io.File;
 import java.io.FileFilter;
@@ -13,11 +15,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -26,10 +33,15 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.io.FilenameUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DefaultScheduleEvent;
+import org.primefaces.model.DefaultScheduleModel;
+import org.primefaces.model.ScheduleEvent;
+import org.primefaces.model.ScheduleModel;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.mindmap.DefaultMindmapNode;
 
 import org.primefaces.model.mindmap.MindmapNode;
+import session.ScheduleSessionBeanLocal;
 
 /**
  *
@@ -39,6 +51,11 @@ import org.primefaces.model.mindmap.MindmapNode;
 @ViewScoped
 public class LecturerMindmapBean implements Serializable {
 
+    @EJB
+    ScheduleSessionBeanLocal sbl;
+    private ScheduleModel eventModel = new DefaultScheduleModel();
+
+    private ScheduleEvent event = new DefaultScheduleEvent();
     private MindmapNode root;
     private MindmapNode selectedNode;
     private ArrayList<String> allfolders = new ArrayList<String>();
@@ -58,6 +75,7 @@ public class LecturerMindmapBean implements Serializable {
     private String semester;
     private String year;
     private String schoolname;
+    private Date endDate;
 
     private StreamedContent downloadedFile;
 
@@ -165,6 +183,42 @@ public class LecturerMindmapBean implements Serializable {
             }
         }
         folder.delete();
+    }
+
+    public void setDeadline() throws IOException {
+        String path = session.getServletContext().getRealPath("/");
+        int pathlength = path.length();
+        pathlength = pathlength - 10;
+        path = path.substring(0, pathlength);
+        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/Materials/Assignments/" + selectedFolder + "/";
+        path = path.replaceAll("\\\\", "/");
+        Path folder = Paths.get(path);
+        File checkfile = new File(path);
+        if (checkfile.exists()) {
+            checkfile.delete();
+        }
+        SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yy HH.mm.SS");
+        String date = DATE_FORMAT.format(endDate);
+        System.out.print(date);
+        Path file = Files.createTempFile(folder, date, ".prism");
+        Files.move(file, Paths.get(path, date + ".prism"));
+        ArrayList<Student> students = (ArrayList<Student>) moduleEntity.getStudents();
+        String assignmentname = moduleCode + selectedFolder;
+        for(int i=0;i<students.size();i++) {
+            addEvent(students.get(i), assignmentname);
+        }
+    }
+
+    public void addEvent(Student student, String assignmentname) {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");
+        Timeslot timeslot = (Timeslot) event.getData();
+        sbl.updateTimeslot(timeslot.getId(), event.getTitle(),
+                df.format(event.getStartDate()), df.format(event.getEndDate()), "Assignment " + assignmentname + " due", "");
+        eventModel.updateEvent(new DefaultScheduleEvent(timeslot.getTitle(),
+                toCalendar(timeslot.getStartDate()), toCalendar(timeslot.getEndDate()), timeslot));
+
+        event = new DefaultScheduleEvent();
+
     }
 
     public void createSubNodes() {
@@ -298,7 +352,6 @@ public class LecturerMindmapBean implements Serializable {
                 getSubmittedFiles(node);
             }
         }
-
     }
 
     public void refreshlistoffiles(MindmapNode node) {
@@ -311,7 +364,9 @@ public class LecturerMindmapBean implements Serializable {
         path = path.replaceAll("\\\\", "/");
         ArrayList<String> items = (ArrayList<String>) listFiles(path);
         for (int i = 0; i < items.size(); i++) {
-            listoffiles.add(items.get(i));
+            if (!items.get(i).endsWith(".prism")) {
+                listoffiles.add(items.get(i));
+            }
         }
     }
 
@@ -447,6 +502,24 @@ public class LecturerMindmapBean implements Serializable {
         refreshlistoffiles(selectedNode);
     }
 
+    public Date getInitialDate() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 0, 0, 0);
+        return calendar.getTime();
+    }
+
+    public static Date toCalendar(String date) {
+        Calendar t = Calendar.getInstance();
+        try {
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");
+            Date d = df.parse(date);
+            t.setTime(d);
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        return t.getTime();
+    }
+
     public MindmapNode getRoot() {
         return root;
     }
@@ -573,6 +646,30 @@ public class LecturerMindmapBean implements Serializable {
 
     public void setAllfolders2(ArrayList<String> allfolders2) {
         this.allfolders2 = allfolders2;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public ScheduleModel getEventModel() {
+        return eventModel;
+    }
+
+    public void setEventModel(ScheduleModel eventModel) {
+        this.eventModel = eventModel;
+    }
+
+    public ScheduleEvent getEvent() {
+        return event;
+    }
+
+    public void setEvent(ScheduleEvent event) {
+        this.event = event;
     }
 
 }

@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+                xmlns:h="http://xmlns.jcp.org/jsf/html" 
+                template="/WEB-INF/template_lecturer.xhtml" 
+                xmlns:p="http://primefaces.org/ui" 
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="title">View Submitted Peer Review Forms</ui:define>
+    
+    <ui:define name="viewname">Submitted Peer Review Forms</ui:define>
+    
+    <ui:define name="content">    
+        <p:growl id="messages" showDetail="true" />
+        <h3>Submitted Peer Review Forms for Module #{lecturerPRBean.module.course.moduleCode}</h3>
+        <p:tabView id="tab">
+            <p:tab id="individual" title="By Individual">
+                <h:form id="indForm">
+                    <p:dataTable var="student" value="#{lecturerPRBean.students}" id="studentGroupTable" widgetVar="studentGroupTable" 
+                                 emptyMessage="No students for this module." paginator="true" paginatorPosition="bottom" rows="15"
+                                 filteredValue="#{lecturerPRBean.filteredstudents}"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="10,20,50">
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Search all fields:" />
+                                <p:inputText id="globalFilter" onkeyup="PF('studentGroupTable').filter()" style="width:150px" placeholder="Enter keyword" />
+                            </p:outputPanel>
+                        </f:facet>  
+                        <p:column filterBy="#{student.studentId}" sortBy="#{student.studentId}" headerText="Student-ID" filterMatchMode="contains">
+                            <h:outputText value="#{student.studentId}" />
+                        </p:column>
+                        <p:column filterBy="#{student.name}" sortBy="#{student.name}" headerText="Student-Name" filterMatchMode="contains">
+                            <h:outputText value="#{student.name}" />
+                        </p:column>
+                        <p:column filterBy="#{lecturerPRBean.checkStudentGroup(student)}" sortBy="#{lecturerPRBean.checkStudentGroup(student)}" headerText="Group" filterMatchMode="exact">
+                            <h:outputText value="#{lecturerPRBean.checkStudentGroup(student)}" />
+                        </p:column>
+                        <p:column  headerText="Peer Review Form">
+                            <h:outputText value="No form submitted" rendered="#{!lecturerPRBean.checkStudentPRFormSubmit(student)}"/>
+                            <p:commandButton value="View submitted form" rendered="#{lecturerPRBean.checkStudentPRFormSubmit(student)}"
+                                             actionListener="#{lecturerPRBean.goViewPR(student)}" action="lecturerViewPRResult?faces-redirect=true"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </p:tab>
+            
+<!--            <p:tab id="group" title="By Project Group">
+                
+            </p:tab>-->
+            
+        </p:tabView>
+    </ui:define>
+</ui:composition>
+

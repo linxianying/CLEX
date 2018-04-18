@@ -63,7 +63,7 @@
                                     <h:outputText value="#{m.course.moduleCode}"/>
                                     <br/>
                                     <h:outputText value="#{m.course.moduleName}"/>
-                                    <p:remoteCommand name="#{m.course.moduleCode}Details" actionListener="#{projectBean.goModuleInfoPage(m.course.moduleCode)}"/>
+                                    <p:remoteCommand name="#{m.course.moduleCode} Details" actionListener="#{projectBean.goModuleInfoPage(m.course.moduleCode)}"/>
                                 </button>
                             </ui:repeat>
                         </p:panelGrid>
