@@ -9,100 +9,100 @@
 
     <ui:define name="title">PRISM Lecturer Main Page</ui:define>
 
-    <ui:define name="viewname">Dashboard</ui:define>
+    <ui:define name="viewname">#{bundle['dashboard']}</ui:define>
     
     <ui:define name="content">
 
         <div>
-            <h3><h:outputText value="Welcome to PRISM, #{loginBean.username}" /></h3>
+            <h3><h:outputText value="#{bundle['welcome']}, #{loginBean.username}" /></h3>
             <br></br> 
             <br></br>           
             <h:form>
                 <p:growl id="messages" showDetail="true" />
                 <p:tabView>
-                    <p:tab title="Create Announcement">
-                        <h1 style="margin-top:0">Create announcement:</h1>
+                    <p:tab title="#{bundle['CreateAnnouncement']}">
+                        <h1 style="margin-top:0">#{bundle['CreateAnnouncement']}</h1>
                         <h:panelGrid id="pGrid" columns="1" cellpadding="5" style="align: left">
 
-                            <p:inputText title="Announcement Title"
-                                         placeholder="title"
+                            <p:inputText title="#{bundle['AnnouncementTitle']}"
+                                         placeholder="#{bundle['Title']}"
                                          id="title" value="#{announcementBean.title}" 
                                          maxlength="80" >
                             </p:inputText>    
 
                             <p:inputTextarea id="message" value="#{announcementBean.message}"
-                                             title="Announcement Body"
-                                             placeholder="message" 
+                                             title="#{bundle['AnnouncementBody']}"
+                                             placeholder="#{bundle['Message']}" 
                                              rows="4" cols="30" counter="display" maxlength="300" 
-                                             counterTemplate="{0} characters remaining." autoResize="true" />
+                                             counterTemplate="{0} #{bundle['char']}" autoResize="true" />
 
                             <h:outputText id="display" />
 
                             <p:selectOneMenu styleClass="textInput" 
                                              id="modCode" value="#{announcementBean.type}" 
                                              editable="false" placeholder="recipients" 
-                                             title="Select intended recipients of your announcement">
-                                <f:selectItem itemLabel="Select a module" itemValue="" />
+                                             title="#{bundle['selectRe']}">
+                                <f:selectItem itemLabel="#{bundle['selectMod']}" itemValue="" />
                                 <f:selectItems value="#{lecturerModuleListBean.moduleCodes}" />
                             </p:selectOneMenu>   
 
                             <p:tooltip id="toolTipTitle" for="title" showEvent="focus" hideEvent="blur" position="right" showEffect="clip" />
                             <p:tooltip id="toolTipMsg" for="message" showEvent="focus" hideEvent="blur" position="right" showEffect="clip" />
 
-                            <p:commandButton id="submitButton" update="@form" value="Submit" 
+                            <p:commandButton id="submitButton" update="@form" value="#{bundle['submit']}" 
                                              action="lecturerMain?faces-redirect=true"
                                              actionListener="#{announcementBean.enterAnnouncement}" >
                             </p:commandButton>
                         </h:panelGrid>
                     </p:tab>
-                    <p:tab title="Announcements by you">
-                        <h1 style="margin-top:0">Announcements by you</h1>
+                    <p:tab title="#{bundle['annByU']}">
+                        <h1 style="margin-top:0">#{bundle['annByU']}</h1>
                         <h:panelGrid columns="1" cellpadding="10">
                             <h:panelGrid id="panelOuter2" columns="2" width="100%">
                                 <p:dataList var="lectAnnouncementList" value="#{announcementBean.announcements}" id="lectAnncList">
                                     <p:accordionPanel multiple="true" activeIndex="1">
                                         <p:tab title="#{lectAnnouncementList.title}">
                                             <h:panelGrid id="indivGrid2" columns="2">
-                                                <h:outputText value="Announcement Date:" />
+                                                <h:outputText value="#{bundle['Date']}:" />
                                                 <h:outputText value="#{lectAnnouncementList.createdDate}" />
-                                                <h:outputText value="Announcement Title:" />
-                                                <p:inputText title="Announcement Title"
-                                                             placeholder="title"
+                                                <h:outputText value="#{bundle['Title']}:" />
+                                                <p:inputText title="#{bundle['Title']}"
+                                                             placeholder="#{bundle['Title']}"
                                                              id="title2" value="#{lectAnnouncementList.title}" 
                                                              maxlength="80" >
                                                 </p:inputText>    
-                                                <h:outputText value="Message:" />
+                                                <h:outputText value="#{bundle['Message']}:" />
                                                 <p:inputTextarea id="message2" value="#{lectAnnouncementList.message}"
-                                                                 title="Announcement Body"
-                                                                 placeholder="message" 
+                                                                 title="#{bundle['AnnouncementBody']}"
+                                                                 placeholder="#{bundle['Message']}" 
                                                                  rows="4" cols="30" counter="display" maxlength="300" 
-                                                                 counterTemplate="{0} characters remaining." autoResize="true"/>
+                                                                 counterTemplate="{0} #{bundle['char']}" autoResize="true"/>
                                                 <br></br>
                                                 <h:outputText id="display" />
-                                                <h:outputText value="Recipient:" />
+                                                <h:outputText value="#{bundle['Recipient']}:" />
                                                 <p:selectOneMenu styleClass="textInput" 
-                                                                 title="Please delete and create a new announcement if the recipients are wrong"
+                                                                 title="#{bundle['plzDe']}"
                                                                  id="modCode" value="#{lectAnnouncementList.type}" 
-                                                                 editable="false" disabled="true" placeholder="recipients">
-                                                    <f:selectItem itemLabel="Select a module" itemValue="" />
+                                                                 editable="false" disabled="true" placeholder="#{bundle['Recipient']}">
+                                                    <f:selectItem itemLabel="#{bundle['selectMod']}" itemValue="" />
                                                     <f:selectItems value="#{lecturerModuleListBean.moduleCodes}" />
                                                 </p:selectOneMenu>  
                                                 <br></br><br></br><br></br>
                                                 <h:panelGrid columns="2" width="100%">
-                                                    <p:commandButton  value="Update" update="@form"
+                                                    <p:commandButton  value="#{bundle['Update']}" update="@form"
                                                                       action="lecturerMain?faces-redirect=true"
                                                                       actionListener="#{announcementBean.updateAnnouncement(lectAnnouncementList.title, lectAnnouncementList.message, lectAnnouncementList.id)}" 
                                                                       id="updateAnnouncement-button" />
-                                                    <p:commandButton  value="Delete" update="@form"
+                                                    <p:commandButton  value="#{bundle['Delete']}" update="@form"
                                                                       action="lecturerMain?faces-redirect=true"
                                                                       actionListener="#{announcementBean.deleteAnnouncement(loginBean.username, lectAnnouncementList.id)}" 
                                                                       id="deleteAnnouncement-button" 
                                                                       >
-                                                        <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                                                        <p:confirm header="#{bundle['Confirmation']}" message="#{bundle['sure']}" icon="ui-icon-alert" />
                                                     </p:commandButton>
                                                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                                                        <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                                        <p:commandButton value="#{bundle['yes']}" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                        <p:commandButton value="#{bundle['no']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                                                     </p:confirmDialog>
                                                 </h:panelGrid>
                                             </h:panelGrid>
@@ -112,19 +112,19 @@
                             </h:panelGrid>
                         </h:panelGrid>
                     </p:tab>
-                    <p:tab title="Announcements by Admin">
-                        <h1 style="margin-top:0">Announcements by Admin</h1>
+                    <p:tab title="#{bundle['adminAnn']}">
+                        <h1 style="margin-top:0">#{bundle['adminAnn']}</h1>
                         <h:panelGrid columns="1" cellpadding="10">
                             <h:panelGrid id="panelOuter3" columns="2" width="100%">
                                 <p:dataList var="adminAnnouncementList" value="#{announcementBean.announcements2}" id="adminAnncList">
                                     <p:accordionPanel multiple="true" activeIndex="1">
                                         <p:tab title="#{adminAnnouncementList.title}">
                                             <h:panelGrid id="indivGrid2" columns="2">
-                                                <h:outputText value="Announcement Date:" />
+                                                <h:outputText value="#{bundle['Date']}:" />
                                                 <h:outputText value="#{adminAnnouncementList.createdDate}" />
-                                                <h:outputText value="Message:" />
+                                                <h:outputText value="#{bundle['Message']}:" />
                                                 <p:inputTextarea id="message2" value="#{adminAnnouncementList.message}"
-                                                                 readonly="true" title="Announcement Body"
+                                                                 readonly="true" title="#{bundle['AnnouncementBody']}"
                                                                  rows="4" cols="30" maxlength="300" 
                                                                  autoResize="true"/>                                            
                                             </h:panelGrid>

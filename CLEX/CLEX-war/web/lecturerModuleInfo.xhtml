@@ -14,22 +14,22 @@
         <h:head>
             <title>PRISM Lecturer Module Info Page</title>
         </h:head>
-        <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+        <p:commandButton value="#{bundle['Print']}" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
             <p:printer target="panel" />
         </p:commandButton>
         <h:form id="panel">
-            <p:fieldset legend="#{moduleInfoBean.moduleCode} #{moduleInfoBean.moduleTitle} - Class size: #{moduleInfoBean.students.size()}" toggleable="false" collapsed="false">
+            <p:fieldset legend="#{moduleInfoBean.moduleCode} #{moduleInfoBean.moduleTitle} - #{bundle['ClassSize']}: #{moduleInfoBean.students.size()}" toggleable="false" collapsed="false">
                 <h:panelGrid columns="2" width="1000px">
 
                     <p:tab title="#{moduleInfoBean.moduleCode}">
                         <h:panelGrid>
                             <p:panelGrid styleClass="ui-panelgrid-blank" columns="3">
-                                <h:outputText value="Modular Credits: #{moduleInfoBean.moduleCredit}" />
-                                <h:outputText value="Workload: #{moduleInfoBean.workload}" />
+                                <h:outputText value="#{bundle['CreditUnit']}: #{moduleInfoBean.moduleCredit}" />
+                                <h:outputText value="#{bundle['workload']}: #{moduleInfoBean.workload}" />
                                 <br></br>
-                                <h:outputText value="Prerequisite: " />
-                                <h:outputText value="Preclusions: " />
-                                <h:outputText value="Information: " />
+                                <h:outputText value="#{bundle['prerequisite']}: " />
+                                <h:outputText value="#{bundle['Preclusion']}: " />
+                                <h:outputText value="#{bundle['modInformation']}: " />
                                 <h:inputTextarea id="prerequisiteOutput" value="#{lecturerModuleListBean.prerequisite}"
                                                  binding="#{moduleInfoBean.prereqInput}" style="width: 96%;" rows="10" cols="150" readonly="false" >
                                 </h:inputTextarea>
@@ -46,31 +46,31 @@
                             <h:inputHidden id="codeOut" value="#{lecturerModuleListBean.moduleCode}"
                                            binding="#{moduleInfoBean.codeInput}" />
                             <br />
-                            <p:commandButton value="Update" 
+                            <p:commandButton value="#{bundle['Update']}" 
                                              actionListener="#{lecturerModuleListBean.lectEditModule}" update="messages">
-                                <p:confirm header="Update #{moduleInfoBean.moduleCode}" message="Ensure all details are correct" icon="ui-icon-alert" />
+                                <p:confirm header="#{bundle['Update']} #{moduleInfoBean.moduleCode}" message="#{bundle['ensure']}" icon="ui-icon-alert" />
                             </p:commandButton>
                             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                                <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                <p:commandButton value="#{bundle['yes']}" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                <p:commandButton value="#{bundle['no']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                             </p:confirmDialog>
 
                             <br />
-                            <h:outputText value="Students: #{moduleInfoBean.students.size()}"/>
+                            <h:outputText value="#{bundle['Students']}: #{moduleInfoBean.students.size()}"/>
                             <p:dataGrid var="student" value="#{moduleInfoBean.students}" columns="6" layout="grid"
                                         paginator="true" id="cars" paginatorPosition="bottom" paginatorAlwaysVisible="false"
                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                         rowsPerPageTemplate="6,12,16">
                                 <p:fieldset toggleable="true" collapsed="false" legend="#{student.name}">
                                     <h:panelGrid>
-                                        <h:outputLink value="Mailto:#{student.email}">
+                                        <h:outputLink value="#{bundle['MailTo']} :#{student.email}">
                                             <h:outputText  style="color:black;font-weight:normal;" value="#{student.email}" />
-                                            <f:param name="subject" value="[PRISM]"/>
-                                            <f:param name="body" value="" />
+                                            <f:param name="#{bundle['subject']}" value="[PRISM]"/>
+                                            <f:param name="#{bundle['body']}" value="" />
                                         </h:outputLink>
 
-                                        <h:outputText value="Faculty: #{student.faculty}" />
-                                        <h:outputText value="Major: #{student.major}" />
+                                        <h:outputText value="#{bundle['Faculty']}: #{student.faculty}" />
+                                        <h:outputText value="#{bundle['Major']}: #{student.major}" />
                                     </h:panelGrid>
                                 </p:fieldset>
 
@@ -107,9 +107,9 @@
             </p:fieldset>
             <br />
         </h:form>
-        <h2>Upload Files</h2>
+        <h2>#{bundle['UploadFiles']}</h2>
         <h:form id="formUploadFile" enctype="multipart/form-data">
-            <p:panel header="File Upload">
+            <p:panel header="#{bundle['UploadFiles']}">
                 <p:messages autoUpdate="true" redisplay="false" />
                 <p:fileUpload fileUploadListener="#{filesUploadBean.handleFileUpload}"
                               mode="advanced" dragDropSupport="false"  

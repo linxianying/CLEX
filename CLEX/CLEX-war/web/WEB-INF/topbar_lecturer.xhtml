@@ -48,14 +48,14 @@
                         <li role="menuitem">
                             <a href="lecturerProfile.xhtml">
                                 <i class="fa fa-fw fa-user"></i>
-                                <span>Profile</span>
+                                <span>#{bundle['Profile']}</span>
                             </a>
                         </li>
                         <li role="menuitem">
                             <h:form>
                                 <a href="#" onclick="logout()">
                                     <i class="fa fa-fw fa-sign-out"></i>
-                                    <span>Logout</span>
+                                    <span>#{bundle['logout']}</span>
                                     <p:remoteCommand name="logout" actionListener="#{acctMgmtBean.logout}"/>
                                 </a>
                             </h:form>
@@ -65,13 +65,13 @@
                 <li>
                     <a href="#">
                         <i class="topbar-icon fa fa-fw fa-cog"></i>
-                        <span class="topbar-item-name">Settings</span>
+                        <span class="topbar-item-name">#{bundle['settings']}</span>
                     </a>
                     <ul class="poseidon-menu animated">
                         <li role="menuitem">
                             <a href="lecturerSetting.xhtml">
                                 <i class="fa fa-fw fa-paint-brush"></i>
-                                <span>Change Theme</span>
+                                <span>#{bundle['ChangeTheme']}</span>
                             </a>
                         </li>
                         <li role="menuitem">
@@ -89,20 +89,20 @@
                     <a href="#" id="right-sidebar-button-open">
                         <i class="topbar-icon material-icons animated swing fa fa-fw fa-envelope-o"></i>
                         <span class="topbar-badge animated rubberBand">#{privateMsgBean.viewCount}</span>
-                        <span class="topbar-item-name">Private Messenger</span>
+                        <span class="topbar-item-name">#{bundle['PrivateMessenger']}</span>
                     </a>
                 </li>
                 <li>
                     <a href="#" onclick="setViewCount()">
                         <i class="topbar-icon material-icons fa fa-fw fa-bell-o"></i>
                         <p:outputPanel autoUpdate="true" class="topbar-badge animated rubberBand">#{announcementBean.latestCount}</p:outputPanel>
-                        <span class="topbar-item-name">Notifications</span>
+                        <span class="topbar-item-name">#{bundle['notification']}</span>
                         <h:form>
                             <p:remoteCommand name="setViewCount" actionListener="#{announcementBean.setAnncViewCount()}"/>
                         </h:form>
                     </a>
                     <ul style="overflow-y: scroll; max-height:200px">
-                        <span style="color: #e33f3f">Notifications</span>
+                        <span style="color: #e33f3f">#{bundle['notification']}</span>
                         <br/>
                         <p:dataList var="annc" value="#{announcementBean.announcements}">
                             <button type="button" disabled="disabled" class="anncBox">
