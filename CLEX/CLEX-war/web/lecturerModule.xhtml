@@ -8,20 +8,20 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="title">PRISM Lecturer Module Page</ui:define>
 
-    <ui:define name="viewname">Module</ui:define>
+    <ui:define name="viewname">#{bundle['modules']}</ui:define>
 
     <ui:define name="content">
 
         <p:growl id="messages" showDetail="true" />
 
-        <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+        <p:commandButton value="#{bundle['Print']}" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
             <p:printer target="panel" />
         </p:commandButton>
         <h:form id="panel">
             <p:tabView id="lecturerModule">
-                <p:tab title="MANAGE CURRENT MODULE">
+                <p:tab title="#{bundle['MANAGECURRENTMODULE']}">
                     <p:dataTable var="module" value="#{lecturerModuleListBean.currentModules}" id="currentModules" rows="5"
-                                 emptyMessage="No modules found with given criteria." 
+                                 emptyMessage="#{bundle['noMod']}" 
                                  paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
                                  rowsPerPageTemplate="5,10,20">
@@ -55,46 +55,44 @@
                                 </h:commandLink>
                             </div>
                         </f:facet>
-                        <p:column style="text-align: center;width: 15%" filterBy="#{module.course.moduleCode}" sortBy="#{module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
+                        <p:column style="text-align: center;width: 15%" filterBy="#{module.course.moduleCode}" sortBy="#{module.course.moduleCode}" headerText="#{bundle['ModuleCode']}" filterMatchMode="contains">
                             <h:outputText value="#{module.course.moduleCode} " />
                             <!--<p:commandButton style="float: right" icon="ui-icon-search" actionListener="#{lecturerModuleListBean.viewModule(module)}" />-->
                         </p:column>
-                        <p:column style="width: 30%" filterBy="#{module.course.moduleName}" sortBy="#{module.course.moduleName}" headerText="Title" filterMatchMode="contains">
+                        <p:column style="width: 30%" filterBy="#{module.course.moduleName}" sortBy="#{module.course.moduleName}" headerText="#{bundle['Title']}" filterMatchMode="contains">
                             <h:outputText value="#{module.course.moduleName}" />
                         </p:column>
-                        <p:column style="text-align: center;width: 20%;" headerText="Students" >
-                            <h:outputText value="Students:#{module.students.size()} " />
+                        <p:column style="text-align: center;width: 20%;" headerText="#{bundle['Students']}" >
+                            <h:outputText value="#{bundle['Students']}:#{module.students.size()} " />
                             <br />
-                            <h:outputText value="Polls:#{module.polls.size()}" />
+                            <h:outputText value="#{bundle['Polls']}:#{module.polls.size()}" />
                         </p:column>
-                        <p:column style="text-align: center;width: 20%" headerText="Groups" >
-                            <p:commandButton style="background: transparent; color: black" icon="fa fa-user-times" value="Group formation not started" rendered="#{empty module.superGroup}"/>
+                        <p:column style="text-align: center;width: 20%" headerText="#{bundle['Groups']}" >
+                            <p:commandButton style="background: transparent; color: black" icon="fa fa-user-times" value="#{bundle['GroupForNotStart']}" rendered="#{empty module.superGroup}"/>
                             <br />
-                            <p:commandButton icon="fa fa-cogs" value="Manage Groups" actionListener="#{lecturerModuleListBean.formGroup(module)}" />
+                            <p:commandButton icon="fa fa-cogs" value="#{bundle['manageGroup']}" actionListener="#{lecturerModuleListBean.formGroup(module)}" />
                         </p:column>
-                        <p:column style="text-align: center;width: 20%" headerText="Peer Review">
-                            <p:commandButton icon="fa fa-align-justify" value="Add Peer Review Form" actionListener="#{lecturerModuleListBean.startPR(module)}" 
+                        <p:column style="text-align: center;width: 20%" headerText="#{bundle['PeerReview']}">
+                            <p:commandButton icon="fa fa-align-justify" value="#{bundle['AddPR']}" actionListener="#{lecturerModuleListBean.startPR(module)}" 
                                              rendered="#{not empty module.superGroup and module.superGroup.confirm and empty module.peerReviewQuestion}"/>
-                            <p:commandButton icon="fa fa-cogs" value="Manage Peer Review" actionListener="#{lecturerModuleListBean.goPRPage(module)}" action="lecturerUpdatePRform?faces-redirect=rtue" 
+                            <p:commandButton icon="fa fa-cogs" value="#{bundle['ManagePR']}" actionListener="#{lecturerModuleListBean.goPRPage(module)}" action="lecturerUpdatePRform?faces-redirect=rtue" 
                                              rendered="#{not empty module.superGroup and module.superGroup.confirm and not empty module.peerReviewQuestion}"/>
                             <br /><br />
-                            <p:commandButton icon="fa fa-user" value="View submitted Peer Review Forms"  actionListener="#{lecturerModuleListBean.goPRPage(module)}" action="lecturerPR?faces-redirect=true" 
+                            <p:commandButton icon="fa fa-user" value="#{bundle['ViewPR']}"  actionListener="#{lecturerModuleListBean.goPRPage(module)}" action="lecturerPR?faces-redirect=true" 
                                              rendered="#{not empty module.superGroup and module.superGroup.confirm and not empty module.peerReviewQuestion and not empty module.peerReviewQuestion.answer}"/>
                             <br /><br />
-<!--                            <p:commandButton icon="fa fa-groups" value="View Groups' Peer Review Results" action="lecturerUpdatePRform?faces-redirect=true"
-                                             rendered="#{not empty module.superGroup and module.superGroup.confirm and not empty module.peerReviewQuestion and not empty module.peerReviewQuestion.answer}"/>-->
                         </p:column>
-                        <p:column style="text-align: center;width: 20%" headerText="Materials/Activities">
-                            <p:commandButton value="Manage Materials" actionListener="#{lecturerModuleListBean.manageMaterials(module)}" icon="fa fa-book"/>
-                            <p:commandButton value="Manage Activities" actionListener="#{lecturerModuleListBean.manageActivities(module)}" icon="fa fa-search"/>                            
+                        <p:column style="text-align: center;width: 20%" headerText="#{bundle['Materials/Activities']}">
+                            <p:commandButton value="#{bundle['ManageMaterials']}" actionListener="#{lecturerModuleListBean.manageMaterials(module)}" icon="fa fa-book"/>
+                            <p:commandButton value="#{bundle['ManageActivities']}" actionListener="#{lecturerModuleListBean.manageActivities(module)}" icon="fa fa-search"/>                            
                         </p:column>
                         
                     </p:dataTable>
                 </p:tab>
-                <p:tab title="VIEW MODULES">
+                <p:tab title="#{bundle['VIEWMODULES']}">
                     <p:dataTable var="module" value="#{lecturerModuleListBean.modules}" 
                                  widgetVar="modulesTable"
-                                 emptyMessage="No modules found with given criteria." 
+                                 emptyMessage="#{bundle['noMod']}" 
                                  filteredValue="#{lecturerModuleListBean.filteredModules}"
                                  paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
                                  rows="5" 
@@ -105,7 +103,7 @@
 
                         <f:facet name="header">
                             <p:outputPanel>
-                                <h:outputText value="Search all fields:" />
+                                <h:outputText value="#{bundle['Search']}:" />
                                 <p:inputText id="globalFilter" onkeyup="PF('modulesTable').filter()" style="width:150px" placeholder="Enter keyword"/>
                             </p:outputPanel>
 
@@ -134,25 +132,25 @@
                                 </h:commandLink>
                             </div>
                         </f:facet>
-                        <p:column style="text-align: center;width: 15%" filterBy="#{module.course.moduleCode}" sortBy="#{module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
+                        <p:column style="text-align: center;width: 15%" filterBy="#{module.course.moduleCode}" sortBy="#{module.course.moduleCode}" headerText="#{bundle['Module Code']}" filterMatchMode="contains">
                             <h:outputText value="#{module.course.moduleCode} " >
 
                             </h:outputText>
                             <p:commandButton style="float: right" icon="ui-icon-search" actionListener="#{lecturerModuleListBean.viewModule(module)}" />
 
                         </p:column>
-                        <p:column style="width: 30%" filterBy="#{module.course.moduleName}" sortBy="#{module.course.moduleName}" headerText="Title" filterMatchMode="contains">
+                        <p:column style="width: 30%" filterBy="#{module.course.moduleName}" sortBy="#{module.course.moduleName}" headerText="#{bundle['Title']}" filterMatchMode="contains">
                             <h:outputText value="#{module.course.moduleName}" />
                         </p:column>
-                        <p:column style="text-align: center;width: 20%" headerText="Students" >
-                            <h:outputText value="Students:#{module.students.size()} " />
+                        <p:column style="text-align: center;width: 20%" headerText="#{bundle['Students']}" >
+                            <h:outputText value="#{bundle['Students']}:#{module.students.size()} " />
                             <br />
-                            <h:outputText value="Polls:#{module.polls.size()}" />
+                            <h:outputText value="#{bundle['Polls']}:#{module.polls.size()}" />
                         </p:column>
-                        <p:column style="text-align: center;width: 15%" filterBy="#{module.takenYear}" sortBy="#{module.takenYear}" headerText="Teaching Year" filterMatchMode="contains">
+                        <p:column style="text-align: center;width: 15%" filterBy="#{module.takenYear}" sortBy="#{module.takenYear}" headerText="#{bundle['year']}" filterMatchMode="contains">
                             <h:outputText value="#{module.takenYear}" />
                         </p:column>
-                        <p:column style="text-align: center;width: 15%" filterBy="#{module.takenSem}" sortBy="#{module.takenSem}" headerText="Teaching Sem" filterMatchMode="contains">
+                        <p:column style="text-align: center;width: 15%" filterBy="#{module.takenSem}" sortBy="#{module.takenSem}" headerText="#{bundle['sem']}" filterMatchMode="contains">
                             <f:facet name="filter">
                                 <p:selectOneButton onchange="PF('modulesTable').filter()">
                                     <f:selectItem itemLabel="All" itemValue="" />
@@ -167,13 +165,13 @@
 
                     <!--<h:form id="moduleTab"><h:form id="lessonTab"></h:form>-->
                 </p:tab>
-                <p:tab title="VIEW LESSONS">
+                <p:tab title="#{bundle['VIEWLESSONS']}">
 
                     <p:dataTable editable="true" editMode="cell" 
                                  var="lesson" value="#{lecturerModuleListBean.lessons}" 
                                  widgetVar="lessonsTable"
                                  filteredValue="#{lecturerModuleListBean.filteredLessons}"
-                                 emptyMessage="No modules found with given criteria." 
+                                 emptyMessage="#{bundle['noMod']}" 
                                  paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
                                  rows="5"
                                  id="les"
@@ -183,8 +181,8 @@
                                  >
                         <f:facet name="header">
                             <p:outputPanel>
-                                <h:outputText value="Search all fields:" />
-                                <p:inputText id="globalFilter" onkeyup="PF('lessonsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                <h:outputText value="#{bundle['Search']}:" />
+                                <p:inputText id="globalFilter" onkeyup="PF('lessonsTable').filter()" style="width:150px" placeholder="#{bundle['EnterKeyword']}"/>
                             </p:outputPanel>
                         </f:facet>  
                         <f:facet name="{Exporters}">   
@@ -211,13 +209,13 @@
                             </div>
                         </f:facet>
                         <p:ajax event="cellEdit" listener="#{lecturerModuleListBean.lectEditLesson(lesson)}" update="messages"/>
-                        <p:column style="text-align: center;" filterBy="#{lesson.module.course.moduleCode}" sortBy="#{lesson.module.course.moduleCode}" headerText="Module Code" filterMatchMode="contains">
+                        <p:column style="text-align: center;" filterBy="#{lesson.module.course.moduleCode}" sortBy="#{lesson.module.course.moduleCode}" headerText="#{bundle['modCode']}" filterMatchMode="contains">
                             <h:outputText value="#{lesson.module.course.moduleCode}" />
                         </p:column>
-                        <p:column style="text-align: center;" filterBy="#{lesson.module.takenYear}" sortBy="#{lesson.module.takenYear}" headerText="Teaching Year" filterMatchMode="contains">
+                        <p:column style="text-align: center;" filterBy="#{lesson.module.takenYear}" sortBy="#{lesson.module.takenYear}" headerText="#{bundle['year']}" filterMatchMode="contains">
                             <h:outputText value="#{lesson.module.takenYear}" />
                         </p:column>
-                        <p:column style="text-align: center;" filterBy="#{lesson.module.takenSem}" sortBy="#{lesson.module.takenSem}" headerText="Teaching Sem" filterMatchMode="contains">
+                        <p:column style="text-align: center;" filterBy="#{lesson.module.takenSem}" sortBy="#{lesson.module.takenSem}" headerText="#{bundle['sem']}" filterMatchMode="contains">
                             <f:facet name="filter">
                                 <p:selectOneButton onchange="PF('lessonsTable').filter()">
                                     <f:selectItem itemLabel="All" itemValue="" />
@@ -227,16 +225,16 @@
                             </f:facet>
                             <h:outputText style="text-align: center !important;" value="#{lesson.module.takenSem}" />
                         </p:column>
-                        <p:column style="text-align: center;" filterBy="#{lesson.day}" sortBy="#{lesson.day}" headerText="Day" filterMatchMode="contains">
+                        <p:column style="text-align: center;" filterBy="#{lesson.day}" sortBy="#{lesson.day}" headerText="#{bundle['Day']}" filterMatchMode="contains">
                             <f:facet name="filter">
                                 <p:selectOneMenu onchange="PF('lessonsTable').filter()">
-                                    <f:selectItem itemLabel="All" itemValue="" />
+                                    <f:selectItem itemLabel="#{bundle['All']}" itemValue="" />
                                     <f:selectItems value="#{lectuerModuleListBean.daylist}" />                           
                                 </p:selectOneMenu>
                             </f:facet>
                             <h:outputText value="#{lesson.day}" />
                         </p:column>
-                        <p:column style="text-align: center;" filterBy="#{lesson.timeFrom}" sortBy="#{lesson.timeFrom}" headerText="Time Start" filterMatchMode="contains">
+                        <p:column style="text-align: center;" filterBy="#{lesson.timeFrom}" sortBy="#{lesson.timeFrom}" headerText="#{bundle['From']}" filterMatchMode="contains">
                             <f:facet name="filter">
                                 <p:selectOneMenu onchange="PF('lessonsTable').filter()">
                                     <f:selectItem itemLabel="All" itemValue="" />
@@ -245,16 +243,16 @@
                             </f:facet>
                             <h:outputText value="#{lesson.timeFrom}" />
                         </p:column>
-                        <p:column style="text-align: center;" filterBy="#{lesson.timeEnd}" sortBy="#{lesson.timeEnd}" headerText="Time End" filterMatchMode="contains">
+                        <p:column style="text-align: center;" filterBy="#{lesson.timeEnd}" sortBy="#{lesson.timeEnd}" headerText="#{bundle['To']}" filterMatchMode="contains">
                             <f:facet name="filter">
                                 <p:selectOneMenu onchange="PF('lessonsTable').filter()">
-                                    <f:selectItem itemLabel="All" itemValue="" />
+                                    <f:selectItem itemLabel="#{bundle['All']}" itemValue="" />
                                     <f:selectItems value="#{lectuerModuleListBean.timelist}" />                           
                                 </p:selectOneMenu>
                             </f:facet>
                             <h:outputText value="#{lesson.timeEnd}" />
                         </p:column>
-                        <p:column style="text-align: center;" filterBy="#{lesson.type}" sortBy="#{lesson.type}" headerText="Type" filterMatchMode="contains">
+                        <p:column style="text-align: center;" filterBy="#{lesson.type}" sortBy="#{lesson.type}" headerText="#{bundle['Type']}" filterMatchMode="contains">
                             <p:cellEditor>
                                 <f:facet name="output">
                                     <h:outputText value="#{lesson.type}" />
@@ -263,14 +261,14 @@
                                     <p:selectOneMenu required="true" value="#{lesson.type}" 
                                                      editable="true">
                                         <f:selectItem itemLabel="Enter or select a lesson type" itemValue=""/>
-                                        <f:selectItem itemLabel="Lecture" itemValue="LECTURE" />
-                                        <f:selectItem itemLabel="Tutorial" itemValue="TUTORIAL" />
-                                        <f:selectItem itemLabel="Laboratory" itemValue="LABORATORY" />
-                                        <f:selectItem itemLabel="Recitation" itemValue="RECITATION" />
+                                        <f:selectItem itemLabel="#{bundle['Lecture']}" itemValue="LECTURE" />
+                                        <f:selectItem itemLabel="#{bundle['Tutorial']}" itemValue="TUTORIAL" />
+                                        <f:selectItem itemLabel="#{bundle['Laboratory']}" itemValue="LABORATORY" />
+                                        <f:selectItem itemLabel="#{bundle['Recitation']}" itemValue="RECITATION" />
                                     </p:selectOneMenu></f:facet>
                             </p:cellEditor>
                         </p:column>
-                        <p:column style="text-align: center;" filterBy="#{lesson.venue}" sortBy="#{lesson.venue}" headerText="Venue" filterMatchMode="contains">
+                        <p:column style="text-align: center;" filterBy="#{lesson.venue}" sortBy="#{lesson.venue}" headerText="#{bundle['Venue']}" filterMatchMode="contains">
                             <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{lesson.venue}" /></f:facet>
                                 <f:facet name="input"><p:inputText id="venueInput" value="#{lesson.venue}" style="width:96%"/></f:facet>
