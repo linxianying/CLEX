@@ -78,11 +78,9 @@
                             <p:commandButton icon="fa fa-cogs" value="#{bundle['ManagePR']}" actionListener="#{lecturerModuleListBean.goPRPage(module)}" action="lecturerUpdatePRform?faces-redirect=rtue" 
                                              rendered="#{not empty module.superGroup and module.superGroup.confirm and not empty module.peerReviewQuestion}"/>
                             <br /><br />
-                            <p:commandButton icon="fa fa-user" value="#{bundle['ViewPR']}" action="lecturerUpdatePRform?faces-redirect=true" 
+                            <p:commandButton icon="fa fa-user" value="#{bundle['ViewPR']}"  actionListener="#{lecturerModuleListBean.goPRPage(module)}" action="lecturerPR?faces-redirect=true" 
                                              rendered="#{not empty module.superGroup and module.superGroup.confirm and not empty module.peerReviewQuestion and not empty module.peerReviewQuestion.answer}"/>
                             <br /><br />
-                            <p:commandButton icon="fa fa-groups" value="#{bundle['ViewGPR']}" action="lecturerUpdatePRform?faces-redirect=true"
-                                             rendered="#{not empty module.superGroup and module.superGroup.confirm and not empty module.peerReviewQuestion and not empty module.peerReviewQuestion.answer}"/>
                         </p:column>
                         <p:column style="text-align: center;width: 20%" headerText="#{bundle['Materials/Activities']}">
                             <p:commandButton value="#{bundle['ManageMaterials']}" actionListener="#{lecturerModuleListBean.manageMaterials(module)}" icon="fa fa-book"/>

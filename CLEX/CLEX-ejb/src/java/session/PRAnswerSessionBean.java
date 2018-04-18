@@ -78,6 +78,24 @@ public class PRAnswerSessionBean implements PRAnswerSessionBeanLocal {
     }
     
     @Override
+    public PeerReviewQuestion findPRQuestion(Module module) {
+         Long id = module.getPeerReviewQuestion().getId();
+        try{
+            Query q = em.createQuery("SELECT q FROM PeerReviewQuestion q WHERE q.id = :id");
+            q.setParameter("id", id);
+            question = (PeerReviewQuestion) q.getSingleResult();
+        }
+        catch(NoResultException e){
+            System.out.println("PRQuestionSessionBean: PeerReviewQuestion does not exist.");
+            question = null;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return question;
+    }
+    
+    @Override
     public void submitPRForm(ArrayList<Student> groupMembers, ArrayList<ArrayList<String>> individualAnswers, ArrayList<ArrayList<String>> groupAnswers, PeerReviewAnswer answers) {
         indAnswers = new HashMap<Student,ArrayList<String>>();
         for (int i=0; i<groupMembers.size(); i++) {
@@ -106,6 +124,7 @@ public class PRAnswerSessionBean implements PRAnswerSessionBeanLocal {
         return question;
     }
     
+    @Override
     public boolean checkPRFormSubmit(Student student, Module module) {
         try{
             Query q = em.createQuery("SELECT q FROM PeerReviewAnswer q WHERE q.reviewer.id =:studentId AND q.question.id =:questionId");
@@ -121,6 +140,24 @@ public class PRAnswerSessionBean implements PRAnswerSessionBeanLocal {
             e.printStackTrace();
         }
         return false;
+    }
+    
+    @Override
+    public PeerReviewAnswer getPRAnswer(Module module, Student student) {
+        question = this.findPRQuestion(module);
+        try{
+            Query q = em.createQuery("SELECT q FROM PeerReviewAnswer q WHERE q.reviewer.id =:studentId AND q.question.id =:questionId");
+            q.setParameter("studentId", student.getId());
+            q.setParameter("questionId", module.getPeerReviewQuestion().getId());
+            answers = (PeerReviewAnswer) q.getSingleResult();
+        }
+        catch(NoResultException e){
+            System.out.println("PRASBL: getPRAnswer:No PRAnswer found");
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return answers;
     }
     
     @Override

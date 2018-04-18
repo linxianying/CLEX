@@ -199,7 +199,7 @@
                                      rows="15" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
                                      emptyMessage="#{bundle['noReview']}">
                             <p:ajax event="rowSelect" listener="#{forumListBean.onRowSelect}" update="messages" />                            
-                            <p:column style="height:40px" headerText="Review" >                                
+                            <p:column style="height:40px" headerText="#{bundle['Review']}" >                                
                                 <h:outputLabel style="font-size: 16px" value="#{threads.title}"/>
                                 <br />
                                 <h:outputLabel style="font-size: 11px" value="#{threads.user.name} - #{forumListBean.dayTime(threads)}" />   
