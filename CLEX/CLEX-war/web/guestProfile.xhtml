@@ -10,7 +10,7 @@
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
     <ui:define name="title">PRISM Guest Profile Page</ui:define>
 
-    <ui:define name="viewname">Profile</ui:define>
+    <ui:define name="viewname">#{bundle['Profile']}</ui:define>
 
     <ui:define name="content">
         <f:event type="preRenderView" listener="#{profileBean.setNoCache}" />
@@ -83,52 +83,52 @@
 
                     <!-- Left Side -->
                     <div class="card card-w-title">
-                        <h1>Basic Profile</h1>
+                        <h1>#{bundle['BasicProfile']}</h1>
                         <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
-                            <span>Username</span>
+                            <span>#{bundle['Username']}</span>
                             <p:inputText id="username" disabled="true" value="#{profileBean.username}" readonly="true" />
-                            <span>Full Name</span>
+                            <span>#{bundle['FullName']}</span>
                             <p:inputText id="newName" value="#{profileBean.name}" />
-                            <span>Email</span>
+                            <span>#{bundle['Email']}</span>
                             <p:inputText id="newEmail" value="#{profileBean.email}" />
 
-                            <span>Contact Number</span>
+                            <span>#{bundle['ContactNumber']}</span>
                             <p:inputText id="newContactNum" value="#{profileBean.contactNum}" />
                             <br></br>
                         </p:panelGrid>
-                        <p:commandButton value="Save Profile Details" actionListener="#{profileBean.editGuestProfile}" id="editBasicButton" >
-                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                        <p:commandButton value="#{bundle['saveProfile']}" actionListener="#{profileBean.editGuestProfile}" id="editBasicButton" >
+                            <p:confirm header="#{bundle['Confirmation']}" message="#{bundle['sure']}" icon="ui-icon-alert" />
                         </p:commandButton>
                         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                            <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            <p:commandButton value="#{bundle['yes']}" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="#{bundle['no']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                         </p:confirmDialog>
 
                     </div>
                 </h:form>
             
                 <div class="card card-w-title">
-                    <h1>Change Password</h1>
+                    <h1>#{bundle['ChangePassword']}</h1>
                     <h:form >
                         <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
-                            <span>Current Password</span>
+                            <span>#{bundle['CurrentPassword']}</span>
                             <p:password id="currentPassword" value="#{profileBean.oldPassword}" />
 
-                            <span>New Password</span>
+                            <span>#{bundle['NewPassword']}</span>
                             <p:password id="firstPassword" value="#{profileBean.newPassword1}" />
 
-                            <span>Confirm Password</span>
+                            <span>#{bundle['ConfirmPassword']}</span>
                             <p:password id="confirmPassword" value="#{profileBean.newPassword2}" validatorMessage="Password needs to be between 6-12 characters">
                                 <f:validateRegex pattern="^[a-zA-Z0-9]{6,12}$" />
                             </p:password>
                             <br></br>
                         </p:panelGrid>
-                        <p:commandButton value="Change Password" actionListener="#{profileBean.editPassword}" id="editPasswordButton" update="messages">
-                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                        <p:commandButton value="#{bundle['ChangePassword']}" actionListener="#{profileBean.editPassword}" id="editPasswordButton" update="messages">
+                            <p:confirm header="#{bundle['Confirmation']}" message="#{bundle['sure']}" icon="ui-icon-alert" />
                         </p:commandButton>
                         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                            <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            <p:commandButton value="#{bundle['yes']}" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="#{bundle['no']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                         </p:confirmDialog>
 
                     </h:form>             
