@@ -167,7 +167,7 @@ public class StudentMindmapBean implements Serializable {
             if (listoffiles.isEmpty()) {
                 FacesMessage fmsg = new FacesMessage();
                 FacesContext context = FacesContext.getCurrentInstance();
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_WARN, "No materials are available", "");
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_WARN, "The lecturer has yet to upload any materials." , "");
                 context.addMessage(null, fmsg);
             }
             if (node.getParent().getLabel().equals("Assignments")) {
