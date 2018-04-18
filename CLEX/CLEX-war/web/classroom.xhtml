@@ -41,7 +41,7 @@
                                 <f:facet name="header">
                                     <p:outputPanel>
                                         <h:outputText value="#{bundle['Search']}" />
-                                        <p:inputText id="globalFilter" onkeyup="PF('pollsTable').filter()" style="width:150px" placeholder="Enter keyword" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('pollsTable').filter()" style="width:150px" placeholder="#{bundle['EnterKeyword']}" />
                                     </p:outputPanel>
                                 </f:facet>  
                                 <f:facet name="{Exporters}">
@@ -69,7 +69,7 @@
                                     </div>
                                 </f:facet>
                                 <p:column style="width:30%" filterBy="#{poll.content}" sortBy="#{poll.content}" 
-                                          headerText="Content" filterMatchMode="contains">
+                                          headerText="#{bundle['Content']}" filterMatchMode="contains">
                                     <h:outputText value="#{poll.content}" />
                                     <p:commandButton style="float: right; background: grey" icon="ui-icon-trash"
                                                      update="msgmsg, tbl" actionListener="#{classroomBean.removePoll(poll)}">
@@ -188,7 +188,7 @@
                             </tr>
                             -->
                             <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
-                                <p:outputLabel id="viewLabel" for="moduleCode" value="Module Code:" />
+                                <p:outputLabel id="viewLabel" for="moduleCode" value="#{bundle['ModuleCode']}:" />
                                 <p:selectOneMenu id="moduleCode" value="#{classroomBean.addModuleCode}"  panelStyle="width:180px" effect="fade" 
                                                  style="width:280px" filter="true" filterMatchMode="contains" appendTo="@this">
                                     <f:selectItem itemLabel="#{bundle['SelectOne']}" itemValue="select"/>
@@ -222,7 +222,7 @@
                         <p:growl id="msg1" showDetail="true" />
                         <p:panel collapsed="false" styleClass="menuHeader"  header="#{bundle['addUnfinishedPoll']}" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
                             <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
-                                <p:outputLabel id="viewLabel1" for="moduleCode" value="Module Code:" />
+                                <p:outputLabel id="viewLabel1" for="moduleCode" value="#{bundle['ModuleCode']}:" />
 
                                 <p:selectOneMenu id="moduleCode" value="#{classroomBean.addModuleCode}"  panelStyle="width:180px" effect="fade" 
                                                  style="width:280px" filter="true" filterMatchMode="contains" appendTo="@this">
@@ -236,24 +236,24 @@
                                 <p:inputText value="#{classroomBean.addPollType}" style="width:300px;"
                                              required="true" requiredMessage="Please enter the poll type!"  />
 
-                                <p:outputLabel id="viewLabel3" value="Topic of Poll:" />
+                                <p:outputLabel id="viewLabel3" value="#{bundle['topic']}:" />
 
                                 <p:inputText value="#{classroomBean.addPollTopic}" style="width:300px;"
                                              required="true" requiredMessage="Please enter the poll topic!" />
 
-                                <p:outputLabel id="viewLabel4" value="Content of Poll:" />
+                                <p:outputLabel id="viewLabel4" value="#{bundle['Content']}:" />
 
                                 <p:inputText value="#{classroomBean.addPollContent}"  style="width:300px;"
                                              required="true" requiredMessage="Please enter the poll content!" />
-                                <p:outputLabel id="viewLabel5" value="No. of Answers:" />
+                                <p:outputLabel id="viewLabel5" value="#{bundle['numAns']}:" />
                                 <h:panelGroup>
                                     <p:inputNumber value="#{classroomBean.num}" required="true" 
-                                                   requiredMessage="Please enter an integer number" 
+                                                   requiredMessage="" 
                                                    minValue="0" maxValue="10" placeholder="0 - 10" id="num" />
-                                    <p:commandButton value="Confirm" partialSubmit="true" update="answersgroup" process="num"/>
+                                    <p:commandButton value="#{bundle['Add']}" partialSubmit="true" update="answersgroup" process="num"/>
                                 </h:panelGroup>
 
-                                <p:outputLabel id="viewLabel6" value="Answer(s):" />
+                                <p:outputLabel id="viewLabel6" value="#{bundle['Answer(s)']}:" />
                                 <h:panelGroup id="answersgroup">
                                     <ui:repeat value="#{classroomBean.anslist}" var="ans" id="answers">
                                         <p:inputText value="#{classroomBean.answer}" id="answer" style="width:300px;" required="true" >
@@ -261,7 +261,7 @@
 
                                             <!--do not use ajax onkeyup, will have issues if the lecturer accidentally adds an answer-->
                                         </p:inputText>
-                                        <p:commandButton value="Add" actionListener="#{classroomBean.addAnswer}"/>  
+                                        <p:commandButton value="#{bundle['Add']}" actionListener="#{classroomBean.addAnswer}"/>  
                                         <br />
                                     </ui:repeat>
 
@@ -278,7 +278,7 @@
 
                                 </p:dataList>-->
 
-                                <p:commandButton value="Add"  style="width:200px;"
+                                <p:commandButton value="#{bundle['Add']}"  style="width:200px;"
                                                  rendered="#{classroomBean.addButton}" action="#{classroomBean.addUnfinishedPoll}"
                                                  update="msg1, maintab:panel:tbl" />
                             </p:panelGrid>

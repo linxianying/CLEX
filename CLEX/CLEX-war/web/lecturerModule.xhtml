@@ -28,8 +28,8 @@
 
                         <f:facet name="header">
                             <p:outputPanel>
-                                <h:outputText value="Search all fields:" />
-                                <p:inputText id="globalFilter" onkeyup="PF('modulesTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                <h:outputText value="#{bundle['Search']}:" />
+                                <p:inputText id="globalFilter" onkeyup="PF('modulesTable').filter()" style="width:150px" placeholder="#{bundle['EnterKeyword']}"/>
                             </p:outputPanel>
                         </f:facet>  
                         <f:facet name="{Exporters}">
@@ -104,7 +104,7 @@
                         <f:facet name="header">
                             <p:outputPanel>
                                 <h:outputText value="#{bundle['Search']}:" />
-                                <p:inputText id="globalFilter" onkeyup="PF('modulesTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                <p:inputText id="globalFilter" onkeyup="PF('modulesTable').filter()" style="width:150px" placeholder="#{bundle['EnterKeyword']}"/>
                             </p:outputPanel>
 
                         </f:facet>  
@@ -132,7 +132,7 @@
                                 </h:commandLink>
                             </div>
                         </f:facet>
-                        <p:column style="text-align: center;width: 15%" filterBy="#{module.course.moduleCode}" sortBy="#{module.course.moduleCode}" headerText="#{bundle['Module Code']}" filterMatchMode="contains">
+                        <p:column style="text-align: center;width: 15%" filterBy="#{module.course.moduleCode}" sortBy="#{module.course.moduleCode}" headerText="#{bundle['ModuleCode']}" filterMatchMode="contains">
                             <h:outputText value="#{module.course.moduleCode} " >
 
                             </h:outputText>
