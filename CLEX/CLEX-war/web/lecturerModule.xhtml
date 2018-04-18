@@ -8,20 +8,20 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="title">PRISM Lecturer Module Page</ui:define>
 
-    <ui:define name="viewname">Module</ui:define>
+    <ui:define name="viewname">#{bundle['modules']}</ui:define>
 
     <ui:define name="content">
 
         <p:growl id="messages" showDetail="true" />
 
-        <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+        <p:commandButton value="#{bundle['Print']}" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
             <p:printer target="panel" />
         </p:commandButton>
         <h:form id="panel">
             <p:tabView id="lecturerModule">
-                <p:tab title="MANAGE CURRENT MODULE">
+                <p:tab title="#{bundle['MANAGECURRENTMODULE']}">
                     <p:dataTable var="module" value="#{lecturerModuleListBean.currentModules}" id="currentModules" rows="5"
-                                 emptyMessage="No modules found with given criteria." 
+                                 emptyMessage="#{bundle['noMod']}" 
                                  paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
                                  rowsPerPageTemplate="5,10,20">
@@ -62,15 +62,15 @@
                         <p:column style="width: 30%" filterBy="#{module.course.moduleName}" sortBy="#{module.course.moduleName}" headerText="Title" filterMatchMode="contains">
                             <h:outputText value="#{module.course.moduleName}" />
                         </p:column>
-                        <p:column style="text-align: center;width: 20%;" headerText="Students" >
-                            <h:outputText value="Students:#{module.students.size()} " />
+                        <p:column style="text-align: center;width: 20%;" headerText="#{bundle['Students']}" >
+                            <h:outputText value="#{bundle['Students']}:#{module.students.size()} " />
                             <br />
-                            <h:outputText value="Polls:#{module.polls.size()}" />
+                            <h:outputText value="#{bundle['Polls']}:#{module.polls.size()}" />
                         </p:column>
-                        <p:column style="text-align: center;width: 20%" headerText="Groups" >
-                            <p:commandButton style="background: transparent; color: black" icon="fa fa-user-times" value="Group formation not started" rendered="#{empty module.superGroup}"/>
+                        <p:column style="text-align: center;width: 20%" headerText="#{bundle['Groups']}" >
+                            <p:commandButton style="background: transparent; color: black" icon="fa fa-user-times" value="#{bundle['GroupForNotStart']}" rendered="#{empty module.superGroup}"/>
                             <br />
-                            <p:commandButton icon="fa fa-cogs" value="Manage Groups" actionListener="#{lecturerModuleListBean.formGroup(module)}" />
+                            <p:commandButton icon="fa fa-cogs" value="#{bundle['manageGroup']}" actionListener="#{lecturerModuleListBean.formGroup(module)}" />
                         </p:column>
                         <p:column style="text-align: center;width: 20%" headerText="Peer Review">
                             <p:commandButton icon="fa fa-align-justify" value="Add Peer Review Form" actionListener="#{lecturerModuleListBean.startPR(module)}" 
