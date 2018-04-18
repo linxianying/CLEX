@@ -13,7 +13,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -57,6 +60,7 @@ public class StudentMindmapBean implements Serializable {
     private String year;
     private String schoolname;
 
+    private boolean renderUpload;
     private StreamedContent downloadedFile;
 
     public StudentMindmapBean() {
@@ -82,6 +86,7 @@ public class StudentMindmapBean implements Serializable {
         retrieveAllFolders();
         createSubNodes();
         selectedNode = root;
+        renderUpload = false;
     }
 
     public void createSubNodes() {
@@ -117,6 +122,39 @@ public class StudentMindmapBean implements Serializable {
                     }
                     subnode.addNode(subsubnode);
                 }
+            }
+        }
+    }
+
+    public boolean checkSubmission() {
+        String path = session.getServletContext().getRealPath("/");
+        int pathlength = path.length();
+        pathlength = pathlength - 10;
+        path = path.substring(0, pathlength);
+        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/Materials/Assignments/" + selectedNode.getLabel() + "/";
+        path = path.replaceAll("\\\\", "/");
+
+        File directory = new File(path);
+        String[] fList = directory.list();
+        String deadline = "FALSE";
+        for (String file : fList) {
+            if (file.endsWith(".prism")) {
+                deadline = file;
+            }
+        }
+        if (deadline.equals("FALSE")) {
+            return false;
+        } else {
+            deadline = deadline.replaceAll(".prism", "");
+            System.out.println(deadline);
+            Date date = new Date();
+            DateFormat format = new SimpleDateFormat("dd-MM-yy HH.mm.ss");
+            String currDate = format.format(date);
+            System.out.println("Current time: " + currDate);
+            if (deadline.compareTo(currDate) == 1) {
+                return true;
+            } else {
+                return false;
             }
         }
     }
@@ -167,11 +205,12 @@ public class StudentMindmapBean implements Serializable {
             if (listoffiles.isEmpty()) {
                 FacesMessage fmsg = new FacesMessage();
                 FacesContext context = FacesContext.getCurrentInstance();
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_WARN, "The lecturer has yet to upload any materials." , "");
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_WARN, "The lecturer has yet to upload any materials.", "");
                 context.addMessage(null, fmsg);
             }
             if (node.getParent().getLabel().equals("Assignments")) {
                 updateSubmittedFiles(node);
+                renderUpload = checkSubmission();
             }
         }
     }
@@ -190,22 +229,6 @@ public class StudentMindmapBean implements Serializable {
             if (!items.get(i).endsWith(".prism")) {
                 listoffiles.add(items.get(i));
             }
-        }
-    }
-
-    public boolean checkAsignmentSubmission() {
-        String path = session.getServletContext().getRealPath("/");
-        int pathlength = path.length();
-        pathlength = pathlength - 10;
-        path = path.substring(0, pathlength);
-        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-"
-                + semester + "/Materials/Assignments/" + selectedNode.getLabel() + "/Submissions";
-        path = path.replaceAll("\\\\", "/");
-        Path folder = Paths.get(path);
-        if (Files.exists(folder)) {
-            return true;
-        } else {
-            return false;
         }
     }
 
@@ -359,6 +382,14 @@ public class StudentMindmapBean implements Serializable {
         }
         submittedfiles.clear();
         updateSubmittedFiles(selectedNode);
+    }
+
+    public boolean isRenderUpload() {
+        return renderUpload;
+    }
+
+    public void setRenderUpload(boolean renderUpload) {
+        this.renderUpload = renderUpload;
     }
 
     public MindmapNode getRoot() {

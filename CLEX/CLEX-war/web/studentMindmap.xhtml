@@ -74,7 +74,8 @@
 
                 <p:separator rendered="#{not empty studentMindmapBean.submittedfiles}"/>
                 <h:panelGroup>
-                    <h:panelGroup rendered="#{studentMindmapBean.checkAsignmentSubmission()}">
+                    <h:outputLabel value="The submission for this assignment is closed!" rendered="#{studentMindmapBean.renderUpload eq false and studentMindmapBean.selectedNode.parent.label eq 'Assignments'}"/>
+                    <h:panelGroup rendered="#{studentMindmapBean.renderUpload}">
                         <h:outputLabel style="font-weight: bold" value="Submit assignment" />
                         <br />
                         <h:outputLabel style="font-size:10px" value="If submitting multiple files, please zip them into one file before uploading" />
