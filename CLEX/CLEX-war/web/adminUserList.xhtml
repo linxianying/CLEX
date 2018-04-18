@@ -8,17 +8,17 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="title">User List</ui:define>
 
-    <ui:define name="viewname">Users</ui:define>
+    <ui:define name="viewname">#{bundle['Users']}</ui:define>
 
     <ui:define name="content">
 
-        <h1 style="margin-top:0">User Management</h1>
+        <h1 style="margin-top:0">#{bundle['UserManagement']}</h1>
         <h:form id="userForm">
-            <p:fieldset collapsed="false" id="userlist" legend="Note: User must be rejected and/or not yet approved before deleting." toggleable="false" toggleSpeed="500" >
+            <p:fieldset collapsed="false" id="userlist" legend="#{bundle['note']}" toggleable="false" toggleSpeed="500" >
                 <p:dataTable id="usertable" editable="false" reflow="true" tableStyle="width:auto"
                              var="user" value="#{accessControlBean.users}" 
                              widgetVar="usersTable" rows="10"
-                             emptyMessage="No users found with given criteria." 
+                             emptyMessage="#{bundle['noUser']}" 
                              filteredValue="#{accessControlBean.filteredUsers}"
                              paginator="true"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
@@ -27,8 +27,8 @@
 
                     <f:facet name="header">
                         <p:outputPanel>
-                            <h:outputText value="Search all fields:" />
-                            <p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                            <h:outputText value="#{bundle['Search']}:" />
+                            <p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()" style="width:150px" placeholder="#{bundle['EnterKeyword']}"/>
                         </p:outputPanel>
                     </f:facet>  
                     <f:facet name="{Exporters}">
@@ -55,21 +55,21 @@
                             </h:commandLink>
                         </div>
                     </f:facet>
-                    <p:column filterBy="#{user.userType}" sortBy="#{user.userType}" headerText="User Type" filterMatchMode="in">
+                    <p:column filterBy="#{user.userType}" sortBy="#{user.userType}" headerText="#{bundle['UserType']}" filterMatchMode="in">
                         <f:facet name="filter">
-                            <p:selectCheckboxMenu label="All" onchange="PF('usersTable').filter()" panelStyle="width:125px" >
+                            <p:selectCheckboxMenu label="#{bundle['All']}" onchange="PF('usersTable').filter()" panelStyle="width:125px" >
                                 <f:selectItems value="#{accessControlBean.allUserTypes}" />
                             </p:selectCheckboxMenu>
                         </f:facet>
                         <h:outputText value="#{user.userType}" />
                     </p:column>
-                    <p:column filterBy="#{user.username}" sortBy="#{user.username}" headerText="Username" filterMatchMode="contains">
+                    <p:column filterBy="#{user.username}" sortBy="#{user.username}" headerText="#{bundle['Username']}" filterMatchMode="contains">
                         <h:outputText value="#{user.username}" />            
                     </p:column>
-                    <p:column filterBy="#{user.name}" sortBy="#{user.name}" headerText="Name" filterMatchMode="contains">                        
+                    <p:column filterBy="#{user.name}" sortBy="#{user.name}" headerText="#{bundle['Name']}" filterMatchMode="contains">                        
                         <h:outputText value="#{user.name}"/>                            
                     </p:column>
-                    <p:column filterBy="#{user.email}" sortBy="#{user.email}" headerText="Email" filterMatchMode="contains">                           
+                    <p:column filterBy="#{user.email}" sortBy="#{user.email}" headerText="#{bundle['Email']}" filterMatchMode="contains">                           
                         <h:outputLink value="Mailto:#{user.email}">
                             <h:outputText  style="color:black;font-weight:normal;" value="#{user.email}" />
                             <f:param name="subject" value="[PRISM_Admin]" />
@@ -77,43 +77,43 @@
                             <h:outputText value="" />
                         </h:outputLink>
                     </p:column>
-                    <p:column filterBy="#{user.school}" sortBy="#{user.school}" headerText="School" filterMatchMode="contains">
+                    <p:column filterBy="#{user.school}" sortBy="#{user.school}" headerText="#{bundle['School']}" filterMatchMode="contains">
                         <h:outputText value="#{user.school}" />
                     </p:column>
-                    <p:column filterBy="#{user.approval}" sortBy="#{user.approval}" headerText="Approved?" filterMatchMode="equals">
+                    <p:column filterBy="#{user.approval}" sortBy="#{user.approval}" headerText="#{bundle['Approved?']}" filterMatchMode="equals">
                         <f:facet name="filter">
                             <p:selectOneButton style="width:auto" onchange="PF('usersTable').filter()">
                                 <f:converter converterId="javax.faces.Boolean" />
-                                <f:selectItem itemLabel="All" itemValue="" />
-                                <f:selectItem itemLabel="Yes" itemValue="true" />
-                                <f:selectItem itemLabel="No" itemValue="false" />
+                                <f:selectItem itemLabel="#{bundle['All']}" itemValue="" />
+                                <f:selectItem itemLabel="#{bundle['yes']}" itemValue="true" />
+                                <f:selectItem itemLabel="#{bundle['no']}" itemValue="false" />
                             </p:selectOneButton>
                         </f:facet>
                         <p:growl id="messages" showDetail="true" />
                         <p:panelGrid columns="2" styleClass="ui-panelgrid-blank"  >
                             <p:inputSwitch disabled="true" onLabel="Yes" offLabel="No" value="#{user.approval}" />
                             <h:panelGroup>
-                                <h:outputText style="text-align: center" rendered="#{user.approval eq true}" value="No actions required."/>
+                                <h:outputText style="text-align: center" rendered="#{user.approval eq true}" value="#{bundle['NoAction']}"/>
                                 <br />
                             </h:panelGroup>
 
-                            <p:splitButton rendered="#{user.approval eq false}" value="Options" icon="ui-icon-gear">
+                            <p:splitButton rendered="#{user.approval eq false}" value="#{bundle['Options']}" icon="ui-icon-gear">
                                 <p:separator />
-                                <p:menuitem rendered="#{user.approval eq false}" value="Approve User" actionListener="#{accessControlBean.approveUser(user.username)}" update="userForm:usertable, messages" icon="ui-icon-check" >
-                                    <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                                <p:menuitem rendered="#{user.approval eq false}" value="#{bundle['ApproveUser']}" actionListener="#{accessControlBean.approveUser(user.username)}" update="userForm:usertable, messages" icon="ui-icon-check" >
+                                    <p:confirm header="#{bundle['Confirmation']}" message="#{bundle['sure']}" icon="ui-icon-alert" />
                                 </p:menuitem>
                                 <p:menuitem rendered="#{user.approval eq false}" value="Reject User" actionListener="#{accessControlBean.rejectUser(user)}" update="userForm:usertable, messages" icon="ui-icon-cancel" >
-                                    <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                                    <p:confirm header="#{bundle['Confirmation']}" message="#{bundle['sure']}" icon="ui-icon-alert" />
                                 </p:menuitem>
                                 <p:separator />
                                 <p:menuitem rendered="#{user.approval eq false}" value="Delete User" actionListener="#{accessControlBean.removeUser(user)}" update="userForm:usertable, messages" icon="ui-icon-close" >
-                                    <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                                    <p:confirm header="#{bundle['Confirmation']}" message="#{bundle['sure']}" icon="ui-icon-alert" />
                                 </p:menuitem>
                             </p:splitButton>
                         </p:panelGrid>
                         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                            <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            <p:commandButton value="#{bundle['yes']}" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="#{bundle['no']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                         </p:confirmDialog>
                     </p:column>
                 </p:dataTable>
