@@ -9,20 +9,82 @@
 
     <ui:define name="title">PRISM Student Module Page</ui:define>
 
-    <ui:define name="viewname">#{studentMindmapBean.moduleEntity.course.moduleCode} - #{bundle['Mindmap']}</ui:define>
+    <ui:define name="viewname">#{studentMindmapBean.moduleEntity.course.moduleCode} - Mindmap</ui:define>
 
     <ui:define name="content">
         <p:growl id="messages" />
-        <h:form>
-            <p:mindmap value="#{studentMindmapBean.root}" style="width: 100%;height: 600px;border: 1px solid black;">
-                <p:ajax event="select" listener="#{studentMindmapBean.onNodeSelect}" />
-                <p:ajax event="dblselect" listener="#{studentMindmapBean.onNodeDblselect}" update="output" oncomplete="PF('details').show();" />
-            </p:mindmap>
+        <p:outputPanel>
+            <h:form id="mindmapform">
+                <p:mindmap value="#{studentMindmapBean.root}" style="width: 80vw;height: 50vh;border: 1px solid black;">
+                    <p:ajax event="select" listener="#{studentMindmapBean.onNodeSelect}" update="messages, detailgroup"/>
+                </p:mindmap>
+                <p:dialog responsive="true" widgetVar="details" closable="true" closeOnEscape="true" 
+                          header="#{studentMindmapBean.selectedNode.data}" resizable="false" modal="true" showEffect="fade" hideEffect="fade">
+                    <h:outputText id="output" value="#{studentMindmapBean.selectedNode.data}" />
+                </p:dialog> 
+            </h:form>
+        </p:outputPanel>
+        <br />
+        <p:separator />
+        <p:outputPanel>
 
-            <p:dialog widgetVar="details" header="Node Details" resizable="false" modal="true" showEffect="fade" hideEffect="fade">
-                <h:outputText id="output" value="#{studentMindmapBean.selectedNode.data}" />
-            </p:dialog> 
-        </h:form>
+            <h:panelGroup id="detailgroup">
+                <h:panelGroup rendered="#{not empty studentMindmapBean.listoffiles}">
+                    <h:panelGroup>
+                        <h:outputLabel style="font-weight: bold" value="Uploaded Files - #{studentMindmapBean.listoffiles.size()} " />
+                        <p:commandButton actionListener="#{studentMindmapBean.downloadAllFile}" icon="fa fa-download"/>
+                    </h:panelGroup>
+
+                    <br /> <br />
+                    <ui:repeat value="#{studentMindmapBean.listoffiles}" var="file">
+                        <h:outputLabel value="#{file}" />
+                        <h:panelGroup>
+                            <p:commandButton actionListener="#{studentMindmapBean.downloadFile(file)}" icon="fa fa-download"/>                            
+                        </h:panelGroup>
+                        <br />
+                    </ui:repeat>
+                </h:panelGroup>
+                <p:separator rendered="#{not empty studentMindmapBean.listoffiles}"/>
+                <h:panelGroup rendered="#{not empty studentMindmapBean.submittedfiles}">
+                    <h:panelGroup>
+                        <h:outputLabel style="font-weight: bold" value="Submitted Files - #{studentMindmapBean.submittedfiles.size()} " />
+                    </h:panelGroup>
+
+                    <br /> <br />
+                    <ui:repeat value="#{studentMindmapBean.submittedfiles}" var="file2">
+                        <h:outputLabel value="#{file2}" />
+                        <h:panelGroup>
+                            <p:commandButton actionListener="#{studentMindmapBean.downloadFile(file2)}" icon="fa fa-download"/>  
+                            <p:commandButton actionListener="#{studentMindmapBean.deleteFile(file2)}" icon="fa fa-trash" update="detailgroup">
+                                <p:confirm header="Delete #{file2}" message="Deleted files cannot be recovered! Are you sure?" icon="ui-icon-alert" />
+                            </p:commandButton>
+                        </h:panelGroup>
+                        <br />
+                    </ui:repeat>
+                </h:panelGroup>
+                <p:separator rendered="#{not empty studentMindmapBean.submittedfiles}"/>
+                <h:panelGroup>
+                    <h:panelGroup rendered="#{studentMindmapBean.checkAsignmentSubmission()}">
+                        <h:outputLabel style="font-weight: bold" value="Submit assignment" />
+                        <br />
+                        <h:outputLabel style="font-size:10px" value="If submitting multiple files, please zip them into one file before uploading" />
+                        <br /> <br />
+                        <h:form>
+                            <p:fileUpload fileUploadListener="#{studentMindmapBean.handleFileUpload}" mode="advanced" dragDropSupport="true"
+                                          multiple="true" update="messages, @form, detailgroup" fileLimit="1"/>
+                            <p:growl id="messages" showDetail="true" />
+                        </h:form>
+                    </h:panelGroup>
+
+                </h:panelGroup>
+
+            </h:panelGroup>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </p:outputPanel>
+
 
 
 
