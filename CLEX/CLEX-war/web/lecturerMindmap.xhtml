@@ -37,7 +37,7 @@
                     <h:outputLabel style="font-weight: bold" value="Remove folder: " />
                     <p:selectOneMenu required="true" title="Select a folder to delete."
                                      id="folderlist" value="#{lecturerMindmapBean.selectedFolder}">
-                        <f:selectItems value="#{lecturerMindmapBean.allfolders}" />
+                        <f:selectItems value="#{lecturerMindmapBean.allfolders2}" />
                     </p:selectOneMenu>   
                     <p:commandButton actionListener="#{lecturerMindmapBean.removeFolder}" icon="fa fa-trash" update="addfolderform, mindmapform, @form, detailgroup">
                         <p:confirm header="Delete #{lecturerMindmapBean.selectedFolder}" message="Deleted folder and all sub-folders and files inside cannot be recovered! Are you sure?" icon="ui-icon-alert" />
@@ -48,15 +48,20 @@
                     <p:inputText style="width: 200x" placeholder="Folder Name" value="#{lecturerMindmapBean.newfoldername}"/>
                     <p:commandButton icon="fa fa-plus" value="Add" actionListener="#{lecturerMindmapBean.addAssignment}" update="deleteassignmentform, mindmapform, @form"/>
                 </h:form>
-                <h:form id="deleteassignmentform">
-                    <h:outputLabel style="font-weight: bold" value="Delete Assignment: " />
-                    <p:selectOneMenu required="true" title="Select an assignment to delete."
-                                     id="folderlist" value="#{lecturerMindmapBean.selectedFolder}">
-                        <f:selectItems value="#{lecturerMindmapBean.allAssignmentFolders}" />
-                    </p:selectOneMenu>   
-                    <p:commandButton actionListener="#{lecturerMindmapBean.removeAssignment}" icon="fa fa-trash" update="addassignmentform, mindmapform, @form, detailgroup">
-                        <p:confirm header="Delete #{lecturerMindmapBean.selectedFolder}" message="Deleted folder and all sub-folders and files inside cannot be recovered! Are you sure?" icon="ui-icon-alert" />
-                    </p:commandButton>
+
+                <h:form id="deleteassignmentform" >
+                    <h:outputLabel value="You have not added any assignments yet!" rendered="#{empty lecturerMindmapBean.allAssignmentFolders}"/>
+                    <h:panelGroup rendered="#{not empty lecturerMindmapBean.allAssignmentFolders}">
+                        <h:outputLabel style="font-weight: bold" value="Delete Assignment: " />
+                        <p:selectOneMenu required="true" title="Select an assignment to delete."
+                                         id="folderlist" value="#{lecturerMindmapBean.selectedFolder}">
+                            <f:selectItems value="#{lecturerMindmapBean.allAssignmentFolders}" />
+                        </p:selectOneMenu>   
+                        <p:commandButton actionListener="#{lecturerMindmapBean.removeAssignment}" icon="fa fa-trash" update="addassignmentform, mindmapform, @form, detailgroup">
+                            <p:confirm header="Delete #{lecturerMindmapBean.selectedFolder}" message="Deleted folder and all sub-folders and files inside cannot be recovered! Are you sure?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                    </h:panelGroup>
+
                 </h:form>
             </h:panelGrid>
 
@@ -103,7 +108,7 @@
                     </ui:repeat>
                 </h:panelGroup>
 
-                
+
                 <h:panelGroup>
                     <p:separator/>
                     <h:panelGroup 

@@ -42,6 +42,7 @@ public class LecturerMindmapBean implements Serializable {
     private MindmapNode root;
     private MindmapNode selectedNode;
     private ArrayList<String> allfolders = new ArrayList<String>();
+    private ArrayList<String> allfolders2 = new ArrayList<String>();
     private ArrayList<String> listoffiles = new ArrayList<String>();
     private ArrayList<String> subNodeFolders = new ArrayList<String>();
     private ArrayList<String> allAssignmentFolders = new ArrayList<String>();
@@ -246,6 +247,25 @@ public class LecturerMindmapBean implements Serializable {
         for (int i = 0; i < items.size(); i++) {
             tempname = items.get(i);
             allfolders.add(tempname);
+        }
+        retrieveAllFolders2();
+    }
+
+    public void retrieveAllFolders2() {
+        String path = session.getServletContext().getRealPath("/");
+        int pathlength = path.length();
+        pathlength = pathlength - 10;
+        path = path.substring(0, pathlength);
+        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/Materials/";
+        path = path.replaceAll("\\\\", "/");
+        List<String> items;
+        items = findFoldersInDirectory(path);
+        String tempname;
+        for (int i = 0; i < items.size(); i++) {
+            tempname = items.get(i);
+            if (!tempname.equals("Assignments")) {
+                allfolders2.add(tempname);
+            }
         }
     }
 
@@ -545,6 +565,14 @@ public class LecturerMindmapBean implements Serializable {
 
     public void setSubmittedfiles(ArrayList<String> submittedfiles) {
         this.submittedfiles = submittedfiles;
+    }
+
+    public ArrayList<String> getAllfolders2() {
+        return allfolders2;
+    }
+
+    public void setAllfolders2(ArrayList<String> allfolders2) {
+        this.allfolders2 = allfolders2;
     }
 
 }
