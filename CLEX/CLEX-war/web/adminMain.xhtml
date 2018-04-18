@@ -9,32 +9,32 @@
                  xmlns:pe="http://primefaces.org/ui">
     <ui:define name="title">Dashboard</ui:define>
 
-    <ui:define name="viewname">Main</ui:define>
+    <ui:define name="viewname">#{bundle['dashboard']}</ui:define>
     
     <ui:define name="content">
         <div>
             <h:body>
-                <h:outputText value="Welcome to PRISM, #{loginBean.username}" />
+                <h:outputText value="#{bundle['welcome']}, #{loginBean.username}" />
                 <br></br>
                 <br></br>
                 <p:growl id="messages" showDetail="true" />
                 <h:form id="submitForm">
                     <p:tabView id="outerTab">
-                        <p:tab title="New Announcement">
+                        <p:tab title="#{bundle['NewAnnouncement']}">
                             <!-- putting on main page just for testing only-->
-                            <h1 style="margin-top:0">Create Announcement:</h1>
+                            <h1 style="margin-top:0">#{bundle['CreateAnnouncement']}:</h1>
 
                             <h:panelGrid id="pGrid1" columns="1" cellpadding="5" style="align: left">
-                                <p:inputText title="Announcement Title"
-                                             placeholder="title"
+                                <p:inputText title="#{bundle['AnnouncementTitle']}"
+                                             placeholder="#{bundle['Title']}"
                                              id="title" value="#{announcementBean.title}" 
                                              maxlength="80" style="width:100%">
                                 </p:inputText>    
                                 <p:inputTextarea id="message" value="#{announcementBean.message}"
-                                                 title="Announcement Body"
-                                                 placeholder="message" 
+                                                 title="#{bundle['AnnouncementBody']}"
+                                                 placeholder="#{bundle['Message']}" 
                                                  rows="4" cols="30" counter="display" maxlength="300" 
-                                                 counterTemplate="{0} characters remaining." autoResize="true" style="width:100%"/>
+                                                 counterTemplate="{0} #{bundle['char']}" autoResize="true" style="width:100%"/>
                                 <h:outputText id="display" />
                                 <!--Input "1": all, "2": students only, "3": lecturers only, "4": guests only, "5": 2&3 (admin can use any, lecturer's default use 2)-->
                                 <p:selectOneMenu styleClass="textInput"  

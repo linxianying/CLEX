@@ -20,8 +20,8 @@
                     <h:form id="createForm">
                         <h:panelGrid columns="1">
                             <h:panelGrid columns="2">
-                                <h:outputLabel for="tag2" value="Tags: " />
-                                <p:selectOneMenu title="Select a tag from the list (Optional)"
+                                <h:outputLabel for="tag2" value="#{bundle['tag']}: " />
+                                <p:selectOneMenu title="#{bundle['selectTag']}"
                                                  value="#{forumListBean.tTag}" required="false"
                                                  id="tag" >
                                     <f:selectItem itemLabel="#{bundle['General']}" itemValue="general" />
@@ -70,13 +70,13 @@
                     </h:form>
                 </p:overlayPanel>
             </p:commandButton>
-            <p:commandButton value="Search" id="searchButton" icon="fa fa-search" >
+            <p:commandButton value="#{bundle['Search']}" id="searchButton" icon="fa fa-search" >
                 <p:overlayPanel dynamic="true" id="searchthreadwidget" for="searchButton" showEffect="fade" hideEffect="fade" widgetVar="searchWidget">
                     <h:form id="searchForm">
                         <h:panelGrid columns="1">
                             <h:panelGrid columns="2">
-                                <h:outputLabel for="tag2" value="Tags: " />
-                                <p:selectOneMenu title="Select a tag from the list (Optional)"
+                                <h:outputLabel for="tag2" value="#{bundle['tag']}: " />
+                                <p:selectOneMenu title="#{bundle['selectTag']}"
                                                  value="#{forumListBean.searchTag}" required="false"
                                                  id="tag2" >
                                     <f:selectItem itemLabel="#{bundle['Optional']}" itemValue=" " />
@@ -91,15 +91,15 @@
                                 </p:selectOneMenu>
                             </h:panelGrid>
                             <br />
-                            <p:inputTextarea rows="1" cols="50" title="Title" placeholder="Thread Title" id="searchtitle" value="#{forumListBean.searchTitle}"/>                                    
+                            <p:inputTextarea rows="1" cols="50" title="#{bundle['Title']}" placeholder="Thread Title" id="searchtitle" value="#{forumListBean.searchTitle}"/>                                    
                             <br />
-                            <p:inputTextarea rows="5" cols="50" title="Content" placeholder="Thread Content" id="searchcontent" value="#{forumListBean.searchContent}" />
+                            <p:inputTextarea rows="5" cols="50" title="#{bundle['Content']}" placeholder="Thread Content" id="searchcontent" value="#{forumListBean.searchContent}" />
 
                         </h:panelGrid>
                         <p:spacer/>
                         <br />
-                        <p:commandButton id="searchthread" oncomplete="PF('searchWidget').hide()" icon="fa fa-search-plus" value="Search Thread" actionListener="#{forumListBean.searchThread}" update="forumForm, messages, searchForm"/>
-                        <p:commandButton id="clearsearchthread" oncomplete="PF('searchWidget').hide()" icon="fa fa-search-minus" value="Clear Search" actionListener="#{forumListBean.refresh()}" update="forumForm, messages, searchForm" />
+                        <p:commandButton id="searchthread" oncomplete="PF('searchWidget').hide()" icon="fa fa-search-plus" value="#{bundle['SearchThread']}" actionListener="#{forumListBean.searchThread}" update="forumForm, messages, searchForm"/>
+                        <p:commandButton id="clearsearchthread" oncomplete="PF('searchWidget').hide()" icon="fa fa-search-minus" value="#{bundle['ClearSearch']}" actionListener="#{forumListBean.refresh()}" update="forumForm, messages, searchForm" />
 
                     </h:form>
                 </p:overlayPanel>
@@ -111,28 +111,28 @@
                                  id="importanttable" value="#{forumListBean.important}" 
                                  var="important" paginator="true" 
                                  rows="15" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
-                                 emptyMessage="No threads has been stickied yet!">
+                                 emptyMessage="#{bundle['NoThread']}">
                         <p:ajax event="rowSelect" listener="#{forumListBean.onRowSelect}" update="messages" />                            
-                        <p:column style="height:40px" headerText="Pinned Threads (Includes Module Reviews and Bazaar Corner)" >                                
+                        <p:column style="height:40px" headerText="#{bundle['pinnedThread']}" >                                
                             <h:panelGroup>
                                 <h:panelGroup>
                                     <h:outputLabel style="font-size: 16px; font-weight: bold" value="**IMPORTANT** - " rendered="#{important.tag eq 'important'}"/>
                                     <h:outputLabel style="font-size: 16px; font-weight: bold" value="(FAQ) - " rendered="#{important.tag eq 'faq'}"/>
                                     <h:outputLabel style="font-size: 16px; font-weight: bold" value="##RULES## - " rendered="#{important.tag eq 'rules'}"/>
-                                </h:panelGroup>
+                                </h:panelGroup>                                    
                                 <h:outputLabel style="font-size: 16px; font-weight: bold" value="#{important.title}"/>
                             </h:panelGroup>
                             <br />
                             <h:outputLabel style="font-size: 11px" value="#{important.user.name} - #{forumListBean.dayTime(important)}" />   
                             <br />
-                            <h:outputLabel style="font-size: 11px" value=" Last edited: #{forumListBean.latestReplyDayTime(important.editDateTime)}" rendered="#{important.edited == true}"/> 
+                            <h:outputLabel style="font-size: 11px" value=" #{bundle['lastEdit']}: #{forumListBean.latestReplyDayTime(important.editDateTime)}" rendered="#{important.edited == true}"/> 
 
-                            <h:outputLabel style="font-size: 11px" value=" Last post: #{forumListBean.latestReplyDayTime(important.latestReplyDateTime)}" /> 
+                            <h:outputLabel style="font-size: 11px" value=" #{bundle['lastPost']}: #{forumListBean.latestReplyDayTime(important.latestReplyDateTime)}" /> 
                         </p:column>
-                        <p:column style="text-align: center;width: 11%;height:40px" headerText="Replies" >
+                        <p:column style="text-align: center;width: 11%;height:40px" headerText="#{bundle['Replies']}" >
                             <h:outputLabel style="font-size: 16px" value="#{important.replies.size()}"/> 
                         </p:column>
-                        <p:column style="text-align: center;width: 11%;height:40px" headerText="Votes" >
+                        <p:column style="text-align: center;width: 11%;height:40px" headerText="#{bundle['Votes']}" >
                             <h:outputLabel id="positiveThread" style="font-size:16px; font-weight: bold;" value="+#{important.upVote - threads.downVote}" rendered="#{(important.upVote - important.downVote) gt 0}"/>
                             <h:outputLabel id="negativeThead" style="font-size:16px; font-weight: bold;" value="#{important.upVote - threads.downVote}" rendered="#{(important.upVote - important.downVote) lt 0}"/>
                             <h:outputLabel id="zeroThread" style="font-size:16px; font-weight: bold;" value="0" rendered="#{(important.upVote - important.downVote) == 0}"/>
@@ -144,25 +144,25 @@
                                  id="forumtable" value="#{forumListBean.threads}" 
                                  var="threads" paginator="true" 
                                  rows="15" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
-                                 emptyMessage="No threads has been created yet!">
+                                 emptyMessage="#{bundle['NoThreadCreated']}">
                         <p:ajax event="rowSelect" listener="#{forumListBean.onRowSelect}" update="messages" />                            
-                        <p:column style="height:40px" headerText="Thread / Thread Starter" >                                
+                        <p:column style="height:40px" headerText="#{bundle['thread']}" >                                
                             <h:outputLabel style="font-size: 16px" value="#{threads.title}"/>
                             <br />
                             <h:outputLabel style="font-size: 11px" value="#{threads.user.name} - #{forumListBean.dayTime(threads)}" />   
                             <br />
-                            <h:outputLabel style="font-size: 11px" value=" Last post: #{forumListBean.latestReplyDayTime(threads.latestReplyDateTime)}" /> 
+                            <h:outputLabel style="font-size: 11px" value=" #{bundle['lastPost']}: #{forumListBean.latestReplyDayTime(threads.latestReplyDateTime)}" /> 
                         </p:column>
-                        <p:column style="text-align: center;width: 11%;height:40px" headerText="Replies" >
+                        <p:column style="text-align: center;width: 11%;height:40px" headerText="#{bundle['Replies']}" >
                             <h:outputLabel style="font-size: 16px" value="#{threads.replies.size()}"/> 
                         </p:column>
-                        <p:column style="text-align: center;width: 11%;height:40px" headerText="Votes" >
+                        <p:column style="text-align: center;width: 11%;height:40px" headerText="#{bundle['Votes']}" >
                             <h:outputLabel id="positiveThread" style="font-size:16px; font-weight: bold;" value="+#{threads.upVote - threads.downVote}" rendered="#{(threads.upVote - threads.downVote) gt 0}"/>
                             <h:outputLabel id="negativeThead" style="font-size:16px; font-weight: bold;" value="#{threads.upVote - threads.downVote}" rendered="#{(threads.upVote - threads.downVote) lt 0}"/>
                             <h:outputLabel id="zeroThread" style="font-size:16px; font-weight: bold;" value="0" rendered="#{(threads.upVote - threads.downVote) == 0}"/>
                         </p:column>
                     </p:dataTable>
-                </h:panelGroup>
+                    </h:panelGroup>
             </h:form>
             <br /><br />
 
