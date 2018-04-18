@@ -342,7 +342,7 @@ public class AnnouncementBean {
         facebook4j.conf.ConfigurationBuilder fac = new facebook4j.conf.ConfigurationBuilder();
         FacebookFactory ff = new FacebookFactory(fac.build());
         Facebook facebook = ff.getInstance();
-        String accessTokenString = "EAACEdEose0cBAONR4wnoJwBJq342hZA5bp3iNZACmzd7iVI06zpwzySQqdQcNXUxR7ahFErQ2pcZCjyMexh0MQGtmMmWj8lJaZBZAUdTnKPmN03dqWbdKKByyWwwk2j4E6AkLZCvLBFdaT6kddsxR2FIR37t02pdqmw3YXIzXEsXHU01Tc2eTj9x3vFmEO36xZBVb6c10UROTZBegVmtBmUc";
+        String accessTokenString = "EAACEdEose0cBAKlEVRBBIntA40mdFHoXvSrzmTPQzzUiWrBC9DYuOAyBah0DqAwut3pvHyRZB7eZBTFuxItPbFeiewSEoZC3VbZAA9YqAJE7LZAxebfYG7Klq8ZCl5IiojJZAPNvIeRiu3RflpVZCelOplZAhZBYYKdeTBZBTsLl8hLtnSztJUrD7NsMqM7XQsavHVB8wqZAZCoXIDbgDQKpCMJp2TtekaR4YJ1kZD";
         AccessToken at = new AccessToken(accessTokenString);
 
         facebook.setOAuthAppId("157056298269296", "a48488cd453b77ff317270433fbd16b2");
