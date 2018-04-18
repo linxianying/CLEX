@@ -57,8 +57,8 @@
                                 </p:commandButton>
                             </h:panelGrid>
                         </p:tab>
-                        <p:tab title="Your Announcements">
-                            <h1 style="margin-top:0">Your Announcements</h1>
+                        <p:tab title="#{bundle['YourAnnouncements']}">
+                            <h1 style="margin-top:0">#{bundle['YourAnnouncements']}</h1>
                             <h:panelGrid columns="1" cellpadding="10">
                                 <h:panelGrid id="panelOuter2" columns="2" width="100%">
                                     <p:dataList var="adminAnnouncementList" value="#{announcementBean.announcements}" id="adminAnncList">
@@ -111,8 +111,8 @@
                                 </h:panelGrid>
                             </h:panelGrid>
                         </p:tab>
-                        <p:tab title="Other Announcements">
-                            <h1 style="margin-top:0">Other Announcements</h1>
+                        <p:tab title="#{bundle['OtherAnnouncements']}">
+                            <h1 style="margin-top:0">#{bundle['OtherAnnouncements']}</h1>
                             <h:panelGrid columns="1" cellpadding="10">
                                 <h:panelGrid id="panelOuter3" columns="2" width="100%">
                                     <p:dataList var="otherAnnouncementList" value="#{announcementBean.announcements2}" id="otherAnncList">

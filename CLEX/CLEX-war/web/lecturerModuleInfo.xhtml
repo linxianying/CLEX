@@ -63,10 +63,10 @@
                                         rowsPerPageTemplate="6,12,16">
                                 <p:fieldset toggleable="true" collapsed="false" legend="#{student.name}">
                                     <h:panelGrid>
-                                        <h:outputLink value="#{bundle['MailTo']} :#{student.email}">
-                                            <h:outputText  style="color:black;font-weight:normal;" value="#{student.email}" />
-                                            <f:param name="#{bundle['subject']}" value="[PRISM]"/>
-                                            <f:param name="#{bundle['body']}" value="" />
+                                        <h:outputLink value="Mailto:#{student.email}">
+                            <h:outputText  style="color:black;font-weight:normal;" value="#{student.email}" />
+                                            <f:param name="subject" value="[PRISM_Admin]" />
+                            <f:param name="body" value="" />
                                         </h:outputLink>
 
                                         <h:outputText value="#{bundle['Faculty']}: #{student.faculty}" />
