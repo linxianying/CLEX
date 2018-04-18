@@ -7,6 +7,7 @@ package managedbeans;
 
 import entity.Lecturer;
 import entity.Module;
+import entity.PeerReviewAnswer;
 import entity.ProjectGroup;
 import entity.Student;
 import entity.SuperGroup;
@@ -19,6 +20,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import session.GroupFormationSessionBeanLocal;
+import session.PRAnswerSessionBeanLocal;
+import session.PRQuestionSessionBeanLocal;
 
 /**
  *
@@ -29,7 +32,10 @@ import session.GroupFormationSessionBeanLocal;
 public class LecturerPRBean implements Serializable {
     @EJB
     private GroupFormationSessionBeanLocal gfsbl;
-    
+    @EJB
+    private PRAnswerSessionBeanLocal prasbl;
+    @EJB
+    private PRQuestionSessionBeanLocal prqsbl;
     public LecturerPRBean() {
     }
     
@@ -42,6 +48,8 @@ public class LecturerPRBean implements Serializable {
     private SuperGroup superGroup;
     private Collection<ProjectGroup> groups;
     private Collection<Student> students;
+    private Collection<Student> filteredstudents;
+    private PeerReviewAnswer answers;
     
     @PostConstruct
     public void init() {
@@ -56,6 +64,25 @@ public class LecturerPRBean implements Serializable {
         students = module.getStudents();
     }
 
+    
+    
+    public String checkStudentGroup(Student student) {
+        return gfsbl.checkStudentGroup(student.getId(), superGroup.getId());
+    }
+    
+    public boolean checkStudentPRFormSubmit(Student student) {
+        return prasbl.checkPRFormSubmit(student, module);
+    }
+    
+    public void goViewPR(Student student) {
+        answers = prasbl.getPRAnswer(module, student);
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+        session.setAttribute("managedStudent", student);
+        session.setAttribute("managedPRAnswer", answers);
+    }
+    
+    
     public GroupFormationSessionBeanLocal getGfsbl() {
         return gfsbl;
     }
@@ -126,6 +153,14 @@ public class LecturerPRBean implements Serializable {
 
     public void setStudents(Collection<Student> students) {
         this.students = students;
+    }
+
+    public Collection<Student> getFilteredstudents() {
+        return filteredstudents;
+    }
+
+    public void setFilteredstudents(Collection<Student> filteredstudents) {
+        this.filteredstudents = filteredstudents;
     }
     
     
