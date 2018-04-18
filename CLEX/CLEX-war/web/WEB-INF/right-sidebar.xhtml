@@ -38,7 +38,7 @@
                                                     <p:graphicImage rendered="#{profileBean.checkpic(privateMsgBean.getRcvrUsername(convo)) == true}"
                                                                     alt="#{profileBean.userEntity.name}" cache="false" 
                                                                     style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px"
-                                                                    value="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/resources/profile/#{privateMsgBean.getRcvrUsername(convo)}.png"/>
+                                                                    value="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/serverfiles/profile/#{privateMsgBean.getRcvrUsername(convo)}.png"/>
                                                     <p:graphicImage rendered="#{profileBean.checkpic(privateMsgBean.getRcvrUsername(convo)) == false}"
                                                                     cache="false" library="profile"
                                                                     style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px" 
@@ -75,7 +75,7 @@
                                             <p:graphicImage rendered="#{profileBean.checkpic(privateMsgBean.rcvUsername) == true}"
                                                             alt="#{profileBean.userEntity.name}" cache="false" 
                                                             style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px"
-                                                            value="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/resources/profile/#{privateMsgBean.rcvUsername}.png"/>
+                                                            value="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/serverfiles/profile/#{privateMsgBean.rcvUsername}.png"/>
                                             <p:graphicImage rendered="#{profileBean.checkpic(privateMsgBean.rcvUsername) == false}"
                                                             cache="false" library="profile"
                                                             style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px" 
