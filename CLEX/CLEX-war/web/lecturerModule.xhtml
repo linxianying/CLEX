@@ -22,6 +22,8 @@
                 <p:tab title="#{bundle['MANAGECURRENTMODULE']}">
                     <p:dataTable var="module" value="#{lecturerModuleListBean.currentModules}" id="currentModules" rows="5"
                                  emptyMessage="#{bundle['noMod']}" 
+                                 scrollable="true"
+                                 
                                  paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} 
                                  {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
