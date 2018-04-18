@@ -168,8 +168,13 @@ public class LecturerMindmapBean implements Serializable {
 
     public void createSubNodes() {
         ArrayList<String> templist = new ArrayList<String>();
+        MindmapNode subnode;
         for (int i = 0; i < allfolders.size(); i++) {
-            MindmapNode subnode = new DefaultMindmapNode(allfolders.get(i), allfolders.get(i), "62f442", true);
+            if (allfolders.get(i).equals("Assignments")) {
+                subnode = new DefaultMindmapNode(allfolders.get(i), allfolders.get(i), "ff6666", true);
+            } else {
+                subnode = new DefaultMindmapNode(allfolders.get(i), allfolders.get(i), "ccff66", true);
+            }
             root.addNode(subnode);
             String path = session.getServletContext().getRealPath("/");
             int pathlength = path.length();
@@ -178,9 +183,19 @@ public class LecturerMindmapBean implements Serializable {
             path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/Materials/" + allfolders.get(i) + "/";
             path = path.replaceAll("\\\\", "/");
             templist = (ArrayList<String>) findFoldersInDirectory(path);
+            MindmapNode subsubnode;
             if (!templist.isEmpty()) {
                 for (int x = 0; x < templist.size(); x++) {
-                    MindmapNode subsubnode = new DefaultMindmapNode(templist.get(x), templist.get(x), "00acac", true);
+
+                    if (templist.get(x).equals("Lecture Notes")) {
+                        subsubnode = new DefaultMindmapNode(templist.get(x), templist.get(x), "62f442", true);
+                    } else if (templist.get(x).equals("Tutorial")) {
+                        subsubnode = new DefaultMindmapNode(templist.get(x), templist.get(x), "0099ff", true);
+                    } else if (templist.get(x).equals("Lab")) {
+                        subsubnode = new DefaultMindmapNode(templist.get(x), templist.get(x), "ff6600", true);
+                    } else {
+                        subsubnode = new DefaultMindmapNode(templist.get(x), templist.get(x), "0099ff", true);
+                    }
                     subnode.addNode(subsubnode);
                 }
             }

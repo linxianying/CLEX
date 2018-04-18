@@ -237,7 +237,34 @@ public class LecturerModuleListBean implements Serializable {
             //do nothing
         } else {
             Files.createDirectories(folder);
+            String path2 = path + "Assignments/";
+            Path folder2 = Paths.get(path2);
+            if (Files.exists(folder2)) {
+                //do nothing
+            } else {
+                Files.createDirectories(folder2);
+            }
+            for (int i = 1; i < 14; i++) {
+                String temppath = path + "Week " + Integer.toString(i) + "/";
+                Path tempfolder = Paths.get(temppath);
+                if (Files.exists(tempfolder)) {
+                    //do nothing
+                } else {
+                    Files.createDirectories(tempfolder);
+                    String lecture = temppath + "Lecture Notes/";
+                    String tutorial = temppath + "Tutorial/";
+                    String lab = temppath + "Lab/";
+                    Path tempfolder1 = Paths.get(lecture);
+                    Path tempfolder2 = Paths.get(tutorial);
+                    Path tempfolder3 = Paths.get(lab);
+                    Files.createDirectories(tempfolder1);
+                    Files.createDirectories(tempfolder2);
+                    Files.createDirectories(tempfolder3);
+                }
+            }
+
         }
+
         context.getExternalContext().redirect("lecturerMindmap.xhtml");
     }
 
