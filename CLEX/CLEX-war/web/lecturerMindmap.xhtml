@@ -13,21 +13,117 @@
 
     <ui:define name="content">
         <p:growl id="messages" />
-        <h:form>
-            
-            
-            <p:mindmap value="#{lecturerMindmapBean.root}" style="width: 100%;height: 600px;border: 1px solid black;">
-                <p:ajax event="select" listener="#{lecturerMindmapBean.onNodeSelect}" />
-                <p:ajax event="dblselect" listener="#{lecturerMindmapBean.onNodeDblselect}" update="output" oncomplete="PF('details').show();" />
-            </p:mindmap>
+        <p:outputPanel>
+            <h:form id="mindmapform">
+                <p:mindmap value="#{lecturerMindmapBean.root}" style="width: 80vw;height: 50vh;border: 1px solid black;">
+                    <p:ajax event="select" listener="#{lecturerMindmapBean.onNodeSelect}" update="messages, detailgroup"/>
+                </p:mindmap>
+                <p:dialog responsive="true" widgetVar="details" closable="true" closeOnEscape="true" 
+                          header="#{lecturerMindmapBean.selectedNode.data}" resizable="false" modal="true" showEffect="fade" hideEffect="fade">
+                    <h:outputText id="output" value="#{lecturerMindmapBean.selectedNode.data}" />
+                </p:dialog> 
+            </h:form>
+        </p:outputPanel>
+        <br />
+        <p:separator />
+        <p:outputPanel>
+            <h:panelGrid columns="2">
+                <h:form id="addfolderform">
+                    <h:outputLabel style="font-weight: bold" value="Add folder: " />
+                    <p:inputText style="width: 200x" placeholder="Folder Name" value="#{lecturerMindmapBean.newfoldername}"/>
+                    <p:commandButton icon="fa fa-plus" value="Add" actionListener="#{lecturerMindmapBean.createFolder}" update="removefolderform, mindmapform, @form"/>
+                </h:form>
+                <h:form id="removefolderform">
+                    <h:outputLabel style="font-weight: bold" value="Remove folder: " />
+                    <p:selectOneMenu required="true" title="Select a folder to delete."
+                                     id="folderlist" value="#{lecturerMindmapBean.selectedFolder}">
+                        <f:selectItems value="#{lecturerMindmapBean.allfolders}" />
+                    </p:selectOneMenu>   
+                    <p:commandButton actionListener="#{lecturerMindmapBean.removeFolder}" icon="fa fa-trash" update="addfolderform, mindmapform, @form, detailgroup">
+                        <p:confirm header="Delete #{lecturerMindmapBean.selectedFolder}" message="Deleted folder and all sub-folders and files inside cannot be recovered! Are you sure?" icon="ui-icon-alert" />
+                    </p:commandButton>
+                </h:form>
+                <h:form id="addassignmentform">
+                    <h:outputLabel style="font-weight: bold" value="Add Assigment: " />
+                    <p:inputText style="width: 200x" placeholder="Folder Name" value="#{lecturerMindmapBean.newfoldername}"/>
+                    <p:commandButton icon="fa fa-plus" value="Add" actionListener="#{lecturerMindmapBean.addAssignment}" update="deleteassignmentform, mindmapform, @form"/>
+                </h:form>
+                <h:form id="deleteassignmentform">
+                    <h:outputLabel style="font-weight: bold" value="Delete Assignment: " />
+                    <p:selectOneMenu required="true" title="Select an assignment to delete."
+                                     id="folderlist" value="#{lecturerMindmapBean.selectedFolder}">
+                        <f:selectItems value="#{lecturerMindmapBean.allAssignmentFolders}" />
+                    </p:selectOneMenu>   
+                    <p:commandButton actionListener="#{lecturerMindmapBean.removeAssignment}" icon="fa fa-trash" update="addassignmentform, mindmapform, @form, detailgroup">
+                        <p:confirm header="Delete #{lecturerMindmapBean.selectedFolder}" message="Deleted folder and all sub-folders and files inside cannot be recovered! Are you sure?" icon="ui-icon-alert" />
+                    </p:commandButton>
+                </h:form>
+            </h:panelGrid>
 
-            <p:dialog responsive="true" widgetVar="details" closable="true" closeOnEscape="true" 
-                      header="#{lecturerMindmapBean.selectedNode.data}" resizable="false" modal="true" showEffect="fade" hideEffect="fade">
-                <h:outputText id="output" value="#{lecturerMindmapBean.selectedNode.data}" />
-            </p:dialog> 
-        </h:form>
+
+            <h:panelGroup id="detailgroup">
+
+                <h:panelGroup rendered="#{not empty lecturerMindmapBean.listoffiles}">
+                    <p:separator />
+                    <h:panelGroup>
+                        <h:outputLabel style="font-weight: bold" value="Uploaded Files - #{lecturerMindmapBean.listoffiles.size()} " />
+                        <p:commandButton actionListener="#{lecturerMindmapBean.downloadAllFile}" icon="fa fa-download"/>
+                    </h:panelGroup>
+
+                    <br /> <br />
+                    <ui:repeat value="#{lecturerMindmapBean.listoffiles}" var="file">
+                        <h:outputLabel value="#{file}" />
+                        <h:panelGroup>
+                            <p:commandButton actionListener="#{lecturerMindmapBean.downloadFile(file)}" icon="fa fa-download"/>
+                            <p:commandButton actionListener="#{lecturerMindmapBean.deleteFile(file)}" icon="fa fa-trash" update="detailgroup">
+                                <p:confirm header="Delete #{file}" message="Deleted files cannot be recovered! Are you sure?" icon="ui-icon-alert" />
+                            </p:commandButton>
+                        </h:panelGroup>
+                        <br />
+                    </ui:repeat>
+                </h:panelGroup>
 
 
+                <h:panelGroup rendered="#{not empty lecturerMindmapBean.submittedfiles}">
+                    <p:separator/>
+                    <h:panelGroup>
+                        <h:outputLabel style="font-weight: bold" value="Submitted Files - #{lecturerMindmapBean.submittedfiles.size()} " />
+                    </h:panelGroup>
+
+                    <br /> <br />
+                    <ui:repeat value="#{lecturerMindmapBean.submittedfiles}" var="file2">
+                        <h:outputLabel value="#{file2}" />
+                        <h:panelGroup>
+                            <p:commandButton actionListener="#{lecturerMindmapBean.downloadFile(file2)}" icon="fa fa-download"/>  
+                            <p:commandButton actionListener="#{lecturerMindmapBean.deleteFile(file2)}" icon="fa fa-trash" update="detailgroup">
+                                <p:confirm header="Delete #{file2}" message="Deleted files cannot be recovered! Are you sure?" icon="ui-icon-alert" />
+                            </p:commandButton>
+                        </h:panelGroup>
+                        <br />
+                    </ui:repeat>
+                </h:panelGroup>
+
+                
+                <h:panelGroup>
+                    <p:separator/>
+                    <h:panelGroup 
+                        rendered="#{lecturerMindmapBean.selectedNode.children.size() eq 0 and lecturerMindmapBean.selectedNode.parent ne null and lecturerMindmapBean.selectedNode.label ne 'Submissions'}">
+                        <h:outputLabel style="font-weight: bold" value="Upload new file (Up to 10 at once)" />
+                        <br /> <br />
+                        <h:form>
+                            <p:fileUpload fileUploadListener="#{lecturerMindmapBean.handleFileUpload}" mode="advanced" dragDropSupport="true"
+                                          multiple="true" update="messages, @form, detailgroup" fileLimit="10"/>
+                            <p:growl id="messages" showDetail="true" />
+                        </h:form>
+                    </h:panelGroup>
+
+                </h:panelGroup>
+            </h:panelGroup>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </p:outputPanel>
 
 
         <h:form id="initializePageDataForm">
