@@ -77,13 +77,13 @@
                     </pp:menu>
                     
                     <div class="layout-menu-footer">
-                        <span class="layout-menu-footer-title">Tasks Overview</span>
+                        <span class="layout-menu-footer-title">#{bundle['taskOverview']}</span>
                         
                         <p:progressBar value="#{toDoTimelineBean.showDailyTaskOverview()}" labelTemplate="" displayOnly="true"/>
-                        Today
+                        #{bundle['Today']}
                         
                         <p:progressBar value="#{toDoTimelineBean.showTaskOverview()}" labelTemplate=""  displayOnly="true"/>
-                        Overall
+                        #{bundle['Overall']}
                     </div>
                     
                 </div>

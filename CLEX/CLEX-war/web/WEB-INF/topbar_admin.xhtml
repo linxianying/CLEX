@@ -78,8 +78,8 @@
                             <a href="#" onclick="PF('unlockDlg').show();">
                                 <i class="fa fa-fw fa-lock"></i>
                                 <span>#{bundle['lockScreen']}</span>
-                                <p:confirmDialog message="Your Screen is now locked." widgetVar="unlockDlg" global="true" showEffect="fade" hideEffect="fade">
-                                    <p:commandButton value="Unlock" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-unlocked" onclick="PF('unlockDlg').hide();"/>
+                                <p:confirmDialog message="#{bundle['isLocked']}" widgetVar="unlockDlg" global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="#{bundle['unlock']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-unlocked" onclick="PF('unlockDlg').hide();"/>
                                 </p:confirmDialog>
                             </a>
                         </li>
@@ -106,13 +106,13 @@
                         <br/>
                         <p:dataList var="annc" value="#{announcementBean.announcements}">
                             <button type="button" disabled="disabled" class="anncBox">
-                                <h:outputText value="#{annc.type} posted a new announcement:" />
+                                <h:outputText value="#{annc.type} #{bundle['postAnn']}" />
                                 <br/>
                                 <h:outputText style="font-weight:bold; text-transform:uppercase;" value="#{annc.title}" />
                                 <br/><br/>
                                 <h:outputText value="#{annc.message}" />
                                 <br/><br/>
-                                <h:outputText value="by: #{annc.getUser().getName()}" />
+                                <h:outputText value="#{bundle['announcer']} #{annc.getUser().getName()}" />
                                 <br/>
                                 <h:outputText value="#{annc.createdDate}" />
                                 <br/>
