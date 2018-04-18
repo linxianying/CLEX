@@ -97,8 +97,8 @@ public class indexBean {
         csbl.createStudent("brucebanner", "123456", "Bruce Banner", "A0123452B","brucebanner@prism.com", "NUS", 90000002L, genSalt(), "SOC", "IS","2015", "1", 0.0);
         csbl.createStudent("steverogers", "123456", "Steve Rogers", "A0123453C","steverogers@prism.com", "NUS", 90000003L, genSalt(), "SOC", "CS","2015", "2", 0.0);
         csbl.createStudent("tonystark", "123456", "Tony Stark", "A0123454D","tonystark@prism.com", "NUS", 90000004L, genSalt(), "SOC", "IS","2015", "1", 0.0);
-        csbl.createStudent("nickfury", "123456", "Thor", "A0123455E","nickfury@prism.com", "NUS", 90000005L, genSalt(), "SOC", "CS","2015", "2", 0.00);
-        csbl.createStudent("joseph", "123456", "Joseph", "A0123456F","e0011012@u.nus.edu", "NUS", 90000006L, genSalt(), "SOC", "IS","2015", "1", 0.00);
+        csbl.createStudent("nickfury", "123456", "Nick Fury", "A0123455E","nickfury@prism.com", "NUS", 90000005L, genSalt(), "SOC", "CS","2015", "2", 0.00);
+        csbl.createStudent("joseph", "123456", "Joseph Chan", "A0123456F","e0011012@u.nus.edu", "NUS", 90000006L, genSalt(), "SOC", "IS","2015", "1", 0.00);
         csbl.createStudent("wenjie", "123456", "Wu Wenjie", "A0123457G","e0003941@u.nus.edu", "NUS", 90000007L, genSalt(), "SOC", "CS","2016", "1", 0.00);
         csbl.createStudent("jeffrey", "123456", "Jeffrey Foo", "A0123458H","e0003912@u.nus.edu", "NUS", 90000008L, genSalt(), "SOC", "BA","2016", "2", 0.00);
         csbl.createStudent("caoyuu", "123456", "Cao Yu", "A0123459I","	e0012696@u.nus.edu", "NUS", 90000009L, genSalt(), "SOC", "IS","2016", "1", 0.00);
