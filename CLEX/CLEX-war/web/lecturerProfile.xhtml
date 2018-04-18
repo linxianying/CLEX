@@ -10,7 +10,7 @@
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
     <ui:define name="title">PRISM Lecturer Profile Page</ui:define>
 
-    <ui:define name="viewname">Profile</ui:define>
+    <ui:define name="viewname">#{bundle['Profile']}</ui:define>
 
     <ui:define name="content">
         <f:event type="preRenderView" listener="#{profileBean.setNoCache}" />
@@ -97,19 +97,19 @@
                                 <f:selectItems value="#{profileBean.facultylist}" />
                             </p:selectOneMenu>
                         </p:panelGrid>
-                        <p:commandButton value="Save Profile Details" actionListener="#{profileBean.editLecturerProfile}" id="editBasicButton" update="messages" >
-                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                        <p:commandButton value="#{bundle['saveProfile']}" actionListener="#{profileBean.editLecturerProfile}" id="editBasicButton" update="messages" >
+                            <p:confirm header="#{bundle['Confirmation']}" message="#{bundle['sure']}" icon="ui-icon-alert" />
                         </p:commandButton>
                         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                            <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            <p:commandButton value="#{bundle['yes']}" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="#{bundle['no']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                         </p:confirmDialog>
 
                     </div>
                 </h:form>
 
                 <div class="card card-w-title">
-                    <h1>Change Password</h1>
+                    <h1>#{bundle['ChangePassword']}</h1>
                     <h:form >
                         <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
                             <span>Current Password</span>
@@ -124,12 +124,12 @@
                             </p:password>
 
                         </p:panelGrid>
-                        <p:commandButton value="Change Password" actionListener="#{profileBean.editPassword}" id="editPasswordButton" update="messages">
-                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                        <p:commandButton value="#{bundle['ChangePassword']}" actionListener="#{profileBean.editPassword}" id="editPasswordButton" update="messages">
+                            <p:confirm header="#{bundle['Confirmation']}" message="#{bundle['sure']}" icon="ui-icon-alert" />
                         </p:commandButton>
                         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                            <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            <p:commandButton value="#{bundle['yes']}" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="#{bundle['no']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                         </p:confirmDialog>
                     </h:form>             
                 </div>

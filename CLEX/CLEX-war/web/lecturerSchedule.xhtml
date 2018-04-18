@@ -7,7 +7,7 @@
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="title">PRISM Lecturer Schedule Page</ui:define>
 
-    <ui:define name="viewname">Schedule</ui:define>
+    <ui:define name="viewname">#{bundle['schedule']}</ui:define>
     
     <ui:define name="content">
         
@@ -24,7 +24,7 @@
             
             
             <h:panelGrid id="cal" columnClasses="value">
-                <h3 style="margin-top: 0">Schedule</h3>
+                <h3 style="margin-top: 0">#{bundle['schedule']}</h3>
                 <p:outputPanel style=" margin-bottom: 20px;">
                     <p:schedule style="float: left; width: 75%" id="schedule" value="#{scheduleBean.eventModel}" widgetVar="myschedule" timeZone="GMT+8">
                         <p:ajax event="dateSelect" listener="#{scheduleBean.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
@@ -33,21 +33,21 @@
                         <p:ajax event="eventResize" listener="#{scheduleBean.onEventResize}" update="messages" />
                     </p:schedule>
                     
-                    <p:commandButton value="Print" type="button" icon="ui-icon-print" style="margin-bottom: 20px; float: right">
+                    <p:commandButton value="#{bundle['Print']}" type="button" icon="ui-icon-print" style="margin-bottom: 20px; float: right">
                         <p:printer target="cal" />
                     </p:commandButton>
                     
-                    <p:commandButton value="Reset" actionListener="#{scheduleBean.reset()}" style="margin-left:10px; float: left" action="lecturerSchedule?faces-redirect=true">
-                        <p:confirm header="Confirmation" 
-                                   message="Are you sure you want to reset the schedule? This action will delete all your timeslots."
+                    <p:commandButton value="#{bundle['reset']}" actionListener="#{scheduleBean.reset()}" style="margin-left:10px; float: left" action="lecturerSchedule?faces-redirect=true">
+                        <p:confirm header="#{bundle['Confirmation']}" 
+                                   message="#{bundle['sure']}"
                                    icon="ui-icon-alert" />
                     </p:commandButton>
                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        <p:commandButton value="#{bundle['yes']}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="#{bundle['no']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                     </p:confirmDialog>
                     <div class="task-list">
-                        <p:panel header="Coming Events" style="float: right; width: 24%; min-height:150px;">
+                        <p:panel header="#{bundle['Coming Events']}" style="float: right; width: 24%; min-height:150px;">
                             
                             <p:dataList id="toDoList" var="todo" value="#{scheduleBean.timeslots}">
                                 <ul>
@@ -66,27 +66,27 @@
                 </p:outputPanel>
             </h:panelGrid>
 
-            <p:dialog widgetVar="eventDialog" header="Event Details" showEffect="clip" hideEffect="clip">
+            <p:dialog widgetVar="eventDialog" header="#{bundle['Event Details']}" showEffect="clip" hideEffect="clip">
                 <h:panelGrid id="eventDetails" columns="2">
-                    <p:outputLabel for="title" value="Titles:" />
+                    <p:outputLabel for="title" value="#{bundle['Title']}:" />
                     <p:inputText id="title" value="#{scheduleBean.event.title}" required="true" />
 
-                    <p:outputLabel for="from" value="From:" />
+                    <p:outputLabel for="from" value="#{bundle['From']}:" />
                     <p:calendar id="from" value="#{scheduleBean.event.startDate}" timeZone="GMT+8" pattern="dd/MM/yyyy HH:mm"/>
 
-                    <p:outputLabel for="to" value="To:" />
+                    <p:outputLabel for="to" value="#{bundle['To']}:" />
                     <p:calendar id="to" value="#{scheduleBean.event.endDate}" timeZone="GMT+8" pattern="dd/MM/yyyy HH:mm"/>
 
-                    <p:outputLabel for="details" value="Details:" />
+                    <p:outputLabel for="details" value="#{bundle['Details']}:" />
                     <p:inputText id="details" value="#{scheduleBean.event.description}" required="false" />
 
-                    <p:outputLabel for="venue" value="Venue:" />
+                    <p:outputLabel for="venue" value="#{bundle['Venue']}:" />
                     <p:inputText id="venue" value="#{scheduleBean.venue}" required="false" />
 
-                    <p:commandButton id="deleteButton" value="delete" actionListener="#{scheduleBean.deleteEvent}" 
+                    <p:commandButton id="deleteButton" value="#{bundle['Delete']}" actionListener="#{scheduleBean.deleteEvent}" 
                                      oncomplete="PF('myschedule').update();PF('eventDialog').hide();"
                                      update="toDoList"/>
-                    <p:commandButton style="float: right" id="addButton" value="Save" actionListener="#{scheduleBean.addEvent}" 
+                    <p:commandButton style="float: right" id="addButton" value="#{bundle['Save']}" actionListener="#{scheduleBean.addEvent}" 
                                      oncomplete="PF('myschedule').update();PF('eventDialog').hide();" 
                                      update="toDoList"/>
                     
@@ -96,7 +96,7 @@
         </h:form>
         <h:form id="formFileUpload" enctype="multipart/form-data">
 
-            <p:panel header="ICS File Upload">
+            <p:panel header="#{bundle['icsUpload']}">
 
                 <p:growl id="msg"></p:growl>
                 <p:fileUpload   fileUploadListener="#{scheduleBean.handleFileUpload}" 

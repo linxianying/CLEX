@@ -21,20 +21,20 @@
                 <p:growl id="messages" showDetail="true" />
                 <p:tabView>
                     <p:tab title="#{bundle['CreateAnnouncement']}">
-                        <h1 style="margin-top:0">Create announcement:</h1>
+                        <h1 style="margin-top:0">#{bundle['CreateAnnouncement']}</h1>
                         <h:panelGrid id="pGrid" columns="1" cellpadding="5" style="align: left">
 
                             <p:inputText title="#{bundle['AnnouncementTitle']}"
-                                         placeholder="title"
+                                         placeholder="#{bundle['Title']}"
                                          id="title" value="#{announcementBean.title}" 
                                          maxlength="80" >
                             </p:inputText>    
 
                             <p:inputTextarea id="message" value="#{announcementBean.message}"
                                              title="#{bundle['AnnouncementBody']}"
-                                             placeholder="message" 
+                                             placeholder="#{bundle['Message']}" 
                                              rows="4" cols="30" counter="display" maxlength="300" 
-                                             counterTemplate="{0} characters remaining." autoResize="true" />
+                                             counterTemplate="{0} #{bundle['char']}" autoResize="true" />
 
                             <h:outputText id="display" />
 
@@ -49,7 +49,7 @@
                             <p:tooltip id="toolTipTitle" for="title" showEvent="focus" hideEvent="blur" position="right" showEffect="clip" />
                             <p:tooltip id="toolTipMsg" for="message" showEvent="focus" hideEvent="blur" position="right" showEffect="clip" />
 
-                            <p:commandButton id="submitButton" update="@form" value="Submit" 
+                            <p:commandButton id="submitButton" update="@form" value="#{bundle['submit']}" 
                                              action="lecturerMain?faces-redirect=true"
                                              actionListener="#{announcementBean.enterAnnouncement}" >
                             </p:commandButton>
@@ -67,23 +67,23 @@
                                                 <h:outputText value="#{lectAnnouncementList.createdDate}" />
                                                 <h:outputText value="#{bundle['Title']}:" />
                                                 <p:inputText title="#{bundle['Title']}"
-                                                             placeholder="title"
+                                                             placeholder="#{bundle['Title']}"
                                                              id="title2" value="#{lectAnnouncementList.title}" 
                                                              maxlength="80" >
                                                 </p:inputText>    
                                                 <h:outputText value="#{bundle['Message']}:" />
                                                 <p:inputTextarea id="message2" value="#{lectAnnouncementList.message}"
                                                                  title="#{bundle['AnnouncementBody']}"
-                                                                 placeholder="message" 
+                                                                 placeholder="#{bundle['Message']}" 
                                                                  rows="4" cols="30" counter="display" maxlength="300" 
-                                                                 counterTemplate="{0} characters remaining." autoResize="true"/>
+                                                                 counterTemplate="{0} #{bundle['char']}" autoResize="true"/>
                                                 <br></br>
                                                 <h:outputText id="display" />
                                                 <h:outputText value="#{bundle['Recipient']}:" />
                                                 <p:selectOneMenu styleClass="textInput" 
                                                                  title="#{bundle['plzDe']}"
                                                                  id="modCode" value="#{lectAnnouncementList.type}" 
-                                                                 editable="false" disabled="true" placeholder="recipients">
+                                                                 editable="false" disabled="true" placeholder="#{bundle['Recipient']}">
                                                     <f:selectItem itemLabel="#{bundle['selectMod']}" itemValue="" />
                                                     <f:selectItems value="#{lecturerModuleListBean.moduleCodes}" />
                                                 </p:selectOneMenu>  
