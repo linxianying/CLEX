@@ -14,10 +14,10 @@
         <p:growl id="messages" showDetail="true" />
         <h3>Submitted Peer Review Forms for Module #{lecturerPRBean.module.course.moduleCode}</h3>
         <p:tabView id="tab">
-            <p:tab id="individual" title="By Individual">
+            <p:tab id="individual" title="Individual">
                 <h:form id="indForm">
                     <p:dataTable var="student" value="#{lecturerPRBean.students}" id="studentGroupTable" widgetVar="studentGroupTable" 
-                                 emptyMessage="No students for this module." paginator="true" paginatorPosition="bottom" rows="15"
+                                 emptyMessage="No students found for this module." paginator="true" paginatorPosition="bottom" rows="15"
                                  filteredValue="#{lecturerPRBean.filteredstudents}"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="10,20,50">
@@ -27,18 +27,18 @@
                                 <p:inputText id="globalFilter" onkeyup="PF('studentGroupTable').filter()" style="width:150px" placeholder="Enter keyword" />
                             </p:outputPanel>
                         </f:facet>  
-                        <p:column filterBy="#{student.studentId}" sortBy="#{student.studentId}" headerText="Student-ID" filterMatchMode="contains">
+                        <p:column style="text-align: center" filterBy="#{student.studentId}" sortBy="#{student.studentId}" headerText="Student-ID" filterMatchMode="contains">
                             <h:outputText value="#{student.studentId}" />
                         </p:column>
-                        <p:column filterBy="#{student.name}" sortBy="#{student.name}" headerText="Student-Name" filterMatchMode="contains">
+                        <p:column style="text-align: center" filterBy="#{student.name}" sortBy="#{student.name}" headerText="Student-Name" filterMatchMode="contains">
                             <h:outputText value="#{student.name}" />
                         </p:column>
-                        <p:column filterBy="#{lecturerPRBean.checkStudentGroup(student)}" sortBy="#{lecturerPRBean.checkStudentGroup(student)}" headerText="Group" filterMatchMode="exact">
+                        <p:column style="text-align: center" filterBy="#{lecturerPRBean.checkStudentGroup(student)}" sortBy="#{lecturerPRBean.checkStudentGroup(student)}" headerText="Group" filterMatchMode="exact">
                             <h:outputText value="#{lecturerPRBean.checkStudentGroup(student)}" />
                         </p:column>
-                        <p:column  headerText="Peer Review Form">
-                            <h:outputText value="No form submitted" rendered="#{!lecturerPRBean.checkStudentPRFormSubmit(student)}"/>
-                            <p:commandButton value="View submitted form" rendered="#{lecturerPRBean.checkStudentPRFormSubmit(student)}"
+                        <p:column style="text-align: center" headerText="Peer Review Form">
+                            <h:outputText value="No form has been submitted!" rendered="#{!lecturerPRBean.checkStudentPRFormSubmit(student)}"/>
+                            <p:commandButton icon="fa fa-search" value="View submitted form" rendered="#{lecturerPRBean.checkStudentPRFormSubmit(student)}"
                                              actionListener="#{lecturerPRBean.goViewPR(student)}" action="lecturerViewPRResult?faces-redirect=true"/>
                         </p:column>
                     </p:dataTable>

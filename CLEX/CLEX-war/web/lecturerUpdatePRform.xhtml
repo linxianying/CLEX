@@ -126,7 +126,7 @@
                             <f:selectItem itemLabel="10" itemValue="10"/>
                         </p:selectOneMenu>
                     </p:outputPanel>
-                    <p:commandButton value="Add" icon="fa fa-plus" actionListener="#{lecturerPRFormBean.addQuestion()}" update="tab:individual tab:group messages"/>
+                    <p:commandButton value="Add" icon="fa fa-plus" actionListener="#{lecturerPRFormBean.addQuestion()}" update="tab:individual tab:group, newQuestion, messages"/>
                     <br/>
                 </h:form>
                 <br/>
@@ -181,7 +181,7 @@
                 <br/>
                 
                 <br/>
-                <h:outputText value="No group question created now" rendered="#{empty lecturerPRFormBean.groupQuestions}"/>
+                <h:outputText value="No group questions created" rendered="#{empty lecturerPRFormBean.groupQuestions}"/>
                 <p:dataTable var="grQuestion" value="#{lecturerPRFormBean.groupQuestions}" rowIndexVar="grIndex" style="margin-bottom:20px" >
                     <f:facet name="header">
                         Group-related Question

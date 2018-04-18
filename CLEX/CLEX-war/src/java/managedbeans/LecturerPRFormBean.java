@@ -84,7 +84,7 @@ public class LecturerPRFormBean implements Serializable{
         groupQuestions = question.getGroupQuestions();
         title = question.getTitle();
         deadline = question.getDeadline();
-        hasDeadline = "No";
+        hasDeadline = "no";
         System.out.println("lecturerPRFormBean Finish init");
         
     }
@@ -114,6 +114,9 @@ public class LecturerPRFormBean implements Serializable{
             question = module.getPeerReviewQuestion();
             individualQuestions = question.getIndividualQuestions();
             groupQuestions = question.getGroupQuestions();
+            addQuestion = "";
+            addType = "";
+            questionType = "";
         }
     }
     
