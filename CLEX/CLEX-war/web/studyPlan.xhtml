@@ -205,7 +205,7 @@
                                             </f:facet>
 
                                             <p:column headerText="#{bundle['modCode']}">
-                                                <p:commandLink action="studyPlan?faces-redirect=false" id="modulecode" >
+                                                <p:commandLink action="studyPlan?faces-redirect=false" id="modulecode" actionListener="#{studyPlanBean.getModuleInfo(module)}">
                                                     <h:outputText value="#{module.course.moduleCode}" />
                                                 </p:commandLink>
                                                 <p:commandButton style="color:black; background: transparent; float:right" icon="ui-icon-trash" id="deleteStudyPlan-button" >
@@ -301,13 +301,13 @@
                                                                  rows="10" cols="50" readonly="true" autoResize="false"> 
                                                 </p:inputTextarea>
                                                 <h:outputText value="#{bundle['workload']}:" />
-                                                <h:outputText value="#{studyPlanBean.showWorkload}" />
+                                                <h:outputText value="#{studyPlanBean.showModule.course.workload}" />
                                                 <h:outputText value="#{bundle['prerequisite']}:" />
-                                                <p:inputTextarea value="#{studyPlanBean.showPrerequisite}" style="border-width: 0px;"
+                                                <p:inputTextarea value="#{studyPlanBean.showModule.prerequisite}" style="border-width: 0px;"
                                                                  rows="2" cols="50" readonly="true" autoResize="true"> 
                                                 </p:inputTextarea>
                                                 <h:outputText value="#{bundle['Preclusion']}:" />
-                                                <p:inputTextarea value="#{studyPlanBean.showPreclusions}" style="border-width: 0px;"
+                                                <p:inputTextarea value="#{studyPlanBean.showModule.preclusions}" style="border-width: 0px;"
                                                                  rows="2" cols="50" readonly="true" autoResize="true"> 
                                                 </p:inputTextarea>
                                                 <!--EDITED HERE-->
@@ -366,7 +366,7 @@
 
                                                     <p:column style="min-width:100px" headerText="#{bundle['modCode']}">
 
-                                                        <p:commandLink action="studyPlan?faces-redirect=false" actionListener="#{studyPlanBean.getTakenModuleInfo(grade.module)}" value="#{grade.module.course.moduleCode}"
+                                                        <p:commandLink action="studyPlan?faces-redirect=false" actionListener="#{studyPlanBean.getModuleInfo(grade.module)}" value="#{grade.module.course.moduleCode}"
                                                                        id="modulecode" onclick="PF('infooverlay').show()" update="tab:infoform"/> 
                                                         <p:commandButton style="color:black; background: transparent; float:right" icon="ui-icon-trash" id="deleteStudyPlan-button" update="tab:reporttab" >
                                                             <p:ajax update="tab:modulesTaken" listener="#{studyPlanBean.deleteGrade(grade)}" />
