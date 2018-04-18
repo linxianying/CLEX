@@ -44,24 +44,34 @@
                         <br />
                     </ui:repeat>
                 </h:panelGroup>
-                <p:separator rendered="#{not empty studentMindmapBean.listoffiles}"/>
-                <h:panelGroup rendered="#{not empty studentMindmapBean.submittedfiles}">
-                    <h:panelGroup>
-                        <h:outputLabel style="font-weight: bold" value="Submitted Files - #{studentMindmapBean.submittedfiles.size()} " />
-                    </h:panelGroup>
+                <p:separator rendered="#{not empty studentMindmapBean.listoffiles}" />
+                <h:panelGroup>
 
-                    <br /> <br />
-                    <ui:repeat value="#{studentMindmapBean.submittedfiles}" var="file2">
-                        <h:outputLabel value="#{file2}" />
-                        <h:panelGroup>
-                            <p:commandButton actionListener="#{studentMindmapBean.downloadFile(file2)}" icon="fa fa-download"/>  
-                            <p:commandButton actionListener="#{studentMindmapBean.deleteFile(file2)}" icon="fa fa-trash" update="detailgroup">
-                                <p:confirm header="Delete #{file2}" message="Deleted files cannot be recovered! Are you sure?" icon="ui-icon-alert" />
-                            </p:commandButton>
-                        </h:panelGroup>
+                    <h:panelGroup rendered="#{empty studentMindmapBean.submittedfiles and studentMindmapBean.selectedNode.parent.label eq 'Assignments'}">
+                        <h:outputLabel value="You have not submitted any files!" />
                         <br />
-                    </ui:repeat>
+                        <p:separator/>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{not empty studentMindmapBean.submittedfiles}">
+                        <h:panelGroup>
+                            <h:outputLabel style="font-weight: bold" value="Submitted Files - #{studentMindmapBean.submittedfiles.size()} " />
+                        </h:panelGroup>
+
+                        <br /> <br />
+                        <ui:repeat value="#{studentMindmapBean.submittedfiles}" var="file2">
+                            <h:outputLabel value="#{file2}" />
+                            <h:panelGroup>
+                                <p:commandButton actionListener="#{studentMindmapBean.downloadFile(file2)}" icon="fa fa-download"/>  
+                                <p:commandButton actionListener="#{studentMindmapBean.deleteFile(file2)}" icon="fa fa-trash" update="detailgroup">
+                                    <p:confirm header="Delete #{file2}" message="Deleted files cannot be recovered! Are you sure?" icon="ui-icon-alert" />
+                                </p:commandButton>
+                            </h:panelGroup>
+                            <br />
+                        </ui:repeat>
+                    </h:panelGroup>
                 </h:panelGroup>
+
+
                 <p:separator rendered="#{not empty studentMindmapBean.submittedfiles}"/>
                 <h:panelGroup>
                     <h:panelGroup rendered="#{studentMindmapBean.checkAsignmentSubmission()}">

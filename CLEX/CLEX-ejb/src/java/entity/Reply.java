@@ -35,7 +35,7 @@ public class Reply implements Serializable {
     @Column(length = 32, nullable = false)
     private String dateTime;
     
-    @Column(length = 256, nullable = false)
+    @Column(length = 8000, nullable = false)
     private String content;
     
     @Column(length = 32, nullable = false)
