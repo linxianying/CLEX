@@ -21,8 +21,8 @@
                         <h:form id="createForm">
                             <h:panelGrid columns="1">
                                 <h:panelGrid columns="2">
-                                    <h:outputLabel for="tag2" value="Tags: " />
-                                    <p:selectOneMenu title="Select a tag from the list (Optional)"
+                                    <h:outputLabel for="tag2" value="#{bundle['Tags']}: " />
+                                    <p:selectOneMenu title="#{bundle['selectTag']}"
                                                      value="#{forumListBean.tTag}" required="false"
                                                      id="tag" >
                                         <f:selectItem itemLabel="#{bundle['General']}" itemValue="general" />
@@ -71,13 +71,13 @@
                         </h:form>
                     </p:overlayPanel>
                 </p:commandButton>
-                <p:commandButton value="Search" id="searchButton" icon="fa fa-search" >
+                <p:commandButton value="#{bundle['Search']}" id="searchButton" icon="fa fa-search" >
                     <p:overlayPanel dynamic="true" id="searchthreadwidget" for="searchButton" showEffect="fade" hideEffect="fade" widgetVar="searchWidget">
                         <h:form id="searchForm">
                             <h:panelGrid columns="1">
                                 <h:panelGrid columns="2">
-                                    <h:outputLabel for="tag2" value="Tags: " />
-                                    <p:selectOneMenu title="Select a tag from the list (Optional)"
+                                    <h:outputLabel for="tag2" value="#{bundle['Tags']}: " />
+                                    <p:selectOneMenu title="#{bundle['selectTag']}"
                                                      value="#{forumListBean.searchTag}" required="false"
                                                      id="tag2" >
                                         <f:selectItem itemLabel="#{bundle['Optional']}" itemValue=" " />
@@ -92,15 +92,15 @@
                                     </p:selectOneMenu>
                                 </h:panelGrid>
                                 <br />
-                                <p:inputTextarea rows="1" cols="50" title="Title" placeholder="Thread Title" id="searchtitle" value="#{forumListBean.searchTitle}"/>                                    
+                                <p:inputTextarea rows="1" cols="50" title="#{bundle['Title']}" placeholder="Thread Title" id="searchtitle" value="#{forumListBean.searchTitle}"/>                                    
                                 <br />
-                                <p:inputTextarea rows="5" cols="50" title="Content" placeholder="Thread Content" id="searchcontent" value="#{forumListBean.searchContent}" />
+                                <p:inputTextarea rows="5" cols="50" title="#{bundle['Content']}" placeholder="Thread Content" id="searchcontent" value="#{forumListBean.searchContent}" />
 
                             </h:panelGrid>
                             <p:spacer/>
                             <br />
-                            <p:commandButton id="searchthread" oncomplete="PF('searchWidget').hide()" icon="fa fa-search-plus" value="Search Thread" actionListener="#{forumListBean.searchThread}" update="communityTab:forumForm, messages, communityTab:searchForm"/>
-                            <p:commandButton id="clearsearchthread" oncomplete="PF('searchWidget').hide()" icon="fa fa-search-minus" value="Clear Search" actionListener="#{forumListBean.refresh()}" update="communityTab:forumForm, messages, communityTab:searchForm" />
+                            <p:commandButton id="searchthread" oncomplete="PF('searchWidget').hide()" icon="fa fa-search-plus" value="#{bundle['SearchThread']}" actionListener="#{forumListBean.searchThread}" update="communityTab:forumForm, messages, communityTab:searchForm"/>
+                            <p:commandButton id="clearsearchthread" oncomplete="PF('searchWidget').hide()" icon="fa fa-search-minus" value="#{bundle['ClearSearch']}" actionListener="#{forumListBean.refresh()}" update="communityTab:forumForm, messages, communityTab:searchForm" />
 
                         </h:form>
                     </p:overlayPanel>
