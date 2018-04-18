@@ -21,20 +21,20 @@
                
             <p:growl id="messages" showDetail="true" />
             <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
-                <span>Question</span>
+                <span>#{bundle['Question']}</span>
                 <h:outputText value="#{pollingBean.poll.content} " />
-                <span>Answer</span>
+                <span>#{bundle['Answer']}</span>
                 <p:selectOneMenu style=" width: 80%" id="ans" value="#{pollingBean.answer}" 
-                                 editable="true" placeholder="Answer">
+                                 editable="true" placeholder="#{bundle['Answer']}">
                     <f:selectItems var="ans" value="#{pollingBean.ans}" itemLabel="#{ans.answer}" itemValue="#{ans}"/>
                 </p:selectOneMenu>
             </p:panelGrid>
-            <p:commandButton value="Submit Answer" actionListener="#{pollingBean.submitAnswer}" id="editBasicButton" update="messages">
-                <p:confirm header="Confirmation" message="Are you sure? The answer cannot be changed after submitting." icon="ui-icon-alert" />
+            <p:commandButton value="#{bundle['submitAnswer']}" actionListener="#{pollingBean.submitAnswer}" id="editBasicButton" update="messages">
+                <p:confirm header="#{bundle['Confirmation']}" message="#{bundle['deleteMsg']}" icon="ui-icon-alert" />
             </p:commandButton>
             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                <p:commandButton value="#{bundle['yes']}" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="#{bundle['no']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
             </p:confirmDialog>
         </h:form>
     </ui:define>

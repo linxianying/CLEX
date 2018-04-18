@@ -87,11 +87,11 @@
                                     <p:accordionPanel multiple="true" activeIndex="1">
                                         <p:tab title="#{adminAnnouncementList.title}">
                                             <h:panelGrid id="indivGrid2" columns="2">
-                                                <h:outputText value="Announcement Date:" />
+                                                <h:outputText value="#{bundle['Anndate']}" />
                                                 <h:outputText value="#{adminAnnouncementList.createdDate}" />
-                                                <h:outputText value="Message:" />
+                                                <h:outputText value="#{message}" />
                                                 <p:inputTextarea id="message2" value="#{adminAnnouncementList.message}"
-                                                                 readonly="true" title="Announcement Body"
+                                                                 readonly="true" title="#{bundle['annBody']}"
                                                                  rows="4" cols="30" maxlength="300" 
                                                                  autoResize="true"/>    
                                             </h:panelGrid>
@@ -111,13 +111,13 @@
                                             <p:accordionPanel multiple="true" activeIndex="1">
                                                 <p:tab  title="#{moduleAnnouncements.title}">
                                                     <h:panelGrid id="indivGrid" columns="2">
-                                                        <h:outputText value="Announcement by:" />
+                                                        <h:outputText value="#{bundle['announcer']}" />
                                                         <h:outputText value="#{moduleAnnouncements.getUser().getName()}" />
-                                                        <h:outputText value="Announcement Date:" />
+                                                        <h:outputText value="#{bundle['Anndate']}" />
                                                         <h:outputText value="#{moduleAnnouncements.createdDate}" />
-                                                        <h:outputText value="Message:" />
+                                                        <h:outputText value="#{bundle['message']}" />
                                                         <p:inputTextarea id="message2" value="#{moduleAnnouncements.message}"
-                                                                         readonly="true" title="Announcement Body"
+                                                                         readonly="true" title="#{bundle['annBody']}"
                                                                          rows="4" cols="30" maxlength="300" 
                                                                          autoResize="true"/>    
                                                     </h:panelGrid>

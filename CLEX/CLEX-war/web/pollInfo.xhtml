@@ -17,7 +17,7 @@
         </div>
         <h:form id="panel">
             <p:dataTable var="poll" value="#{pollInfoBean.polls}" id="polls" rows="10"
-                        emptyMessage="No polls found with given criteria." 
+                         emptyMessage="#{bundle['noPoll']}" 
                         widgetVar="pollsTable"
                         paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
                         filteredValue="#{pollInfoBean.filteredPolls}"
@@ -27,9 +27,9 @@
 
                 <f:facet name="header">
                    <p:outputPanel>
-                       <h:outputText value="Search all fields:" />
+                       <h:outputText value="#{bundle['searchFields']}" />
                        <p:inputText id="globalFilter" onkeyup="PF('pollsTable').filter()" 
-                                    style="width:150px" placeholder="Enter keyword"/>
+                                    style="width:150px" placeholder="#{bundle['enterKeyword']}"/>
                    </p:outputPanel>
                 </f:facet>  
                 <f:facet name="{Exporters}">
@@ -55,20 +55,20 @@
                        </h:commandLink>
                    </div>
                 </f:facet>
-                <p:column style="width:35%" headerText="Content" filterBy="#{poll.content}" sortBy="#{poll.content}" filterMatchMode="contains">
+                <p:column style="width:35%" headerText="#{bundle['Content']}" filterBy="#{poll.content}" sortBy="#{poll.content}" filterMatchMode="contains">
                     <h:outputText value="#{poll.content} " />
                 </p:column>
-                <p:column filterBy="#{poll.topic}" sortBy="#{poll.topic}" headerText="Topic" filterMatchMode="contains">
+                <p:column filterBy="#{poll.topic}" sortBy="#{poll.topic}" headerText="#{bundle['topic']}" filterMatchMode="contains">
                     <h:outputText value="#{poll.topic} " />
                 </p:column>
-                <p:column  filterBy="#{poll.type}" sortBy="#{poll.type}" headerText="Type" filterMatchMode="contains">
+                <p:column  filterBy="#{poll.type}" sortBy="#{poll.type}" headerText="#{bundle['Type']}" filterMatchMode="contains">
                     <h:outputText value="#{poll.type}" />
                 </p:column>
                 
-                <p:column headerText="Correct Rate" filterBy="#{poll.correctRate}" 
+                <p:column headerText="#{bundle['correctRate']}" filterBy="#{poll.correctRate}" 
                           sortBy="#{poll.correctRate}" filterMatchMode="contains">
                     
-                    <p:commandButton value="Join Poll" 
+                    <p:commandButton value="#{bundle['joinPoll']}" 
                                                 rendered="#{empty poll.status}"
                                                 actionListener="#{pollingBean.joinPolling(poll)}"/>
                     <br />

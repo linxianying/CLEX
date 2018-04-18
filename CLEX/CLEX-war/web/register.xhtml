@@ -228,10 +228,10 @@
                         </button>
 
                         <div class="ui-g-12 button-container" style="margin-bottom: -30px; padding-bottom: -20px !important;">
-                            <p:commandButton styleClass="pink-btn" icon="fa fa-user" update="@form" value="Sign Up" actionListener="#{registerBean.register}" action="login?faces-redirect=true" />
+                            <p:commandButton styleClass="pink-btn" icon="fa fa-user" update="@form" value="#{bundle['sign']}" actionListener="#{registerBean.register}" action="login?faces-redirect=true" />
                         </div>
                          <div class="ui-g-12 button-container" style="margin-bottom: -30px; padding-bottom: -20px !important;">
-                            <p:button styleClass="loginBtn" icon="fa fa-sign-in" value="Login" outcome="/login" />
+                             <p:button styleClass="loginBtn" icon="fa fa-sign-in" value="#{bundle['login']}" outcome="/login" />
                         </div>
                     </p:panel>
                 </div>
