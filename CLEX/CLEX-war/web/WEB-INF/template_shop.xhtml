@@ -11,7 +11,7 @@
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
             <meta name="apple-mobile-web-app-capable" content="yes" />
-            <!--<meta name="theme-color" content="#{guestPreferences.themeColors[guestPreferences.theme]}" />-->
+            <meta name="theme-color" content="#{guestPreferences.themeColors[guestPreferences.theme]}" />
         </f:facet>
         <title><ui:insert name="title">PRISM</ui:insert></title>
         <h:outputScript name="js/nanoscroller.js" library="poseidon-layout" />
@@ -20,17 +20,18 @@
         <ui:insert name="head"/>
     </h:head>
 
-    <h:body styleClass="main-body">
+     <h:body styleClass="main-body">
         
-        <!--<div class="layout-wrapper #{guestPreferences.menuLayout} #{guestPreferences.orientationRTL ? 'layout-rtl' : null}">-->
-        <div>
+        <div class="layout-wrapper #{guestPreferences.menuLayout} #{guestPreferences.orientationRTL ? 'layout-rtl' : null}">
             <ui:include src="./topbar_shop.xhtml" />
+            <ui:include src="./menu_shop.xhtml" />
             
             <div class="layout-main">
                 <div class="route-bar">
                     <i class="fa fa-home"></i> <span>/ </span>
                     <ui:insert name="viewname" />
                     
+                    <ui:include src="./right-sidebar_shop.xhtml" />
                 </div>
                 <div class="layout-main-content">
                     <ui:insert name="content"/>

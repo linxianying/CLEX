@@ -12,61 +12,12 @@
         <h:head>
             <title>PRISM Login Page</title>
         </h:head>
-        <h:outputStylesheet name="./css/style.css" />
-        <h:outputStylesheet name="./css/form.css" />
-        <div class="wrapper">
-            <div class="container">
-                <h:form>
-                    <h:commandButton styleClass="" value="setEntites" actionListener="#{indexBean.createEntities}" action="login?faces-redirect=true" />
-                </h:form>
-                <h:form class="form-login">
-                    <img class="PRISM-logo" src="https://i.imgur.com/I97Io9u.png"></img>
+        <div>
+            <h:form>
+                <h:commandButton styleClass="" value="setEntites" actionListener="#{indexBean.createEntities}" action="login?faces-redirect=true" />
+            </h:form>
 
-                    <p:growl id="messages" showDetail="true" />
-
-                    <div class="form-row">
-                        <label>
-                            <p:inputText styleClass="textInput" id="username" value="#{loginBean.username}" 
-                                         required="true" requiredMessage="Please enter your username!" 
-                                         placeholder="Username"
-                                         validatorMessage="Invalid format. Username must be between 6-12 letters/numbers. Special characters are not allowed.">
-                                <f:validateRegex pattern="^[a-zA-Z0-9]{6,12}$" />
-                            </p:inputText>
-                        </label>
-                    </div>
-                    <div class="form-row">
-                        <label>
-                            <p:password styleClass="textInput" id="password" value="#{loginBean.password}" 
-                                        required="true" requiredMessage="Please enter your password!" 
-                                        placeholder="Password"/>
-                        </label>
-                    </div>
-
-                    <div class="form-row">
-                        <a href="resetPassword.xhtml" class="resetPasswordTitle">Forgot your password?</a>
-                    </div>
-                    <br></br>
-
-                    <p:selectOneButton required="true" requiredMessage="Please select a user type!" styleClass="menuSelect" id="userType" value="#{loginBean.userType}">
-                        <f:selectItem itemValue="1" itemLabel="Student" />
-                        <f:selectItem itemValue="2" itemLabel="Lecturer" />
-                        <f:selectItem itemValue="3" itemLabel="Admin" />
-                        <f:selectItem itemValue="4" itemLabel="Guest" />
-                    </p:selectOneButton><br/>
-
-                    <br/><br/>
-                    <div class="form-row">
-                        <h:commandButton styleClass="loginBtn" value="LOGIN" actionListener="#{loginBean.doLogin}" />
-
-                        <h:button styleClass="regBtn" value="SIGN UP" outcome="register?faces-redirect=true"/>
-                    </div>
-                </h:form>
-
-
-            </div>
-            <ul class="bg-bubbles"><li/><li/><li/><li/><li/><li/><li/><li/></ul>
         </div>
-
     </ui:define>
 
 </ui:composition>
