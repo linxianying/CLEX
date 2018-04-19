@@ -1,18 +1,16 @@
-<?xml version='1.0' encoding='UTF-8' ?>
+<?xml version='1.0' encoding='UTF-8' ?> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
-                xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
-                xmlns:h="http://xmlns.jcp.org/jsf/html" 
-                template="/WEB-INF/template.xhtml"
-                xmlns:p="http://primefaces.org/ui" 
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:c="http://java.sun.com/jsp/jstl/core"
-    >
-                    
-    <ui:define name="title">PRISM Student New Canteen Order page</ui:define>
-        
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                template="/WEB-INF/template_lecturer.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">PRISM Lecturer New Canteen Order Page</ui:define>
+
     <ui:define name="viewname">New Canteen Order</ui:define>
-        
+    
     <ui:define name="content">
         <p:growl id="addMsg" showDetail="true" />
         <h3>Store #{orderBean.shop.name} in Canteen #{orderBean.shop.school}</h3>
@@ -65,4 +63,5 @@
             </p:fieldset>
         </p:panelGrid>
     </ui:define>
+
 </ui:composition>
