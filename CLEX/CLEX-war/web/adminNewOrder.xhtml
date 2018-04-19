@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                template="/WEB-INF/template_admin.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">PRISM Administrator New Canteen Order Page</ui:define>
+
+    <ui:define name="viewname">New Canteen Order</ui:define>
+    
+    <ui:define name="content">
+        <p:growl id="addMsg" showDetail="true" />
+        <h3>Store #{orderBean.shop.name} in Canteen #{orderBean.shop.school}</h3>
+        <p:panelGrid columns="2" layout="grid">            
+            <p:fieldset collapsed="false" styleClass="menuHeader" id="avaliableItems" legend="Available Items" toggleable="false">
+                <h:outputText value="No avaliable items currently" rendered="#{empty orderBean.avaliableItems}"/>
+                <h:panelGrid columns="2">
+                    <h:form id="llItemForm">
+                        <p:dataTable value="#{orderBean.avaliableItems}" var="item" rendered="#{not empty orderBean.avaliableItems}">
+                            <p:column headerText="Item">
+                                <h:outputText value="#{item.name}"/>
+                            </p:column>
+                            <p:column headerText="Price">
+                                <h:outputText value="#{item.price}"/>
+                            </p:column>
+                            <p:column headerText="Buy">
+                                <p:commandButton value="Add" actionListener="#{orderBean.addItem(item)}" update="items addMsg"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </h:panelGrid>
+            </p:fieldset>
+            
+            
+            <p:fieldset collapsed="false" styleClass="menuHeader" id="items" legend="Your cart" toggleable="false">
+                <h:outputText value="Add a new item!" rendered="#{empty orderBean.cartItems}"/>
+                <h:panelGrid columns="2">
+                    <h:form id="cartForm">
+                        <p:dataTable value="#{orderBean.cartItems}" var="item" rendered="#{not empty orderBean.cartItems}">
+                            <p:column headerText="Item">
+                                <h:outputText value="#{item.name}"/>
+                            </p:column>
+                            <p:column headerText="Quantity">
+                                <p:inputNumber value="#{orderBean.orderItems[item]}" decimalPlaces="0" minValue="1" converter="javax.faces.Integer" >
+                                    <p:ajax event="change" listener="#{orderBean.updateItemQuantity(item, orderBean.orderItems[item])}" update="items addMsg"/>
+                                </p:inputNumber>
+                            </p:column>
+                            <p:column headerText="Delete">
+                                <p:commandButton value="Delete" actionListener="#{orderBean.deletItem(item)}" update="items addMsg"/>
+                            </p:column>
+                        </p:dataTable>
+                        <h:outputText value="Total Price: $ #{orderBean.totalPrice}" />
+                        <br />
+                        <h:outputText value="Time to collect your food:"/>
+                        <p:calendar value="#{orderBean.takeoutTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                        <br/>
+                        <p:commandButton value="Place Order" actionListener="#{orderBean.placeOrder()}" update="addMsg, items"/>
+                    </h:form>
+                </h:panelGrid>
+            </p:fieldset>
+        </p:panelGrid>
+    </ui:define>
+
+</ui:composition>

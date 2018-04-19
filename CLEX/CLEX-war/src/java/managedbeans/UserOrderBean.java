@@ -83,6 +83,8 @@ public class UserOrderBean implements Serializable {
         }
         else if (this.user.getUserType().equals("Guest")) {
             context.getExternalContext().redirect("guestNewOrder.xhtml");
+        }else if (this.user.getUserType().equals("Admin")) {
+            context.getExternalContext().redirect("adminNewOrder.xhtml");
         }
     }
 
