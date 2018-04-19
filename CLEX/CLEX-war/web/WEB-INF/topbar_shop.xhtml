@@ -24,7 +24,58 @@
                 <i class="fa fa-bars"></i>
             </a>
             <ul class="topbar-items fadeInDown animated">
-                
+                <li class="profile-item">
+                    <a href="shopProfile.xhtml">                            
+                        <h:panelGroup>
+                            <p:graphicImage cache="false" library="profile"
+                                            style="background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px" 
+                                            name="default.png"/>  
+                        </h:panelGroup>  
+                        <!--<div class="profile-image"></div>-->
+                        <span class="topbar-item-name">Shop Name</span>
+                    </a>
+                    <ul class="poseidon-menu animated">
+                        <li role="menuitem">
+                            <a href="shopProfile.xhtml">
+                                <i class="fa fa-fw fa-user"></i>
+                                <span>#{bundle['profile']}</span>
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <h:form>
+                                <a href="#">
+                                    <i class="fa fa-fw fa-sign-out"></i>
+                                    <span>#{bundle['logout']}</span>
+                                </a>
+                            </h:form>
+                        </li>
+                    </ul>
+                    
+                    
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="topbar-icon fa fa-fw fa-cog"></i>
+                        <span class="topbar-item-name">#{bundle['settings']}</span>
+                    </a>
+                    <ul class="poseidon-menu animated">
+                        <li role="menuitem">
+                            <a href="shopSetting.xhtml">
+                                <i class="fa fa-fw fa-paint-brush"></i>
+                                <span>#{bundle['changeTheme']}</span>
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a href="#" onclick="PF('unlockDlg').show();">
+                                <i class="fa fa-fw fa-lock"></i>
+                                <span>#{bundle['lockScreen']}</span>
+                                <p:confirmDialog message="#{bundle['isLocked']}" widgetVar="unlockDlg" global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="#{bundle['unlock']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-unlocked" onclick="PF('unlockDlg').hide();"/>
+                                </p:confirmDialog>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
