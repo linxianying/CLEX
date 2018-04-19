@@ -8,6 +8,7 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -83,6 +84,8 @@ public abstract class User implements Serializable{
     @OneToMany(cascade={CascadeType.ALL})
     private Collection<Task> tasks = new ArrayList<Task>();
     
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy = "orderer")
+    private List<Order> orders = new ArrayList<Order>();
     
     public void createUser(String username, String password, String name, String email, String userType, String school, Long contactNum, String salt) {
         this.username = username;
@@ -245,6 +248,14 @@ public abstract class User implements Serializable{
 
     public void setApproval(boolean approval) {
         this.approval = approval;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
     @Override
