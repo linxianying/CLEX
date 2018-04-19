@@ -73,11 +73,10 @@
                 
                 <p:separator rendered="#{not empty studentMindmapBean.submittedfiles}"/>
                 <h:panelGroup>
-                    <h:panelGroup rendered="#{studentMindmapBean.checkAsignmentSubmission()}">
-                        <h:outputLabel style="font-weight: bold" value="#{bundle['subAss']}" />
+                    <h:panelGroup rendered="#{studentMindmapBean.checkSubmission()}">
                         <h:outputLabel value="#{bundle['submitClose']}" rendered="#{studentMindmapBean.renderUpload eq false and studentMindmapBean.selectedNode.parent.label eq 'Assignments'}"/>
                         <h:panelGroup rendered="#{studentMindmapBean.renderUpload}">
-                            <h:outputLabel style="font-weight: bold" value="Submit assignment" />
+                            <h:outputLabel style="font-weight: bold" value="#{bundle['subAss']}"  />
                             <br />
                             <h:outputLabel style="font-size:10px" value="#{bundle['zip']}" />
                             <br /> <br />

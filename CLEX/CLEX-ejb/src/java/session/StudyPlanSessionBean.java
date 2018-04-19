@@ -99,20 +99,17 @@ public class StudyPlanSessionBean implements StudyPlanSessionBeanLocal {
 
     @Override
     public Course findCourse(String moduleCode) {
-        Course c = new Course();
-        c = null;
+        course = new Course();
         try {
             Query q = em.createQuery("SELECT c FROM Course c WHERE c.moduleCode=:moduleCode");
             q.setParameter("moduleCode", moduleCode);
-            c = (Course) q.getSingleResult();
+            course = (Course) q.getSingleResult();
             //System.out.println("Course " + moduleCode + " found.");
         } catch (NoResultException e) {
             System.out.println("Course " + moduleCode + " does not exist.");
-            c = null;
             return null;
         }
         this.moduleCode = moduleCode;
-        this.course = c;
         return course;
     }
 

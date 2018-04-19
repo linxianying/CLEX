@@ -10,6 +10,7 @@ import entity.ProjectGroup;
 import entity.Student;
 import entity.SuperGroup;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.ejb.Local;
 
 /**
@@ -66,5 +67,7 @@ public interface GroupFormationSessionBeanLocal {
     public void joinStudentGroup(Long studentId, Long groupId);
 
     public ArrayList<Student> getStudentNoGroup(Module module);
+    
+    public void setDeadline(Long Id, String deadline);
     
 }
