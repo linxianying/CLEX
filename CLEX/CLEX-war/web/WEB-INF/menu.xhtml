@@ -19,15 +19,13 @@
                         <p:menuitem id="om_schedule" value="#{bundle['schedule']}" icon="fa fa-fw fa-list-alt" outcome="/schedule"/>
                         <p:menuitem id="om_studyPlan" value="#{bundle['study plan']}" icon="fa fa-fw fa-table" outcome="/studyPlan"/>
                         <p:menuitem id="om_module" value="#{bundle['modules']}" icon="fa fa-fw fa-bars" outcome="/project" />
-<!--                            <p:menuitem id="om_project" value="Project Cost" icon="fa fa-fw fa-list-alt" outcome="/project"/>
-                            <p:menuitem id="om_pr" value="Peer Review" icon="fa fa-fw fa-table" outcome="/project"/>-->
-                        <!--</p:submenu>-->
                         <p:menuitem id="om_community" value="#{bundle['community']}" icon="fa fa-fw fa-circle-o-notch" outcome="/community"/>
                         <p:menuitem id="om_polling" value="#{bundle['polling']}" icon="fa fa-fw fa-sign-in" outcome="/polling" />
-                        
+                        <p:menuitem id="custom3" value="#{bundle['foodOrder']}" icon="fa fa-fw fa-cutlery" outcome="/studentOrder"/>
+                            
                         <!--
-                         <p:submenu id="om_customization" label="Menu Modes" icon="fa fa-fw fa-bars">
-                            <p:menuitem id="custom3" value="Static Menu" icon="fa fa-fw fa-bars" actionListener="#{guestPreferences.setMenuLayout('static')}" ajax="false"/>
+                         <p:submenu id="om_customization" label="Menu Modes" icon="fa fa-fw fa-cutlery">
+                            <p:menuitem id="custom3" value="Static Menu" icon="fa fa-fw fa-cutlery" actionListener="#{guestPreferences.setMenuLayout('static')}" ajax="false"/>
                             <p:menuitem id="custom4" value="Overlay Menu" icon="fa fa-fw fa-bars" actionListener="#{guestPreferences.setMenuLayout('overlay')}" ajax="false"/>
                             <p:menuitem id="custom5" value="Horizontal Menu" icon="fa fa-fw fa-bars" actionListener="#{guestPreferences.setMenuLayout('horizontal')}" ajax="false"/>
                         </p:submenu>
