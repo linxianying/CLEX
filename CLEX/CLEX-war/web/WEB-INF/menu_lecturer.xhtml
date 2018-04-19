@@ -5,15 +5,12 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui"
     xmlns:pp="http://primefaces.org/poseidon">
-    
+
     <h:form id="menuform"> 
         <div class="layout-menu-container">
             <div class="nano">
                 <div class="nano-content menu-scroll-content">
-                    <div class="search-input">
-                        <input type="text" placeholder="Search"/>
-                        <i class="fa fa-search"></i>
-                    </div>
+                    <br/><br/>
                     <pp:menu widgetVar="me">
                         <p:menuitem id="om_dashboard" value="#{bundle['dashboard']}" icon="fa fa-fw fa-home" outcome="/lecturerMain"/>
                         <p:menuitem id="om_rtl" value="#{bundle['schedule']}" icon="fa fa-fw fa-list-alt" outcome="/lecturerSchedule"/>

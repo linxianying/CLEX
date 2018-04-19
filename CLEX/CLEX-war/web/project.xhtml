@@ -27,16 +27,16 @@
             <br />
             <div>
                 <h:form>
-                    <p:panelGrid columns="3">
-                        <ui:repeat var="m" value="#{projectBean.takingModules}">
+                    <div class="grid">
+                        <p:repeat var="m" value="#{projectBean.takingModules}">
                             <button type="button" onclick="#{m.course.moduleCode}Details()" class="canvasBtn">
                                 <h:outputText value="#{m.course.moduleCode}"/>
                                 <br/>
                                 <h:outputText value="#{m.course.moduleName}"/>
                                 <p:remoteCommand name="#{m.course.moduleCode}Details" actionListener="#{projectBean.goModuleInfoPage(m.course.moduleCode)}"/>
                             </button>
-                        </ui:repeat>
-                    </p:panelGrid>
+                        </p:repeat>
+                    </div>
                 </h:form>
             </div>
         </h:body>
@@ -59,6 +59,13 @@
 
                 background: #35b3ad;
                 text-decoration: none;    
+            }            
+            @media (max-width: 680px){
+                .grid{
+                    display: flex;
+                    justify-content: center;
+                    flex-wrap: wrap;
+                }
             }
         </style>
     </ui:define>

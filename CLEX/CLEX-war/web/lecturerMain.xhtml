@@ -27,18 +27,18 @@
                             <p:inputText title="#{bundle['AnnouncementTitle']}"
                                          placeholder="#{bundle['Title']}"
                                          id="title" value="#{announcementBean.title}" 
-                                         maxlength="80" >
+                                         maxlength="80" style="width:100%">
                             </p:inputText>    
 
                             <p:inputTextarea id="message" value="#{announcementBean.message}"
                                              title="#{bundle['AnnouncementBody']}"
                                              placeholder="#{bundle['Message']}" 
                                              rows="4" cols="30" counter="display" maxlength="300" 
-                                             counterTemplate="{0} #{bundle['char']}" autoResize="true" />
+                                             counterTemplate="{0} #{bundle['char']}" autoResize="true" style="width:100%"/>
 
                             <h:outputText id="display" />
 
-                            <p:selectOneMenu styleClass="textInput" 
+                            <p:selectOneMenu style="width:90%"
                                              id="modCode" value="#{announcementBean.type}" 
                                              editable="false" placeholder="recipients" 
                                              title="#{bundle['selectRe']}">
@@ -69,18 +69,18 @@
                                                 <p:inputText title="#{bundle['Title']}"
                                                              placeholder="#{bundle['Title']}"
                                                              id="title2" value="#{lectAnnouncementList.title}" 
-                                                             maxlength="80" >
+                                                             maxlength="80" style="width:100%">
                                                 </p:inputText>    
                                                 <h:outputText value="#{bundle['Message']}:" />
                                                 <p:inputTextarea id="message2" value="#{lectAnnouncementList.message}"
                                                                  title="#{bundle['AnnouncementBody']}"
-                                                                 placeholder="#{bundle['Message']}" 
+                                                                 placeholder="#{bundle['Message']}" style="width:100%"
                                                                  rows="4" cols="30" counter="display" maxlength="300" 
                                                                  counterTemplate="{0} #{bundle['char']}" autoResize="true"/>
                                                 <br></br>
                                                 <h:outputText id="display" />
                                                 <h:outputText value="#{bundle['Recipient']}:" />
-                                                <p:selectOneMenu styleClass="textInput" 
+                                                <p:selectOneMenu style="width:90%" 
                                                                  title="#{bundle['plzDe']}"
                                                                  id="modCode" value="#{lectAnnouncementList.type}" 
                                                                  editable="false" disabled="true" placeholder="#{bundle['Recipient']}">
@@ -126,7 +126,7 @@
                                                 <p:inputTextarea id="message2" value="#{adminAnnouncementList.message}"
                                                                  readonly="true" title="#{bundle['AnnouncementBody']}"
                                                                  rows="4" cols="30" maxlength="300" 
-                                                                 autoResize="true"/>                                            
+                                                                 autoResize="true" style="width:100%"/>                                            
                                             </h:panelGrid>
                                         </p:tab>
                                     </p:accordionPanel>

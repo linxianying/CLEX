@@ -999,6 +999,10 @@ body {
         transform: scale(1.2); }
   .layout-wrapper .right-sidebar.right-sidebar-active {
     right: 0px; }
+  @media(max-width: 680px) {
+  .layout-wrapper .right-sidebar.right-sidebar-active {
+    right: 0px;
+    width: 100vw; } }
   .layout-wrapper .right-sidebar .ui-accordion {
     padding-bottom: 140px; }
     .layout-wrapper .right-sidebar .ui-accordion .ui-accordion-content {
