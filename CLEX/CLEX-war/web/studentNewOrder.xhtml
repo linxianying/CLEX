@@ -7,7 +7,7 @@
                 xmlns:p="http://primefaces.org/ui" 
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
-                >
+    >
                     
     <ui:define name="title">PRISM Student New Canteen Order page</ui:define>
         
@@ -35,7 +35,7 @@
                     </h:form>
                 </h:panelGrid>
             </p:fieldset>
-        
+            
             
             <p:fieldset collapsed="false" styleClass="menuHeader" id="items" legend="Your cart" toggleable="false">
                 <h:outputText value="Add a new item!" rendered="#{empty orderBean.cartItems}"/>
@@ -46,15 +46,21 @@
                                 <h:outputText value="#{item.name}"/>
                             </p:column>
                             <p:column headerText="Quantity">
-                                <p:inputNumber value="#{orderBean.orderItems[item]}" decimalPlaces="0">
-                                    <p:ajax event="change" listener="#{orderBean.updateItemQuantity(item, orderBean.orderItems[item])}"/>
+                                <p:inputNumber value="#{orderBean.orderItems[item]}" decimalPlaces="0" minValue="1" converter="javax.faces.Integer" >
+                                    <p:ajax event="change" listener="#{orderBean.updateItemQuantity(item, orderBean.orderItems[item])}" update="items addMsg"/>
                                 </p:inputNumber>
-                                <!--<h:outputText value="#{orderBean.orderItems[item]}"/>-->
                             </p:column>
                             <p:column headerText="Delete">
                                 <p:commandButton value="Delete" actionListener="#{orderBean.deletItem(item)}" update="items addMsg"/>
                             </p:column>
                         </p:dataTable>
+                        <!--<h:outputText value="Total Price: $ #{newDecimalFormat("0.00").format(orderBean.totalPrice)}" />-->
+                        <h:outputText value="Total Price: $ #{orderBean.totalPrice}" />
+                        <br />
+                        <h:outputText value="Time to collect your food:"/>
+                        <p:calendar value="#{orderBean.takeoutTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                        <br/>
+                        <p:commandButton value="Place Order" actionListener="#{orderBean.placeOrder()}" update="addMsg, items"/>
                     </h:form>
                 </h:panelGrid>
             </p:fieldset>
