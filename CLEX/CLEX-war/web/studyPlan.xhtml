@@ -38,7 +38,7 @@
                                                 </f:facet>
 
                                                 <p:column style="min-width: 100px" headerText="#{bundle['modCode']}">
-                                                    <p:commandLink value="#{sp.course.moduleCode}" action="studyPlan?faces-redirect=false" onclick="PF('reviewoverlay').show()" update="tab:reviewForm:moduleinfobox" actionListener="#{studyPlanBean.getModuleReviewsList(sp.course)}"/> 
+                                                    <p:commandLink value="#{sp.course.moduleCode}" action="studyPlan?faces-redirect=false" onclick="PF('reviewoverlay').show()" update="tab:reviewForm:moduleinfobox" actionListener="#{studyPlanBean.getModuleReviewsList(sp.course.moduleCode)}" process="@this"/> 
                                                     <p:commandButton icon="ui-icon-trash" style="color:black; background: transparent; float: right" id="deleteStudyPlan-button" >
                                                         <p:ajax update="tab:studyPlanForm:studyPlansList, tab:addForm:addSPButton" listener="#{studyPlanBean.deleteStudyPlan(sp.course.moduleCode)}" />
                                                         <p:confirm header="Delete #{sp.course.moduleCode}" message="Are you sure?" icon="ui-icon-alert" />

@@ -36,7 +36,7 @@ import session.CourseMgmtBeanLocal;
  * @author caoyu
  */
 @ManagedBean(name = "studyPlanBean")
-@ViewScoped
+@SessionScoped
 public class StudyPlanBean {
 
     @EJB
@@ -233,7 +233,9 @@ public class StudyPlanBean {
         
     }
 
-    public void getModuleReviewsList(Course courseEntity) {
+    public void getModuleReviewsList(String moduleCode) {
+        courseEntity = cpsbl.findCourse(moduleCode);
+        System.out.println("!!!!!!!!!!! " + moduleCode + ", is " + courseEntity);
         moduleReviews.clear();
         showModuleInfo = "";
         showWorkload = "";
