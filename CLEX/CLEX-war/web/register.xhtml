@@ -91,7 +91,7 @@
                         <!-- User Type -->
                         <div class="ui-g-12 chkbox-container" style="margin-bottom: -30px; padding-bottom: -20px !important;"> 
                             <p:selectOneButton required="true" requiredMessage="User Type Required" styleClass="menuSelect" id="userType" value="#{registerBean.userType}">
-                                <p:ajax event="change" update="registerForm:yeargroup, registerForm:semgroup, registerForm:yearmsg, registerForm:semmsg " />
+                                <p:ajax event="change" update="registerForm:matricgroup, registerForm:matricmsg, registerForm:yeargroup, registerForm:semgroup, registerForm:yearmsg, registerForm:semmsg " />
                                 <f:selectItem itemValue="1" itemLabel="STU" />
                                 <f:selectItem itemValue="2" itemLabel="LEC" />
                                 <f:selectItem itemValue="3" itemLabel="GUE" />
@@ -102,6 +102,24 @@
                                 <p:message for="userType" style="color: red;font-size: 9px;background: transparent; border: none !important; float: left"/>
                             </button>
                         </div>
+                        
+                        
+                        <div class="ui-g-12" style="margin-bottom: -30px; padding-bottom: -20px !important;">
+                            <h:panelGroup id="matricgroup">
+                                <p:inputText styleClass="textInput" 
+                                             placeholder="Matriculation Number" rendered="#{registerBean.userType == '1'}"
+                                             id="studentID" value="#{registerBean.studentId}" 
+                                             required="true" requiredMessage="Matric Number is required!">
+                                </p:inputText>
+                            </h:panelGroup>
+                        </div>
+                        <div>
+                            <button disabled="disabled" style="border:none; background: transparent; height: 10px;margin:15px 0px -5px 0px;">                            
+                                <p:message id="matricmsg" for="studentID" style="color: red;font-size: 9px;background: transparent; border: none !important; float: left"/>
+                            </button>
+                        </div>
+                        
+                        
                         <div class="ui-g-12 chkbox-container" style="margin-bottom: -30px; padding-bottom: -20px !important;"> 
                             <h:panelGroup id="yeargroup">
                                 <p:selectOneMenu style="padding: 0%" 
