@@ -244,7 +244,6 @@ public class LecturerMindmapBean implements Serializable {
                 for(int x =0;x<t.size();x++) {
                     System.out.println(t.get(x).getTitle());
                     if(t.get(x).getTitle().equals(assignmentname)) {
-                        System.out.println("Deleting " + t.get(x).getId());
                         sbl.deleteTimeslot(t.get(x).getId(), (User) students.get(i));
                     }
                 }
@@ -257,8 +256,6 @@ public class LecturerMindmapBean implements Serializable {
         Files.move(file, Paths.get(path, date + ".prism"));
         date = date.replace(".", ":");
         enterAnnouncement(date);
-        date = date.substring(0, 14);
-        System.out.println(date);
 
         for (int i = 0; i < students.size(); i++) {
             addEvent(students.get(i), assignmentname, endDate);

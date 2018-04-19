@@ -10,19 +10,31 @@ import entity.Module;
 import entity.ProjectGroup;
 import entity.Student;
 import entity.SuperGroup;
+import entity.Timeslot;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import static managedbeans.LecturerMindmapBean.toCalendar;
+import org.primefaces.model.DefaultScheduleEvent;
+import org.primefaces.model.DefaultScheduleModel;
+import org.primefaces.model.ScheduleEvent;
+import org.primefaces.model.ScheduleModel;
+import session.AnnouncementSessionBeanLocal;
 import session.ClexSessionBeanLocal;
 import session.GroupFormationSessionBeanLocal;
+import session.ScheduleSessionBeanLocal;
 
 /**
  *
@@ -35,11 +47,18 @@ public class LecturerModuleGroupBean implements Serializable {
     public LecturerModuleGroupBean() {
     }
     @EJB
+    AnnouncementSessionBeanLocal asbl;
+    @EJB
+    ScheduleSessionBeanLocal sbl;
+
+    @EJB
     private ClexSessionBeanLocal csbl;
 
     @EJB
     private GroupFormationSessionBeanLocal gfsbl;
+    private ScheduleModel eventModel = new DefaultScheduleModel();
 
+    private ScheduleEvent event = new DefaultScheduleEvent();
     FacesContext context;
     HttpSession session;
 
@@ -102,8 +121,6 @@ public class LecturerModuleGroupBean implements Serializable {
         if (module.getSuperGroup() != null) {
             if (!module.getSuperGroup().getDeadline().isEmpty()) {
                 if (currDate.compareTo(module.getSuperGroup().getDeadline()) >= 1) {
-                    System.out.println("curr"+currDate);
-                    System.out.println("deadline"+module.getSuperGroup().getDeadline());
                     closeGroupFormation();
                 }
             }
@@ -165,13 +182,46 @@ public class LecturerModuleGroupBean implements Serializable {
             }
         }
         if (deadline != null) {
-            System.out.println(deadline.toString());
-
+            List<Student> students = (List<Student>) module.getStudents();
             String date = df.format(deadline);
             gfsbl.setDeadline(superGroup.getId(), date);
+            enterAnnouncement(date);
+            String title = module.getCourse().getModuleCode() + " - Group Formation ";
+            for (int i = 0; i < students.size(); i++) {
+                addEvent(students.get(i), title, date);
+            }
         }
 
         this.refresh();
+    }
+
+    public void addEvent(Student student, String title, String date) {
+
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Timeslot timeslot = sbl.createTimeslot(student.getUsername(), title, date, date, title + " due on " + date, "NIL");
+        eventModel.addEvent(new DefaultScheduleEvent(title, toCalendar(date), toCalendar(date), timeslot));
+        event = new DefaultScheduleEvent();
+    }
+
+    public void enterAnnouncement(String date) {
+        Date currentDate = new Date();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String currDate = df.format(currentDate);
+        String title = module.getCourse().getModuleCode() + " - Group Formation ";
+        String message = "Group formation is now opened (" + currDate + ") and will close on " + date + "\n";
+        asbl.createLecturerAnnc(lecturer.getUsername(), title, message, module.getCourse().getModuleCode());
+    }
+
+    public static Date toCalendar(String date) {
+        Calendar t = Calendar.getInstance();
+        try {
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            Date d = df.parse(date);
+            t.setTime(d);
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        return t.getTime();
     }
 
     public void autoAssignAll() {
@@ -434,6 +484,22 @@ public class LecturerModuleGroupBean implements Serializable {
 
     public void setCurrentDate(Date currentDate) {
         this.currentDate = currentDate;
+    }
+
+    public ScheduleModel getEventModel() {
+        return eventModel;
+    }
+
+    public void setEventModel(ScheduleModel eventModel) {
+        this.eventModel = eventModel;
+    }
+
+    public ScheduleEvent getEvent() {
+        return event;
+    }
+
+    public void setEvent(ScheduleEvent event) {
+        this.event = event;
     }
 
 }

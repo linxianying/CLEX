@@ -267,4 +267,13 @@ public class ProjectDetailsBean {
     public void setSchoolname(String schoolname) {
         this.schoolname = schoolname;
     }
+
+    public boolean isCheck() {
+        return check;
+    }
+
+    public void setCheck(boolean check) {
+        this.check = check;
+    }
+    
 }
