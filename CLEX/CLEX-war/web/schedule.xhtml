@@ -17,8 +17,8 @@
         <h:form id="addTimeslotForm">
             <p:commandButton value="#{bundle['reset']}" actionListener="#{scheduleBean.reset()}" 
                              action="schedule?faces-redirect=true">
-                <p:confirm header="Confirmation" 
-                           message="Are you sure you want to reset the schedule? This action will delete all your timeslots."
+                <p:confirm header="#{bundle['Confirmation']}" 
+                           message="#{bundle['deleteScheduleMsg']}"
                            icon="ui-icon-alert" />
             </p:commandButton>
 

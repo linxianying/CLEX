@@ -9,7 +9,7 @@
 
     <ui:define name="title">PRISM Student Module Page</ui:define>
 
-    <ui:define name="viewname">#{studentMindmapBean.moduleEntity.course.moduleCode} - Mindmap</ui:define>
+    <ui:define name="viewname">#{studentMindmapBean.moduleEntity.course.moduleCode} - #{bundle['Mindmap']}</ui:define>
 
     <ui:define name="content">
         <p:growl id="messages" />
@@ -31,7 +31,7 @@
             <h:panelGroup id="detailgroup">
                 <h:panelGroup rendered="#{not empty studentMindmapBean.listoffiles}">
                     <h:panelGroup>
-                        <h:outputLabel style="font-weight: bold" value="Uploaded Files - #{studentMindmapBean.listoffiles.size()} " />
+                        <h:outputLabel style="font-weight: bold" value="#{bundle['upload']} - #{studentMindmapBean.listoffiles.size()} " />
                         <p:commandButton actionListener="#{studentMindmapBean.downloadAllFile}" icon="fa fa-download"/>
                     </h:panelGroup>
 
@@ -48,13 +48,13 @@
                 <h:panelGroup>
 
                     <h:panelGroup rendered="#{empty studentMindmapBean.submittedfiles and studentMindmapBean.selectedNode.parent.label eq 'Assignments'}">
-                        <h:outputLabel value="You have not submitted any files!" />
+                        <h:outputLabel value="#{bundle['noupload']}" />
                         <br />
                         <p:separator/>
                     </h:panelGroup>
                     <h:panelGroup rendered="#{not empty studentMindmapBean.submittedfiles}">
                         <h:panelGroup>
-                            <h:outputLabel style="font-weight: bold" value="Submitted Files - #{studentMindmapBean.submittedfiles.size()} " />
+                            <h:outputLabel style="font-weight: bold" value="#{bundle['submitted']} - #{studentMindmapBean.submittedfiles.size()} " />
                         </h:panelGroup>
 
                         <br /> <br />
@@ -63,7 +63,7 @@
                             <h:panelGroup>
                                 <p:commandButton actionListener="#{studentMindmapBean.downloadFile(file2)}" icon="fa fa-download"/>  
                                 <p:commandButton actionListener="#{studentMindmapBean.deleteFile(file2)}" icon="fa fa-trash" update="detailgroup">
-                                    <p:confirm header="Delete #{file2}" message="Deleted files cannot be recovered! Are you sure?" icon="ui-icon-alert" />
+                                    <p:confirm header="#{bundle['Delete']} #{file2}" message="#{bundle['deleteFileMsg']}" icon="ui-icon-alert" />
                                 </p:commandButton>
                             </h:panelGroup>
                             <br />
@@ -75,9 +75,9 @@
                 <p:separator rendered="#{not empty studentMindmapBean.submittedfiles}"/>
                 <h:panelGroup>
                     <h:panelGroup rendered="#{studentMindmapBean.checkAsignmentSubmission()}">
-                        <h:outputLabel style="font-weight: bold" value="Submit assignment" />
+                        <h:outputLabel style="font-weight: bold" value="#{bundle['subAss']}" />
                         <br />
-                        <h:outputLabel style="font-size:10px" value="If submitting multiple files, please zip them into one file before uploading" />
+                        <h:outputLabel style="font-size:10px" value="#{bundle['zip']}" />
                         <br /> <br />
                         <h:form>
                             <p:fileUpload fileUploadListener="#{studentMindmapBean.handleFileUpload}" mode="advanced" dragDropSupport="true"

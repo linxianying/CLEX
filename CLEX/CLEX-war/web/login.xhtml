@@ -32,20 +32,20 @@
                         </div>
                         <div class="ui-g-12">
                             <p:inputText styleClass="textInput" id="username" value="#{loginBean.username}" 
-                                         required="true" requiredMessage="Please enter your username!" 
-                                         placeholder="Username"
-                                         validatorMessage="Invalid format. Username must be between 6-12 letters/numbers. Special characters are not allowed.">
+                                         required="true" requiredMessage="#{bundle['enterUsername']}" 
+                                         placeholder="#{bundle['username']}"
+                                         validatorMessage="#{bundle['invalidUsername']}">
                                 <f:validateRegex pattern="^[a-zA-Z0-9]{6,12}$" />
                             </p:inputText>
 
                         </div>
                         <div class="ui-g-12">
                             <p:password styleClass="textInput" id="password" value="#{loginBean.password}" 
-                                        required="true" requiredMessage="Please enter your password!" 
-                                        placeholder="Password"/>
+                                        required="true" requiredMessage="#{bundle['enterPass']}" 
+                                        placeholder="#{bundle['password']}"/>
                         </div>
                         <div class="ui-g-12 chkbox-container">
-                            <p:selectOneButton required="true" requiredMessage="Please select a user type!" styleClass="menuSelect" id="userType" value="#{loginBean.userType}">
+                            <p:selectOneButton required="true" requiredMessage="#{bundle['selectTyep']}" styleClass="menuSelect" id="userType" value="#{loginBean.userType}">
                                 <f:selectItem itemValue="1" itemLabel="STU" />
                                 <f:selectItem itemValue="2" itemLabel="LEC" />
                                 <f:selectItem itemValue="3" itemLabel="ADM" />
