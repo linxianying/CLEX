@@ -1,12 +1,13 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package managedbeans;
 
 import entity.Answer;
 import entity.Course;
+import entity.Item;
 import entity.Module;
 import entity.Poll;
 import entity.ProjectGroup;
@@ -14,16 +15,22 @@ import entity.Student;
 import java.util.Iterator;
 import entity.Transaction;
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import session.AnnouncementSessionBeanLocal;
 import session.ClassroomSessionBeanLocal;
 import session.ClexSessionBeanLocal;
+import session.OrderSessionBeanLocal;
 import session.PRQuestionSessionBeanLocal;
 import session.ScheduleSessionBeanLocal;
 import session.StudyPlanSessionBeanLocal;
@@ -50,6 +57,8 @@ public class indexBean {
     private ToDoListSessionBeanLocal tdsbl;
     @EJB
     private PRQuestionSessionBeanLocal prqsbl;
+    @EJB
+    private OrderSessionBeanLocal osbl;
     
     public indexBean() {
         
@@ -116,7 +125,7 @@ public class indexBean {
         csbl.createStudent("xavier", "123456", "Xavier", "A0123472U", "xavier@gmail.com", "NUS", 90000021L, genSalt(), "SOC", "IS","2015", "1", 0.00);
         csbl.createStudent("marvin", "123456", "Marvin", "A0123473V", "marvin@gmail.com", "NUS", 90000022L, genSalt(), "SOC", "IS","2015", "1", 0.00);
         csbl.createStudent("bernard", "123456", "Bernard Tey", "A0123474W", "bernard@gmail.com", "NUS", 90000023L, genSalt(), "SOC", "IS","2015", "1", 0.00);
-
+        
         
         
         csbl.createLecturer("hsianghui", "123456", "Lek Hsiang Hui", "hsianghui@prism.com", "NUS", 86345278L, genSalt(), "SOC");
@@ -351,7 +360,7 @@ public class indexBean {
         csbl.linkLecturerModule("hsianghui", "IS4231", "2017", "2");
         
         List<Course> courses = csbl.retrieveAllCourse();
-
+        
         for (Course each : courses) {
             Boolean success = (new File("/Applications/NetBeans/files/" + each.getModuleCode())).mkdirs();
             if (!success) {
@@ -389,7 +398,7 @@ public class indexBean {
         
         csbl.createLesson("Friday", "14:30", "17:30", "LEC [1]", "i3-0337",csbl.findModule("TIE2010", "2017", "2"));
         
-        //set student "namename" with taken modules 
+        //set student "namename" with taken modules
         csbl.setStudentTakenModules(csbl.findStudent("peterparker"), csbl.findModule("CP3109", "2015", "1"), "A");
         //csbl.setStudentTakenModules(csbl.findStudent("namename"), csbl.findModule("YIR3312", "2015", "1"));
         csbl.setStudentTakenModules(csbl.findStudent("peterparker"), csbl.findModule("LAG2201", "2015", "1"), "A");
@@ -435,7 +444,7 @@ public class indexBean {
         csbl.setStudentTakenModules(csbl.findStudent("xianying"), csbl.findModule("FIN3103A", "2016", "1"), "A");
         csbl.setStudentTakenModules(csbl.findStudent("wenjie"), csbl.findModule("ACC1701X", "2016", "1"), "A");
         csbl.setStudentTakenModules(csbl.findStudent("jeffrey"), csbl.findModule("MS3212", "2016", "1"), "A");
-      
+        
         csbl.setStudentTakenModules(csbl.findStudent("peterparker"), csbl.findModule("CS2100", "2016", "2"), "A");
         csbl.setStudentTakenModules(csbl.findStudent("tonystark"), csbl.findModule("CS2100", "2016", "2"), "A");
         csbl.setStudentTakenModules(csbl.findStudent("brucebanner"), csbl.findModule("CS2100", "2016", "2"), "A");
@@ -451,7 +460,7 @@ public class indexBean {
         csbl.setStudentTakenModules(csbl.findStudent("jeshua"), csbl.findModule("PF3302", "2016", "2"), "A");
         csbl.setStudentTakenModules(csbl.findStudent("xianying"), csbl.findModule("MA2101", "2016", "2"), "A");
         csbl.setStudentTakenModules(csbl.findStudent("eeeren"), csbl.findModule("CL3551", "2016", "2"), "A");
-
+        
         csbl.setStudentTakenModules(csbl.findStudent("peterparker"), csbl.findModule("GER1000", "2017", "1"), "A");
         csbl.setStudentTakenModules(csbl.findStudent("peterparker"), csbl.findModule("RE2102", "2017", "1"), "A");
         csbl.setStudentTakenModules(csbl.findStudent("peterparker"), csbl.findModule("MLE2101", "2017", "1"), "A");
@@ -463,7 +472,7 @@ public class indexBean {
         csbl.setStudentTakenModules(csbl.findStudent("eeeren"), csbl.findModule("MLE2101", "2017", "1"), "A");
         csbl.setStudentTakenModules(csbl.findStudent("jeshua"), csbl.findModule("NM4227", "2017", "1"), "A");
         csbl.setStudentTakenModules(csbl.findStudent("xianying"), csbl.findModule("LAL1201", "2017", "1"), "A");
-
+        
         //Test accounts taking modules
         csbl.setStudentTakingModules(csbl.findStudent("peterparker"), csbl.findModule("PS2240", "2017", "2"));
         csbl.setStudentTakingModules(csbl.findStudent("peterparker"), csbl.findModule("PC2193", "2017", "2"));
@@ -542,7 +551,7 @@ public class indexBean {
         csbl.setStudentTakingModules(csbl.findStudent("johnlee"), csbl.findModule("IS4231", "2017", "2"));
         csbl.setStudentTakingModules(csbl.findStudent("steven"), csbl.findModule("IS4231", "2017", "2"));
         csbl.setStudentTakingModules(csbl.findStudent("jamesneo"), csbl.findModule("IS4231", "2017", "2"));
-        csbl.setStudentTakingModules(csbl.findStudent("raygoh"), csbl.findModule("IS4231", "2017", "2"));        
+        csbl.setStudentTakingModules(csbl.findStudent("raygoh"), csbl.findModule("IS4231", "2017", "2"));
         csbl.setStudentTakingModules(csbl.findStudent("nicholas"), csbl.findModule("IS4231", "2017", "2"));
         csbl.setStudentTakingModules(csbl.findStudent("ericteo"), csbl.findModule("IS4231", "2017", "2"));
         csbl.setStudentTakingModules(csbl.findStudent("maryjane"), csbl.findModule("IS4231", "2017", "2"));
@@ -550,25 +559,25 @@ public class indexBean {
         csbl.setStudentTakingModules(csbl.findStudent("xavier"), csbl.findModule("IS4231", "2017", "2"));
         csbl.setStudentTakingModules(csbl.findStudent("marvin"), csbl.findModule("IS4231", "2017", "2"));
         csbl.setStudentTakingModules(csbl.findStudent("bernard"), csbl.findModule("IS4231", "2017", "2"));
-   
+        
         //set student with lesson for 2017 sem 2 (current semester)
-        csbl.setStudentLesson(csbl.findStudent("peterparker"), 
+        csbl.setStudentLesson(csbl.findStudent("peterparker"),
                 csbl.findLesson("Monday", "12:00", "LEC [1]", csbl.findModule("PS2240", "2017", "2")));
-        csbl.setStudentLesson(csbl.findStudent("peterparker"), 
+        csbl.setStudentLesson(csbl.findStudent("peterparker"),
                 csbl.findLesson("Monday", "14:00", "TUT [1]", csbl.findModule("PS2240", "2017", "2")));
-        csbl.setStudentLesson(csbl.findStudent("peterparker"), 
+        csbl.setStudentLesson(csbl.findStudent("peterparker"),
                 csbl.findLesson("Tuesday", "10:00", "LEC [1]", csbl.findModule("PC2193", "2017", "2")));
-        csbl.setStudentLesson(csbl.findStudent("peterparker"), 
+        csbl.setStudentLesson(csbl.findStudent("peterparker"),
                 csbl.findLesson("Friday", "12:00", "TUT [1]", csbl.findModule("PC2193", "2017", "2")));
-        csbl.setStudentLesson(csbl.findStudent("peterparker"), 
+        csbl.setStudentLesson(csbl.findStudent("peterparker"),
                 csbl.findLesson("Tuesday", "12:30", "LEC [1]", csbl.findModule("SC3101", "2017", "2")));
-        csbl.setStudentLesson(csbl.findStudent("peterparker"), 
+        csbl.setStudentLesson(csbl.findStudent("peterparker"),
                 csbl.findLesson("Thursday", "09:00", "TUT [2]", csbl.findModule("SC3101", "2017", "2")));
-        csbl.setStudentLesson(csbl.findStudent("peterparker"), 
+        csbl.setStudentLesson(csbl.findStudent("peterparker"),
                 csbl.findLesson("Wednesday", "15:00", "LEC [1]", csbl.findModule("LAM3201", "2017", "2")));
-        csbl.setStudentLesson(csbl.findStudent("peterparker"), 
+        csbl.setStudentLesson(csbl.findStudent("peterparker"),
                 csbl.findLesson("Thursday", "12:00", "LAB [2]", csbl.findModule("LAM3201", "2017", "2")));
-        csbl.setStudentLesson(csbl.findStudent("peterparker"), 
+        csbl.setStudentLesson(csbl.findStudent("peterparker"),
                 csbl.findLesson("Friday", "14:30", "LEC [1]", csbl.findModule("TIE2010", "2017", "2")));
         
         //create superGroup for current sem
@@ -585,7 +594,7 @@ public class indexBean {
         csbl.createSuperGroup(4, 2, csbl.findModule("CP3109", "2015", "1"));
         //csbl.createSuperGroup(5, 2, 3, csbl.findModule("TIE2010", "2017", "2"));
         
-        //create projectGroup 
+        //create projectGroup
         csbl.createProjectGroup(csbl.findModule("PS2240", "2017", "2").getSuperGroup(), "N1",0.0);
         csbl.createProjectGroup(csbl.findModule("PS2240", "2017", "2").getSuperGroup(), "N2",0.0);
         csbl.createProjectGroup(csbl.findModule("PS2240", "2017", "2").getSuperGroup(), "N3",0.0);
@@ -628,17 +637,17 @@ public class indexBean {
         csbl.linkStudentGroup(csbl.findStudent("brucebanner"), csbl.findProjectgroup("N2", csbl.findModule("LAM3201", "2017", "2")));
         csbl.linkStudentGroup(csbl.findStudent("brucebanner"), csbl.findProjectgroup("N2", csbl.findModule("PS2240", "2017", "2")));
         csbl.linkStudentGroup(csbl.findStudent("brucebanner"), csbl.findProjectgroup("N2", csbl.findModule("PC2193", "2017", "2")));
-
+        
         csbl.linkStudentGroup(csbl.findStudent("nickfury"), csbl.findProjectgroup("N3", csbl.findModule("SC3101", "2017", "2")));
         csbl.linkStudentGroup(csbl.findStudent("nickfury"), csbl.findProjectgroup("N3", csbl.findModule("LAM3201", "2017", "2")));
         csbl.linkStudentGroup(csbl.findStudent("nickfury"), csbl.findProjectgroup("N3", csbl.findModule("PS2240", "2017", "2")));
         csbl.linkStudentGroup(csbl.findStudent("nickfury"), csbl.findProjectgroup("N3", csbl.findModule("PC2193", "2017", "2")));
-
+        
         csbl.linkStudentGroup(csbl.findStudent("steverogers"), csbl.findProjectgroup("N1", csbl.findModule("SC3101", "2017", "2")));
         csbl.linkStudentGroup(csbl.findStudent("steverogers"), csbl.findProjectgroup("N1", csbl.findModule("LAM3201", "2017", "2")));
         csbl.linkStudentGroup(csbl.findStudent("steverogers"), csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")));
         csbl.linkStudentGroup(csbl.findStudent("steverogers"), csbl.findProjectgroup("N1", csbl.findModule("PC2193", "2017", "2")));
-
+        
         csbl.createProjectGroupTimeslot("", "2018-04-18 06:00", "2018-04-18 07:00", "Report", "Second System Release", "Cen Lib", csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")));
         csbl.createProjectGroupTimeslot("", "2018-04-28 16:00", "2018-04-28 17:00", "Project", "First System Release", "Biz Lib", csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")));
         csbl.createProjectGroupTimeslot("", "2018-04-21 12:00", "2018-04-21 13:00", "Group Meeting", "Discuss topic of project", "PGP", csbl.findProjectgroup("N2", csbl.findModule("PC2193", "2017", "2")));
@@ -701,7 +710,7 @@ public class indexBean {
 //        csbl.createGrade("A", csbl.findModule("FIN3103A", "2016", "1"), csbl.findStudent("namename"));
 //        csbl.createGrade("A", csbl.findModule("ACC1701X", "2016", "1"), csbl.findStudent("namename"));
 //        csbl.createGrade("A", csbl.findModule("MS3212", "2016", "1"), csbl.findStudent("namename"));
-//        
+//
 //        csbl.createGrade("A", csbl.findModule("CS2100", "2016", "2"), csbl.findStudent("namename"));
 //        csbl.createGrade("A", csbl.findModule("IE1111", "2016", "2"), csbl.findStudent("namename"));
 //        csbl.createGrade("A", csbl.findModule("PF3302", "2016", "2"), csbl.findStudent("namename"));
@@ -713,7 +722,7 @@ public class indexBean {
 //        csbl.createGrade("A", csbl.findModule("MLE2101", "2017", "1"), csbl.findStudent("namename"));
 //        csbl.createGrade("A", csbl.findModule("NM4227", "2017", "1"), csbl.findStudent("namename"));
 //        csbl.createGrade("A", csbl.findModule("LAL1201", "2017", "1"), csbl.findStudent("namename"));
-
+        
         
         //csbl.createGrade("A", csbl.findModule("PS2240", "2017", "2"), csbl.findStudent("namename"));
         //csbl.createGrade("A", csbl.findModule("PC2193", "2017", "2"), csbl.findStudent("namename"));
@@ -768,7 +777,7 @@ public class indexBean {
         crsbl.createPoll("PC2193", "2017", "2", "2017-12-07", "topic3", 0.71, "type3", "How is your learning experience?");
         crsbl.createPoll("PC2193", "2017", "2", "2017-12-11", "topic3", 0.38, "type4", "How is your learning experience?");
         crsbl.createPoll("PC2193", "2017", "2", "2017-12-17", "topic4", 0.10, "type5", "How is your learning experience?");
-        ArrayList<Answer> ans = new ArrayList<Answer>();      
+        ArrayList<Answer> ans = new ArrayList<Answer>();
         
         ans.add(crsbl.createAnswer("A.Very Likely"));
         ans.add(crsbl.createAnswer("B.Likely"));
@@ -790,7 +799,7 @@ public class indexBean {
         asbl.createLecturerAnnc("hsianghui", "PC2193 Lecture 5 cancelled", "PC2193 Lecture 6, which is on next Friday is cancelled", "PC2193");
         asbl.createLecturerAnnc("hsianghui", "PC2193 Lab 3 cancelled", "PC2193 Lab 3, which is on this Thursday is cancelled", "PC2193");
         //asbl.createAdminAnnc("admin", "CIT Recruitment for System Engineer", "Interested candidates are advised to read the detailed requirements and apply for the above position at this following link: https://nuscareers.taleo.net/careersection/nusep/jobdetail.ftl?job=007LB Thank you! Admin Wong", "1");
-    
+        
         tdsbl.createTask("peterparker", "2018-01-17", "2018-01-21 12:00", "IS4103 Lab 1", "IS4103 Lab Week 1", "finished");
         tdsbl.createTask("peterparker", "2018-02-17", "2018-03-21 12:00", "IS4103 Lab 2", "IS4103 Lab Week 2", "finished");
         tdsbl.createTask("peterparker", "2018-03-17", "2018-03-21 21:00", "IS4103 Lab 3", "IS4103 Lab Week 3", "unfinished");
@@ -804,29 +813,29 @@ public class indexBean {
         tdsbl.createTask("brucebanner", "2018-03-17", "2018-03-21 23:00", "IS4103 Lab 3", "IS4103 Lab Week 4", "finished");
         tdsbl.createTask("brucebanner", "2018-04-17", "2018-04-21 13:00", "IS4103 Lab 4", "IS4103 Lab Week 4", "unfinished");
         tdsbl.createTask("brucebanner", "2018-05-17", "2018-05-21 09:00", "IS4103 Lab 5", "IS4103 Lab Week 4", "unfinished");
-
         
-        tdsbl.createGroupTask("2018-04-07", "2018-04-22 23:59", "PS2240 Group Meeting", 
-             "Group Task Test details", "unfinished", csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")), 
-            getProjectUserName(csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2"))));
         
-        tdsbl.createGroupTask("2018-04-07", "2018-04-12 12:59", "PS2240 - Group Talk", 
-             "Group Task Test details", "unfinished", csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")), 
-            getProjectUserName(csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2"))));
-        tdsbl.createGroupTask("2018-04-07", "2018-04-12 12:59", "PS2240 - Group Lecture", 
-             "Group Task Test details", "unfinished", csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")), 
-            getProjectUserName(csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2"))));
-        tdsbl.createGroupTask("2018-04-07", "2018-04-12 12:59", "GER1000 - Group Lecture", 
-             "Group Task Test details", "unfinished", csbl.findProjectgroup("N2", csbl.findModule("GER1000", "2017", "1")), 
-            getProjectUserName(csbl.findProjectgroup("N2", csbl.findModule("GER1000", "2017", "1"))));
-        tdsbl.createGroupTask("2018-04-07", "2018-04-11 10:59", "GER1000 - Group Discussion", 
-             "Group Task Test details", "unfinished", csbl.findProjectgroup("N2", csbl.findModule("GER1000", "2017", "1")), 
-            getProjectUserName(csbl.findProjectgroup("N2", csbl.findModule("GER1000", "2017", "1"))));
-        tdsbl.createGroupTask("2018-04-07", "2018-04-12 12:59", "SC3101 - Group Report", 
-             "Group Task Test details", "unfinished", csbl.findProjectgroup("N1", csbl.findModule("SC3101", "2017", "2")), 
-            getProjectUserName(csbl.findProjectgroup("N1", csbl.findModule("SC3101", "2017", "2"))));
+        tdsbl.createGroupTask("2018-04-07", "2018-04-22 23:59", "PS2240 Group Meeting",
+                "Group Task Test details", "unfinished", csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")),
+                getProjectUserName(csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2"))));
         
-    
+        tdsbl.createGroupTask("2018-04-07", "2018-04-12 12:59", "PS2240 - Group Talk",
+                "Group Task Test details", "unfinished", csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")),
+                getProjectUserName(csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2"))));
+        tdsbl.createGroupTask("2018-04-07", "2018-04-12 12:59", "PS2240 - Group Lecture",
+                "Group Task Test details", "unfinished", csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")),
+                getProjectUserName(csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2"))));
+        tdsbl.createGroupTask("2018-04-07", "2018-04-12 12:59", "GER1000 - Group Lecture",
+                "Group Task Test details", "unfinished", csbl.findProjectgroup("N2", csbl.findModule("GER1000", "2017", "1")),
+                getProjectUserName(csbl.findProjectgroup("N2", csbl.findModule("GER1000", "2017", "1"))));
+        tdsbl.createGroupTask("2018-04-07", "2018-04-11 10:59", "GER1000 - Group Discussion",
+                "Group Task Test details", "unfinished", csbl.findProjectgroup("N2", csbl.findModule("GER1000", "2017", "1")),
+                getProjectUserName(csbl.findProjectgroup("N2", csbl.findModule("GER1000", "2017", "1"))));
+        tdsbl.createGroupTask("2018-04-07", "2018-04-12 12:59", "SC3101 - Group Report",
+                "Group Task Test details", "unfinished", csbl.findProjectgroup("N1", csbl.findModule("SC3101", "2017", "2")),
+                getProjectUserName(csbl.findProjectgroup("N1", csbl.findModule("SC3101", "2017", "2"))));
+        
+        this.testShop();
     }
     
     public String[] getProjectUserName(ProjectGroup p){
@@ -1547,6 +1556,63 @@ public class indexBean {
                 sem--;
             }
         }while (year != 2018 || sem != 1);
-
+        
+    }
+    
+    public void testShop() {
+        osbl.createShop("The Terrace", "Noodles", "terrace1", "123456", "NUS");
+        osbl.createItem(osbl.findShop("terrace1"), "Ban Mian", 3.2);
+        osbl.createItem(osbl.findShop("terrace1"), "Tom	Yam Mian", 3.2);
+        osbl.createItem(osbl.findShop("terrace1"), "Dumplings", 4.0);
+        osbl.createShop("The Terrace", "Korean", "terrace2", "123456", "NUS");
+        osbl.createItem(osbl.findShop("terrace2"), "Pork", 4.5);
+        osbl.createItem(osbl.findShop("terrace2"), "Chicken", 4.5);
+        osbl.createItem(osbl.findShop("terrace2"), "Beef", 4.5);
+        osbl.createItem(osbl.findShop("terrace2"), "Chicken soup", 5.0);
+        osbl.createItem(osbl.findShop("terrace2"), "Kimchi Soup", 4.0);
+        osbl.createItem(osbl.findShop("terrace2"), "Kimchi fried rice", 4.5);
+        osbl.createShop("Pines Food Court", "Noodles", "pines1", "123456", "NUS");
+        osbl.createItem(osbl.findShop("pines1"), "Dan Dan Mian",4.5);
+        osbl.createItem(osbl.findShop("pines1"), "ChongQing Xiao Mian", 4.5);
+        osbl.createItem(osbl.findShop("pines1"), "Beef noodle", 4.5);
+        osbl.createItem(osbl.findShop("pines1"), "Dumplings", 5.0);
+        osbl.createItem(osbl.findShop("pines1"), "Wontons", 4.5);
+        osbl.createItem(osbl.findShop("pines1"), "Add Vegetables", 1.0);
+        osbl.createItem(osbl.findShop("pines1"), "Take away", 0.5);
+        
+        //create orders
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date d1 = new Date();
+        Date d2 = new Date();
+        Date d3 = new Date();
+        Date d4 = new Date();
+        Date d5 = new Date();
+        Date d6 = new Date();
+        try {
+            d1 = sdf.parse("21/03/2017 12:20:00");
+            d2 = sdf.parse("27/01/2016 14:50:00");
+            d3 = sdf.parse("03/11/2017 19:17:20");
+            d4 = sdf.parse("07/03/2018 10:00:00");
+            d5 = sdf.parse("07/03/2017 16:20:00");
+            d6 = sdf.parse("21/09/2016 15:30:00");
+        } catch (ParseException ex) {
+            Logger.getLogger(indexBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        HashMap<Item, Integer> test = new HashMap<Item, Integer>();
+        test.put(osbl.findItemByName(osbl.findShop("pines1"), "Wontons"), 1);
+        test.put(osbl.findItemByName(osbl.findShop("pines1"), "Dumplings"), 2);
+        osbl.createOrder(csbl.findStudent("caoyuu"), test, osbl.findShop("pines1"), d1, 14.5);
+        
+        test.clear();
+        test.put(osbl.findItemByName(osbl.findShop("terrace2"), "Kimchi fried rice"), 1);
+        osbl.createOrder(csbl.findStudent("caoyuu"), test, osbl.findShop("terrace2"), d2, 4.5);
+        
+        test.clear();
+        test.put(osbl.findItemByName(osbl.findShop("terrace1"), "Ban Mian"), 2);
+        test.put(osbl.findItemByName(osbl.findShop("terrace1"), "Dumplings"), 1);
+        osbl.createOrder(csbl.findStudent("caoyuu"), test, osbl.findShop("terrace1"), d3, 10.4);
+        
+        
     }
 }

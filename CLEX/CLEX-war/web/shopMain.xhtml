@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/WEB-INF/template_shop.xhtml">
+    <html>
+        <head></head>
+        <body>
+            <ui:define name="title">PRISM Shop Staff Main Page</ui:define>
+            
+            <ui:define name="viewname">Canteen Store Order</ui:define>
+            
+            <ui:define name="content">
+                <div>
+                    <h:outputText value="Welcome to PRISM, #{shopOrderBean.shop.name}" />
+                    <p:growl id="messages" showDetail="true" />
+                    <h:form id="orderForm">
+                        <p:tabView id="tab">
+                            <h:outputText value="Total price earned#{shopOrderBean.totalPrice}"/>
+                            <p:tab id="history" title="History Orders">
+                                <p:fieldset collapsed="false" styleClass="menuHeader" id="order" legend="History Orders" toggleable="false">
+                                    <h:outputText id="empty" value="you did not receive any order!" rendered="#{empty shopOrderBean.orders}"/>
+                                    <br/>
+                                    <h:panelGrid columns="4">
+                                        <h:form id="historyForm">
+                                            <p:dataTable value="#{shopOrderBean.orders}" var="order" rendered="#{not empty shopOrderBean.orders}">
+                                                
+                                                <p:column headerText="Date">
+                                                    <h:outputLabel value="#{order.orderTime}" >
+                                                        <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
+                                                    </h:outputLabel>
+                                                </p:column>
+                                                <p:column headerText="Store">
+                                                    <h:outputText value="Canteen: #{order.shop.canteen}"/>
+                                                    <br/>
+                                                    <h:outputText value="Store: #{order.shop.name}"/>
+                                                </p:column>
+                                                <p:column headerText="Items">
+                                                    <ui:repeat value="#{shopOrderBean.getOrderItems(order)}" var="item" varStatus="itemIndex">
+                                                        <h:outputText value="Item.#{itemIndex.index+1} #{item.name}, Quantity #{order.orderItems[item]}"/>
+                                                        <br/>
+                                                    </ui:repeat>
+                                                </p:column>
+                                                <p:column headerText="Price">
+                                                    <h:outputText value="$#{order.price}"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </h:form>       
+                                    </h:panelGrid>
+                                </p:fieldset>
+                            </p:tab>
+                            
+                            <p:tab id="current" title="Current Orders">
+                                <p:fieldset collapsed="false" styleClass="menuHeader" id="currentOrder" legend="History Orders" toggleable="false">
+                                    <h:outputText value="you have no unfinished orders!" rendered="#{empty shopOrderBean.currentOrders}"/>
+                                    <br/>
+                                    <h:panelGrid columns="5">
+                                        <!--<h:form id="currentForm">-->
+                                            <p:dataTable value="#{shopOrderBean.currentOrders}" var="order" rendered="#{not empty shopOrderBean.currentOrders}">
+                                                <p:column headerText="Date">
+                                                    <h:outputText value="Order time" />
+                                                    <br/>
+                                                    <h:outputLabel value="#{order.orderTime}" >
+                                                        <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
+                                                    </h:outputLabel>
+                                                    <br/>
+                                                    <h:outputText value="Take out time(Required)" />
+                                                    <br/>
+                                                    <h:outputLabel value="#{order.takeoutTime}" >
+                                                        <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
+                                                    </h:outputLabel>
+                                                </p:column>
+                                                <p:column headerText="Store">
+                                                    <h:outputText value="Canteen: #{order.shop.canteen}"/>
+                                                    <br/>
+                                                    <h:outputText value="Store: #{order.shop.name}"/>
+                                                </p:column>
+                                                <p:column headerText="Items">
+                                                    <ui:repeat value="#{shopOrderBean.getOrderItems(order)}" var="item" varStatus="itemIndex">
+                                                        <h:outputText value="Item.#{itemIndex.index+1} #{item.name}, Quantity #{order.orderItems[item]}"/>
+                                                        <br/>
+                                                    </ui:repeat>
+                                                </p:column>
+                                                <p:column headerText="Price">
+                                                    <h:outputText value="$#{order.price}"/>
+                                                </p:column>
+                                                <p:column headerText="Status">
+                                                    <h:outputText value="#{order.finish}"/>
+                                                    <h:form>
+                                                        <p:commandButton value="Finish order" actionListener="#{shopOrderBean.finishOrder(order.id)}" update="orderForm:tab:history orderForm:tab:current"/>
+                                                    </h:form>
+                                                </p:column>
+                                            </p:dataTable>
+                                        <!--</h:form>-->       
+                                    </h:panelGrid>
+                                </p:fieldset>
+                            </p:tab>
+                        </p:tabView>
+                    </h:form>
+                </div>
+            </ui:define>
+        </body>
+    </html>
+</ui:composition>
+

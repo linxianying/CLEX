@@ -1,0 +1,148 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:po="http://primefaces.org/poseidon">
+
+    <!-- FAVICON -->
+    <link rel="icon" 
+          type="image/png" 
+          href="https://i.imgur.com/SN8wqcu.png" />
+    <div class="topbar clearfix">
+        <div class="topbar-left">            
+            <div class="logo"></div>
+        </div>
+
+        <div class="topbar-right">
+            <a id="menu-button" href="#">
+                <i class="fa fa-angle-left"></i>
+            </a>
+
+            <a id="topbar-menu-button" href="#">
+                <i class="fa fa-bars"></i>
+            </a>
+            <ul class="topbar-items fadeInDown animated">
+                <!--<li class="profile-item">-->
+<!--                    <a href="guestProfile.xhtml">                            
+                        <h:panelGroup>
+                            <p:graphicImage rendered="#{profileBean.checkpicjpg(loginBean.username) == true}"
+                                            alt="#{profileBean.userEntity.name}" cache="false" 
+                                            style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px"
+                                            value="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/serverfiles/profile/#{loginBean.username}.jpg"/>
+                            <p:graphicImage rendered="#{profileBean.checkpicpng(loginBean.username) == true}"
+                                            alt="#{profileBean.userEntity.name}" cache="false" 
+                                            style="background-color: transparent;background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px"
+                                            value="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{request.contextPath}/serverfiles/profile/#{loginBean.username}.png"/>
+                            <p:graphicImage rendered="#{profileBean.checkpic(loginBean.username) == false}"
+                                            alt="#{profileBean.userEntity.name}" cache="false" library="profile"
+                                            style="background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px" 
+                                            name="default.png"/>  
+                        </h:panelGroup>  
+                        <div class="profile-image"></div>
+                        <span class="topbar-item-name">#{loginBean.userEntity.name}</span>
+                    </a>
+
+                    <ul class="poseidon-menu animated">
+                        <li role="menuitem">
+                            <a href="guestProfile.xhtml">
+                                <i class="fa fa-fw fa-user"></i>
+                                <span>#{bundle['profile']}</span>
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <h:form>
+                                <a href="#" onclick="logout()">
+                                    <i class="fa fa-fw fa-sign-out"></i>
+                                    <span>#{bundle['logout']}</span>
+                                    <p:remoteCommand name="logout" actionListener="#{acctMgmtBean.logout}"/>
+                                </a>
+                            </h:form>
+                        </li>
+                    </ul>
+                </li>-->
+                <!--<li>-->
+<!--                    <a href="#">
+                        <i class="topbar-icon fa fa-fw fa-cog"></i>
+                        <span class="topbar-item-name">#{bundle['settings']}</span>
+                    </a>-->
+<!--                    <ul class="poseidon-menu animated">
+                        <li role="menuitem">
+                            <a href="guestSetting.xhtml">
+                                <i class="fa fa-fw fa-paint-brush"></i>
+                                <span>#{bundle['changeTheme']}</span>
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a href="#" onclick="PF('unlockDlg').show();">
+                                <i class="fa fa-fw fa-lock"></i>
+                                <span>#{bundle['lockScreen']}</span>
+                                <p:confirmDialog message="#{bundle['isLocked']}" widgetVar="unlockDlg" global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="#{bundle['unlock']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-unlocked" onclick="PF('unlockDlg').hide();"/>
+                                </p:confirmDialog>
+                            </a>
+                        </li>
+                    </ul>-->
+                <!--</li>-->
+<!--                <li>
+                    <a href="#" id="right-sidebar-button-open">
+                        <i class="topbar-icon material-icons animated swing fa fa-fw fa-envelope-o"></i>
+                        <span class="topbar-badge animated rubberBand">#{privateMsgBean.viewCount}</span>
+                        <span class="topbar-item-name">#{bundle['privateMessage']}</span>
+                    </a>
+                </li>-->
+<!--                <li>
+                    <a href="#" onclick="setViewCount()">
+                        <i class="topbar-icon material-icons fa fa-fw fa-bell-o"></i>
+                        <p:outputPanel autoUpdate="true" class="topbar-badge animated rubberBand">#{announcementBean.latestCount}</p:outputPanel>
+                        <span class="topbar-item-name">#{bundle['notification']}</span>
+                        <h:form>
+                            <p:remoteCommand name="setViewCount" actionListener="#{announcementBean.setAnncViewCount()}"/>
+                        </h:form>
+                    </a>
+                    <ul style="overflow-y: scroll; max-height:200px">
+                        <span style="color: #e33f3f">#{bundle['notification']}</span>
+                        <br/>
+                        <p:dataList var="annc" value="#{announcementBean.announcements}">
+                            <button type="button" disabled="disabled" class="anncBox">
+                                <h:outputText value="#{annc.type} #{bundle['postAnn']}" />
+                                <br/>
+                                <h:outputText style="font-weight:bold; text-transform:uppercase;" value="#{annc.title}" />
+                                <br/><br/>
+                                <h:outputText value="#{annc.message}" />
+                                <br/><br/>
+                                <h:outputText value="#{bundle['announcer']} #{annc.getUser().getName()}" />
+                                <br/>
+                                <h:outputText value="#{annc.createdDate}" />
+                                <br/>
+                            </button>
+                        </p:dataList>
+                    </ul>
+                </li>-->
+            </ul>
+        </div>
+    </div>
+
+    <style type="text/css">
+        .ui-datalist-data{
+            padding-left: 0;
+            list-style-type: none;
+        }
+        .anncBox{
+            background: #e8eaef;
+            width:100%;
+            text-align: left;
+            border: none;
+            margin-bottom: 5px;
+        }    
+        .anncBox:hover {
+            background: #efefef;
+            text-decoration: none;
+        }
+        .ui-dialog-titlebar-close {
+            visibility: hidden;
+        }
+    </style>
+
+</ui:composition>
