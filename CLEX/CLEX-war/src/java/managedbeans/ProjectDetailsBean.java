@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -63,6 +64,7 @@ public class ProjectDetailsBean {
     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     //for test
     private boolean check;
+    private boolean renderViewButton;
 
     public ProjectDetailsBean() {
     }
@@ -114,6 +116,19 @@ public class ProjectDetailsBean {
             System.out.println("no group available " + check);
         }
         getAllActivities();
+
+        String path = session.getServletContext().getRealPath("/");
+        int pathlength = path.length();
+        pathlength = pathlength - 10;
+        path = path.substring(0, pathlength);
+        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/Materials/";
+        path = path.replaceAll("\\\\", "/");
+        Path folder = Paths.get(path);
+        if (Files.exists(folder)) {
+            renderViewButton = true;
+        } else {
+            renderViewButton = false;
+        }
         System.out.println("ProjectDetailsBean Finish initialization");
 
     }
@@ -275,5 +290,13 @@ public class ProjectDetailsBean {
     public void setCheck(boolean check) {
         this.check = check;
     }
-    
+
+    public boolean isRenderViewButton() {
+        return renderViewButton;
+    }
+
+    public void setRenderViewButton(boolean renderViewButton) {
+        this.renderViewButton = renderViewButton;
+    }
+
 }

@@ -99,7 +99,8 @@
                 <br />
                 <h:panelGrid columns="2">
                     <h:outputLabel style="font-weight: bold; font-size: 12px" value="#{bundle['classMaterial']}" />
-                    <p:commandButton value="#{bundle['viewMaterial']}" actionListener="#{projectDetailsBean.viewMaterials}" icon="fa fa-book"/>
+                    <h:outputLabel rendered="#{projectDetailsBean.renderViewButton eq false}" value="The lecturer(s) has not uploaded any materials yet!" />
+                    <p:commandButton rendered="#{projectDetailsBean.renderViewButton}" value="#{bundle['viewMaterial']}" actionListener="#{projectDetailsBean.viewMaterials}" icon="fa fa-book"/>
                     <h:outputLabel style="font-weight: bold; font-size: 12px" value="#{bundle['classActivity']}" />   
                     <h:form id="folderform">
                         <p:dataTable style="width: 100%"
