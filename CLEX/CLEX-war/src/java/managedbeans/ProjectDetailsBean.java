@@ -14,10 +14,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -43,7 +46,7 @@ public class ProjectDetailsBean {
     private ProjectSessionBeanLocal psbl;
     @EJB
     private PRAnswerSessionBeanLocal prasbl;
-    
+
     FacesContext context;
     HttpSession session;
 
@@ -58,9 +61,10 @@ public class ProjectDetailsBean {
     private String semester;
     private String year;
     private String schoolname;
-
+    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     //for test
     private boolean check;
+    private boolean renderViewButton;
 
     public ProjectDetailsBean() {
     }
@@ -84,9 +88,49 @@ public class ProjectDetailsBean {
         schoolname = userEntity.getSchool();
         setUsername((String) session.getAttribute("username"));
         setStudent(csbl.findStudent(getUsername()));
-
-        System.out.println("ProjectDetailsBean Finish initialization");
+        Date date = new Date();
+        String currDate = df.format(date);
+        if (module.getSuperGroup() != null) {
+            String deadline = module.getSuperGroup().getDeadline();
+            if (!deadline.equals("")) {
+                System.out.println("deadline " + deadline);
+                System.out.println("Curr " + currDate);
+                if (currDate.compareTo(deadline) >= 1) {
+                    check = false;
+                    System.out.println("deadline is not empty, and currdate older and  " + check);
+                } else {
+                    check = true;
+                    System.out.println("deadline is not empty, and currdate is earlier and  " + check);
+                }
+            } else {
+                if (module.getSuperGroup().isConfirm()) {
+                    check = false;
+                    System.out.println("deadline is empty, and closed and " + check);
+                } else {
+                    check = true;
+                    System.out.println("deadline is empty and not closed and " + check);
+                }
+            }
+        } else {
+            check = false;
+            System.out.println("no group available " + check);
+        }
         getAllActivities();
+
+        String path = session.getServletContext().getRealPath("/");
+        int pathlength = path.length();
+        pathlength = pathlength - 10;
+        path = path.substring(0, pathlength);
+        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/Materials/";
+        path = path.replaceAll("\\\\", "/");
+        Path folder = Paths.get(path);
+        if (Files.exists(folder)) {
+            renderViewButton = true;
+        } else {
+            renderViewButton = false;
+        }
+        System.out.println("ProjectDetailsBean Finish initialization");
+
     }
 
     public void getAllActivities() {
@@ -149,11 +193,11 @@ public class ProjectDetailsBean {
             e.printStackTrace();
         }
     }
-    
+
     public boolean checkPRFormSubmit(Module m) {
-        return prasbl.checkPRFormSubmit(student,m);
+        return prasbl.checkPRFormSubmit(student, m);
     }
-    
+
     public void viewMaterials() throws IOException {
         session.setAttribute("module", module);
         context.getExternalContext().redirect("studentMindmap.xhtml");
@@ -238,4 +282,21 @@ public class ProjectDetailsBean {
     public void setSchoolname(String schoolname) {
         this.schoolname = schoolname;
     }
+
+    public boolean isCheck() {
+        return check;
+    }
+
+    public void setCheck(boolean check) {
+        this.check = check;
+    }
+
+    public boolean isRenderViewButton() {
+        return renderViewButton;
+    }
+
+    public void setRenderViewButton(boolean renderViewButton) {
+        this.renderViewButton = renderViewButton;
+    }
+
 }

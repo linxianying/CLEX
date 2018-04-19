@@ -23,7 +23,7 @@
                         <p:printer target="panel" />
                     </p:commandButton>
                     <h:form id="panel">
-                        <p:panel collapsed="false" styleClass="menuHeader"  header="All Polls of Lecturer" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
+                        <p:panel collapsed="false" styleClass="menuHeader"  header="#{bundle['LecPoll']}" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
 
                             <p:dataTable var="poll" value="#{classroomBean.polls}"
                                          filteredValue="#{classroomBean.filteredPolls}"
@@ -33,6 +33,7 @@
                                          paginator="true" scrollable="true"
                                          paginatorPosition="bottom"
                                          rows="10"
+                                         
                                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
                                          {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
                                          rowsPerPageTemplate="10,20,50">

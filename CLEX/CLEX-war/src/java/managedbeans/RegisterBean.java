@@ -99,7 +99,7 @@ public class RegisterBean implements Serializable {
                 if (password.length() >= 6 && !username.equals("") && !email.equals("")) {
                     if (password.equals(password1)) {
                         if (userType.equals("1")) { //Student
-                            csbl.createStudent(username, password, name, "not updated", email, school, contactNum, genSalt(),
+                            csbl.createStudent(username, password, name, studentId, email, school, contactNum, genSalt(),
                                     faculty, major, matricYear, matricSem, 5.0);
                             fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Student '" + username + "' successfully created.", "We hope you will like PRISM.");
                         } else if (userType.equals("2")) { //Lecturer
@@ -357,5 +357,19 @@ public class RegisterBean implements Serializable {
 
     public void setSchoollist(List<String> schoollist) {
         this.schoollist = schoollist;
+    }
+
+    /**
+     * @return the studentId
+     */
+    public String getStudentId() {
+        return studentId;
+    }
+
+    /**
+     * @param studentId the studentId to set
+     */
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 }

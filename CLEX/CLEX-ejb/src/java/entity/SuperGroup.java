@@ -43,8 +43,8 @@ public class SuperGroup implements Serializable {
     //if the group formation ended, the lecturer can close the group formation and confirm=true;
     private boolean confirm;
     
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date deadline;
+    @Column(length = 32)
+    private String deadline;
     
     @OneToOne(mappedBy="superGroup")
     private Module module;
@@ -57,6 +57,7 @@ public class SuperGroup implements Serializable {
         this.avgStudentNum = avgStudentNum;
         this.module = module;
         confirm = false;
+        deadline = "";
     }
     
 //    //set min and max as well
@@ -151,11 +152,11 @@ public class SuperGroup implements Serializable {
         this.avgStudentNum = avgStudentNum;
     }
 
-    public Date getDeadline() {
+    public String getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(Date deadline) {
+    public void setDeadline(String deadline) {
         this.deadline = deadline;
     }
     

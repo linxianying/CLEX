@@ -80,6 +80,7 @@ public class LecturerMindmapBean implements Serializable {
     private String schoolname;
     private Date endDate;
     private String displaydeadline;
+    private Date nowDate;
 
     private StreamedContent downloadedFile;
 
@@ -108,6 +109,7 @@ public class LecturerMindmapBean implements Serializable {
         selectedNode = root;
         allAssignmentFolders.clear();
         retrieveAllAssignments();
+        nowDate = new Date();
 
     }
 
@@ -237,28 +239,29 @@ public class LecturerMindmapBean implements Serializable {
         }
         String path2 = path + deadlinefile;
         File checkfile = new File(path2);
-        if (checkfile.exists()) {            
+        if (checkfile.exists()) {
             checkfile.delete();
             for (int i = 0; i < students.size(); i++) {
+                System.out.println("Get timeslot for student: " + students.get(i).getName());
                 t = (List<Timeslot>) students.get(i).getTimeslots();
                 for(int x =0;x<t.size();x++) {
                     System.out.println(t.get(x).getTitle());
                     if(t.get(x).getTitle().equals(assignmentname)) {
-                        System.out.println("Deleting " + t.get(x).getId());
-                        sbl.deleteTimeslot(t.get(x).getId(), (User) students.get(i));
+                        User user1 = (User) students.get(i);
+                        sbl.deleteTimeslot(t.get(x).getId(), user1);
+                        System.out.println("Delete timeslot for" + students.get(i).getName());
                     }
                 }
+                System.out.println("-------------------------");
             }
         }
         
-        SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yy HH.mm.SS");
+        SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH.mm");
         String date = DATE_FORMAT.format(endDate);
         Path file = Files.createTempFile(folder, date, ".prism");
         Files.move(file, Paths.get(path, date + ".prism"));
         date = date.replace(".", ":");
         enterAnnouncement(date);
-        date = date.substring(0, 14);
-        System.out.println(date);
 
         for (int i = 0; i < students.size(); i++) {
             addEvent(students.get(i), assignmentname, endDate);
@@ -739,6 +742,14 @@ public class LecturerMindmapBean implements Serializable {
 
     public void setEvent(ScheduleEvent event) {
         this.event = event;
+    }
+
+    public Date getNowDate() {
+        return nowDate;
+    }
+
+    public void setNowDate(Date nowDate) {
+        this.nowDate = nowDate;
     }
 
 }
