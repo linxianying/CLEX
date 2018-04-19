@@ -8,55 +8,70 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 >
-    
+
     <ui:define name="title">PRISM Student Peer Review page</ui:define>
-    
+
     <ui:define name="viewname">Submitted Peer Review</ui:define>
-    
+
     <ui:define name="content">
         <h:panelGroup id="individualQuestions">
             <h3>Individual Question</h3>
             <ui:repeat value="#{studentViewPRFormBean.individualAnswers}" var="inner" varStatus="outIndex">
-                <h3><h:outputText value="For Group Member #{studentViewPRFormBean.groupMembers.get(outIndex.index).getName()}"/></h3>
-                <h3><h:outputText value="(Myself)" rendered="#{studentViewPRFormBean.username eq studentViewPRFormBean.groupMembers.get(outIndex.index).getUsername()}"/></h3>
+                <h:panelGroup>
+                    <h4><h:outputText value="(Others) - #{studentViewPRFormBean.groupMembers.get(outIndex.index).getName()}" rendered="#{studentViewPRFormBean.username ne studentViewPRFormBean.groupMembers.get(outIndex.index).getUsername()}"/></h4>
+                    <h4><h:outputText value="(Myself) - #{studentViewPRFormBean.groupMembers.get(outIndex.index).getName()}" rendered="#{studentViewPRFormBean.username eq studentViewPRFormBean.groupMembers.get(outIndex.index).getUsername()}"/></h4>
+                </h:panelGroup>
                 <ui:repeat value="#{studentViewPRFormBean.individualAnswers[outIndex.index]}" var="indAnswer" varStatus="indIndex">
                     <h:outputText value="Q#{indIndex.index+1}. "/>
-                    <h:outputText value="#{studentViewPRFormBean.individualQuestions.get(indIndex.index).getQuestion()}"/>
+                    <h:panelGroup>
+                        <h:outputText value="#{studentViewPRFormBean.individualQuestions.get(indIndex.index).getQuestion()} "/>
+                        <h:outputText style="font-weight: bold" value="(Scale: 1-#{studentViewPRFormBean.individualQuestions.get(indIndex.index).getLevelOfRating()})" 
+                                      rendered="#{studentViewPRFormBean.individualQuestions.get(indIndex.index).type eq 'rating'}"  /> 
+                    </h:panelGroup>
+
                     <br/>
-                    <h:outputText value="Scale: 1-#{studentViewPRFormBean.individualQuestions.get(indIndex.index).getLevelOfRating()}" 
-                                  rendered="#{studentViewPRFormBean.individualQuestions.get(indIndex.index).type eq 'rating'}"  /> 
-                    <br/>
-                    <h:outputText value="My answer: #{inner.get(0)}"/>
+                    <h:panelGroup>
+                        <h:outputText value="My answer: "/>
+                        <h:outputText style="font-weight: bold" value="#{inner.get(0)}"/>
+                    </h:panelGroup>
+
                     <br/>
                     <br />
                 </ui:repeat>
             </ui:repeat>
-            
+
             <br/>
-            
+
         </h:panelGroup>
+        <p:separator/>
         <h:panelGroup id="groupQuestions"> 
             <h3>Group Question</h3>
             <ui:repeat value="#{studentViewPRFormBean.groupAnswers}" var="grAnswer" varStatus="grIndex" id="grpRepeat">
                 <h:outputText value="Q#{grIndex.index+1}. "/>
                 <h:outputText value="#{studentViewPRFormBean.groupQuestions.get(grIndex.index).getQuestion()}"/>
                 <br/>
-                <h:outputText value="My answer: #{grAnswer.get(0)}" 
-                              rendered="#{studentViewPRFormBean.groupQuestions.get(grIndex.index).type eq 'open' }"/>
+
+                <h:panelGroup>
+                    <h:outputText value="My answer: " rendered="#{studentViewPRFormBean.groupQuestions.get(grIndex.index).type eq 'open' }"/>
+                    <h:outputText style="font-weight: bold" value="#{grAnswer.get(0)}" rendered="#{studentViewPRFormBean.groupQuestions.get(grIndex.index).type eq 'open' }"/>
+                </h:panelGroup>
+
                 <h:outputText value="Scale: 1-#{studentViewPRFormBean.groupQuestions.get(indIndex.index).getLevelOfRating()}"
                               rendered="#{studentViewPRFormBean.groupQuestions.get(indIndex.index).type eq 'rating'}"  /> 
                 <br/>
-                <h:outputText value="My answer: #{grAnswer.get(0)}" 
-                              rendered="#{studentViewPRFormBean.groupQuestions.get(indIndex.index).type eq 'rating'}"  /> 
+                <h:panelGroup>
+                    <h:outputText value="My answer: " rendered="#{studentViewPRFormBean.groupQuestions.get(indIndex.index).type eq 'rating'}"/>
+                    <h:outputText style="font-weight: bold" value="#{grAnswer.get(0)}" rendered="#{studentViewPRFormBean.groupQuestions.get(indIndex.index).type eq 'rating'}"/>
+                </h:panelGroup>
                 <br/>           
-                
+
                 <p:dataTable var="groupMemberUsername" value="#{grAnswer}" rowIndexVar="indIndex" style="margin-bottom:20px"
                              rendered="#{studentViewPRFormBean.groupQuestions.get(grIndex.index).type eq 'ranking'}" id="rankingTable">
                     <f:facet name="header">
-                        My answer (the top one, the best):
+                        Ranking (In Ascending Order):
                     </f:facet>
                     <p:column>
-                        <h:outputText value="No. #{indIndex+1} "/>
+                        <h:outputText value="#{indIndex+1}. "/>
                         <h:outputText value="#{studentViewPRFormBean.getStudentInfo(groupMemberUsername)}"/>
                     </p:column>                                
                 </p:dataTable>

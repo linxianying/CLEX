@@ -53,7 +53,7 @@
                                 <p:tooltip id="toolTipMsg" for="message" showEvent="focus" hideEvent="blur" position="right" showEffect="clip" />
                                 <p:commandButton id="submitButton" update="@form"
                                                  action="adminMain?faces-redirect=true"
-                                                 value="Submit" actionListener="#{announcementBean.enterAnnouncement}" >
+                                                 value="#{bundle['submit']}" actionListener="#{announcementBean.enterAnnouncement}" >
                                 </p:commandButton>
                             </h:panelGrid>
                         </p:tab>

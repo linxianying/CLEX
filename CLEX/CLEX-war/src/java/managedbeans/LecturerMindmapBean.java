@@ -1,8 +1,6 @@
 package managedbeans;
 
 import entity.Module;
-import entity.Student;
-import entity.Timeslot;
 import entity.User;
 import java.io.File;
 import java.io.FileFilter;
@@ -18,7 +16,6 @@ import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -76,6 +73,7 @@ public class LecturerMindmapBean implements Serializable {
     private String year;
     private String schoolname;
     private Date endDate;
+    private String displaydeadline;
 
     private StreamedContent downloadedFile;
 
@@ -104,6 +102,7 @@ public class LecturerMindmapBean implements Serializable {
         selectedNode = root;
         allAssignmentFolders.clear();
         retrieveAllAssignments();
+
     }
 
     public void addAssignment() throws IOException {
@@ -138,6 +137,33 @@ public class LecturerMindmapBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", selectedFolder + " has been removed.");
         context.addMessage(null, fmsg);
+    }
+
+
+    public String getDeadline() {
+        String path = session.getServletContext().getRealPath("/");
+        int pathlength = path.length();
+        pathlength = pathlength - 10;
+        path = path.substring(0, pathlength);
+        path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/Materials/Assignments/" + selectedNode.getLabel() + "/";
+        path = path.replaceAll("\\\\", "/");
+        File directory = new File(path);
+        String[] fList = directory.list();
+        String deadline = "FALSE";
+        for (String file : fList) {
+            if (file.endsWith(".prism")) {
+                deadline = file;
+            }
+        }
+        if (deadline.equals("FALSE")) {
+            return "No deadline has been set yet.";
+        } else {
+            deadline = deadline.replaceAll(".prism", "");
+            deadline = deadline.replace(".", ":");
+            System.out.println(deadline);
+            deadline = "The submission deadline for this assignment is: " + deadline;
+            return deadline;
+        }
     }
 
     public void createFolder() throws IOException {
@@ -202,25 +228,24 @@ public class LecturerMindmapBean implements Serializable {
         System.out.print(date);
         Path file = Files.createTempFile(folder, date, ".prism");
         Files.move(file, Paths.get(path, date + ".prism"));
-        ArrayList<Student> students = (ArrayList<Student>) moduleEntity.getStudents();
-        String assignmentname = moduleCode + selectedFolder;
-        for(int i=0;i<students.size();i++) {
-            addEvent(students.get(i), assignmentname);
-        }
+//        ArrayList<Student> students = (ArrayList<Student>) moduleEntity.getStudents();
+//        String assignmentname = moduleCode + selectedFolder;
+//        for(int i=0;i<students.size();i++) {
+//            addEvent(students.get(i), assignmentname);
+//        }
     }
 
-    public void addEvent(Student student, String assignmentname) {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");
-        Timeslot timeslot = (Timeslot) event.getData();
-        sbl.updateTimeslot(timeslot.getId(), event.getTitle(),
-                df.format(event.getStartDate()), df.format(event.getEndDate()), "Assignment " + assignmentname + " due", "");
-        eventModel.updateEvent(new DefaultScheduleEvent(timeslot.getTitle(),
-                toCalendar(timeslot.getStartDate()), toCalendar(timeslot.getEndDate()), timeslot));
-
-        event = new DefaultScheduleEvent();
-
-    }
-
+//    public void addEvent(Student student, String assignmentname) {
+//        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");
+//        Timeslot timeslot = (Timeslot) event.getData();
+//        sbl.updateTimeslot(timeslot.getId(), event.getTitle(),
+//                df.format(event.getStartDate()), df.format(event.getEndDate()), "Assignment " + assignmentname + " due", "");
+//        eventModel.updateEvent(new DefaultScheduleEvent(timeslot.getTitle(),
+//                toCalendar(timeslot.getStartDate()), toCalendar(timeslot.getEndDate()), timeslot));
+//
+//        event = new DefaultScheduleEvent();
+//
+//    }
     public void createSubNodes() {
         ArrayList<String> templist = new ArrayList<String>();
         MindmapNode subnode;
@@ -343,6 +368,7 @@ public class LecturerMindmapBean implements Serializable {
         session = (HttpSession) context.getExternalContext().getSession(true);
         listoffiles.clear();
         selectedNode = (MindmapNode) event.getObject();
+        displaydeadline = "";
         MindmapNode node = (MindmapNode) event.getObject();
         if (node.getLabel().equals(moduleCode)) {
             refresh();
@@ -350,6 +376,7 @@ public class LecturerMindmapBean implements Serializable {
             refreshlistoffiles(node);
             if (node.getParent().getLabel().equals("Assignments")) {
                 getSubmittedFiles(node);
+                displaydeadline = getDeadline();
             }
         }
     }
@@ -502,22 +529,29 @@ public class LecturerMindmapBean implements Serializable {
         refreshlistoffiles(selectedNode);
     }
 
-    public Date getInitialDate() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 0, 0, 0);
-        return calendar.getTime();
+//    public Date getInitialDate() {
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 0, 0, 0);
+//        return calendar.getTime();
+//    }
+//
+//    public static Date toCalendar(String date) {
+//        Calendar t = Calendar.getInstance();
+//        try {
+//            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");
+//            Date d = df.parse(date);
+//            t.setTime(d);
+//        } catch (Exception e) {
+//            System.err.println(e);
+//        }
+//        return t.getTime();
+//    }
+    public String getDisplaydeadline() {
+        return displaydeadline;
     }
 
-    public static Date toCalendar(String date) {
-        Calendar t = Calendar.getInstance();
-        try {
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");
-            Date d = df.parse(date);
-            t.setTime(d);
-        } catch (Exception e) {
-            System.err.println(e);
-        }
-        return t.getTime();
+    public void setDisplaydeadline(String displaydeadline) {
+        this.displaydeadline = displaydeadline;
     }
 
     public MindmapNode getRoot() {

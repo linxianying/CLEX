@@ -218,7 +218,7 @@ public class StudyPlanBean {
         }
     }
 
-    public void getTakenModuleInfo(Module moduleEntity) {
+    public void getModuleInfo(Module moduleEntity) {
         showModuleInfo = "";
         showWorkload = "";
         showPrerequisite = "";
@@ -228,10 +228,13 @@ public class StudyPlanBean {
         showPrerequisite = moduleEntity.getPrerequisite();
         showPreclusions = moduleEntity.getPreclusions();
         showModule = moduleEntity;
+        System.out.println(showWorkload);
+        System.out.println(showPrerequisite);
+        
     }
 
     public void getModuleReviewsList(Course courseEntity) {
-        moduleReviews = null;
+        moduleReviews.clear();
         showModuleInfo = "";
         showWorkload = "";
         showModuleInfo = courseEntity.getModuleInfo();

@@ -22,36 +22,39 @@
                 <p:tab title="#{bundle['MANAGECURRENTMODULE']}">
                     <p:dataTable var="module" value="#{lecturerModuleListBean.currentModules}" id="currentModules" rows="5"
                                  emptyMessage="#{bundle['noMod']}" 
+                                 scrollable="true"
+                                 
                                  paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
-                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} 
+                                 {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
                                  rowsPerPageTemplate="5,10,20">
 
                         <f:facet name="header">
                             <p:outputPanel>
-                                <h:outputText value="Search all fields:" />
-                                <p:inputText id="globalFilter" onkeyup="PF('modulesTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                <h:outputText value="#{bundle['Search']}:" />
+                                <p:inputText id="globalFilter" onkeyup="PF('modulesTable').filter()" style="width:150px" placeholder="#{bundle['EnterKeyword']}"/>
                             </p:outputPanel>
                         </f:facet>  
                         <f:facet name="{Exporters}">
                             <div style="float:right;">
                                 <h:commandLink>
                                     <p:graphicImage name="/demo/images/excel.png" width="24"/>
-                                    <p:dataExporter type="xls" target="modules" fileName="modules"  />
+                                    <p:dataExporter type="xls" target="currentModules" fileName="modules"  />
                                 </h:commandLink>
 
                                 <h:commandLink>
                                     <p:graphicImage name="/demo/images/pdf.png" width="24"/>
-                                    <p:dataExporter type="pdf" target="modules" fileName="modules" />
+                                    <p:dataExporter type="pdf" target="currentModules" fileName="modules" />
                                 </h:commandLink>
 
                                 <h:commandLink>
                                     <p:graphicImage name="/demo/images/csv.png" width="24"/>
-                                    <p:dataExporter type="csv" target="modules" fileName="modules"  />
+                                    <p:dataExporter type="csv" target="currentModules" fileName="modules"  />
                                 </h:commandLink>
 
                                 <h:commandLink>
                                     <p:graphicImage name="/demo/images/xml.png" width="24"/>
-                                    <p:dataExporter type="xml" target="modules" fileName="modules"/>
+                                    <p:dataExporter type="xml" target="currentModules" fileName="modules"/>
                                 </h:commandLink>
                             </div>
                         </f:facet>
@@ -80,10 +83,11 @@
                             <br /><br />
                             <p:commandButton icon="fa fa-user" value="#{bundle['ViewPR']}"  actionListener="#{lecturerModuleListBean.goPRPage(module)}" action="lecturerPR?faces-redirect=true" 
                                              rendered="#{not empty module.superGroup and module.superGroup.confirm and not empty module.peerReviewQuestion and not empty module.peerReviewQuestion.answer}"/>
-                            <br /><br />
+                            
                         </p:column>
                         <p:column style="text-align: center;width: 20%" headerText="#{bundle['Materials/Activities']}">
                             <p:commandButton value="#{bundle['ManageMaterials']}" actionListener="#{lecturerModuleListBean.manageMaterials(module)}" icon="fa fa-book"/>
+                            <br /> <br />
                             <p:commandButton value="#{bundle['ManageActivities']}" actionListener="#{lecturerModuleListBean.manageActivities(module)}" icon="fa fa-search"/>                            
                         </p:column>
                         
@@ -104,7 +108,7 @@
                         <f:facet name="header">
                             <p:outputPanel>
                                 <h:outputText value="#{bundle['Search']}:" />
-                                <p:inputText id="globalFilter" onkeyup="PF('modulesTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                <p:inputText id="globalFilter" onkeyup="PF('modulesTable').filter()" style="width:150px" placeholder="#{bundle['EnterKeyword']}"/>
                             </p:outputPanel>
 
                         </f:facet>  
@@ -132,7 +136,7 @@
                                 </h:commandLink>
                             </div>
                         </f:facet>
-                        <p:column style="text-align: center;width: 15%" filterBy="#{module.course.moduleCode}" sortBy="#{module.course.moduleCode}" headerText="#{bundle['Module Code']}" filterMatchMode="contains">
+                        <p:column style="text-align: center;width: 15%" filterBy="#{module.course.moduleCode}" sortBy="#{module.course.moduleCode}" headerText="#{bundle['ModuleCode']}" filterMatchMode="contains">
                             <h:outputText value="#{module.course.moduleCode} " >
 
                             </h:outputText>

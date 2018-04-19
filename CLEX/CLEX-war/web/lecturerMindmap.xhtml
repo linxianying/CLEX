@@ -103,7 +103,10 @@
                     </ui:repeat>
                 </h:panelGroup>
                 <h:panelGroup>
+                    
                     <p:separator rendered="#{empty lecturerMindmapBean.submittedfiles  and lecturerMindmapBean.selectedNode.parent.label eq 'Assignments'}"/>
+                    <h:outputLabel style="font-weight: bold" value="#{lecturerMindmapBean.displaydeadline}" />
+                    <br />
                     <h:outputLabel style="font-weight: bold" value="No files have been submitted yet!" rendered="#{empty lecturerMindmapBean.submittedfiles  and lecturerMindmapBean.selectedNode.parent.label eq 'Assignments'}"/>
                     <h:panelGroup rendered="#{not empty lecturerMindmapBean.submittedfiles}">
                         <p:separator/>

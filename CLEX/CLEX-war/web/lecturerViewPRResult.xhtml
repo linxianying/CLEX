@@ -6,56 +6,72 @@
                 template="/WEB-INF/template_lecturer.xhtml" 
                 xmlns:p="http://primefaces.org/ui" 
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
-    
+
     <ui:define name="title">PRISM Lecturer Peer Review page</ui:define>
-    
+
     <ui:define name="viewname">View Submitted Peer Review</ui:define>
-    
+
     <ui:define name="content">
         <h:panelGroup id="individualQuestions">
             <h3>Reviewer #{lecturerViewPRBean.student.name}</h3>
             <h3>Individual Question</h3>
             <ui:repeat value="#{lecturerViewPRBean.individualAnswers}" var="inner" varStatus="outIndex">
-                <h3><h:outputText value="For Group Member #{lecturerViewPRBean.groupMembers.get(outIndex.index).getName()}"/></h3>
-                <h3><h:outputText value="(Self Evaluation)" rendered="#{lecturerViewPRBean.student.username eq lecturerViewPRBean.groupMembers.get(outIndex.index).getUsername()}"/></h3>
+                <h4><h:outputText value="(Others) #{lecturerViewPRBean.groupMembers.get(outIndex.index).getName()}" rendered="#{lecturerViewPRBean.student.username ne lecturerViewPRBean.groupMembers.get(outIndex.index).getUsername()}"/></h4>
+                <h4><h:outputText value="(Self-Evaluation) #{lecturerViewPRBean.groupMembers.get(outIndex.index).getName()}" rendered="#{lecturerViewPRBean.student.username eq lecturerViewPRBean.groupMembers.get(outIndex.index).getUsername()}"/></h4>
                 <ui:repeat value="#{lecturerViewPRBean.individualAnswers[outIndex.index]}" var="indAnswer" varStatus="indIndex">
-                    <h:outputText value="Q#{indIndex.index+1}. "/>
-                    <h:outputText value="#{lecturerViewPRBean.individualQuestions.get(indIndex.index).getQuestion()}"/>
+                    <h:panelGroup>
+                        <h:outputText value="Q#{indIndex.index+1}. "/>
+                        <h:outputText value="#{lecturerViewPRBean.individualQuestions.get(indIndex.index).getQuestion()} "/>
+                        <h:outputText style="font-weight: bold" value="(Scale: 1-#{lecturerViewPRBean.individualQuestions.get(indIndex.index).getLevelOfRating()})" 
+                                      rendered="#{lecturerViewPRBean.individualQuestions.get(indIndex.index).type eq 'rating'}"  /> 
+                    </h:panelGroup>
+
                     <br/>
-                    <h:outputText value="Scale: 1-#{lecturerViewPRBean.individualQuestions.get(indIndex.index).getLevelOfRating()}" 
-                                  rendered="#{lecturerViewPRBean.individualQuestions.get(indIndex.index).type eq 'rating'}"  /> 
-                    <br/>
-                    <h:outputText value="Answer: #{inner.get(0)}"/>
+                    <h:panelGroup>
+                        <h:outputText value="Answer: "/>
+                        <h:outputText style="font-weight: bold" value="#{inner.get(0)}"/>
+                    </h:panelGroup>
                     <br/>
                     <br />
                 </ui:repeat>
             </ui:repeat>
-            
+
             <br/>
-            
+
         </h:panelGroup>
+        <p:separator/>
         <h:panelGroup id="groupQuestions"> 
             <h3>Group Question</h3>
             <ui:repeat value="#{lecturerViewPRBean.groupAnswers}" var="grAnswer" varStatus="grIndex" id="grpRepeat">
                 <h:outputText value="Q#{grIndex.index+1}. "/>
                 <h:outputText value="#{lecturerViewPRBean.groupQuestions.get(grIndex.index).getQuestion()}"/>
                 <br/>
-                <h:outputText value="Answer: #{grAnswer.get(0)}" 
-                              rendered="#{lecturerViewPRBean.groupQuestions.get(grIndex.index).type eq 'open' }"/>
-                <h:outputText value="Scale: 1-#{lecturerViewPRBean.groupQuestions.get(indIndex.index).getLevelOfRating()}"
-                              rendered="#{lecturerViewPRBean.groupQuestions.get(indIndex.index).type eq 'rating'}"  /> 
+                <h:panelGroup>
+                    <h:outputText value="Answer: " 
+                                  rendered="#{lecturerViewPRBean.groupQuestions.get(grIndex.index).type eq 'open' }"/>
+                    <h:outputText style="font-weight: bold" value="#{grAnswer.get(0)}" 
+                                  rendered="#{lecturerViewPRBean.groupQuestions.get(grIndex.index).type eq 'open' }"/>
+                    <h:outputText style="font-weight: bold" value="(Scale: 1-#{lecturerViewPRBean.groupQuestions.get(indIndex.index).getLevelOfRating()})"
+                                  rendered="#{lecturerViewPRBean.groupQuestions.get(indIndex.index).type eq 'rating'}"  /> 
+                </h:panelGroup>
+
                 <br/>
-                <h:outputText value="Answer: #{grAnswer.get(0)}" 
-                              rendered="#{lecturerViewPRBean.groupQuestions.get(indIndex.index).type eq 'rating'}"  /> 
+                <h:panelGroup>
+                    <h:outputText value="Answer: " 
+                                  rendered="#{lecturerViewPRBean.groupQuestions.get(indIndex.index).type eq 'rating'}"  /> 
+                    <h:outputText style="font-weight: bold" value="#{grAnswer.get(0)}" 
+                                  rendered="#{lecturerViewPRBean.groupQuestions.get(indIndex.index).type eq 'rating'}"  /> 
+                </h:panelGroup>
+
                 <br/>           
-                
+
                 <p:dataTable var="groupMemberUsername" value="#{grAnswer}" rowIndexVar="indIndex" style="margin-bottom:20px"
                              rendered="#{lecturerViewPRBean.groupQuestions.get(grIndex.index).type eq 'ranking'}" id="rankingTable">
                     <f:facet name="header">
-                        Answer (the top one, the best):
+                        Ranking (In Ascending Order):
                     </f:facet>
                     <p:column>
-                        <h:outputText value="No. #{indIndex+1} "/>
+                        <h:outputText value="#{indIndex+1}. "/>
                         <h:outputText value="#{lecturerViewPRBean.getStudentInfo(groupMemberUsername)}"/>
                     </p:column>                                
                 </p:dataTable>

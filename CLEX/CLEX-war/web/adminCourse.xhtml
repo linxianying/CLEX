@@ -42,7 +42,7 @@
                                     </p:outputPanel>
                                 </f:facet>  
                                 <f:facet name="{Exporters}">
-                                    <div>
+                                    <div style="float:right;">
                                         <!--could add pageOnly="true" to make the exporter only export one page -->
                                         <h:commandLink>
                                             <p:graphicImage name="/demo/images/excel.png" width="24"/>
@@ -212,13 +212,38 @@
                                          emptyMessage="No modules found with given criteria." 
                                          filteredValue="#{adminCourseListBean.filteredModules}"
                                          paginator="true" rows="10" paginatorAlwaysVisible="false"
-                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
+                                         {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
                                          rowsPerPageTemplate="10,20,50">
                                 <f:facet name="header">
                                     <p:outputPanel>
                                         <h:outputText value="Search all fields:" />
                                         <p:inputText id="globalFilter" onkeyup="PF('modulesTable').filter()" style="width:150px" placeholder="Enter keyword"/>
                                     </p:outputPanel>
+                                </f:facet>
+                                <f:facet name="{Exporters}">
+                                    <div style="float:right;">
+                                        <!--could add pageOnly="true" to make the exporter only export one page -->
+                                        <h:commandLink>
+                                            <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                                            <p:dataExporter type="xls" target="moduletable" fileName="module"  pageOnly="true" />
+                                        </h:commandLink>
+
+                                        <h:commandLink>
+                                            <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                                            <p:dataExporter type="pdf" target="moduletable" fileName="module" pageOnly="true" />
+                                        </h:commandLink>
+
+                                        <h:commandLink>
+                                            <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                                            <p:dataExporter type="csv" target="moduletable" fileName="module"  pageOnly="true" />
+                                        </h:commandLink>
+
+                                        <h:commandLink>
+                                            <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                                            <p:dataExporter type="xml" target="moduletable" fileName="module" pageOnly="true" />
+                                        </h:commandLink>
+                                    </div>
                                 </f:facet>
                                 <p:ajax event="cellEdit" listener="#{adminCourseListBean.editModule(module)}" update="messages"/>
                                 <p:column filterBy="#{module.course.school}" headerText="School" sortBy="#{module.course.school}" filterMatchMode="contains">
@@ -299,13 +324,38 @@
                                          widgetVar="lessonsTable" emptyMessage="No lessons found with given criteria." 
                                          filteredValue="#{adminCourseListBean.filteredLessons}"
                                          paginator="true" rows="10" paginatorAlwaysVisible="false"
-                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+                                         {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
                                          rowsPerPageTemplate="10,20,50">
                                 <f:facet name="header">
                                     <p:outputPanel>
                                         <h:outputText value="Search all fields:" />
                                         <p:inputText id="globalFilter" onkeyup="PF('lessonsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
                                     </p:outputPanel>
+                                </f:facet>
+                                <f:facet name="{Exporters}">
+                                    <div style="float:right;">
+                                        <!--could add pageOnly="true" to make the exporter only export one page -->
+                                        <h:commandLink>
+                                            <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                                            <p:dataExporter type="xls" target="lessontable" fileName="lesson"  />
+                                        </h:commandLink>
+
+                                        <h:commandLink>
+                                            <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                                            <p:dataExporter type="pdf" target="lessontable" fileName="lesson"  />
+                                        </h:commandLink>
+
+                                        <h:commandLink>
+                                            <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                                            <p:dataExporter type="csv" target="lessontable" fileName="lesson"  />
+                                        </h:commandLink>
+
+                                        <h:commandLink>
+                                            <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                                            <p:dataExporter type="xml" target="lessontable" fileName="lesson" />
+                                        </h:commandLink>
+                                    </div>
                                 </f:facet>
                                 <p:ajax event="cellEdit" listener="#{adminCourseListBean.editLesson(lesson)}" update="messages"/>
                                 <p:column filterBy="#{lesson.module.course.school}" headerText="School" sortBy="#{course.school}" filterMatchMode="contains">

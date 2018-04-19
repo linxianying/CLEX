@@ -130,7 +130,7 @@
                                      rows="15" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
                                      emptyMessage="#{bundle['NoThread']}">
                             <p:ajax event="rowSelect" listener="#{forumListBean.onRowSelect}" update="messages" />                            
-                            <p:column style="height:40px" headerText="Pinned Threads (Includes Module Reviews and Bazaar Corner)" >                                
+                            <p:column style="height:40px" headerText="#{bundle['pinnedThreads']}" >                                
                                 <h:panelGroup>
                                     <h:panelGroup>
                                         <h:outputLabel style="font-size: 16px; font-weight: bold" value="**IMPORTANT** - " rendered="#{important.tag eq 'important'}"/>
@@ -142,14 +142,14 @@
                                 <br />
                                 <h:outputLabel style="font-size: 11px" value="#{important.user.name} - #{forumListBean.dayTime(important)}" />   
                                 <br />
-                                <h:outputLabel style="font-size: 11px" value=" Last edited: #{forumListBean.latestReplyDayTime(important.editDateTime)}" rendered="#{important.edited == true}"/> 
+                                <h:outputLabel style="font-size: 11px" value=" #{bundle['lastEdit']}: #{forumListBean.latestReplyDayTime(important.editDateTime)}" rendered="#{important.edited == true}"/> 
 
-                                <h:outputLabel style="font-size: 11px" value=" Last post: #{forumListBean.latestReplyDayTime(important.latestReplyDateTime)}" /> 
+                                <h:outputLabel style="font-size: 11px" value=" #{bundle['lastPost']}: #{forumListBean.latestReplyDayTime(important.latestReplyDateTime)}" /> 
                             </p:column>
-                            <p:column style="text-align: center;width: 11%;height:40px" headerText="Replies" >
+                            <p:column style="text-align: center;width: 11%;height:40px" headerText="#{bundle['Replies']}" >
                                 <h:outputLabel style="font-size: 16px" value="#{important.replies.size()}"/> 
                             </p:column>
-                            <p:column style="text-align: center;width: 11%;height:40px" headerText="Votes" >
+                            <p:column style="text-align: center;width: 11%;height:40px" headerText="#{bundle['Votes']}" >
                                 <h:outputLabel id="positiveThread" style="font-size:16px; font-weight: bold;" value="+#{important.upVote - threads.downVote}" rendered="#{(important.upVote - important.downVote) gt 0}"/>
                                 <h:outputLabel id="negativeThead" style="font-size:16px; font-weight: bold;" value="#{important.upVote - threads.downVote}" rendered="#{(important.upVote - important.downVote) lt 0}"/>
                                 <h:outputLabel id="zeroThread" style="font-size:16px; font-weight: bold;" value="0" rendered="#{(important.upVote - important.downVote) == 0}"/>
@@ -163,17 +163,17 @@
                                      rows="15" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
                                      emptyMessage="#{bundle['NoThreadCreated']}">
                             <p:ajax event="rowSelect" listener="#{forumListBean.onRowSelect}" update="messages" />                            
-                            <p:column style="height:40px" headerText="Thread / Thread Starter" >                                
+                            <p:column style="height:40px" headerText="#{bundle['thread']}" >                                
                                 <h:outputLabel style="font-size: 16px" value="#{threads.title}"/>
                                 <br />
                                 <h:outputLabel style="font-size: 11px" value="#{threads.user.name} - #{forumListBean.dayTime(threads)}" />   
                                 <br />
-                                <h:outputLabel style="font-size: 11px" value=" Last post: #{forumListBean.latestReplyDayTime(threads.latestReplyDateTime)}" /> 
+                                <h:outputLabel style="font-size: 11px" value=" #{bundle['lastPost']}: #{forumListBean.latestReplyDayTime(threads.latestReplyDateTime)}" /> 
                             </p:column>
-                            <p:column style="text-align: center;width: 11%;height:40px" headerText="Replies" >
+                            <p:column style="text-align: center;width: 11%;height:40px" headerText="#{bundle['Replies']}" >
                                 <h:outputLabel style="font-size: 16px" value="#{threads.replies.size()}"/> 
                             </p:column>
-                            <p:column style="text-align: center;width: 11%;height:40px" headerText="Votes" >
+                            <p:column style="text-align: center;width: 11%;height:40px" headerText="#{bundle['Votes']}" >
                                 <h:outputLabel id="positiveThread" style="font-size:16px; font-weight: bold;" value="+#{threads.upVote - threads.downVote}" rendered="#{(threads.upVote - threads.downVote) gt 0}"/>
                                 <h:outputLabel id="negativeThead" style="font-size:16px; font-weight: bold;" value="#{threads.upVote - threads.downVote}" rendered="#{(threads.upVote - threads.downVote) lt 0}"/>
                                 <h:outputLabel id="zeroThread" style="font-size:16px; font-weight: bold;" value="0" rendered="#{(threads.upVote - threads.downVote) == 0}"/>
@@ -186,13 +186,19 @@
 
             <p:tab title="#{bundle['MODULE REVIEWS']} - #{forumListBean.userEntity.school}">
                 <p:commandButton value="#{bundle['searchModCode']}" id="searchButton2" icon="fa fa-search" >
-                    <p:overlayPanel for="searchButton2" showEffect="fade" hideEffect="fade" widgetVar="searchWidget">
+                    <p:overlayPanel id="searchreviewwidget" for="searchButton2" showEffect="fade" hideEffect="fade" widgetVar="searchWidget2"  style="width: 300px; height: 333px">
                         <h:form id="searchForm2">
                             <h:panelGrid columns="1">
-                                <p:inputTextarea rows="1" cols="50" title="#{bundle['modCode']}" placeholder="#{bundle['modCode']}" id="searchtitle" value="#{forumListBean.searchModuleCode}"/>                                    
+                                <p:outputLabel id="viewLabel" for="moduleCode" value="#{bundle['modCode']}" />
+                                <p:selectOneMenu id="moduleCode" value="#{forumListBean.searchModuleCode}"  panelStyle="width:180px" effect="fade" 
+                                                 var="course" style="width:160px" filter="true" filterMatchMode="contains" appendTo="@this">
+                                    <!--p:ajax event="change" listener="#{forumListBean.searchReview()}" update="communityTab:forumForm2, messages, communityTab:searchForm2"  /-->
+                                    <f:selectItem itemLabel="#{bundle['SelectOne']}" itemValue="select"/>
+                                    <f:selectItems value="#{forumListBean.courses}" var="course" itemLabel="#{course.moduleCode}" itemValue="#{course.moduleCode}" />
+                                </p:selectOneMenu>                                 
                                 <h:panelGroup>
-                                    <p:commandButton oncomplete="PF('searchWidget').hide()" icon="fa fa-search-plus" value="Search Review" actionListener="#{forumListBean.searchReview}" update="communityTab:forumForm2, messages, communityTab:searchForm2"/>
-                                    <p:commandButton oncomplete="PF('searchWidget').hide()" icon="fa fa-search-minus" value="Clear Search" actionListener="#{forumListBean.refresh()}" update="communityTab:forumForm2, messages, communityTab:searchForm2" />
+                                    <p:commandButton id="searchreview" oncomplete="PF('searchWidget2').hide()" icon="fa fa-search" value="#{bundle['Search']}" actionListener="#{forumListBean.searchReview}" update="communityTab:forumForm2, messages, communityTab:searchForm2"/>
+                                    <p:commandButton id="clearsearchreview" oncomplete="PF('searchWidget2').hide()" icon="fa fa-search-minus" value="#{bundle['clearSearch']}" actionListener="#{forumListBean.refresh()}" update="communityTab:forumForm2, messages, communityTab:searchForm2" />
                                 </h:panelGroup>
                             </h:panelGrid>
                         </h:form>
@@ -207,27 +213,28 @@
                                      rows="15" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
                                      emptyMessage="#{bundle['noReview']}">
                             <p:ajax event="rowSelect" listener="#{forumListBean.onRowSelect}" update="messages" />                            
-                            <p:column style="height:40px" headerText="Review" >                                
+                            <p:column style="height:40px" headerText="#{bundle['Review']}" >                                
                                 <h:outputLabel style="font-size: 16px" value="#{threads.title}"/>
                                 <br />
                                 <h:outputLabel style="font-size: 11px" value="#{threads.user.name} - #{forumListBean.dayTime(threads)}" />   
                                 <br />
-                                <h:outputLabel style="font-size: 11px" value=" Last post: #{forumListBean.latestReplyDayTime(threads.latestReplyDateTime)}" /> 
+                                <h:outputLabel style="font-size: 11px" value=" #{bundle['lastPost']}: #{forumListBean.latestReplyDayTime(threads.latestReplyDateTime)}" /> 
                             </p:column>
-                            <p:column style="text-align: center;width: 11%;height:40px" headerText="Replies" >
+                            <p:column style="text-align: center;width: 11%;height:40px" headerText="#{bundle['Replies']}" >
                                 <h:outputLabel style="font-size: 16px" value="#{threads.replies.size()}"/> 
                             </p:column>
-                            <p:column style="width: 11%;height:40px; text-align: center" headerText="Votes" >
-                                <h:outputLabel id="positiveThread" style="font-size:16px; font-weight: bold;" value="+#{threads.upVote - threads.downVote}" rendered="#{(threads.upVote - threads.downVote) gt 0}"/>
+                            <p:column style="text-align: center;width: 11%;height:40px" headerText="#{bundle['Votes']}" >
+                                <h:outputLabel id="positiveThread" style="font-size:16px; font-weight: bold" value="+#{threads.upVote - threads.downVote}" rendered="#{(threads.upVote - threads.downVote) gt 0}"/>
                                 <h:outputLabel id="negativeThead" style="font-size:16px; font-weight: bold;" value="#{threads.upVote - threads.downVote}" rendered="#{(threads.upVote - threads.downVote) lt 0}"/>
-                                <h:outputLabel id="zeroThread" style="font-size:16px; font-weight: bold; " value="0" rendered="#{(threads.upVote - threads.downVote) == 0}"/>
+                                <h:outputLabel id="zeroThread" style="font-size:16px; font-weight: bold;" value="0" rendered="#{(threads.upVote - threads.downVote) == 0}"/>
                             </p:column>
                         </p:dataTable>
                     </h:panelGroup>
                 </h:form>
+                <br /><br />
             </p:tab>
             <p:tab title="#{bundle['BAZAAR CORNER']} - #{forumListBean.userEntity.school}">
-                <p:commandButton icon="fa fa-plus" value="Buy/Sell" id="newSalesButton" >
+                <p:commandButton icon="fa fa-plus" value="#{bundle['buySell']}" id="newSalesButton" >
                     <p:overlayPanel id="createsaleswidget" for="newSalesButton" showEffect="fade" hideEffect="fade" widgetVar="createSalesWidget">
                         <h:form id="salesForm">
                             <h:panelGrid columns="1">     
@@ -236,20 +243,19 @@
                                     <f:selectItem itemLabel="#{bundle['Sell']}" itemValue="sell" />
                                     <f:selectItem itemLabel="#{bundle['Buy']}" itemValue="buy" />
                                 </p:selectOneRadio>
-                                <!--<p:inputTextarea rows="1" cols="100" title="Title" placeholder="Thread Title" id="title2" value="#{forumListBean.tTitle}"/>-->
                                 <h:panelGrid columns="4" id="salegroup">
                                     <h:panelGroup >
-                                        <h:outputText value="Item for sale: " rendered="#{forumListBean.buysell == 'sell'}"/>
-                                        <h:outputText value="Looking for: " rendered="#{forumListBean.buysell == 'buy'}"/>
+                                        <h:outputText value="#{bundle['saleItem']}: " rendered="#{forumListBean.buysell == 'sell'}"/>
+                                        <h:outputText value="#{bundle['lookFor']}: " rendered="#{forumListBean.buysell == 'buy'}"/>
                                     </h:panelGroup>
-                                    <p:inputText value="#{forumListBean.bazaaritem}" required="true" requiredMessage="Please enter an item name"/>
-                                    <h:outputText value="Price (SGD$): "/>
-                                    <p:inputNumber minValue="0.01" value="#{forumListBean.bazaarprice}" required="true" requiredMessage="Please enter a price"/>
-                                    <h:outputText value="Condition: "/>
+                                    <p:inputText value="#{forumListBean.bazaaritem}" required="true" requiredMessage="#{bundle['enterName']}"/>
+                                    <h:outputText value="#{bundle['sgdPrice']}: "/>
+                                    <p:inputNumber minValue="0.01" value="#{forumListBean.bazaarprice}" required="true" requiredMessage="#{bundle['enterPrice']}"/>
+                                    <h:outputText value="#{bundle['Condition']}: "/>
                                     <p:selectOneRadio id="condition" value="#{forumListBean.bazaarcondition}" required="true">
-                                        <f:selectItem itemLabel="Brand New" itemValue="Brand New" />
-                                        <f:selectItem itemLabel="Like New" itemValue="Like New" />
-                                        <f:selectItem itemLabel="Used" itemValue="Used" />
+                                        <f:selectItem itemLabel="#{bundle['brandNew']}" itemValue="Brand New" />
+                                        <f:selectItem itemLabel="#{bundle['likeNew']}" itemValue="Like New" />
+                                        <f:selectItem itemLabel="#{bundle['Used']}" itemValue="Used" />
                                     </p:selectOneRadio>
                                 </h:panelGrid>
                                 <p:textEditor id="content2" widgetVar="editor2" value="#{forumListBean.tContent}" height="150" style="margin-bottom:10px" placeholder="Other details about the Item">
@@ -285,19 +291,19 @@
                         </h:form>
                     </p:overlayPanel>
                 </p:commandButton>
-                <p:commandButton value="Search" id="searchButton3" icon="fa fa-search" >
+                <p:commandButton value="#{bundle['Search']}" id="searchButton3" icon="fa fa-search" >
                     <p:overlayPanel for="searchButton3" showEffect="fade" hideEffect="fade" widgetVar="searchWidget3">
                         <h:form id="searchForm3">
                             <h:panelGrid columns="1">
                                 <p:selectOneRadio id="buysell2" value="#{forumListBean.buysell}">
-                                    <f:selectItem itemLabel="Sell" itemValue="sell" />
-                                    <f:selectItem itemLabel="Buy" itemValue="buy" />
+                                    <f:selectItem itemLabel="#{bundle['Sell']}" itemValue="sell" />
+                                    <f:selectItem itemLabel="#{bundle['Buy']}" itemValue="buy" />
                                 </p:selectOneRadio>
-                                <p:inputTextarea rows="1" cols="50" title="Title" placeholder="Sales Title (Optional)" id="searchtitle3" value="#{forumListBean.searchTitle}"/>                                    
-                                <p:inputTextarea rows="5" cols="50" title="Content" placeholder="Sales Content (Optional)" id="searchcontent3" value="#{forumListBean.searchContent}" />
+                                <p:inputTextarea rows="1" cols="50" title="#{bundle['Title']}" placeholder="#{bundle['optionalTitle']}" id="searchtitle3" value="#{forumListBean.searchTitle}"/>                                    
+                                <p:inputTextarea rows="5" cols="50" title="#{bundle['Content']}" placeholder="#{bundle['optionalContent']}" id="searchcontent3" value="#{forumListBean.searchContent}" />
                                 <h:panelGroup>
-                                    <p:commandButton id="searchsales" oncomplete="PF('searchWidget3').hide()" icon="fa fa-search" value="Sales" actionListener="#{forumListBean.searchSales}" update="communityTab:salesForum, messages, communityTab:searchForm3"/>
-                                    <p:commandButton id="clearsearchsales" oncomplete="PF('searchWidget3').hide()" icon="fa fa-search-minus" value="Clear" actionListener="#{forumListBean.refresh()}" update="communityTab:salesForum, messages, communityTab:searchForm3" />
+                                    <p:commandButton id="searchsales" oncomplete="PF('searchWidget3').hide()" icon="fa fa-search" value="#{bundle['Search']}" actionListener="#{forumListBean.searchSales}" update="communityTab:salesForum, messages, communityTab:searchForm3"/>
+                                    <p:commandButton id="clearsearchsales" oncomplete="PF('searchWidget3').hide()" icon="fa fa-search-minus" value="#{bundle['clearSearch']}" actionListener="#{forumListBean.refresh()}" update="communityTab:salesForum, messages, communityTab:searchForm3" />
                                 </h:panelGroup>
                             </h:panelGrid>
                         </h:form>
@@ -310,19 +316,19 @@
                                      id="salestable" value="#{forumListBean.bazaar}" 
                                      var="sales" paginator="true" 
                                      rows="15" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
-                                     emptyMessage="#{bundle['noBargain']}">
+                                     emptyMessage="#{bundle['noBargains']}">
                             <p:ajax event="rowSelect" listener="#{forumListBean.onRowSelect}" update="messages" />                            
-                            <p:column style="height:40px" headerText="Thread / Thread Starter" >                                
+                            <p:column style="height:40px" headerText="#{bundle['thread']}" >                                
                                 <h:outputLabel style="font-size: 16px" value="#{sales.title}"/>
                                 <br />
                                 <h:outputLabel style="font-size: 11px" value="#{sales.user.name} - #{forumListBean.dayTime(sales)}" />   
                                 <br />
-                                <h:outputLabel style="font-size: 11px" value=" Last post: #{forumListBean.latestReplyDayTime(sales.latestReplyDateTime)}" /> 
+                                <h:outputLabel style="font-size: 11px" value=" #{bundle['lastPost']}: #{forumListBean.latestReplyDayTime(sales.latestReplyDateTime)}" /> 
                             </p:column>
-                            <p:column style="text-align: center;width: 11%;height:40px" headerText="Replies" >
+                            <p:column style="text-align: center;width: 11%;height:40px" headerText="#{bundle['Replies']}" >
                                 <h:outputLabel style="font-size: 16px" value="#{sales.replies.size()}"/> 
                             </p:column>
-
+                            
                         </p:dataTable>
                     </h:panelGroup>
                 </h:form>
