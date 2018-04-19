@@ -65,7 +65,7 @@ public class AnnouncementBean {
 
     @EJB
     StudyPlanSessionBeanLocal spsbl;
-    
+
     @EJB
     ClexSessionBeanLocal csbl;
 
@@ -145,6 +145,7 @@ public class AnnouncementBean {
             } else if (this.type == null) {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Intended recipients needed", "Please select from the list.");
             } else {
+                System.out.println(type);
                 asbl.createLecturerAnnc(username, title, message, type);
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Announcement created.", "");
                 title = "";
@@ -164,10 +165,10 @@ public class AnnouncementBean {
                 asbl.createAdminAnnc(username, title, message, audience);
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Announcement created.", "");
                 System.out.println("Audience == " + audience);
-                
+
                 if (audience.equals("1")) {
                     postToTwitter(title, message);
-                    postToFacebook(title,message);
+                    postToFacebook(title, message);
                 }
                 //context.getExternalContext().redirect("adminMain.xhtml"); //redirect will not show success message
                 title = "";
@@ -178,6 +179,7 @@ public class AnnouncementBean {
         } else {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error creating announcement.", "Missing fields");
         }
+        context.getExternalContext().getFlash().setKeepMessages(true);
         context.addMessage(null, fmsg);
     }
 
@@ -335,10 +337,8 @@ public class AnnouncementBean {
 
     public void postToFacebook(String title, String message) throws FacebookException {
         //ConfigurationBuilder cb = new ConfigurationBuilder();
-        
+
         //FacebookFactory ff = new FacebookFactory((Configuration) cb.build());
-        
-        
         facebook4j.conf.ConfigurationBuilder fac = new facebook4j.conf.ConfigurationBuilder();
         FacebookFactory ff = new FacebookFactory(fac.build());
         Facebook facebook = ff.getInstance();

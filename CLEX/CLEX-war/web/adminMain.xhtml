@@ -10,7 +10,7 @@
     <ui:define name="title">Dashboard</ui:define>
 
     <ui:define name="viewname">#{bundle['dashboard']}</ui:define>
-    
+
     <ui:define name="content">
         <div>
             <h:body>
@@ -102,7 +102,13 @@
                                                         <p:commandButton  value="Delete" update="@form"
                                                                           action="adminMain?faces-redirect=true"
                                                                           actionListener="#{announcementBean.deleteAnnouncement(loginBean.username, adminAnnouncementList.id)}" 
-                                                                          id="deleteAnnouncement-button"/>
+                                                                          id="deleteAnnouncement-button">
+                                                            <p:confirm header="Delete #{adminAnnouncementList.title}" message="Deleted Announcements cannot be recovered! Are you sure?" icon="ui-icon-alert" />
+                                                        </p:commandButton>
+                                                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                                            <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                                        </p:confirmDialog>
                                                     </h:panelGrid>
                                                 </h:panelGrid>
                                             </p:tab>
@@ -135,7 +141,13 @@
                                                     <p:commandButton  value="Delete" update="@form"
                                                                       action="adminMain?faces-redirect=true"
                                                                       actionListener="#{announcementBean.deleteAnnouncement(otherAnnouncementList.getUser().getUsername(), otherAnnouncementList.id)}" 
-                                                                      id="deleteAnnouncement-button2" />
+                                                                      id="deleteAnnouncement-button2" >
+                                                        <p:confirm header="Delete #{otherAnnouncementList.title}" message="Deleted Announcements cannot be recovered! Are you sure?" icon="ui-icon-alert" />
+                                                    </p:commandButton>
+                                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                                        <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                                    </p:confirmDialog>
                                                 </h:panelGrid>
                                             </p:tab>
                                         </p:accordionPanel>
