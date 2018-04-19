@@ -73,4 +73,12 @@ public interface OrderSessionBeanLocal {
 
     public ArrayList<Shop> getAllShops(User user);
     
+    public boolean changeItemName(Item item, String newName);
+    
+    public boolean changeItemNameById(Long id, String newName);
+
+    public boolean changeItemPrice(Item item, double newPrice);
+    
+    public boolean changeItemAvailability(Item item, boolean avail);
+    
 }

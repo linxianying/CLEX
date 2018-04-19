@@ -46,6 +46,7 @@ public class ShopOrderBean implements Serializable {
     private double totalPrice;
     //for current orders
     private ArrayList<Order> currentOrders;
+    private ArrayList<Item> items;
     
     @PostConstruct
     public void init() {
@@ -64,6 +65,7 @@ public class ShopOrderBean implements Serializable {
         orders = osbl.getShopFinishOrder(username);
         totalPrice = osbl.getAllOrderPrice(username);
         currentOrders = osbl.getShopUnfinishOrder(username);
+        items = osbl.getAllItems(username);
     }
 
     public ArrayList<Item> getOrderItems(Order order) {
@@ -76,6 +78,19 @@ public class ShopOrderBean implements Serializable {
         osbl.endOrder(orderId);
         this.refresh();
     }
+    
+    public void editItemName(Item item, String newName){
+        osbl.changeItemName(item, newName);
+    }
+    
+    public void editItemPrice(Item item, double newPrice){
+        osbl.changeItemPrice(item, newPrice);  
+    }
+    
+    public void editItemAvailability(Item item, boolean avai){
+        osbl.changeItemAvailability(item, avai);  
+    }
+    
     public ClexSessionBeanLocal getCsbl() {
         return csbl;
     }
@@ -146,6 +161,14 @@ public class ShopOrderBean implements Serializable {
 
     public void setCurrentOrders(ArrayList<Order> currentOrders) {
         this.currentOrders = currentOrders;
+    }
+
+    public ArrayList<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(ArrayList<Item> items) {
+        this.items = items;
     }
     
     

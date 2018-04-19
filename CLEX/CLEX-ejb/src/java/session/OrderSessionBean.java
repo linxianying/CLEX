@@ -513,4 +513,36 @@ public class OrderSessionBean implements OrderSessionBeanLocal {
             totalPrice += o.getPrice();
         return totalPrice;
     }
+    
+    @Override
+    public boolean changeItemName(Item item, String newName){
+        item.setName(newName);
+        em.merge(item);
+        em.flush();
+        return true;
+    }
+    
+    @Override
+    public boolean changeItemNameById(Long id, String newName){
+        Item itemEntity = em.find(Item.class, id);
+        //lazy fectching
+        itemEntity.getShop().getId();
+        return true;
+    }
+    
+    @Override
+    public boolean changeItemPrice(Item item, double newPrice){
+        item.setPrice(newPrice);
+        em.merge(item);
+        em.flush();
+        return true;
+    }
+    
+    @Override
+    public boolean changeItemAvailability(Item item, boolean avail){
+        item.setAvailable(avail);
+        em.merge(item);
+        em.flush();
+        return true;
+    }
 }

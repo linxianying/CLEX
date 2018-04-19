@@ -85,15 +85,52 @@
                                         </p:column>
                                         <p:column headerText="Status">
                                             <h:outputText value="#{order.finish}"/>
-                                            <h:form>
-                                                <p:commandButton value="Finish order" actionListener="#{shopOrderBean.finishOrder(order.id)}" update="orderForm:tab:history orderForm:tab:current"/>
-                                            </h:form>
+                                            <p:commandButton value="Finish order" actionListener="#{shopOrderBean.finishOrder(order.id)}" 
+                                                             update="orderForm:tab:history orderForm:tab:current"/>
                                         </p:column>
                                     </p:dataTable>
                                 <!--</h:form>-->       
                             </h:panelGrid>
                         </p:fieldset>
                     </p:tab>
+                    
+                    <p:tab id="items" title="Manage Items">
+                        <p:fieldset collapsed="false" styleClass="menuHeader" id="itemsList" legend="Items You Have" toggleable="false">
+                            <h:panelGrid columns="4">
+                                <h:form id="itemsForm">
+                                    <p:dataTable value="#{shopOrderBean.items}" var="item" rendered="#{not empty shopOrderBean.items}">
+                                        <p:column headerText="Name">
+                                            <p:inplace id="ajax" editor="true">
+                                                <p:inputText value="#{item.name}" required="true" label="text" />
+                                                <p:ajax event="save" listener="#{shopOrderBean.editItemName(item, item.name)}" />
+                                            </p:inplace>
+                                        </p:column>
+                                        <p:column headerText="Available">
+                                            <h:outputText value="#{item.available}"/>
+                                           
+                                            <p:inplace id="facet" effect="none">
+                                                <f:facet name="output">
+                                                    Change
+                                                </f:facet>
+                                                
+                                                <f:facet name="input">
+                                                    <h:selectBooleanCheckbox value="#{item.available}"  >
+                                                        <p:ajax listener="#{shopOrderBean.editItemAvailability(item, item.available)}" update="orderForm:tab:itemsForm"/>
+                                                    </h:selectBooleanCheckbox>
+                                                </f:facet>
+                                            </p:inplace>
+                                        </p:column>
+                                        <p:column headerText="Price">
+                                            <p:inplace id="ajax1" editor="true">
+                                                <p:inputText value="#{item.price}" required="true" label="text" />
+                                                <p:ajax event="save" listener="#{shopOrderBean.editItemPrice(item, item.price)}" />
+                                            </p:inplace>
+                                        </p:column>
+                                    </p:dataTable>
+                                </h:form>       
+                            </h:panelGrid>
+                        </p:fieldset>
+                    </p:tab>  
                 </p:tabView>
             </h:form>
         </div>

@@ -96,9 +96,11 @@ public class indexBean {
 //        }
         
         //create course, read from nusmods
+        System.out.println("IndexBean:begin.");
         csbl.dragAllNusMods("try");
+        System.out.println("IndexBean: drag module finished.");
         this.setModules();
-        
+        System.out.println("IndexBean: set module finished.");
         //create Users
         csbl.createAdmin("adminadmin", "123456", "Administrator", "admin@prism.com", "NUS", 90000000L, genSalt());
         
@@ -361,19 +363,17 @@ public class indexBean {
         
         List<Course> courses = csbl.retrieveAllCourse();
         
-        for (Course each : courses) {
-            Boolean success = (new File("/Applications/NetBeans/files/" + each.getModuleCode())).mkdirs();
-            if (!success) {
-                System.err.println("The new folder is not created successfully!");
-            }
-        }
+        //for (Course each : courses) {
+        //    Boolean success = (new File("/Applications/NetBeans/files/" + each.getModuleCode())).mkdirs();
+        //    
+        //}
         
         //set peer review form for hsianghui2 PC2193 TEST
         Date day = new Date();
         prqsbl.createPeerReviewQuestion("Test Peer Review Form", day, csbl.findModule("PC2193", "2017", "2"));
         
         
-        
+        System.out.println("IndexBean: create people, module finished.");
         
         
         //create lesson based on 2018 sem 1 courses
@@ -834,8 +834,9 @@ public class indexBean {
         tdsbl.createGroupTask("2018-04-07", "2018-04-12 12:59", "SC3101 - Group Report",
                 "Group Task Test details", "unfinished", csbl.findProjectgroup("N1", csbl.findModule("SC3101", "2017", "2")),
                 getProjectUserName(csbl.findProjectgroup("N1", csbl.findModule("SC3101", "2017", "2"))));
-        
+        System.out.println("IndexBean: task, poll, answer finished.");
         this.testShop();
+        System.out.println("IndexBean: test shop finished.");
     }
     
     public String[] getProjectUserName(ProjectGroup p){
