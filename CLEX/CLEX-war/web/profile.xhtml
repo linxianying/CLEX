@@ -11,7 +11,7 @@
 
     <ui:define name="title">PRISM Student Profile page</ui:define>
 
-    <ui:define name="viewname">#{bundle['project']}</ui:define>
+    <ui:define name="viewname">#{bundle['profile']}</ui:define>
 
     <ui:define name="content">
         <f:event type="preRenderView" listener="#{profileBean.setNoCache}" />
@@ -41,33 +41,33 @@
                     <br />
                     <h:form>        
                         <p:photoCam photoWidth="640" photoHeight="640"  widgetVar="pc" listener="#{profileBean.oncapture}" />                                
-                        <p:commandButton style="width: 100px" type="button" value="Capture" icon="fa fa-camera" onclick="PF('pc').capture()"/>
+                        <p:commandButton style="width: 100px" type="button" value="#{bundle['Capture']}" icon="fa fa-camera" onclick="PF('pc').capture()"/>
 
                     </h:form>
 
                     <h:panelGroup>
 
-                        <h:outputLabel value="Profile photo should be of size (120x120)/(640x640)."/>
+                        <h:outputLabel value="#{bundle['photoSize']}"/>
                         <br />
-                        <h:outputLabel value="Format must be of JPG/PNG format and must not exceed 1024kb."/>
+                        <h:outputLabel value="#{bundle['photoFormat']}"/>
                         <br />
-                        <h:outputLabel value="Drag and drop is available on supported browsers."/>
+                        <h:outputLabel value="#{bundle['dragDrop']}"/>
                         <br />
                         <br />
 
                         <h:form>
                             <p:fileUpload fileUploadListener="#{profileBean.handleFileUpload}" skinSimple="false" mode="advanced" multiple="false" dragDropSupport="true"
-                                          invalidSizeMessage="File size should be smaller than 1024kb"
+                                          invalidSizeMessage="#{bundle['sizeMsg']}"
                                           update="profilepic, messages" sizeLimit="1024000" fileLimit="1" allowTypes="/(\.|\/)(jpg|png)$/" />
                         </h:form>
                         <br />
-                        <h:outputLabel value="Inappropriate photos will be removed by the Administrator."/>
+                        <h:outputLabel value="#{bundle['badPhoto']}"/>
                         <br />
-                        <h:outputLabel value="Repeat offenders shall have his/her account removed from PRISM."/>
+                        <h:outputLabel value="#{bundle['offender']}"/>
                         <br />
-                        <h:outputLabel value="Photo may not be updated immediately due to caching in your browser."/>
+                        <h:outputLabel value="#{bundle['caching']}"/>
                         <br />
-                        <h:outputLabel value="If problem persists after clearing cache, please contact the Administrator."/>
+                        <h:outputLabel value="#{bundle['cacheProblem']}"/>
                     </h:panelGroup>
 
                 </div>
@@ -80,32 +80,32 @@
                     <!-- Left Side -->
                     <div class="card card-w-title">
                         <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
-                            <span>Full Name</span>
+                            <span>#{bundle['fullname']}</span>
                             <p:inputText id="newName" value="#{profileBean.name}" />
-                            <span>Email</span>
+                            <span>#{bundle['Email']}</span>
                             <p:inputText id="newEmail" value="#{profileBean.email}" />
 
-                            <span>Contact Number</span>
+                            <span>#{bundle['ContactNumber']}</span>
                             <p:inputText id="newContactNum" value="#{profileBean.contactNum}" />
 
-                            <span>School</span>
+                            <span>#{bundle['School']}</span>
                             <p:inputText id="newSchool" disabled="true" value="#{profileBean.school}" readonly="true"/>
-                            <span>Faculty</span>
+                            <span>#{bundle['Faculty']}</span>
                             <p:selectOneMenu style="padding: 0%; width: 100%;" disabled="true"  required="true" id="newFaculty" value="#{profileBean.faculty}" 
                                              placeholder="Faculty">
                                 <f:selectItems value="#{profileBean.facultylist}" />
                             </p:selectOneMenu>
-                            <span>Major</span>
+                            <span>#{bundle['Major']}</span>
                             <p:inputText disabled="true" id="newMajor" value="#{profileBean.major}" />
-                            <span>Matriculated Year</span>
+                            <span>#{bundle['MatriculatedYear']}</span>
                             <p:selectOneMenu disabled="true" style="padding: 0%; width: 100%" id="maticYear" value="#{profileBean.matricYear}" 
-                                             editable="true" placeholder="Matriculated Year">
+                                             editable="true" placeholder="#{bundle['MatriculatedYear']}">
                                 <f:selectItem itemLabel="2014" itemValue="2014" />
                                 <f:selectItem itemLabel="2015" itemValue="2015" />
                                 <f:selectItem itemLabel="2016" itemValue="2016" />
                                 <f:selectItems value="#{profileBean.yearlist}" />
                             </p:selectOneMenu>
-                            <span>Matriculated Semester</span>
+                            <span>#{bundle['MatriculatedSem']}</span>
                             <p:selectOneButton disabled="true" style="padding: 0%; width: 100%" id="maticSem" value="#{profileBean.matricSem}">
                                 <f:selectItem itemLabel="1" itemValue="1" />
                                 <f:selectItem itemLabel="2" itemValue="2" />
@@ -126,24 +126,24 @@
                     <h1>#{bundle['ChangePassword']}</h1>
                     <h:form >
                         <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
-                            <span>Current Password</span>
+                            <span>#{bundle['CurrentPassword']}</span>
                             <p:password id="currentPassword" value="#{profileBean.oldPassword}" />
 
-                            <span>New Password</span>
+                            <span>#{bundle['NewPassword']}</span>
                             <p:password id="firstPassword" value="#{profileBean.newPassword1}" />
 
-                            <span>Confirm Password</span>
+                            <span>#{bundle['ConfirmPassword']}</span>
                             <p:password id="confirmPassword" value="#{profileBean.newPassword2}" validatorMessage="Password needs to be between 6-12 characters">
                                 <f:validateRegex pattern="^[a-zA-Z0-9]{6,12}$" />
                             </p:password>
 
                         </p:panelGrid>
-                        <p:commandButton value="Change Password" actionListener="#{profileBean.editPassword}" id="editPasswordButton" update="messages">
-                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                        <p:commandButton value="#{bundle['ChangePassword']}" actionListener="#{profileBean.editPassword}" id="editPasswordButton" update="messages">
+                            <p:confirm header="#{bundle['Confirmation']}" message="#{bundle['sure']}" icon="ui-icon-alert" />
                         </p:commandButton>
                         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                            <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            <p:commandButton value="#{bundle['yes']}" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="#{bundle['no']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                         </p:confirmDialog>
                     </h:form>             
                 </div>

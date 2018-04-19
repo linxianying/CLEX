@@ -30,12 +30,12 @@
                         <p:graphicImage name="images/login/login-logo.png" library="poseidon-layout" />
                     </div>
                     <div>
-                        <h2>Reset Password</h2>
+                        <h2>#{bundle['reset password']}</h2>
                     </div>
                     <!-- UserName -->
                     <div class="ui-g-12">
                         <label>
-                            <p:inputText styleClass="textInput" id="username" value="#{acctMgmtBean.username}" required="true" requiredMessage="Username Required." placeholder="Username" />
+                            <p:inputText styleClass="textInput" id="username" value="#{acctMgmtBean.username}" required="true" requiredMessage="#{bundle['usernameRequire']}" placeholder="#{bundle['username']}" />
                         </label>
                     </div>
                     <p:message for="username" />
@@ -43,7 +43,7 @@
                     <!-- Email -->
                     <div class="ui-g-12">
                         <label>
-                            <p:inputText styleClass="textInput" id="email" value="#{acctMgmtBean.email}" required="true" requiredMessage="Email Required." placeholder="Email Address" />
+                            <p:inputText styleClass="textInput" id="email" value="#{acctMgmtBean.email}" required="true" requiredMessage="#{bundle['emailRequire']}" placeholder="#{bundle['Email']}" />
                         </label>
                     </div>
                     <p:message for="email" />
@@ -51,7 +51,7 @@
                     <!-- Password -->
                     <div class="ui-g-12">
                         <label>
-                            <p:password styleClass="textInput" id="password1" value="#{acctMgmtBean.newPassword1}" required="true" requiredMessage="New Password Required." placeholder="New Password" />
+                            <p:password styleClass="textInput" id="password1" value="#{acctMgmtBean.newPassword1}" required="true" requiredMessage="#{bundle['newpassRequire']}" placeholder="#{bundle['NewPassword']}" />
                         </label>
                     </div>
                     <p:message for="password1" />
@@ -59,7 +59,7 @@
                     <!-- Confirm Password -->
                     <div class="ui-g-12">
                         <label>
-                            <p:password styleClass="textInput" id="password2" value="#{acctMgmtBean.newPassword2}" required="true" requiredMessage="Confirm Password Required." placeholder="Confirm Password" validatorMessage="Password needs to be between 6-12 characters">
+                            <p:password styleClass="textInput" id="password2" value="#{acctMgmtBean.newPassword2}" required="true" requiredMessage="#{bundle['confirmPassRequire']}" placeholder="#{bundle['ConfirmPassword']}" validatorMessage="#{bundle['passFormat']}">
                                 <f:validateRegex pattern="^[a-zA-Z0-9]{6,12}$" />
                             </p:password>
                         </label>
@@ -67,12 +67,12 @@
                     <p:message for="password2" />
 
                     <div class="ui-g-12 button-container">
-                        <p:commandButton value="Change Password" actionListener="#{acctMgmtBean.changePassword}" id="editPasswordButton" icon="fa fa-key" styleClass="blue-btn">
-                            <p:confirm header="Confirm Change Password" message="Are you sure to change your password?" icon="ui-icon-alert" />
+                        <p:commandButton value="#{bundle['ChangePassword']}" actionListener="#{acctMgmtBean.changePassword}" id="editPasswordButton" icon="fa fa-key" styleClass="blue-btn">
+                            <p:confirm header="#{bundle['Confirmation']}" message="#{bundle['sureChangePass']}" icon="ui-icon-alert" />
                         </p:commandButton>
                         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                            <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            <p:commandButton value="#{bundle['yes']}" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="#{bundle['no']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                         </p:confirmDialog>
                     </div>
                 </div>
