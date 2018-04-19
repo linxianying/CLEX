@@ -46,7 +46,10 @@
                                 <h:outputText value="#{item.name}"/>
                             </p:column>
                             <p:column headerText="Quantity">
-                                <h:outputText value="#{orderBean.orderItems[item]}"/>
+                                <p:inputNumber value="#{orderBean.orderItems[item]}" decimalPlaces="0">
+                                    <p:ajax event="change" listener="#{orderBean.updateItemQuantity(item, orderBean.orderItems[item])}"/>
+                                </p:inputNumber>
+                                <!--<h:outputText value="#{orderBean.orderItems[item]}"/>-->
                             </p:column>
                             <p:column headerText="Delete">
                                 <p:commandButton value="Delete" actionListener="#{orderBean.deletItem(item)}" update="items addMsg"/>

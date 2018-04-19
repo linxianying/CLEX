@@ -17,6 +17,7 @@ import java.util.HashMap;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.persistence.Temporal;
 import javax.servlet.http.HttpSession;
@@ -28,7 +29,7 @@ import session.OrderSessionBeanLocal;
  * @author caoyu
  */
 @ManagedBean(name = "orderBean")
-@SessionScoped
+@ViewScoped
 public class OrderBean implements Serializable {
     
     public OrderBean() {
@@ -65,16 +66,19 @@ public class OrderBean implements Serializable {
         orderItems = new HashMap<Item, Integer>();
         totalPrice = 0.0;
         this.refresh();
+        System.out.println("orderBean finish render");
     }
     
     public void refresh() {
-        if (orderItems!=null) 
+        if (orderItems!=null) {
             cartItems = new ArrayList<Item>(orderItems.keySet());
+        }
         totalPrice = this.calculateTotalPrice();
         
     }
 
     public void addItem(Item item) {
+        System.out.println("Add item" );
         orderItems.put(item, 1);
         this.refresh();
     }
@@ -84,9 +88,10 @@ public class OrderBean implements Serializable {
         this.refresh();
     }
     
-    public void updateItemQuantity(Item item) {
-        System.out.println("change to quantity " + changeQuantity);
-        orderItems.put(item, changeQuantity);
+    public void updateItemQuantity(Item item, int newQuantity) {
+        System.out.println("change item quantity " + item.getName());
+        System.out.println("new quantity: " + newQuantity);
+//        orderItems.put(item, changeQuantity);
         this.refresh();
     }
     
