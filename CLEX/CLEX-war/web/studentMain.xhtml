@@ -55,20 +55,20 @@
         <p:tabView id="tab">
             <p:tab title="#{bundle['modules']}">
                 <p:growl id="messages" showDetail="true" />
-                <div>
-                    <h:form>
-                        <p:panelGrid columns="3">
-                            <ui:repeat var="m" value="#{projectBean.takingModules}">
-                                <button type="button" onclick="#{m.course.moduleCode}Details()" class="canvasBtn">
-                                    <h:outputText value="#{m.course.moduleCode}"/>
-                                    <br/>
-                                    <h:outputText value="#{m.course.moduleName}"/>
-                                    <p:remoteCommand name="#{m.course.moduleCode}Details" actionListener="#{projectBean.goModuleInfoPage(m.course.moduleCode)}"/>
-                                </button>
-                            </ui:repeat>
-                        </p:panelGrid>
-                    </h:form>
-                </div>
+
+                <h:form>
+                    <div class="grid">
+                        <p:repeat var="m" value="#{projectBean.takingModules}">
+                            <button type="button" onclick="#{m.course.moduleCode}Details()" class="canvasBtn">
+                                <h:outputText value="#{m.course.moduleCode}"/>
+                                <br/>
+                                <h:outputText value="#{m.course.moduleName}"/>
+                                <p:remoteCommand name="#{m.course.moduleCode}Details" actionListener="#{projectBean.goModuleInfoPage(m.course.moduleCode)}"/>
+                            </button>
+                        </p:repeat>
+                    </div>
+                </h:form>
+
             </p:tab>
             <p:tab title="#{bundle['ViewTasks']}">
                 <div class="ui-g dashboard">   
@@ -111,7 +111,6 @@
                                         <p:ajax update="msgmsg" listener="#{tasksBean.checkTask(task)}" />
                                     </p:selectBooleanCheckbox>
                                     <h:outputLabel value="#{task.title}"/>
-                                    #{task.title}
                                     <i class="fa fa-user"></i>
                                 </p:dataList>    
                             </p:panel>
@@ -250,7 +249,7 @@
         </p:tabView>
         <style type="text/css">
             .canvasBtn {
-                width: 200px;
+                width: 180px;
                 height: 100px;
                 margin: 5px;
                 -webkit-border-radius: 10;
@@ -267,6 +266,13 @@
 
                 background: #35b3ad;
                 text-decoration: none;    
+            }
+            @media (max-width: 680px){
+                .grid{
+                    display: flex;
+                    justify-content: center;
+                    flex-wrap: wrap;
+                }
             }
         </style>
     </ui:define>

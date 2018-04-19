@@ -10,10 +10,7 @@
         <div class="layout-menu-container">
             <div class="nano">
                 <div class="nano-content menu-scroll-content">
-                    <div class="search-input">
-                        <input type="text" placeholder="Search"/>
-                        <i class="fa fa-search"></i>
-                    </div>
+                    <br/><br/>
                     <pp:menu widgetVar="me">
                         <p:menuitem id="om_dashboard" value="#{bundle['dashboard']}" icon="fa fa-fw fa-home" outcome="/studentMain"/>
                         <p:menuitem id="om_schedule" value="#{bundle['schedule']}" icon="fa fa-fw fa-list-alt" outcome="/schedule"/>
@@ -23,8 +20,8 @@
                             <p:menuitem id="om_pr" value="Peer Review" icon="fa fa-fw fa-table" outcome="/project"/>-->
                         <!--</p:submenu>-->
                         <p:menuitem id="om_community" value="#{bundle['community']}" icon="fa fa-fw fa-circle-o-notch" outcome="/community"/>
-                        <p:menuitem id="om_polling" value="#{bundle['polling']}" icon="fa fa-fw fa-sign-in" outcome="/polling" />
                         
+                        <!--<p:menuitem id="om_polling" value="#{bundle['polling']}" icon="fa fa-fw fa-sign-in" outcome="/polling" />-->
                         <!--
                          <p:submenu id="om_customization" label="Menu Modes" icon="fa fa-fw fa-bars">
                             <p:menuitem id="custom3" value="Static Menu" icon="fa fa-fw fa-bars" actionListener="#{guestPreferences.setMenuLayout('static')}" ajax="false"/>

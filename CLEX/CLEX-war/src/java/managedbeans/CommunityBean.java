@@ -67,6 +67,8 @@ public class CommunityBean {
     private Vote voteEntity;
     private boolean voteFor; //false - reply, true - thread
     private boolean voteType; //false - downvote, true - upvote
+    private boolean editThread = false;
+    private boolean editReply = false;
 
     FacesContext context;
     HttpSession session;
@@ -76,6 +78,7 @@ public class CommunityBean {
 
     public void init() {        
         refresh();
+        editThread = false;
         forumtype = threadEntity.getTag();
         if(forumtype.equals("Bazaar")) {
             forumtype = "BAZAAR CORNER";
@@ -324,6 +327,7 @@ public class CommunityBean {
         tContent = "";
         tTitle = "";
         tTag = "";
+        editThread = false;
     }
 
     public void modifyReply() {
@@ -349,6 +353,7 @@ public class CommunityBean {
         tTag = threadEntity.getTag();
         tId = threadEntity.getId();
         refresh();
+        editThread = true;
     }
 
     public void removeReply(Long id) {
@@ -644,5 +649,33 @@ public class CommunityBean {
 
     public void setForumtype(String forumtype) {
         this.forumtype = forumtype;
+    }
+
+    /**
+     * @return the editThread
+     */
+    public boolean isEditThread() {
+        return editThread;
+    }
+
+    /**
+     * @param editThread the editThread to set
+     */
+    public void setEditThread(boolean editThread) {
+        this.editThread = editThread;
+    }
+
+    /**
+     * @return the editReply
+     */
+    public boolean isEditReply() {
+        return editReply;
+    }
+
+    /**
+     * @param editReply the editReply to set
+     */
+    public void setEditReply(boolean editReply) {
+        this.editReply = editReply;
     }
 }

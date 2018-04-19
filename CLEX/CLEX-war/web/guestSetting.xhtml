@@ -15,7 +15,7 @@
         <p:tabView>       
             <p:tab title="Change Menu Mode">
                 <div>
-                    <h:panelGrid columns="3">
+                    <h:panelGrid columns="3" styleClass="grid">
                         <p:commandButton  value="Static Menu"  actionListener="#{guestPreferences.setMenuLayout('static')}"  action="guestSetting?faces-redirect=true"/>
                         
                         <p:commandButton  value="Overlay Menu"  actionListener="#{guestPreferences.setMenuLayout('overlay')}" action="guestSetting?faces-redirect=true"/>
@@ -27,7 +27,7 @@
 
             <p:tab title="Change Theme">
                 <div>
-                    <h:panelGrid columns="3">
+                    <h:panelGrid columns="3" styleClass="grid">
                             <p:commandButton value="Turquoise Theme"  actionListener="#{guestPreferences.setTheme('turquoise')}" styleClass="turquoise-btn raised-btn" action="guestSetting?faces-redirect=true"/>
                             
                             <p:commandButton value="Blue Theme"  actionListener="#{guestPreferences.setTheme('blue')}" styleClass="blue-btn raised-btn" action="guestSetting?faces-redirect=true"/>
@@ -63,6 +63,13 @@
             }
             .light-blue-btn:hover{
                 background-color: #34b9ed !important;
+            }
+            @media (max-width: 680px){
+                .grid{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
             }
         </style>
 

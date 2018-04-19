@@ -999,7 +999,7 @@ body {
         transform: scale(1.2); }
   .layout-wrapper .right-sidebar.right-sidebar-active {
     right: 0px; }
-  @media(max-width: 640px) {
+  @media(max-width: 680px) {
   .layout-wrapper .right-sidebar.right-sidebar-active {
     right: 0px;
     width: 100vw; } }

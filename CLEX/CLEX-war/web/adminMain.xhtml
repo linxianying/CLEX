@@ -37,7 +37,7 @@
                                                  counterTemplate="{0} #{bundle['char']}" autoResize="true" style="width:100%"/>
                                 <h:outputText id="display" />
                                 <!--Input "1": all, "2": students only, "3": lecturers only, "4": guests only, "5": 2&3 (admin can use any, lecturer's default use 2)-->
-                                <p:selectOneMenu styleClass="textInput"  
+                                <p:selectOneMenu style="width:90%"
                                                  id="audience" value="#{announcementBean.audience}" 
                                                  editable="false" placeholder="recipients" 
                                                  title="Select intended recipients of your announcement"
@@ -82,7 +82,7 @@
                                                     <br></br>
                                                     <h:outputText id="display" />
                                                     <h:outputText value="Recipient:" />
-                                                    <p:selectOneMenu styleClass="textInput"  
+                                                    <p:selectOneMenu style="width:90%"
                                                                      title="Please delete and create a new announcement if the recipients are wrong"
                                                                      id="audience" value="#{adminAnnouncementList.audience}" 
                                                                      editable="false" disabled="true">      

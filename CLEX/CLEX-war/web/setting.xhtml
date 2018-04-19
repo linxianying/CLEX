@@ -15,7 +15,7 @@
         <p:tabView>       
             <p:tab title="#{bundle['changeMode']}">
                 <div>
-                    <h:panelGrid columns="3">
+                    <h:panelGrid columns="3" styleClass="grid">
                         <p:commandButton  value="#{bundle['static']}"  actionListener="#{guestPreferences.setMenuLayout('static')}"  action="setting?faces-redirect=true"/>
 
                         <p:commandButton  value="#{bundle['overlay']}"  actionListener="#{guestPreferences.setMenuLayout('overlay')}" action="setting?faces-redirect=true"/>
@@ -27,7 +27,7 @@
 
             <p:tab title="#{bundle['changeTheme']}">
                 <div>
-                    <h:panelGrid columns="3">
+                    <h:panelGrid columns="3" styleClass="grid">
                         <p:commandButton value="#{bundle['Turquoise']}"  actionListener="#{guestPreferences.setTheme('turquoise')}" styleClass="turquoise-btn raised-btn" action="setting?faces-redirect=true"/>
 
                         <p:commandButton value="#{bundle['Blue']}"  actionListener="#{guestPreferences.setTheme('blue')}" styleClass="blue-btn raised-btn" action="setting?faces-redirect=true"/>
@@ -49,7 +49,7 @@
             
             <p:tab title="#{bundle['changeLan']}">
                 
-                <h:panelGrid columns="3">
+                <h:panelGrid columns="3" styleClass="grid">
 
                     <p:commandButton value="#{bundle['chinese']}"  actionListener="#{languageManagedBean.setChinese()}"  action="setting?faces-redirect=true"/>
                     <p:commandButton value="#{bundle['english']}"  actionListener="#{languageManagedBean.setEnglish()}"  action="setting?faces-redirect=true"/>
@@ -74,6 +74,13 @@
             }
             .light-blue-btn:hover{
                 background-color: #34b9ed !important;
+            }
+            @media (max-width: 680px){
+                .grid{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
             }
         </style>
 

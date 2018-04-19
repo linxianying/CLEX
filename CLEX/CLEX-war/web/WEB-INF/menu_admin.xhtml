@@ -5,23 +5,20 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui"
     xmlns:pp="http://primefaces.org/poseidon">
-    
+
     <h:form id="menuform"> 
         <div class="layout-menu-container">
             <div class="nano">
                 <div class="nano-content menu-scroll-content">
-                    <div class="search-input">
-                        <input type="text" placeholder="Search"/>
-                        <i class="fa fa-search"></i>
-                    </div>
+                    <br/><br/>
                     <pp:menu widgetVar="me">
                         <p:menuitem id="om_dashboard" value="#{bundle['dashboard']}" icon="fa fa-fw fa-home" outcome="/adminMain"/>
                         <p:menuitem id="om_rtl" value="#{bundle['viewUser']}" icon="fa fa-fw fa-list-alt" outcome="/adminUserList"/>
                         <p:menuitem id="om_ltr" value="#{bundle['courseManagement']}" icon="fa fa-fw fa-table" outcome="/adminCourse"/>
                         <p:menuitem id="om_forms" value="#{bundle['community']}" icon="fa fa-fw fa-circle-o-notch" outcome="/adminCommunity"/>
-                        
-                        
-                        
+
+
+
                         <!--
                          <p:submenu id="om_customization" label="Menu Modes" icon="fa fa-fw fa-bars">
                             <p:menuitem id="custom3" value="Static Menu" icon="fa fa-fw fa-bars" actionListener="#{guestPreferences.setMenuLayout('static')}" ajax="false"/>
@@ -77,9 +74,9 @@
                         </p:submenu>
                         
                         <p:menuitem id="om_doc" value="Documentation" icon="fa fa-fw fa-book" outcome="/docs"/>
-                    -->
+                        -->
                     </pp:menu>
-                    
+
                     <!--
                     <div class="layout-menu-footer">
                         <span class="layout-menu-footer-title">Tasks Overview</span>
@@ -91,7 +88,7 @@
                         Overall
                     </div>
                     -->
-                    
+
                 </div>
             </div>
         </div>
