@@ -133,13 +133,15 @@ public class StudentMindmapBean implements Serializable {
         path = path.substring(0, pathlength);
         path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/Materials/Assignments/" + selectedNode.getLabel() + "/";
         path = path.replaceAll("\\\\", "/");
-
-        File directory = new File(path);
-        String[] fList = directory.list();
         String deadline = "FALSE";
-        for (String file : fList) {
-            if (file.endsWith(".prism")) {
-                deadline = file;
+        if (!selectedNode.getLabel().equals(root.getLabel())) {
+            File directory = new File(path);
+            String[] fList = directory.list();
+
+            for (String file : fList) {
+                if (file.endsWith(".prism")) {
+                    deadline = file;
+                }
             }
         }
         if (deadline.equals("FALSE")) {
@@ -148,7 +150,7 @@ public class StudentMindmapBean implements Serializable {
             deadline = deadline.replaceAll(".prism", "");
             System.out.println(deadline);
             Date date = new Date();
-            DateFormat format = new SimpleDateFormat("dd-MM-yy HH.mm.ss");
+            DateFormat format = new SimpleDateFormat("dd-MM-yy HH.mm");
             String currDate = format.format(date);
             System.out.println("Current time: " + currDate);
             if (deadline.compareTo(currDate) == 1) {

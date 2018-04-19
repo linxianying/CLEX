@@ -12,6 +12,7 @@ import entity.Student;
 import entity.SuperGroup;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import javax.annotation.PostConstruct;
@@ -35,13 +36,13 @@ public class LecturerModuleGroupBean implements Serializable {
     }
     @EJB
     private ClexSessionBeanLocal csbl;
-    
+
     @EJB
     private GroupFormationSessionBeanLocal gfsbl;
-    
+
     FacesContext context;
     HttpSession session;
-    
+
     private Lecturer lecturer;
     private String username;
     private Module module;
@@ -58,12 +59,12 @@ public class LecturerModuleGroupBean implements Serializable {
     private int minStudentNum;
     private int maxStudentNum;
     private Date deadline;
-    
+    SimpleDateFormat df = new SimpleDateFormat("dd-MM-yy HH:mm");
     //for change student group
     private Student student;
     private Long toGroupId;
     private Long fromGroupId;
-    
+
     private ProjectGroup deleteGroup;
 
     @PostConstruct
@@ -76,12 +77,15 @@ public class LecturerModuleGroupBean implements Serializable {
         students = module.getStudents();
         superGroup = module.getSuperGroup();
         currentDate = new Date();
+
+        checkDate();
         refresh();
     }
-    
+
     public void refresh() {
-        if (superGroup != null)
+        if (superGroup != null) {
             groups = gfsbl.getAllProjectGroups(superGroup.getId());
+        }
         formMethod = "student";
         numOfGroups = 1;
         avgStudentNum = 1;
@@ -92,141 +96,160 @@ public class LecturerModuleGroupBean implements Serializable {
         fromGroupId = null;
     }
 
-    public void formGroup(){
+    public void checkDate() {
+        Date date = new Date();
+        String currDate = df.format(date);
+        if (module.getSuperGroup() != null) {
+            if (!module.getSuperGroup().getDeadline().isEmpty()) {
+                if (currDate.compareTo(module.getSuperGroup().getDeadline()) >= 1) {
+                    System.out.println("curr"+currDate);
+                    System.out.println("deadline"+module.getSuperGroup().getDeadline());
+                    closeGroupFormation();
+                }
+            }
+        }
+
+    }
+
+    public void formGroup() {
         //checking input
-        if (minStudentNum != 0 && minStudentNum>avgStudentNum) {
+        if (minStudentNum != 0 && minStudentNum > avgStudentNum) {
             context = FacesContext.getCurrentInstance();
-            FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, numOfGroups + "minimum number > average","Simply set minimum to 0 if no need");
+            FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, numOfGroups + "minimum number > average", "Simply set minimum to 0 if no need");
             context.addMessage(null, fmsg);
         }
-        if (maxStudentNum != 0 && maxStudentNum<avgStudentNum) {
+        if (maxStudentNum != 0 && maxStudentNum < avgStudentNum) {
             context = FacesContext.getCurrentInstance();
-            FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, numOfGroups + "maximum number < average","Simply set maximum to 0 if no need");
+            FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, numOfGroups + "maximum number < average", "Simply set maximum to 0 if no need");
             context.addMessage(null, fmsg);
         }
-        
+
         if (formMethod.equals("auto")) {
             this.autoAssignAll();
             this.closeGroupFormation();
-        }
-        else if (formMethod.equals("student")) {
-            if (maxStudentNum != 0 && maxStudentNum*numOfGroups<module.getStudents().size()) {
-                int num = module.getStudents().size()/maxStudentNum;
-                if (module.getStudents().size()%maxStudentNum != 0)
+        } else if (formMethod.equals("student")) {
+            if (maxStudentNum != 0 && maxStudentNum * numOfGroups < module.getStudents().size()) {
+                int num = module.getStudents().size() / maxStudentNum;
+                if (module.getStudents().size() % maxStudentNum != 0) {
                     num++;
+                }
                 context = FacesContext.getCurrentInstance();
-                FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, numOfGroups + " groups not enough","At least " + num + " groups needed");
+                FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, numOfGroups + " groups not enough", "At least " + num + " groups needed");
                 context.addMessage(null, fmsg);
                 return;
             }
-            
-            if (maxStudentNum == 0 && avgStudentNum*numOfGroups<module.getStudents().size()) {
-                int num = module.getStudents().size()/avgStudentNum;
-                if (module.getStudents().size()%avgStudentNum != 0)
+
+            if (maxStudentNum == 0 && avgStudentNum * numOfGroups < module.getStudents().size()) {
+                int num = module.getStudents().size() / avgStudentNum;
+                if (module.getStudents().size() % avgStudentNum != 0) {
                     num++;
+                }
                 context = FacesContext.getCurrentInstance();
-                FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, numOfGroups + " groups not enough","At least " + num + " groups needed");
+                FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, numOfGroups + " groups not enough", "At least " + num + " groups needed");
                 context.addMessage(null, fmsg);
                 return;
             }
-            
-            if (minStudentNum != 0 && maxStudentNum != 0)
+
+            if (minStudentNum != 0 && maxStudentNum != 0) {
                 superGroup = gfsbl.createSuperGroup(numOfGroups, avgStudentNum, minStudentNum, maxStudentNum, module);
-            else if (minStudentNum == 0 && maxStudentNum == 0)
+            } else if (minStudentNum == 0 && maxStudentNum == 0) {
                 superGroup = gfsbl.createSuperGroup(numOfGroups, avgStudentNum, module);
-            else if (minStudentNum != 0 && maxStudentNum == 0)
+            } else if (minStudentNum != 0 && maxStudentNum == 0) {
                 superGroup = gfsbl.createSuperGroupWithMin(numOfGroups, avgStudentNum, minStudentNum, module);
-            else if (minStudentNum == 0 && maxStudentNum != 0)
+            } else if (minStudentNum == 0 && maxStudentNum != 0) {
                 superGroup = gfsbl.createSuperGroupWithMax(numOfGroups, avgStudentNum, maxStudentNum, module);
+            }
             //create the project groups accordingly
-            for (int i=1; i<=numOfGroups; i++) {
-                csbl.createProjectGroup(superGroup, ("N"+i), 0.0);
+            for (int i = 1; i <= numOfGroups; i++) {
+                csbl.createProjectGroup(superGroup, ("N" + i), 0.0);
             }
         }
-        
+        if (deadline != null) {
+            System.out.println(deadline.toString());
+
+            String date = df.format(deadline);
+            gfsbl.setDeadline(superGroup.getId(), date);
+        }
+
         this.refresh();
     }
-    
+
     public void autoAssignAll() {
         superGroup = gfsbl.createSuperGroup(0, avgStudentNum, module);
         gfsbl.autoAssignAll(module.getId(), superGroup.getId(), avgStudentNum);
         context = FacesContext.getCurrentInstance();
-        FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Success","Random assign all the students");
+        FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Random assign all the students");
         context.addMessage(null, fmsg);
         this.refresh();
     }
-    
+
     //assign students who havnt joined any group to a random group
     public void autoAssign() {
         if (gfsbl.getStudentNoGroup(module).isEmpty()) {
             System.out.println("No students with no group");
             context = FacesContext.getCurrentInstance();
-            FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Please check","Currently every student has a group");
+            FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Please check", "Currently every student has a group");
             context.addMessage(null, fmsg);
-        }
-        else {
+        } else {
             int numberOfStudent = gfsbl.autoAssign(module.getId(), superGroup.getId());
             context = FacesContext.getCurrentInstance();
-            FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Success","Random assign the " + numberOfStudent + " students");
+            FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Random assign the " + numberOfStudent + " students");
             context.addMessage(null, fmsg);
         }
 //        this.refresh();
     }
-    
+
     public void closeGroupFormation() {
         gfsbl.closeGroupFormation(superGroup.getId());
         superGroup = gfsbl.findSuperGroup(superGroup.getId());
         this.refresh();
     }
-    
+
     public void changeStudentGroup(Student student) {
         this.fromGroupId = gfsbl.checkStudentGroupId(student.getId(), superGroup.getId());
         //the student does not have a group
         if (fromGroupId == null) {
             gfsbl.setStudentGroup(student.getId(), toGroupId);
             context = FacesContext.getCurrentInstance();
-            FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Success",
-                    "You have set student " + student.getName() + " to group " +  gfsbl.findProjectGroup(toGroupId).getName());
+            FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success",
+                    "You have set student " + student.getName() + " to group " + gfsbl.findProjectGroup(toGroupId).getName());
             context.addMessage(null, fmsg);
             this.refresh();
-        }
-        else if (fromGroupId == toGroupId) {
+        } else if (fromGroupId == toGroupId) {
             context = FacesContext.getCurrentInstance();
-            FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Attention",
-                    "Studen t" + student.getName() + " is already in group " +  gfsbl.findProjectGroup(toGroupId).getName());
+            FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Attention",
+                    "Studen t" + student.getName() + " is already in group " + gfsbl.findProjectGroup(toGroupId).getName());
             context.addMessage(null, fmsg);
             toGroupId = null;
             fromGroupId = null;
-        }
-        //change the stdudent to other group
+        } //change the stdudent to other group
         else {
             gfsbl.changeStudentGroup(student.getId(), toGroupId, fromGroupId);
             context = FacesContext.getCurrentInstance();
-            FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Success",
-                    "You have changed student " + student.getName() + " from group " + gfsbl.findProjectGroup(fromGroupId).getName() +" to group " +  gfsbl.findProjectGroup(toGroupId).getName());
+            FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success",
+                    "You have changed student " + student.getName() + " from group " + gfsbl.findProjectGroup(fromGroupId).getName() + " to group " + gfsbl.findProjectGroup(toGroupId).getName());
             context.addMessage(null, fmsg);
             this.refresh();
         }
     }
-    
+
     public void addProjectGroup() {
         int number = 1;
-        if (superGroup.getProjectGroups() != null)
-            number = groups.size()+1;
-        gfsbl.addProjectGroup(superGroup.getId(), "N"+number);
+        if (superGroup.getProjectGroups() != null) {
+            number = groups.size() + 1;
+        }
+        gfsbl.addProjectGroup(superGroup.getId(), "N" + number);
         this.refresh();
     }
-    
-    
+
     public void deleteProjectGroup(ProjectGroup deleteGroup) {
         // if there are students in this group
         if (deleteGroup.getGroupMembers() != null && !deleteGroup.getGroupMembers().isEmpty()) {
             context = FacesContext.getCurrentInstance();
-            FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Fail to delete group " + deleteGroup.getName(),
-                "There are students in this group, please assign them to other groups first");
+            FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fail to delete group " + deleteGroup.getName(),
+                    "There are students in this group, please assign them to other groups first");
             context.addMessage(null, fmsg);
-        }
-        else {
+        } else {
             gfsbl.deleteProjectGroup(deleteGroup.getId());
             this.refresh();
         }
@@ -239,14 +262,12 @@ public class LecturerModuleGroupBean implements Serializable {
     public void setFilteredstudents(Collection<Student> filteredstudents) {
         this.filteredstudents = filteredstudents;
     }
-    
-    
-    
+
     //check whether a student has a group
     public String checkStudentGroup(Student student) {
         return gfsbl.checkStudentGroup(student.getId(), superGroup.getId());
     }
-    
+
     public FacesContext getContext() {
         return context;
     }

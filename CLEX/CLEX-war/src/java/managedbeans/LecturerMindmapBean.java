@@ -251,7 +251,7 @@ public class LecturerMindmapBean implements Serializable {
             }
         }
         
-        SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yy HH.mm.SS");
+        SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yy HH.mm");
         String date = DATE_FORMAT.format(endDate);
         Path file = Files.createTempFile(folder, date, ".prism");
         Files.move(file, Paths.get(path, date + ".prism"));

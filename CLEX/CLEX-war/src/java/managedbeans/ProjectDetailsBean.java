@@ -14,7 +14,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -43,7 +45,7 @@ public class ProjectDetailsBean {
     private ProjectSessionBeanLocal psbl;
     @EJB
     private PRAnswerSessionBeanLocal prasbl;
-    
+
     FacesContext context;
     HttpSession session;
 
@@ -58,7 +60,7 @@ public class ProjectDetailsBean {
     private String semester;
     private String year;
     private String schoolname;
-
+    SimpleDateFormat df = new SimpleDateFormat("dd-MM-yy HH:mm");
     //for test
     private boolean check;
 
@@ -84,9 +86,36 @@ public class ProjectDetailsBean {
         schoolname = userEntity.getSchool();
         setUsername((String) session.getAttribute("username"));
         setStudent(csbl.findStudent(getUsername()));
-
-        System.out.println("ProjectDetailsBean Finish initialization");
+        Date date = new Date();
+        String currDate = df.format(date);
+        if (module.getSuperGroup() != null) {
+            String deadline = module.getSuperGroup().getDeadline();
+            if (!deadline.equals("")) {
+                System.out.println("deadline " + deadline);
+                System.out.println("Curr " + currDate);
+                if (currDate.compareTo(deadline) >= 1) {
+                    check = false;
+                    System.out.println("deadline is not empty, and currdate older and  " + check);
+                } else {
+                    check = true;
+                    System.out.println("deadline is not empty, and currdate is earlier and  " + check);
+                }
+            } else {
+                if (module.getSuperGroup().isConfirm()) {
+                    check = false;
+                    System.out.println("deadline is empty, and closed and " + check);
+                } else {
+                    check = true;
+                    System.out.println("deadline is empty and not closed and " + check);
+                }
+            }
+        } else {
+            check = false;
+            System.out.println("no group available " + check);
+        }
         getAllActivities();
+        System.out.println("ProjectDetailsBean Finish initialization");
+
     }
 
     public void getAllActivities() {
@@ -149,11 +178,11 @@ public class ProjectDetailsBean {
             e.printStackTrace();
         }
     }
-    
+
     public boolean checkPRFormSubmit(Module m) {
-        return prasbl.checkPRFormSubmit(student,m);
+        return prasbl.checkPRFormSubmit(student, m);
     }
-    
+
     public void viewMaterials() throws IOException {
         session.setAttribute("module", module);
         context.getExternalContext().redirect("studentMindmap.xhtml");
