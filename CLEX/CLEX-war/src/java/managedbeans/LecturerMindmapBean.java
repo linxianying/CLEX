@@ -80,6 +80,7 @@ public class LecturerMindmapBean implements Serializable {
     private String schoolname;
     private Date endDate;
     private String displaydeadline;
+    private Date nowDate;
 
     private StreamedContent downloadedFile;
 
@@ -108,6 +109,7 @@ public class LecturerMindmapBean implements Serializable {
         selectedNode = root;
         allAssignmentFolders.clear();
         retrieveAllAssignments();
+        nowDate = new Date();
 
     }
 
@@ -250,7 +252,7 @@ public class LecturerMindmapBean implements Serializable {
             }
         }
         
-        SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yy HH.mm");
+        SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH.mm");
         String date = DATE_FORMAT.format(endDate);
         Path file = Files.createTempFile(folder, date, ".prism");
         Files.move(file, Paths.get(path, date + ".prism"));
@@ -736,6 +738,14 @@ public class LecturerMindmapBean implements Serializable {
 
     public void setEvent(ScheduleEvent event) {
         this.event = event;
+    }
+
+    public Date getNowDate() {
+        return nowDate;
+    }
+
+    public void setNowDate(Date nowDate) {
+        this.nowDate = nowDate;
     }
 
 }

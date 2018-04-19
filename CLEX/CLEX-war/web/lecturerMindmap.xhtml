@@ -72,7 +72,7 @@
                             <f:selectItems value="#{lecturerMindmapBean.allAssignmentFolders}" />
                         </p:selectOneMenu>   
                         <p:outputLabel for="date" value="Date:" />
-                        <p:calendar id="date" value="#{lecturerMindmapBean.endDate}" timeZone="GMT+8" pattern="dd/MM/yyyy HH:mm"/>
+                        <p:calendar id="date" value="#{lecturerMindmapBean.endDate}" timeZone="GMT+8" pattern="yyyy/MM/dd HH:mm" mindate="#{lecturerMindmapBean.nowDate}"/>
                         <p:commandButton actionListener="#{lecturerMindmapBean.setDeadline}" value="Set closing date" icon="fa fa-calendar" update="mindmapform, @form, detailgroup"/>
 
                     </h:panelGroup>

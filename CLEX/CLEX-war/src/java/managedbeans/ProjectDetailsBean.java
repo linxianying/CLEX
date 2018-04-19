@@ -60,7 +60,7 @@ public class ProjectDetailsBean {
     private String semester;
     private String year;
     private String schoolname;
-    SimpleDateFormat df = new SimpleDateFormat("dd-MM-yy HH:mm");
+    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     //for test
     private boolean check;
 

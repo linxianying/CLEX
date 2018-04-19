@@ -148,15 +148,16 @@ public class StudentMindmapBean implements Serializable {
             return false;
         } else {
             deadline = deadline.replaceAll(".prism", "");
+            deadline = deadline.replace(".", ":");
             System.out.println(deadline);
             Date date = new Date();
-            DateFormat format = new SimpleDateFormat("dd-MM-yy HH.mm");
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             String currDate = format.format(date);
             System.out.println("Current time: " + currDate);
-            if (deadline.compareTo(currDate) == 1) {
-                return true;
-            } else {
+            if (currDate.compareTo(deadline) >= 1) {
                 return false;
+            } else {
+                return true;
             }
         }
     }

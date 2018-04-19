@@ -86,7 +86,7 @@
                                     <p:outputLabel id="deadl" for="maxStudentNum" value="(Optional) Group Formation Cut-Off Date: " rendered="#{lecturerModuleGroupBean.formMethod eq 'student'}"/>
                                 </td>
                                 <td>
-                                    <p:calendar id="deadline" value="#{lecturerModuleGroupBean.deadline}" pattern="MM/dd/yyyy HH:mm:ss" mindate="#{lecturerModuleGroupBean.currentDate}" rendered="#{lecturerModuleGroupBean.formMethod eq 'student'}"/>
+                                    <p:calendar id="deadline" value="#{lecturerModuleGroupBean.deadline}" pattern="yyyy/MM/dd HH:mm" mindate="#{lecturerModuleGroupBean.currentDate}" rendered="#{lecturerModuleGroupBean.formMethod eq 'student'}"/>
                                 </td>
                                 <!--                                <td>
                                                                     (Optional)

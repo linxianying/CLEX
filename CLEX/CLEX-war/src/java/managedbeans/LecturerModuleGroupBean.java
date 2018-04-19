@@ -78,7 +78,7 @@ public class LecturerModuleGroupBean implements Serializable {
     private int minStudentNum;
     private int maxStudentNum;
     private Date deadline;
-    SimpleDateFormat df = new SimpleDateFormat("dd-MM-yy HH:mm");
+    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     //for change student group
     private Student student;
     private Long toGroupId;
