@@ -239,16 +239,20 @@ public class LecturerMindmapBean implements Serializable {
         }
         String path2 = path + deadlinefile;
         File checkfile = new File(path2);
-        if (checkfile.exists()) {            
+        if (checkfile.exists()) {
             checkfile.delete();
             for (int i = 0; i < students.size(); i++) {
+                System.out.println("Get timeslot for student: " + students.get(i).getName());
                 t = (List<Timeslot>) students.get(i).getTimeslots();
                 for(int x =0;x<t.size();x++) {
                     System.out.println(t.get(x).getTitle());
                     if(t.get(x).getTitle().equals(assignmentname)) {
-                        sbl.deleteTimeslot(t.get(x).getId(), (User) students.get(i));
+                        User user1 = (User) students.get(i);
+                        sbl.deleteTimeslot(t.get(x).getId(), user1);
+                        System.out.println("Delete timeslot for" + students.get(i).getName());
                     }
                 }
+                System.out.println("-------------------------");
             }
         }
         
