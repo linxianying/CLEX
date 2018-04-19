@@ -43,10 +43,12 @@ public class ShopOrderBean implements Serializable {
     private Shop shop;
     //for history orders
     private ArrayList<Order> orders;
+    private ArrayList<Order> filteredOrders;
     private double totalPrice;
     //for current orders
     private ArrayList<Order> currentOrders;
     private ArrayList<Item> items;
+    private ArrayList<Item> filteredItems;
     
     @PostConstruct
     public void init() {
@@ -169,6 +171,22 @@ public class ShopOrderBean implements Serializable {
 
     public void setItems(ArrayList<Item> items) {
         this.items = items;
+    }
+
+    public ArrayList<Order> getFilteredOrders() {
+        return filteredOrders;
+    }
+
+    public void setFilteredOrders(ArrayList<Order> filteredOrders) {
+        this.filteredOrders = filteredOrders;
+    }
+
+    public ArrayList<Item> getFilteredItems() {
+        return filteredItems;
+    }
+
+    public void setFilteredItems(ArrayList<Item> filteredItems) {
+        this.filteredItems = filteredItems;
     }
     
     

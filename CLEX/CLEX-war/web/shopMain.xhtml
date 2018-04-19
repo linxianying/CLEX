@@ -22,8 +22,45 @@
                             <br/>
                             <h:panelGrid columns="4">
                                 <h:form id="historyForm">
-                                    <p:dataTable value="#{shopOrderBean.orders}" var="order" rendered="#{not empty shopOrderBean.orders}">
+                                    <p:dataTable value="#{shopOrderBean.orders}" var="order" rendered="#{not empty shopOrderBean.orders}"
+                                                 emptyMessage="You do not have any order history yet." 
+                                                widgetVar="ordersTable" id="orders" rows="10"
+                                                paginator="true"  scrollable="true"
+                                                paginatorPosition="bottom"
+                                                filteredValue="#{shopOrderBean.filteredOrders}"
+                                                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks}
+                                                 {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+                                                rowsPerPageTemplate="10,15,20">
+                                        <f:facet name="header">
+                                            <p:outputPanel>
+                                                <h:outputText value="#{bundle['searchFields']}" />
+                                                <p:inputText id="globalFilter" onkeyup="PF('ordersTable').filter()" 
+                                                             style="width:150px" placeholder="#{bundle['enterKeyword']}"/>
+                                            </p:outputPanel>
+                                         </f:facet>  
+                                         <f:facet name="{Exporters}">
+                                            <div style="float:right;">
+                                                <h:commandLink>
+                                                    <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                                                    <p:dataExporter type="xls" target="orders" fileName="orders"  />
+                                                </h:commandLink>
 
+                                                <h:commandLink>
+                                                    <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                                                    <p:dataExporter type="pdf" target="orders" fileName="orders" />
+                                                </h:commandLink>
+
+                                                <h:commandLink>
+                                                    <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                                                    <p:dataExporter type="csv" target="orders" fileName="orders"  />
+                                                </h:commandLink>
+
+                                                <h:commandLink>
+                                                    <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                                                    <p:dataExporter type="xml" target="orders" fileName="orders"/>
+                                                </h:commandLink>
+                                            </div>
+                                         </f:facet>
                                         <p:column headerText="Date">
                                             <h:outputLabel value="#{order.orderTime}" >
                                                 <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
@@ -98,7 +135,45 @@
                         <p:fieldset collapsed="false" styleClass="menuHeader" id="itemsList" legend="Items You Have" toggleable="false">
                             <h:panelGrid columns="4">
                                 <h:form id="itemsForm">
-                                    <p:dataTable value="#{shopOrderBean.items}" var="item" rendered="#{not empty shopOrderBean.items}">
+                                    <p:dataTable value="#{shopOrderBean.items}" var="item" rendered="#{not empty shopOrderBean.items}"
+                                                 emptyMessage="You do not have any order history yet." 
+                                                widgetVar="itemsTable" id="items" rows="5" scrollable="true"
+                                                paginator="true"  paginatorAlwaysVisible="false"
+                                                filteredValue="#{shopOrderBean.filteredItems}"
+                                                paginatorPosition="bottom"
+                                                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks}
+                                                 {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+                                                rowsPerPageTemplate="5,15,20">
+                                        <f:facet name="header">
+                                            <p:outputPanel>
+                                                <h:outputText value="#{bundle['searchFields']}" />
+                                                <p:inputText id="globalFilter" onkeyup="PF('itemsTable').filter()" 
+                                                             style="width:150px" placeholder="#{bundle['enterKeyword']}"/>
+                                            </p:outputPanel>
+                                        </f:facet>  
+                                        <f:facet name="{Exporters}">
+                                            <div style="float:right;">
+                                                <h:commandLink>
+                                                    <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                                                    <p:dataExporter type="xls" target="items" fileName="items"  />
+                                                </h:commandLink>
+
+                                                <h:commandLink>
+                                                    <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                                                    <p:dataExporter type="pdf" target="items" fileName="items" />
+                                                </h:commandLink>
+
+                                                <h:commandLink>
+                                                    <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                                                    <p:dataExporter type="csv" target="items" fileName="items"  />
+                                                </h:commandLink>
+
+                                                <h:commandLink>
+                                                    <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                                                    <p:dataExporter type="xml" target="items" fileName="items"/>
+                                                </h:commandLink>
+                                            </div>
+                                        </f:facet>
                                         <p:column headerText="Name">
                                             <p:inplace id="ajax" editor="true">
                                                 <p:inputText value="#{item.name}" required="true" label="text" />
