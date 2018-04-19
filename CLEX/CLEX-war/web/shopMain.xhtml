@@ -98,7 +98,7 @@
                     </p:tab>
                     
                     <p:tab id="current" title="Current Orders">
-                        <p:fieldset collapsed="false" styleClass="menuHeader" id="currentOrder" legend="History Orders" toggleable="false">
+                        <p:fieldset collapsed="false" styleClass="menuHeader" id="currentOrder" legend="Current Orders" toggleable="false">
                             <h:outputText value="you have no unfinished orders!" rendered="#{empty shopOrderBean.currentOrders}"/>
                             <br/>
                             <h:panelGrid columns="5">
@@ -132,9 +132,11 @@
                                         <h:outputText value="$#{order.price}"/>
                                     </p:column>
                                     <p:column headerText="Status">
-                                        <h:outputText value="#{order.finish}"/>
-                                        <p:commandButton value="Finish order" actionListener="#{shopOrderBean.finishOrder(order.id)}" 
-                                                         update="orderForm:tab:history orderForm:tab:current"/>
+                                        <h:outputText value="Finish" rendered="#{order.finish}"/>
+                                        <h:outputText value="Not Finish" rendered="#{!order.finish}"/>
+                                        <br/>
+                                        <p:commandButton value="Finish this order" actionListener="#{shopOrderBean.finishOrder(order.id)}" 
+                                                         update="orderForm:tab:history orderForm:tab:current" rendered="#{!order.finish}"/>
                                     </p:column>
                                 </p:dataTable>
                                 <!--</h:form>-->       
@@ -192,7 +194,8 @@
                                             </p:inplace>
                                         </p:column>
                                         <p:column headerText="Available">
-                                            <h:outputText value="#{item.available}"/>
+                                            <h:outputText value="Available" rendered="#{item.available}"/>
+                                            <h:outputText value="Not Available" rendered="#{!item.available}"/>
                                             
                                             <p:inplace id="facet" effect="none">
                                                 <f:facet name="output">
