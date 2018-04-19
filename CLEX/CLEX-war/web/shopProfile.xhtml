@@ -1,104 +1,96 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/WEB-INF/template_shop.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html" 
+                xmlns:f="http://xmlns.jcp.org/jsf/core" 
                 xmlns:p="http://primefaces.org/ui"
-                template="/WEB-INF/template_shop.xhtml">
-                
-    <ui:define name="title">PRISM Shop Staff Main Page</ui:define>
+                xmlns:pe="http://primefaces.org/ui"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+    <ui:define name="title">PRISM Shop Profile Page</ui:define>
 
-    <ui:define name="viewname">Canteen Store Order</ui:define>
+    <ui:define name="viewname">#{bundle['Profile']}</ui:define>
 
     <ui:define name="content">
-        <div>
-            <h:outputText value="Welcome to PRISM, #{shopOrderBean.shop.name}" />
-            <p:growl id="messages" showDetail="true" />
-            <h:form id="orderForm">
-                <p:tabView id="tab">
-                    <h:outputText value="Total price earned#{shopOrderBean.totalPrice}"/>
-                    <p:tab id="history" title="History Orders">
-                        <p:fieldset collapsed="false" styleClass="menuHeader" id="order" legend="History Orders" toggleable="false">
-                            <h:outputText id="empty" value="you did not receive any order!" rendered="#{empty shopOrderBean.orders}"/>
-                            <br/>
-                            <h:panelGrid columns="4">
-                                <h:form id="historyForm">
-                                    <p:dataTable value="#{shopOrderBean.orders}" var="order" rendered="#{not empty shopOrderBean.orders}">
+        <h:outputStylesheet name="./css/form.css"/>
 
-                                        <p:column headerText="Date">
-                                            <h:outputLabel value="#{order.orderTime}" >
-                                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
-                                            </h:outputLabel>
-                                        </p:column>
-                                        <p:column headerText="Store">
-                                            <h:outputText value="Canteen: #{order.shop.canteen}"/>
-                                            <br/>
-                                            <h:outputText value="Store: #{order.shop.name}"/>
-                                        </p:column>
-                                        <p:column headerText="Items">
-                                            <ui:repeat value="#{shopOrderBean.getOrderItems(order)}" var="item" varStatus="itemIndex">
-                                                <h:outputText value="Item.#{itemIndex.index+1} #{item.name}, Quantity #{order.orderItems[item]}"/>
-                                                <br/>
-                                            </ui:repeat>
-                                        </p:column>
-                                        <p:column headerText="Price">
-                                            <h:outputText value="$#{order.price}"/>
-                                        </p:column>
-                                    </p:dataTable>
-                                </h:form>       
-                            </h:panelGrid>
-                        </p:fieldset>
-                    </p:tab>
+        <div class="ui-g ui-fluid">
+            
+            
+            <div class="ui-g-12 ui-lg-6">
+                <div class="card card-w-title" style="padding-bottom:45px">
+                    
 
-                    <p:tab id="current" title="Current Orders">
-                        <p:fieldset collapsed="false" styleClass="menuHeader" id="currentOrder" legend="History Orders" toggleable="false">
-                            <h:outputText value="you have no unfinished orders!" rendered="#{empty shopOrderBean.currentOrders}"/>
-                            <br/>
-                            <h:panelGrid columns="5">
-                                <!--<h:form id="currentForm">-->
-                                    <p:dataTable value="#{shopOrderBean.currentOrders}" var="order" rendered="#{not empty shopOrderBean.currentOrders}">
-                                        <p:column headerText="Date">
-                                            <h:outputText value="Order time" />
-                                            <br/>
-                                            <h:outputLabel value="#{order.orderTime}" >
-                                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
-                                            </h:outputLabel>
-                                            <br/>
-                                            <h:outputText value="Take out time(Required)" />
-                                            <br/>
-                                            <h:outputLabel value="#{order.takeoutTime}" >
-                                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
-                                            </h:outputLabel>
-                                        </p:column>
-                                        <p:column headerText="Store">
-                                            <h:outputText value="Canteen: #{order.shop.canteen}"/>
-                                            <br/>
-                                            <h:outputText value="Store: #{order.shop.name}"/>
-                                        </p:column>
-                                        <p:column headerText="Items">
-                                            <ui:repeat value="#{shopOrderBean.getOrderItems(order)}" var="item" varStatus="itemIndex">
-                                                <h:outputText value="Item.#{itemIndex.index+1} #{item.name}, Quantity #{order.orderItems[item]}"/>
-                                                <br/>
-                                            </ui:repeat>
-                                        </p:column>
-                                        <p:column headerText="Price">
-                                            <h:outputText value="$#{order.price}"/>
-                                        </p:column>
-                                        <p:column headerText="Status">
-                                            <h:outputText value="#{order.finish}"/>
-                                            <h:form>
-                                                <p:commandButton value="Finish order" actionListener="#{shopOrderBean.finishOrder(order.id)}" update="orderForm:tab:history orderForm:tab:current"/>
-                                            </h:form>
-                                        </p:column>
-                                    </p:dataTable>
-                                <!--</h:form>-->       
-                            </h:panelGrid>
-                        </p:fieldset>
-                    </p:tab>
-                </p:tabView>
-            </h:form>
+                    <h:panelGroup id="profilepic">
+                        <p:graphicImage cache="false" library="profile"
+                                        style="background-color: transparent;background: top left no-repeat;background-size: 100px 100px; width: 100px; height: 100px" 
+                                        name="default.png"/>
+                    </h:panelGroup> 
+                    <h:outputLabel style="font-weight: bold; font-size: 30px" value="Shop Name"/>
+
+                </div>
+            </div>
+
+            <div class="ui-g-12 ui-lg-6">
+                <p:growl id="messages" showDetail="true" />
+                <h:form>
+
+                    <!-- Left Side -->
+                    <div class="card card-w-title">
+                        <h1>#{bundle['BasicProfile']}</h1>
+                        <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
+                            <span>#{bundle['Username']}</span>
+                            <p:inputText id="username" disabled="true" value="temp" readonly="true" />
+                            <span>#{bundle['FullName']}</span>
+                            <p:inputText id="newName" value="temp" />
+                            <span>#{bundle['Email']}</span>
+                            <p:inputText id="newEmail" value="temp" />
+
+                            <span>#{bundle['ContactNumber']}</span>
+                            <p:inputText id="newContactNum" value="temp" />
+                            <br></br>
+                        </p:panelGrid>
+                        <p:commandButton value="#{bundle['saveProfile']}"  id="editBasicButton" >
+                            <p:confirm header="#{bundle['Confirmation']}" message="#{bundle['sure']}" icon="ui-icon-alert" />
+                        </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="#{bundle['yes']}" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="#{bundle['no']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+
+                    </div>
+                </h:form>
+            
+                <div class="card card-w-title">
+                    <h1>#{bundle['ChangePassword']}</h1>
+                    <h:form >
+                        <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
+                            <span>#{bundle['CurrentPassword']}</span>
+                            <p:password id="currentPassword" value="temp"/>
+
+                            <span>#{bundle['NewPassword']}</span>
+                            <p:password id="firstPassword" value="temp" />
+
+                            <span>#{bundle['ConfirmPassword']}</span>
+                            <p:password id="confirmPassword" value="temp" validatorMessage="Password needs to be between 6-12 characters">
+                                <f:validateRegex pattern="^[a-zA-Z0-9]{6,12}$" />
+                            </p:password>
+                            <br></br>
+                        </p:panelGrid>
+                        <p:commandButton value="#{bundle['ChangePassword']}" id="editPasswordButton" update="messages">
+                            <p:confirm header="#{bundle['Confirmation']}" message="#{bundle['sure']}" icon="ui-icon-alert" />
+                        </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="#{bundle['yes']}" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="#{bundle['no']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+
+                    </h:form>             
+                </div>
+            </div>
         </div>
-        
+
     </ui:define>
 
 </ui:composition>
-
