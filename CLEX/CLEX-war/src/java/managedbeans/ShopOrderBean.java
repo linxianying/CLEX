@@ -81,6 +81,9 @@ public class ShopOrderBean implements Serializable {
         this.refresh();
     }
     
+    public void changeShopName(String newName) {
+        osbl.changeShopName(shop.getUsername(), newName);
+    }
     public void editItemName(Item item, String newName){
         osbl.changeItemName(item, newName);
     }
