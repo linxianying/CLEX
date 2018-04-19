@@ -91,7 +91,7 @@
                         <!-- User Type -->
                         <div class="ui-g-12 chkbox-container" style="margin-bottom: -30px; padding-bottom: -20px !important;"> 
                             <p:selectOneButton required="true" requiredMessage="User Type Required" styleClass="menuSelect" id="userType" value="#{registerBean.userType}">
-                                <p:ajax event="change" update="registerForm:matricgroup, registerForm:matricmsg, registerForm:yeargroup, registerForm:semgroup, registerForm:yearmsg, registerForm:semmsg " />
+                                <p:ajax event="change" update="registerForm:facmsg, registerForm:facgroup, registerForm:majorgroup, registerForm:majormsg, registerForm:matricgroup, registerForm:matricmsg, registerForm:yeargroup, registerForm:semgroup, registerForm:yearmsg, registerForm:semmsg " />
                                 <f:selectItem itemValue="1" itemLabel="STU" />
                                 <f:selectItem itemValue="2" itemLabel="LEC" />
                                 <f:selectItem itemValue="3" itemLabel="GUE" />
@@ -102,6 +102,7 @@
                                 <p:message for="userType" style="color: red;font-size: 9px;background: transparent; border: none !important; float: left"/>
                             </button>
                         </div>
+                        <!-- Matric Number -->
                         <div class="ui-g-12" style="margin-bottom: -30px; padding-bottom: -20px !important;">
                             <h:panelGroup id="matricgroup">
                                 <p:inputText styleClass="textInput" 
@@ -116,6 +117,7 @@
                                 <p:message id="matricmsg" for="studentID" style="color: red;font-size: 9px;background: transparent; border: none !important; float: left"/>
                             </button>
                         </div>
+                        <!-- Matric Year -->
                         <div class="ui-g-12 chkbox-container" style="margin-bottom: -30px; padding-bottom: -20px !important;"> 
                             <h:panelGroup id="yeargroup">
                                 <p:selectOneMenu style="padding: 0%" 
@@ -147,7 +149,36 @@
                                 <p:message id="semmsg" for="matricSem" style="color: red;font-size: 9px;background: transparent; border: none !important; float: left"/>
                             </button>
                         </div>
-
+                        <!-- Major -->
+                        <div class="ui-g-12" style="margin-bottom: -30px; padding-bottom: -20px !important;">
+                            <h:panelGroup id="majorgroup">
+                                <p:inputText styleClass="textInput" 
+                                             placeholder="Major" rendered="#{registerBean.userType == '1'}"
+                                             id="major" value="#{registerBean.major}" 
+                                             required="true" requiredMessage="Major is required!">
+                                </p:inputText>
+                            </h:panelGroup>
+                        </div>
+                        <div>
+                            <button disabled="disabled" style="border:none; background: transparent; height: 10px;margin:15px 0px -5px 0px;">                            
+                                <p:message id="majormsg" for="major" style="color: red;font-size: 9px;background: transparent; border: none !important; float: left"/>
+                            </button>
+                        </div>
+                        <!-- Faculty -->
+                        <div class="ui-g-12 chkbox-container" style="margin-bottom: -30px; padding-bottom: -20px !important;"> 
+                            <h:panelGroup id="facgroup">                                
+                                <p:selectOneMenu required="true" style="padding: 0%; width: 100%" rendered="#{registerBean.userType == '1'}"
+                                                   requiredMessage="Faculty is Required" 
+                                                   placeholder="Faculty" id="faculty" value="#{registerBean.faculty}">
+                                    <f:selectItems value="#{registerBean.facultylist}" />
+                                </p:selectOneMenu>                          
+                            </h:panelGroup>
+                        </div>
+                        <div>
+                            <button disabled="disabled" style="border:none; background: transparent; height: 10px;margin:15px 0px -5px 0px;">                            
+                                <p:message id="facmsg" for="faculty" style="color: red;font-size: 9px;background: transparent; border: none !important; float: left"/>
+                            </button>
+                        </div>
                         <!-- Username -->
                         <div class="ui-g-12" style="margin-bottom: -30px; padding-bottom: -20px !important;">
 
