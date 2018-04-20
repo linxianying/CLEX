@@ -148,7 +148,7 @@
                 <div class="ui-g dashboard"> 
                     <div class="ui-g-12 ui-md-8">
                         <h:form id="addTaskForm">
-                            <p:messages showDetail="true" autoUpdate="true" closable="true" />
+                            
                             <p:growl id="msgs" showDetail="true" />
                             <p:panel id="taskPanel" collapsed="false" styleClass="menuHeader"  
                                      toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
@@ -237,7 +237,7 @@
                                         </td>
                                     </tr>
                                 </table>
-                                <p:commandButton styleClass="raised-btn" style="width:100%;" value="#{bundle['Add']}" actionListener="#{tasksBean.addTask}" update="@form, tab:taskObject:tasklist"
+                                <p:commandButton styleClass="raised-btn" style="width:100%;" value="#{bundle['Add']}" actionListener="#{tasksBean.addTask}" update="@form, tab"
                                                  />
                             </p:panel>
                         </h:form>
