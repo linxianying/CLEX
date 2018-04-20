@@ -87,12 +87,11 @@ public class OrderSessionBean implements OrderSessionBeanLocal {
             Query q = em.createQuery("SELECT i FROM Item i WHERE i.shop.school = :school");
             q.setParameter("school", school);
             all = (List<Item>) q.getResultList();
-            System.out.println("Shop for school " + school + " found.");
             for (Item s: all)
                 items.add(s);
         }
         catch(NoResultException e){
-            System.out.println("Shop for school " + school  + " does not exist.");
+            System.out.println("No item for school " + school  + " found");
             items = null;
         }
         catch(Exception e) {
