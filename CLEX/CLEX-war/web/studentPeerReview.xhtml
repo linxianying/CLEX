@@ -8,11 +8,11 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 >
-                    
+
     <ui:define name="title">PRISM Student Peer Review page</ui:define>
-        
+
     <ui:define name="viewname">Peer Review</ui:define>
-        
+
     <ui:define name="content">
         <h:form id="PRForm">
             <h:panelGroup id="individualQuestions">
@@ -21,23 +21,24 @@
                     <h3><h:outputText value="#{bundle['for']} #{studentPeerReviewBean.groupMembers.get(outIndex.index).getName()}"/></h3>
                     <h3><h:outputText value="#{bundle['myself']}" rendered="#{studentPeerReviewBean.username eq studentPeerReviewBean.groupMembers.get(outIndex.index).getUsername()}"/></h3>
                     <ui:repeat value="#{studentPeerReviewBean.individualAnswers[outIndex.index]}" var="indAnswer" varStatus="indIndex">
-                        <ui:repeat value="#{studentPeerReviewBean.individualAnswers[outIndex.index]}" var="indAnswer" varStatus="indIndex">
-                            <h:outputText value="Q#{indIndex.index+1}. "/>
-                            <h:outputText value="#{studentPeerReviewBean.individualQuestions.get(indIndex.index).getQuestion()}"/>
-                            <br /><br />
-                            <p:inputTextarea rows="5" cols="30" maxlength="20000" autoResize="false" rendered="#{studentPeerReviewBean.individualQuestions.get(indIndex.index).type eq 'open'}" 
-                                             value="#{studentPeerReviewBean.individualAnswers[outIndex.index][indIndex.index]}" /> 
-                            <p:selectOneMenu id="rating"  panelStyle="width:180px" effect="fade" style="width:160px" rendered="#{studentPeerReviewBean.individualQuestions.get(indIndex.index).type eq 'rating'}" 
-                                             value="#{studentPeerReviewBean.individualAnswers[outIndex.index][indIndex.index]}">
-                                <f:selectItem itemLabel="#{bundle['SelectOne']}" itemValue="select"/>
-                                <f:selectItems value="#{studentPeerReviewBean.getRating(studentPeerReviewBean.individualQuestions.get(indIndex.index))}" var="rate" itemLabel="#{rate}" itemValue="#{Integer.toString(rate)}" />
-                            </p:selectOneMenu>
-                            <br /><br />
-                        </ui:repeat>
+
+                        <h:outputText value="Q#{indIndex.index+1}. "/>
+                        <h:outputText value="#{studentPeerReviewBean.individualQuestions.get(indIndex.index).getQuestion()}"/>
+                        <br /><br />
+                        <p:inputTextarea rows="5" cols="30" maxlength="20000" autoResize="false" rendered="#{studentPeerReviewBean.individualQuestions.get(indIndex.index).type eq 'open'}" 
+                                         value="#{studentPeerReviewBean.individualAnswers[outIndex.index][indIndex.index]}" /> 
+                        <p:selectOneMenu id="rating"  panelStyle="width:180px" effect="fade" style="width:160px" rendered="#{studentPeerReviewBean.individualQuestions.get(indIndex.index).type eq 'rating'}" 
+                                         value="#{studentPeerReviewBean.individualAnswers[outIndex.index][indIndex.index]}">
+                            <f:selectItem itemLabel="#{bundle['SelectOne']}" itemValue="select"/>
+                            <f:selectItems value="#{studentPeerReviewBean.getRating(studentPeerReviewBean.individualQuestions.get(indIndex.index))}" var="rate" itemLabel="#{rate}" itemValue="#{Integer.toString(rate)}" />
+                        </p:selectOneMenu>
+                        <br /><br />
                     </ui:repeat>
-                    <br/>
+
+                </ui:repeat>
+                <br/>
             </h:panelGroup>
-            
+
             <h:panelGroup id="groupQuestions"> 
                 <h3>#{bundle['grpQues']}</h3>
                 <ui:repeat value="#{studentPeerReviewBean.groupAnswers}" var="grAnswer" varStatus="grIndex" id="grpRepeat">
@@ -51,7 +52,7 @@
                                              value="#{studentPeerReviewBean.groupAnswers[grIndex.index][n.index]}"/>   
                         </ui:repeat>         
                     </h:panelGroup>
-                    
+
                     <h:panelGroup>
                         <br rendered="#{studentPeerReviewBean.groupQuestions.get(grIndex.index).type eq 'rating'}"/>
                         <ui:repeat value="#{grAnswer}" var="ans" rendered="#{studentPeerReviewBean.groupQuestions.get(grIndex.index).type eq 'rating'}" varStatus="n">
@@ -63,7 +64,7 @@
                             </p:selectOneMenu>
                         </ui:repeat>
                     </h:panelGroup>
-                        
+
                     <p:dataTable var="groupMemberUsername" value="#{studentPeerReviewBean.groupAnswers[grIndex.index]}" draggableRows="true" rowIndexVar="indIndex" style="margin-bottom:20px"
                                  rendered="#{studentPeerReviewBean.groupQuestions.get(grIndex.index).type eq 'ranking'}" id="rankingTable">
                         <p:ajax event="rowReorder"  process="@none" partialSubmit="true" update="@this"/>
@@ -85,6 +86,6 @@
             </h:panelGroup>
         </h:form>
         <br />
-            
+
     </ui:define>
 </ui:composition>
