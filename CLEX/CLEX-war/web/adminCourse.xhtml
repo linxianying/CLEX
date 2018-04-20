@@ -24,7 +24,7 @@
                 <p:tabView id="tabView1">                    
                     <p:tab title="#{bundle['COURSES']}" >
                         <h:form id="panel">
-                            <p:dataTable id="coursetable" reflow="true" tableStyle="table-layout: auto !important"
+                            <p:dataTable id="coursetable" reflow="true" tableStyle="table-layout: auto !important; text-align: center;"
                                          editable="true" editMode="cell" 
                                          var="course" value="#{adminCourseListBean.courses}" 
                                          widgetVar="coursesTable"
@@ -205,7 +205,7 @@
                     </p:tab>            
                     <p:tab title="MODULES" >
                         <h:form id="panel1">
-                            <p:dataTable id="moduletable" reflow="true" tableStyle="table-layout: auto !important" 
+                            <p:dataTable id="moduletable" reflow="true" tableStyle="table-layout: auto !important; text-align: center;" 
                                          editable="true" editMode="cell" 
                                          var="module" value="#{adminCourseListBean.modules}" 
                                          widgetVar="modulesTable"
@@ -319,7 +319,7 @@
                     </p:tab>
                     <p:tab title="LESSONS">
                         <h:form id="panel2">
-                            <p:dataTable id="lessontable" editable="true" editMode="cell" reflow="true" tableStyle="table-layout: auto !important" 
+                            <p:dataTable id="lessontable" editable="true" editMode="cell" reflow="true" tableStyle="table-layout: auto !important; text-align: center;" 
                                          var="lesson" value="#{adminCourseListBean.lessons}" 
                                          widgetVar="lessonsTable" emptyMessage="No lessons found with given criteria." 
                                          filteredValue="#{adminCourseListBean.filteredLessons}"
