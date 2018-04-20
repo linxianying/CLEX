@@ -13,14 +13,16 @@
                     <br/><br/>
                     <pp:menu widgetVar="me">
                         <p:menuitem id="om_dashboard" value="#{bundle['dashboard']}" icon="fa fa-fw fa-home" outcome="/adminMain"/>
-                        <p:menuitem id="om_rtl" value="#{bundle['viewUser']}" icon="fa fa-fw fa-list-alt" outcome="/adminUserList"/>
+                        <p:menuitem id="om_rtl" value="#{bundle['viewUser']}" icon="fa fa-fw fa-users" outcome="/adminUserList"/>
                         <p:menuitem id="om_ltr" value="#{bundle['courseManagement']}" icon="fa fa-fw fa-table" outcome="/adminCourse"/>
+                        <p:menuitem id="custom2" value="#{bundle['cm']}" icon="fa fa-fw fa-id-card" outcome="/adminCanteen"/> 
                         <p:menuitem id="om_forms" value="#{bundle['community']}" icon="fa fa-fw fa-circle-o-notch" outcome="/adminCommunity"/>
                         <p:menuitem id="custom3" value="#{bundle['foodOrder']}" icon="fa fa-fw fa-cutlery" outcome="/adminOrder"/> 
+                        
                     </pp:menu>
 
                     <!--
-                    <div class="layout-menu-footer">
+                    <div class="layout-menu-footer">	fa fa-id-card
                         <span class="layout-menu-footer-title">Tasks Overview</span>
                         
                         <p:progressBar value="30" labelTemplate="" displayOnly="true"/>
