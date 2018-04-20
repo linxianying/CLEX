@@ -127,8 +127,9 @@ public class OrderBean implements Serializable {
         }
         else {
             osbl.createOrder(user, orderItems, shop, takeoutTime, totalPrice);
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Congradulation!","Successfully place order!");
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Congradulation!","Successfully place order with Store " + shop.getName() + "!");
             context.addMessage(null, fmsg);
+            context.getExternalContext().getFlash().setKeepMessages(true);
             orderItems = new HashMap<Item, Integer>();
             cartItems = null;
             totalPrice = 0.0;

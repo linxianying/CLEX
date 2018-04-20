@@ -33,66 +33,66 @@
                             <br/>
                             <h:panelGrid columns="4">
                                 
-                                    <p:dataTable value="#{shopOrderBean.orders}" var="order" rendered="#{not empty shopOrderBean.orders}"
-                                                 emptyMessage="You do not have any order history yet." 
-                                                 widgetVar="ordersTable" id="orders" rows="10"
-                                                 paginator="true"  scrollable="true"
-                                                 paginatorPosition="bottom"
-                                                 filteredValue="#{shopOrderBean.filteredOrders}"
-                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks}
-                                                 {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
-                                                 rowsPerPageTemplate="10,15,20">
-                                        <f:facet name="header">
-                                            <p:outputPanel>
-                                                <h:outputText value="#{bundle['searchFields']}" />
-                                                <p:inputText id="globalFilter" onkeyup="PF('ordersTable').filter()" 
-                                                             style="width:150px" placeholder="#{bundle['enterKeyword']}"/>
-                                            </p:outputPanel>
-                                        </f:facet>  
-                                        <f:facet name="{Exporters}">
-                                            <div style="float:right;">
-                                                <h:commandLink>
-                                                    <p:graphicImage name="/demo/images/excel.png" width="24"/>
-                                                    <p:dataExporter type="xls" target="orders" fileName="orders"  />
-                                                </h:commandLink>
-                                                
-                                                <h:commandLink>
-                                                    <p:graphicImage name="/demo/images/pdf.png" width="24"/>
-                                                    <p:dataExporter type="pdf" target="orders" fileName="orders" />
-                                                </h:commandLink>
-                                                
-                                                <h:commandLink>
-                                                    <p:graphicImage name="/demo/images/csv.png" width="24"/>
-                                                    <p:dataExporter type="csv" target="orders" fileName="orders"  />
-                                                </h:commandLink>
-                                                
-                                                <h:commandLink>
-                                                    <p:graphicImage name="/demo/images/xml.png" width="24"/>
-                                                    <p:dataExporter type="xml" target="orders" fileName="orders"/>
-                                                </h:commandLink>
-                                            </div>
-                                        </f:facet>
-                                        <p:column headerText="Date">
-                                            <h:outputLabel value="#{order.orderTime}" >
-                                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
-                                            </h:outputLabel>
-                                        </p:column>
-                                        <p:column headerText="Store">
-                                            <h:outputText value="Canteen: #{order.shop.canteen}"/>
+                                <p:dataTable value="#{shopOrderBean.orders}" var="order" rendered="#{not empty shopOrderBean.orders}"
+                                             emptyMessage="You do not have any order history yet." 
+                                             widgetVar="ordersTable" id="orders" rows="10"
+                                             paginator="true"  scrollable="true"
+                                             paginatorPosition="bottom"
+                                             filteredValue="#{shopOrderBean.filteredOrders}"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks}
+                                             {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+                                             rowsPerPageTemplate="10,15,20">
+                                    <f:facet name="header">
+                                        <p:outputPanel>
+                                            <h:outputText value="#{bundle['searchFields']}" />
+                                            <p:inputText id="globalFilter" onkeyup="PF('ordersTable').filter()" 
+                                                         style="width:150px" placeholder="#{bundle['enterKeyword']}"/>
+                                        </p:outputPanel>
+                                    </f:facet>  
+                                    <f:facet name="{Exporters}">
+                                        <div style="float:right;">
+                                            <h:commandLink>
+                                                <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                                                <p:dataExporter type="xls" target="orders" fileName="orders"  />
+                                            </h:commandLink>
+                                            
+                                            <h:commandLink>
+                                                <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                                                <p:dataExporter type="pdf" target="orders" fileName="orders" />
+                                            </h:commandLink>
+                                            
+                                            <h:commandLink>
+                                                <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                                                <p:dataExporter type="csv" target="orders" fileName="orders"  />
+                                            </h:commandLink>
+                                            
+                                            <h:commandLink>
+                                                <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                                                <p:dataExporter type="xml" target="orders" fileName="orders"/>
+                                            </h:commandLink>
+                                        </div>
+                                    </f:facet>
+                                    <p:column headerText="Date">
+                                        <h:outputLabel value="#{order.orderTime}" >
+                                            <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
+                                        </h:outputLabel>
+                                    </p:column>
+                                    <p:column headerText="Store">
+                                        <h:outputText value="Canteen: #{order.shop.canteen}"/>
+                                        <br/>
+                                        <h:outputText value="Store: #{order.shop.name}"/>
+                                    </p:column>
+                                    <p:column headerText="Items">
+                                        <ui:repeat value="#{shopOrderBean.getOrderItems(order)}" var="item" varStatus="itemIndex">
+                                            <h:outputText value="Item.#{itemIndex.index+1} #{item.name}, Quantity #{order.orderItems[item]}"/>
                                             <br/>
-                                            <h:outputText value="Store: #{order.shop.name}"/>
-                                        </p:column>
-                                        <p:column headerText="Items">
-                                            <ui:repeat value="#{shopOrderBean.getOrderItems(order)}" var="item" varStatus="itemIndex">
-                                                <h:outputText value="Item.#{itemIndex.index+1} #{item.name}, Quantity #{order.orderItems[item]}"/>
-                                                <br/>
-                                            </ui:repeat>
-                                        </p:column>
-                                        <p:column headerText="Price">
-                                            <h:outputText value="$#{order.price}"/>
-                                        </p:column>
-                                    </p:dataTable>
-                                      
+                                        </ui:repeat>
+                                    </p:column>
+                                    <p:column headerText="Price">
+                                        <h:outputText value="$#{order.price}"/>
+                                    </p:column>
+                                </p:dataTable>
+                                
                             </h:panelGrid>
                         </p:fieldset>
                     </p:tab>
@@ -103,61 +103,61 @@
                             <br/>
                             <h:panelGrid columns="5">
                                 <!--<h:form id="currentForm">-->
-                                    <p:dataTable value="#{shopOrderBean.currentOrders}" var="order" rendered="#{not empty shopOrderBean.currentOrders}"
-                                                 emptyMessage="You do not have any current order yet." 
-                                                widgetVar="currentOrdersTable" id="currentOrders" rows="10"
-                                                paginator="true"  scrollable="true"
-                                                paginatorPosition="bottom"
-                                                filteredValue="#{shopOrderBean.filteredOrders}"
-                                                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks}
-                                                 {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
-                                                rowsPerPageTemplate="10,15,20">
-                                        <f:facet name="header">
-                                            <p:outputPanel>
-                                                <h:outputText value="#{bundle['searchFields']}" />
-                                                <p:inputText id="globalFilter" onkeyup="PF('currentOrdersTable').filter()" 
-                                                             style="width:150px" placeholder="#{bundle['enterKeyword']}"/>
-                                            </p:outputPanel>
-                                         </f:facet>  
-                                         <f:facet name="{Exporters}">
-                                            <div style="float:right;">
-                                                <h:commandLink>
-                                                    <p:graphicImage name="/demo/images/excel.png" width="24"/>
-                                                    <p:dataExporter type="xls" target="currentOrders" fileName="currentOrders"  />
-                                                </h:commandLink>
-
-                                                <h:commandLink>
-                                                    <p:graphicImage name="/demo/images/pdf.png" width="24"/>
-                                                    <p:dataExporter type="pdf" target="currentOrders" fileName="currentOrders" />
-                                                </h:commandLink>
-
-                                                <h:commandLink>
-                                                    <p:graphicImage name="/demo/images/csv.png" width="24"/>
-                                                    <p:dataExporter type="csv" target="currentOrders" fileName="currentOrders"  />
-                                                </h:commandLink>
-
-                                                <h:commandLink>
-                                                    <p:graphicImage name="/demo/images/xml.png" width="24"/>
-                                                    <p:dataExporter type="xml" target="currentOrders" fileName="currentOrders"/>
-                                                </h:commandLink>
-                                            </div>
-                                         </f:facet>
-                                        <p:column headerText="Date">
-                                            <h:outputText value="Order time" />
-                                            <br/>
-                                            <h:outputLabel value="#{order.orderTime}" >
-                                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
-                                            </h:outputLabel>
-                                            <br/>
-                                            <h:outputText value="Take out time(Required)" />
-                                            <br/>
-                                            <h:outputLabel value="#{order.takeoutTime}" >
-                                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
-                                            </h:outputLabel>
-                                        </p:column>
-                                        <p:column headerText="Store">
-                                            <h:outputText value="Canteen: #{order.shop.canteen}"/>
-
+                                <p:dataTable value="#{shopOrderBean.currentOrders}" var="order" rendered="#{not empty shopOrderBean.currentOrders}"
+                                             emptyMessage="You do not have any current order yet." 
+                                             widgetVar="currentOrdersTable" id="currentOrders" rows="10"
+                                             paginator="true"  scrollable="true"
+                                             paginatorPosition="bottom"
+                                             filteredValue="#{shopOrderBean.filteredOrders}"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks}
+                                             {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+                                             rowsPerPageTemplate="10,15,20">
+                                    <f:facet name="header">
+                                        <p:outputPanel>
+                                            <h:outputText value="#{bundle['searchFields']}" />
+                                            <p:inputText id="globalFilter" onkeyup="PF('currentOrdersTable').filter()" 
+                                                         style="width:150px" placeholder="#{bundle['enterKeyword']}"/>
+                                        </p:outputPanel>
+                                    </f:facet>  
+                                    <f:facet name="{Exporters}">
+                                        <div style="float:right;">
+                                            <h:commandLink>
+                                                <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                                                <p:dataExporter type="xls" target="currentOrders" fileName="currentOrders"  />
+                                            </h:commandLink>
+                                            
+                                            <h:commandLink>
+                                                <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                                                <p:dataExporter type="pdf" target="currentOrders" fileName="currentOrders" />
+                                            </h:commandLink>
+                                            
+                                            <h:commandLink>
+                                                <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                                                <p:dataExporter type="csv" target="currentOrders" fileName="currentOrders"  />
+                                            </h:commandLink>
+                                            
+                                            <h:commandLink>
+                                                <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                                                <p:dataExporter type="xml" target="currentOrders" fileName="currentOrders"/>
+                                            </h:commandLink>
+                                        </div>
+                                    </f:facet>
+                                    <p:column headerText="Date">
+                                        <h:outputText value="Order time" />
+                                        <br/>
+                                        <h:outputLabel value="#{order.orderTime}" >
+                                            <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
+                                        </h:outputLabel>
+                                        <br/>
+                                        <h:outputText value="Take out time(Required)" />
+                                        <br/>
+                                        <h:outputLabel value="#{order.takeoutTime}" >
+                                            <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
+                                        </h:outputLabel>
+                                    </p:column>
+                                    <p:column headerText="Store">
+                                        <h:outputText value="Canteen: #{order.shop.canteen}"/>
+                                        
                                         <h:outputText value="Store: #{order.shop.name}"/>
                                     </p:column>
                                     <p:column headerText="Items">
@@ -186,78 +186,93 @@
                         <p:fieldset collapsed="false" styleClass="menuHeader" id="itemsList" legend="Items You Have" toggleable="false">
                             <h:panelGrid columns="4">
                                 
-                                    <p:dataTable value="#{shopOrderBean.items}" var="item" rendered="#{not empty shopOrderBean.items}"
-                                                 emptyMessage="You do not have any order history yet." 
-                                                 widgetVar="itemsTable" id="items" rows="5" scrollable="true"
-                                                 paginator="true"  paginatorAlwaysVisible="false"
-                                                 filteredValue="#{shopOrderBean.filteredItems}"
-                                                 paginatorPosition="bottom"
-                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks}
-                                                 {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
-                                                 rowsPerPageTemplate="5,15,20">
-                                        <f:facet name="header">
-                                            <p:outputPanel>
-                                                <h:outputText value="#{bundle['searchFields']}" />
-                                                <p:inputText id="globalFilter" onkeyup="PF('itemsTable').filter()" 
-                                                             style="width:150px" placeholder="#{bundle['enterKeyword']}"/>
-                                            </p:outputPanel>
-                                        </f:facet>  
-                                        <f:facet name="{Exporters}">
-                                            <div style="float:right;">
-                                                <h:commandLink>
-                                                    <p:graphicImage name="/demo/images/excel.png" width="24"/>
-                                                    <p:dataExporter type="xls" target="items" fileName="items"  />
-                                                </h:commandLink>
-                                                
-                                                <h:commandLink>
-                                                    <p:graphicImage name="/demo/images/pdf.png" width="24"/>
-                                                    <p:dataExporter type="pdf" target="items" fileName="items" />
-                                                </h:commandLink>
-                                                
-                                                <h:commandLink>
-                                                    <p:graphicImage name="/demo/images/csv.png" width="24"/>
-                                                    <p:dataExporter type="csv" target="items" fileName="items"  />
-                                                </h:commandLink>
-                                                
-                                                <h:commandLink>
-                                                    <p:graphicImage name="/demo/images/xml.png" width="24"/>
-                                                    <p:dataExporter type="xml" target="items" fileName="items"/>
-                                                </h:commandLink>
-                                            </div>
-                                        </f:facet>
-                                        <p:column headerText="Name">
-                                            <p:inplace id="ajax" editor="true">
-                                                <p:inputText value="#{item.name}" required="true" label="text" />
-                                                <p:ajax event="save" listener="#{shopOrderBean.editItemName(item, item.name)}" />
-                                            </p:inplace>
-                                        </p:column>
-                                        <p:column headerText="Available">
-                                            <h:outputText value="Available" rendered="#{item.available}"/>
-                                            <h:outputText value="Not Available" rendered="#{!item.available}"/>
+                                <p:dataTable value="#{shopOrderBean.items}" var="item" rendered="#{not empty shopOrderBean.items}"
+                                             emptyMessage="You do not have any order history yet." 
+                                             widgetVar="itemsTable" id="items" rows="5" scrollable="true"
+                                             paginator="true"  paginatorAlwaysVisible="false"
+                                             filteredValue="#{shopOrderBean.filteredItems}"
+                                             paginatorPosition="bottom"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks}
+                                             {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+                                             rowsPerPageTemplate="5,15,20">
+                                    <f:facet name="header">
+                                        <p:outputPanel>
+                                            <h:outputText value="#{bundle['searchFields']}" />
+                                            <p:inputText id="globalFilter" onkeyup="PF('itemsTable').filter()" 
+                                                         style="width:150px" placeholder="#{bundle['enterKeyword']}"/>
+                                        </p:outputPanel>
+                                    </f:facet>  
+                                    <f:facet name="{Exporters}">
+                                        <div style="float:right;">
+                                            <h:commandLink>
+                                                <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                                                <p:dataExporter type="xls" target="items" fileName="items"  />
+                                            </h:commandLink>
                                             
-                                            <p:inplace id="facet" effect="none">
-                                                <f:facet name="output">
-                                                    Change
-                                                </f:facet>
-                                                
-                                                <f:facet name="input">
-                                                    <h:selectBooleanCheckbox value="#{item.available}"  >
-                                                        <p:ajax listener="#{shopOrderBean.editItemAvailability(item, item.available)}" update="orderForm:tab:items"/>
-                                                    </h:selectBooleanCheckbox>
-                                                </f:facet>
-                                            </p:inplace>
-                                        </p:column>
-                                        <p:column headerText="Price">
-                                            <p:inplace id="ajax1" editor="true">
-                                                <p:inputText value="#{item.price}" required="true" label="text" />
-                                                <p:ajax event="save" listener="#{shopOrderBean.editItemPrice(item, item.price)}" />
-                                            </p:inplace>
-                                        </p:column>
-                                    </p:dataTable>
-                                     
+                                            <h:commandLink>
+                                                <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                                                <p:dataExporter type="pdf" target="items" fileName="items" />
+                                            </h:commandLink>
+                                            
+                                            <h:commandLink>
+                                                <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                                                <p:dataExporter type="csv" target="items" fileName="items"  />
+                                            </h:commandLink>
+                                            
+                                            <h:commandLink>
+                                                <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                                                <p:dataExporter type="xml" target="items" fileName="items"/>
+                                            </h:commandLink>
+                                        </div>
+                                    </f:facet>
+                                    <p:column headerText="Name">
+                                        <p:inplace id="ajax" editor="true">
+                                            <p:inputText value="#{item.name}" required="true" label="text" />
+                                            <p:ajax event="save" listener="#{shopOrderBean.editItemName(item, item.name)}" />
+                                        </p:inplace>
+                                    </p:column>
+                                    <p:column headerText="Available">
+                                        <h:outputText value="Available" rendered="#{item.available}"/>
+                                        <h:outputText value="Not Available" rendered="#{!item.available}"/>
+                                        
+                                        <p:inplace id="facet" effect="none">
+                                            <f:facet name="output">
+                                                Change
+                                            </f:facet>
+                                            
+                                            <f:facet name="input">
+                                                <h:selectBooleanCheckbox value="#{item.available}"  >
+                                                    <p:ajax listener="#{shopOrderBean.editItemAvailability(item, item.available)}" update="orderForm:tab:items"/>
+                                                </h:selectBooleanCheckbox>
+                                            </f:facet>
+                                        </p:inplace>
+                                    </p:column>
+                                    <p:column headerText="Price">
+                                        <p:inplace id="ajax1" editor="true">
+                                            <p:inputText value="#{item.price}" required="true" label="text" />
+                                            <p:ajax event="save" listener="#{shopOrderBean.editItemPrice(item, item.price)}" />
+                                        </p:inplace>
+                                    </p:column>
+                                </p:dataTable>
+                                
                             </h:panelGrid>
                         </p:fieldset>
                     </p:tab>  
+                    
+                    <p:tab id="newItemTab" title="New Item">
+                        <p:fieldset collapsed="false" styleClass="menuHeader" id="newItem" legend="Add a new Item" toggleable="false">
+                            <h:form>
+                                <h:outputLabel for= "name" value="Item Name:"/>
+                                <p:inputText id="name" value="#{shopOrderBean.newItemName}" required="true"/>
+                                <br/>
+                                <h:outputLabel for= "price" value="Item Price:"/>
+                                <p:inputNumber id="price" value="#{shopOrderBean.newItemPrice}" required="true" minValue="0.00" symbol="$" 
+                                               symbolPosition="s" emptyValue="sign"/> 
+                                <br/>
+                                <p:commandButton value="Add" actionListener="#{shopOrderBean.createNewItem()}" update="orderForm:tab:newItem, orderForm:tab:itemsList, messages"/>
+                            </h:form>
+                        </p:fieldset>
+                    </p:tab>
                 </p:tabView>
             </h:form>
         </div>
