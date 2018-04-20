@@ -103,10 +103,10 @@ public class OrderSessionBean implements OrderSessionBeanLocal {
     }
     
     @Override
-    public void createShop(String canteen, String name, String username, String password, String school){
+    public void createShop(String canteen, String name, String username, String password, String school, String email, String telephone, boolean approve){
         shop = new Shop();
         String salt = genSalt();
-        shop.createShop(canteen, name, hashPassword(password, salt), username, school, salt);
+        shop.createShop(canteen, name, hashPassword(password, salt), username, school, salt,  email, telephone, approve );
         em.persist(shop);
     }
     

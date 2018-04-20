@@ -25,8 +25,6 @@ public interface OrderSessionBeanLocal {
 
     public void createItem(Shop shop, String name, double price);
 
-    public void createShop(String canteen, String name, String username, String password, String school);
-
     public Shop findShop(String username);
 
     public Item findItem(Long id);
@@ -84,6 +82,8 @@ public interface OrderSessionBeanLocal {
     public ArrayList<Item> getAllItems(User user);
 
     public boolean checkShopPassword(String username, String password);
+
+    public void createShop(String canteen, String name, String username, String password, String school, String email, String telephone, boolean approve);
 
     
 }
