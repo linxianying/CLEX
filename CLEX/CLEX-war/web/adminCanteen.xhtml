@@ -14,8 +14,8 @@
 
         <h1 style="margin-top:0">#{bundle['cm']}</h1>
         <h:form id="canteenForm">
-            <p:fieldset collapsed="false" id="shoplist" legend="#{bundle['note']}" toggleable="false" toggleSpeed="500" >
-                <p:dataTable id="shoptable" editable="false" reflow="true" tableStyle="width:auto"
+            <p:fieldset collapsed="false" id="shoplist" legend="Notes: all the shops are in the campus" toggleable="false" toggleSpeed="500" >
+                <p:dataTable id="shoptable" editable="false" reflow="true"
                              var="shop" value="#{adminCanteenListBean.allShops}" 
                              widgetVar="shopsTable" rows="10"
                              emptyMessage="#{bundle['noShop']}" 
@@ -28,11 +28,11 @@
                     <f:facet name="header">
                         <p:outputPanel>
                             <h:outputText value="#{bundle['Search']}:" />
-                            <p:inputText id="globalFilter" onkeyup="PF('shoptable').filter()" style="width:150px" placeholder="#{bundle['EnterKeyword']}"/>
+                            <p:inputText id="globalFilter" onkeyup="PF('shoptable').filter()"  placeholder="#{bundle['EnterKeyword']}"/>
                         </p:outputPanel>
                     </f:facet>  
                     <f:facet name="{Exporters}">
-                        <div>
+                        <div style="float:right;">
                             <!--could add pageOnly="true" to make the exporter only export one page -->
                             <h:commandLink>
                                 <p:graphicImage name="/demo/images/excel.png" width="24"/>
@@ -64,11 +64,7 @@
                     <p:column filterBy="#{shop.canteen}" sortBy="#{shop.canteen}" headerText="Canteen Name" filterMatchMode="contains">
                         <h:outputText value="#{shop.canteen}" />            
                     </p:column>
-                    
-                    <p:column filterBy="#{shop.items.size}" sortBy="#{shop.items.size}" headerText="Item Number" filterMatchMode="contains">
-                        <h:outputText value="#{shop.items.size}" />
-                    </p:column>
-                    
+                  
                 </p:dataTable>
             </p:fieldset>
         </h:form>

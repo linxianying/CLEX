@@ -11,9 +11,9 @@ import entity.User;
 import java.util.ArrayList;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 import javax.servlet.http.HttpSession;
 import session.ClexSessionBeanLocal;
 import session.OrderSessionBeanLocal;
@@ -22,7 +22,7 @@ import session.OrderSessionBeanLocal;
  *
  * @author lin
  */
-@Named(value = "adminCanteenListBean")
+@ManagedBean(name = "adminCanteenListBean")
 @ViewScoped
 public class AdminCanteenListBean {
 
