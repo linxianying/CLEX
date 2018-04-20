@@ -162,8 +162,9 @@ public class ScheduleBean implements Serializable {
 
             }
         }
-        if(!groupTimeslots.isEmpty()&&(userType.equals("1"))){
-            System.out.println("begin_________________________");
+        if(userType.equals("1")){
+            
+            if(!groupTimeslots.isEmpty())
             for (GroupTimeslot t : groupTimeslots) {
                 sbl.deleteGroupTimeslot(t.getId(), (Student) userEntity);
             }

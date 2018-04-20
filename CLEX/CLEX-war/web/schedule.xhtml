@@ -14,18 +14,13 @@
     <ui:define name="content">
         <h3 style="margin:10px">#{bundle['schedule']}</h3>
 
-        <p:commandButton value="#{bundle['reset']}" actionListener="#{scheduleBean.reset()}" 
+        <p:commandButton style="margin-left: 11px;" value="#{bundle['reset']}" actionListener="#{scheduleBean.reset()}" 
                              action="schedule?faces-redirect=true">
             <p:confirm header="#{bundle['Confirmation']}" 
                        message="#{bundle['deleteScheduleMsg']}"
                        icon="ui-icon-alert" />
         </p:commandButton>
         <h:form id="addTimeslotForm">
-            
-
-            <p:commandButton value="#{bundle['Print']}" type="button" icon="ui-icon-print">
-                <p:printer target="cal" />
-            </p:commandButton>
 
             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                 <p:commandButton value="#{bundle['yes']}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
@@ -33,13 +28,9 @@
             </p:confirmDialog>
 
             <p:growl id="messages" showDetail="true" />
-            <!--
-            <h:commandLink>
-                <p:graphicImage name="/demo/images/pdf.png" width="24"/>
-                <p:dataExporter type="pdf" target="cal" fileName="schedule"/>
-            </h:commandLink>
-            -->
+
             <h:panelGrid id="cal" columnClasses="value">
+                
 
                 <p:outputPanel class="ui-g dashboard">
                     <p:schedule class="ui-g-12 ui-md-8" id="schedule" value="#{scheduleBean.eventModel}" widgetVar="myschedule" timeZone="GMT+8">
@@ -48,8 +39,11 @@
                         <p:ajax event="eventMove" listener="#{scheduleBean.onEventMove}" update="messages" />
                         <p:ajax event="eventResize" listener="#{scheduleBean.onEventResize}" update="messages" />
                     </p:schedule>
-
+                    
                     <div class="ui-g-12 ui-md-4 task-list" style="margin-top:50px">
+                        <p:commandButton value="#{bundle['Print']}" type="button" icon="ui-icon-print">
+                            <p:printer target="cal" />
+                        </p:commandButton>
                         <p:panel header="#{bundle['Coming Events']}">
                             <p:dataList id="toDoList" var="todo" value="#{scheduleBean.timeslots}">
                                 <p:selectBooleanCheckbox>

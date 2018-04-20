@@ -10,15 +10,17 @@
     <ui:define name="viewname">#{bundle['schedule']}</ui:define>
     
     <ui:define name="content">
-        
-        <!--
         <h:form>
-            <h:commandButton value="TEST" actionListener="#{scheduleBean.testAddEvents}" action="schedule?faces-redirect=true" />
-        </h:form>
-        -->
+        <h3 style="margin:10px">#{bundle['schedule']}</h3>
+
+        <p:commandButton style="margin-left: 11px;" value="#{bundle['reset']}" actionListener="#{scheduleBean.reset()}" 
+                             action="lecturerSchedule?faces-redirect=true">
+            <p:confirm header="#{bundle['Confirmation']}" 
+                       message="#{bundle['deleteScheduleMsg']}"
+                       icon="ui-icon-alert" />
+        </p:commandButton>
         
         
-        <h:form>
             <p:growl id="messages" showDetail="true" />
             
             
@@ -37,11 +39,7 @@
                         <p:printer target="cal" />
                     </p:commandButton>
                     
-                    <p:commandButton value="#{bundle['reset']}" actionListener="#{scheduleBean.reset()}" style="margin-left:10px; float: left" action="lecturerSchedule?faces-redirect=true">
-                        <p:confirm header="#{bundle['Confirmation']}" 
-                                   message="#{bundle['sure']}"
-                                   icon="ui-icon-alert" />
-                    </p:commandButton>
+                   
                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                         <p:commandButton value="#{bundle['yes']}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                         <p:commandButton value="#{bundle['no']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
