@@ -61,7 +61,6 @@ public class OrderBean implements Serializable {
     public void init() {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
-        
         username = (String) session.getAttribute("username");
         user = osbl.findUser(username);
         shop = (Shop) session.getAttribute("shop");

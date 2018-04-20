@@ -24,14 +24,14 @@
                 <i class="fa fa-bars"></i>
             </a>
             <ul class="topbar-items fadeInDown animated">
-                <li class="profile-item">
+<!--                <li class="profile-item">
                     <a href="shopProfile.xhtml">                            
                         <h:panelGroup>
                             <p:graphicImage cache="false" library="profile"
                                             style="background: top left no-repeat;background-size: 36px 36px; width: 36px; height: 36px" 
                                             name="default.png"/>  
                         </h:panelGroup>  
-                        <!--<div class="profile-image"></div>-->
+                        <div class="profile-image"></div>
                         <span class="topbar-item-name">Shop Name</span>
                     </a>
                     <ul class="poseidon-menu animated">
@@ -51,9 +51,7 @@
                             </h:form>
                         </li>
                     </ul>
-                    
-                    
-                </li>
+                </li>-->
                 <li>
                     <a href="#">
                         <i class="topbar-icon fa fa-fw fa-cog"></i>
@@ -74,6 +72,15 @@
                                     <p:commandButton value="#{bundle['unlock']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-unlocked" onclick="PF('unlockDlg').hide();"/>
                                 </p:confirmDialog>
                             </a>
+                        </li>
+                        <li role="menuitem">
+                            <h:form>
+                                <a href="#" onclick="logout()">
+                                    <i class="fa fa-fw fa-sign-out"></i>
+                                    <span>#{bundle['logout']}</span>
+                                    <p:remoteCommand name="logout" actionListener="#{acctMgmtBean.logout}"/>
+                                </a>
+                            </h:form>
                         </li>
                     </ul>
                 </li>

@@ -43,7 +43,7 @@ public class ShopLoginBean {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
-        
+
         shop = osbl.findShop(username);
         
         if (shop == null) {
