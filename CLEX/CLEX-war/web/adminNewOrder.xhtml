@@ -54,8 +54,9 @@
                         </p:dataTable>
                         <h:outputText value="Total Price: $ #{orderBean.totalPrice}" />
                         <br />
-                        <h:outputText value="Time to collect your food:"/>
-                        <p:calendar value="#{orderBean.takeoutTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                        <h:outputText value="Time to collect your food: (default 5 minutes later)"/>
+                        <br/>
+                        <p:calendar value="#{orderBean.takeoutTime}" pattern="yyyy-MM-dd HH:mm:ss" />
                         <br/>
                         <p:commandButton value="Place Order" actionListener="#{orderBean.placeOrder()}" update="addMsg, items"/>
                     </h:form>
