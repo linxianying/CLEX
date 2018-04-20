@@ -63,6 +63,18 @@
                             <p:column filterBy="#{shop.name}" sortBy="#{shop.name}" headerText="Shop Name" filterMatchMode="contains">
                                 <h:outputText value="#{shop.name}" />
                             </p:column>
+                            <p:column filterBy="#{shop.email}" sortBy="#{shop.email}" headerText="Email" filterMatchMode="contains">
+                                 
+                                <h:outputLink value="Mailto:#{shop.email}">
+                                    <h:outputText  style="color:black;font-weight:normal;" value="#{shop.email}" />
+                                    <f:param name="subject" value="[PRISM_Admin]" />
+                                    <f:param name="body" value="" />
+                                    <h:outputText value="" />
+                                </h:outputLink>
+                            </p:column>
+                            <p:column filterBy="#{shop.telephone}" sortBy="#{shop.telephone}" headerText="Telephone" filterMatchMode="contains">
+                                <h:outputText value="#{shop.telephone}" />            
+                            </p:column>
                             <p:column filterBy="#{shop.canteen}" sortBy="#{shop.canteen}" headerText="Canteen Name" filterMatchMode="contains">
                                 <h:outputText value="#{shop.canteen}" />            
                             </p:column>
