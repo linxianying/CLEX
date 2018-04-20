@@ -237,7 +237,7 @@
                                         </td>
                                     </tr>
                                 </table>
-                                <p:commandButton styleClass="raised-btn" style="width:100%;" value="#{bundle['Add']}" actionListener="#{tasksBean.addTask}" update="tab:taskObject:tasklist"
+                                <p:commandButton styleClass="raised-btn" style="width:100%;" value="#{bundle['Add']}" actionListener="#{tasksBean.addTask}" update="@form, tab:taskObject:tasklist"
                                                  />
                             </p:panel>
                         </h:form>
