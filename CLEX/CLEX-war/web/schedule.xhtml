@@ -14,13 +14,14 @@
     <ui:define name="content">
         <h3 style="margin:10px">#{bundle['schedule']}</h3>
 
-        <h:form id="addTimeslotForm">
-            <p:commandButton value="#{bundle['reset']}" actionListener="#{scheduleBean.reset()}" 
+        <p:commandButton value="#{bundle['reset']}" actionListener="#{scheduleBean.reset()}" 
                              action="schedule?faces-redirect=true">
-                <p:confirm header="#{bundle['Confirmation']}" 
-                           message="#{bundle['deleteScheduleMsg']}"
-                           icon="ui-icon-alert" />
-            </p:commandButton>
+            <p:confirm header="#{bundle['Confirmation']}" 
+                       message="#{bundle['deleteScheduleMsg']}"
+                       icon="ui-icon-alert" />
+        </p:commandButton>
+        <h:form id="addTimeslotForm">
+            
 
             <p:commandButton value="#{bundle['Print']}" type="button" icon="ui-icon-print">
                 <p:printer target="cal" />
