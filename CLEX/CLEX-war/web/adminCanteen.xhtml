@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/WEB-INF/template_admin.xhtml" 
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="title">PRISM Administrator Canteen Management Page</ui:define>
+
+    <ui:define name="viewname">#{bundle['cm']}</ui:define>
+
+    <ui:define name="content">
+
+        <h1 style="margin-top:0">#{bundle['cm']}</h1>
+        <h:form id="canteenForm">
+            <p:fieldset collapsed="false" id="shoplist" legend="#{bundle['note']}" toggleable="false" toggleSpeed="500" >
+                <p:dataTable id="shoptable" editable="false" reflow="true" tableStyle="width:auto"
+                             var="shop" value="#{adminCanteenListBean.allShops}" 
+                             widgetVar="shopsTable" rows="10"
+                             emptyMessage="#{bundle['noShop']}" 
+                             filteredValue="#{adminCanteenListBean.filteredShops}"
+                             paginator="true"  scrollable="true"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
+                             {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+                             rowsPerPageTemplate="5,10,20">
+
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="#{bundle['Search']}:" />
+                            <p:inputText id="globalFilter" onkeyup="PF('shoptable').filter()" style="width:150px" placeholder="#{bundle['EnterKeyword']}"/>
+                        </p:outputPanel>
+                    </f:facet>  
+                    <f:facet name="{Exporters}">
+                        <div>
+                            <!--could add pageOnly="true" to make the exporter only export one page -->
+                            <h:commandLink>
+                                <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                                <p:dataExporter type="xls" target="shoptable" fileName="shopList"  />
+                            </h:commandLink>
+
+                            <h:commandLink>
+                                <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                                <p:dataExporter type="pdf" target="shoptable" fileName="shopList" />
+                            </h:commandLink>
+
+                            <h:commandLink>
+                                <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                                <p:dataExporter type="csv" target="shoptable" fileName="shopList"  />
+                            </h:commandLink>
+
+                            <h:commandLink>
+                                <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                                <p:dataExporter type="xml" target="shoptable" fileName="shopList"/>
+                            </h:commandLink>
+                        </div>
+                    </f:facet>
+                    <p:column filterBy="#{shop.username}" sortBy="#{shop.username}" headerText="Username" filterMatchMode="contains">                        
+                        <h:outputText value="#{shop.username}"/>                            
+                    </p:column>
+                    <p:column filterBy="#{shop.name}" sortBy="#{shop.name}" headerText="Shop Name" filterMatchMode="in">
+                        <h:outputText value="#{shop.name}" />
+                    </p:column>
+                    <p:column filterBy="#{shop.canteen}" sortBy="#{shop.canteen}" headerText="Canteen Name" filterMatchMode="contains">
+                        <h:outputText value="#{shop.canteen}" />            
+                    </p:column>
+                    
+                    <p:column filterBy="#{shop.items.size}" sortBy="#{shop.items.size}" headerText="Item Number" filterMatchMode="contains">
+                        <h:outputText value="#{shop.items.size}" />
+                    </p:column>
+                    
+                </p:dataTable>
+            </p:fieldset>
+        </h:form>
+    </ui:define>
+</ui:composition>
