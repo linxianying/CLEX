@@ -137,7 +137,7 @@
                                             </p:selectOneMenu></f:facet>            
                                     </p:cellEditor>
                                 </p:column>
-                                <p:column filterBy="#{course.discontinuedBool}" headerText="Discontinued" sortBy="#{course.discontinuedBool}" filterMatchMode="equals">
+                                <p:column filterBy="#{course.discontinuedBool}" headerText="Discontinued" sortBy="#{course.discontinuedBool}"  filterMatchMode="contains">
                                     <div><f:facet name="filter">
                                         <p:selectOneMenu onchange="PF('coursesTable').filter()">
                                             <f:converter converterId="javax.faces.Boolean" />
