@@ -46,6 +46,7 @@
                                 <a href="#">
                                     <i class="fa fa-fw fa-sign-out"></i>
                                     <span>#{bundle['logout']}</span>
+                                    <p:remoteCommand name="logout" actionListener="#{acctMgmtBean.logout}"/>
                                 </a>
                             </h:form>
                         </li>
