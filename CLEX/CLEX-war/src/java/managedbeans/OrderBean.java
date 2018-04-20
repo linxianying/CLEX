@@ -68,23 +68,24 @@ public class OrderBean implements Serializable {
         avaliableItems = osbl.getAllAvaItems(shop.getUsername());
         orderItems = new HashMap<Item, Integer>();
         totalPrice = 0.0;
-        takeoutTime = new Date();
+        Date date = new Date();
+        takeoutTime = new Date(date.getTime()+300000);
         this.refresh();
         System.out.println("orderBean finish render");
     }
     
     public void refresh() {
-        System.out.println("orderItems" + orderItems);
+//        System.out.println("orderItems" + orderItems);
         if (orderItems!=null) {
             cartItems = new ArrayList<Item>(orderItems.keySet());
         }
         totalPrice = this.calculateTotalPrice();
-        System.out.println("total price:" + totalPrice);
+//        System.out.println("total price:" + totalPrice);
     }
     
     public void addItem(Item item) {
-        System.out.println("Add item " + item.getName());
-        orderItems.put(item, Integer.valueOf(1));
+//        System.out.println("Add item " + item.getName());
+        orderItems.put(item, 1);
         this.refresh();
     }
     
@@ -94,8 +95,8 @@ public class OrderBean implements Serializable {
     }
     
     public void updateItemQuantity(Item item, int newQuantity) {
-        System.out.println("change item quantity " + item.getName());
-        System.out.println("new quantity: " + newQuantity + ", " + orderItems.get(item).toString());
+//        System.out.println("change item quantity " + item.getName());
+//        System.out.println("new quantity: " + newQuantity + ", " + orderItems.get(item).toString());
         orderItems.put(item, newQuantity);
         this.refresh();
     }
