@@ -50,18 +50,18 @@ public class CommunityBean {
 
     //Thread
     private Thread threadEntity;
-    private Long tId;
-    private String tContent;
-    private String tTitle;
-    private String tTag;
+    private Long Id;
+    private String content;
+    private String title;
+    private String tag;
 
     //Reply
     private List<Reply> replies;
     private Reply replyEntity;
-    private Long rId;
-    private String rContent;
+    private Long replyId;
+    private String replyContent;
     private String dayDisplay2; //for reply
-    
+
     private String forumtype;
     //Vote
     private Vote voteEntity;
@@ -76,18 +76,18 @@ public class CommunityBean {
     public CommunityBean() {
     }
 
-    public void init() {        
+    public void init() {
         refresh();
         editThread = false;
         forumtype = threadEntity.getTag();
-        if(forumtype.equals("Bazaar")) {
+        if (forumtype.equals("Bazaar")) {
             forumtype = "BAZAAR CORNER";
         } else if (forumtype.equals("Course Review")) {
             forumtype = "MODULE REVIEW";
         } else {
             forumtype = "COMMUNITY FORUMS";
         }
-        
+
     }
 
     public void refresh() {
@@ -100,7 +100,7 @@ public class CommunityBean {
         userEntity = (User) session.getAttribute("user");
         check();
         replies = cmsbl.getRepliesFromThread(threadEntity.getId());
-        
+
     }
 
     public void check() {
@@ -171,10 +171,10 @@ public class CommunityBean {
         FacesMessage fmsg = new FacesMessage();
         context = FacesContext.getCurrentInstance();
         if (cmsbl.checkExistingThread(threadEntity.getId())) {
-            if (rContent.equals("")) {
+            if (replyContent.equals("")) {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Reply contents needed.", "Please fill up the content field.");
             } else {
-                if (cmsbl.createReply(threadEntity.getId(), username, rContent)) {
+                if (cmsbl.createReply(threadEntity.getId(), username, replyContent)) {
                     fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Replied to thread.");
                     refresh();
                 } else {
@@ -185,7 +185,7 @@ public class CommunityBean {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed to create reply.", "Thread does not exists.");
         }
         context.addMessage(null, fmsg);
-        rContent = "";
+        replyContent = "";
     }
 
     public void quoteText(Long id, String checker) {
@@ -200,7 +200,7 @@ public class CommunityBean {
             name = reply.getUser().getName();
             content = reply.getContent();
         }
-        rContent = name + " said: </p><p> <em> " + content + " <em>" + "</p><p>"
+        replyContent = name + " said: </p><p> <em> " + content + " <em>" + "</p><p>"
                 + "---------------------------------------------------------------------------------------------------------------------------------"
                 + "</p><p><br></p><p><br></p><p><br>";
     }
@@ -315,43 +315,46 @@ public class CommunityBean {
     }
 
     public void modifyThread() {
-        FacesMessage fmsg = new FacesMessage();
-        cmsbl.editThread(threadEntity.getId(), tContent, tTitle, tTag);
-        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Thread edited.");
-        threadEntity.setContent(tContent);
-        threadEntity.setTitle(tTitle);
-        threadEntity.setTag(tTag);
+        System.out.println("Edit thread");
+        System.out.println(threadEntity.getId() + " " + title + " " + content + " " + tag);
+//        FacesMessage fmsg = new FacesMessage();
+        cmsbl.editThread(threadEntity.getId(), content, title, tag);
+        System.out.println("Edited");
+//        fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Thread edited.");
+        threadEntity.setContent(content);
+        threadEntity.setTitle(title);
+        threadEntity.setTag(tag);
         session.setAttribute("thread", threadEntity);
         refresh();
-        context.addMessage(null, fmsg);
-        tContent = "";
-        tTitle = "";
-        tTag = "";
+//        context.addMessage(null, fmsg);
+        content = "";
+        title = "";
+        tag = "";
         editThread = false;
     }
 
     public void modifyReply() {
         FacesMessage fmsg = new FacesMessage();
         context = FacesContext.getCurrentInstance();
-        cmsbl.editReply(rId, rContent);
+        cmsbl.editReply(replyId, replyContent);
         fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Reply edited.");
         refresh();
         context.addMessage(null, fmsg);
-        rContent = "";
+        replyContent = "";
     }
 
     public void forModifyReply(String content, Long id) {
-        rContent = content;
-        rId = id;
+        replyContent = content;
+        replyId = id;
         refresh();
 
     }
 
     public void forModifyThread(Thread threadEntity) {
-        tContent = threadEntity.getContent();
-        tTitle = threadEntity.getTitle();
-        tTag = threadEntity.getTag();
-        tId = threadEntity.getId();
+        content = threadEntity.getContent();
+        title = threadEntity.getTitle();
+        tag = threadEntity.getTag();
+        Id = threadEntity.getId();
         refresh();
         editThread = true;
     }
@@ -499,52 +502,12 @@ public class CommunityBean {
         this.threadEntity = threadEntity;
     }
 
-    public Long gettId() {
-        return tId;
-    }
-
-    public void settId(Long tId) {
-        this.tId = tId;
-    }
-
-    public String gettContent() {
-        return tContent;
-    }
-
-    public void settContent(String tContent) {
-        this.tContent = tContent;
-    }
-
-    public String gettTitle() {
-        return tTitle;
-    }
-
-    public void settTitle(String tTitle) {
-        this.tTitle = tTitle;
-    }
-
-    public String gettTag() {
-        return tTag;
-    }
-
-    public void settTag(String tTag) {
-        this.tTag = tTag;
-    }
-
     public Reply getReplyEntity() {
         return replyEntity;
     }
 
     public void setReplyEntity(Reply replyEntity) {
         this.replyEntity = replyEntity;
-    }
-
-    public Long getrId() {
-        return rId;
-    }
-
-    public void setrId(Long rId) {
-        this.rId = rId;
     }
 
     public Vote getVoteEntity() {
@@ -603,13 +566,6 @@ public class CommunityBean {
         this.major = major;
     }
 
-    public String getrContent() {
-        return rContent;
-    }
-
-    public void setrContent(String rContent) {
-        this.rContent = rContent;
-    }
 
     public String getDateTimeCompare() {
         return dateTimeCompare;
@@ -678,4 +634,53 @@ public class CommunityBean {
     public void setEditReply(boolean editReply) {
         this.editReply = editReply;
     }
+
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long Id) {
+        this.Id = Id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public Long getReplyId() {
+        return replyId;
+    }
+
+    public void setReplyId(Long replyId) {
+        this.replyId = replyId;
+    }
+
+    public String getReplyContent() {
+        return replyContent;
+    }
+
+    public void setReplyContent(String replyContent) {
+        this.replyContent = replyContent;
+    }
+
 }

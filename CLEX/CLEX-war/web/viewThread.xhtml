@@ -22,7 +22,7 @@
                         <p:overlayPanel style="width: 650px" id="replyOverlay" for="newReplyButton" showEffect="fade" hideEffect="fade" widgetVar="replyWidget">
                             <h:form id="replyForm">
                                 <h:panelGrid columns="1">                
-                                    <p:textEditor value="#{communityBean.rContent}" height="300" style="margin-bottom:10px; width: 600px" placeholder="Enter your content">
+                                    <p:textEditor value="#{communityBean.content}" height="300" style="margin-bottom:10px; width: 600px" placeholder="Enter your content">
                                         <f:facet name="toolbar">
                                             <span class="ql-formats">
                                                 <button class="ql-bold"></button>
@@ -46,11 +46,11 @@
                 <br />
                 <br />
                 <h:panelGrid columns="1" style="width: 100%">
-                    
+
                     <!--For Thread-->
                     <p:panel style="width: 100%" header="#{communityBean.threadEntity.title}" id="threadPanel" footer="Posted by: #{communityBean.threadEntity.user.name} - (#{communityBean.threadEntity.user.userType} from #{communityBean.faculty} - #{communityBean.major}) on #{communityBean.dayDisplay}">
                         <h:panelGrid columns="1" style="width: 100%">
-                            
+
                             <!--post buttons: vote and edit post-->
                             <h:outputLabel id="positiveThread" style="font-size:18px; font-weight: bold; float: left" value="+#{communityBean.threadEntity.upVote - communityBean.threadEntity.downVote}" rendered="#{(communityBean.threadEntity.upVote - communityBean.threadEntity.downVote) gt 0 and communityBean.threadEntity.tag ne 'Bazaar'}"/>
                             <h:outputLabel id="negativeThead" style="font-size:18px; font-weight: bold; float: left" value="#{communityBean.threadEntity.upVote - communityBean.threadEntity.downVote}" rendered="#{(communityBean.threadEntity.upVote - communityBean.threadEntity.downVote) lt 0 and communityBean.threadEntity.tag ne 'Bazaar'}"/>
@@ -58,7 +58,9 @@
                                 <p:commandButton icon="fa fa-thumbs-up" style="float: left;" actionListener="#{communityBean.voteThread(communityBean.threadEntity.id, true)}" update="communityTab, messages" rendered="#{communityBean.threadEntity.user != communityBean.userEntity and communityBean.threadEntity.tag ne 'Bazaar'}"/>
                                 <p:commandButton icon="fa fa-thumbs-down" style="float: left;" actionListener="#{communityBean.voteThread(communityBean.threadEntity.id, false)}" update="communityTab, messages" rendered="#{communityBean.threadEntity.user != communityBean.userEntity and communityBean.threadEntity.tag ne 'Bazaar'}"/>
                                 <p:commandButton actionListener="#{communityBean.removeVoteThread(communityBean.threadEntity.id)}" title="Remove Vote" icon="fa fa-compress" style="float: left;" update="communityTab, messages" rendered="#{communityBean.threadEntity.user != communityBean.userEntity and communityBean.threadEntity.tag ne 'Bazaar'}"/>
+
                                 <p:commandButton update="threadPanel" actionListener="#{communityBean.forModifyThread(communityBean.threadEntity)}" id="editThreadButton" style="float: left;" icon="fa fa-pencil" value="Edit Post" rendered="#{communityBean.threadEntity.user == communityBean.userEntity}"/>
+
                             </h:panelGroup>
 
                             <!--separator-->
@@ -68,14 +70,15 @@
                             <h:outputText rendered="#{not communityBean.editThread}" escape="false" value="#{communityBean.threadEntity.content}"/>
 
                             <!--when edit thread is pressed-->
-                            <p:panelGrid rendered="#{communityBean.editThread}" id="editBox" style="width: 100%">
-                                <h:form id="editThreadForm">
+                            <h:form id="editThreadForm">
+                                <p:panelGrid rendered="#{communityBean.editThread}" id="editBox" style="width: 100%">
+
                                     <h:panelGrid columns="1" style="width: 100%">
                                         <h:panelGroup rendered="#{communityBean.threadEntity.tag ne 'Bazaar'}">
                                             <h:panelGrid columns="2">
-                                                <h:outputLabel for="tag2" value="Tagged under: "/>
+                                                <h:outputLabel for="tag" value="Tagged under: "/>
                                                 <p:selectOneMenu title="Select a tag from the list (Optional)"
-                                                                 value="#{communityBean.tTag}" required="false"
+                                                                 value="#{communityBean.tag}" required="false"
                                                                  id="tag" >
                                                     <f:selectItem itemLabel="General" itemValue="general" />
                                                     <f:selectItem itemLabel="Group Formation" itemValue="groupformation"  />
@@ -89,8 +92,8 @@
                                             </h:panelGrid>
                                         </h:panelGroup>
 
-                                        <p:inputTextarea style="width:100%" rows="1" cols="100" title="Title" placeholder="Thread Title" id="title" value="#{communityBean.tTitle}"/>                                    
-                                        <p:textEditor value="#{communityBean.tContent}" height="101" style="margin-bottom:10px; max-width: 100%" placeholder="Enter your content">
+                                        <p:inputTextarea style="width:100%" rows="1" cols="100" title="Title" placeholder="Thread Title" id="title" value="#{communityBean.title}"/>                                    
+                                        <p:textEditor value="#{communityBean.content}" height="101" style="margin-bottom:10px; max-width: 100%" placeholder="Enter your content">
                                             <f:facet name="toolbar">
                                                 <span class="ql-formats">
                                                     <span class="ql-formats">
@@ -117,10 +120,11 @@
                                                 </span>                                            
                                             </f:facet>
                                         </p:textEditor>
-                                        <p:commandButton update="threadPanel" value="Update Thread" actionListener="#{communityBean.modifyThread}"/>
                                     </h:panelGrid>
-                                </h:form>
-                            </p:panelGrid>
+                                    <p:commandButton update="threadPanel" value="Update Thread" actionListener="#{communityBean.modifyThread}"/>
+                                </p:panelGrid>
+                                
+                            </h:form>
                             <br />
                             <br />
                             <h:outputLabel style="font-size: 10px; font-style: italic" value="Last edited: #{communityBean.threadEntity.editDateTime}" rendered="#{communityBean.threadEntity.edited == true}"/>
@@ -171,11 +175,11 @@
                         </h:form>
                     </h:panelGrid>
                 </h:panelGrid>
-                
+
                 <p:overlayPanel style="width: 650px" id="editReplyOverlay" showEffect="fade" hideEffect="fade" widgetVar="editReplyWidget">
                     <h:form id="editReplyForm">
                         <h:panelGrid columns="1">    
-                            <p:textEditor id="editReplyEditor" widgetVar="editReplyVar" value="#{communityBean.rContent}" height="300" style="margin-bottom:10px; width: 600px" placeholder="Enter your content">
+                            <p:textEditor id="editReplyEditor" widgetVar="editReplyVar" value="#{communityBean.replyContent}" height="300" style="margin-bottom:10px; width: 600px" placeholder="Enter your content">
                                 <f:facet name="toolbar">
                                     <span class="ql-formats">
                                         <span class="ql-formats">
