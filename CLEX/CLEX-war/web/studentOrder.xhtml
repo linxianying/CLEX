@@ -227,11 +227,11 @@
                         <p:column filterBy="#{shop.canteen}" sortBy="#{shop.canteen}" headerText="Canteen" filterMatchMode="contains">
                             <h:outputText value="#{shop.canteen}" />
                         </p:column>
-                        <p:column filterBy="#{shop.name}" sortBy="#{shop.name}" headerText="Store name" filterMatchMode="contains">
+                        <p:column filterBy="#{shop.name}" sortBy="#{shop.name}" headerText="Store Name" filterMatchMode="contains">
                             <h:outputText value="#{shop.name}" />
                         </p:column>
-                        <p:column headerText="New order" >
-                            <p:commandButton icon="ui-icon-note" value="Start a new order" actionListener="#{userOrderBean.goNewOrderPage(shop)}"/>
+                        <p:column headerText="New Order" >
+                            <p:commandButton icon="ui-icon-note" value="Start New Order" actionListener="#{userOrderBean.goNewOrderPage(shop)}"/>
                         </p:column>
                     </p:dataTable>
                 </h:form>
