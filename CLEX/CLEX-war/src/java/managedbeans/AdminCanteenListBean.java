@@ -9,6 +9,7 @@ import entity.Item;
 import entity.Shop;
 import entity.User;
 import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -34,16 +35,16 @@ public class AdminCanteenListBean {
     @EJB
     ClexSessionBeanLocal csbl;
     
-    ArrayList<Shop> allShops;
-    ArrayList<Shop> filteredShops;
-    ArrayList<Item> allItems;
-    ArrayList<Item> filteredItems;
+    private ArrayList<Shop> allShops;
+    private ArrayList<Shop> filteredShops;
+    private ArrayList<Item> allItems;
+    private ArrayList<Item> filteredItems;
     
     FacesContext context;
     HttpSession session;
     
-    String username;
-    User user;
+    private String username;
+    private User user;
     
     public AdminCanteenListBean() {
     }
