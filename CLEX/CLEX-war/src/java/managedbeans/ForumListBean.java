@@ -160,6 +160,24 @@ public class ForumListBean {
                 threads = (ArrayList) cmsbl.filterNonTagCourseReview(threads);
                 threads = (ArrayList) cmsbl.filterNonTagMarketplace(threads);
                 threads = (ArrayList) cmsbl.filterThreadByTag(threads, searchTag);
+            } else if (!searchTitle.equals("") && !searchContent.equals("") && searchTag.equals(" ")) {
+                threads = (ArrayList) cmsbl.getAllThreadsBySchool(userEntity.getSchool());
+                threads = (ArrayList) cmsbl.filterNonTagCourseReview(threads);
+                threads = (ArrayList) cmsbl.filterNonTagMarketplace(threads);
+                threads = (ArrayList) cmsbl.filterThreadByTitle(threads, searchTitle);
+                threads = (ArrayList) cmsbl.filterThreadByContent(threads, searchContent);
+            } else if (!searchTitle.equals("") && searchContent.equals("") && !searchTag.equals(" ")) {
+                threads = (ArrayList) cmsbl.getAllThreadsBySchool(userEntity.getSchool());
+                threads = (ArrayList) cmsbl.filterNonTagCourseReview(threads);
+                threads = (ArrayList) cmsbl.filterNonTagMarketplace(threads);
+                threads = (ArrayList) cmsbl.filterThreadByTitle(threads, searchTitle);
+                threads = (ArrayList) cmsbl.filterThreadByTag(threads, searchTag);
+            } else if (searchTitle.equals("") && !searchContent.equals("") && !searchTag.equals(" ")) {
+                threads = (ArrayList) cmsbl.getAllThreadsBySchool(userEntity.getSchool());
+                threads = (ArrayList) cmsbl.filterNonTagCourseReview(threads);
+                threads = (ArrayList) cmsbl.filterNonTagMarketplace(threads);
+                threads = (ArrayList) cmsbl.filterThreadByContent(threads, searchContent);
+                threads = (ArrayList) cmsbl.filterThreadByTag(threads, searchTag);
             }
             if (threads.isEmpty()) {
                 threads = (ArrayList) cmsbl.getAllThreadsBySchool(userEntity.getSchool());
