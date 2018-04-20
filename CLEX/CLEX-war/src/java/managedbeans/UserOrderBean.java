@@ -49,6 +49,7 @@ public class UserOrderBean implements Serializable {
     private double totalPrice;
     //for current orders
     private ArrayList<Order> currentOrders;
+    private ArrayList<Order> filteredCurrentOrders;
     private Shop shop;
     //for new orders
     private ArrayList<Shop> shops;
@@ -75,6 +76,7 @@ public class UserOrderBean implements Serializable {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
         session.setAttribute("shop", selectShop);
+        System.out.println(this.user.getUserType());
         if (this.user.getUserType().equals("Student")) {
             context.getExternalContext().redirect("studentNewOrder.xhtml");
         }
@@ -187,6 +189,14 @@ public class UserOrderBean implements Serializable {
 
     public void setFilteredShops(List<Shop> filteredShops) {
         this.filteredShops = filteredShops;
+    }
+
+    public ArrayList<Order> getFilteredCurrentOrders() {
+        return filteredCurrentOrders;
+    }
+
+    public void setFilteredCurrentOrders(ArrayList<Order> filteredCurrentOrders) {
+        this.filteredCurrentOrders = filteredCurrentOrders;
     }
 
     

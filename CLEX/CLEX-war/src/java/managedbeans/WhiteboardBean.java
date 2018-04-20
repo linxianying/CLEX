@@ -77,11 +77,6 @@ public class WhiteboardBean {
         schoolname = userEntity.getSchool();
     }
 
-    public void setNoCache() {
-        HttpServletResponse response = (HttpServletResponse) FacesContext
-                .getCurrentInstance().getExternalContext().getResponse();
-        response.setHeader("Cache-Control", "no-cache, no-store");
-    }
 
     public void save() throws IOException {
         FacesMessage fmsg = new FacesMessage();
