@@ -15,8 +15,8 @@
         <h1 style="margin-top:0">#{bundle['cm']}</h1>
         <h:form id="canteenForm">
             <p:tabView id="tab">
-                <p:tab title="All Shops">
-                    <p:fieldset collapsed="false" id="shoplist" legend="Notes: all the shops are in the campus" toggleable="false">
+                <p:tab title="#{bundle['AllShops']}">
+                    <p:fieldset collapsed="false" id="shoplist" legend="#{bundle['cNote']}" toggleable="false">
                         <p:dataTable id="shoptable" editable="false" reflow="true"
                                      var="shop" value="#{adminCanteenListBean.allShops}" 
                                      widgetVar="shopsTable" rows="10"
@@ -57,13 +57,13 @@
                                     </h:commandLink>
                                 </div>
                             </f:facet>
-                            <p:column filterBy="#{shop.username}" sortBy="#{shop.username}" headerText="Username" filterMatchMode="contains">                        
+                            <p:column filterBy="#{shop.username}" sortBy="#{shop.username}" headerText="#{bundle['Username']}" filterMatchMode="contains">                        
                                 <h:outputText value="#{shop.username}"/>                            
                             </p:column>
-                            <p:column filterBy="#{shop.name}" sortBy="#{shop.name}" headerText="Shop Name" filterMatchMode="contains">
+                            <p:column filterBy="#{shop.name}" sortBy="#{shop.name}" headerText="#{bundle['ShopName']}" filterMatchMode="contains">
                                 <h:outputText value="#{shop.name}" />
                             </p:column>
-                            <p:column filterBy="#{shop.email}" sortBy="#{shop.email}" headerText="Email" filterMatchMode="contains">
+                            <p:column filterBy="#{shop.email}" sortBy="#{shop.email}" headerText="#{bundle['Email']}" filterMatchMode="contains">
                                  
                                 <h:outputLink value="Mailto:#{shop.email}">
                                     <h:outputText  style="color:black;font-weight:normal;" value="#{shop.email}" />
@@ -72,22 +72,23 @@
                                     <h:outputText value="" />
                                 </h:outputLink>
                             </p:column>
-                            <p:column filterBy="#{shop.telephone}" sortBy="#{shop.telephone}" headerText="Telephone" filterMatchMode="contains">
+                            <p:column filterBy="#{shop.telephone}" sortBy="#{shop.telephone}" headerText="#{bundle['Telephone']}" filterMatchMode="contains">
                                 <h:outputText value="#{shop.telephone}" />            
                             </p:column>
-                            <p:column filterBy="#{shop.canteen}" sortBy="#{shop.canteen}" headerText="Canteen Name" filterMatchMode="contains">
+                            <p:column filterBy="#{shop.canteen}" sortBy="#{shop.canteen}" headerText="#{bundle['CanteenName']}" filterMatchMode="contains">
                                 <h:outputText value="#{shop.canteen}" />            
                             </p:column>
                         </p:dataTable>
                     </p:fieldset>
                 </p:tab>
                 
-                <p:tab title="All Items">
-                    <p:fieldset collapsed="false" id="itemlist" legend="Manage Item Availability" toggleable="false">
+                <p:tab title="#{bundle['AllItems']}">
+                    <p:fieldset collapsed="false" id="itemlist" legend="#{bundle['ManageItemAvailability']}" toggleable="false">
                         <p:dataTable id="itemtable" editable="false" reflow="true"
                                      var="item" value="#{adminCanteenListBean.allItems}" 
                                      widgetVar="itemtable" rows="10"
-                                     emptyMessage="No item found for your school" 
+                                     tableStyle="table-layout: auto !important; text-align: center;"
+                                     emptyMessage="#{bundle['noItem']}" 
                                      filteredValue="#{adminCanteenListBean.filteredItems}"
                                      paginator="true"  paginatorPosition="bottom" paginatorAlwaysVisible="false" scrollable="true"
                                      paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
@@ -124,26 +125,26 @@
                                     </h:commandLink>
                                 </div>
                             </f:facet>
-                            <p:column filterBy="#{item.name}" sortBy="#{item.name}" headerText="Item Name" filterMatchMode="contains">                        
+                            <p:column filterBy="#{item.name}" sortBy="#{item.name}" headerText="#{bundle['ItemName']}" filterMatchMode="contains">                        
                                 <h:outputText value="#{item.name}"/>                            
                             </p:column>
-                            <p:column filterBy="#{item.shop.name}" sortBy="#{item.shop.name}" headerText="Shop Name" filterMatchMode="contains">
+                            <p:column filterBy="#{item.shop.name}" sortBy="#{item.shop.name}" headerText="#{bundle['ShopName']}" filterMatchMode="contains">
                                 <h:outputText value="#{item.shop.name}" />
                             </p:column>
-                            <p:column filterBy="#{item.shop.canteen}" sortBy="#{item.shop.canteen}" headerText="Canteen Name" filterMatchMode="contains">
+                            <p:column filterBy="#{item.shop.canteen}" sortBy="#{item.shop.canteen}" headerText="#{bundle['CanteenName']}" filterMatchMode="contains">
                                 <h:outputText value="#{item.shop.canteen}" />            
                             </p:column>
-                            <p:column filterBy="#{item.price}" sortBy="#{item.price}" headerText="Item Price" filterMatchMode="contains">
+                            <p:column  filterBy="#{item.price}" sortBy="#{item.price}" headerText="#{bundle['ItemPrice']}" filterMatchMode="contains">
                                 <h:outputText value="#{item.price}" />            
                             </p:column>
-                            <p:column filterBy="#{item.available}" sortBy="#{item.available}" headerText="Item Availability" >
+                            <p:column filterBy="#{item.available}" sortBy="#{item.available}" headerText="#{bundle['ItemAvailability']}" >
                                 <!--<h:outputText value="#{item.available}" />-->  
-                                <h:outputText value="Available" rendered="#{item.available}"/>
-                                <h:outputText value="Not Available" rendered="#{!item.available}"/>
+                                <h:outputText value="#{bundle['Available']}" rendered="#{item.available}"/>
+                                <h:outputText value="#{bundle['NotAvailable']}" rendered="#{!item.available}"/>
                                 
                                 <p:inplace id="facet" effect="none">
                                     <f:facet name="output">
-                                        Change
+                                        #{bundle['Change']}
                                     </f:facet>
                                     
                                     <f:facet name="input">
