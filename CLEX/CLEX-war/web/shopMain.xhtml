@@ -193,12 +193,10 @@
                                 <h:panelGrid >
                                     <p:dataTable value="#{shopOrderBean.items}" var="item" rendered="#{not empty shopOrderBean.items}"
                                                  emptyMessage="You do not have any order history yet." 
-                                                 
-                                                 widgetVar="itemsTable" id="items" rows="5" scrollable="true"
+                                                 widgetVar="itemsTable" id="items" rows="5" 
                                                  paginator="true"  paginatorAlwaysVisible="false"
                                                  filteredValue="#{shopOrderBean.filteredItems}"
                                                  paginatorPosition="bottom"
-                                                 reflow="true" tableStyle="table-layout: auto !important; text-align: center;"
                                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks}
                                                  {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
                                                  rowsPerPageTemplate="5,15,20">
@@ -206,7 +204,7 @@
                                             <p:outputPanel>
                                                 <h:outputText value="#{bundle['searchFields']}" />
                                                 <p:inputText id="globalFilter" onkeyup="PF('itemsTable').filter()" 
-                                                             style="width:150px" placeholder="#{bundle['enterKeyword']}"/>
+                                                             placeholder="#{bundle['enterKeyword']}"/>
                                             </p:outputPanel>
                                         </f:facet>  
                                         <f:facet name="{Exporters}">
