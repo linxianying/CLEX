@@ -44,6 +44,8 @@ public class Shop implements Serializable{
     @Column(length = 64, nullable = false)
     private String school;
     
+    private String salt;
+    
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "shop")
     private List<Item> items = new ArrayList<Item>();
     
@@ -51,12 +53,13 @@ public class Shop implements Serializable{
     private List<Order> orders = new ArrayList<Order>();
 
     //Nus canteen list: The Terrace, The Deck, Techno Edge, Frontier, Pines Food Court, Foodclique, Fine Food, Flavours
-    public void createShop(String canteen, String name, String password, String username, String school) {
+    public void createShop(String canteen, String name, String password, String username, String school, String salt) {
         this.canteen = canteen;
         this.name = name;
         this.password = password;
         this.username = username;
         this.school = school;
+        this.salt = salt;
     }
     
 
@@ -122,6 +125,14 @@ public class Shop implements Serializable{
 
     public void setSchool(String school) {
         this.school = school;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     @Override
