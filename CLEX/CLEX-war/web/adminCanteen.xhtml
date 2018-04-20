@@ -87,6 +87,7 @@
                         <p:dataTable id="itemtable" editable="false" reflow="true"
                                      var="item" value="#{adminCanteenListBean.allItems}" 
                                      widgetVar="itemtable" rows="10"
+                                     tableStyle="table-layout: auto !important; text-align: center;"
                                      emptyMessage="No item found for your school" 
                                      filteredValue="#{adminCanteenListBean.filteredItems}"
                                      paginator="true"  paginatorPosition="bottom" paginatorAlwaysVisible="false" scrollable="true"
@@ -133,7 +134,7 @@
                             <p:column filterBy="#{item.shop.canteen}" sortBy="#{item.shop.canteen}" headerText="Canteen Name" filterMatchMode="contains">
                                 <h:outputText value="#{item.shop.canteen}" />            
                             </p:column>
-                            <p:column filterBy="#{item.price}" sortBy="#{item.price}" headerText="Item Price" filterMatchMode="contains">
+                            <p:column  filterBy="#{item.price}" sortBy="#{item.price}" headerText="Item Price" filterMatchMode="contains">
                                 <h:outputText value="#{item.price}" />            
                             </p:column>
                             <p:column filterBy="#{item.available}" sortBy="#{item.available}" headerText="Item Availability" >

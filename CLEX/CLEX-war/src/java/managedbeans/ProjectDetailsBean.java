@@ -195,7 +195,9 @@ public class ProjectDetailsBean {
     }
 
     public boolean checkPRFormSubmit(Module m) {
-        return prasbl.checkPRFormSubmit(student, m);
+        boolean check = prasbl.checkPRFormSubmit(student, m);
+        System.out.println("check: " + check);
+        return check;
     }
 
     public void viewMaterials() throws IOException {
