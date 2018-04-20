@@ -69,6 +69,7 @@ public class CommunityBean {
     private boolean voteType; //false - downvote, true - upvote
     private boolean editThread = false;
     private boolean editReply = false;
+    private boolean newReply = false;
 
     FacesContext context;
     HttpSession session;
@@ -186,6 +187,7 @@ public class CommunityBean {
         }
         context.addMessage(null, fmsg);
         replyContent = "";
+        newReply = false;
     }
 
     public void quoteText(Long id, String checker) {
@@ -313,6 +315,16 @@ public class CommunityBean {
         refresh();
         context.addMessage(null, fmsg);
     }
+    
+    public void createNewReply(){
+        newReply = true;
+    }
+    
+    public void cancelModify(){
+        editThread = false;
+        editReply = false;
+        newReply = false;
+    }
 
     public void modifyThread() {
         System.out.println("Edit thread");
@@ -341,12 +353,14 @@ public class CommunityBean {
         refresh();
         context.addMessage(null, fmsg);
         replyContent = "";
+        editReply = false;
     }
 
     public void forModifyReply(String content, Long id) {
         replyContent = content;
         replyId = id;
         refresh();
+        editReply = true;
 
     }
 
@@ -681,6 +695,20 @@ public class CommunityBean {
 
     public void setReplyContent(String replyContent) {
         this.replyContent = replyContent;
+    }
+
+    /**
+     * @return the newReply
+     */
+    public boolean isNewReply() {
+        return newReply;
+    }
+
+    /**
+     * @param newReply the newReply to set
+     */
+    public void setNewReply(boolean newReply) {
+        this.newReply = newReply;
     }
 
 }

@@ -9,12 +9,14 @@ import entity.Item;
 import entity.Order;
 import entity.Shop;
 import entity.User;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -101,9 +103,10 @@ public class OrderSessionBean implements OrderSessionBeanLocal {
     }
     
     @Override
-    public void createShop(String canteen, String name, String username, String password,String school){
+    public void createShop(String canteen, String name, String username, String password, String school){
         shop = new Shop();
-        shop.createShop(canteen, name, password, username, school);
+        String salt = genSalt();
+        shop.createShop(canteen, name, hashPassword(password, salt), username, school, salt);
         em.persist(shop);
     }
     
@@ -573,7 +576,7 @@ public class OrderSessionBean implements OrderSessionBeanLocal {
             Query q = em.createQuery("SELECT s FROM Shop s WHERE s.username = :username");
             q.setParameter("username", username);
             shop = (Shop) q.getSingleResult();
-            if(shop.getPassword().equals(password)){
+            if(shop.getPassword().equals(hashPassword(password, shop.getSalt()))){
                 System.out.println("Password of shop " + username + " is correct.");
                 return true;
             }
@@ -581,5 +584,35 @@ public class OrderSessionBean implements OrderSessionBeanLocal {
                  System.out.println("Password of shop " + username + " is wrong.");
             }
         return false;
+    }
+    
+    private String genSalt() {
+        Random rng = new Random();
+        Integer gen = rng.nextInt(13371337);
+        String salt = gen.toString();
+
+        return salt;
+    }
+    
+    private String hashPassword(String password, String salt){
+        String genPass = null;
+ 
+        try{
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] pass = (password+salt).getBytes();
+            md.update(pass);
+            byte[] temp = md.digest(pass);
+            
+            StringBuilder sb = new StringBuilder();
+            for(int i=0; i < temp.length; i++){
+                sb.append(Integer.toString((temp[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            genPass = sb.toString();
+            
+        }
+        catch(Exception e){
+            System.out.println("Failed to hash password.");
+        }
+        return genPass;
     }
 }

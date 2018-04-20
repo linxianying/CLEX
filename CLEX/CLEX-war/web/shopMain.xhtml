@@ -26,16 +26,18 @@
             <p:growl id="messages" showDetail="true" />
             <!--<h:form id="orderForm">-->
                 <p:tabView id="tab">
-                    <h:outputText value="Total price earned#{shopOrderBean.totalPrice}"/>
+                    
                     <p:tab id="history" title="History Orders">
+                        <h:outputText value="Total Price Earned: $#{shopOrderBean.totalPrice}"/>
                         <p:fieldset collapsed="false" styleClass="menuHeader" id="order" legend="History Orders" toggleable="false">
                             <h:form>
-                                <h:outputText id="empty" value="you did not receive any order!" rendered="#{empty shopOrderBean.orders}"/>
+                                <h:outputText id="empty" value="Tou did not receive any order!" rendered="#{empty shopOrderBean.orders}"/>
                                 <br/>
                                 <h:panelGrid columns="4">
                                     
                                     <p:dataTable value="#{shopOrderBean.orders}" var="order" rendered="#{not empty shopOrderBean.orders}"
                                                  emptyMessage="You do not have any order history yet." 
+                                                 reflow="true" tableStyle="table-layout: auto !important; text-align: center;"
                                                  widgetVar="ordersTable" id="orders" rows="10"
                                                  paginator="true"  scrollable="true"
                                                  paginatorPosition="bottom"
@@ -47,7 +49,7 @@
                                             <p:outputPanel>
                                                 <h:outputText value="#{bundle['searchFields']}" />
                                                 <p:inputText id="globalFilter" onkeyup="PF('ordersTable').filter()" 
-                                                             style="width:150px" placeholder="#{bundle['enterKeyword']}"/>
+                                                              placeholder="#{bundle['enterKeyword']}"/>
                                             </p:outputPanel>
                                         </f:facet>  
                                         <f:facet name="{Exporters}">
@@ -73,23 +75,25 @@
                                                 </h:commandLink>
                                             </div>
                                         </f:facet>
-                                        <p:column headerText="Date">
+                                        
+                                        <p:column headerText="Order Date" filterBy="#{order.orderTime}" sortBy="#{order.orderTime}" filterMatchMode="contains">
                                             <h:outputLabel value="#{order.orderTime}" >
-                                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
+                                                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
                                             </h:outputLabel>
                                         </p:column>
-                                        <p:column headerText="Store">
-                                            <h:outputText value="Canteen: #{order.shop.canteen}"/>
-                                            <br/>
-                                            <h:outputText value="Store: #{order.shop.name}"/>
+                                        <p:column headerText="Canteen" filterBy="#{order.shop.canteen}" sortBy="#{order.shop.canteen}" filterMatchMode="contains">
+                                            <h:outputText value=" #{order.shop.canteen}"/>
                                         </p:column>
-                                        <p:column headerText="Items">
+                                        <p:column headerText="Store" filterBy="#{order.shop.name}" sortBy="#{order.shop.name}" filterMatchMode="contains">
+                                            <h:outputText value=" #{order.shop.name}"/>
+                                        </p:column>
+                                        <p:column headerText="Items" filterBy="#{order.price}" sortBy="#{order.price}" filterMatchMode="contains">
                                             <ui:repeat value="#{shopOrderBean.getOrderItems(order)}" var="item" varStatus="itemIndex">
                                                 <h:outputText value="Item.#{itemIndex.index+1} #{item.name}, Quantity #{order.orderItems[item]}"/>
                                                 <br/>
                                             </ui:repeat>
                                         </p:column>
-                                        <p:column headerText="Price">
+                                        <p:column headerText="Price" filterBy="#{order.price}" sortBy="#{order.price}" filterMatchMode="contains">
                                             <h:outputText value="$#{order.price}"/>
                                         </p:column>
                                     </p:dataTable>
@@ -101,7 +105,7 @@
                     <p:tab id="current" title="Current Orders">
                         <p:fieldset collapsed="false" styleClass="menuHeader" id="currentOrder" legend="Current Orders" toggleable="false">
                             <h:form id="currentForm">
-                                <h:outputText value="you have no unfinished orders!" rendered="#{empty shopOrderBean.currentOrders}"/>
+                                <h:outputText value="You have no unfinished orders!" rendered="#{empty shopOrderBean.currentOrders}"/>
                                 <br/>
                                 <h:panelGrid columns="5">
                                     <!--                                <h:form id="currentForm">-->
@@ -110,6 +114,7 @@
                                                  widgetVar="currentOrdersTable" id="currentOrders" rows="10"
                                                  paginator="true"  scrollable="true"
                                                  paginatorPosition="bottom"
+                                                 reflow="true" tableStyle="table-layout: auto !important; text-align: center;"
                                                  filteredValue="#{shopOrderBean.filteredOrders}"
                                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks}
                                                  {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
@@ -118,7 +123,7 @@
                                             <p:outputPanel>
                                                 <h:outputText value="#{bundle['searchFields']}" />
                                                 <p:inputText id="globalFilter" onkeyup="PF('currentOrdersTable').filter()" 
-                                                             style="width:150px" placeholder="#{bundle['enterKeyword']}"/>
+                                                             placeholder="#{bundle['enterKeyword']}"/>
                                             </p:outputPanel>
                                         </f:facet>  
                                         <f:facet name="{Exporters}">
@@ -144,34 +149,32 @@
                                                 </h:commandLink>
                                             </div>
                                         </f:facet>
-                                        <p:column headerText="Date">
-                                            <h:outputText value="Order time" />
-                                            <br/>
+                                        <p:column headerText="Order Date" filterBy="#{order.orderTime}" sortBy="#{order.orderTime}" filterMatchMode="contains">
                                             <h:outputLabel value="#{order.orderTime}" >
-                                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
+                                                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
                                             </h:outputLabel>
-                                            <br/>
-                                            <h:outputText value="Take out time(Required)" />
-                                            <br/>
+                                        </p:column>
+                                        <p:column headerText="Take Out Date" filterBy="#{order.takeoutTime}" sortBy="#{order.takeoutTime}" filterMatchMode="contains">
                                             <h:outputLabel value="#{order.takeoutTime}" >
-                                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
+                                                <f:convertDateTime pattern="yyyy-MM-dd HH:mm"  />
                                             </h:outputLabel>
                                         </p:column>
-                                        <p:column headerText="Store">
-                                            <h:outputText value="Canteen: #{order.shop.canteen}"/>
-                                            
-                                            <h:outputText value="Store: #{order.shop.name}"/>
+                                        <p:column headerText="Canteen" filterBy="#{order.shop.canteen}" sortBy="#{order.shop.canteen}" filterMatchMode="contains">
+                                            <h:outputText value=" #{order.shop.canteen}"/>
                                         </p:column>
-                                        <p:column headerText="Items">
+                                        <p:column  headerText="Store" filterBy="#{order.shop.name}" sortBy="#{order.shop.name}" filterMatchMode="contains">
+                                            <h:outputText value=" #{order.shop.name}"/>
+                                        </p:column>
+                                        <p:column headerText="Items" filterMatchMode="contains">
                                             <ui:repeat value="#{shopOrderBean.getOrderItems(order)}" var="item" varStatus="itemIndex">
                                                 <h:outputText value="Item.#{itemIndex.index+1} #{item.name}, Quantity #{order.orderItems[item]}"/>
                                                 <br/>
                                             </ui:repeat>
                                         </p:column>
-                                        <p:column headerText="Price">
+                                        <p:column headerText="Price" filterBy="#{order.price}" sortBy="#{order.price}" filterMatchMode="contains">
                                             <h:outputText value="$#{order.price}"/>
                                         </p:column>
-                                        <p:column headerText="Status">
+                                        <p:column headerText="Status" filterBy="#{order.finish}" sortBy="#{order.finish}" filterMatchMode="contains">
                                             <h:outputText value="Finish" rendered="#{order.finish}"/>
                                             <h:outputText value="Not Finish" rendered="#{!order.finish}"/>
                                             <br/>
@@ -187,13 +190,15 @@
                     <p:tab id="items1" title="Manage Items">
                         <p:fieldset collapsed="false" styleClass="menuHeader" id="itemsList" legend="Items You Have" toggleable="false">
                             <h:form>
-                                <h:panelGrid columns="4">
+                                <h:panelGrid >
                                     <p:dataTable value="#{shopOrderBean.items}" var="item" rendered="#{not empty shopOrderBean.items}"
                                                  emptyMessage="You do not have any order history yet." 
+                                                 
                                                  widgetVar="itemsTable" id="items" rows="5" scrollable="true"
                                                  paginator="true"  paginatorAlwaysVisible="false"
                                                  filteredValue="#{shopOrderBean.filteredItems}"
                                                  paginatorPosition="bottom"
+                                                 reflow="true" tableStyle="table-layout: auto !important; text-align: center;"
                                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks}
                                                  {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
                                                  rowsPerPageTemplate="5,15,20">

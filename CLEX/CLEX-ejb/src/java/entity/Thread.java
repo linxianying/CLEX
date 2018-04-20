@@ -41,7 +41,7 @@ public class Thread implements Serializable {
     @Column(length = 8000, nullable = false)
     private String content;
 
-    @Column(length = 64, nullable = false)
+    @Column(length = 255, nullable = false)
     private String title;
 
     @Column(length = 32, nullable = false)
