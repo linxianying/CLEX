@@ -22,7 +22,7 @@
         <h:form id="panelForm">
             <p:fieldset legend="VIEW" collapsed="false" toggleable="true" >
                 <p:tabView id="tabView1">                    
-                    <p:tab title="#{bundle['COURSES']}" >
+                    <p:tab title="#{bundle['cour']}" >
                         <h:form id="panel">
                             <p:dataTable id="coursetable" reflow="true" tableStyle="table-layout: auto !important; text-align: center;"
                                          editable="true" editMode="cell" 
@@ -37,8 +37,8 @@
                                          rowsPerPageTemplate="10,20,50">
                                 <f:facet name="header">
                                     <p:outputPanel>
-                                        <h:outputText value="Search all fields:" />
-                                        <p:inputText id="globalFilter" onkeyup="PF('coursesTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                        <h:outputText value="#{bundle['Search']}" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('coursesTable').filter()" style="width:150px" placeholder="#{bundle['EnterKeyword']}"/>
                                     </p:outputPanel>
                                 </f:facet>  
                                 <f:facet name="{Exporters}">
@@ -68,7 +68,7 @@
 
                                 <p:ajax event="cellEdit" listener="#{adminCourseListBean.editCourse(course)}" update="messages"/>
 
-                                <p:column filterBy="#{course.school}" headerText="School" sortBy="#{course.school}" filterMatchMode="contains">
+                                <p:column filterBy="#{course.school}" headerText="#{bundle['School']}" sortBy="#{course.school}" filterMatchMode="contains">
                                     <f:facet name="filter">
                                         <p:selectOneMenu style="text-transform: uppercase;" editable="true" onchange="PF('coursesTable').filter()">
                                             <f:selectItem itemLabel="" itemValue="" />
@@ -84,20 +84,20 @@
                                             </p:selectOneMenu></f:facet>
                                     </p:cellEditor>
                                 </p:column>
-                                <p:column style="min-width: 120px" filterBy="#{course.moduleCode}" headerText="Module Code" sortBy="#{course.moduleCode}" filterMatchMode="contains">
+                                <p:column style="min-width: 120px" filterBy="#{course.moduleCode}" headerText="#{bundle['ModuleCode']}" sortBy="#{course.moduleCode}" filterMatchMode="contains">
                                     <div><h:outputText style="text-align: center" value="#{course.moduleCode}" />
                                     <p:commandButton style="color:black; background: transparent; float:right" icon="ui-icon-trash"
                                                      update="messages" actionListener="#{adminCourseListBean.removeCourse(course)}">
                                         <p:confirm header="Delete #{course.moduleCode}" message="Please ensure that no modules are linked to #{course.moduleCode}!" icon="ui-icon-alert" />
                                     </p:commandButton></div>
                                 </p:column>
-                                <p:column filterBy="#{course.moduleName}" headerText="Name" filterMatchMode="contains">
+                                <p:column filterBy="#{course.moduleName}" headerText="#{bundle['ModuleName']}" filterMatchMode="contains">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{course.moduleName}" /></f:facet>
                                         <f:facet name="input"><p:inputText id="courseNameInput" value="#{course.moduleName}" style="width:96%"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
-                                <p:column filterBy="#{course.moduleInfo}" headerText="Info" filterMatchMode="contains">
+                                <p:column filterBy="#{course.moduleInfo}" headerText="#{bundle['Info']}" filterMatchMode="contains">
                                     <p:cellEditor>
                                         <f:facet name="output">
                                             <p:inputTextarea id="courseInfoOutput"
@@ -114,13 +114,13 @@
                                     </p:cellEditor>
                                 </p:column>
 
-                                <p:column filterBy="#{course.workload}" headerText="Workload" filterMatchMode="contains">
+                                <p:column filterBy="#{course.workload}" headerText="#{bundle['workload']}" filterMatchMode="contains">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{course.workload}" /></f:facet>
                                         <f:facet name="input"><p:inputText id="courseWorkloadInput" value="#{course.workload}" style="width:96%"/></f:facet>
                                     </p:cellEditor>
                                 </p:column>
-                                <p:column filterBy="#{course.modularCredits}" headerText="Credits" sortBy="#{course.modularCredits}" filterMatchMode="equals">
+                                <p:column filterBy="#{course.modularCredits}" headerText="#{bundle['CreditUnit']}" sortBy="#{course.modularCredits}" filterMatchMode="equals">
                                     <f:facet name="filter">
                                         <p:selectOneMenu style="width: 20%"
                                                          editable="true" onchange="PF('coursesTable').filter()">                        
@@ -137,7 +137,7 @@
                                             </p:selectOneMenu></f:facet>            
                                     </p:cellEditor>
                                 </p:column>
-                                <p:column filterBy="#{course.discontinuedBool}" headerText="Discontinued" sortBy="#{course.discontinuedBool}" filterMatchMode="equals">
+                                <p:column filterBy="#{course.discontinuedBool}" headerText="#{bundle['Discontinued']}" sortBy="#{course.discontinuedBool}"  filterMatchMode="contains">
                                     <div><f:facet name="filter">
                                         <p:selectOneMenu onchange="PF('coursesTable').filter()">
                                             <f:converter converterId="javax.faces.Boolean" />
@@ -146,11 +146,11 @@
                                             <f:selectItem itemLabel="No" itemValue="false" />
                                         </p:selectOneMenu>
                                     </f:facet>
-                                    <p:inputSwitch onLabel="Yes" offLabel="No" value="#{course.discontinuedBool}" >
+                                    <p:inputSwitch onLabel="#{bundle['yes']}" offLabel="#{bundle['no']}" value="#{course.discontinuedBool}" >
                                         <p:ajax listener="#{adminCourseListBean.editCourse(course)}" update="messages"/>
                                     </p:inputSwitch></div>
                                 </p:column>
-                                <p:column filterBy="#{course.discountinuedYear}" headerText="Discontinued Year" sortBy="#{course.discountinuedYear}" filterMatchMode="contains">
+                                <p:column filterBy="#{course.discountinuedYear}" headerText="#{bundle['DiscontinuedYear']}" sortBy="#{course.discountinuedYear}" filterMatchMode="contains">
                                     <p:cellEditor>
                                         <f:facet name="output">
                                             <h:outputText rendered="#{course.discontinuedBool eq false}" 
@@ -165,7 +165,7 @@
                                         </f:facet>                            
                                     </p:cellEditor>
                                 </p:column>
-                                <p:column filterBy="#{course.discountinuedSem}" headerText="Discontinued Semester" sortBy="#{course.discountinuedSem}" filterMatchMode="contains">
+                                <p:column filterBy="#{course.discountinuedSem}" headerText="#{bundle['DiscontinuedSem']}" sortBy="#{course.discountinuedSem}" filterMatchMode="contains">
                                     <f:facet name="filter">
                                         <p:selectOneMenu onchange="PF('coursesTable').filter()">
                                             <f:selectItem itemLabel="All" itemValue="" />
@@ -182,7 +182,7 @@
                                         <p:ajax listener="#{adminCourseListBean.editCourse(course)}" update="messages"/>
                                     </p:selectOneButton>
                                 </p:column>
-                                <p:column filterBy="#{course.offeredSem}" headerText="Offered Semester" sortBy="#{course.offeredSem}" filterMatchMode="contains">
+                                <p:column filterBy="#{course.offeredSem}" headerText="#{bundle['OfferedSemester']}" sortBy="#{course.offeredSem}" filterMatchMode="contains">
                                     <f:facet name="filter">
                                         <p:selectOneMenu onchange="PF('coursesTable').filter()">
                                             <f:selectItem itemLabel="All" itemValue="" />
@@ -203,7 +203,7 @@
                             </p:confirmDialog>
                         </h:form> 
                     </p:tab>            
-                    <p:tab title="MODULES" >
+                    <p:tab title="#{bundle['mods']}" >
                         <h:form id="panel1">
                             <p:dataTable id="moduletable" reflow="true" tableStyle="table-layout: auto !important; text-align: center;" 
                                          editable="true" editMode="cell" 
@@ -217,8 +217,8 @@
                                          rowsPerPageTemplate="10,20,50">
                                 <f:facet name="header">
                                     <p:outputPanel>
-                                        <h:outputText value="Search all fields:" />
-                                        <p:inputText id="globalFilter" onkeyup="PF('modulesTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                        <h:outputText value="#{bundle['Search']}:" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('modulesTable').filter()" style="width:150px" placeholder="#{bundle['EnterKeyword']} "/>
                                     </p:outputPanel>
                                 </f:facet>
                                 <f:facet name="{Exporters}">
@@ -317,7 +317,7 @@
                             </p:confirmDialog>
                         </h:form>
                     </p:tab>
-                    <p:tab title="LESSONS">
+                    <p:tab title="#{bundle['LESSONS']}">
                         <h:form id="panel2">
                             <p:dataTable id="lessontable" editable="true" editMode="cell" reflow="true" tableStyle="table-layout: auto !important; text-align: center;" 
                                          var="lesson" value="#{adminCourseListBean.lessons}" 
@@ -329,8 +329,8 @@
                                          rowsPerPageTemplate="10,20,50">
                                 <f:facet name="header">
                                     <p:outputPanel>
-                                        <h:outputText value="Search all fields:" />
-                                        <p:inputText id="globalFilter" onkeyup="PF('lessonsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                        <h:outputText value="#{bundle['Search']}:" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('lessonsTable').filter()" style="width:150px" placeholder="#{bundle['EnterKeyword']}"/>
                                     </p:outputPanel>
                                 </f:facet>
                                 <f:facet name="{Exporters}">
@@ -447,7 +447,7 @@
                             </p:confirmDialog>
                         </h:form> 
                     </p:tab>
-                    <p:tab title="ASSIGNED LECTURERS">
+                    <p:tab title="#{bundle['ASSIGNEDLECTURERS']}">
                         <h3>
                             <p>View Lecturer(s)</p>
                         </h3>
