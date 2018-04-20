@@ -14,13 +14,14 @@
 
         <h1 style="margin-top:0">#{bundle['cm']}</h1>
         <h:form id="canteenForm">
-            <p:fieldset collapsed="false" id="shoplist" legend="Notes: all the shops are in the campus" toggleable="false" toggleSpeed="500" >
+            <p:fieldset collapsed="false" id="shoplist" legend="Notes: all the shops are in the campus" toggleable="false">
+                <h:form>
                 <p:dataTable id="shoptable" editable="false" reflow="true"
                              var="shop" value="#{adminCanteenListBean.allShops}" 
                              widgetVar="shopsTable" rows="10"
                              emptyMessage="#{bundle['noShop']}" 
                              filteredValue="#{adminCanteenListBean.filteredShops}"
-                             paginator="true"  scrollable="true"
+                             paginator="true"  paginatorPosition="bottom" paginatorAlwaysVisible="false" scrollable="true"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
                              {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
                              rowsPerPageTemplate="5,10,20">
@@ -28,7 +29,7 @@
                     <f:facet name="header">
                         <p:outputPanel>
                             <h:outputText value="#{bundle['Search']}:" />
-                            <p:inputText id="globalFilter" onkeyup="PF('shopsTable').filter()"  placeholder="#{bundle['EnterKeyword']}" style="width:150px"/>
+                            <p:inputText id="globalFilter" onkeyup="PF('shopsTable').filter()" placeholder="#{bundle['EnterKeyword']}" style="width:150px"/>
                         </p:outputPanel>
                     </f:facet>  
                     <f:facet name="{Exporters}">
@@ -58,14 +59,14 @@
                     <p:column filterBy="#{shop.username}" sortBy="#{shop.username}" headerText="Username" filterMatchMode="contains">                        
                         <h:outputText value="#{shop.username}"/>                            
                     </p:column>
-                    <p:column filterBy="#{shop.name}" sortBy="#{shop.name}" headerText="Shop Name" filterMatchMode="in">
+                    <p:column filterBy="#{shop.name}" sortBy="#{shop.name}" headerText="Shop Name" filterMatchMode="contains">
                         <h:outputText value="#{shop.name}" />
                     </p:column>
                     <p:column filterBy="#{shop.canteen}" sortBy="#{shop.canteen}" headerText="Canteen Name" filterMatchMode="contains">
                         <h:outputText value="#{shop.canteen}" />            
                     </p:column>
-                  
                 </p:dataTable>
+                </h:form>
             </p:fieldset>
         </h:form>
     </ui:define>
