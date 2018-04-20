@@ -144,6 +144,28 @@
                         </p:dataTable>
                     </p:fieldset>
                 </p:tab>
+                
+<!--                <p:tab title="New Shop">
+                    <p:fieldset collapsed="false" id="newShop" legend="Add a new Shop" toggleable="false">
+                        <h:form>
+                            <h:outputLabel for= "name" value="Shop Name:"/>
+                            <p:inputText id="name" value="#{shopOrderBean.newItemName}" required="true"/>
+                            <br/>
+                            <h:outputLabel for= "canteen" value="Shop Canteen:"/>
+                            <p:selectOneMenu id="canteen" value="#{shopOrderBean.newItemPrice}" required="true" >
+                                <f:selectItem itemLabel="The Terrace" itemValue="The Terrace" />
+                                <f:selectItem itemLabel="Techno Edge" itemValue="Techno Edge" />
+                                <f:selectItem itemLabel="Frontier" itemValue="Frontier" />
+                                <f:selectItem itemLabel="Pines Food Court" itemValue="Pines Food Court" />
+                                <f:selectItem itemLabel="Foodclique" itemValue="Foodclique" />
+                                <f:selectItem itemLabel="Fine Food" itemValue="Fine Food" />
+                                <f:selectItem itemLabel="Flavours" itemValue="Flavours" />
+                            </p:selectOneMenu>
+                            <br/>
+                            <p:commandButton value="Add" actionListener="#{shopOrderBean.createNewShop()}" update="tab:newItem, tab:itemsList, messages"/>
+                        </h:form>
+                    </p:fieldset>
+                </p:tab>-->
             </p:tabView>
         </h:form>
     </ui:define>
