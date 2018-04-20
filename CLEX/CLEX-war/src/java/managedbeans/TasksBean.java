@@ -226,7 +226,7 @@ public class TasksBean {
                 tsbl.linkTaskStudent(task.getId(), username);
                 System.out.println("New task created in studentMain: with id " + task.getId());
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Task '" + task.getTitle() + "' with urgency "
-                        + task.getUrgency() + " is created.", "Successfuly");
+                        + task.getUrgency() + " is created.", "Successfully");
                 context.addMessage(null, fmsg);
 
             } else if (task != null) {
