@@ -42,6 +42,15 @@ public class Shop implements Serializable{
     private String username;
     
     @Column(length = 64, nullable = false)
+    private String email;
+    
+    @Column(length = 64, nullable = false)
+    private String telephone;
+    
+    @Column(nullable = false)
+    private boolean approve;
+    
+    @Column(length = 64, nullable = false)
     private String school;
     
     private String salt;
@@ -50,16 +59,20 @@ public class Shop implements Serializable{
     private List<Item> items = new ArrayList<Item>();
     
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "shop")
-    private List<Order> orders = new ArrayList<Order>();
+    private List<Order> orders = new ArrayList<Order>();   
 
     //Nus canteen list: The Terrace, The Deck, Techno Edge, Frontier, Pines Food Court, Foodclique, Fine Food, Flavours
-    public void createShop(String canteen, String name, String password, String username, String school, String salt) {
+    public void createShop(String canteen, String name, String password, 
+            String username, String school, String salt, String email, String telephone, boolean approve) {
         this.canteen = canteen;
         this.name = name;
         this.password = password;
         this.username = username;
         this.school = school;
         this.salt = salt;
+        this.telephone = telephone;
+        this.email = email;
+        this.approve = approve;
     }
     
 
@@ -133,6 +146,30 @@ public class Shop implements Serializable{
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public boolean isApprove() {
+        return approve;
+    }
+
+    public void setApprove(boolean approve) {
+        this.approve = approve;
     }
 
     @Override

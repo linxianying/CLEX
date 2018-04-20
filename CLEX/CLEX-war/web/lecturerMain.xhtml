@@ -43,7 +43,8 @@
                                              editable="false" placeholder="recipients" 
                                              title="#{bundle['selectRe']}">
                                 <f:selectItem itemLabel="#{bundle['selectMod']}" itemValue="" />
-                                <f:selectItems value="#{lecturerModuleListBean.moduleCodes}" />
+                                <f:selectItems var="mc" value="#{lecturerModuleListBean.currentModules}" itemLabel="#{mc.course.moduleCode}" itemValue="#{mc}"/>
+                                                
                             </p:selectOneMenu>   
 
                             <p:tooltip id="toolTipTitle" for="title" showEvent="focus" hideEvent="blur" position="right" showEffect="clip" />
@@ -85,7 +86,7 @@
                                                                  id="modCode" value="#{lectAnnouncementList.type}" 
                                                                  editable="false" disabled="true" placeholder="#{bundle['Recipient']}">
                                                     <f:selectItem itemLabel="#{bundle['selectMod']}" itemValue="" />
-                                                    <f:selectItems value="#{lecturerModuleListBean.moduleCodes}" />
+                                                    <f:selectItems var="mc" value="#{lecturerModuleListBean.currentModules}" itemLabel="#{mc.course.moduleCode}" itemValue="#{mc}"/>
                                                 </p:selectOneMenu>  
                                                 <br></br><br></br><br></br>
                                                 <h:panelGrid columns="2" width="100%">

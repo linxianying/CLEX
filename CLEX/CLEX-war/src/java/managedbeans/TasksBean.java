@@ -52,23 +52,22 @@ public class TasksBean {
     @EJB
     private GroupFormationSessionBeanLocal gfsbl;
     /**
-     * 
+     *
      * Creates a new instance of TasksBean
      */
     private Date date = new Date();
     private Long id;
     private Date deadline;
-    private String title="";
-    private String details="";
-    private String status="";
-    private String urgency="";
-    private String strDate="";
+    private String title = "";
+    private String details = "";
+    private String status = "";
+    private String urgency = "";
+    private String strDate = "";
     private Task task;
     private String ddl;
     private Integer urgencyInt;
     private int groupOrPersonal;
-    
-    
+
     private Student studentEntity;
     private String username;
     private String userType;
@@ -82,22 +81,21 @@ public class TasksBean {
     private Collection<ProjectGroup> projectGroups;
     private String groupInfo;
     private GroupTask gt;
-    
-    
+
     FacesContext context;
     HttpSession session;
     FacesMessage fmsg;
     SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-    
+
     public TasksBean() {
-        
+
     }
-    
+
     @PostConstruct
-    protected void initialize()  {
+    protected void initialize() {
         refresh();
     }
-    
+
     public void refresh() {
         value = false;
         context = FacesContext.getCurrentInstance();
@@ -107,42 +105,44 @@ public class TasksBean {
         tasks = null;
         unfinishedTasks = new ArrayList<Task>();
         unfinishedIndGroupTasks = new ArrayList<IndividualGroupTask>();
-        if(studentEntity!=null){
+        if (studentEntity != null) {
             tasks = studentEntity.getTasks();
             indGroupTasks = studentEntity.getIndividualGroupTasks();
             projectGroups = studentEntity.getProjectGroups();
         }
-        if(tasks!=null){
+        if (tasks != null) {
             Iterator<Task> itr = tasks.iterator();
-            while(itr.hasNext()){
+            while (itr.hasNext()) {
                 Task t = (Task) itr.next();
-                if(t.getStatus().equals("unfinished"))
+                if (t.getStatus().equals("unfinished")) {
                     unfinishedTasks.add(t);
+                }
                 //allTasks.add(t);
             }
-            
+
         }
-        if(indGroupTasks!=null){
+        if (indGroupTasks != null) {
             Iterator<IndividualGroupTask> itr = indGroupTasks.iterator();
-            while(itr.hasNext()){
+            while (itr.hasNext()) {
                 IndividualGroupTask t = (IndividualGroupTask) itr.next();
-                if(t.getStatus().equals("unfinished"))
+                if (t.getStatus().equals("unfinished")) {
                     unfinishedIndGroupTasks.add(t);
+                }
                 //allTasks.add(t);
             }
-            
+
         }
-        
+
     }
-    
-    public void test(){
-        tsbl.createGroupTask("2018-04-07", "2018-04-22 23:59", "Group Task Test11", 
-             "Group Task Test details", "unfinished", csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")), 
-            getProjectUserName(csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2"))));
+
+    public void test() {
+        tsbl.createGroupTask("2018-04-07", "2018-04-22 23:59", "Group Task Test11",
+                "Group Task Test details", "unfinished", csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2")),
+                getProjectUserName(csbl.findProjectgroup("N1", csbl.findModule("PS2240", "2017", "2"))));
     }
-    
-    public String[] getProjectUserName(ProjectGroup p){
-        if(p.getGroupMembers()==null){
+
+    public String[] getProjectUserName(ProjectGroup p) {
+        if (p.getGroupMembers() == null) {
             System.out.println("This project group is empty");
             return null;
         }
@@ -151,147 +151,146 @@ public class TasksBean {
         System.out.println("This project group size is " + p.getGroupMembers().size());
         int index = 0;
         Student s;
-        while(itr.hasNext()){
-            s =(Student) itr.next();
+        while (itr.hasNext()) {
+            s = (Student) itr.next();
             name[index] = s.getUsername();
             index++;
         }
         return name;
     }
-    
-    
-    
+
     public void onDateSelect(SelectEvent event) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        
-        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", 
+
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected",
                 ft.format(event.getObject())));
-        
+
         setDdl(ft.format(event.getObject()));
         System.out.println("onDateSelect: ddl is " + ddl);
-        
+
     }
-    
+
     public void checkTask(Task task) {
         String summary = value ? "Checked. This task is finished!" : "Unchecked. This task is unfinished.";
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(summary));
-        
-        if(value==true){
+
+        if (value == true) {
             //finished
             tsbl.finishTask(task.getId());
             System.out.println("Task " + task.getId() + "is finished. " + task.getStatus());
             value = false;
-        }else{
+        } else {
             tsbl.unfinishTask(task.getId());
         }
         refresh();
     }
-    
-    public void checkGroupTask(IndividualGroupTask groupTask){
+
+    public void checkGroupTask(IndividualGroupTask groupTask) {
         String summary = value ? "Checked. This group task is finished!" : "Unchecked. This group task is unfinished.";
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(summary));
-        
-        if(value==true){
+
+        if (value == true) {
             //finished
             tsbl.finishIndGroupTask(groupTask.getId());
             System.out.println("GroupTask " + groupTask.getId() + " is " + groupTask.getStatus());
             value = false;
-        }else{
+        } else {
             tsbl.unfinishIndGroupTask(groupTask.getId());
         }
         refresh();
     }
-    
-    public void addTask(){
+
+    public void addTask() {
         fmsg = new FacesMessage();
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
-        
-        
+
         studentEntity = (Student) session.getAttribute("user");
         username = studentEntity.getUsername();
-        System.out.println("add task username: "+ username);
+        System.out.println("add task username: " + username);
         //if(deadline!=null)
         //    System.out.println("addTask: deadline is "+deadline);
         //    ddl = ft.format(deadline);
-        if(groupOrPersonal==1){
+        if (groupOrPersonal == 1) {
             System.out.println("personal task creation");
             task = tsbl.createTask(username, ft.format(Calendar.getInstance().getTime()), ddl, title, details, "unfinished");
 
-            if(urgencyInt!=null){
-                urgency = urgencyInt+"";
+            if (urgencyInt != null) {
+                urgency = urgencyInt + "";
                 task.setUrgency(urgency);
                 System.out.println("Add Task: urgency is " + urgency);
-            }
-            else{
+            } else {
                 System.out.println("task with id " + task.getId() + " does not set urgency");
             }
-            if(task!=null&&task.getUrgency()!=null){
+            if (task != null && task.getUrgency() != null) {
                 tsbl.linkTaskStudent(task.getId(), username);
-                System.out.println("New task created in studentMain: with id " +  task.getId());
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Task '" + task.getTitle() + "' with urgency " +
-                        task.getUrgency() +  " is created.", "Successfuly");
+                System.out.println("New task created in studentMain: with id " + task.getId());
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Task '" + task.getTitle() + "' with urgency "
+                        + task.getUrgency() + " is created.", "Successfully");
                 context.addMessage(null, fmsg);
 
-            }
-            else if(task!=null){
+            } else if (task != null) {
                 tsbl.linkTaskStudent(task.getId(), username);
-                System.out.println("New task created in studentMain: with id " +  task.getId());
+                System.out.println("New task created in studentMain: with id " + task.getId());
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Task '" + task.getTitle() + " is created.", "Successfuly");
                 context.addMessage(null, fmsg);
-            }
-            else{
+            } else {
                 System.out.println("New task creation failed");
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Task creation failed.", "Unsuccessfuly");
                 context.addMessage(null, fmsg);
             }
-            
-        }if(groupOrPersonal==2){
+
+        }
+        if (groupOrPersonal == 2) {
             System.out.println("group task creation");
-            if(groupInfo!=null)
+            if (groupInfo != null) {
                 group = gfsbl.findProjectGroup(Long.parseLong(groupInfo));
+            }
             System.out.println("group: " + group.getId());
-            gt = tsbl.createGroupTask(ft.format(Calendar.getInstance().getTime()), ddl, 
-            group.getSuperGroup().getModule().getCourse().getModuleCode()+" - "+title, 
-            details, "unfinished", group,getProjectUserName(group));   
-            if(urgencyInt!=null){
-                urgency = urgencyInt+"";
+            gt = tsbl.createGroupTask(ft.format(Calendar.getInstance().getTime()), ddl,
+                    group.getSuperGroup().getModule().getCourse().getModuleCode() + " - " + title,
+                    details, "unfinished", group, getProjectUserName(group));
+            if (urgencyInt != null) {
+                urgency = urgencyInt + "";
                 gt.setUrgency(urgency);
                 //System.out.println("Add GroupTask: urgency is " + urgency);
             }
-            if(gt!=null&&gt.getUrgency()!=null){
-                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "GroupTask '" + gt.getTitle() + "' with urgency " +
-                        gt.getUrgency() +  " is created.", "Successfuly");
+            if (gt != null && gt.getUrgency() != null) {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "GroupTask '" + gt.getTitle() + "' with urgency "
+                        + gt.getUrgency() + " is created.", "Successfuly");
+
                 context.addMessage(null, fmsg);
 
-            }else if(gt!=null){
+            } else if (gt != null) {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "GroupTask '" + gt.getTitle() + " is created.", "Successfuly");
                 context.addMessage(null, fmsg);
-            }else{
+            } else {
                 fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "GroupTask creation failed.", "Unsuccessfuly");
                 context.addMessage(null, fmsg);
             }
         }
+        ddl = "";
+        title = "";
+        details = "";
         refresh();
     }
-    
-    public ProjectGroup findGroupViaGroupInfo(Student student,  String groupInfo){
+
+    public ProjectGroup findGroupViaGroupInfo(Student student, String groupInfo) {
         String[] arr = groupInfo.split("-");
-        if(arr.length<2){
+        if (arr.length < 2) {
             return null;
         }
         String moduleCode = arr[0];
         //String groupName = 
-        return null;       
+        return null;
     }
-    
-    
-    public void deleteTask(Task task){
+
+    public void deleteTask(Task task) {
         FacesMessage fmsg = new FacesMessage();
         FacesContext context = FacesContext.getCurrentInstance();
         RequestContext reqcontext = RequestContext.getCurrentInstance();
-        if (tsbl.removeTask(task.getId(), studentEntity)==true) {
-            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Task with id "+task.getId() + " has been deleted.", "");
+        if (tsbl.removeTask(task.getId(), studentEntity) == true) {
+            fmsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Task with id " + task.getId() + " has been deleted.", "");
             context.addMessage(null, fmsg);
             reqcontext.execute("PF('usersTable').clearFilters()");
             reqcontext.update("userForm:userlist");
@@ -299,8 +298,7 @@ public class TasksBean {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fail to delete task", "");
             context.addMessage(null, fmsg);
         }
-        
-    
+
     }
 
     public Date getDate() {
@@ -543,8 +541,4 @@ public class TasksBean {
         this.groupInfo = groupInfo;
     }
 
-
-
-    
-    
 }

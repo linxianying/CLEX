@@ -9,7 +9,7 @@
 
     <ui:define name="title">PRISM Whiteboard</ui:define>
 
-    <ui:define name="viewname">bundle['Whiteboard']</ui:define>
+    <ui:define name="viewname">#{bundle['Whiteboard']}</ui:define>
 
     <ui:define name="content">
         <p:growl id="messages" showDetail="true"/>
@@ -17,17 +17,18 @@
             <h3><h:outputLabel value="#{whiteboardBean.moduleCode} - #{whiteboardBean.activityname} - " /> <p:commandLink id="help" value="Help" onmouseout="PF('overlay').hide()" onmouseover="PF('overlay').show()" onclick="PF('overlay').show()"/> </h3> 
             <p:overlayPanel widgetVar="overlay">
                 <p:outputPanel>
-                    * To undo wrong drawings, it is required to save the current state of the drawing first. <br></br>
-                    ** Please save your work before submitting!
+                    #{bundle['saveBefore']} <br></br>
+                    #{bundle['undoSave']} <br></br>
+                    #{bundle['saveSubmit']}
                 </p:outputPanel>
             </p:overlayPanel>
 
             <h:form id="output">    
                 <div style="margin:20px 0">
-                    <p:commandButton value="Save*" icon="fa fa-save" update="output" actionListener="#{whiteboardBean.onInput2()}"/>
-                    <p:commandButton value="Undo" icon="fa fa-rotate-left" actionListener="#{whiteboardBean.undo}" update="output"/>
-                    <p:commandButton value="Clear" icon="fa fa-file-o" update="output" actionListener="#{whiteboardBean.cleardrawing()}" />
-                    <p:commandButton value="Submit**" icon="fa fa-upload" update="output, messages" actionListener="#{whiteboardBean.save()}"/>
+                    <p:commandButton value="#{bundle['Save**']}" icon="fa fa-save" update="output" actionListener="#{whiteboardBean.onInput2()}"/>
+                    <p:commandButton value="#{bundle['Undo']}" icon="fa fa-rotate-left" actionListener="#{whiteboardBean.undo}" update="output"/>
+                    <p:commandButton value="#{bundle['Clear']}" icon="fa fa-file-o" update="output" actionListener="#{whiteboardBean.cleardrawing()}" />
+                    <p:commandButton value="#{bundle['Submit***']}" icon="fa fa-upload" update="output, messages" actionListener="#{whiteboardBean.save()}"/>
                     <br />
                 </div>
                 <p:signature style="width: 80vw;height: 100vh" 

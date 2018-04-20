@@ -1626,18 +1626,18 @@ public class indexBean {
     }
     
     public void testShop() {
-        osbl.createShop("The Terrace", "Noodles", "terrace1", "123456", "NUS");
+        osbl.createShop("The Terrace", "Noodles", "terrace1", "123456", "NUS", "noodles@nus.com", "83094103", true);
         osbl.createItem(osbl.findShop("terrace1"), "Ban Mian", 3.2);
         osbl.createItem(osbl.findShop("terrace1"), "Tom	Yam Mian", 3.2);
         osbl.createItem(osbl.findShop("terrace1"), "Dumplings", 4.0);
-        osbl.createShop("The Terrace", "Korean", "terrace2", "123456", "NUS");
+        osbl.createShop("The Terrace", "Korean", "terrace2", "123456", "NUS", "korean@nus.com", "83094203", true);
         osbl.createItem(osbl.findShop("terrace2"), "Pork", 4.5);
         osbl.createItem(osbl.findShop("terrace2"), "Chicken", 4.5);
         osbl.createItem(osbl.findShop("terrace2"), "Beef", 4.5);
         osbl.createItem(osbl.findShop("terrace2"), "Chicken soup", 5.0);
         osbl.createItem(osbl.findShop("terrace2"), "Kimchi Soup", 4.0);
         osbl.createItem(osbl.findShop("terrace2"), "Kimchi fried rice", 4.5);
-        osbl.createShop("Pines Food Court", "Noodles", "pines1", "123456", "NUS");
+        osbl.createShop("Pines Food Court", "Noodles", "pines1", "123456", "NUS", "pines@nus.com", "83094303", true);
         osbl.createItem(osbl.findShop("pines1"), "Dan Dan Mian",4.5);
         osbl.createItem(osbl.findShop("pines1"), "ChongQing Xiao Mian", 4.5);
         osbl.createItem(osbl.findShop("pines1"), "Beef noodle", 4.5);

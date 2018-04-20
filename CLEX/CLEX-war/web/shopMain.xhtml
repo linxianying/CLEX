@@ -165,7 +165,7 @@
                                         <p:column  headerText="Store" filterBy="#{order.shop.name}" sortBy="#{order.shop.name}" filterMatchMode="contains">
                                             <h:outputText value=" #{order.shop.name}"/>
                                         </p:column>
-                                        <p:column headerText="Items" filterMatchMode="contains">
+                                        <p:column headerText="Items" filterBy="#{order.price}" sortBy="#{order.price}" filterMatchMode="contains">
                                             <ui:repeat value="#{shopOrderBean.getOrderItems(order)}" var="item" varStatus="itemIndex">
                                                 <h:outputText value="Item.#{itemIndex.index+1} #{item.name}, Quantity #{order.orderItems[item]}"/>
                                                 <br/>
@@ -190,9 +190,10 @@
                     <p:tab id="items1" title="Manage Items">
                         <p:fieldset collapsed="false" styleClass="menuHeader" id="itemsList" legend="Items You Have" toggleable="false">
                             <h:form>
-                                <h:panelGrid columns="4">
+                                <h:panelGrid >
                                     <p:dataTable value="#{shopOrderBean.items}" var="item" rendered="#{not empty shopOrderBean.items}"
                                                  emptyMessage="You do not have any order history yet." 
+                                                 
                                                  widgetVar="itemsTable" id="items" rows="5" scrollable="true"
                                                  paginator="true"  paginatorAlwaysVisible="false"
                                                  filteredValue="#{shopOrderBean.filteredItems}"
