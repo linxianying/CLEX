@@ -236,7 +236,9 @@ public class StudyPlanBean {
     public void getModuleReviewsList(String moduleCode) {
         courseEntity = cpsbl.findCourse(moduleCode);
         System.out.println("!!!!!!!!!!! " + moduleCode + ", is " + courseEntity);
-        moduleReviews.clear();
+        if(moduleReviews != null) {
+            moduleReviews.clear();
+        }        
         showModuleInfo = "";
         showWorkload = "";
         showModuleInfo = courseEntity.getModuleInfo();
