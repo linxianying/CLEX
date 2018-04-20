@@ -7,67 +7,144 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="title">PRISM Administrator Canteen Management Page</ui:define>
-
+    
     <ui:define name="viewname">#{bundle['cm']}</ui:define>
-
+    
     <ui:define name="content">
-
+        
         <h1 style="margin-top:0">#{bundle['cm']}</h1>
         <h:form id="canteenForm">
-            <p:fieldset collapsed="false" id="shoplist" legend="Notes: all the shops are in the campus" toggleable="false">
-                <h:form>
-                <p:dataTable id="shoptable" editable="false" reflow="true"
-                             var="shop" value="#{adminCanteenListBean.allShops}" 
-                             widgetVar="shopsTable" rows="10"
-                             emptyMessage="#{bundle['noShop']}" 
-                             filteredValue="#{adminCanteenListBean.filteredShops}"
-                             paginator="true"  paginatorPosition="bottom" paginatorAlwaysVisible="false" scrollable="true"
-                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
-                             {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
-                             rowsPerPageTemplate="5,10,20">
-
-                    <f:facet name="header">
-                        <p:outputPanel>
-                            <h:outputText value="#{bundle['Search']}:" />
-                            <p:inputText id="globalFilter" onkeyup="PF('shopsTable').filter()" placeholder="#{bundle['EnterKeyword']}" style="width:150px"/>
-                        </p:outputPanel>
-                    </f:facet>  
-                    <f:facet name="{Exporters}">
-                        <div style="float:right;">
-                            <!--could add pageOnly="true" to make the exporter only export one page -->
-                            <h:commandLink>
-                                <p:graphicImage name="/demo/images/excel.png" width="24"/>
-                                <p:dataExporter type="xls" target="shoptable" fileName="shopList"  />
-                            </h:commandLink>
-
-                            <h:commandLink>
-                                <p:graphicImage name="/demo/images/pdf.png" width="24"/>
-                                <p:dataExporter type="pdf" target="shoptable" fileName="shopList" />
-                            </h:commandLink>
-
-                            <h:commandLink>
-                                <p:graphicImage name="/demo/images/csv.png" width="24"/>
-                                <p:dataExporter type="csv" target="shoptable" fileName="shopList"  />
-                            </h:commandLink>
-
-                            <h:commandLink>
-                                <p:graphicImage name="/demo/images/xml.png" width="24"/>
-                                <p:dataExporter type="xml" target="shoptable" fileName="shopList"/>
-                            </h:commandLink>
-                        </div>
-                    </f:facet>
-                    <p:column filterBy="#{shop.username}" sortBy="#{shop.username}" headerText="Username" filterMatchMode="contains">                        
-                        <h:outputText value="#{shop.username}"/>                            
-                    </p:column>
-                    <p:column filterBy="#{shop.name}" sortBy="#{shop.name}" headerText="Shop Name" filterMatchMode="contains">
-                        <h:outputText value="#{shop.name}" />
-                    </p:column>
-                    <p:column filterBy="#{shop.canteen}" sortBy="#{shop.canteen}" headerText="Canteen Name" filterMatchMode="contains">
-                        <h:outputText value="#{shop.canteen}" />            
-                    </p:column>
-                </p:dataTable>
-                </h:form>
-            </p:fieldset>
+            <p:tabView id="tab">
+                <p:tab title="All Shops">
+                    <p:fieldset collapsed="false" id="shoplist" legend="Notes: all the shops are in the campus" toggleable="false">
+                        <p:dataTable id="shoptable" editable="false" reflow="true"
+                                     var="shop" value="#{adminCanteenListBean.allShops}" 
+                                     widgetVar="shopsTable" rows="10"
+                                     emptyMessage="#{bundle['noShop']}" 
+                                     filteredValue="#{adminCanteenListBean.filteredShops}"
+                                     paginator="true"  paginatorPosition="bottom" paginatorAlwaysVisible="false" scrollable="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
+                                     {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+                                     rowsPerPageTemplate="5,10,20">
+                            
+                            <f:facet name="header">
+                                <p:outputPanel>
+                                    <h:outputText value="#{bundle['Search']}:" />
+                                    <p:inputText id="globalFilter" onkeyup="PF('shopsTable').filter()" placeholder="#{bundle['EnterKeyword']}" style="width:150px"/>
+                                </p:outputPanel>
+                            </f:facet>  
+                            <f:facet name="{Exporters}">
+                                <div style="float:right;">
+                                    <!--could add pageOnly="true" to make the exporter only export one page -->
+                                    <h:commandLink>
+                                        <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                                        <p:dataExporter type="xls" target="shoptable" fileName="shopList"  />
+                                    </h:commandLink>
+                                    
+                                    <h:commandLink>
+                                        <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                                        <p:dataExporter type="pdf" target="shoptable" fileName="shopList" />
+                                    </h:commandLink>
+                                    
+                                    <h:commandLink>
+                                        <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                                        <p:dataExporter type="csv" target="shoptable" fileName="shopList"  />
+                                    </h:commandLink>
+                                    
+                                    <h:commandLink>
+                                        <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                                        <p:dataExporter type="xml" target="shoptable" fileName="shopList"/>
+                                    </h:commandLink>
+                                </div>
+                            </f:facet>
+                            <p:column filterBy="#{shop.username}" sortBy="#{shop.username}" headerText="Username" filterMatchMode="contains">                        
+                                <h:outputText value="#{shop.username}"/>                            
+                            </p:column>
+                            <p:column filterBy="#{shop.name}" sortBy="#{shop.name}" headerText="Shop Name" filterMatchMode="contains">
+                                <h:outputText value="#{shop.name}" />
+                            </p:column>
+                            <p:column filterBy="#{shop.canteen}" sortBy="#{shop.canteen}" headerText="Canteen Name" filterMatchMode="contains">
+                                <h:outputText value="#{shop.canteen}" />            
+                            </p:column>
+                        </p:dataTable>
+                    </p:fieldset>
+                </p:tab>
+                
+                <p:tab title="All Items">
+                    <p:fieldset collapsed="false" id="itemlist" legend="Manage Item Availability" toggleable="false">
+                        <p:dataTable id="itemtable" editable="false" reflow="true"
+                                     var="item" value="#{adminCanteenListBean.allItems}" 
+                                     widgetVar="itemtable" rows="10"
+                                     emptyMessage="No item found for your school" 
+                                     filteredValue="#{adminCanteenListBean.filteredItems}"
+                                     paginator="true"  paginatorPosition="bottom" paginatorAlwaysVisible="false" scrollable="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
+                                     {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+                                     rowsPerPageTemplate="5,10,20">
+                            
+                            <f:facet name="header">
+                                <p:outputPanel>
+                                    <h:outputText value="#{bundle['Search']}:" />
+                                    <p:inputText id="globalFilter" onkeyup="PF('itemtable').filter()" placeholder="#{bundle['EnterKeyword']}" style="width:150px"/>
+                                </p:outputPanel>
+                            </f:facet>  
+                            <f:facet name="{Exporters}">
+                                <div style="float:right;">
+                                    <!--could add pageOnly="true" to make the exporter only export one page -->
+                                    <h:commandLink>
+                                        <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                                        <p:dataExporter type="xls" target="itemtable" fileName="itemList"  />
+                                    </h:commandLink>
+                                    
+                                    <h:commandLink>
+                                        <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                                        <p:dataExporter type="pdf" target="itemtable" fileName="itemList" />
+                                    </h:commandLink>
+                                    
+                                    <h:commandLink>
+                                        <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                                        <p:dataExporter type="csv" target="shopitemtabletable" fileName="itemList"  />
+                                    </h:commandLink>
+                                    
+                                    <h:commandLink>
+                                        <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                                        <p:dataExporter type="xml" target="itemtable" fileName="itemList"/>
+                                    </h:commandLink>
+                                </div>
+                            </f:facet>
+                            <p:column filterBy="#{item.name}" sortBy="#{item.name}" headerText="Item Name" filterMatchMode="contains">                        
+                                <h:outputText value="#{item.name}"/>                            
+                            </p:column>
+                            <p:column filterBy="#{item.shop.name}" sortBy="#{item.shop.name}" headerText="Shop Name" filterMatchMode="contains">
+                                <h:outputText value="#{item.shop.name}" />
+                            </p:column>
+                            <p:column filterBy="#{item.shop.canteen}" sortBy="#{item.shop.canteen}" headerText="Canteen Name" filterMatchMode="contains">
+                                <h:outputText value="#{item.shop.canteen}" />            
+                            </p:column>
+                            <p:column filterBy="#{item.price}" sortBy="#{item.price}" headerText="Item Price" filterMatchMode="contains">
+                                <h:outputText value="#{item.price}" />            
+                            </p:column>
+                            <p:column filterBy="#{item.available}" sortBy="#{item.available}" headerText="Item Availability" >
+                                <!--<h:outputText value="#{item.available}" />-->  
+                                <h:outputText value="Available" rendered="#{item.available}"/>
+                                <h:outputText value="Not Available" rendered="#{!item.available}"/>
+                                
+                                <p:inplace id="facet" effect="none">
+                                    <f:facet name="output">
+                                        Change
+                                    </f:facet>
+                                    
+                                    <f:facet name="input">
+                                        <h:selectBooleanCheckbox value="#{item.available}"  >
+                                            <p:ajax listener="#{adminCanteenListBean.editItemAvailability(item, item.available)}" update="canteenForm:tab:itemlist"/>
+                                        </h:selectBooleanCheckbox>
+                                    </f:facet>
+                                </p:inplace>
+                            </p:column>
+                        </p:dataTable>
+                    </p:fieldset>
+                </p:tab>
+            </p:tabView>
         </h:form>
     </ui:define>
 </ui:composition>

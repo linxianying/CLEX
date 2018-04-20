@@ -64,6 +64,10 @@ public class AdminCanteenListBean {
         
     }
 
+    public void editItemAvailability(Item item, Boolean availability) {
+        osbl.changeItemAvailability(item, availability);
+    }
+    
     public OrderSessionBeanLocal getOsbl() {
         return osbl;
     }
