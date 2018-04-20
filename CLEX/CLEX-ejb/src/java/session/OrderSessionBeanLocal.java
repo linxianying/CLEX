@@ -80,5 +80,7 @@ public interface OrderSessionBeanLocal {
     public boolean changeItemPrice(Item item, double newPrice);
     
     public boolean changeItemAvailability(Item item, boolean avail);
+
+    public ArrayList<Item> getAllItems(User user);
     
 }

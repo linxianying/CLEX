@@ -79,6 +79,29 @@ public class OrderSessionBean implements OrderSessionBeanLocal {
     }
     
     @Override
+    public ArrayList<Item> getAllItems(User user) {
+        String school = user.getSchool();
+        ArrayList<Item> items = new ArrayList<Item>();
+        List<Item> all = new ArrayList<Item>();
+        try{
+            Query q = em.createQuery("SELECT i FROM Item i WHERE i.shop.school = :school");
+            q.setParameter("school", school);
+            all = (List<Item>) q.getResultList();
+            System.out.println("Shop for school " + school + " found.");
+            for (Item s: all)
+                items.add(s);
+        }
+        catch(NoResultException e){
+            System.out.println("Shop for school " + school  + " does not exist.");
+            items = null;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return items;
+    }
+    
+    @Override
     public void createShop(String canteen, String name, String username, String password,String school){
         shop = new Shop();
         shop.createShop(canteen, name, password, username, school);
