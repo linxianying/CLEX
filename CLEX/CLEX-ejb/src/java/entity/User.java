@@ -98,8 +98,8 @@ public abstract class User implements Serializable{
         this.viewAnncCount = 0;
         this.salt = salt;
         //for easier test <disabled>
-        this.approval = true; 
-        //this.approval = false;
+        //this.approval = true; 
+        this.approval = false;
     }
     
     public static long getSerialVersionUID() {
