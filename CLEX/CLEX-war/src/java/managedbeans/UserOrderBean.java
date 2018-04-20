@@ -75,6 +75,7 @@ public class UserOrderBean implements Serializable {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
         session.setAttribute("shop", selectShop);
+        System.out.println(this.user.getUserType());
         if (this.user.getUserType().equals("Student")) {
             context.getExternalContext().redirect("studentNewOrder.xhtml");
         }

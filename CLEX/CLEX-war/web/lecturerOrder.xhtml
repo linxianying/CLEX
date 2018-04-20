@@ -24,45 +24,7 @@
                     <br/>
                     <h:panelGrid columns="4">
                         <h:form id="historyForm">
-                            <p:dataTable value="#{userOrderBean.orders}" var="order" rendered="#{not empty userOrderBean.orders}"
-                                         reflow="true" tableStyle="table-layout: auto !important; text-align: center;"
-                                         widgetVar="ordersTable" id="orders" rows="10"
-                                        paginator="true"  scrollable="true" 
-                                        paginatorPosition="bottom"
-                                        filteredValue="#{shopOrderBean.filteredOrders}"
-                                        paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks}
-                                         {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
-                                        rowsPerPageTemplate="10,15,20">
-                                <f:facet name="header">
-                                    <p:outputPanel>
-                                        <h:outputText value="#{bundle['searchFields']}" />
-                                        <p:inputText id="globalFilter" onkeyup="PF('ordersTable').filter()" 
-                                                     style="width:150px" placeholder="#{bundle['enterKeyword']}"/>
-                                    </p:outputPanel>
-                                 </f:facet>  
-                                 <f:facet name="{Exporters}">
-                                    <div style="float:right;">
-                                        <h:commandLink>
-                                            <p:graphicImage name="/demo/images/excel.png" width="24"/>
-                                            <p:dataExporter type="xls" target="orders" fileName="orders"  />
-                                        </h:commandLink>
-
-                                        <h:commandLink>
-                                            <p:graphicImage name="/demo/images/pdf.png" width="24"/>
-                                            <p:dataExporter type="pdf" target="orders" fileName="orders" />
-                                        </h:commandLink>
-
-                                        <h:commandLink>
-                                            <p:graphicImage name="/demo/images/csv.png" width="24"/>
-                                            <p:dataExporter type="csv" target="orders" fileName="orders"  />
-                                        </h:commandLink>
-
-                                        <h:commandLink>
-                                            <p:graphicImage name="/demo/images/xml.png" width="24"/>
-                                            <p:dataExporter type="xml" target="orders" fileName="orders"/>
-                                        </h:commandLink>
-                                    </div>
-                                 </f:facet>
+                            <p:dataTable value="#{userOrderBean.orders}" var="order" rendered="#{not empty userOrderBean.orders}" reflow="true" tableStyle="table-layout: auto !important; text-align: center;">
                                 
                                 <p:column headerText="Date">
                                     <h:outputLabel value="#{order.orderTime}" >
@@ -90,50 +52,12 @@
             </p:tab>
                 
             <p:tab id="current" title="Current Orders">
-                <p:fieldset collapsed="false" styleClass="menuHeader" id="currentOrder" legend="Current Orders" toggleable="false">
+                <p:fieldset collapsed="false" styleClass="menuHeader" id="currentOrder" legend="History Orders" toggleable="false">
                     <h:outputText value="you have no unfinished orders!" rendered="#{empty userOrderBean.currentOrders}"/>
                     <br/>
                     <h:panelGrid columns="4">
                         <h:form id="currentForm">
-                            <p:dataTable value="#{userOrderBean.currentOrders}" var="order" rendered="#{not empty userOrderBean.currentOrders}"
-                                        reflow="true" tableStyle="table-layout: auto !important; text-align: center;"
-                                        widgetVar="currentOrdersTable" id="currentOrders" rows="10"
-                                        paginator="true"  scrollable="true" 
-                                        paginatorPosition="bottom"
-                                        filteredValue="#{shopOrderBean.filteredOrders}"
-                                        paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks}
-                                         {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
-                                        rowsPerPageTemplate="10,15,20">
-                                <f:facet name="header">
-                                    <p:outputPanel>
-                                        <h:outputText value="#{bundle['searchFields']}" />
-                                        <p:inputText id="globalFilter" onkeyup="PF('currentOrdersTable').filter()" 
-                                                     style="width:150px" placeholder="#{bundle['enterKeyword']}"/>
-                                    </p:outputPanel>
-                                 </f:facet>  
-                                 <f:facet name="{Exporters}">
-                                    <div style="float:right;">
-                                        <h:commandLink>
-                                            <p:graphicImage name="/demo/images/excel.png" width="24"/>
-                                            <p:dataExporter type="xls" target="currentOrders" fileName="currentOrders"  />
-                                        </h:commandLink>
-
-                                        <h:commandLink>
-                                            <p:graphicImage name="/demo/images/pdf.png" width="24"/>
-                                            <p:dataExporter type="pdf" target="currentOrders" fileName="currentOrders" />
-                                        </h:commandLink>
-
-                                        <h:commandLink>
-                                            <p:graphicImage name="/demo/images/csv.png" width="24"/>
-                                            <p:dataExporter type="csv" target="currentOrders" fileName="currentOrders"  />
-                                        </h:commandLink>
-
-                                        <h:commandLink>
-                                            <p:graphicImage name="/demo/images/xml.png" width="24"/>
-                                            <p:dataExporter type="xml" target="currentOrders" fileName="currentOrders"/>
-                                        </h:commandLink>
-                                    </div>
-                                 </f:facet>
+                            <p:dataTable value="#{userOrderBean.currentOrders}" var="order" rendered="#{not empty userOrderBean.currentOrders}" tableStyle="table-layout: auto !important; text-align: center;">
                                 
                                 <p:column headerText="Date">
                                     <h:outputText value="Order time" />
@@ -174,8 +98,8 @@
                                  widgetVar="shopTable"
                                  emptyMessage="No store found" 
                                  filteredValue="#{userOrderBean.filteredShops}"
-                                 paginator="true" paginatorPosition="bottom"
-                                 rows="5"   scrollable="true"
+                                 paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+                                 rows="5" 
                                  id="shops"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
                                  {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
