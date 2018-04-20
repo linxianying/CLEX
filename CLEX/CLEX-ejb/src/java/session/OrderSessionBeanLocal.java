@@ -82,5 +82,8 @@ public interface OrderSessionBeanLocal {
     public boolean changeItemAvailability(Item item, boolean avail);
 
     public ArrayList<Item> getAllItems(User user);
+
+    public boolean checkShopPassword(String username, String password);
+
     
 }

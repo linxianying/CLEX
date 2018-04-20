@@ -16,6 +16,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import session.ClexSessionBeanLocal;
@@ -58,10 +59,10 @@ public class ShopOrderBean implements Serializable {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
         
-        //for test purpose
-        //username = (String) session.getAttribute("username");
-        username = "pines1";
+        username = (String) session.getAttribute("username");
+        System.out.println("Get session attr, username=" + username);
         shop = osbl.findShop(username);
+        System.out.println("Get shop , username=" + shop.getUsername());
         this.refresh();
         System.out.println("shopOrderBean finish init");
     }

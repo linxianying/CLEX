@@ -12,7 +12,7 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
             <meta name="apple-mobile-web-app-capable" content="yes" />
         </f:facet>
-        <title>PRISM Login Page</title>
+        <title>PRISM Canteen Staff Login Page</title>
         <!-- FAVICON -->
         <link rel="icon" 
               type="image/png" 
@@ -31,7 +31,7 @@
                             <p:graphicImage name="images/login/login-prism-logo.png" library="poseidon-layout" />
                         </div>
                         <div class="ui-g-12">
-                            <p:inputText styleClass="textInput" id="username" value="#{loginBean.username}" 
+                            <p:inputText styleClass="textInput" id="username" value="#{shopLoginBean.username}" 
                                          required="true" requiredMessage="#{bundle['enterUsername']}" 
                                          placeholder="#{bundle['username']}"
                                          validatorMessage="#{bundle['invalidUsername']}">
@@ -40,25 +40,15 @@
                                 
                         </div>
                         <div class="ui-g-12">
-                            <p:password styleClass="textInput" id="password" value="#{loginBean.password}" 
+                            <p:password styleClass="textInput" id="password" value="#{shopLoginBean.password}" 
                                         required="true" requiredMessage="#{bundle['enterPass']}" 
                                         placeholder="#{bundle['password']}"/>
                         </div>
-                        <div class="ui-g-12 chkbox-container">
-                            <p:selectOneButton required="true" requiredMessage="#{bundle['selectTyep']}" styleClass="menuSelect" id="userType" value="#{loginBean.userType}">
-                                <f:selectItem itemValue="1" itemLabel="STU" />
-                                <f:selectItem itemValue="2" itemLabel="LEC" />
-                                <f:selectItem itemValue="3" itemLabel="ADM" />
-                                <f:selectItem itemValue="4" itemLabel="GUE" />
-                            </p:selectOneButton><br/>
-                        </div>
                             
                         <div class="ui-g-12 button-container">
-                            <p:commandButton  icon="fa fa-sign-in" styleClass="loginBtn" value="#{bundle['login']}" actionListener="#{loginBean.doLogin}" />
-                            <p:button outcome="/register" value="#{bundle['Sign']}" icon="fa fa-user" styleClass="pink-btn"/>
-                            <p:button outcome="/resetPassword" value="#{bundle['forget password']}" icon="fa fa-key" styleClass="blue-btn" />
+                            <p:commandButton  icon="fa fa-sign-in" styleClass="loginBtn" value="#{bundle['login']}" actionListener="#{shopLoginBean.doLogin}" />
                         </div>
-                        <p:commandLink value="Canteen Staff?" action="canteenLogin?faces-redirect=false" process="@this"/> 
+                            
                     </p:panel>
                 </div>
             </h:form>

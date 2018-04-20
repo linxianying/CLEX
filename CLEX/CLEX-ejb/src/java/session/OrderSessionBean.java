@@ -567,4 +567,19 @@ public class OrderSessionBean implements OrderSessionBeanLocal {
         em.flush();
         return true;
     }
+    
+    @Override
+    public boolean checkShopPassword(String username, String password) {
+            Query q = em.createQuery("SELECT s FROM Shop s WHERE s.username = :username");
+            q.setParameter("username", username);
+            shop = (Shop) q.getSingleResult();
+            if(shop.getPassword().equals(password)){
+                System.out.println("Password of shop " + username + " is correct.");
+                return true;
+            }
+            else{
+                 System.out.println("Password of shop " + username + " is wrong.");
+            }
+        return false;
+    }
 }
