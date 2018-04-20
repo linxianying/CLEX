@@ -265,16 +265,16 @@
                     </p:tab>  
                     
                     <p:tab id="newItemTab" title="New Item">
-                        <p:fieldset collapsed="false" styleClass="menuHeader" id="newItem" legend="Add a new Item" toggleable="false">
+                        <p:fieldset collapsed="false" styleClass="menuHeader" id="newItem" legend="Add New Item" toggleable="false">
                             <h:form>
+                                <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group" style="width: 100%">
                                 <h:outputLabel for= "name" value="Item Name:"/>
                                 <p:inputText id="name" value="#{shopOrderBean.newItemName}" required="true"/>
-                                <br/>
                                 <h:outputLabel for= "price" value="Item Price:"/>
                                 <p:inputNumber id="price" value="#{shopOrderBean.newItemPrice}" required="true" minValue="0.00" symbol="$" 
                                                symbolPosition="s" emptyValue="sign"/> 
-                                <br/>
-                                <p:commandButton value="Add" actionListener="#{shopOrderBean.createNewItem()}" update="tab:newItem, tab:itemsList, messages"/>
+                                <p:commandButton style="width:100%;" value="Add" actionListener="#{shopOrderBean.createNewItem()}" update="tab:newItem, tab:itemsList, messages"/>
+                                </p:panelGrid>
                             </h:form>
                         </p:fieldset>
                     </p:tab>
