@@ -17,70 +17,80 @@
         
         <p:growl id="messages" showDetail="true" />
         <p:tabView id="tab">
-            <h:outputText value="Total price spent:#{userOrderBean.totalPrice}"/>
+            <h:outputText value="Total Amount Spent:#{userOrderBean.totalPrice}"/>
             <p:tab id="history" title="History Orders">
                 <p:fieldset collapsed="false" styleClass="menuHeader" id="order" legend="History Orders" toggleable="false">
-                    <h:outputText id="empty" value="you have not made any order!" rendered="#{empty userOrderBean.orders}"/>
+                    <h:outputText id="empty" value="You have not made any order!" rendered="#{empty userOrderBean.orders}"/>
                     <br/>
                     <h:panelGrid columns="4">
                         <h:form id="historyForm">
-                            <p:dataTable value="#{userOrderBean.orders}" var="order" rendered="#{not empty userOrderBean.orders}"
+                            <p:dataTable value="#{userOrderBean.orders}" var="order" rendered="#{not empty userOrderBean.orders}" 
                                          reflow="true" tableStyle="table-layout: auto !important; text-align: center;"
-                                         widgetVar="ordersTable" id="orders" rows="10"
-                                        paginator="true"  scrollable="true" 
-                                        paginatorPosition="bottom"
-                                        filteredValue="#{shopOrderBean.filteredOrders}"
-                                        paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks}
-                                         {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
-                                        rowsPerPageTemplate="10,15,20">
+                                         widgetVar="historyOrderTable"
+                                        emptyMessage="No history orders found" 
+                                        filteredValue="#{userOrderBean.filteredCurrentOrders}"
+                                        paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+                                        rows="5" 
+                                        id="currentOrder2"
+                                        paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
+                                        {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+                                        rowsPerPageTemplate="5,10,20">
+                                     
                                 <f:facet name="header">
                                     <p:outputPanel>
-                                        <h:outputText value="#{bundle['searchFields']}" />
-                                        <p:inputText id="globalFilter" onkeyup="PF('ordersTable').filter()" 
-                                                     style="width:150px" placeholder="#{bundle['enterKeyword']}"/>
+                                        <h:outputText value="#{bundle['Search']}:" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('historyOrderTable').filter()" style="width:150px" placeholder="#{bundle['EnterKeyword']}"/>
                                     </p:outputPanel>
-                                 </f:facet>  
-                                 <f:facet name="{Exporters}">
+
+                                </f:facet>  
+                                <f:facet name="{Exporters}">
                                     <div style="float:right;">
+                                        <!--could add pageOnly="true" to make the exporter only export one page -->
                                         <h:commandLink>
                                             <p:graphicImage name="/demo/images/excel.png" width="24"/>
-                                            <p:dataExporter type="xls" target="orders" fileName="orders"  />
+                                            <p:dataExporter type="xls" target="currentOrder2" fileName="historyOrders"  />
                                         </h:commandLink>
 
                                         <h:commandLink>
                                             <p:graphicImage name="/demo/images/pdf.png" width="24"/>
-                                            <p:dataExporter type="pdf" target="orders" fileName="orders" />
+                                            <p:dataExporter type="pdf" target="currentOrder2" fileName="historyOrders" />
                                         </h:commandLink>
 
                                         <h:commandLink>
                                             <p:graphicImage name="/demo/images/csv.png" width="24"/>
-                                            <p:dataExporter type="csv" target="orders" fileName="orders"  />
+                                            <p:dataExporter type="csv" target="currentOrder2" fileName="historyOrders"  />
                                         </h:commandLink>
 
                                         <h:commandLink>
                                             <p:graphicImage name="/demo/images/xml.png" width="24"/>
-                                            <p:dataExporter type="xml" target="orders" fileName="orders"/>
+                                            <p:dataExporter type="xml" target="currentOrder2" fileName="historyOrders"/>
                                         </h:commandLink>
                                     </div>
-                                 </f:facet>
+                                </f:facet>
                                 
-                                <p:column headerText="Date">
+                                <p:column headerText="Order Date" filterBy="#{order.orderTime}" sortBy="#{order.orderTime}" filterMatchMode="contains">
                                     <h:outputLabel value="#{order.orderTime}" >
-                                        <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
+                                        <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
                                     </h:outputLabel>
                                 </p:column>
-                                <p:column headerText="Store">
-                                    <h:outputText value="Canteen: #{order.shop.canteen}"/>
-                                    <br/>
-                                    <h:outputText value="Store: #{order.shop.name}"/>
+                                <p:column headerText="Take Out Date" filterBy="#{order.takeoutTime}" sortBy="#{order.takeoutTime}" filterMatchMode="contains">
+                                    <h:outputLabel value="#{order.takeoutTime}" >
+                                        <f:convertDateTime pattern="yyyy-MM-dd HH:mm"  />
+                                    </h:outputLabel>
                                 </p:column>
-                                <p:column headerText="Items">
+                                <p:column headerText="Canteen" filterBy="#{order.shop.canteen}" sortBy="#{order.shop.canteen}" filterMatchMode="contains">
+                                    <h:outputText value=" #{order.shop.canteen}"/>
+                                </p:column>
+                                <p:column headerText="Store" filterBy="#{order.shop.name}" sortBy="#{order.shop.name}" filterMatchMode="contains">
+                                    <h:outputText value=" #{order.shop.name}"/>
+                                </p:column>
+                                <p:column headerText="Items" filterMatchMode="contains">
                                     <ui:repeat value="#{userOrderBean.getOrderItems(order)}" var="item" varStatus="itemIndex">
                                         <h:outputText value="Item.#{itemIndex.index+1} #{item.name}, Quantity #{order.orderItems[item]}"/>
                                         <br/>
                                     </ui:repeat>
                                 </p:column>
-                                <p:column headerText="Price">
+                                <p:column headerText="Price" filterBy="#{order.price}" sortBy="#{order.price}" filterMatchMode="contains">
                                     <h:outputText value="$#{order.price}"/>
                                 </p:column>
                             </p:dataTable>
@@ -90,76 +100,78 @@
             </p:tab>
                 
             <p:tab id="current" title="Current Orders">
-                <p:fieldset collapsed="false" styleClass="menuHeader" id="currentOrder" legend="Current Orders" toggleable="false">
+                <p:fieldset collapsed="false" styleClass="menuHeader" id="currentOrder" legend="History Orders" toggleable="false">
                     <h:outputText value="you have no unfinished orders!" rendered="#{empty userOrderBean.currentOrders}"/>
                     <br/>
                     <h:panelGrid columns="4">
                         <h:form id="currentForm">
-                            <p:dataTable value="#{userOrderBean.currentOrders}" var="order" rendered="#{not empty userOrderBean.currentOrders}"
-                                        reflow="true" tableStyle="table-layout: auto !important; text-align: center;"
-                                        widgetVar="currentOrdersTable" id="currentOrders" rows="10"
-                                        paginator="true"  scrollable="true" 
-                                        paginatorPosition="bottom"
-                                        filteredValue="#{shopOrderBean.filteredOrders}"
-                                        paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks}
-                                         {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
-                                        rowsPerPageTemplate="10,15,20">
+                            <p:dataTable value="#{userOrderBean.currentOrders}" var="order" rendered="#{not empty userOrderBean.currentOrders}" 
+                                         reflow="true" tableStyle="table-layout: auto !important; text-align: center;"
+                                        widgetVar="currentOrderTable"
+                                        emptyMessage="No current orders found" 
+                                        filteredValue="#{userOrderBean.filteredCurrentOrders}"
+                                        paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+                                        rows="5" 
+                                        id="currentOrder1"
+                                        paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
+                                        {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+                                        rowsPerPageTemplate="5,10,20">
+                                     
                                 <f:facet name="header">
                                     <p:outputPanel>
-                                        <h:outputText value="#{bundle['searchFields']}" />
-                                        <p:inputText id="globalFilter" onkeyup="PF('currentOrdersTable').filter()" 
-                                                     style="width:150px" placeholder="#{bundle['enterKeyword']}"/>
+                                        <h:outputText value="#{bundle['Search']}:" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('currentOrderTable').filter()" style="width:150px" placeholder="#{bundle['EnterKeyword']}"/>
                                     </p:outputPanel>
-                                 </f:facet>  
-                                 <f:facet name="{Exporters}">
+
+                                </f:facet>  
+                                <f:facet name="{Exporters}">
                                     <div style="float:right;">
+                                        <!--could add pageOnly="true" to make the exporter only export one page -->
                                         <h:commandLink>
                                             <p:graphicImage name="/demo/images/excel.png" width="24"/>
-                                            <p:dataExporter type="xls" target="currentOrders" fileName="currentOrders"  />
+                                            <p:dataExporter type="xls" target="currentOrder1" fileName="currentOrders"  />
                                         </h:commandLink>
 
                                         <h:commandLink>
                                             <p:graphicImage name="/demo/images/pdf.png" width="24"/>
-                                            <p:dataExporter type="pdf" target="currentOrders" fileName="currentOrders" />
+                                            <p:dataExporter type="pdf" target="currentOrder1" fileName="currentOrders" />
                                         </h:commandLink>
 
                                         <h:commandLink>
                                             <p:graphicImage name="/demo/images/csv.png" width="24"/>
-                                            <p:dataExporter type="csv" target="currentOrders" fileName="currentOrders"  />
+                                            <p:dataExporter type="csv" target="currentOrder1" fileName="currentOrders"  />
                                         </h:commandLink>
 
                                         <h:commandLink>
                                             <p:graphicImage name="/demo/images/xml.png" width="24"/>
-                                            <p:dataExporter type="xml" target="currentOrders" fileName="currentOrders"/>
+                                            <p:dataExporter type="xml" target="currentOrder1" fileName="currentOrders"/>
                                         </h:commandLink>
                                     </div>
-                                 </f:facet>
+                                </f:facet>
                                 
-                                <p:column headerText="Date">
-                                    <h:outputText value="Order time" />
-                                    <br/>
+                                <p:column headerText="Order Date" filterBy="#{order.orderTime}" sortBy="#{order.orderTime}" filterMatchMode="contains">
                                     <h:outputLabel value="#{order.orderTime}" >
-                                        <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
+                                        <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
                                     </h:outputLabel>
-                                    <br/>
-                                    <h:outputText value="Take out time(Required)" />
-                                    <br/>
+                                </p:column>
+                                <p:column headerText="Take Out Date" filterBy="#{order.takeoutTime}" sortBy="#{order.takeoutTime}" filterMatchMode="contains">
                                     <h:outputLabel value="#{order.takeoutTime}" >
-                                        <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
+                                        <f:convertDateTime pattern="yyyy-MM-dd HH:mm"  />
                                     </h:outputLabel>
                                 </p:column>
-                                <p:column headerText="Store">
-                                    <h:outputText value="Canteen: #{order.shop.canteen}"/>
-                                    <br/>
-                                    <h:outputText value="Store: #{order.shop.name}"/>
+                                <p:column headerText="Canteen" filterBy="#{order.shop.canteen}" sortBy="#{order.shop.canteen}" filterMatchMode="contains">
+                                    <h:outputText value=" #{order.shop.canteen}"/>
                                 </p:column>
-                                <p:column headerText="Items">
+                                <p:column headerText="Store" filterBy="#{order.shop.name}" sortBy="#{order.shop.name}" filterMatchMode="contains">
+                                    <h:outputText value=" #{order.shop.name}"/>
+                                </p:column>
+                                <p:column headerText="Items" filterMatchMode="contains">
                                     <ui:repeat value="#{userOrderBean.getOrderItems(order)}" var="item" varStatus="itemIndex">
                                         <h:outputText value="Item.#{itemIndex.index+1} #{item.name}, Quantity #{order.orderItems[item]}"/>
                                         <br/>
                                     </ui:repeat>
                                 </p:column>
-                                <p:column headerText="Price">
+                                <p:column headerText="Price" filterBy="#{order.price}" sortBy="#{order.price}" filterMatchMode="contains">
                                     <h:outputText value="$#{order.price}"/>
                                 </p:column>
                             </p:dataTable>
@@ -174,8 +186,8 @@
                                  widgetVar="shopTable"
                                  emptyMessage="No store found" 
                                  filteredValue="#{userOrderBean.filteredShops}"
-                                 paginator="true" paginatorPosition="bottom"
-                                 rows="5"   scrollable="true"
+                                 paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+                                 rows="5" 
                                  id="shops"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
                                  {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
