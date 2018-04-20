@@ -37,10 +37,10 @@ public class Student extends User implements Serializable {
     @Column(length = 32)
     private String studentId;
     
-    @Column(length = 32)
+    @Column(length = 255)
     private String faculty;
     
-    @Column(length = 32)
+    @Column(length = 255)
     private String major;
     
     @Column(length = 32)
