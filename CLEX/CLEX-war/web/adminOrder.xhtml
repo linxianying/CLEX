@@ -57,7 +57,49 @@
                     <br/>
                     <h:panelGrid columns="4">
                         <h:form id="currentForm">
-                            <p:dataTable value="#{userOrderBean.currentOrders}" var="order" rendered="#{not empty userOrderBean.currentOrders}" tableStyle="table-layout: auto !important; text-align: center;">
+                            <p:dataTable value="#{userOrderBean.currentOrders}" var="order" rendered="#{not empty userOrderBean.currentOrders}" 
+                                         reflow="true" tableStyle="table-layout: auto !important; text-align: center;"
+                                        widgetVar="currentOrderTable"
+                                        emptyMessage="No current orders found" 
+                                        filteredValue="#{userOrderBean.filteredCurrentOrders}"
+                                        paginator="true" paginatorPosition="bottom" paginatorAlwaysVisible="false"
+                                        rows="5" 
+                                        id="currentOrder1"
+                                        paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
+                                        {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+                                        rowsPerPageTemplate="5,10,20">
+                                     
+                                <f:facet name="header">
+                                    <p:outputPanel>
+                                        <h:outputText value="#{bundle['Search']}:" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('currentOrderTable').filter()" style="width:150px" placeholder="#{bundle['EnterKeyword']}"/>
+                                    </p:outputPanel>
+
+                                </f:facet>  
+                                <f:facet name="{Exporters}">
+                                    <div style="float:right;">
+                                        <!--could add pageOnly="true" to make the exporter only export one page -->
+                                        <h:commandLink>
+                                            <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                                            <p:dataExporter type="xls" target="currentOrder1" fileName="currentOrders"  />
+                                        </h:commandLink>
+
+                                        <h:commandLink>
+                                            <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                                            <p:dataExporter type="pdf" target="currentOrder1" fileName="currentOrders" />
+                                        </h:commandLink>
+
+                                        <h:commandLink>
+                                            <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                                            <p:dataExporter type="csv" target="currentOrder1" fileName="currentOrders"  />
+                                        </h:commandLink>
+
+                                        <h:commandLink>
+                                            <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                                            <p:dataExporter type="xml" target="currentOrder1" fileName="currentOrders"/>
+                                        </h:commandLink>
+                                    </div>
+                                </f:facet>
                                 
                                 <p:column headerText="Date">
                                     <h:outputText value="Order time" />

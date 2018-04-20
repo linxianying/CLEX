@@ -49,6 +49,7 @@ public class UserOrderBean implements Serializable {
     private double totalPrice;
     //for current orders
     private ArrayList<Order> currentOrders;
+    private ArrayList<Order> filteredCurrentOrders;
     private Shop shop;
     //for new orders
     private ArrayList<Shop> shops;
@@ -188,6 +189,14 @@ public class UserOrderBean implements Serializable {
 
     public void setFilteredShops(List<Shop> filteredShops) {
         this.filteredShops = filteredShops;
+    }
+
+    public ArrayList<Order> getFilteredCurrentOrders() {
+        return filteredCurrentOrders;
+    }
+
+    public void setFilteredCurrentOrders(ArrayList<Order> filteredCurrentOrders) {
+        this.filteredCurrentOrders = filteredCurrentOrders;
     }
 
     
