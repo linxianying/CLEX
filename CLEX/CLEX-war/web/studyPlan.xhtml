@@ -31,7 +31,7 @@
                                     <h:form id="studyPlanForm">
                                         <p:dataGrid columns="2" layout="grid" var="studyPlans" styleClass="academicStyle"
                                                     value="#{studyPlanBean.studyPlansInOrer}" id="studyPlansList" emptyMessage="Start a plan by adding a module!" >
-                                            <p:dataTable id="spTable" var="sp" value="#{studyPlans}" rendered="#{not empty studyPlanBean.studyPlansInOrer}" reflow="true" tableStyle="table-layout: auto !important">
+                                            <p:dataTable id="spTable" var="sp" value="#{studyPlans}" rendered="#{not empty studyPlanBean.studyPlansInOrer}" reflow="true" tableStyle="table-layout: auto !important; text-align: center;">
                                                 <f:facet name="header">
                                                     <h:outputText value="#{bundle['year']}: #{studyPlanBean.convertPickYear(studyPlans.get(0).pickYear)} " />
                                                     <h:outputText value="#{bundle['sem']}: #{studyPlans.get(0).pickSem}"/>
@@ -88,7 +88,7 @@
                                                     <h:outputLabel value="#{studyPlanBean.showWorkload}" />
                                                     <h:outputLabel value="Module Review:" />
                                                     <h:panelGroup>
-                                                        <p:dataTable selectionMode="single" selection="#{studyPlanBean.selectedReview}" rowKey="#{review.id}" reflow="true" tableStyle="table-layout: auto !important"
+                                                        <p:dataTable selectionMode="single" selection="#{studyPlanBean.selectedReview}" rowKey="#{review.id}" reflow="true" tableStyle="table-layout: auto !important; text-align: center;"
                                                                      id="reviewtable" value="#{studyPlanBean.moduleReviews}" 
                                                                      var="review" paginator="true" paginatorPosition="bottom" style="width: 100%"
                                                                      rows="15" pageLinks="5" styleClass="paginated" paginatorAlwaysVisible="false" 
@@ -198,7 +198,7 @@
                                 <p:fieldset id="modulesTaking" legend="#{bundle['semMod']}" >
                                     <h:outputText value="#{bundle['noTakenMod']}" rendered="#{empty studyPlanBean.takingModules}"/>
                                     <h:panelGrid columns="2" width="100%">
-                                        <p:dataTable var="module" value="#{studyPlanBean.takingModules}" rendered="#{not empty studyPlanBean.takingModules}" reflow="true" tableStyle="table-layout: auto !important">
+                                        <p:dataTable var="module" value="#{studyPlanBean.takingModules}" rendered="#{not empty studyPlanBean.takingModules}" reflow="true" tableStyle="table-layout: auto !important; text-align: center;">
                                             <f:facet name="header">
                                                 <h:outputText value="#{bundle['year']}: #{studyPlanBean.currentYear-studyPlanBean.matricYear+1} " />
                                                 <h:outputText value="#{bundle['sem']}: #{studyPlanBean.takingModules.get(0).takenSem}"/>
@@ -358,7 +358,7 @@
                                     <h:form id="completedmoduleform">
                                         <p:dataGrid id="completedgrid" var="grades" columns="2" layout="grid" value="#{studyPlanBean.gradesInOrder}" rendered="#{studyPlanBean.gradesInOrder.size() ne 0}">
                                             <p:panel>
-                                                <p:dataTable id="completedtable" value="#{grades}" var="grade" reflow="true" tableStyle="table-layout: auto !important">
+                                                <p:dataTable id="completedtable" value="#{grades}" var="grade" reflow="true" tableStyle="table-layout: auto !important; text-align: center;">
                                                     <f:facet name="header">
                                                         <h:outputText value="#{bundle['year']}: #{studyPlanBean.convertPickYear(grades.get(0).module.takenYear)} " />
                                                         <h:outputText value="#{bundle['sem']}: #{grades.get(0).module.takenSem}"/>

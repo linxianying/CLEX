@@ -24,7 +24,8 @@
                     <br/>
                     <h:panelGrid columns="4">
                         <h:form id="historyForm">
-                            <p:dataTable value="#{userOrderBean.orders}" var="order" rendered="#{not empty userOrderBean.orders}"
+                            <p:dataTable value="#{userOrderBean.orders}" var="order" rendered="#{not empty userOrderBean.orders}" 
+                                         reflow="true" tableStyle="table-layout: auto !important; text-align: center;"
                                          widgetVar="ordersTable" id="orders" rows="10"
                                         paginator="true"  scrollable="true" 
                                         paginatorPosition="bottom"
@@ -95,6 +96,7 @@
                     <h:panelGrid columns="4">
                         <h:form id="currentForm">
                             <p:dataTable value="#{userOrderBean.currentOrders}" var="order" rendered="#{not empty userOrderBean.currentOrders}"
+                                         reflow="true" tableStyle="table-layout: auto !important; text-align: center;"
                                          widgetVar="currentOrdersTable" id="currentOrders" rows="10"
                                         paginator="true"  scrollable="true" 
                                         paginatorPosition="bottom"
@@ -167,7 +169,8 @@
             </p:tab>
             <p:tab id="new" title="New Order">
                 <h:form>
-                    <p:dataTable var="shop" value="#{userOrderBean.shops}" 
+                    <p:dataTable var="shop" value="#{userOrderBean.shops}"
+                                 reflow="true" tableStyle="table-layout: auto !important; text-align: center;"
                                  widgetVar="shopTable"
                                  emptyMessage="No store found" 
                                  filteredValue="#{userOrderBean.filteredShops}"
@@ -209,14 +212,14 @@
                                 </h:commandLink>
                             </div>
                         </f:facet>
-                        <p:column style="text-align: center;width: 15%" filterBy="#{shop.canteen}" sortBy="#{shop.canteen}" headerText="Canteen" filterMatchMode="contains">
+                        <p:column filterBy="#{shop.canteen}" sortBy="#{shop.canteen}" headerText="Canteen" filterMatchMode="contains">
                             <h:outputText value="#{shop.canteen}" />
                         </p:column>
-                        <p:column style="width: 30%" filterBy="#{shop.name}" sortBy="#{shop.name}" headerText="Store name" filterMatchMode="contains">
+                        <p:column filterBy="#{shop.name}" sortBy="#{shop.name}" headerText="Store name" filterMatchMode="contains">
                             <h:outputText value="#{shop.name}" />
                         </p:column>
-                        <p:column style="text-align: center;width: 20%" headerText="New order" >
-                            <p:commandButton value="startNewOrder" actionListener="#{userOrderBean.goNewOrderPage(shop)}"/>
+                        <p:column headerText="New order" >
+                            <p:commandButton icon="ui-icon-note" value="Start a new order" actionListener="#{userOrderBean.goNewOrderPage(shop)}"/>
                         </p:column>
                     </p:dataTable>
                 </h:form>
