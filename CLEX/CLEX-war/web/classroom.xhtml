@@ -128,18 +128,15 @@
                         <p:growl id="msgmsg" showDetail="true" />
 
                         <p:commandButton value="#{bundle['Print']}" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px" onclick="window.print()">
-                            <!--<p:printer target="chart" />-->
+                          
                         </p:commandButton>
-                        <!--<p:commandButton type="button" value="Export" icon="ui-icon-extlink" onclick="exportChart1()"/>-->
-
+                       
                         <h:panelGrid columns="2" columnClasses="left,right" style="width:100%">
                             <p:chart type="bar" id="chart" widgetVar="chart" model="#{classroomBean.barModel}" style="width:100%;height:300px" responsive="true">
                                 <p:ajax event="itemSelect" listener="#{classroomBean.itemSelect}" update="msgmsg" />
                             </p:chart> 
 
-                            <!--<p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
-                                <p:printer target="chart" />
-                            </p:commandButton>-->
+                           
 
                         </h:panelGrid>
 
@@ -172,21 +169,7 @@
                         <p:growl id="msg" showDetail="true" />
                         <p:panel collapsed="false" styleClass="menuHeader"  header="#{bundle['addFinishedPoll']}" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px">
 
-                            <!--
-                            <tr>
-                                <td>
-                                    <p:outputLabel for="finish" value="Finished Or Not" />
-                                </td>
-
-                                <td>
-                                    <p:selectOneButton id="finish" style="width: 300px;" required="true" value="#{classroomBean.finish}" >
-                                        <f:selectItem itemLabel="Finished" itemValue="1" />
-                                        <f:selectItem itemLabel="Not Finished" itemValue="2" />
-                                        <p:ajax update="addForm" event="change"/>
-                                    </p:selectOneButton>
-                                </td>
-                            </tr>
-                            -->
+                            
                             <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group" style="width:100%">
                                 <p:outputLabel id="viewLabel" for="moduleCode" value="#{bundle['ModuleCode']}:" />
                                 <p:selectOneMenu id="moduleCode" value="#{classroomBean.addModuleCode}"  effect="fade" 
@@ -266,19 +249,7 @@
                         </p:panel>
                     </h:form>
                 </p:tab>
-                <!-- END: Add New Poll 
-
-                 START: Jasper Report Generator 
-                <p:tab title="VIEW JASPER REPORT">
-
-                    <h:form id="formJasperReport">
-                        <p:panel header="Test JasperReport Generation">
-                            <p:commandButton value="Generate" actionListener="#{classroomBean.generateReport}" ajax="false" />
-                        </p:panel>
-                    </h:form>
-
-                </p:tab>
-                END: Jasper Report Generator -->
+                
             </p:tabView>
         </div>
         <style type="text/css">
