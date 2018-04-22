@@ -109,11 +109,9 @@ public class NewStudyPlanBean implements Serializable {
         expectedCap = cap;
         if (student.getGrades().size() > 0) {
             grades = spsbl.getAllGrades(student);
-//            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!# of taken Moduless: " + grades.size());
         }
         
         takingModules = spsbl.getCurrentModules(student);
-//        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!# of taking Moduless: " + takingModules.size());
         
         if (student.getStudyPlan() != null) {
             studyPlans = spsbl.getAllStudyPlans(student);
@@ -211,7 +209,6 @@ public class NewStudyPlanBean implements Serializable {
                 dashboard.getChildren().add(panel);
                 
                 yearSem = (Integer.parseInt(g.getModule().getTakenYear()) - matricYear) * 2 + Integer.parseInt(g.getModule().getTakenSem());
-                //column1.addWidget(panel.getId());
                 switch (yearSem) {
                     case 1:
                         column1.addWidget(panel.getId());
@@ -242,7 +239,6 @@ public class NewStudyPlanBean implements Serializable {
                         break;
                 }
                 HtmlOutputText text = new HtmlOutputText();
-                //text.setId("gt"+g.getId());
                 text.setValue("Taken Module\n");
                 panel.getChildren().add(text);
                 HtmlOutputText t1 = new HtmlOutputText();
@@ -264,7 +260,6 @@ public class NewStudyPlanBean implements Serializable {
                 dashboard.getChildren().add(panel);
                 
                 yearSem = (currentYear - matricYear) * 2 + currentSem;
-                //column1.addWidget(panel.getId());
                 switch (yearSem) {
                     case 1:
                         column1.addWidget(panel.getId());
@@ -313,7 +308,6 @@ public class NewStudyPlanBean implements Serializable {
                 dashboard.getChildren().add(panel);
                 
                 yearSem = (Integer.parseInt(sp.getPickYear()) - matricYear) * 2 + Integer.parseInt(sp.getPickSem());
-                //column1.addWidget(panel.getId());
                 switch (yearSem) {
                     case 1:
                         column1.addWidget(panel.getId());
@@ -347,7 +341,6 @@ public class NewStudyPlanBean implements Serializable {
                 text.setId("spt" + sp.getId());
                 text.setValue("Study Plan\n");
                 panel.getChildren().add(text);
-                //            System.out.println("-------check count"+column1.getWidgetCount());
             }
         }
         
@@ -366,16 +359,11 @@ public class NewStudyPlanBean implements Serializable {
             currentSem = 1;
         }
         matricYear = Integer.parseInt(student.getMatricYear());
-        //for test purpose
-        //matricYear = 2015;
         currentColumnIndex = (currentYear - matricYear) * 2 + currentSem - 1;
     }
     
     public void onTabChange(TabChangeEvent event) {
-//        if (event.getTab().getId().equals("overviewTab")) {
         this.init();
-//            System.out.println("NewStudyPlanBean:onTabChange: studyPlans size " + studyPlans.size());
-//        }
         FacesContext fctx = FacesContext.getCurrentInstance();
         StudyPlanBean studyPlanBean = fctx.getApplication().evaluateExpressionGet(fctx, "#{studyPlanBean}", StudyPlanBean.class);
         studyPlanBean.refresh();
@@ -385,10 +373,6 @@ public class NewStudyPlanBean implements Serializable {
         System.out.println("handel reorder");
         FacesMessage message = new FacesMessage();
         message.setSeverity(FacesMessage.SEVERITY_INFO);
-        //message.setSummary("Reordered: " + event.getWidgetId());
-//        message.setDetail("Reordered: " + event.getWidgetId() + ", Column index: " + event.getColumnIndex() + ", Sender index: " + event.getSenderColumnIndex());
-//        addMessage(message);
-//        String moduleCode;
         if (event.getSenderColumnIndex() != null) {
             String id = event.getWidgetId();
             this.setNewYearSem(event.getColumnIndex());
@@ -461,87 +445,10 @@ public class NewStudyPlanBean implements Serializable {
         spsbl.updateGradeYearSem(id, m.getCourse().getModuleCode(), newYear, newSem);
     }
     
-//    public void reorderModule() {
-//
-//    }
     public void reorderStudyPlan(Long id) {
         spsbl.updateStudyPlanYearSem(id, newYear, newSem);
     }
     
-    public void check() {
-//        System.out.println("into check");
-//        FacesMessage message = new FacesMessage();
-//        message.setSeverity(FacesMessage.SEVERITY_INFO);
-//        message.setDetail ("Check!");
-//        addMessage(message);
-    }
-    
-//    public void addNewItem() {
-//        System.out.println("start add");
-//        if (validattion()) {
-//            if (addItem.equals("Taken module")) {
-//                this.addTakenModule();
-//            }
-//            else if (addItem.equals("Taking module")) {
-//                this.addTakingModule();
-//            }
-//            else if (addItem.equals("Study Plan")) {
-//                this.addStudyPlan();
-//            }
-//        }
-//    }
-//
-//    public boolean validattion() {
-//        boolean validate = true;
-//        FacesMessage fmsg = new FacesMessage();
-//        if (addItem.equals("Taken module")) {
-//            if (!(addPickYear < currentYear || (addPickYear == currentYear && addPickSem < currentSem))) {
-//                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-//                    "Fail to add", "You cannot add a module taken before to a semester in future");
-//            context.addMessage(null, fmsg);
-//            validate = false;
-//            }
-//        }
-//        else if (addItem.equals("Taking module")) {
-//            if (addPickYear != currentYear ||  addPickSem != currentSem) {
-//                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-//                    "Fail to add", "You cannot add a currently taking module to other semester");
-//            context.addMessage(null, fmsg);
-//            validate = false;
-//            }
-//        }
-//        else if (addItem.equals("Study Plan")) {
-//            if (!(addPickYear > currentYear || (addPickYear == currentYear && addPickSem > currentSem))) {
-//                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-//                    "Fail to add", "You cannot add a study plan to a semester before");
-//            context.addMessage(null, fmsg);
-//            validate = false;
-//            }
-//        }
-//        if (addModuleCode.equals("select")) {
-//            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-//                    "No module selected", "Please select a module");
-//            context.addMessage(null, fmsg);
-//            validate = false;
-//        }
-//        else if (spsbl.checkStudyPlan(username, addModuleCode)) {
-//            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-//                    "The module " + addModuleCode + " already in your study plan", "Please change to another module");
-//            context.addMessage(null, fmsg);
-//            validate = false;
-//        }
-//        //this course already in takenCourses list
-//        else if (spsbl.checkStudentModule(username, addModuleCode)) {
-//            fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-//                    "You have already taken " + addModuleCode, "Please change to another module");
-//            context.addMessage(null, fmsg);
-//            validate = false;
-//        }
-//        else {
-//            fmsg = null;
-//        }
-//        return validate;
-//    }
     public void addStudyPlan() {
         context = FacesContext.getCurrentInstance();
         spsbl.createStudyPlan(Integer.toString(addPickYear), Integer.toString(addPickSem), addModuleCode, csbl.findStudent(username));
@@ -550,15 +457,7 @@ public class NewStudyPlanBean implements Serializable {
                 "Successful", "You have added module " + addModuleCode);
         context.addMessage(null, fmsg);
     }
-    
-//    public void addTakenModule() {
-//        context = FacesContext.getCurrentInstance();
-//        spsbl.addTakenModule(Integer.toString(addPickYear), Integer.toString(addPickSem), addModuleCode, csbl.findStudent(username));
-//        init();
-//        FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-//                    "Successful", "You have added module " + addModuleCode);
-//        context.addMessage(null, fmsg);
-//    }
+
     public void addTakingModule() {
         context = FacesContext.getCurrentInstance();
         spsbl.addTakingModule(Integer.toString(addPickYear), Integer.toString(addPickSem), addModuleCode, csbl.findStudent(username));
@@ -566,10 +465,6 @@ public class NewStudyPlanBean implements Serializable {
         FacesMessage fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
                 "Successful", "You have added module " + addModuleCode);
         context.addMessage(null, fmsg);
-    }
-    
-    public void editGrade() {
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Edit Grade");
     }
     
     public StudyPlanSessionBeanLocal getSpsbl() {

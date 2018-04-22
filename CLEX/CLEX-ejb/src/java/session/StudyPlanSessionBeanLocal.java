@@ -29,8 +29,6 @@ public interface StudyPlanSessionBeanLocal {
 
     public Course findCourse(String moduleCode);
 
-//    public void addStudyPlan(String pickYear, String pickSem, String moduleCode, String username);
-
     public boolean checkStudyPlan(String username, String moduleCode);
 
     public void updateStudyPlan(String pickYear, String pickSem, String moduleCode, String username);
@@ -41,13 +39,9 @@ public interface StudyPlanSessionBeanLocal {
     
     public void capCalculator(String username);
 
-    public void viewStudyPlan(String usrname);
-
     public Collection<Module> getTakenModules(String username);
 
     public ArrayList<StudyPlan> getAllStudyPlans(Student student);
-
-    public ArrayList<Course> testViewTakenModules();
 
     public Module findModule(String takenYear, String takenSem, String moduleCode);
 
@@ -55,33 +49,19 @@ public interface StudyPlanSessionBeanLocal {
 
     public int checkNumOfSemTaken(String username);
 
-//    public ArrayList<Course> getTakenCourses(String username);
-
     public ArrayList<ArrayList<Course>> getTakenModulesInOrder(String username);
 
     public void updateAllStudyPlans(String username);
 
     public ArrayList<ArrayList<StudyPlan>> getStudyPlanInOrder(Student s);
 
-//    public boolean checkStudentModule(String username, String moduleCode);
-
-    public boolean checkCourseExistance(String moduleCode);
-
-//    public ArrayList<Grade> getAllGrades(String username);
-
     public ArrayList<ArrayList<Grade>> getAllGradesInOrder(Student s);
-
-//    public ArrayList<Module> getCurrentModules(String username);
 
     public StudyPlan findStudyPlan(String username, String moduleCode);
 
     public int getNumOfCredits(ArrayList<Grade> grades);
 
     public double updateExpectedCapTwo(int allCredits, double cap, int newModuleCredit, String newModuleGrade);
-
-    //public ArrayList<Course> getExpectedCurrentCourses(String username);
-
-    //public ArrayList<Course> getExpectedStudyPlanCourses(String username);
 
     public double updateExpectedCapOne(int allCredits, double cap, int newModuleCredit, String oldGrade);
 
@@ -94,8 +74,6 @@ public interface StudyPlanSessionBeanLocal {
     public ArrayList<Grade> getAllGrades(Student student);
 
     public ArrayList<Module> getCurrentModules(Student student);
-
-//    public ArrayList<StudyPlan> getAllStudyPlans(Student student);
 
     public Grade findGrade(Long id);
 

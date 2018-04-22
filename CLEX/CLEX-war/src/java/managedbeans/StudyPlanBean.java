@@ -137,10 +137,7 @@ public class StudyPlanBean {
         student = csbl.findStudent(username);
         cap = cpsbl.findStudent(username).getCap();
         expectedCap = cap;
-//        if (student.getGrades().size() > 0) {
-//            System.out.println(student.getGrades().size());
         gradesInOrder = cpsbl.getAllGradesInOrder(student);
-//        }
         takingModules = cpsbl.getCurrentModules(student);
         if (student.getStudyPlan() != null) {
             studyPlansInOrer = cpsbl.getStudyPlanInOrder(student);
@@ -148,9 +145,7 @@ public class StudyPlanBean {
             System.out.println("StudyPlanBean: Expected Cap reset to " + expectedCap);
         }
         this.setNewModuleGrade("select");
-        //newModuleGrade = "A+";
         this.setNewCurrentModuleGrade("select");
-        //newCurrentModuleGrade = "A+";
         allCredits = cpsbl.getNumOfCredits(cpsbl.getAllGrades(student));
         courseFront = null;
         addModuleCode = null;
@@ -315,7 +310,6 @@ public class StudyPlanBean {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "You've selected a previous semester!", "Please change to a semester before current semester.");
             context.addMessage(null, fmsg);
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!You choose a passed semester");
             return false;
         } else {
             return true;
@@ -331,8 +325,6 @@ public class StudyPlanBean {
             context = FacesContext.getCurrentInstance();
             System.out.println("username" + username);
             cpsbl.createStudyPlan(Integer.toString(addPickYear), addPickSem, addModuleCode.toUpperCase(), csbl.findStudent(username));
-            //        studyPlansInOrer = cpsbl.getStudyPlanInOrder(username);
-            //        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!# of SPs in year4 sem 2:" + studyPlansInOrer.get(1).size());
             addModuleCode = null;
             //        addPickYear = null;
             addPickSem = null;
@@ -430,19 +422,15 @@ public class StudyPlanBean {
     public void deleteModule(Module module) {
         cpsbl.removeModule(student, module);
         refresh();
-//        takingModules = cpsbl.getCurrentModules(student);
-//        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!# of taking Moduless: " + takingModules.size());
     }
     
     public void deleteGrade(Grade grade) {
-        System.out.println("!!!!!!!!!!!!!!delete " + grade.getModule().getCourse().getModuleCode());
         cpsbl.removeGrade(student, grade);
         refresh();
     }
     
     public void updateExpectedCap(int newModuleCredit, String moduleCode) {
         String oldGrade = checkExpectedCourseGrade(moduleCode);
-        //System.out.println("newModuleGrade" + newModuleGrade);
         //the first time set the expected grade
         if (oldGrade.equals("none")) {
             System.out.println(moduleCode + ": first time;");
@@ -475,12 +463,6 @@ public class StudyPlanBean {
             else {
                 //if it is changed to S/U or select, type 1
                 if ((this.newModuleGrade.equals("S")) || (this.newModuleGrade.equals("U")) || (this.newModuleGrade.equals("select"))) {
-                    System.out.println(moduleCode + ": type 1;");
-                    System.out.println("allCredits: " + this.allCredits);
-                    System.out.println("expectedCap: " + this.allCredits);
-                    System.out.println("newModuleCredit: " + newModuleCredit);
-                    System.out.println("oldGrade: " + oldGrade);
-                    
                     this.expectedCap = cpsbl.updateExpectedCapOne(this.allCredits, this.expectedCap, newModuleCredit, oldGrade);
                     this.allCredits -= newModuleCredit;
                     expectedCourseGrade.put(moduleCode, newModuleGrade);
@@ -500,7 +482,6 @@ public class StudyPlanBean {
         //System.out.println("newCurrentModuleGrade" + newCurrentModuleGrade);
         //the first time set the expected grade
         if (oldGrade.equals("none")) {
-            System.out.println(moduleCode + ": first time;");
             //it is not S/U, since setting as S or U for first time will be treated as the module has not been setted an expected grade before
             if ((!this.newCurrentModuleGrade.equals("S")) && (!this.newCurrentModuleGrade.equals("U")) && (!this.newCurrentModuleGrade.equals("select"))) {
                 //update the expectedCap for first time for this module
@@ -561,7 +542,6 @@ public class StudyPlanBean {
     public void updateStudyPlan(String updateModuleCode) {
         try {
             if (checkUpdateStudyPlan(updateModuleCode)) {
-                //            System.out.println("Strat to update");
                 cpsbl.updateStudyPlan(username, updateModuleCode, updatePickYear, updatePickSem);
                 studyPlansInOrer = cpsbl.getStudyPlanInOrder(student);
                 context = FacesContext.getCurrentInstance();
@@ -582,7 +562,6 @@ public class StudyPlanBean {
             fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "The study plan for " + updateModuleCode + " is already in Year " + updatePickYear + " Sem " + updatePickSem, "Please change a semester");
             context.addMessage(null, fmsg);
-//            System.out.println("update error message added");
             return false;
         } else {
             fmsg = null;
@@ -596,95 +575,6 @@ public class StudyPlanBean {
         return Integer.toString(year);
     }
     
-    //-------------------------------------------------------------------------
-    //for test addStudyPlan, dont forget to create student and module before test
-//    public void testAddStudyPlan(){
-//        if(csbl.checkNewUser("namename") == true){
-//            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
-//        }
-//        cpsbl.addStudyPlan("namename", "IS4103", "2018", "2");
-//    }
-//
-//    public void testAddModuleFromNUSMods(){
-//        csbl.dragAllNusMods(username);
-//    }
-//
-//    public void getTimetable(){
-//        csbl.getTimetable("IS4103");
-//    }
-//
-//    public void testUpdateStudyPlan() {
-//        cpsbl.updateStudyPlan("namename", "IS4103", "2020", "1");
-//    }
-//
-//    public void testRemoveStudyPlan(){
-//        cpsbl.removeStudyPlan("namename", "IS4103");
-//    }
-//
-//    public void testViewTakenCourses() {
-//        if(csbl.checkNewUser("namename") == true){
-//            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
-//        }
-//        this.student = cpsbl.findStudent("namename");
-//        //to add some taken modules for student
-//        //first,create some modules
-//        csbl.createModule("2018", "1", "none", "none", csbl.findCourse("CP3109"));
-//        csbl.createModule("2018", "1", "none", "none", csbl.findCourse("IS3106"));
-//        csbl.createModule("2018", "1", "none", "none", csbl.findCourse("CS1020"));
-//        csbl.createModule("2018", "1", "none", "none", csbl.findCourse("CS2100"));
-//        csbl.createModule("2018", "1", "none", "none", csbl.findCourse("GER1000"));
-//        //add these modules to the student's Module list
-//        cpsbl.setStudentTakenModules("namename", "CP3109", "2018", "1");
-//        cpsbl.setStudentTakenModules("namename", "IS3106", "2018", "1");
-//        cpsbl.setStudentTakenModules("namename", "CS1020", "2018", "1");
-//        cpsbl.setStudentTakenModules("namename", "CS2100", "2018", "1");
-//        cpsbl.setStudentTakenModules("namename", "GER1000", "2018", "1");
-//
-//        this.takenCourses = cpsbl.getTakenCourses("namename");
-//        System.out.println(takenCourses);
-//        System.out.println("sp bean: testViewTakenCourses finish ");
-//    }
-//
-//    public void testViewStudyPlan() {
-//        cpsbl.addStudyPlan("2018", "1", "ACC1002X", "namename");
-//        cpsbl.addStudyPlan("2018", "1", "MA1101R", "namename");
-//        cpsbl.addStudyPlan("2018", "1", "IS1103", "namename");
-//        cpsbl.addStudyPlan("2018", "1", "IS1105", "namename");
-//        cpsbl.addStudyPlan("2018", "1", "CS2102", "namename");
-//        this.studyPlans = cpsbl.getAllStudyPlans("namename");
-//    }
-//
-//    public void testViewTakenCoursesInOrder(){
-//        if(csbl.checkNewUser("namename") == true){
-//            csbl.createStudent("namename", "123456", "LinXianying", "email@email.com", "NUS", 12345678L, genSalt(), "soc", "IS","2015", "1", 0.0);
-//        }
-//        this.student = cpsbl.findStudent("namename");
-//        //to add some taken modules for student
-//        //first,create some modules
-//        csbl.createModule("2015", "1", "none", "none", csbl.findCourse("CP3109"));
-//        csbl.createModule("2015", "2", "none", "none", csbl.findCourse("IS3106"));
-//        csbl.createModule("2016", "1", "none", "none", csbl.findCourse("CS1020"));
-//        csbl.createModule("2016", "2", "none", "none", csbl.findCourse("CS2100"));
-//        csbl.createModule("2017", "1", "none", "none", csbl.findCourse("GER1000"));
-//        csbl.createModule("2017", "2", "none", "none", csbl.findCourse("PS2240"));
-//        //csbl.createModule("2018", "1", "none", "none", csbl.findCourse("ST2334"));
-//        //add these modules to the student's Module list
-//        cpsbl.setStudentTakenModules("namename", "CP3109", "2015", "1");
-//        cpsbl.setStudentTakenModules("namename", "IS3106", "2015", "2");
-//        cpsbl.setStudentTakenModules("namename", "CS1020", "2016", "1");
-//        cpsbl.setStudentTakenModules("namename", "CS2100", "2016", "2");
-//        cpsbl.setStudentTakenModules("namename", "GER1000", "2017", "1");
-//        cpsbl.setStudentTakenModules("namename", "PS2240", "2017", "2");
-//        //cpsbl.setStudentTakenModules("namename", "ST2334", "2018", "1");
-//
-//        takenCoursesInOrder = cpsbl.getTakenModulesInOrder("namename");
-//        System.out.print("sp bean: takenCoursesInOrder:");
-//        System.out.println(takenCoursesInOrder.size());
-//        System.out.println(takenCoursesInOrder);
-//        System.out.println("sp bean: testViewTakenCoursesInOrder finish ");
-//
-//        //year = Integer.parseInt(student.getMatricYear());
-//    }
     public FacesContext getContext() {
         return context;
     }
