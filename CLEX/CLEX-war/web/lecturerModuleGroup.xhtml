@@ -163,10 +163,11 @@
             </p:tab>
                 
             <p:tab title="Manual Group Assignment" rendered="#{not empty lecturerModuleGroupBean.superGroup and lecturerModuleGroupBean.superGroup.confirm}">
-                <h:form id="changetab">
+                <h:form id="randomAssigntab">
                     <p:commandButton icon="fa fa-random" id="randomAssignButton" value="Random assign remaining students" actionListener="#{lecturerModuleGroupBean.autoAssign()}" update="messages, tab:groupInfo, tab:studentGroupTable"/>
-                    <br /><br />
                 </h:form>
+                <br /><br />
+                    
                 <p:dataTable var="student" value="#{lecturerModuleGroupBean.students}" id="studentGroupTable" widgetVar="studentGroupTable" 
                              emptyMessage="No students for this module." paginator="true" paginatorPosition="bottom" rows="15"
                              filteredValue="#{lecturerModuleGroupBean.filteredstudents}"
