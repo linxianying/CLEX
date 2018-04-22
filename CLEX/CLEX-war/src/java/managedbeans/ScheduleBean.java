@@ -331,7 +331,7 @@ public class ScheduleBean implements Serializable {
             sbl.updateGroupTimeslot(t.getId(), tempEvent.getTitle(), df.format(tempEvent.getStartDate()), df.format(tempEvent.getEndDate()), details, venue);
             eventModel.updateEvent(new DefaultScheduleEvent(t.getTitle(), toCalendar(t.getTimeFrom()), toCalendar(t.getTimeEnd()), t));
         }
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event updated", "Change in Days:" + event.getDayDelta() + ", Change in Minutes:" + event.getMinuteDelta());
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event updated!", "");
         addMessage(message);
     }
 
