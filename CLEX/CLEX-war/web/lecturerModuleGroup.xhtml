@@ -7,14 +7,14 @@
                 xmlns:p="http://primefaces.org/ui" 
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="title">PRISM Lecturer Module Page</ui:define>
-
+        
     <ui:define name="viewname">#{bundle['modules']}</ui:define>
-
+        
     <ui:define name="content">
         <p:growl id="messages" showDetail="true" />
-
+            
         <h2><h:outputText value="#{lecturerModuleGroupBean.module.course.moduleCode}"/></h2>
-
+            
         <p:tabView id="tab">
             <!--<p:ajax event="tabChange"  update="tab:studyPlanForm tab:modulesTakingForm tab:modulesTaken tab:overviewForm" />-->
             <p:tab id="formGroupTab" title="Start Group Formation" rendered="#{empty lecturerModuleGroupBean.superGroup}">
@@ -102,7 +102,7 @@
                 </h:form>
                 <!--End: Group Formation Settings--> 
             </p:tab>
-
+                
             <p:tab title="View Group Formation" rendered="#{not empty lecturerModuleGroupBean.superGroup and !lecturerModuleGroupBean.superGroup.confirm}">
                 <h:form id="groupInformation">
                     <p:fieldset legend="Group Formation Settings" rendered="#{not empty lecturerModuleGroupBean.superGroup}">
@@ -132,7 +132,7 @@
                     <p:commandButton value="Close Group Formation" actionListener="#{lecturerModuleGroupBean.closeGroupFormation()}" update="@all"/>
                 </h:form>
             </p:tab>
-
+                
             <p:tab title="Manage Groups" rendered="#{not empty lecturerModuleGroupBean.superGroup and lecturerModuleGroupBean.superGroup.confirm}">
                 <h:form id="groupInfo">
                     <p:fieldset legend="Group Management">
@@ -161,47 +161,46 @@
                     <br />
                 </h:form>
             </p:tab>
-
+                
             <p:tab title="Manual Group Assignment" rendered="#{not empty lecturerModuleGroupBean.superGroup and lecturerModuleGroupBean.superGroup.confirm}">
                 <h:form id="changetab">
-                    <p:commandButton icon="fa fa-random" id="randomAssignButton" value="Random assign remaining students" actionListener="#{lecturerModuleGroupBean.autoAssign()}" update="messages, tab:groupInfo, studentGroupTable"/>
+                    <p:commandButton icon="fa fa-random" id="randomAssignButton" value="Random assign remaining students" actionListener="#{lecturerModuleGroupBean.autoAssign()}" update="messages, tab:groupInfo, tab:studentGroupTable"/>
                     <br /><br />
-
-                    <p:dataTable var="student" value="#{lecturerModuleGroupBean.students}" id="studentGroupTable" widgetVar="studentGroupTable" 
-                                 emptyMessage="No students for this module." paginator="true" paginatorPosition="bottom" rows="15"
-                                 filteredValue="#{lecturerModuleGroupBean.filteredstudents}"
-                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="10,20,50">
-                        <f:facet name="header">
-                            <p:outputPanel>
-                                <h:outputText value="Search all fields:" />
-                                <p:inputText id="globalFilter" onkeyup="PF('studentGroupTable').filter()" style="width:150px" placeholder="Enter keyword" />
-                            </p:outputPanel>
-                        </f:facet>  
-                        <p:column style="text-align: center" filterBy="#{student.studentId}" sortBy="#{student.studentId}" headerText="Student-ID" filterMatchMode="contains">
-                            <h:outputText value="#{student.studentId}" />
-                        </p:column>
-                        <p:column style="text-align: center" filterBy="#{student.name}" sortBy="#{student.name}" headerText="Student-Name" filterMatchMode="contains">
-                            <h:outputText value="#{student.name}" />
-                        </p:column>
-                        <p:column style="text-align: center" filterBy="#{lecturerModuleGroupBean.checkStudentGroup(student)}" sortBy="#{lecturerModuleGroupBean.checkStudentGroup(student)}" headerText="Group" filterMatchMode="exact">
-                            <h:outputText value="#{lecturerModuleGroupBean.checkStudentGroup(student)}" />
-                        </p:column>
-                        <p:column  style="text-align: center" headerText="Manual Assign">
-                            <h:form id="changeGroupForm">
-                                
-                                <p:selectOneMenu value="#{lecturerModuleGroupBean.toGroupId}" >
-                                    <f:selectItem itemLabel="#{bundle['SelectOne']}" itemValue="#{null}" />
-                                    <f:selectItems value="#{lecturerModuleGroupBean.groups}" var="group" itemLabel="#{group.name}" itemValue="#{group.id}" />
-                                </p:selectOneMenu>
-                                <br/>
-                                <p:commandButton icon="fa fa-level-up" value="Update" actionListener="#{lecturerModuleGroupBean.changeStudentGroup(student)}" update="messages, tab:groupInfo, tab:changetab:studentGroupTable"/>
-                            </h:form>
-                        </p:column>
-                    </p:dataTable>
                 </h:form>
+                <p:dataTable var="student" value="#{lecturerModuleGroupBean.students}" id="studentGroupTable" widgetVar="studentGroupTable" 
+                             emptyMessage="No students for this module." paginator="true" paginatorPosition="bottom" rows="15"
+                             filteredValue="#{lecturerModuleGroupBean.filteredstudents}"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,20,50">
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Search all fields:" />
+                            <p:inputText id="globalFilter" onkeyup="PF('studentGroupTable').filter()" style="width:150px" placeholder="Enter keyword" />
+                        </p:outputPanel>
+                    </f:facet>  
+                    <p:column style="text-align: center" filterBy="#{student.studentId}" sortBy="#{student.studentId}" headerText="Student-ID" filterMatchMode="contains">
+                        <h:outputText value="#{student.studentId}" />
+                    </p:column>
+                    <p:column style="text-align: center" filterBy="#{student.name}" sortBy="#{student.name}" headerText="Student-Name" filterMatchMode="contains">
+                        <h:outputText value="#{student.name}" />
+                    </p:column>
+                    <p:column style="text-align: center" filterBy="#{lecturerModuleGroupBean.checkStudentGroup(student)}" sortBy="#{lecturerModuleGroupBean.checkStudentGroup(student)}" headerText="Group" filterMatchMode="exact">
+                        <h:outputText value="#{lecturerModuleGroupBean.checkStudentGroup(student)}" />
+                    </p:column>
+                    <p:column  style="text-align: center" headerText="Manual Assign">
+                        <h:form id="changeGroupForm">
+                            
+                            <p:selectOneMenu value="#{lecturerModuleGroupBean.toGroupId}" >
+                                <f:selectItem itemLabel="#{bundle['SelectOne']}" itemValue="#{null}" />
+                                <f:selectItems value="#{lecturerModuleGroupBean.groups}" var="group" itemLabel="#{group.name}" itemValue="#{group.id}" />
+                            </p:selectOneMenu>
+                            <br/>
+                            <p:commandButton icon="fa fa-level-up" value="Update" actionListener="#{lecturerModuleGroupBean.changeStudentGroup(student)}" update="messages, tab:groupInfo, tab:studentGroupTable"/>
+                        </h:form>
+                    </p:column>
+                </p:dataTable>
             </p:tab>
         </p:tabView>
     </ui:define>
-
+        
 </ui:composition>
