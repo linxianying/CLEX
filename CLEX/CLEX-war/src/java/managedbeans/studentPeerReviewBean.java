@@ -10,12 +10,14 @@ import entity.PeerReviewAnswer;
 import entity.PeerReviewQuestion;
 import entity.ProjectGroup;
 import entity.Student;
+import java.io.IOException;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
-import java.util.ArrayList; 
+import java.util.ArrayList;
 import javaClass.Question;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
@@ -140,26 +142,44 @@ public class studentPeerReviewBean implements Serializable {
         return prqsbl.getStudentInfo(username);
     }
     
-    public void submitPRForm( ) {
-//        System.out.println("test: " + test);
-//        for (int i=0; i< a.size(); i++)
-//            System.out.println(i+". " + a.get(i));
-//        System.out.println("individual: " + individualAnswers.size());
-//        for (int i=0; i< this.groupMembers.size(); i++) {
-//            System.out.println("For student " + groupMembers.get(i).getName());
-//            for (int n=0; n< this.individualQuestions.size(); n++)
-//            System.out.println(n+". " + individualAnswers.get(i).get(n));
-//        }
+    public void submitPRForm( ) throws IOException {
+        FacesContext context = FacesContext.getCurrentInstance();
+        boolean check = this.checkPRForm();
+        if (check) {
+            System.out.println("submitPRForm: PR form submit");
+            prasbl.submitPRForm(groupMembers, individualAnswers, groupAnswers, answers);
+            context.getExternalContext().redirect("projectDetails.xhtml");
+        }
+        
+    }
+    
+    
+    //chech any empty answers provided
+    public boolean checkPRForm() {
+        context = FacesContext.getCurrentInstance();
+        FacesMessage fmsg = new FacesMessage();
+        for (int i=0; i< this.groupMembers.size(); i++) {
+            for (int n=0; n< this.individualQuestions.size(); n++) {
+                System.out.println("For student " + groupMembers.get(i).getName() + ", answer: " + individualAnswers.get(i).get(n));
+                if (individualAnswers.get(i).get(n) == null || individualAnswers.get(i).get(n).isEmpty() || individualAnswers.get(i).get(n).equals("select") ) {
+                    fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "No answer provided", "Please fill the answer for individual question " + (n+1) + ", for member " + groupMembers.get(i));
+                    context.addMessage(null, fmsg);
+                    return false;
+                }
+            }
+        }
 //        System.out.println("Group: " + groupAnswers);
-//        for (int i=0; i< groupAnswers.size(); i++) {
-//            if (groupAnswers.get(i).size() == 1)
-//                System.out.println(i+". " + groupAnswers.get(i).get(0));
-//            else {
-//                for (String s: groupAnswers.get(i))
-//                    System.out.println(s);
-//            }
-//        }
-        prasbl.submitPRForm(groupMembers, individualAnswers, groupAnswers, answers);
+        for (int i=0; i< groupAnswers.size(); i++) {
+            //rating or open ended question
+            if (groupAnswers.get(i).size() == 1 && (groupAnswers.get(i).get(0) == null || groupAnswers.get(i).get(0).isEmpty() || groupAnswers.get(i).get(0).equals("select") )) {
+                fmsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "No answer provided", "Please fill the answer for group question " + (i+1));
+                context.addMessage(null, fmsg);
+                return false;
+            }
+        }
+        return true;
     }
     
     public void onRowReorder(ReorderEvent event) {

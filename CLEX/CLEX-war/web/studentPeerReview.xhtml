@@ -14,6 +14,7 @@
     <ui:define name="viewname">Peer Review</ui:define>
 
     <ui:define name="content">
+        <p:growl id="msgs" showDetail="true" />
         <h:form id="PRForm">
             <h:panelGroup id="individualQuestions">
                 <h3>#{bundle['indQues']}</h3>
@@ -21,7 +22,6 @@
                     <h3><h:outputText value="#{bundle['for']} #{studentPeerReviewBean.groupMembers.get(outIndex.index).getName()}"/></h3>
                     <h3><h:outputText value="#{bundle['myself']}" rendered="#{studentPeerReviewBean.username eq studentPeerReviewBean.groupMembers.get(outIndex.index).getUsername()}"/></h3>
                     <ui:repeat value="#{studentPeerReviewBean.individualAnswers[outIndex.index]}" var="indAnswer" varStatus="indIndex">
-
                         <h:outputText value="Q#{indIndex.index+1}. "/>
                         <h:outputText value="#{studentPeerReviewBean.individualQuestions.get(indIndex.index).getQuestion()}"/>
                         <br /><br />
@@ -49,7 +49,7 @@
                         <ui:repeat value="#{studentPeerReviewBean.groupAnswers[grIndex.index]}" var="ans" rendered="#{studentPeerReviewBean.groupQuestions.get(grIndex.index).type eq 'open'}" varStatus="n">
                             <br/>
                             <p:inputTextarea rows="5" cols="30" maxlength="20000" autoResize="false" rendered="#{studentPeerReviewBean.groupQuestions.get(grIndex.index).type eq 'open'}" 
-                                             value="#{studentPeerReviewBean.groupAnswers[grIndex.index][n.index]}"/>   
+                                             value="#{studentPeerReviewBean.groupAnswers[grIndex.index][n.index]}" />   
                         </ui:repeat>         
                     </h:panelGroup>
 
@@ -81,7 +81,7 @@
             </h:panelGroup>
             <br /><br />
             <h:panelGroup>
-                <p:commandButton value="#{bundle['submit']}" actionListener="#{studentPeerReviewBean.submitPRForm()}" action="projectDetails?faces-redirect=true"/>
+                <p:commandButton value="#{bundle['submit']}" actionListener="#{studentPeerReviewBean.submitPRForm()}" update="msgs"/>
                 <p:commandButton value="#{bundle['cancel']}" action="projectDetails?faces-redirect=true"/>
             </h:panelGroup>
         </h:form>
