@@ -16,7 +16,6 @@
         <h2><h:outputText value="#{lecturerModuleGroupBean.module.course.moduleCode}"/></h2>
             
         <p:tabView id="tab">
-            <!--<p:ajax event="tabChange"  update="tab:studyPlanForm tab:modulesTakingForm tab:modulesTaken tab:overviewForm" />-->
             <p:tab id="formGroupTab" title="Start Group Formation" rendered="#{empty lecturerModuleGroupBean.superGroup}">
                 <!--Start: Group Formation Settings--> 
                 <h:form id="formGroupForm">

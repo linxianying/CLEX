@@ -53,23 +53,6 @@
         <h3><h:outputText value="#{bundle['welcome']}, #{loginBean.userEntity.name}" /></h3><br></br>
 
         <p:tabView id="tab">
-            <!--<p:tab title="#{bundle['modules']}">
-                <p:growl id="messages" showDetail="true" />
-
-                <h:form>
-                    <div class="grid">
-                        <p:repeat var="m" value="#{projectBean.takingModules}">
-                            <button type="button" onclick="#{m.course.moduleCode}Details()" class="canvasBtn">
-                                <h:outputText value="#{m.course.moduleCode}"/>
-                                <br/>
-                                <h:outputText value="#{m.course.moduleName}"/>
-                                <p:remoteCommand name="#{m.course.moduleCode}Details" actionListener="#{projectBean.goModuleInfoPage(m.course.moduleCode)}"/>
-                            </button>
-                        </p:repeat>
-                    </div>
-                </h:form>
-
-            </p:tab>-->
             <p:tab title="#{bundle['ViewTasks']}">
                 <div class="ui-g dashboard">   
                     <div class="ui-g-12 ui-md-12">
