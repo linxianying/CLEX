@@ -59,7 +59,7 @@ public class StudentMindmapBean implements Serializable {
     private String semester;
     private String year;
     private String schoolname;
-
+    private String closingDate;
     private boolean renderUpload;
     private StreamedContent downloadedFile;
 
@@ -133,26 +133,33 @@ public class StudentMindmapBean implements Serializable {
         path = path.substring(0, pathlength);
         path = path + "web/serverfiles/school/" + schoolname + "/" + moduleCode + "/" + year + "-" + semester + "/Materials/Assignments/" + selectedNode.getLabel() + "/";
         path = path.replaceAll("\\\\", "/");
+        Path folder = Paths.get(path);
         String deadline = "FALSE";
+        
         if (!selectedNode.getLabel().equals(root.getLabel())) {
             File directory = new File(path);
-            String[] fList = directory.list();
-
-            for (String file : fList) {
-                if (file.endsWith(".prism")) {
-                    deadline = file;
+            if (Files.exists(folder)) {
+                String[] fList = directory.list();
+                for (String file : fList) {
+                    if (file.endsWith(".prism")) {
+                        deadline = file;
+                    }
                 }
             }
         }
         if (deadline.equals("FALSE")) {
+            closingDate = deadline;
+            System.out.println(closingDate);
             return false;
         } else {
             deadline = deadline.replaceAll(".prism", "");
             deadline = deadline.replace(".", ":");
-            System.out.println(deadline);
+            closingDate = deadline;
+            System.out.println(closingDate);
             Date date = new Date();
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             String currDate = format.format(date);
+
             System.out.println("Current time: " + currDate);
             if (currDate.compareTo(deadline) >= 1) {
                 return false;
@@ -505,6 +512,14 @@ public class StudentMindmapBean implements Serializable {
 
     public void setSubmittedfiles(ArrayList<String> submittedfiles) {
         this.submittedfiles = submittedfiles;
+    }
+
+    public String getClosingDate() {
+        return closingDate;
+    }
+
+    public void setClosingDate(String closingDate) {
+        this.closingDate = closingDate;
     }
 
 }

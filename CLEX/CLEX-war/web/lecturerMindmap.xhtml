@@ -38,7 +38,7 @@
                 <h:form id="addassignmentform">
                     <h:outputLabel style="font-weight: bold" value="Add Assigment: " />
                     <br/>
-                    <p:inputText style="width: 200px" placeholder="Folder Name" value="#{lecturerMindmapBean.newfoldername}"/>
+                    <p:inputText style="width: 200px" placeholder="Assignment Name" value="#{lecturerMindmapBean.newfoldername}"/>
                     <p:commandButton icon="fa fa-plus" value="Add" actionListener="#{lecturerMindmapBean.addAssignment}" update="deleteassignmentform, @form, setdeadlineform, mindmapform, detailgroup"/>
                 </h:form>
                 

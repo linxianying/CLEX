@@ -27,7 +27,14 @@
         <br />
         <p:separator />
         <p:fieldset legend="Workbin">
+
             <h:panelGroup id="detailgroup">
+                <h:panelGroup>
+                    <h:outputLabel style="font-weight: bold" value="This assignment will close on: #{studentMindmapBean.closingDate}" rendered="#{studentMindmapBean.closingDate ne 'FALSE' and studentMindmapBean.selectedNode.parent.label eq 'Assignments'}"/>
+                    <h:outputLabel style="font-weight: bold" value="The lecturer has yet to set a closing date." rendered="#{studentMindmapBean.closingDate eq 'FALSE' and studentMindmapBean.selectedNode.parent.label eq 'Assignments'}" />
+                    <br />
+                </h:panelGroup>
+                
                 <h:panelGroup rendered="#{not empty studentMindmapBean.listoffiles}">
                     <h:panelGroup>
                         <h:outputLabel style="font-weight: bold" value="#{bundle['upload']} - #{studentMindmapBean.listoffiles.size()} " />
