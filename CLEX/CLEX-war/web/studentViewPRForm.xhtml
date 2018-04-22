@@ -14,6 +14,7 @@
     <ui:define name="viewname">Submitted Peer Review</ui:define>
 
     <ui:define name="content">
+        <p:fieldset legend="View Peer Review">
         <h:panelGroup id="individualQuestions">
             <h3>Individual Question</h3>
             <ui:repeat value="#{studentViewPRFormBean.individualAnswers}" var="inner" varStatus="outIndex">
@@ -78,7 +79,7 @@
                 <br />
             </ui:repeat>
         </h:panelGroup>
-        <br/>
+        </p:fieldset>
     </ui:define>
 </ui:composition>
 
